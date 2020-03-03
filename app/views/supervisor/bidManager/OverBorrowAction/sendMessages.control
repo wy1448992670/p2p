@@ -1,0 +1,25 @@
+<div class="xn_c_ban_jox xn_c_ban_jox_fdx" style="display: none;" id="messageWindow">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_ht_jr_obu_l">发送站内信</div>
+    <div class="xf_ht_jr_obu_r">&nbsp;</div>
+    <div class="xn_c_ban_fdxwarp">
+      #{table}
+        #{tr}
+          #{td align:"right"}发 给：#{/td}
+          #{td}${user?.name}#{/td}
+        #{/tr}
+        #{tr}
+          #{td align:"right"}<span class="xf_zqzr_znx_title">内&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;容：</span>#{/td}
+          #{td}<textarea class="xf_ht_baidu_wkttcc_text xf_ht_baidu_wkttcc_text6"  name="xf_ht_jr_obttd_input" id="msgContent"></textarea>#{/td}
+        #{/tr}
+        #{tr}
+          #{td}#{/td}
+          #{td}
+			<input type="button" class="jbox_ok" value="发送" onclick="sendMessage()"/>
+			<span class="xf_ht_wa_font" id="limit">总共可以输入1000字</span>
+		  #{/td}
+        #{/tr}
+      #{/table}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+ <h4 class="p_hp_title clr"><strong>借款小助手</strong></h4>
+<ul class="p_zh_jkaide">
+    #{list items:news, as:'news'}
+	    <li class="clr">
+	        <em><a href="@{front.wealthinfomation.WealthInfomationAction.newDetails(news.id)}" target="_blank">${news_index}、${news?.title} </a></em>
+	        <span>（${news?.read_count}）</span>
+	    </li>
+	#{/list}
+</ul>

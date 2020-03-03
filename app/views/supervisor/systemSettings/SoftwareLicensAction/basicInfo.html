@@ -1,0 +1,224 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'系统基本资料设置' /} 
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/systemSettings/common/leftBar.control"/}
+    <div class="xn_c_content">
+      <div class="xf_content_add">
+        #{form @saveSystemData(), id:'systemDataSubmit'}
+        <div class="xfht_t_j_y_2">
+          <!--右上-->
+          <div class="xf_ht_obu_fklm">  网贷软件系统基本资料设置</div>
+          <div class="xf_ht_jbzl_sz">
+          <div class="xf_ht_rjsc_zlsz">
+            <table class="xf_ht_rjsc_zlsz_table" border="0" cellspacing="0" cellpadding="0" style="margin-left: 100px">
+            <tr>
+              <td align="right" valign="top">平台名称 ：</td>
+              <td>
+              <input class="xfht_zr_input xfht_zr_input_shoping" type="text" maxlength="30" name="platformName" id="platformName" value="${backstageSet?.platformName}"><br />
+              <span style="color:#999;">请认真设置，此名称会替换软件中的账单、站内信模版、邮件模版等标准文档中的文案。</span>
+              </td>
+            </tr>
+            <tr>
+              <td align="right">前台LOGO：</td>
+               <td>
+               #{img src:"${backstageSet?.platformLogoFilename}",id:"image",name:"image",class:"xf_ht_rjsc_zlsz_img",alt:""}#{/img}
+              </td>
+            </tr>
+            <tr>
+              <td align="right" valign="top"><span class="xf_ht_lv"></span></td>
+              <td style="padding-left: 180px;">
+              <span style="position: relative;">&nbsp;&nbsp;
+                <input class='upload_btn' type="button" value="上传图片"> &nbsp;&nbsp;
+                <input type="file" class="upload_file" name="imgFile" id="imgFile" onchange="uploadImageType('imgFile','image');" style="top: 1px;*top:20px !important;left: -70px;*left:10px !important" />
+              </span>
+              <span style="color:#999;" id="imageResolution"></span>
+              <input type="hidden" name="filename" id="filename" />
+              </td>
+             
+            </tr>
+            
+            <tr>
+              <td align="right">后台LOGO：</td>
+              <td>
+               #{img src:"${backstageSet?.supervisorPlatformLog}",id:"image2",name:"image",class:"xf_ht_rjsc_zlsz_img",alt:""}#{/img}
+              </td>
+            </tr>
+            <tr>
+              <td align="right" valign="top"><span class="xf_ht_lv"></span></td>
+               <td style="padding-left: 180px;">
+              <span style="position: relative;">&nbsp;&nbsp;
+                <input class='upload_btn' type="button" value="上传图片"> &nbsp;&nbsp;
+                <input type="file" class="upload_file" name="imgFile" id="imgFile2" onchange="uploadImageType('imgFile2','image2');" style="top: 0px;*top:21px !important;left: -70px;*left:10px !important;" />
+              </span>
+              <span style="color:#999;" id="imageResolution"></span>
+              <input type="hidden" name="filename2" id="filename2" />
+              </td>
+            </tr>
+            </table>
+          </div>
+          <div class="xf_htgl_jgone">
+            <h3 class="xf_htgl_jgtitle">网贷平台联系方式设置</h3>
+            <div class="xf_ht_gly_xtgu_t_tahez">
+            <table class="xf_ht_gly_xtgu_t_table xf_ht_gly_xtgu_t_table2" border="0" cellspacing="0" cellpadding="0" style="margin-left: 100px">
+              <tr>
+              <td colspan="3">
+                <span class="xfht_t_j_td_span">公司名称：</span> 
+                <input class="xfht_zr_input xfht_zr_input_shoping" type="text"  style="width:450px;" name="companyName" id="companyName" value="${backstageSet?.companyName}">
+              </td>
+              </tr>
+              <tr>
+              <td colspan="3">
+                <span class="xfht_t_j_td_span">地区：</span>
+                #{select 'xf_jbzl_selectAge', style:'width:226px',items:provinces, valueProperty:'id', labelProperty:'name', value:provinceId, class:'xfht_t_j_td_1', id:'province' /}
+                #{select 'city', items:cityList,  style:'width:226px',valueProperty:'id', labelProperty:'name', value:backstageSet?.companyCity, class:'xfht_t_j_td_1', id:'city' /}
+              </td>
+              </tr>
+              <tr>
+              <td colspan="3"><span class="xfht_t_j_td_span">详细地址：</span>
+                <input class="xfht_zr_input xfht_zr_input_shoping" type="text" style="width:450px;" name="companyAddress" id="companyAddress" value="${backstageSet?.companyAddress}">
+              </td>
+              </tr>
+              <tr>
+              <td style="display: none"><span class="xfht_t_j_td_span">联系电话：</span> <input class="xfht_zr_input" type="text" name="companyTelephone" id="companyTelephone" value="${backstageSet?.companyTelephone}"></td>
+              <td><span class="xfht_t_j_td_span">传真：</span> <input class="xfht_zr_input" type="text" name="companyFax" id="companyFax" value="${backstageSet?.companyFax}"></td>
+              <td><span class="xfht_t_j_td_span">邮箱：</span> <input class="xfht_zr_input" type="text" name="companyEmail" id="companyEmail" value="${backstageSet?.companyEmail}"></td>
+              </tr>
+              <tr style="display: none"> 
+              <td><span class="xfht_t_j_td_span">联系人：</span> <input class="xfht_zr_input" type="text" name="companyContact_name" id="companyContact_name" value="${backstageSet?.companyContact_name}"></td>
+              <td><span class="xfht_t_j_td_span">手机1：</span> <input class="xfht_zr_input" type="text" name="contactMobile1" id="contactMobile1" value="${backstageSet?.contactMobile1}"></td>
+              <td><span class="xfht_t_j_td_span">手机2：</span> <input class="xfht_zr_input" type="text" name="contactMobile2" id="contactMobile2" value="${backstageSet?.contactMobile2}"></td>
+              </tr>
+              <tr>
+              <td><span class="xfht_t_j_td_span">联系QQ1：</span> <input class="xfht_zr_input" type="text" name="companyQQ1" id="companyQQ1" value="${backstageSet?.companyQQ1}"></td>
+              <td colspan="2"><span class="xfht_t_j_td_span">联系QQ2：</span> <input class="xfht_zr_input" type="text" name="companyQQ2" id="companyQQ2" value="${backstageSet?.companyQQ2}"></td>
+              </tr>
+              <tr>
+              <td><span class="xfht_t_j_td_span">客服电话1：</span> <input class="xfht_zr_input" type="text" name="platformTelephone" id="platformTelephone" value="${backstageSet?.platformTelephone}"></td>
+              <td><span class="xfht_t_j_td_span">客服电话2：</span> <input class="xfht_zr_input" type="text" name="platformTelephone2" id="platformTelephone2" value="${backstageSet?.platformTelephone2}"></td>
+              </tr>
+              <tr>
+              <tr>
+              <td><span class="xfht_t_j_td_span">网站备案号：</span> <input class="xfht_zr_input" type="text" name="siteIcpNumber" id="siteIcpNumber" value="${backstageSet?.siteIcpNumber}"></td>
+              </tr>
+              <td colspan="3" style="display: none"><span class="xfht_t_j_td_span" >工作时间：</span>
+                <input class="xfht_zr_input" type="text" style="width:65px;" name="workStatrTime" id="workStatrTime" value="${backstageSet?.workStatrTime}">
+                <span class="xfht_zr_input_span_sq">——</span>
+                <input class="xfht_zr_input" type="text" style="width:65px;" name="workEndTime" id="workEndTime" value="${backstageSet?.workEndTime}">
+              </td>
+              </tr>
+            </table>
+            </div>
+          </div> 
+          </div>
+          <div class="xf_htgl_jgsix_hyg">
+          <input class="xf_ht_tcc_button_ok" type="button" value="保  存" onClick="save()">
+          </div>
+        </div>
+        #{/form} 
+      </div>
+    </div>   
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+	//高亮显示
+	showHighLight(7,7,17);
+	  
+    $("#province").change(function(){
+      var selectVal = $(this).children('option:selected').val();
+      var jsAction = #{jsAction @Application.getCity(":provinceId")/}
+      $.post(jsAction({provinceId:selectVal}),function(data) {
+        var cityList = [];
+        for(var i = 0; i < data.length; i ++){
+          cityList.push("<option value='"+data[i].id+"'>"+data[i].name+"</option>");
+        }
+        $("#city").html(cityList);
+      });
+    });
+  })
+  
+  function save(){
+   if($("#platformName").val() == ''){
+      alert("网贷平台名称不能为空");
+      
+      return;
+    } 
+     
+    if($("#companyName").val() == ''){
+      alert("公司名称不能为空");
+      
+      return;
+    }
+     
+    if($("#companyAddress").val() == ''){
+     alert("详细地址不能为空");
+     
+     return;
+    }
+     
+     
+    if($("#companyFax").val() == ''){
+      alert("传真不能为空");
+      
+      return;
+    }
+     
+    if($("#companyEmail").val() == ''){
+      alert("邮箱不能为空");
+      
+      return;
+    }
+     
+
+     
+    if($("#companyQQ1").val() == ''){
+      alert("联系QQ1不能为空");
+      
+      return;
+    }
+     
+    if($("#companyQQ2").val() == ''){
+      alert("联系QQ2不能为空");
+      
+      return;
+    }
+     
+    if($("#siteIcpNumber").val() == ''){
+      alert("网站备案号不能为空");
+    
+      return;
+    }
+     
+    if($("#platformTelephone").val() == ''){
+      alert("客服电话不能为空");
+      
+      return;
+    }
+     
+    if($("#workStatrTime").val() == ''){
+      alert("工作开始时间不能为空");
+      
+      return;
+    }
+     
+    if($("#workEndTime").val() == ''){
+      alert("工作结束时间不能为空");
+      
+      return;
+    }
+     
+    if(!$("#companyEmail").val().isEmail()){
+      alert("请填写正确的邮箱地址");
+      
+      return;
+    }
+     
+    var loanImage = $("#image").attr("src");
+    var loanImage2 = $("#image2").attr("src");
+    $("#filename").val(loanImage);    
+    $("#filename2").val(loanImage2);  
+    $("#systemDataSubmit").submit();
+  }
+</script>

@@ -1,0 +1,37 @@
+<div class="xf_mem_Account xf_mem_shzdjkb_box">
+<!--<div class="xf_mem_shzdjkb_box_tcc">遮盖层</div>-->
+		#{if !user?.isMobileVerified}
+		<h3 class="xf_mem_accout_title">绑定安全手机</h3>
+		<!-- 绑定安全手机 -->
+		<div class="xf_xgaq_email">
+			<div class="xf_xgaq_email_one">
+				<div class="xf_xgaq_email_onebox">
+					安全手机：<span class="xf_xgaq_email_yx">${user?.mobile}</span>
+						  <span class="xf_xgaq_email_yx2">未绑定</span>
+						  <input type="hidden" id="error" value="${error?.msg}">
+				</div>
+				<div class="xf_xgaq_email_inputgo">
+					<a class="xf_con_inputfbjk" id="update" href="@{front.account.basicInformation.bindMobile()}">绑定</a>
+				</div>
+			</div>
+		</div>
+		#{/if}
+		#{else}
+		<h3 class="xf_mem_accout_title">修改安全手机</h3>
+		<!-- 修改安全手机 -->
+		<div class="xf_xgaq_email">
+			<!-- 已经激活 -->
+			<div class="xf_xgaq_email_one">
+				<div class="xf_xgaq_email_onebox">
+					安全手机：<span class="xf_xgaq_email_yx">${user?.mobile.substring(0,3)}****${user?.mobile.substring(7)}</span>
+						   <span class="xf_xgaq_email_yx2">已校验</span>
+						<input type="hidden" id="error" value="${error?.msg}">
+				</div>
+				<div class="xf_xgaq_email_inputgo">
+					<span><a class="xf_con_inputfbjk" id="update" href="@{front.account.basicInformation.bindMobile()}">修改</a></span>
+				</div>
+			</div>
+		</div>
+		#{/else}
+</div>
+				

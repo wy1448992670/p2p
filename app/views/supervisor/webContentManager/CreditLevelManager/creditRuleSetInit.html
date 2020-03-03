@@ -1,0 +1,202 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'信用规则设置' /}
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  <!--左-->
+  #{include "supervisor/webContentManager/common/leftBar.control"/}
+  <!--右-->
+  <div class="xn_c_content">
+    <div class="xf_content_add">
+      <div class="xfht_t_j_y_2">
+        <!--右上-->
+        <div class="xf_ht_obu_fklm">信用规则设置</div>
+        <div class="xf_htgl_jgone xf_ht_fff_sz">
+          <h3 class="xf_htgl_jgtitle">初始信用额度</h3>
+          <div class="xf_ht_gl_jgone_botton">
+            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr>
+                <td align="right" width="504">初始信用额度：</td>
+                <td>
+                  <input class="xfht_zr_input" type="text" style="width:120px;" id="initialAmount" value="${backstageSet.initialAmount}" onkeyup="value=value.replace(/[^\d\.]/g,'')"> 元 
+                </td>
+              </tr>
+            </table>
+          </div>
+          <h3 class="xf_htgl_jgtitle">审核资料积分</h3>
+          <div class="xf_ht_gl_jgone_botton">
+            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr>
+                <td align="right" width="504">审核科目库共有${auditItemCount}个审核资料科目： </td>
+                <td>
+                  <a class="xfht_lan" href="javascript:pointsDetail(1, 5);" id="xf_dfk_offbtt_tcc3">查看积分明细</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <h3 class="xf_htgl_jgtitle">正常还款积分</h3>
+          <div class="xf_ht_gl_jgone_botton">
+            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr>
+                <td align="right" width="504">每正常还款一期账单积：</td>
+                <td>
+                  <input class="xfht_zr_input" type="text" style="width:120px;" id="normalPayPoints" value="${backstageSet.normalPayPoints}" onkeypress="return inputNum(event)" onpaste="return false" style="ime-mode:Disabled"> 分 
+                </td>
+              </tr>
+            </table>
+          </div>
+          <h3 class="xf_htgl_jgtitle">成功借款积分</h3>
+          <div class="xf_ht_gl_jgone_botton">
+            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr>
+                <td align="right" width="504">每成功满标一个借款标积： </td>
+                <td>
+                  <input class="xfht_zr_input" type="text" style="width:120px;" id="fullBidPoints" value="${backstageSet.fullBidPoints}" onkeypress="return inputNum(event)" onpaste="return false" style="ime-mode:Disabled"> 分       
+                </td>
+              </tr>
+            </table>
+          </div>
+          <h3 class="xf_htgl_jgtitle">成功投标积分</h3>
+          <div class="xf_ht_gl_jgone_botton">
+            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr>
+                <td align="right" width="504">每成功投标一次积：</td>
+                <td>
+                  <input class="xfht_zr_input" type="text" style="width:120px;" id="investpoints" value="${backstageSet.investpoints}" onkeypress="return inputNum(event)" onpaste="return false" style="ime-mode:Disabled"> 分
+                </td>
+              </tr>
+            </table>
+          </div>
+          <h3 class="xf_htgl_jgtitle">账单逾期扣分</h3>
+          <div class="xf_ht_gl_jgone_botton">
+            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr>
+                <td align="right" width="504">每逾期账单一次扣：</td>
+                <td>
+                  <input class="xfht_zr_input" type="text" style="width:120px;" id="overDuePoints" value="${backstageSet.overDuePoints}" onkeypress="return inputNum(event)" onpaste="return false" style="ime-mode:Disabled"> 分
+                </td>
+              </tr>
+            </table>
+          </div>
+          <h3 class="xf_htgl_jgtitle">信用额度</h3>
+          <div class="xf_ht_gl_jgone_botton">
+            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr>
+                <td align="right" width="504">信用积分 1分可增加信用额度：</td>
+                <td>
+                  <input class="xfht_zr_input" type="text" style="width:120px;" id="creditToMoney" value="${backstageSet.creditToMoney}" onkeyup="value=value.replace(/[^\d\.]/g,'')"> 元
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="xf_ht_news_content_button xf_ht_news_bs">
+        <input class="xf_ht_tcc_button_ok" type="button" onclick="save();" value="保 存">
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+<!--查看积分明细-弹出层 -->
+<div class="xf_ht_ttc" id="xf_ht_jfmx_ttc" style="display: none;">
+</div>
+<script type="text/javascript">
+  $(function() {
+    /* 高亮显示 */
+    showHighLight(4,4,17);
+		
+    $(".xf_ht_jr_obu_r").click(function() {
+      $(this).parents(".xf_ht_ttc").hide();
+    });
+		
+  });
+	
+  function pointsDetail(currPage, pageSize) {
+    $.ajax({
+      url : "@{pointsDetail()}",
+      type : "POST",
+      data : {
+        "currPage" : currPage,
+        "pageSize" : pageSize,
+        "keyword" : $("#keyword").val()
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+					
+          return;
+        }
+				
+        $("#xf_ht_jfmx_ttc").html(data);
+        $.layer({
+          type: 1,
+          area: ['40%', 'auto'],
+          title: '积分明细',
+          page: {dom : '#xf_ht_jfmx_ttc'}
+        });
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+	
+  function save() {
+    if ("" == $("#initialAmount").val().trim()) {
+      alert("初始信用额度不能为空");
+			
+      return;
+    }
+		
+    if ("" == $("#normalPayPoints").val().trim()) {
+      alert("每正常还款一期账单积分不能为空");
+			
+      return;
+    }
+		
+    if ("" == $("#fullBidPoints").val().trim()) {
+      alert("每成功满标一个借款标积分不能为空");
+			
+      return;
+    }
+		
+    if ("" == $("#investpoints").val().trim()) {
+      alert("每成功投标一次积分不能为空");
+			
+      return;
+    }
+		
+    if ("" == $("#overDuePoints").val().trim()) {
+      alert("每逾期账单一次扣分不能为空");
+			
+      return;
+    }
+		
+    if ("" == $("#creditToMoney").val().trim()) {
+      alert("信用积分1分可借若干元不能为空");
+			
+      return;
+    }
+		
+    $.ajax({
+      url : "@{creditRuleSet()}",
+      type : "POST",
+      data : {
+        "initialAmount" : $("#initialAmount").val(),
+        "normalPayPoints" : $("#normalPayPoints").val(),
+        "fullBidPoints" : $("#fullBidPoints").val(),
+        "investpoints" : $("#investpoints").val(),
+        "overDuePoints" : $("#overDuePoints").val(),
+        "creditToMoney" : $("#creditToMoney").val()
+      },
+      success : function(data) {
+        alert(data);
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }	
+</script>
+

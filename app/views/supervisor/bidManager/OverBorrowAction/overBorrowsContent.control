@@ -1,0 +1,160 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    #{form @overBorrows(), id:'overBorrows'}
+    <div class="xf_ht_search">
+	  <input type="hidden" id="currPage" name="currPage"/>
+	  <input type="hidden" id="pageSize" name="pageSize"/>
+	  <input type="hidden" id="orderIndex" name="orderIndex"/>
+	  <input type="hidden" id="orderType" name="orderType" value="${pageBean.conditions?.orderType}"/>
+      <div class="xf_ht_search_l">
+		<span id="div_0"><a onclick="javascript:order(0);">默认排序</a></span>
+		<span id="div_1"><a onclick="javascript:order(1);">提交总数<a id="sp1">↑</a></a></span>
+		<span id="div_2"><a onclick="javascript:order(2);">通过数<a id="sp2">↑</a></a></span>
+		<span id="div_3"><a onclick="javascript:order(3);">未通过数<a id="sp3">↑</a></a></span>
+		<span id="div_4"><a onclick="javascript:order(4);">待审核数<a id="sp4">↑</a></a></span>
+      </div>
+    </div>
+    <div class="xf_ht_search_inon">
+      <div class="xf_ht_search_r">
+        <div class="xf_ht_search_xl">
+          <select name="keywordType" id="keywordType" class="xfht_t_j_td_1">
+			<option value="0" #{if pageBean.conditions.keywordType == 0}selected="selected"#{/if}>全部</option>
+			<option value="1" #{if pageBean.conditions.keywordType == 1}selected="selected"#{/if}>会员名</option>
+			<option value="2" #{if pageBean.conditions.keywordType == 2}selected="selected"#{/if}>会员邮箱</option>
+		  </select>
+        </div>
+	     <div class="xf_ht_search_xl">
+              <span class="search_timesp">申请时间：</span>
+              <input type="text" name="startDateStr" id="startDate"  onclick="laydate()" class="search_time"    style="cursor:pointer" value="${pageBean?.conditions?.startDateStr}"/>  
+              <span class="search_timesp">--</span> 
+              <input  type="text" name="endDateStr" id="endDate"  onclick="laydate()" class="search_time" style="cursor:pointer" value="${pageBean?.conditions?.endDateStr}"/>
+          </div>
+          <div class="xf_ht_search_xl">
+	      	  <input name="keyword" type="text" class="search_w" id="keyword" title="请输入关键词" value="${pageBean.conditions?.keyword}" />
+	    </div>
+	    <div class="xf_ht_search_xl">
+	       <input type="hidden" name="isExport" value="0" id="isExport">
+		   <input type="submit" class="search_button" onclick="search();" value="搜索">
+		   <input type="submit" class="search_button" onmouseout="clearIsExport();" onclick="download();" value="下载数据">
+	    </div>
+      </div>
+    </div>
+    #{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+		  #{th}借款人#{/th}
+		  #{th}信用等级#{/th}
+		  #{th}注册邮箱#{/th}
+		  #{th}绑定手机#{/th}
+		  #{th}标准信用额度#{/th}
+		  #{th}申请信用额度#{/th}
+		  #{th}通过额度#{/th}
+		  #{th}申请时间#{/th}
+		  #{th}待审核数#{/th}
+		  #{th}已通过数#{/th}
+		  #{th}未通过数#{/th}
+		  #{th}审核状态#{/th}
+		  #{th}操作#{/th}
+        #{/tr}
+		#{list pageBean?.page}
+		#{tr tr_index:_index}
+		  #{td}${(pageBean?.currPage - 1)*pageBean?.pageSize + _index}#{/td}
+		  #{td}${_?.user_name}#{/td}
+		  #{td}#{img src:"${_?.filename}",style:"width: 20px; height: 20px;"}#{/img}#{/td}
+		  #{td}${_?.user_email}#{/td}
+		  #{td}${_?.user_mobile}#{/td}
+		  #{td}${_?.user_credit_line}#{/td}
+		  #{td}${_?.amount?.format("###,##0.00")}#{/td}
+		  #{td}${_?.pass_amount?.format("###,##0.00")}#{/td}
+		  #{td}${_?.time?.format("yyyy-MM-dd")}#{/td}
+		  #{td}${_?.auditing_items_count}#{/td}
+		  #{td}${_?.passed_items_count}#{/td}
+		  #{td}${_?.unpassed_items_count}#{/td}
+		  #{td}${_?.status}#{/td}
+		  #{td}<a class="xf_ta_onclick" href="@{supervisor.bidManager.OverBorrowAction.overBorrowDetails(_?.id)}">审核明细</a>#{/td}
+	    #{/tr}
+	    #{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      <div class="page_warp">
+        #{page currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:4}
+		  keyword=${pageBean.conditions.keyword}
+		#{/page}
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+
+/* 搜索 */
+function search(){
+  $("#isExport").val(0);
+  $("#overBorrows").submit();
+}
+
+/* 下载数据 */
+function download(){
+  $("#isExport").val(1);
+  $("#overBorrows").submit();
+}
+
+/* 清除下载数据 */
+function clearIsExport(){
+  $('#isExport').val(0);
+}
+
+	var g_orderType = 0;
+
+	$(function() {
+		/* 高亮显示 */
+		showHighLight(5, 5, 17);
+
+		init();
+	});
+	
+	function init() {
+		/**
+		 * 排序样式
+		 */
+		g_orderType = ${pageBean.conditions?.orderType};
+		var index = parseInt(g_orderType / 2);
+		var type = g_orderType % 2 + 1;
+		var divId = "#div_" + index;
+		$(divId).removeClass("xf_sea_isshow");	
+		$(divId).addClass("xf_sea_isshow");
+		
+		if(type == 1){
+			$("#sp" + index).html("↓");
+		}else{
+			$("#sp" + index).html("↑");
+		}
+	}
+	
+	/* 条件搜素查询 */
+	function showPage(currPage, pageSize){
+	     $("#currPage").val(currPage);
+	     $("#pageSize").val(pageSize);
+	     $("#overBorrows").submit();
+	}
+	
+	/**
+	 * 排序
+	 */
+	function order(index) {
+		var keywordType = $("#keywordType option:selected").val();
+		var keyword = encodeURIComponent($("#keyword").val());
+		
+		var _index = parseInt(g_orderType / 2);
+		var type = g_orderType % 2;
+		type = (index == _index && type == 1) ? 0 : 1;
+		g_orderType = index * 2 +  type;
+		
+		window.location.href = "overBorrows?keywordType=" + keywordType + "&keyword=" + keyword + "&orderType=" + g_orderType;
+	}
+</script>

@@ -1,0 +1,263 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+  <!-- 搜索 -->
+  #{form @supervisor.financeManager.PlatformAccountManager.toReviewWithdraws(), id:'submit'}
+  <div class="xf_ht_search">
+    <input type="hidden" id="currPage" name="currPage"/>
+    <input type="hidden" id="pageSize" name="pageSize"/>
+    <input type="hidden" id="orderType" name="orderType" value="${page.conditions?.orderType}"/>
+    <div class="xf_ht_search_l">
+    
+    <span id="div_0"><a title="默认排序" onclick="conditonSearch(0);" id="tab_0">默认排序<a id="sp0"></a></a></span>
+    <span id="div_1"><a title="申请时间" onclick="conditonSearch(1);" id="tab_1">申请时间<a id="sp1">↑</a></a></span>
+    <span id="div_3"><a title="提现金额" onclick="conditonSearch(3);" id="tab_3">提现金额<a id="sp3">↑</a></a></span>
+    </div>
+  </div>
+  <div class="xf_ht_search_inon">
+    <div class="xf_ht_search_r">
+    <div class="xf_ht_search_xl">
+      <span class="search_timesp">申请时间：</span>
+      <input type="text" class="search_time" name="startDate" id="startDate" onclick="laydate()" class="laydate-icon" style="cursor:pointer" value="${page?.conditions?.beginTime}">
+      <span class="search_timesp">--</span>
+      <input type="text" class="search_time" name="endDate" id="endDate" onclick="laydate()" class="laydate-icon" style="cursor:pointer" value="${page?.conditions?.endTime}">
+    </div>
+    <div class="xf_ht_search_xl">
+      <input type="text" class="search_w" name="key" id="keyword" value="${page?.conditions?.key}">
+    </div>
+    <div class="xf_ht_search_xl">
+      <input type="submit" class="search_button" value="搜索">
+    </div>
+     <div class="xf_ht_search_xl">
+          <input type="button" class="search_button" onclick="search();" value="下载数据" />
+      </div>
+    </div>
+  </div>
+  #{/form}
+  <!-- 列表内容 -->
+  <div class="xn_c_content_top">
+    #{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+    #{tr}
+      #{th}序号#{/th}
+      #{th}申请人类型#{/th}
+      #{th}申请人账号#{/th}
+      #{th}申请人#{/th}
+      #{th}提现金额#{/th}
+      #{th}申请时间#{/th}
+      #{th}账户余额#{/th}
+      #{th}应还金额#{/th}
+      #{th}应收金额#{/th}
+      #{th}信用等级#{/th}
+      #{th}状态#{/th}
+      #{th}是否放款自动提现#{/th}
+      #{th}操作#{/th}
+    #{/tr}
+    #{list page.page}
+    #{tr tr_index:_index}
+      #{td}${(page?.currPage - 1)*page?.pageSize + _index}#{/td}
+      #{td}
+      #{if _?.finance_type == 0}借款人#{/if} 
+      #{elseif _?.finance_type == 1}投资人#{/elseif}
+      #{/td}
+      #{td}${_?.name}#{/td}
+      #{td}${_?.reality_name}#{/td}
+      #{td}${_?.amount?.format("###,##0.00")}#{/td}
+      #{td}${_?.time?.format('yyyy-MM-dd HH:mm:ss')}#{/td}
+      #{td}${_?.user_amount?.format("###,##0.00")}#{/td}
+      #{td}${_?.repayment_amount?.format("###,##0.00")}#{/td}
+      #{td}${_?.receive_amount?.format("###,##0.00")}#{/td}
+      #{td}#{img src:"${_?.credit_level_image_filename}",alt:"",width:"25",height:"25"}#{/img}#{/td}
+      #{td}
+      #{if _?.status == 0} 审核中
+      #{/if}
+      #{elseif _?.status == 1} 付款中
+      #{/elseif}
+      #{elseif _?.status == 2} 已成功
+      #{/elseif}
+      #{elseif _?.status == -1}未通过
+      #{/elseif}
+      #{else}状态有误!
+      #{/else}
+      #{/td}
+      #{td}
+      	#{if _?.is_auto_create}是#{/if}
+      	#{else}否#{/else}
+      #{/td}
+      #{td}
+      <span><a onclick="details(${_?.id})" class="xf_ta_onclick">详情</a></span>
+      <span><a href="@{withdrawPass(_?.id)}" class="xf_ta_onclick">通过</a></span>
+      <span><a onclick="withdrawReview(${_?.id})" class="xf_ta_onclick">不通过</a></span>
+      <span><a href="@{supervisor.userManager.AllUser.simulateLogin(_?.signUserId)}" target="_blank" class="xf_ta_onclick">模拟登录</a></span>
+      #{/td}
+    #{/tr}
+    #{/list}
+    #{/table}
+  </div>
+  <!-- 列表底部 -->
+  <div class="xn_c_content_bottom">
+    	#{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4}#{/page}
+    	<div>提现合计：${countAmount}元</div>
+  </div>
+  </div>
+</div>
+ 
+<!-- 详情-弹出层 -->
+<div class="xn_c_ban_jox xn_c_ban_jox_fktz" id="xf_ht_xq_ttc" style="display:none; width:500px;">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_fktz_tcc_table">
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form" width="100%">
+        <tr>
+          <td align="right"  width="140">提现金额：</td>
+          <td><span id="xqamount"></span> 元</td>
+        </tr>
+        <tr>
+          <td align="right" valign="top" width="140">银行卡信息：</td>
+          <td><span id="xqbankInfo"></span></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="xf_ht_tcc_button">
+            <input class="jbox_ok" type="button" value="确  定" onclick="layer.closeAll()">
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- 不通过-弹出层 -->
+<div class="xn_c_ban_jox xn_c_ban_jox_fktz" id="xf_ht_off_ttc" style="display:none; width:420px;">
+  <div class="xf_ht_jr_obu_width">
+    #{form @withdrawReview(), id:'withdrawReview'}
+    <div class="xf_fktz_tcc_table"> 
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form" width="100%">
+        <tr>
+          <td align="right" valign="top" width="140">不通过原因：</td>
+          <input type="hidden" id="withdrawalId" name="withdrawalId">
+          <input type="hidden" value="1" name="returnType">
+          <td><textarea class="xf_ht_jr_obttd_textarea xf_ht_jr_obttd_fktz" id="reason" name="reason"></textarea></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="xf_ht_tcc_button">
+            <input class="jbox_ok" type="submit" value="确  定" >
+            <input class="jbox_on" type="button" value="取  消" onclick="layer.closeAll()"/>
+          </td>
+        </tr>
+      </table>
+    </div>
+    #{/form}
+  </div>
+</div>
+
+
+
+
+<script type="text/javascript">
+$(function(){
+	//高亮显示
+	showHighLight(4,4,15);
+})
+function conditonSearch(num){
+	  var orderType= ${page.conditions?.orderType};
+	  if(orderType == 0){
+	    $("#orderType").val(num);
+	    $("#submit").submit();
+	    return;
+	  }
+	  var sum = orderType/2;
+	  if(sum.toString().indexOf('.') == -1){
+	    var sum2 = orderType - 1;
+	    $("#orderType").val(num);
+	    $("#submit").submit();
+	    return;
+	  }else{
+	    if(orderType == num){
+	      $("#orderType").val(num + 1);
+	      $("#submit").submit();
+	      return;
+	    }else{
+	      $("#orderType").val(num);
+	      $("#submit").submit();
+	      return;
+	    }
+	  }
+	}
+  
+  /* 不通过 */
+  function withdrawReview(withdrawalId){
+    $("#withdrawalId").val(withdrawalId);
+    $.layer({
+      type: 1,
+      area: ['600', 'auto'],
+      title: '提现申请审核',
+      page: {dom : '#xf_ht_off_ttc'}
+    });
+  }
+  
+  /* 详情 */
+  function details(withdrawalId){
+    var listAction = #{jsAction @withdrawDetail(':withdrawalId') /};
+    $.post(listAction({withdrawalId:withdrawalId}), function(data) {
+      var msg = data.error.msg;
+      if(msg.length > 0){
+        layer.msg(msg, 3, 4);  
+        return;
+      }
+
+      var withdrawal = data.withdrawal;
+      $("#xqamount").html(withdrawal.amount);
+      $("#xqbankInfo").html("真实姓名：" + withdrawal.account_name 
+							+ "<br/>账号：" + withdrawal.account 
+							+ "<br/>开户行：" + withdrawal.bank_name
+							+ "<br/>支行：" + withdrawal.branch_bank_name
+							+ "<br/>支行所在地：" + withdrawal.province + " | " + withdrawal.city
+						);
+      $.layer({
+        type: 1,
+        area: ['500', 'auto'],
+        title: '提现详情',
+        page: {dom : '#xf_ht_xq_ttc'}
+      });
+    });
+  }
+   
+  $(function(){  
+    $('#bgTab').find('tr:even').find('td').css('background-color', '#f4f4f4');
+
+    $(".xf_ht_jr_obu_r").click(function(){
+      $(this).parents(".xf_ht_ttc").hide();
+    });
+      
+    var num= ${page.conditions?.orderType};
+    if(num == 0){
+      $("#div_0").addClass("xf_sea_isshow");
+      
+      return;
+    }
+    var sum = num/2;
+    if(sum.toString().indexOf('.') == -1){
+      var sum2 = num -1;
+      $("#div_"+sum2).addClass("xf_sea_isshow");
+      $("#sp"+sum2).html("↓");
+      
+      return;
+    }
+    $("#div_"+num).addClass("xf_sea_isshow");dClass("xfht_t_y_x_wz_1");
+    $("#div_0").removeClass("xfht_t_y_x_wz_1");
+  });
+
+  function showPage(currPage, pageSize){
+    $("#currPage").val(currPage);
+    $("#pageSize").val(pageSize);
+    $("#submit").submit();
+  }
+
+  function searchSubmit(){
+    $("#submit").submit();
+  }
+  
+ function search(type){
+    
+  window.location.href = "@{supervisor.financeManager.PlatformAccountManager.downloadUserBankList()}";
+}
+</script>

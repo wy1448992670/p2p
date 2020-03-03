@@ -1,0 +1,135 @@
+<div class="xf_mem_Account">
+	<h3 class="xf_mem_accout_title">我的借款账单</h3>
+	<!-- 搜索区域 -->
+	#{form @myLoanBills(), id:'tijiao'}
+	<input type="hidden" id="currPage" name="currPage"/>
+	<ul class="xf_membill_search clr">
+		<li>
+			<select name="payType" id="payTypeStr" class="xf_membill_selectAge">   
+		       <option value="0"
+		       #{if page?.conditions?.payType == 0}
+                selected="selected"
+               #{/if}
+		       >全部</option>   
+		       <option value="1"
+		       #{elseif page?.conditions?.payType == 1}
+                selected="selected"
+               #{/elseif}
+		       >未还款</option>   
+		       <option value="2"
+		       #{elseif page?.conditions?.payType == 2}
+                selected="selected"
+               #{/elseif}
+		       >已还款</option>   
+			</select>
+		</li>
+		<li>
+			<select name="isOverType" class="xf_membill_selectAge">   
+		       <option value="0"
+		       #{if page?.conditions?.isOverType == 0}
+                selected="selected"
+               #{/if}
+		       >全部</option>   
+		       <option value="1"
+		       #{elseif page?.conditions?.isOverType == 1}
+                selected="selected"
+               #{/elseif}
+		       >未逾期</option>   
+		       <option value="2"
+		       #{elseif page?.conditions?.isOverType == 2}
+                selected="selected"
+               #{/elseif}
+		       >已逾期</option>   
+			</select>
+		</li>
+		<li>
+			<select name="keyType" class="xf_membill_selectAge">   
+		       <option value="0"
+		        #{if page?.conditions?.keyType == 0}
+                selected="selected"
+               #{/if}
+		       >全部</option>   
+		       <option value="1"
+		       #{elseif page?.conditions?.keyType == 21}
+                selected="selected"
+               #{/elseif}
+		       >标题</option>   
+			</select>
+		</li>
+		<li class="xf_membill_searchLi">
+			<input type="text" name="key" value="${page?.conditions?.key}" class="xf_membill_shurk_yhm">
+			<input type="submit"  value="搜 索" class="xf_membill_button_yhm">
+		</li>
+	</ul>
+	#{/form}
+	<!-- 搜索结果 -->
+	<div class="xf_membill_search_jg">
+		<table border="0" cellpadding="0" cellspacing="0" width="auto" class="xf_membill_acc_viewcpms">
+			<tbody>
+				<tr>
+					<th align="center" width="46">序号</th>
+				  	<th width="182">借款标题</th>
+				  	<th align="left" width="86">本期需还款金额</th>
+				  	<th width="63">是否逾期</th>
+				  	<th width="64">还款状态</th>
+				  	<th width="96">到期还款时间</th>
+				  	<th width="104">实际还款时间</th>
+				  	<th width="91">操作</th>
+				</tr>
+		        #{list items:page?.page, as:'loanBill'}
+				<tr>
+					<td align="center">${(page?.currPage - 1) * page?.pageSize + loanBill_index}</td>
+					<td align="left">${loanBill?.title}</td>
+					<td align="center">${loanBill?.repayment_amount} 元</td>
+					<td align="center">
+					#{if loanBill?.is_overdue == 0}
+					未逾期
+					#{/if}
+					#{else}
+					逾期
+					#{/else}
+					</td>
+					<td align="center"><span class="membill_list_whk">
+					#{if loanBill?.status == -1 || loanBill?.status == -2 }
+					未还款
+					#{/if}
+					#{else}
+					已还款
+					#{/else}
+					</span></td>
+					<td align="center">${loanBill?.repayment_time?.format('yyyy-MM-dd')}</td>
+					<td align="center">#{if loanBill?.status == 0 || loanBill?.status == -3}${loanBill?.real_repayment_time?.format('yyyy-MM-dd')}#{/if}</td>
+					<td align="center">
+					<a href="@{loanBillDetails(loanBill?.sign)}" class="xf_membill_cza" target="_self">
+					#{if loanBill?.status == -1 || loanBill?.status == -2 }
+						#{if loanBill?.chechPeriod > 0}
+							查看
+						#{/if}
+						#{else}
+							还款
+						#{/else}
+					#{/if}
+					#{else}
+					查看
+					#{/else}
+					</a></td>
+				</tr>
+				#{/list}
+			</tbody>
+		</table>
+		<!-- 分页器 -->
+		<div class="xf_wylc_page xf_membill_view_page1">
+			#{page pageTitle:"我的借款账单",currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:2 /}
+		</div>
+		<!-- 下载数据 -->
+		<a href="@{front.account.AccountHome.exportLoanBills}" class="xf_membill_xzzy">下载数据</a>
+		</div>
+		<!-- 清除浮动 -->
+		<div class="clear"></div>
+</div>
+<script>
+    function showPage(currPage, pageSize){
+         $("#currPage").val(currPage);
+         $("#tijiao").submit();
+    }
+</script>

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		%{
+			business.User currUser = business.User.currUser();
+			business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+			String platUrl = constants.Constants.BASE_URL;
+			java.util.Map<String,java.util.List<business.BottomLinks>> bottomLinks = business.BottomLinks.currentBottomlinks();
+			java.lang.String type1Name = business.NewsType.queryName(1);
+			java.lang.String type2Name = business.NewsType.queryName(2);
+			java.lang.String type4Name = business.NewsType.queryName(4);
+			boolean ipsEnable = constants.Constants.IPS_ENABLE;
+			boolean debtUse = constants.Constants.DEBT_USE;
+		}%
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="/public/stylesheets/reg20171208.css" />
+		<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/site.css'}" />
+		<!--<link rel="stylesheet" href="css/media.css" />-->
+		<style>
+		body{
+			background:white;
+		}
+			.login {
+				width: 1000px;
+				margin: 0 auto;
+				background: url(/public/images/jk/index/registerbg.png);
+				background-position: inherit;
+				background-repeat: no-repeat;
+				position:relative;
+			}
+			.top_skip{
+				width:1000px;
+			 }
+			.registerOuter{
+					border-radius:4px;
+					float: right;
+				    width: 380px;
+					height: 455px;
+					background:white;
+					margin:39px 70px;
+					padding:0;
+			}
+			.top_skip ul li:nth-child(2){
+				border:0;
+			}
+			.zc .tel, .mm, .tjr{
+				width:320px;
+				margin-left:30px;
+			}
+			.zc .yzm_01, .yzm_02{
+				margin-left:30px;
+				width: 210px;
+			}
+			.zc .yzm_src1{
+				margin-right:30px;
+			}
+			.zc .yes_no{
+				margin-left:30px;
+				margin-bottom:20px;
+			}
+			.lhb{
+				margin-left:30px;
+				background:#5D5DFF;
+				border-radius:2px;
+				font-size: 17px;
+			}
+			.zc .has{
+				margin-left:30px;
+				font-size:12px;
+			}
+			.open2{
+				color:#5D5DFF;
+			}
+			.zc .yzm_btn{
+				background:#5D5DFF;
+			}
+			.lhb:hover{
+				background: #5653FE;
+			}
+			input[type="checkbox"]:checked{
+				background:url(/public/images/jk/checked.png)no-repeat;
+			}
+			.xf_zqzr_znx_window{
+				display: block;
+			}.xf_mem_viptc_se{
+
+				height:auto;
+				width: auto;
+			}
+			.xf_mem_viptc_sebox{
+				padding: 0;
+			}
+			.xf_zqzr_znx_window{
+				position: inherit;
+				padding: 0;
+				font-size: 26px;
+			}
+			.xf_wyjkwszl_4_windowInner{
+				border: 0;
+			}
+			.xf_register_window{
+				width:auto;
+			}
+			.logo{
+				margin-top: 15px;
+			}
+		</style>
+	</head>
+	<body>
+				<div style="background:#EDEDED;">
+					<div class="p_top_left" style="float:inherit;width:1000px;margin:0 auto;">
+						<a href="http://weibo.com/u/5792077016" target="_blank" title="" class="p_top_abt">关注我们<i class="i1"></i></a>
+						<span class="p_top_tel">客服电话：021-6438-0510</span>
+					</div>
+				</div>
+		<!--logo行-->
+		<div class="top">
+		
+			<div class="top_skip">
+				
+				*{<img class="logo" src="/public/images/jk/jk_logo.png" alt="" />}*
+				<div class="slogan">
+					<!-- 安心托付，智慧	出借，</br>您的财富管家！ -->
+				</div>
+				<ul>
+					<li><a href="@{front.home.HomeAction.LoanIndex()}">借款首页</a></li>
+					<li><a href="@{front.account.AccountHome.applyLoan()}?pageFinanceType=0">申请借款</a></li>
+					<li><a href="/loginLoan">登录还款</a></li>
+				</ul>
+			</div>
+		</div>
+		<!--注册块-->
+		<div class="login">
+			<!--<img src="/public/images/reg20171208/banner.jpg" alt="" />-->
+			<div class="login_main" style="width:1000px;">
+				#{form @front.account.loginAndRegisterAction.registering(), id:'submitRegister'}
+				<input type="hidden" name="financeType" value="0"/>
+				<div class="zc registerOuter" style="background:white;">
+					<div  style="font-size:18px;text-align:center;margin:21px 0;color:#5D5DFF;font-weight:bold;">借款端注册</div>
+					<input type="hidden" name="userName" id="name" placeholder="用户名">
+					<input class="tel" id="tel" type="text" name="mobile" placeholder="请输入手机号码" />
+					<input class="mm" id="mm" name="password" type="password" placeholder="请输入6到20位数字、字母组成的密码" />
+					<!-- #{if flash.recommendUserName != null && flash.recommendUserName != ''}
+                     	<input class="tjr" type="text" placeholder="推荐人号码（可不填）" name="recommendName" value="${flash?.recommendUserName}" readonly="readonly"/>
+                     #{/if}
+                     #{else}
+                      	<input class="tjr" type="text" placeholder="推荐人号码（可不填）" name="recommendName"/>
+                     #{/else}-->
+					<input class="yzm_01" type="text" placeholder="请输入验证码" id="code" name="code"/><img class="yzm_src1" onclick="change()" id="img" width="98" height="40"/>
+                    <input type="hidden" name="randomID" id = "randomID" />
+					<input class="yzm_02" type="text" placeholder="请输入手机验证码" id="smsCode" name="smsCode"/><input type="button" id="get_yzm" class="yzm_btn" value="获取验证码" onclick="sendCode()" />
+					<p class="yes_no"><input type="checkbox"  id="agree"/>我同意<a class="open2" href="#" >《亿亿理财用户注册协议》</a></p>
+					 
+					<input value="注 册" type="button" class="lhb" id="lhb" onclick="register()" />
+					<p class="has"><span>已有账号？</span><a href="/loginLoan">立即登录</a></p>
+				#{/form}
+				<div style="text-align:center;color:#5D5DFF;position:absolute;top:218px;left:204px;font-weight:bold;">
+					<img src="/public/images/jk/index/ewm.png" width="152px" />
+					<div style="margin-top:19px;">
+						借款端APP下载
+					</div>
+					<div>借款进度实时查看</div>
+				</div>
+				</div>
+			</div>
+			
+		</div>
+		
+		<!--弹出层-->
+		<div class="pop  pp_car">
+			<div class="con_tit">亿亿理财用户注册协议</div>
+			<div class="con_text">
+				#{include 'front/account/LoginAndRegisterAction/register.control'/}
+				
+			</div>
+			<div class="close_all">
+				<img src="/public/images/reg20171208/close.png" class="close_img" alt="" />
+			</div>
+		</div>
+			<!--遮罩层-->
+		<div class="lay">
+
+		</div>
+
+			<div class="clear"></div>
+			<div class="clear"></div>
+            <!--start:京东E卡-->
+            
+           
+			<div class="xszx" style="display: none">
+				<div class="xszc_pic">
+					<img src="/public/images/reg20171208/ygyxszx.png" alt="" />
+				</div>
+			</div>
+			 
+			 
+			<div style="text-align:center;color:#A0BBFF;background:#555AFF;height:60px;line-height:60px;position: absolute; bottom: 0;width: 100%;" class="p_footerbox">
+				沪ICP备15054793号 网贷有风险，决策需谨慎
+				 <!--end:京东E卡-->
+				<div class="flow_box" style="display:none;" =>
+				
+				</div>
+			</div>
+		
+		
+		<!--<div style="height: 3000px;background: #e7bbbb;"></div>-->
+	</body>
+	<script type="text/javascript" src="/public/javascripts/jquery-1.11.1.js" ></script>
+	<script>
+	
+	document.onkeydown=keyDownSearch;  
+	var lhb=document.getElementById("lhb"); 
+    function keyDownSearch(e) {
+        // 兼容FF和IE和Opera    
+        var theEvent = e || window.event;    
+        var code = theEvent.keyCode || theEvent.which || theEvent.charCode;    
+        if (code == 13) {    
+			lhb.click();
+            return false;    
+        }    
+        return true;    
+    }
+	
+	
+	 function register(){
+		 var reg1=/^[0-9]{11}$/;
+		 var reg2=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/;
+		 if(!reg1.test($("#tel").val())){
+			alert("请输入11位的手机号码");
+			return false;
+		 }
+		 
+	   if(!reg2.test($('#mm').val())){
+			alert("请输入6-20位的由数字和字母组成的密码");
+			return false;
+		}
+	    if(!$("#agree").is(':checked')){
+			alert("请阅读同意亿亿理财用户注册协议")
+			return false;
+			
+		}
+	    if($("#code").val() == '' || $("#code").val() =="请输入验证码") {
+	    	  alert("请输入验证码");
+	   		  return false;
+	      }
+	    var smsCode = $("#smsCode").val();
+       if(smsCode == ""){
+		   alert("请填写短信校验码");
+          return false;
+       }
+        $("#name").val("jkr"+$("#tel").val());
+		
+	    $("#submitRegister").submit();
+	 }
+			
+//				获取验证码
+				var countdown = 60;
+
+			function settime() {
+				if(countdown == 0) {
+					$('#get_yzm').attr("disabled", false);
+					$('#get_yzm').val("获取验证码");
+					 $("#get_yzm").attr("onclick", "sendCode();");
+				    $("#get_yzm").attr("style", "cursor:pointer");
+					countdown = 60;
+					return;
+				} else {
+					$('#get_yzm').attr("disabled", true);
+					$('#get_yzm').val("重新发送(" + countdown + ")");
+					countdown--;
+				}
+				setTimeout(function() {
+					settime()
+				}, 1000)
+			}
+
+		
+		     function sendCode(){
+		    	 var mobile = $("#tel").val().trim();
+		     	var code = '';
+		     	var randomId = '';
+		     	if(mobile == ""){
+		     		alert("请输入11位的手机号码");
+		          	return;
+		         }
+		     	
+		     	code = $("#code").val().trim();
+		     	randomID = $("#randomID").val().trim();
+		     	if(code == '') {
+		     		alert("请输入验证码");
+		       		  return;
+		          }
+		          //var verifyMobile = #{jsAction @front.account.loginAndRegisterAction.verifyMobileForReg(':mobile',':code',':randomID')/}
+		      		//$.post(verifyMobile({mobile:mobile,code:code,randomID:randomID,financeType:financeType}),function(data){
+		      			
+		      		$.post('/front/account/verifyMobileForReg?randomID='+randomID+'&code='+code+'&mobile='+mobile+'&financeType=0',function(data){
+		      	    if(data.code < 0){
+		      	    	alert(data.msg)
+		      	    	change();
+		      	    }else{
+		      	    	settime();
+		      	    	 $("#get_yzm").attr("onclick", "void(0);");
+						 $("#get_yzm").attr("style", "cursor: default");
+		      		}
+		      	},'json');
+		      }
+		//			遮罩层
+			$(function(){
+			    	//产品详情
+				$(".open2").bind("click", function() {
+					showDailog();
+			    });
+			    
+				function showDailog() {
+					$(".lay").show();
+					$(".close_all").show();
+					$(".code_fix").show();
+					var dH = $(document).height(); //获取文档的高度
+					$(".lay").css("height", dH); //黑色遮罩层高度设置为文档高度
+					var wW = $(window).width(), //window的宽度
+						wH = $(window).height(), //window的高度
+						pW = $(".pop").width(), //弹出层的宽度
+						pH = $(".pop").height(), //弹出层的高度
+						pL = (wW - pW) / 2, //弹出层距离左边的距离
+						pT = (wH - pH) / 2;
+					$(".pop").show().css({
+						"left": pL + "px",
+						"top": pT + "px"
+					});
+					$(".close").show().css({
+						"left": pL + "px",
+						"top": pT + "px"
+					});
+					
+				}
+					$(window).resize(function() {
+						if($(".pop").is(":visible")) {
+							showDailog();
+						}
+					});
+				$(".md-close,.lay").bind("click", function() {
+					$(".lay").fadeOut();
+					$(".pop,.code_fix").hide();
+				});
+			
+				
+				
+			})
+			
+				$(function(){
+					$(".close_all,.lay,.close_img").on("click",function(){
+						$(".lay,.pop,.close_img").hide();
+					})
+					
+				})
+				$(function(){
+					$(".open2").on("click",function(){
+						$(".close_img,.close_all").css("display","block")
+					})
+					
+					
+				})
+				
+		
+		function change(){
+		    var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+			$.post(setCode({}),function(data){
+			  var arr=eval(data);
+			  var img = arr.img;
+			  $("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img);
+			  $("#randomID").val(img);	
+			});
+		  };
+		  $(function(){
+			    var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+				$.post(setCode({}),function(data){
+					var arr=eval(data);
+					var img = arr.img;
+					$("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img);	
+					$("#randomID").val(img);
+				});
+				 if('${flash.error}' !='') {
+				      alert('${flash?.error}');
+			      if('${flash?.emailUrl}' !='') {
+			        window.open('${flash?.emailUrl}');
+			      }
+			    }
+			});
+		
+	</script>
+</html>

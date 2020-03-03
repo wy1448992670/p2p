@@ -1,0 +1,30 @@
+#{extends 'common/frontMain.html' /}
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{set title:currBackstageSet.seoTitle+'|交易提示' /}
+
+        <div class="wrap">
+            <div class="p_zctctextword1">
+            	<div class="ln_bobo">
+	            	<p class="p_zcyougg"><img src="/public/images/p_zc006.png" alt="" title=""/><span>${error.msg}</span></p>	    
+				    <p class="ln_zcyougg" id="jumpTo"><span>5秒后将自动跳转至${error.returnMsg}！</span></p>
+			    </div>
+            </div>						  
+          </div>         
+<script type="text/javascript">    
+	
+function countDown(secs,surl){   
+	 var jumpTo = document.getElementById('jumpTo');
+	 jumpTo.innerHTML=secs+"秒后将自动跳转至${error.returnMsg}！"; 
+	 if(--secs>0){    
+	     setTimeout("countDown("+secs+",'"+surl+"')",1000);
+	 }else{      
+	     location.href=surl;   
+		 //window.close();
+	 }    
+}
+</script>
+
+ <script type="text/javascript">$(function(){countDown(5, '${error.returnUrl}');})</script>
+ 

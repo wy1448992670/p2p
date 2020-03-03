@@ -1,0 +1,22 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'借款标详情' /} 
+<!--借款标管理-->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/billCollectionManager/common/billCollectionManagerLeft.control"/}
+    #{include '/supervisor/bidManager/BidPlatformAction/loanSucceed.control'/} 
+  </div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		showHighLight(2, 2, '${type}');
+	});
+	
+	function upBid(){
+	  window.location.href = "@{detailToDep(bid?.upId, type, falg)}"; 
+	}
+	  
+	function nextBid(){
+	  window.location.href = "@{detailToDep(bid?.nextId, type, falg)}"; 
+	}
+</script>

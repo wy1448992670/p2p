@@ -1,0 +1,146 @@
+					<!-- 搜索区域 -->
+						<ul class="xf_membill_search clr">
+							<li>
+								<select name="xf_wylc_selectAge" class="xf_membill_selectAge" id="type">   
+							       <option value="0"
+							       #{if page?.conditions?.type == 0}
+				                  selected="selected"
+				                  #{/if}>全部</option>   
+							       <option value="1"
+							       #{if page?.conditions?.type == 1}
+				                  selected="selected"
+				                  #{/if}>转让标题</option>   
+							       <option value="2"
+							       #{if page?.conditions?.type == 2}
+				                  selected="selected"
+				                  #{/if}>债权编号</option> 
+							       <option value="3"
+							       #{if page?.conditions?.type == 3}
+				                  selected="selected"
+				                  #{/if}>借款标题</option>   
+							       <option value="4"
+							       #{if page?.conditions?.type == 4}
+				                  selected="selected"
+				                  #{/if}>转让人</option>   
+							       <option value="5"
+							       #{if page?.conditions?.type == 5}
+				                  selected="selected"
+				                  #{/if}>借款人</option>   
+								</select>
+							</li>
+							<li class="xf_membill_searchLi">
+								<input type="text"  id="paramter" class="xf_membill_shurk_yhm" value="${page?.conditions?.keyWords}">
+								<input type="button" value="搜 索" class="xf_membill_button_yhm" onclick="debts(1,10);">
+							</li>
+						</ul>
+						<!-- 搜索结果 -->
+						<div class="xf_membill_search_jg xf_membill_search_table">
+							<div class="xf_membill_search_jgleft">
+								<ul>
+								
+									<li class="xf_membill_search_th">序号</li>
+								#{list items:page.page,as:'debt'}
+									<li class="xf_membill_search_td">${debt_index}</li>
+								#{/list}
+								</ul>
+							</div>
+							<div class="xf_membill_search_jgcenter">
+								<table border="0" cellpadding="0" cellspacing="0" width="1000" class="xf_membill_acc_viewcpms">
+									<tbody>
+										<tr>
+										  	<th width="60" height="45">债权编号</th>
+										  	<th align="left" width="60">转让人</th>
+										  	<th width="168">转让标题</th>
+										  	<th width="60">借款人</th>
+										  	<th width="108">借款标题</th>
+										  	<th width="80">借款金额</th>
+										  	<th width="60">年利率</th>
+										  	<th width="70">剩余应收</th>
+										  	<th width="80">待收本金</th>
+										  	<th width="108">转让本金定价</th>
+										  	<th width="108">竞拍人数</th>
+										  	<th width="108">转让截至时间</th>
+										  	<th width="60">状态</th>
+										</tr>
+									#{list items:page.page,as:'debt'}
+										<tr>
+											<td align="center">${debt?.debt_transfer_no}</td>
+											<td align="center">${debt?.transfer_user_name}</td>
+											<td align="left">${debt?.transfer_title}</td>
+											<td align="center">${debt?.bid_user_name}</td>
+											<td align="left">${debt?.bid_title}</td>
+											<td align="center">${debt?.amount?.format('###,##0.00')}</td>
+											<td align="center">${debt?.apr}%</td>
+											<td align="center" width="37">${debt?.debt_amount?.format('###,##0.00')}</td>
+											<td align="center" width="37">
+											${debt?.invest_amount?.format('###,##0.00')}
+											</td>
+											<td align="center">${debt?.transfer_price?.format('###,##0.00')}</td>
+											<td align="center">${debt?.join_times}</td>
+											<td align="center">${debt?.end_time?.format('yyyy-MM-dd')}</td>
+											<td align="center">
+											#{if debt?.status==0}
+											审核中
+											#{/if}
+											#{if debt?.status==1}
+											竞拍中
+											#{/if}
+											#{if debt?.status==2}
+											竞拍中
+											#{/if}
+											#{if debt?.status==3}
+											已成功
+											#{/if}
+											#{if debt?.status==-2}
+											失败
+											#{/if}
+											#{if debt?.status==-3}
+											失败
+											#{/if}
+											#{if debt?.status==-5}
+											失败
+											#{/if}
+											</td>
+										</tr>
+									#{/list}
+									</tbody>
+								</table>
+							</div>
+							<div class="xf_membill_search_jgright">
+								<ul>
+									<li class="xf_membill_search_th">操作项</li>
+									#{list items:page.page,as:'debt'}
+									<li class="xf_membill_search_td">
+										<a href="@{front.debt.debtAction.debtDetails(debt?.invest_transfer_id)}" class="xf_membill_cza" target="_blank">详情</a>
+										<a  class="xf_membill_cza" onclick="cancleDebtAttention(${debt?.id});">取消收藏</a>
+									</li>
+									#{/list}
+								</ul>
+							</div>
+							<!-- 清除浮动 -->
+							<div class="clear"></div>
+						</div>
+						<!-- 分页器 -->
+						<div class="xf_wylc_page xf_membill_view_page1">
+							#{page funMethod:"debts",currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:2 ,style:2/}
+						</div>
+						
+						
+<script>
+
+
+	function cancleDebtAttention(attentionId){
+		var cancle = #{jsAction @front.account.InvestAccount.canaleDebt(':attentionId')/}
+
+		$.post(cancle({attentionId:attentionId}),function(data){
+			
+			var arr=eval(data);
+			var result = arr.error.msg;
+			alert(result);
+			showDebts();
+		})
+
+	}
+
+
+</script>

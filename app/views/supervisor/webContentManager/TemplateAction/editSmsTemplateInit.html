@@ -1,0 +1,70 @@
+<script charset="utf-8" src="@{'public/javascripts/kindeditor-4.1.7/kindeditor-min.js'}"></script>
+<!-- 编辑邮件模版弹窗 -->
+
+<div class="xn_c_ban_jox xn_c_ban_jox_qxsz" id="xf_ht_edit" style="background:#fff; z-index:999;">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_ht_jr_obu_l">
+                 编辑短信模版
+    </div>
+      <div class="xf_ht_damem_hy_box">
+        <div class="xf_ht_jbox_table">
+          <table class="xf_htgl_jg_tableone_table" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+              <td>应用场景：</td>
+              <td><input class="xfht_zr_input xfht_zr_bjqxz_w" type="text" id="title" value="${template?.title}"></td>
+            </tr>
+          </table>
+        </div>
+          <div class="xf_ht_damem_hy_bott xf_ht_damem_hy_bott6">
+            <div class="xf_ht_cytc_cont">
+                                          短信内容：
+            </div>
+            <!--  
+            <div class="xf_ht_damem_hy_bott_t clr">
+              <div class="xf_ht_damem_hy_bott_l">编辑器工具条</div>
+            </div>
+            <div class="xf_ht_damem_hy_bott_ta3">
+              <div class="xf_ht_bjq_gjt">
+              -->
+                <textarea name="content" id="smsContent" style="width: 480px; height: 200px;" class="xf_ht_jr_obttd_textarea">${template?.content}</textarea>
+             <!--  
+              </div>
+            </div>
+            -->
+          </div>
+          <div class="jbox_tan_ondiv jbox_tan_width4">
+            <input type="hidden" id="templateId">
+	        <input class="jbox_ok" type="button" value="浏 览" onclick="previewTemplate(${template?.id});">
+	        <input class="jbox_ok" type="button" value="确 定" onclick="editSmsTemplate();">
+	        <input class="jbox_on" type="button" value="取 消" onclick="cancle()">
+         </div>
+       </div>
+     </div>
+  </div>
+<script type="text/javascript">
+  function editSmsTemplate() {
+    var smsId = ${template?.id};
+    var smsTitle = $("#title").val();
+    var smsContent = $("#smsContent").val();
+
+    smsContent = replaceAllHTML(smsContent);
+    var setCode = #{jsAction @supervisor.webContentManager.TemplateAction.editSmsTemplate(":id",":title",":content")/}
+    $.post(setCode({id:smsId,title:encodeURI(smsTitle),content:encodeURIComponent(smsContent)}),function(data){
+	  var arr = eval(data);
+	  
+	  if(arr.error.code < 0){
+	    alert(arr.error.msg);
+	    return;
+	  }
+	  alert(arr.error.msg);
+	  $("#smsId").val(0);
+	  $("#smsSubmit").submit();
+	  
+	  });
+  }
+  
+  function cancle(){
+    $("#xf_ht_edit").hide();
+    $("#hiddenshow").hide();
+ }
+</script>

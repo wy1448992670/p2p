@@ -1,0 +1,18 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'广告条管理' /}
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  #{include "supervisor/webContentManager/common/leftBar.control"/}
+  <!-- 内容区 --> 
+  #{include "supervisor/webContentManager/AdManageAction/bannermanagementContent.control"/}
+  </div>
+</div>
+#{include "supervisor/webContentManager/AdManageAction/bannermanagementEdit.control"/}
+
+<script type="text/javascript">
+$(function(){
+	//高亮显示
+	showHighLight(2,2,3);
+})
+</script>

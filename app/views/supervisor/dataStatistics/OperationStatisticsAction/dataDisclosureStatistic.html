@@ -1,0 +1,370 @@
+#{extends 'common/supervisor.html' /} #{set title:'信披数据统计' /}
+<style media="screen">
+  #openDetail{
+    padding:10px;
+    display:none;
+    height: 730px;
+    overflow: auto;
+  }
+  div#openDetail table tr td{
+    padding:6px 3px;
+  }
+  div#openDetail table tr td:nth-child(3){
+    text-align:left;
+  }
+</style>
+<div id="openDetail">
+  <table width="100%" border="1" style="text-align:center;border:1px solid #C3C3C3;">
+      <tr style="background:#3D74B8;color:white;font-size:20px;">
+        <td width="100">统计项</td>
+        <td width="100">类型</td>
+        <td style="text-align:center;">统计说明</td>
+      </tr>
+      <tr>
+        <td>每日存量</td>
+        <td>累计</td>
+        <td>平台待还总额</td>
+      </tr>
+      <tr>
+        <td>待还本金</td>
+        <td>累计</td>
+        <td>平台待还本金</td>
+      </tr>
+      <tr>
+        <td>待还利息</td>
+        <td>累计</td>
+        <td>平台待还利息</td>
+      </tr>
+      <tr>
+        <td>充值总额</td>
+        <td>每日</td>
+        <td>当天出借人充值成功的金额之和</td>
+      </tr>
+      <tr>
+        <td>提现总额</td>
+        <td>每日</td>
+        <td>当天出借人提现成功的金额之和</td>
+      </tr>
+      <tr>
+        <td>资金净流入</td>
+        <td>每日</td>
+        <td>充-提</td>
+      </tr>
+      <tr>
+        <td>投资总额</td>
+        <td>每日</td>
+        <td>
+          <div>当天投资人投资金额之和</div>
+          <div>1.用户投资：产生投资记录（含放款、未放款）</div>
+          <div>此项记为增加，即+</div>
+          <div>例：用户成功投资100元，则求和时，总值+100</div>
+          <div>2.流标撤标：投资人投资冻结金额被退还至可用余额</div>
+          <div>此项记为减少，即-</div>
+          <div>例：用户成功投资100元（此100需记录一次+），后因为流标或撤标，100元从冻结金额退还至可用余额，则求和时，总值-100</div>
+        </td>
+      </tr>
+      <tr>
+        <td>借款总额</td>
+        <td>每日</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>站岗资金</td>
+        <td>每日</td>
+        <td>所有出借用户可用余额+冻结金额中提现部分</td>
+      </tr>
+      <tr>
+        <td>历史注册</td>
+        <td>累计</td>
+        <td>累计注册人数</td>
+      </tr>
+      <tr>
+        <td>新增注册</td>
+        <td>每日</td>
+        <td>当日新增注册人数</td>
+      </tr>
+      <tr>
+        <td>借款人数</td>
+        <td>累计</td>
+        <td>累计有借款记录的人数</td>
+      </tr>
+      <tr>
+        <td>新增借款人数</td>
+        <td>每日</td>
+        <td>当日新增有借款记录的人数</td>
+      </tr>
+      <tr>
+        <td>投资人数</td>
+        <td>累计</td>
+        <td>累计有出借记录的人数</td>
+      </tr>
+      <tr>
+        <td>新增投资人数</td>
+        <td>每日</td>
+        <td>当日新增有出借记录的人数</td>
+      </tr>
+      <tr>
+        <td>上标总额</td>
+        <td>累计</td>
+        <td>平台标的总金额 - 撤（流）标的总金额</td>
+      </tr>
+      <tr>
+        <td>新增上标总额</td>
+        <td>每日</td>
+        <td>平台当天上标标的总金额 - 当天撤（流）标的总金额</td>
+      </tr>
+      <tr>
+        <td>上标总数</td>
+        <td>累计</td>
+        <td>平台标的总数 - 撤（流）标的总数</td>
+      </tr>
+      <tr>
+        <td>新增上标总数</td>
+        <td>每日</td>
+        <td>平台当天上标标的总数 - 当天撤（流）标的总数</td>
+      </tr>
+      <tr>
+        <td>还款总额</td>
+        <td>每日</td>
+        <td>当日借款人还款总额</td>
+      </tr>
+      <tr>
+        <td>逾期金额</td>
+        <td>累计</td>
+        <td>不含逾期已还款</td>
+      </tr>
+      <tr>
+        <td>累计逾期金额</td>
+        <td>累计</td>
+        <td>含逾期已还款</td>
+      </tr>
+      <tr>
+        <td>逾期笔数</td>
+        <td>累计</td>
+        <td>按还款账单统计，不含逾期已还款</td>
+      </tr>
+      <tr>
+        <td>累计逾期笔数</td>
+        <td>累计</td>
+        <td>按还款账单统计，含逾期已还款</td>
+      </tr>
+  </table>
+</div>
+<div class="xn_c_contentwarp">
+    <div class="xn_c_contentlist">
+    #{include "supervisor/dataStatistics/statisticLeft.html"/}
+        <div class="xn_c_content">
+            <div class="xf_ht_tablelist">
+                <!-- 搜索 -->
+            #{form @dataDisclosureStatistic(), id:'submit'}
+                <input type="hidden" id="currPage" name="currPage"/>
+                <input type="hidden" id="pageSize" name="pageSize"/>
+                <input type="hidden" id="orderType" name="order" value="${page.conditions?.orderType}"/>
+                <div class="xf_ht_search">
+                    <div class="xf_ht_search_l">
+                        <span id="div_0" onClick="conditonSearch(0)">默认排序</span>
+                        <span id="div_1" onClick="conditonSearch(1)">日期 <a id="div_a_1">↑</a></span>
+                        *{<span id="div_3" onClick="conditonSearch(3)">新增会员数 <a id="div_a_3">↑</a></span>
+                        <span id="div_5" onClick="conditonSearch(5)">新增充值会员数 <a id="div_a_5">↑</a></span>}*
+                    </div>
+                </div>
+                <div class="xf_ht_search_inon">
+                    <div class="xf_ht_search_r">
+
+                        <div class="xf_ht_search_xl">
+                            <span class="search_timesp">时间范围：</span>
+                            <input name="beginTime" type="text" id="startDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${page?.conditions?.beginTime}" />
+                            <span class="search_timesp">--</span>
+                            <input name="endTime" type="text" id="endDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${page?.conditions?.endTime}" />
+                        </div>
+
+                        <div class="xf_ht_search_xl">
+                            <input type="button" class="search_button" onclick="search();" value="搜 索" />
+                        </div>
+
+                        <div class="xf_ht_search_xl">
+                            <input type="hidden" id="isExport" name="isExport"/>
+                            <input type="button" class="search_button" onclick="search(1);" onmouseout="$('#isExport').val(0);" value="下载数据" />
+                        </div>
+                        <div class="xf_ht_search_xl">
+                            <input  type="button" class="search_button" onclick="openDetail()"  value="表单说明" />
+                        </div>
+                    </div>
+                </div>
+            #{/form}
+                <!-- 列表内容 -->
+                <div class="xn_c_content_top">
+                #{table class:"xn_c_content_list",cellspacing:"0",cellpadding:"0",border:"0",tr_class_odd:"xn_tr_bj"}
+                    #{tr}
+                        #{th}序号#{/th}
+                        #{th}日期#{/th}
+
+                        #{th}每日存量#{/th}
+                        #{th}待还本金#{/th}
+                        #{th}待还利息#{/th}
+                        #{th}充值总额#{/th}
+                        #{th}提现总额#{/th}
+                        #{th}资金净流入#{/th}
+
+                        #{th}投资总额#{/th}
+
+                        #{th}站岗资金#{/th}
+
+                        #{th}历史注册#{/th}
+                        #{th}新增注册#{/th}
+
+                        #{th}借款人数#{/th}
+                        #{th}新增借款人数#{/th}
+                        #{th}投资人数#{/th}
+                        #{th}新增投资人数#{/th}
+                        #{th}上标总额#{/th}
+                        #{th}新增上标总额#{/th}
+                        #{th}上标总数#{/th}
+                        #{th}新增上标总数#{/th}
+
+                        #{th}还款总额#{/th}
+
+                        #{th}逾期金额#{/th}
+                        #{th}累计逾期金额#{/th}
+                        #{th}逾期笔数#{/th}
+                        #{th}累计逾期笔数#{/th}
+                        <!-- #{th}操作#{/th} -->
+                    #{/tr}
+                    #{list page?.page}
+                        #{tr tr_index:_index}
+                            #{td}${(page?.currPage - 1) * page?.pageSize + _index}#{/td}
+                            #{td}${_?.the_date.format('yyyy-MM-dd')}#{/td}
+
+                            #{td}${_?.no_repay_money}#{/td}
+                            #{td}${_?.no_repay_corpus}#{/td}
+                            #{td}${_?.no_repay_interest}#{/td}
+                            #{td}${_?.day_recharge_money}#{/td}
+                            #{td}${_?.day_withdrawals_money}#{/td}
+                            #{td}${_?.day_in_money}#{/td}
+
+                            #{td}${_?.day_invest_money}#{/td}
+
+                            #{td}${_?.available_balance}#{/td}
+
+                            #{td}${_?.total_registe_users}#{/td}
+                            #{td}${_?.day_registe_users}#{/td}
+
+                            #{td}${_?.borrowers}#{/td}
+                            #{td}${_?.day_new_borrowers}#{/td}
+                            #{td}${_?.investers}#{/td}
+                            #{td}${_?.day_new_investers}#{/td}
+                            #{td}${_?.product_total_money}#{/td}
+                            #{td}${_?.day_new_product_money}#{/td}
+                            #{td}${_?.product_total_count}#{/td}
+                            #{td}${_?.day_new_product_count}#{/td}
+
+                            #{td}${_?.day_repay_money}#{/td}
+
+                            #{td}${_?.norepay_overdue_money}#{/td}
+                            #{td}${_?.total_overdue_money}#{/td}
+
+                            #{td}${_?.norepay_overdua_count}#{/td}
+                            #{td}${_?.tatal_overdua_count}#{/td}
+                            <!-- #{td}<a href="@{supervisor.dataStatistics.OperationStatisticsAction.userStatisticData(_?.id)}">数据对比分析</a>#{/td} -->
+                        #{/tr}
+                    #{/list}
+                #{/table}
+                </div>
+                <!-- 列表底部 -->
+                <div class="xn_c_content_bottom">
+                    <div class="page_warp">
+                    #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4/}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function openDetail(){
+      $.layer({
+        type: 1,
+        area: ['1000px', '800px'],
+        title: '<span style="font-size:20px;">每日数据统计说明：</span>',
+        page: {dom : '#openDetail'}
+      });
+    }
+    function conditonSearch(num){
+        var orderType= ${page.conditions?.orderType};
+        if(orderType == 0){
+            $("#orderType").val(num);
+            $("#submit").submit();
+            return;
+        }
+        var sum = orderType/2;
+        if(sum.toString().indexOf('.') == -1){
+            var sum2 = orderType - 1;
+            if(sum2 = num){
+                $("#orderType").val(num);
+                $("#submit").submit();
+                return;
+            }else{
+                $("#orderType").val(num);
+                $("#submit").submit();
+                return;
+            }
+        }else{
+            if(orderType == num){
+                $("#orderType").val(num + 1);
+                $("#submit").submit();
+                return;
+            }else{
+                $("#orderType").val(num);
+                $("#submit").submit();
+                return;
+            }
+        }
+    }
+</script>
+<script type="text/javascript">
+    $(function(){
+        /* 高亮显示 */
+        showHighLight(3, 3, 12);
+
+        //条件查询控制样式
+        var num= ${page.conditions?.orderType};
+
+        if(num == 0){
+            $("#div_0").addClass("xf_sea_isshow");
+            return;
+        }
+
+        var sum = num/2;
+        if(sum.toString().indexOf('.') == -1){
+            var sum2 = num -1;
+            $("#div_"+sum2).addClass("xf_sea_isshow");
+            $("#div_a_"+sum2).html("↓");
+            return;
+        }
+
+        $("#div_"+num).addClass("xf_sea_isshow");
+        $("#div_a_"+num).html("↑");
+    });
+</script>
+<script>
+    function search(type){
+        $("#isExport").val(type);
+        $("#submit").submit();
+    }
+
+
+    function check(){
+        if($("#month option:selected").val() >= 13){
+            $("#day").attr("disabled","disabled");
+        }else{
+            $("#day").removeAttr("disabled");
+        }
+    }
+
+    function showPage(currPage, pageSize){
+        $("#currPage").val(currPage);
+        $("#pageSize").val(pageSize);
+        $("#submit").submit();
+    }
+</script>

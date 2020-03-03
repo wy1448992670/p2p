@@ -1,0 +1,940 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'编辑产品' /} 
+
+%{
+	boolean isSecondBid = constants.Constants.IS_SECOND_BID;
+}%
+
+<script type="text/javascript" src="@{'/public/javascripts/uuid.js'}"></script>
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  <!--左-->
+  #{include "supervisor/webContentManager/common/leftBar.control"/}
+  <!--右-->
+  #{form @editingProduct(goods?.id, product), method:'POST', id:'editingProduct' }
+  <div class="xn_c_content">
+    <div class="xf_content_add">
+      <div class="xfht_t_j_y_2">
+        <!--右上-->
+        <div class="xf_ht_obu_fklm">编辑借款标产品</div>
+        <!-- 借款产品简介 -->
+        <div class="xf_htgl_jgone">
+          <div class="xf_htgl_pro_title clr">
+            <h3 class="xf_htgl_jgtitle xf_htgl_jgtitle_l">借款产品简介</h3>
+          </div>
+          <div class="xf_ht_gl_jgone_map">
+            <table border="0" cellspacing="0" cellpadding="0" width="100%" class="xf_ht_pro_tjhe_table">
+              <tr>
+                <td width="140" align="right" valign="middle">借款标名称：</td>
+                <td><input class="xfht_zr_input xfht_zr_input_shoping" type="text" name="product.name" id="name" onblur="checkName(this);" value="${goods?.name}" maxlength="10"></td>
+              </tr>
+              <tr>
+              <tr>
+                 <td width="140" align="right" valign="middle">适合人群： </td>
+                 <td><input class="xfht_zr_input xfht_zr_input_shoping" type="text" name="product.fitCrowd" id="fitCrowd" value="${goods?.fitCrowd}"></td>
+              </tr>
+              <tr>
+                <td width="140" align="right" valign="middle">产品亮点： </td>
+                <td><textarea class="xf_ht_baidu_wkttcc_text" name="product.characteristic" id="characteristic" >${goods?.characteristic}</textarea></td>
+              </tr>
+              #{list goods?.lables[0]?.fields}
+              <tr>
+               <td width="140" align="right" valign="middle">
+                  ${_?.name}：
+                  <input type="hidden" name="product.lablesArray[0].fieldsArray[${_index}].id" value="${_?.id}"/>
+                </td>
+                <td>
+                  #{if _?.type == 1}
+                    <input class="xfht_zr_input xfht_zr_input_shoping" name="product.lablesArray[0].fieldsArray[${_index}].content" id="lable1${_index}" type="text" value="${_?.content}"/>
+                  #{/if}
+                  #{else}
+                    <textarea class="xf_ht_baidu_wkttcc_text" name="product.lablesArray[0].fieldsArray[${_index}].content" id="lable1${_index}">${_?.content}</textarea>
+                  #{/else}
+                </td>
+              </tr>
+              #{/list}
+            </table>
+          </div>
+        </div>
+        <!-- 借款产品详细描述 -->
+        <div class="xf_htgl_jgone">
+          <div class="xf_htgl_pro_title clr">
+            <h3 class="xf_htgl_jgtitle xf_htgl_jgtitle_l">借款产品详细描述</h3>
+          </div>
+        <div class="xf_ht_gl_jgone_map">
+          <table border="0" cellspacing="0" cellpadding="0" width="100%" class="xf_ht_pro_tjhe_table">
+            <tr>
+              <td align="left" valign="middle">
+                <span class="xf_span_tdfx">额度范围：</span>
+                  <input class="xfht_zr_input" type="text" style="width:80px;" name="product.minAmount" id="minAmount" value='${goods?.minAmount?.format("#####0")}' onkeyup="value=value.replace(/[^\d]/g,'')">
+                  - 
+                  <input class="xfht_zr_input" type="text" style="width:80px;" name="product.maxAmount" id="maxAmount" value='${goods?.maxAmount?.format("#####0")}' onkeyup="value=value.replace(/[^\d]/g,'')">
+                <span style="padding-left:30px;">贷款利率：</span>
+                  <input class="xfht_zr_input" type="text" style="width:80px;" name="product.minInterestRate" id="minInterestRate" value="${goods?.minInterestRate}" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{2}).*/g, '$1')">%
+                  - 
+                  <input class="xfht_zr_input" type="text" style="width:80px;" name="product.maxInterestRate" id="maxInterestRate"value="${goods?.maxInterestRate}" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{2}).*/g, '$1')">%
+              </td>
+			</tr>
+            <tr>
+               <td align="left" valign="middle">
+                 <span class="xf_span_tdfx">贷款期限：</span>(期限不可超过5年，出现重复数据，系统会尝试截取!)
+               </td>
+            </tr>
+            <tr>
+              <td align="left" valign="middle">
+              	<span class="xf_span_tdfx">年：</span>
+                <span id="yy">
+                  <input type="hidden" id="periodYear" name="product.periodYear" value="${goods?.periodYear}">
+                  #{list goods?.periodYearArray}
+			        <input type='text' value="${_}"  id="yy${_index}" maxlength='2' style='width: 20px; margin-left: 5px;' class='xfht_zr_input' onkeyup="keyup(this);" />
+			      #{/list}
+                </span>
+                <input class="xfht_zr_input xfht_zr_input_pro1" type="text" style="width:24px; 
+                			#{if goods?.periodYearArray?.length >4}display: none;#{/if}" 
+							 value="+"  onclick="addTextBox('yy')" id="addYear" readonly="readonly"/>
+				<input class="xfht_zr_input xfht_zr_input_pro1" type="text" value="-" readonly="readonly"
+				    		 style="width:24px;margin-left: 5px;#{if goods?.periodYearArray?.length == 0} display:none; #{/if}" 
+				    		 id="delyy" onclick="delTextBox('yy')"/>
+			  </td>
+            </tr>
+            <tr>
+              <td align="left" valign="middle">
+               	 <span class="xf_span_tdfx">月：</span>
+                <span id="mm">
+                  <input type="hidden" id="periodMonth" name="product.periodMonth" value="${goods?.periodMonth}"/>
+                  #{list goods?.periodMonthArray}
+			        <input type='text' value="${_}" id="mm${_index}" maxlength='2' style='width: 20px; margin-left: 5px;' class='xfht_zr_input' onkeyup="keyup(this);" />
+			      #{/list}
+                </span>
+                <input class="xfht_zr_input xfht_zr_input_pro1" type="text" style="width:24px;" 
+							 value="+"  onclick="addTextBox('mm')" readonly="readonly"/> 
+				<input class="xfht_zr_input xfht_zr_input_pro1" type="text" value="-" readonly="readonly"
+				    		 style="width:24px;margin-left: 5px;#{if goods?.periodMonthArray?.length == 0} display:none; #{/if}" 
+				    		 id="delmm" onclick="delTextBox('mm')"/>
+              </td>
+            </tr>
+            <tr>
+              <td align="left" valign="middle">
+                <span class="xf_span_tdfx">日：</span>
+                <span id="dd">
+                  <input type="hidden" id="periodDay" name="product.periodDay" value="${goods?.periodDay}"/>
+                  #{list goods?.periodDayArray}
+			        <input type='text' value="${_}" id="dd${_index}" maxlength='2' style='width: 20px; margin-left: 5px;' class='xfht_zr_input' onkeyup="keyup(this);" />
+			      #{/list}
+                </span>
+                <input class="xfht_zr_input xfht_zr_input_pro1" type="text" style="width:24px;" 
+				  value="+"  onclick="addTextBox('dd')" readonly="readonly"/> 
+				<input class="xfht_zr_input xfht_zr_input_pro1" type="text" value="-" readonly="readonly"
+			      style="width:24px;margin-left: 5px; #{if goods?.periodDayArray?.length == 0} display:none; #{/if}" 
+				  id="deldd" onclick="delTextBox('dd')"/>
+              </td>
+            </tr>
+            <tr>
+              <td align="left" valign="middle">
+               <span class="xf_span_tdfx">投标时间(日)：</span>
+               <span id="ip">
+			 	 <input type="hidden" id="investPeriod" name="product.investPeriod" value="${goods?.investPeriod}"/>
+				 #{list goods?.investPeriodArray}
+                   <input type='text' value="${_}" id="ip${_index}" maxlength='2' style='width: 20px; margin-left: 5px;' class='xfht_zr_input' onkeyup="keyup(this);" />
+                 #{/list}
+               </span> 
+			  <input class="xfht_zr_input xfht_zr_input_pro1" type="text" style="width:24px;" 
+			    value="+"  onclick="addTextBox('ip')"  readonly="readonly">
+			  <input class="xfht_zr_input xfht_zr_input_pro1" type="text" value="-" readonly="readonly"
+			    style="width:24px;margin-left: 5px;#{if goods?.investPeriodArray?.length == 0} display:none; #{/if}" 
+			    id="deli" onclick="delTextBox('ip')">
+              </td>
+            </tr>
+            <tr>
+              <td align="left" valign="middle">
+                <span class="xf_span_tdfx">审核时间：</span> <input class="xfht_zr_input" type="text" style="width:80px;" name="product.auditCycle" id="auditCycle" value="${goods?.auditCycle}" onkeyup="value=value.replace(/[^\d]/g,'')">
+                <span class="xf_span_tdfx2">工作日</span>
+                <span style="padding-left:30px;">还款方式：</span>
+	            #{list rtypes}
+	              %{ boolean falg = false }%
+	              #{list items:goods?.repaymentType, as : "rt"}
+				    #{if _?.id == rt?.id}
+				      %{ falg = true; break; }%
+				    #{/if}
+				  #{/list}
+				  
+				  <input type="checkbox" name="product.repaymentTypeId" value="${_?.id}" 
+				  	%{ if(falg){ }%
+				  		checked="checked"
+				  	%{ }}%
+				  
+				  	#{if !_?.isUse}
+				      disabled="disabled" 
+				 	#{/if}
+				 	/>
+				 	#{if _?.isUse}
+				 	  ${_?.name}
+				 	#{/if}
+				 	#{else}
+				 	  <font color="red">${_?.name}</font> 
+				 	#{/else}
+				#{/list}     
+              </td>
+            </tr>
+            <tr>
+              <td align="left" valign="middle">
+                <span class="xf_span_tdfx">最低投标金额：</span> <input class="xfht_zr_input" type="text" style="width:80px;" name="product.minInvestAmount" id="minInvestAmount" value="${goods?.minInvestAmount}" onkeyup="value=value.replace(/[^\d]/g,'')">
+                <span class="xf_span_tdfx2">元</span>
+                <span style="padding-left:30px;">借款标最高拆分份数：</span>
+                <input class="xfht_zr_input" type="text" name="product.maxCopies" id="maxCopies" style="width:80px;" value="${goods?.maxCopies}" onkeyup="value=value.replace(/[^\d]/g,'')"> 份
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="xf_ht_sxf_pro">
+                  <span class="xf_span_tdfx">手续费：</span>
+                </span>
+                <textarea readonly="readonly"  class="xf_ht_baidu_wkttcc_text">借款期限${borrowFeeMonth}个月（含）以下，借款成功后，收取本金的${strfee}%；借款期限${borrowFeeMonth}个月以上，借款成功后，收取本金的${strfee}%以外，还另外收取超过月份乘本金的${borrowFeeRate}%（不成功不收取成交服务费）</textarea>
+              </td>
+            </tr>
+            #{list goods?.lables[1]?.fields}
+            <tr>
+              <td align="left" valign="middle">
+                ${_?.name}：
+                <input type="hidden" name="product.lablesArray[1].fieldsArray[${_index}].id" value="${_?.id}"/>
+		      </td> 
+		      <td> 
+		        #{if _?.type == 1}
+		          <input class="xfht_zr_input xfht_zr_input_shoping" name="product.lablesArray[1].fieldsArray[${_index}].content" id="lable2${_index}" type="text" value="${_?.content}"/>
+		        #{/if}
+		        #{else}
+		          <textarea class="xf_ht_baidu_wkttcc_text" name="product.lablesArray[1].fieldsArray[${_index}].content" id="lable2${_index}">${_?.content}</textarea>
+		        #{/else}
+              </td> 
+            </tr>
+            #{/list}
+          </table>
+        </div>
+      </div>
+      <!-- 申请人条件 -->
+      <div class="xf_htgl_jgone">
+        <div class="xf_htgl_pro_title clr">
+          <h3 class="xf_htgl_jgtitle xf_htgl_jgtitle_l">申请人条件</h3>
+        </div>
+        <div class="xf_ht_gl_jgone_map">
+          <table border="0" cellspacing="0" cellpadding="0" width="100%" class="xf_ht_pro_tjhe_table"> 
+            <tr>
+              <td width="140" align="right" valign="top">申请人条件：</td>
+              <td>
+              	<textarea onkeyup="LimitTextArea(this)" oninput="LimitTextArea(this)" class="xf_ht_baidu_wkttcc_text" name="product.applicantCondition" id="applicantCondition">${goods?.applicantCondition}</textarea>
+		        <br><span class="xf_con_zqzr_znx" style="display:inline-block;margin-top:5px">您还可以输入<span class="xf_con_zqzr_znxsz" id="showConditionLength">200</span>字</span>
+		      </td>
+            </tr>
+            #{list goods?.lables[2]?.fields}
+            <tr>
+              <td width="140" align="right" valign="top">
+                ${_?.name}：
+                <input type="hidden" name="product.lablesArray[2].fieldsArray[${_index}].id" value="${_?.id}"/>
+              </td>
+              <td>
+                #{if _?.type == 1}
+		          <input class="xfht_zr_input xfht_zr_input_shoping" name="product.lablesArray[2].fieldsArray[${_index}].content" type="text" id="lable3${_index}" value="${_?.content}" />
+		        #{/if}
+		        #{else}
+		          <textarea class="xf_ht_baidu_wkttcc_text" name="product.lablesArray[2].fieldsArray[${_index}].content" id="lable3${_index}">${_?.content}</textarea>
+		        #{/else}
+              </td>
+            </tr>
+            #{/list}
+          </table>
+        </div>
+      </div>
+      <!-- 标签字段  -->
+      #{if goods?.lables?.size > 3}
+	    #{list goods?.lables}
+		  #{if _index > 3}
+		    <div class="xf_htgl_jgone">
+			  <div class="xf_htgl_pro_title clr">
+			    <h3 class="xf_htgl_jgtitle xf_htgl_jgtitle_l">
+			      ${_?.name}：
+			    </h3>
+			  </div>
+			</div>
+			<div class="xf_ht_gl_jgone_map">
+			  <table border="0" cellspacing="0" cellpadding="0" width="100%" class="xf_ht_pro_tjhe_table">
+			    #{list items : _?.fields, as : 'field'}
+			    <tr>
+			       <td width="140" align="right" valign="top">
+			        ${field?.name}：
+			        <input type="hidden" name="product.lablesArray[${_index}].fieldsArray[${field_index}].id" value="${field?.id}"/>
+			      </td>
+			      <td>
+			        #{if field?.type == 1}
+					  <input class="xfht_zr_input xfht_zr_input_shoping" name="product.lablesArray[${_index}].fieldsArray[${field_index}].content"
+					    type="text" id="lable${_index}${field_index}" value="${field?.content}" />
+					#{/if}
+					#{else}
+					  <textarea class="xf_ht_baidu_wkttcc_text" name="product.lablesArray[${_index}].fieldsArray[${field_index}].content" 
+					    id="lable${_index}${field_index}">${field?.content}</textarea>
+					#{/else}
+			      </td>
+			    </tr>
+			    #{/list}
+			  </table>
+			</div>
+		  #{/if}
+	    #{/list}
+      #{/if}
+      <!-- 必须审核资料（完成审核，即可成功借款） -->
+      <div class="xf_htgl_jgone">
+        <div class="xf_htgl_pro_title clr">
+          <h3 class="xf_htgl_jgtitle xf_htgl_jgtitle_l">必须审核资料<span class="xfht_red">（完成审核，即可成功借款）</span></h3>
+        </div>
+        <div class="xf_ht_gl_jgone_map">
+          <table border="0" cellspacing="0" cellpadding="0" width="100%" class="xf_ht_pro_tjhe_table">
+            <tr>
+              <td width="210" align="left" valign="top" colspan="2">
+                <!-- 必选资料选项过后显示层  -->
+			    <div id="showRItem" >
+			      #{list goods?.requiredAuditItem}
+				    ${_index}. ${_?.auditItem?.name}  <br/> 
+				  #{/list}
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td width="140">&nbsp;</td>
+              <td><input class="xf_ggnr_help_input" type="button" value="添加审核科目" onclick="showRItem();"></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="xf_htgl_jgone">
+        <div class="xf_htgl_pro_title clr">
+          <h3 class="xf_htgl_jgtitle xf_htgl_jgtitle_l">可选审核资料（用于加快满标速度，同时可超额借款）</h3>
+        </div>
+        <div class="xf_ht_gl_jgone_map">
+          <table border="0" cellspacing="0" cellpadding="0" width="100%" class="xf_ht_pro_tjhe_table">
+            <tr>
+              <td width="210" align="left" valign="top" colspan="2">
+                <!-- 可选资料选项过后显示层  -->
+			    <div id="showSItem" >
+			      #{list goods?.selectAuditItem}
+				    ${_index}. ${_?.auditItem?.name}  <br/> 
+				  #{/list}
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td width="140">&nbsp;</td>
+              <td>
+                <input class="xf_ggnr_help_input" type="button" value="添加审核科目"  onclick="showSItem();">
+                <span class="xfht_red">&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+                   	财富提示：每多提交一份可选审核资料，可提高借款额度2000—5000元。
+                </span>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <!-- 最低信用要求 -->
+      <div class="xf_htgl_jgone">
+        <div class="xf_ht_zdxy_yl">
+          <table border="0" cellspacing="0" cellpadding="0" width="100%" class="xf_ht_pro_tjhe_table">
+            <tr>
+              <td class="xf_ht_zdxy_yl_l">最低信用要求：</td>
+              <td class="xf_ht_zdxy_yl_r">
+                <select name="product.creditId" class="xfht_t_j_td_1" style="width: 120px;">
+				  #{list creditLevels}
+				    <option value="${_?.id}" #{if goods?.creditId == _?.id}selected="selected"#{/if}>${_?.name}</option>
+					#{/list}
+				</select>
+              </td>
+            </tr>
+            <tr>
+              <td class="xf_ht_zdxy_yl_l">借款模式：</td>
+              <td class="xf_ht_zdxy_yl_r">
+                <input type="radio" name="product.loanType" value="0" id="loanType0" #{if goods?.loanType == 0}checked="checked"#{/if}> <span id="sloanType0" style="padding-right:10px;">普通</span>
+                <input type="radio" name="product.loanType" value="1" id="loanType1" #{if goods?.loanType == 1}checked="checked"#{/if}> <span id="sloanType1" style="padding-right:10px;">信用</span>
+                <input type="radio" name="product.loanType" value="2" id="loanType2" #{if goods?.loanType == 2}checked="checked"#{/if}> <span id="sloanType2" style="padding-right:10px;">净值</span>
+                #{if isSecondBid}
+                <input type="radio" name="product.loanType" value="3" id="loanType3" #{if goods?.loanType == 3}checked="checked"#{/if}> <span id="sloanType3" style="padding-right:10px;">秒还</span>
+                (净值、秒还产品允许一种)
+                #{/if}
+              </td>
+            </tr>
+            #{if !constants.Constants.IPS_ENABLE}
+            <tr>
+              <td class="xf_ht_zdxy_yl_l" align="right" valign="top">购买模式：</td>
+              <td class="xf_ht_zdxy_yl_r">
+                <input type="radio" name="product.isDealPassword" value="1" #{if goods?.isDealPassword}checked="checked" #{/if}> 需要交易密码（有关资金流动，建议勾选交易密码）<br />
+                <input type="radio" name="product.isDealPassword" value="0" #{if !goods?.isDealPassword}checked="checked" #{/if}> 不需要交易密码（选择此项后，可将平台上同类借款标的借款图片统一起来）
+              </td>
+            </tr>
+            #{/if}
+            <tr>
+              <td class="xf_ht_zdxy_yl_l" align="right" valign="top">借款图片：</td>
+              <td class="xf_ht_zdxy_yl_r">
+                <input type="radio" name="product.loanImageType" value="0" onclick="hidePlatformImag();" #{if goods?.loanImageType == 0}checked="checked"#{/if}> 用户上传（选择此项后，用户可在发布借款页面自己上传与借款标内容相符的图片）<br />
+                <input type="radio" name="product.loanImageType" value="1" onclick="showPlatformImag();" id="rloanImageFilename" #{if goods?.loanImageType == 1}checked="checked"#{/if}> 平台上传（选择此项后，可将平台上同类借款标的借款图片统一起来）<br />
+                <div class="xf_ht_pro_jkbimg_hezi" id="imgArea" #{if goods?.loanImageType == 0}style="display: none"#{/if}>
+                  #{img src:"${goods?.loanImageFilename}",alt:"",class:"xf_ht_pro_jkbimg",id:"loanImage"}#{/img}
+                  <input type="hidden" name="product.loanImageFilename" id="loanImageFilename" value="${goods?.loanImageFilename}"/>
+                  <span style="position: relative;/*top: 25px;*/">
+		            <input type='button' class='upload_btn' value='上传' style="display:inline-block; margin:30px 0;float:left;"/> 
+		            <input type="file" class="upload_file" name="imgFile" id="imgFile" onchange="uploadImage('imgFile','loanImage');" style="top: 30px;*top:50px !important;left: -70px;"/>
+		          </span>
+                </div>
+                <span class="xf_ggnr_help_input_text">友情提示：图片大小110*110px</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="xf_ht_zdxy_yl_l">借款小图标：</td>
+              <td class="xf_ht_zdxy_yl_r">
+                <div class="xf_ht_pro_jkbimg_hezi xf_ht_pro_jkbimg_hezix">
+                  #{img src:"${goods?.smallImageFilename}",alt:"",class:"xf_ht_pro_jkbimg",id:"smallImag"}#{/img}
+                  <input type="hidden" name="product.smallImageFilename" id="smallImageFilename" value="${goods?.smallImageFilename}"/>
+				  <span style="position: relative;/*top: 25px;*/">
+		            <input type='button' class='upload_btn' value='上传' style="display:inline-block; margin:30px 0;float:left;"/> 
+		            <input type="file" class="upload_file" name="imgFile" id="smallfile" onchange="uploadImage('smallfile','smallImag');" style="top: 30px;*top:40px !important;
+left: -70px; *left:-74px !important;" />
+		          </span>
+                </div>
+                <div style="clear:both;"></div>
+                <span class="xf_ggnr_help_input_text">友情提示：图片大小25*25px</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="xf_ht_zdxy_yl_l">借款产品图片：</td>
+              <td class="xf_ht_zdxy_yl_r">
+              	<div class="xf_ht_pro_jkbimg_hezi">
+                  #{img src:"${goods?.nameImageFilename}",alt:"",class:"xf_ht_pro_jkbimg xf_ht_pro_jkbimg2",id:"nameImage"}#{/img}
+                  <input type="hidden" name="product.nameImageFilename" id="nameImageFilename" value="${goods?.nameImageFilename}"/>
+				  <span style="position: relative;top: 20px; width:100px; height:26px; display:block; float:left;">
+		            <input type='button' class='upload_btn' value='上传'/> 
+		            <input type="file" class="upload_file" name="imgFile" id="namefile" onchange="uploadImage('namefile','nameImage');" style="top:0;left:10px;" />
+		          </span>
+                </div>
+                <span class="xf_ggnr_help_input_text">友情提示：图片大小300*60px</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="xf_ht_zdxy_yl_l">发布方式：</td>
+              <td class="xf_ht_zdxy_yl_r">
+	              <input name="showType1" type="checkbox" 
+	                #{if (goods?.showType&1) != 0}
+	                  checked="checked"
+	                #{/if}
+	               value="1" >PC</input>
+	              <input name="showType2" type="checkbox" 
+	                #{if (goods?.showType&2) != 0}
+	                  checked="checked"
+	                #{/if}
+	              value="1" >APP</input>
+	              <input name="showType3" type="checkbox" 
+	                #{if (goods?.showType&4) != 0}
+	                  checked="checked"
+	                #{/if}
+	               value="1" >微信</input>
+              <!-- 
+                 <input type="radio" value="1" name="product.showType" #{if goods?.showType ==1 }checked="checked"#{/if}/>PC
+				 <input type="radio" value="2" name="product.showType" #{if goods?.showType ==2 }checked="checked"#{/if}/>APP
+				 <input type="radio" value="3" name="product.showType" #{if goods?.showType ==3 }checked="checked"#{/if}/>PC+APP
+               -->
+              </td>
+            </tr>
+            <tr>
+               <td class="xf_ht_zdxy_yl_l">借款保证金：</td>
+               <td class="xf_ht_zdxy_yl_r">
+                                            冻结借款本金 
+                <input class="xfht_zr_input" type="text" name="product.bailScale" id="bailScale" value="${goods?.bailScale}" style="width:80px;" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{2}).*/g, '$1')"> % 
+                                            作为借款保证金
+              </td>
+            </tr>
+            <tr class="xf_tr_last_boder">
+             <td class="xf_ht_zdxy_yl_l">产品排序：</td>
+              <td class="xf_ht_zdxy_yl_r">
+                <input class="xfht_zr_input" type="text" name="product.order" id="order" style="width:80px;" value="${goods?.order}" onkeyup="value=value.replace(/[^\d]/g,'')">
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="xf_ht_news_content_button">
+      <input class="xf_ht_tcc_button_ok" type="submit" value="保 存">
+      <input class="xf_ht_tcc_button_on" type="button" value="取 消" onclick='location.href= "@{productList()}"'>
+    </div>
+    </div>
+    </div>
+    #{include '/supervisor/webContentManager/ProductAction/requiredAuditItem.control'/}
+    #{include '/supervisor/webContentManager/ProductAction/selectAuditItem.control'/}
+    #{/form}
+  </div>
+</div>
+<script type="text/javascript">
+  var i1 = '${goods?.periodYearArray?.length}'; 
+  var i2 = '${goods?.periodMonthArray?.length}'; 
+  var i3 = '${goods?.periodDayArray?.length}'; 
+  var i4 = '${goods?.investPeriodArray?.length}'; 
+  
+  var maxCount;
+  var maxlimit=300;
+  $(function(){
+    var len = $("#applicantCondition").val().length;
+    $("#showConditionLength").html(maxlimit - len);
+ })
+	
+  function LimitTextArea(field){
+    if (field.value.length > maxlimit)
+      field.value = field.value.substring(0, maxlimit);
+      
+    maxCount = maxlimit - field.value.length;
+    $("#showConditionLength").html(maxCount);
+   }	
+	
+  /* 添加框框触发 */
+  function addTextBox(id) {
+    var input = null;
+    switch (id) {
+      case "yy":
+        $("#delyy").show(); i1++; var value = id + i1;
+        input = "<input type='text' id='"+ value + "' maxlength='1' style='width: 20px; margin-left: 5px;' class='xfht_zr_input' onkeyup=\"keyup(this);\" />";
+        if(i1 >=5 ) $("#addYear").hide();
+          break;
+      case "mm":
+        $("#delmm").show(); i2++; var value = id + i2;
+        input = "<input type='text' id='"+ value + "' maxlength='2' style='width: 20px; margin-left: 5px;' class='xfht_zr_input' onkeyup=\"keyup(this);\" />";
+        break;
+      case "dd":
+        $("#deldd").show(); i3++; var value = id + i3;
+        input = "<input type='text' id='"+ value + "' maxlength='3' style='width: 20px; margin-left: 5px;' class='xfht_zr_input' onkeyup=\"keyup(this);\" />";
+        break;
+      case "ip":
+        $("#deli").show(); i4++; var value = id + i4;
+        input = "<input type='text' name='"+ value + "' id='" + value + "' maxlength='2' style='width: 20px; margin-left: 5px;' class='xfht_zr_input' onkeyup=\"keyup(this);\" />";
+        break;
+    }
+    $("#" + id).append(input);
+  }
+	
+  /* 减去框框触发 */
+  function delTextBox(id) {
+    switch (id) {
+      case "yy": $("#" + (id + i1)).remove(); i1--; if (i1 < 1) { i1 = 0; $("#delyy").hide(); } if(i1 < 5){ $("#addYear").show();} break;
+      case "mm": $("#" + (id + i2)).remove(); i2--; if (i2 < 1) { i2 = 0; $("#delmm").hide(); } break;
+      case "dd": $("#" + (id + i3)).remove(); i3--; if (i3 < 1) { i3 = 0; $("#deldd").hide(); } break;
+      case "ip": $("#" + (id + i4)).remove(); i4--; if (i4 < 1) { i4 = 0; $("#deli").hide(); } break;
+    }
+  }
+
+  /* 去重复且排序 */
+  Array.prototype.unique = function () { 
+    return this.sort(function compare(a, b){
+      return a - b;
+      }).join(",,")
+      .replace(/(,|^)([^,]+)(,,\2)+(,|$)/g,"$1$2$4")
+      .replace(/,,+/g,",")
+      .replace(/,$/,"")
+      .split(",");
+  }
+	
+  /* 给动态框框中填充值 */
+  function setValue(){
+    /* 填充年期限单位 */
+    var po = null;
+    var value = new Array();
+    var val = "";
+    for(var p = 1; p <= i1; p++){
+      po = $("#yy"+p);
+      val = po.val();
+      if(val != null && val != ""){
+        if(val > 5 || val <= 0){
+          alert("年期限：”"+ val + "“需在[1~5]年(包含5)之间!");
+          
+          return false;
+        }
+        value[p-1] = val;
+      }
+    }
+    if(value.length <= 0) {
+      alert("请填写年期限!");
+      
+      return false;
+    }
+    $("#periodYear").val(value.unique()); 
+
+    /* 填充月期限单位 */
+    po = null;
+    value = new Array();
+    for(var p = 1; p <= i2; p++){
+      po = $("#mm"+p);
+      val = po.val();
+      if(val != null && val != ""){
+        if(val > (5 * 12) || val <= 0){
+          alert("月期限：”"+ val + "“需在[1~60]月(包含60)之间!");
+          
+          return false;
+		}
+		value[p-1] = val;
+	  }
+    }
+    if(value.length <= 0) {
+      alert("请填写月期限!");
+      return false;
+    }
+    $("#periodMonth").val(value.unique());
+
+    /* 填充日期限单位 */
+    po = null;
+    value = new Array();
+    for(var p = 1; p <= i3; p++){
+      po = $("#dd"+p);
+      val = po.val();
+      if(val != null && val != ""){
+        if(val > 30 || val <= 0){
+          alert("日期限：”"+ val + "“需在[1~30]日(包含30)之间!");
+
+          return false;
+        }
+        value[p-1] = val;
+      }
+    }
+	if(value.length <= 0) {
+      alert("请填写日期限!");
+      return false;
+    }
+    $("#periodDay").val(value.unique()); 
+		
+    /* 填充投标期限 */
+    po = null;
+    value = new Array();
+    for(var p = 1; p <= i4; p++){
+      po = $("#ip"+p);
+      val = po.val();
+      if(val != null && val != ""){
+        value[p-1] = val;
+      }
+    }
+    if(value.length <= 0) {
+      alert("请填写投标期限!");
+      return false;
+	}
+	$("#investPeriod").val(value.unique());
+
+	return true;
+  }
+	
+  /* 借款期限和投标期限具有焦点并释放某个键盘键 */
+  function keyup(po){
+	/* 限制是数字,直接内嵌不支持 */
+	po.value = po.value.replace(/[^\d]/g,'');
+  }
+	
+  /* 显示平台上传图片层 */
+  function showPlatformImag(){
+	$("#imgArea").show();
+  }
+	
+  /* 隐藏平台上传图片层 */
+  function hidePlatformImag(){
+    $("#imgArea").hide();
+  }
+    
+  /* 显示必选资料层 */
+  function showRItem(){
+    $.layer({
+        type: 1,
+        area: ['800', '450'],
+        title: '添加必选资料',
+        page: {dom : '#raudtitems'}
+      });
+  }
+	
+  /* 显示可选资料层 */
+  function showSItem(){ 
+    $.layer({
+        type: 1,
+        area: ['800', '450'],
+        title: '添加可选资料',
+        page: {dom : '#saudtitems'}
+      });
+  }
+	
+  /* 显示已经勾选了的必选资料名称  */
+  function showRName(lenth) {
+    var value = "";
+    var chk = null;
+    var j = 0;
+    for(var i = 1; i <= lenth; i++){
+      /* 不支持JQuery用 document.getElementById获取 */
+      chk = document.getElementById("rid" + i);
+      if(chk.checked){
+        j++;
+        value += j + "、" + '<span style="margin-left: 20px;margin-top: 20px;" >' + $("#rname" + i).val() + '</span><br/>';
+
+        $("#sid" + i).attr("disabled","disabled");
+      }else{
+      	if($("#sid" + i).attr("disabled") == "disabled")
+     	   $("#sid" + i).removeAttr("disabled");
+       }
+    }
+    /* 勾选后显示层,填充数据 */
+    $("#showRItem").html(value).show();
+    layer.closeAll();
+  }
+	
+  /* 显示已经勾选了的可选资料名称  */
+  function showSName(lenth) {
+    var value = "";
+    var chk = null;
+    var j = 0;
+    for(var i = 1; i <= lenth; i++){
+      chk = document.getElementById("sid" + i);
+      if(chk.checked){
+        j++;
+        value += j + "、" + '<span style="margin-left: 20px;margin-top: 20px;" >' + $("#sname" + i).val() + '</span><br/>';
+
+        $("#rid" + i).attr("disabled","disabled");
+      }else {
+      	if($("#rid" + i).attr("disabled") == "disabled")
+           $("#rid" + i).removeAttr("disabled");
+      }
+    }
+    /* 勾选后显示层,填充数据 */
+    $("#showSItem").html(value).show();
+    layer.closeAll();
+  }
+
+  /* 检查名称是否唯一 */
+  function checkName(po){
+    var action = #{jsAction @checkName(':name',':id',':flag') /};
+    $.post(action({name:encodeURI(po.value),id:${goods?.id},flag:1}), function(data) {
+      if(data) {
+        $(po).css("color","red").val("产品名称重复!");
+      }else {
+        $(po).css("color","green");
+      }
+    });
+  } 
+	
+  $(function(){
+    /* 高亮显示 */
+	showHighLight(4, 4, 13);
+
+	/* 借款模式限制 */ 
+	for(var i = 2; i < 4; i++){ 
+		#{list loanTypes} 
+			/* 不屏蔽普通和信用*/ 
+			if(${_} == i){ 
+				$("#sloanType" + i).css("color", "red"); 
+			} 
+		#{/list} 
+	} 
+	
+    $("#xf_ht_fkzh_ttc").center();
+    $("#xf_dfk_fkzh_tcc").click(function(){
+      $("#xf_ht_fkzh_ttc").show();
+    });
+	    
+    $(".xf_ht_jr_obu_r").click(function(){
+      $(this).parents(".xf_ht_ttc").hide();
+    });
+	    
+    // 添加字段
+    $("#xf_ht_off_ttc").center();
+    $("#xf_dfk_offbtt_tcc").click(function(){
+      $("#xf_ht_off_ttc").show();
+    });
+	    
+    // 编辑产品标签
+    $("#xf_ht_off_ttc2").center();
+    $("#xf_dfk_offbtt_tcc2").click(function(){
+      $("#xf_ht_off_ttc2").show();
+    });
+
+    /* 给表单注册 onsubmit 事件 */
+    $("#editingProduct").submit(function (){
+
+      #{list goods?.lables}
+        #{list items : _?.fields, as : 'field' }
+        if($.trim($('#lable'+${_index}${field_index}).val()) == ''){
+          alert('请确认标签：”${_?.name}“->字段：”${field?.name}“下的内容已填写!');
+          
+          return false;
+        }
+        #{/list}
+      #{/list}
+				
+      var name = $("#name").val();
+      if(name == "" || name == "产品名称重复!"){
+        alert("请填写产品名称!");
+        
+        return false;
+      }
+			
+      if($("#fitCrowd").val() == ""){
+        alert("请填写适合人群!");
+        
+        return false;
+      }
+			
+      if($("#characteristic").val() == ""){
+        alert("请填写产品亮点!");
+        
+        return false;
+      }
+
+      var minAmount = $("#minAmount").val();
+      var maxAmount = $("#maxAmount").val();
+      if(minAmount == "" || maxAmount == "" ){
+        alert("请填写额度范围!");
+        
+        return false;
+      }
+      minAmount = minAmount * 1;
+      maxAmount = maxAmount * 1;
+      if(maxAmount > 50000000){
+    	  alert("额度上限不能超过[50000000]!");
+          
+          return false;
+      }
+      if(minAmount > 50000000 || minAmount > maxAmount || minAmount < 0){
+        alert("额度下限有误!");
+        
+        return false;
+      }
+
+      var minInterestRate = $("#minInterestRate").val();
+      var maxInterestRate = $("#maxInterestRate").val();
+
+      if(minInterestRate == "" || maxInterestRate == "" ){
+        alert("请填写贷款利率!");
+        
+        return false;
+      }
+      minInterestRate = minInterestRate * 1;
+      maxInterestRate = maxInterestRate * 1;
+  
+      if(minInterestRate > maxInterestRate ){
+          alert("贷款利率下限不能大于贷款利率上限 !");
+          
+          return false;
+    	  
+      }
+      if( minInterestRate < ${constants.Constants.MIN_INTEREST_RATE} ){
+        alert("贷款利率下限不能小于 1% !");
+        
+        return false;
+      }
+			
+      if( maxInterestRate > ${constants.Constants.MAX_INTEREST_RATE}){
+        alert("贷款利率上限不能大于24% !");
+        
+        return false;
+      }
+			
+      /* 得到动态生成框中的值   年、月、日、投标期限  */
+      if(!setValue()) return false;
+	
+      if($("#period").val() == ""){
+        alert("请填写借款期限!");
+        return false;
+      }
+			
+      if($("#investPeriod").val() == ""){
+        alert("请填写投标期限!");
+        return false;
+      }
+			
+      if($("#auditCycle").val() == ""){
+        alert("请填写审计时间!");
+        
+        return false;
+      }
+
+      /* 还款方式 */
+      var repaymentTypeId = $("input[type=checkbox][name='product.repaymentTypeId']:checked");
+      if(repaymentTypeId.length <= 0){
+        alert("请至少选择一种还款方式!");
+        
+        return false;
+      }
+			
+      if($("#minInvestAmount").val() == ""){
+        alert("请填写最低投标金额!");
+        
+        return false;
+      }
+			
+      if($("#maxCopies").val() == ""){
+        alert("请填写借款标最高拆分份数!");
+        
+        return false;
+      }
+
+      if($("#applicantCondition").val() == ""){
+        alert("请填写申请人条件!");
+        
+        return false;
+      }
+
+      /* 选中的必选资料 */
+      var requiredAuditId = $("input[type=checkbox][name='product.requiredAuditId']:checked");
+      if(requiredAuditId.length <= 0){
+        alert("请至少选择一种必选资料!");
+        
+        return false;
+      }
+
+      var loanType = $('input[name="product.loanType"]:checked').val();
+      
+      /* 借款模式限制 */
+      #{list loanTypes}
+     	 /* 不屏蔽普通和信用*/
+      	if(${_} == loanType && ${goods?.loanType} != ${_}){
+			alert("借款模式只允许[秒还][净值]出现一种!");
+          	
+       	 	return false;
+      	}
+      #{/list}
+      
+      /* 如果是选择了平台自己上传 */
+      if($("#rloanImageFilename").is(":checked")){
+        var loanImage = $("#loanImage").attr("src"); 
+        if(typeof(loanImage) == "undefined" || loanImage == "" || loanImage.indexOf("/public/images/default.png") != -1){
+          alert("请上传借款图片!");
+          
+          return false;
+        }
+        $("#loanImageFilename").val(loanImage);
+      }
+			 
+      var smallImag = $("#smallImag").attr("src"); 
+        if(typeof(smallImag) == "undefined" || smallImag == "" || smallImag.indexOf("/public/images/default.png") != -1){
+          alert("请上传借款小图标!");
+          
+          return false;
+        }
+        $("#smallImageFilename").val(smallImag);
+
+        var nameImage = $("#nameImage").attr("src"); 
+        if(typeof(nameImage) == "undefined" || nameImage == "" || nameImage.indexOf("/public/images/default.png") != -1){
+          alert("请上传借款产品图片!");
+          
+          return false;
+        }
+        $("#nameImageFilename").val(nameImage);
+			
+        if($("#bailScale").val() == ""){
+          alert("请填写借款保证金!");
+          
+          return false;
+        }
+			
+        if($("#order").val() == ""){
+          alert("请填写产品排序!");
+          
+          return false;
+        }
+			    
+        return true;
+    });
+  });
+</script>

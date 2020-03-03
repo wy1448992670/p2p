@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>首页</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta content="telephone=no" name="format-detection">
+<link rel="stylesheet" type="text/css" href="/public/stylesheets/wechat/style.css" />
+<script type="text/javascript" src="/public/javascripts/wechat/zepto.min.js"></script>
+<script type="text/javascript" src="/public/javascripts/wechat/menu.js"></script>
+</head>
+
+<!-- 这里未使用继承标签，因为zepto.min.js与jquery.2.0.js有冲突 -->
+<body>
+	<div class="s_center">
+			<div class="s_banner">
+				<ul class="s_slide clearfix">
+				#{list homeAds}
+					<li>
+						<a 
+							#{if _?.is_link_enabled}
+								href = "${_?.url}" 
+								#{if _?.target == 1}
+									target = "_self"'
+								#{/if}
+								#{else}
+									target = "_blank"
+								#{/else}
+								
+								style="cursor: pointer;"
+							#{/if}
+							style="cursor: default;"
+						>
+								#{img src:"${_?.image_filename}",alt:"广告",height:"120px"}#{/img}
+						</a>
+					</li>
+				#{/list}
+				</ul>
+				<ul class="s_control">
+					<li class="tap"></li>
+					<li></li>
+					<li></li>
+				</ul>
+			</div>
+			<div class="s_indexdata">
+				<div>
+					<dl>
+						<dt>借款人</dt>
+						<dd><strong>${totalBidCount}</strong>人</dd>
+					</dl>
+					<dl>
+						<dt>平台总交易</dt>
+						<dd><strong>${totalInvestCount}</strong>笔</dd>
+					</dl>
+				</div>
+				<div>
+					<dl>
+						<dt>累积借款金额</dt>
+						<dd><strong> 
+						#{if totalBidDealAmount > 100000000}
+	                   		#{format money:totalBidDealAmount}#{/format}
+	                   	#{/if}
+	                   	#{else}
+	                   		  ${totalBidDealAmount?.format('###,##0.00')}
+	                   	#{/else}</strong>元</dd>
+					</dl>
+					<dl>
+						<dt>累积投资金额</dt>
+						<dd><strong>
+						#{if totalInvestDealAmount > 100000000}
+	                  		#{format money:totalInvestDealAmount}#{/format}
+	                  	#{/if}
+	                  	#{else}
+	                  		 ${totalInvestDealAmount?.format('###,##0.00')}
+	                  	#{/else}
+						</strong>元</dd>
+					</dl>
+				</div>
+			</div>
+			<ul class="s_indexlink">
+				<li>
+					<a href="@{wechat.service.InvestAction.queryAllBids}">
+						<i class="icobg ico01"></i>
+						<dl>
+							<dt>我要理财</dt>
+							<dd>晓风网贷公平、透明、安全、高效的互联网金融服务平台...</dd>
+						</dl>
+					</a>
+				</li>
+				<li>
+					<a href="@{wechat.service.BidAction.queryAllProducts}">
+						<i class="icobg ico02"></i>
+						<dl>
+							<dt>我要借款</dt>
+							<dd>晓风网贷为借款人提供纯信用借款，无须任何抵押或担保，只需要提供必要申请材料...</dd>
+						</dl>
+					</a>
+				</li>
+				<li>
+					<a href="@{wechat.service.TransferAction.queryAllTransfers}">
+						<i class="icobg ico03"></i>
+						<dl>
+							<dt>债权转让</dt>
+							<dd>用户可以自行转让资产组合中符合条件的债权，也可以购买其他用户转让的债...</dd>
+						</dl>
+					</a>
+				</li>
+				<li>
+					<a href="@{wechat.others.AboutUs.aboutTeam}">
+						<i class="icobg ico04"></i>
+						<dl>
+							<dt>关于我们</dt>
+							<dd>自2012年成立至今，晓风网贷的服务已覆盖了全国30余个省的2000多...   </dd>
+						</dl>
+					</a>
+				</li>
+			</ul>
+		</div>
+	<!-- <div class="s_indexfixed"><i class="icobg"></i>平台用户数：${totalRegisterUserCount}人 ， 当前在线数：${onlineUserNum}人</div> -->
+</body>

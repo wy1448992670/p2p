@@ -1,0 +1,155 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'短信模板列表' /} 
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  <!--左-->
+  #{include "supervisor/webContentManager/common/leftBar.control"/}
+  <!--右-->
+  <div class="xn_c_content">
+  #{form @supervisor.webContentManager.TemplateAction.smsTemplates(), id:'smsSubmit'}
+  <input type="hidden" name="id" id="smsId">
+  <input type="hidden" name="currPage" id="currPage">
+  <input type="hidden" name="pageSize" id="pageSize">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    <div class="xf_ht_search_inon">
+       <div class="xf_ht_search_r">
+         <div class="xf_ht_search_xl">
+           <input name="keyword" id="keyword" type="text" class="search_w" title="请输入有效内容" value="${page.conditions.keyword}"/>
+         </div>
+         <div class="xf_ht_search_xl">
+           <input type="submit" class="search_button" value="搜索" >
+         </div>
+       </div>
+     </div>
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xn_c_content_list",tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th width:"100px;"}序号#{/th}
+          #{th}短信内容#{/th}
+          <!-- #{th}大小(KB)#{/th} -->
+          #{th}应用场景#{/th}
+          <!-- #{th}创建时间#{/th} -->
+		  #{th width:"200px;"}操作#{/th}
+        #{/tr}
+		#{list page.page}
+        #{tr tr_index:_index}
+          #{td}${(page?.currPage - 1)*page?.pageSize + _index}#{/td}
+          #{td class:"smscontent"}${_?.content}#{/td}
+         <!--  #{td}${_?.size}#{/td} -->
+          #{td}${_?.title}#{/td}
+		  <!-- #{td}${_?.time?.format("yyyy-MM-dd")}#{/td} -->
+          #{td}
+            <!-- <span class="xf_ta_onclick" onClick="previewTemplate(${_?.id});">浏览</span> -->
+            <span class="xf_ta_onclick" onClick="editTemplate(${_?.id});">编辑</span>
+            #{if _?.status == true}
+              <span class="xf_ta_onclick" onClick="enable(${_?.id}, false);" id="enable${_?.id}">暂停</span>
+			#{/if}
+			#{else}
+              <span class="xf_ta_onclick" onClick="enable(${_?.id}, true);" id="enable${_?.id}">启用</span>
+			#{/else}
+          #{/td}
+        #{/tr}
+		#{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      #{page currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:2,style:4}
+	  #{/page}
+    </div>
+    </div>
+    #{/form}
+    </div>
+  </div>
+</div>
+<!-- 浏览短信模板-弹出层 -->
+<div class="xf_ht_ttc" id="xf_ht_preview_ttc">
+</div>
+<!-- 编辑短信模板-弹出层 -->
+#{include "supervisor/webContentManager/TemplateAction/editSmsTemplateInit.html"/}
+<script type="text/javascript">
+	$(function() {
+	    /* 高亮显示 */
+	    showHighLight(5,5,20);
+	
+	  #{if id == 0}
+	     $("#xf_ht_edit").hide();
+	  #{/if}
+	  #{else}
+	   showDiv($("#xf_ht_edit"));
+	   $("#hiddenshow").show();
+	  #{/else}
+	});
+  
+  function previewTemplate(id) {
+    $.ajax({
+	  url : "@{previewSmsTemplate()}",
+	  type : "POST",
+	  data : {
+	    "id" : id
+  	  },
+	  success : function(data) {
+	    showDiv($("#xf_ht_preview_ttc").html(data));
+	    $.layer({
+          type: 1,
+          area: ['600', 'auto'],
+          title: '浏览短信模板',
+          page: {dom : '#xf_ht_preview'}
+        });
+	  },
+	  error : function() {
+	    alert("对不起，出现错误!");
+	  }
+	});
+  }
+	
+  function editTemplate(id) {
+    $("#smsId").val(id);
+    $("#currPage").val('${page?.currPage}');
+    $("#smsSubmit").submit();
+  }
+	
+  /**
+    * 暂停/启用
+    * @param id
+    */
+  function enable(id, status) {
+    $.ajax({
+      url : "@{updateSmsTemplateStatus()}",
+      type : "POST",
+      data : {
+        "id" : id,
+        "status" : status
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+					
+          return;
+        }
+			
+        if (status) {
+          $("#enable"+id).html("暂停");
+          $("#enable"+id).attr("href","javascript:enable("+id+", false)");
+          window.location.reload();
+        } else {
+          $("#enable"+id).html("启用");
+          $("#enable"+id).attr("href","javascript:enable("+id+", true)");
+          window.location.reload();
+        }
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+  
+  function showPage(currPage, pageSize){
+    $("#currPage").val(currPage);
+    $("#pageSize").val(pageSize);
+    $("#smsSubmit").submit();
+  }
+</script>

@@ -1,0 +1,112 @@
+#{extends 'common/frontMain.html' /}
+#{set title:'通过手机找回用户名' /}
+<div class="xf_login_centent clr">
+			<div class="xf_register_email">
+				<ul class="xf_register_email_ul clr" id="xf_wyjkview_xxk">
+					<li  id="findByEamil" onClick="pageEmail()">邮箱找回</li>
+					<li class="xf_con_wyjk_r_liishot xf_con_wyjk_r_liwyhm" id="findBytele">手机找回</li>
+				</ul>
+				#{form @saveUsernameByTele(), id:'teleSubmit'}
+				<div class="xf_con_wyjk_tentultbody" id="telephoneDiv">
+					<ul class="xf_login_inputsrul xf_login_inputsrul_zhyhm">
+					    <li>
+					    #{if flash.error}
+					      ${flash?.error}
+					    #{/if}
+					    </li>
+						<li>
+							<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">请输入您绑定的手机号码：</div>
+							<div class="xf_login_inputsrul_r">
+							<input class="xf_login_shurk" type="text" id="telephone" name="telephone">
+							<span class="xf_register_intext" id="s_telephone"></span></div>
+						</li>
+						<li>
+							<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">验证码：</div>
+							<div class="xf_login_inputsrul_r">
+							<input class="xf_login_yzm" type="text" name="teleRandomID" id="teleRandomID">
+							<input type="hidden" name="teleCode" id="teleCode" />
+							<img src="images/xf_yzm.jpg" onClick="teleCode()" class="xf_login_yzmimg" id="teleImg">
+							<a onClick="teleCode()" class="xf_login_inputspan">刷新</a>
+							<span class="xf_register_intext" id="s_teleCode"></span>
+							</div>
+						</li>
+						<li>
+							<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">&nbsp;</div>
+							<div class="xf_login_inputsrul_r">
+								<a onClick="teleSubmit()" class="xf_con_inputfbjk">确定</a>
+							</div>
+						</li>
+					</ul>
+				</div>
+				#{/form}
+			</div>
+		</div>
+		<!-- 底部阴影 -->
+<div class="xf_login_kjyy"></div>
+<script type="text/javascript">
+    $(function(){
+         var setCode = #{jsAction @setCode()/}
+		 $.post(setCode({}),function(data){
+			var arr=eval(data);
+			var img = arr.img;
+			$("#teleImg").attr("src","@{getImg()}?id="+img);	
+			$("#teleCode").val(img);
+		 });
+      })
+    
+    function teleCode(){
+		var setCode = #{jsAction @setCode()/}
+		$.post(setCode({}),function(data){
+		var arr=eval(data);
+		var img = arr.img;
+		$("#teleImg").attr("src","@{getImg()}?id="+img)	
+		$("#teleCode").val(img);
+	  });
+	}
+    
+    function teleSubmit(){
+        if($("#telephone").val() == ''){
+            $("#s_telephone").html("");
+            $("#s_telephone").html("请输入手机");
+        }  
+     
+        if($("#teleRandomID").val() == ''){
+            $("#s_teleCode").html("");
+            $("#s_teleCode").html("请输入验证码");
+        } 
+        
+        if(teleBlug == true){
+            $("#s_telephone").html("");
+            $("#s_telephone").html("该手机不存在");
+        }
+        
+        $("#teleSubmit").submit();
+    }
+    
+     var teleBlug = false;
+     $(document).ready(function(){
+       $("#telephone").blur(function(){ 
+	     if(this.value == ""){
+	           $("#s_telephone").html("手机不能为空");
+	           return;
+		 }else{
+	     var hasNameExist = #{jsAction @hasNameExist(':name')/}
+		 $.post(hasNameExist({name:$("#userName").val()}),function(data){
+			 var arr=eval(data);
+			 var results = arr.result;
+			 if(results == 0){
+		           $("#s_telephone").html("该手机不存在");
+		           teleBlug = true;
+			}else{ 
+	               $("#s_telephone").html(""); 
+	               teleBlug = false;
+	            }
+	          });
+		   }
+       });
+      });
+       
+    function pageEmail(){
+        window.location.href = "@{findBackUsernameByEmail()}";
+    }
+</script>

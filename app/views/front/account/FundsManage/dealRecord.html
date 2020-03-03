@@ -1,0 +1,148 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle + ' | 我的账户   | 资金管理  | 交易记录'/}
+
+<div class="xf_con_box">
+<div class="xf_con_mem_nav"></div>
+#{include "front/account/AccountHome/homeLeft.control"/}
+<div class="xf_mem_Account">
+	<h3 class="xf_mem_accout_title">交易记录</h3>
+	<!-- 搜索区域 -->
+#{form @dealRecord(), id:'submit'}
+	<ul class="xf_jkzlshrz_search clr">
+		<li>
+			<select name="type" id="payTypeStr" class="xf_membill_selectAge xf_memjkzlshrz_selectAge">   
+		      <option value="0"
+		       #{if page?.conditions?.type == 0}
+                selected="selected"
+               #{/if}
+		       >全部</option>   
+		       <option value="1"
+		       #{elseif page?.conditions?.type == 1}
+                selected="selected"
+               #{/elseif}
+		       >充值</option>   
+		       <option value="2"
+		       #{elseif page?.conditions?.type == 2}
+                selected="selected"
+               #{/elseif}
+		       >提现</option>
+		       <option value="3"
+		       #{elseif page?.conditions?.type == 3}
+                selected="selected"
+               #{/elseif}
+		       >服务费</option> 
+		       <option value="4"
+		       #{elseif page?.conditions?.type == 4}
+                selected="selected"
+               #{/elseif}
+		       >账单还款</option> 
+		       <option value="5"
+		       #{elseif page?.conditions?.type == 5}
+                selected="selected"
+               #{/elseif}
+		       >账单收入</option> 
+		       <option value="6"
+		       #{elseif page?.conditions?.type == 0}
+                selected="selected"
+               #{/elseif}
+		       >其他</option>  
+			</select>
+			<input name="currPage"  type="hidden" id="currPage">
+			<input name="beginTime" value="${page.conditions?.dateBegin}" type="text" id="startDate"  class="laydate-icon" onclick="laydate()" style="cursor:pointer" />
+			<span class="xf_jkzlshrz_searspantwo">——</span>
+			<input name="endTime" value="${page.conditions?.dateEnd}" type="text"  id="endDate"  class="laydate-icon" onclick="laydate()" style="cursor:pointer"/>
+			<input type="submit" value="查 看" class="xf_membill_button_yhm xf_membill_button_more">
+		</li>
+	</ul>
+#{/form}
+	<!-- 搜索结果 -->
+<div class="xf_membill_search_jg">
+	<table border="0" cellpadding="0" cellspacing="0"  class="xf_membill_acc_viewcpms">
+		<tbody>
+			<tr>
+				<th align="center" width="30">序号</th>
+			  	<th width="110">时间</th>
+			  	<th align="center" width="90">收入</th>
+			  	<th width="100">支出</th>
+			  	<th width="100">可用余额</th>
+			  	<th width="100">冻结金额</th>
+			  	<th width="212">明细</th>
+			</tr>
+
+              #{if page.page.size() != 0}
+	       #{list items:page.page,as:'dealRecord'}
+	       #{if dealRecord?.amount > 0}
+		    <tr>
+				<td align="center">${dealRecord_index}</td>
+				<td align="center">${dealRecord?.time?.format('yyyy-MM-dd HH:mm')}</td>
+				#{if dealRecord?.type == 1}
+				<td align="center">${dealRecord?.amount?.format("###,##0.00")}</td>
+				#{/if}
+				#{else}
+				<td align="center">0</td>
+				#{/else}
+				#{if dealRecord?.type == 2}
+				<td align="center">${dealRecord?.amount?.format("###,##0.00")}</td>
+				#{/if}
+				#{else}
+				<td align="center">0</td>
+				#{/else}
+				*{
+				#{if dealRecord?.type == 3}
+				<td align="center">${dealRecord?.amount?.format("###,##0.00")}</td>
+				#{/if}
+				#{else}
+				<td align="center">0</td>
+				#{/else}
+				#{if dealRecord?.type == 4}
+				<td align="center">${dealRecord?.amount.format("###,##0.00")}</td>
+				#{/if}
+				#{else}
+				<td align="center">0</td>
+				#{/else}
+				}*
+				*{<td align="center">${dealRecord?.user_balance?.format("###,##0.00")}</td>}*
+				<td align="center">${dealRecord?.balance?.format("###,##0.00")}</td>
+				<td align="center">${dealRecord?.freeze?.format("###,##0.00")}</td>
+				*{<td align="center">${dealRecord?.recieve_amount?.format("###,##0.00")}</td>
+				<td align="center">${dealRecord?.name}</td>}*
+				<td align="center">${dealRecord?.summary}</td>
+			</tr>
+			#{/if}
+			#{/list}
+			#{/if}
+		</tbody>
+	</table>
+	<!-- 分页器 -->
+	</div>
+	<div class="xf_wylc_page xf_membill_view_page1">
+		#{page pageTitle:"交易记录", currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:2/}
+	</div>
+	<!-- 下载数据 -->
+	<a href="@{front.account.FundsManage.exportDealRecords}" class="xf_membill_xzzy">下载数据</a>
+	</div>
+	<!-- 清除浮动 -->
+	<div class="clear"></div>
+</div>
+<div class="clear"></div>
+<script src="@{'/public/javascripts/laydate/laydate.js'}"></script>
+<script>
+    function showPage(currPage, pageSize){
+         $("#currPage").val(currPage);
+         $("#submit").submit();
+    }
+    
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript">
+<!--
+	$(function(){
+		/* 高亮显示 */
+		showHighLightFront(29);
+		showHighLightFront2(7, 5);
+	});
+//-->
+</script>

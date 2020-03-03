@@ -1,0 +1,24 @@
+<ul class="p_zh_b1right">
+    <li><span>用户名：</span><strong class="p_zh_str01">${user?.name}</strong><span>
+      	<!--#{if user?.vipStatus}
+			（vip会员）
+		#{/if}
+		#{else}
+			（普通会员）<a class="xf_mem_acc_sjvip" id="xf_mem_acc_sjvip" onClick="vipApply()">[升级VIP]</a>
+		#{/else}
+		-->
+    </span></li>
+    <li>
+        <span>信用等级：</span>
+        #{img src:"${user?.myCredit?.imageFilename}",alt:"",width:"30px",height:"30px"}#{/img}
+        <span class="ml20">信用积分：${user?.creditScore} 分</span>
+    </li>
+    <li>注册时间：${user?.time?.format('yyyy-MM-dd')}</li>
+    <li><span>积分：${user?.creditScore}</span><a href="@{front.account.FundsManage.myCredit()}" title="" class="p_zh_a01 p_un"><strong>积分明细</strong></a></li>
+    <li><span>信用额度：${user?.creditLine?.format('###,##0.00')}元</span>
+      <!--<a href="#" onclick="applyForOverBorrowInit();" title="" class="p_zh_a01 p_un">提高信用额度？</a>-->
+    </li>
+    <li>财富统计：${user?.investAmount?.bid_count}次借款 , ${user?.investAmount?.invest_count}次出借
+    </li>
+</ul>
+						

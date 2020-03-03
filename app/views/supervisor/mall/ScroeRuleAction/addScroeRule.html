@@ -1,0 +1,170 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'积分规则' /}
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+	<div class="xn_c_contentlist">
+		#{include "supervisor/networkMarketing/CPSSpreadAction/networkMarketingLeft.control"/}
+	    <div class="xn_c_content">
+	        <div class="xf_content_add">
+	            <div class="xfht_t_j_y_2">
+	                <!--右上-->
+	                <div class="xf_ht_obu_fklm">
+	                	积分获取规则
+	                </div>
+	                <div class="xf_htgl_jgone xf_ht_fff_sz">
+	                    <h3 class="xf_htgl_jgtitle">
+	                    	签到送积分(5天一循环)
+	                    </h3>
+	                    <div class="xf_ht_gl_jgone_botton">
+	                        <table border="0" cellspacing="0" cellpadding="0" width="100%">
+	                            <tr>
+	                                <td align="center">
+	                                	每日签到送积分：
+	                                	<input class="xfht_zr_input" type="text" style="width:80px;" id="init_sign_scroe" value="${backstageSet?.init_sign_scroe}" onkeyup="value=value.replace(/[^\d]/g, '')">
+
+	                                	+（天数-1）*
+
+	                                    <input class="xfht_zr_input" type="text" style="width:80px;" id="mul_sign_scroe" value="${backstageSet?.mul_sign_scroe}" onkeyup="value=value.replace(/[^\d]/g, '')">
+	                                	分
+	                                </td>
+	                            </tr>
+	                        </table>
+	                    </div>
+	                    <h3 class="xf_htgl_jgtitle ">
+	                    	正常还款积分
+	                    </h3>
+	                    <div class="xf_ht_gl_jgone_botton">
+	                        <table border="0" cellspacing="0" cellpadding="0" width="100%">
+	                            <tr>
+	                                <td align="center">
+	                                	每正常还款一期账单积：
+	                                    <input type="text" class="xfht_zr_input" style="width:100px;margin:0 5px 0 10px" id="repay_sign_scroe" value="${backstageSet?.repay_sign_scroe}" onkeyup="value=value.replace(/[^\d]/g, '')">
+	                                	分
+	                                </td>
+	                            </tr>
+	                        </table>
+	                    </div>
+	                    <h3 class="xf_htgl_jgtitle ">
+	                    	成功借款积分
+	                    </h3>
+	                    <div class="xf_ht_gl_jgone_botton">
+	                        <table border="0" cellspacing="0" cellpadding="0" width="100%">
+	                            <tr>
+	                                <td align="center">
+	                                	每成功满标一个借款标积：
+	                                    <input type="text" class="xfht_zr_input" style="width:100px;margin:0 5px 0 10px" id="bid_sign_scroe" value="${backstageSet?.bid_sign_scroe}" onkeyup="value=value.replace(/[^\d]/g, '')">
+	                                	分
+	                                </td>
+	                            </tr>
+	                        </table>
+	                    </div>
+	                    <h3 class="xf_htgl_jgtitle ">
+	                    	成功投标积分
+	                    </h3>
+	                    <div class="xf_ht_gl_jgone_botton">
+	                        <table border="0" cellspacing="0" cellpadding="0" width="100%">
+	                            <tr>
+	                                <td align="center">
+	                                	每成功投标一次积：
+	                                    <input type="text" class="xfht_zr_input" style="width:100px;margin:0 5px 0 10px" id="invest_sign_scroe" value="${backstageSet?.invest_sign_scroe}" onkeyup="value=value.replace(/[^\d]/g, '')">
+	                                	分
+	                                </td>
+	                            </tr>
+	                        </table>
+	                    </div>
+	                </div>
+	                <div class="xf_htgl_jgsix_hyg">
+	                    <input class="xf_ht_tcc_button_ok" type="button" onclick="save()" id="xf_dfk_fkzh_tcc3" value="保存">
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+</div>
+<script type="text/javascript">
+  $(function() {
+    showHighLight(7,7,18);
+  })
+  function save() {
+    var init_sign_scroe = $("#init_sign_scroe").val();
+    var mul_sign_scroe = $("#mul_sign_scroe").val();
+    var repay_sign_scroe = $("#repay_sign_scroe").val();
+    var bid_sign_scroe = $("#bid_sign_scroe").val();
+    var invest_sign_scroe = $("#invest_sign_scroe").val();
+    
+    
+    
+    if ("" == init_sign_scroe.trim() || mul_sign_scroe == "") {
+      alert("请填写签到积分");
+      return;
+    }
+
+    if(!checkNumVal(init_sign_scroe) || !checkNumVal(mul_sign_scroe)){
+    	alert("签到积分必须为数字");
+    	return;
+    }
+    
+    if ("" == repay_sign_scroe.trim()) {
+      alert("请填写正常还款积分");
+      return;
+    }
+    
+    if(!checkNumVal(repay_sign_scroe)){
+    	alert("还款积分必须为数字");
+    	return;
+    }
+    
+    if ("" == bid_sign_scroe.trim()) {
+      alert("请填写成功借款积分");
+      
+      return;
+    }
+    
+    if(!checkNumVal(bid_sign_scroe)){
+    	alert("借款积分必须为数字");
+    	return;
+    }
+    
+    if ("" == invest_sign_scroe.trim()) {
+      alert("请填写成功投标积分");
+      
+      return;
+    }
+    
+    if(!checkNumVal(invest_sign_scroe)){
+    	alert("投标积分必须为数字");
+    	return;
+    }
+    
+    $.ajax({
+      url : "@{supervisor.systemSettings.FinanceSettingAction.saveScroeRule()}",
+      type : "POST",
+      data : {
+        "init_sign_scroe" : init_sign_scroe,
+        "mul_sign_scroe" : mul_sign_scroe,
+        "repay_sign_scroe" : repay_sign_scroe,
+        "bid_sign_scroe" : bid_sign_scroe,
+        "invest_sign_scroe" : invest_sign_scroe
+      },
+      success : function(data) {
+        alert(data.msg);
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+  
+  function checkNumVal(res)
+  {
+	  // 数字校验
+      var patrn=/^([1-9]\d*|0)(\.\d*[1-9])?$/;
+      var flag = patrn.exec(res);
+      if(!flag){
+      	return false;
+      }else{
+    	  return true;
+      }
+      
+  }
+</script>

@@ -1,0 +1,1670 @@
+<head>
+	<link rel="stylesheet" href="/public/stylesheets/thisPage/inverstBidUserinfo.css?v=1.0" />
+</head>
+	<div style="display:none;">
+		<div class="credit">${credit}</div>
+		<div class="commtiment">${commtiment}</div>
+		<div class="authorization">${authorization}</div>
+	</div>
+		<!--弹出层-->
+		<div class="pop pp_car">
+			<div class="con_tit"></div>
+			<div class="con_text" id="context">
+
+			</div>
+			<div class="close_all">
+				<img src="/public/images/reg20171208/close.png" class="close_img" alt="" />
+			</div>
+
+		</div>
+		<!--遮罩层-->
+		<div class="lay">
+		</div>
+<div class="p_bgf1_box pb30 pt30">
+    <div class="p_main">
+        <div class="p_xq_box01 clr" style="padding:0;height:490px;">
+            <div class="p_xq_b1left" style="height:inherit;min-height:490px;width:630px;padding:10px 30px 18px 30px;border-right:1px solid #DEDEDE;box-sizing:border-box;">
+            <!--{form @front.invest.investAction.confirmInvestBottom(bid?.sign,uuid), method:'POST', id:'confirmInvestBottom'}-->
+                <table width="100%" >
+                    <tr height="58">
+                        <td colspan="3">
+                            <img src="${bid?.product?.smallImageFilename}" alt="" width="23" height="22" class="fl" />
+                            <span class="p_xq_listt c3">${bid?.title}</span>
+                            <span class="p_xq_bianh c9">项目编号：${bid?.no}</span>
+                            #{if activityInfo?.rate2}
+                           		 <span style="margin-left:10px;" class="activity">首投+${activityInfo?.rate2}%</span>
+                            #{/if}
+                            #{if activityInfo?.rate3}
+                           	      <span class="activity">尾投+${activityInfo?.rate3}%</span>
+                            #{/if}
+                        </td>
+                    </tr>
+                    <tr height="42" style="display:none;">
+                        <td width="228">借款总额：<span class="p_lc_import">￥${bid?.amount?.format('###,##0.00')}</span></td>
+                        <td width="230">合同约定年化利率：<span class="p_lc_import">${bid?.apr}%</span></td>
+                        <td>借款期限： ${bid?.period}
+								    ${bid?.strPeriodUnit}
+                        </td>
+                    </tr>
+                    <tr height="42" style="display:none;">
+                        <td>还款方式：${bid?.repayment?.name}</td>
+                        <td>信用等级：<img src="@{'/public/images/p_xina.png'}" alt="" width="20" height="20" class="p_vtmid" /></td>
+                        <td>还款日期：#{if bid?.repaymentTime == null}
+							---
+						#{/if}
+						#{else}
+							${bid?.repaymentTime?.format('yyyy-MM-dd')}
+						#{/else}
+						 </td>
+                    </tr>
+                    <tr height="42" style="display:none;">
+                        <td>已投金额：￥${bid?.hasInvestedAmount?.format('###,##0.00')}元</td>
+                        <td>最低出借金额：￥${bid?.minAllowInvestAmount?.format('###,##0.00')}元</td>
+                        <td>还需金额：￥${(bid?.amount - bid?.hasInvestedAmount)?.format('###,##0.00')}元</td>
+                    </tr>
+                    <tr height="54" style="display:none;">
+                        <td colspan="3">
+                            <span class="fl">进度：</span>
+                            <div class="p_sy_jdt"><div class="projectProgress progress-bar" style="width:87%"></div></div>
+                            <!--style="width:${bid?.loanSchedule}%" -->
+                            <span class="fl">${bid?.loanSchedule}%</span>
+                           <!--  <span class="p_xq_time">剩余时间：
+                                <strong class="p_zq_str01" id="day"></strong>天
+                                <strong class="p_zq_str01" id="hours"></strong>小时
+                                <strong class="p_zq_str01" id="minutes"></strong>分
+                                <strong class="p_zq_str01" id="seconds"></strong>秒
+                            </span>-->
+                        </td>
+                    </tr>
+                </table>
+               <ul>
+	            	<li style="float:left;width:33%;text-align:center;">
+	            		<div class="fs30 ColorPink">${bid?.apr}% 
+	            		#{if bid?.amount > bid?.hasInvestedAmount && bid?.status > 0}
+	            			#{if bid?.isIncreaseRate == true} <span style="font-size:18px;">+${bid?.increaseRate}%<span> #{/if}
+	            		#{/if}
+	            		</div>
+	            		<div class="c9">合同约定年化利率</div>
+	            	</li>
+	            	<li style="float:left;width:33%;text-align:center;">
+	            		<div class="fs30">${bid?.period}${bid?.strPeriodUnit}</div>
+	            		<div class="c9">借款期限</div>
+	            	</li>
+	            	<li style="float:left;width:33%;text-align:center;">
+	            		<div class="fs30">￥${bid?.amount?.format('###,##0.00')}</div>
+	            		<div class="c9">借款总额</div>
+	            	</li>
+            	</ul>
+            	<div class="p_sy_jdt" style="width:100%;margin-top:43px;"><div class="projectProgress progress-bar" style="width:${bid?.loanSchedule}%"></div></div>
+            	<div style="clear:both;"></div>
+            	<div style="margin-top:13px;margin-bottom:33px;">
+            		<input class="progressVal" type="hidden" value="${bid?.loanSchedule}" />
+            		<span>已募集</span><span class="ColorPink"><span class="progressNum">0</span><span>%</span></span>
+            		<span style="float:right;">可投金额${(bid?.amount - bid?.hasInvestedAmount)?.format('###,##0.00')}元</span>
+            	</div>
+
+            	<div class="ulOuter">
+	<ul class="Zcontent" style="width:100%;box-sizing: border-box;">
+		<li>
+			<div>
+				还款方式:
+			</div>
+			<div>
+				${bid?.repayment?.name}
+			</div>
+		</li>
+		<li>
+			<div>
+				起息日期:
+			</div>
+			<div style="">
+				募集完成次日开始计算收益
+			</div>
+		</li>
+	</ul>
+	<ul class="Zcontent" style="width:100%;box-sizing: border-box;">
+		<li>
+			<div >
+				资金用途:
+			</div>
+			<div>
+				${bid?.purpose?.name}
+			</div>
+		</li>
+		<li>
+			<div>
+				资金到账:
+			</div>
+			<div style="">
+				计划还款日24:00前到达您的亿亿账户
+			</div>
+		</li>
+	</ul>
+	<ul class="Zcontent" style="width:100%;box-sizing: border-box;">
+		<li style="width:100%">
+			<div >
+				相关费用:
+			</div>
+			<div>
+				针对出借人不收取撮合费用
+			</div>
+		</li>
+	</ul>
+	#{if bid?.amount > bid?.hasInvestedAmount && bid?.status > 0}
+		<ul class="Zcontent" style="width:100%;box-sizing: border-box;">
+			<li>
+				<div>
+					剩余时间:
+				</div>
+				<div>
+					 <strong class="p_zq_str01 ColorPink" id="day"></strong><span class="c9">天</span>
+	                 <strong class="p_zq_str01 ColorPink" id="hours"></strong><span class="c9">小时</span>
+	                 <strong class="p_zq_str01 ColorPink" id="minutes"></strong><span class="c9">分</span>
+	                 <strong class="p_zq_str01 ColorPink" id="seconds"></strong><span class="c9">秒</span>
+				</div>
+			</li>
+			<li style="height:46px;line-height:46px;">
+				<div>
+					还款来源:
+				</div>
+				<div>
+					${bid.repayment_source}
+				</div>
+			</li>
+		</ul>
+	#{/if}
+</div>
+            </div>
+
+
+
+
+            <div class="p_xq_b1line" style="width:0;"></div>
+            <div class="p_xq_b1right">
+            	<div style="font-size:16px;width:280px;">
+            		<span class="c9" style="margin-right:15px;">账户余额</span>
+            		<span style="color:#333333;">
+                       			#{if user == null}0#{/if}
+                       			#{if user != null}${user?.balance?.format("###,##0.00")}#{/if}
+                       		</span>元
+            	</div>
+                #{form @front.invest.investAction.confirmInvest(bid?.sign, uuid), method:'POST', id:'confirmInvest'}
+                #{if bid?.minInvestAmount > 0}
+                	 #{if bid?.amount > bid?.hasInvestedAmount && bid?.status > 0}
+               		 <!--<div class="p_xq_b1r01">最低出借金额:￥${bid?.minAllowInvestAmount?.format('###,##0.00')}</div>-->
+		                <div class="p_xq_b1r02" style="margin-top:23px;">
+		                    <input maxlength="8" style="border-radius:5px;" type="text" class="p_xq_b1rina p_pass" id="investAmount" name="investAmount" value="" onblur="setMoney(this.value)"/>
+		                    <label class="p_xq_tips">最低出借金额：${bid?.minAllowInvestAmount?.format('###,##0.00')}元</label>
+		                    <span class="p_xq_yuan">元</span>
+		                </div>
+		                <div class="p_xq_b1r02" style="margin-top:20px;">
+		                   <select class="p_xq_b1rina" onchange="selectPack(this.value)" id="red_sign_st">
+		                   		#{list packs}
+		                   			<option value="${_?.id},${_?.money},${_?.valid_money}">${_?.money}元(满${_?.valid_money}元#{if _?.bid_period != 0}及${_?.bid_period}#{if _?.bid_period_unit == -1}年#{/if}#{if _?.bid_period_unit == 0}个月#{/if}#{if _?.bid_period_unit == 1}天#{/if}#{/if}使用)</option>
+		                   		#{/list}
+		                   			<option value="">不使用</option>
+		                   </select>
+		                   <input type="hidden" name="redSign" id="red_sign" value="#{if packs != null && packs.size() > 0}${packs?.get(0).id}#{/if}"/>
+		                </div>
+
+
+		                <div class="ulOuter">
+			                <ul>
+			                	<li>实投金额：<span class="ColorPink" id="invest_dt">0</span></li>
+			                	<li> 预计收益：<span class="ColorPink" id="income_dt">0</span>
+			                	<img onclick="javascript:$('#what').toggle();" style="cursor:pointer;position: absolute;right: 45px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAB2ElEQVQ4T3VSPWhTURg9575UqHSxkzpXdDEqNskLiJOjP+BgQQdBF0EQbd6riIhdVExeQjHgILSDaNEOgujgoIuDzWss1qhT3XVSEWpoE+6R95qXBG2/5f5853z3u+c7RF9kitpuiEskjgLY1UktS3hphXv1CX5P4Ew2blFjIKoiZi3wOGXw2f7GgB3CbgOcIXEawoWax2cRJya6gU4KmDLEifkCP+y9o22DKZwioVUHc0tX+Ctf1gErPKfg1XzOMWrPIRoCjoQ+G/mKhq1FncI7EITgrrSR+XSNP3MlpUG8aa8izVxZtyFsDT1ejl7PlXURFtnQ59n4HOghgFro8X7nPAXiD91ADWtwbmGc76NEpqj90Vqf4BImZdwhvBLxJCxwJs4HyjjANN2SmnQwPD/OZr/CnerTFHa2lnF88QFb0V2+okFZ/NiU2BHsRlM41PC5khTtEf9ptTuekm5Gqtd8TvZ3kq1o1FjM/CdOAsre1Wi0X7i6/vckcoHWxTl4SzsGtuBjMo4EkAl0OBbJ49suqaQ0DV63DPZtaIBEmGgNPZ6PRUkMQPi1Ap/2LFfWGICqhFkZPHKAL6aF1JqDPZtarttez+THAIx07r9KeNFeQ3XxOr8l2L+Ved7pryXnFwAAAABJRU5ErkJggg==" /></li>
+			                </ul>
+			                <div style="clear: both;"></div>
+			                <div id="what" style="position:absolute;right:0;z-index:99;right:28px;">
+								<img style="position:relative;right:0" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJAAAAB2CAYAAAAnWxonAAAECElEQVR4Xu3XP0sbcRzH8e/vTjnuGhPjUI+jOnaqe6fiULp16aDQhyCduvYBdOlqoWMfQCt0kFLoUhA6dWiXgoOgl5gsapp/RLy7coKbSuSTQqjvLFnuc/ndmxeJOuP13xYoisIdHh6+KYpiZmdn5+Xa2lo26Yd1k74h95uOAru7u0EYhu+DIFh3ztloNPrk+/7zOI77kzwhgCZZc0rutbe3Nz87O7sVhuFqvV4/P1Wn07HBYPAjy7Kny8vLzUkdFUCTKjkl90nT9J7nedtRFK1Uq1Urv30uXt1u13q93n6JaGlp6eckjgygSVScknvs7+8/mJmZ2Z6bm1uqVCqXnmo4HNrJyckfM1tPkuSzenQAqQWnZH9wcLDqed5WvV6fD8Pw2lOdnp7a0dHRWVEUL5Ikeac8wjmgNE3vm9lr59wTM7ucrvIpbP95gfKnamFhwYIgGOuzzs7OSkRWvt/w1SuK4ovnea+SJPntSjzOue/VarUeRZF5nnfD+3H5bSqQ53n5x7h1u93jPM8floA+1Gq1Z1f9Zt6mODzr+AV6vV75n91H12g0unEcV/jmGT8eV5qV30StVqtXAiqSJKEJBW5coNlsGoBunI3BRQEAYUEqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH2MAYUAqACApH+Nms1m4RqPRXlxcvOv7PkUoMHaBLMus3W63XZqmm5VKZaNWq4095kIKdDod6/f7b93x8fH8cDj8FgTBShRF5nkedShwZYE8z20wGNhoNPoVhuEjV17ZarXuZFm2YWaPzSyiHwWuKTAws6++72/Gcdz/C1HAcNhrZqkWAAAAAElFTkSuQmCC" />
+								<div class="what">
+									<div>本金收益： <span class="earning">0</span>元</div>
+									
+									 #{if bid?.increaseRate}
+										<div>加息收益：<span class="earning1">0</span>元</div>
+									#{/if}
+									#{if activityInfo?.rate2||activityInfo?.rate3}
+										<div style="color:red;">满足以下条件即可获得：</div>
+									#{/if}
+									 #{if activityInfo?.rate2}
+										<div>首投加息：<span class="earning2">0</span>元</div>
+									 #{/if}
+									  #{if activityInfo?.rate3}
+										<div>尾投加息：<span class="earning3">0</span>元</div>
+									 #{/if}
+									<!--<div>加息券：     <span class="earning3">0</span>元</div>-->
+								</div>
+							</div>
+		                </div>
+							
+	                 #{/if}
+	                 #{else}
+	                    #{if (bid?.status==1 || bid?.status==2)&&(bid?.amount==bid?.hasInvestedAmount)}
+	                     <div class="p_xq_b1r01">借款状态:已满标</div>
+	                   #{/if}
+	                   #{else}
+	                     <div class="p_xq_b1r01">借款状态:${bid?.strStatus}</div>
+	                   #{/else}
+	                 #{/else}
+                #{/if}
+                #{else}
+                   <div class="p_xq_b1r01">最多可购买的份数:${((bid?.amount-bid?.hasInvestedAmount)/bid?.averageInvestAmount)?.format('0')}份</div>
+                    #{if bid?.amount > bid?.hasInvestedAmount && bid?.status > 0}
+	                <div class="p_xq_b1r02">
+	                    <input type="text" class="p_xq_b1rina p_pass" id="investAmount" name="investAmount" value=""/>
+	                    <label class="p_xq_tips">最多可购买的份数:${((bid?.amount-bid?.hasInvestedAmount)/bid?.averageInvestAmount)?.format('0')}份</label>
+	                    <span class="p_xq_yuan">份</span>
+	                </div>
+	                #{/if}
+                #{/else}
+	               #{if bid?.amount > bid?.hasInvestedAmount && bid?.status > 0}
+		                #{if !ipsEnable}
+							#{if bid?.product?.isDealPassword == true}
+							       <div class="mt10">
+							       <p class="yes_no"><input type="checkbox"  id="agree"/>
+							       	 	  <span class="c9 fs12" style="margin-left:5px;">我已阅读并同意</span>
+									      <div style="margin-left:28px;">
+									       	  <div onclick="agreement(1)">
+									      		<a class="open2 fs12"  href="#" >《借款协议》</a>
+										      </div>
+										      <div onclick="agreement(2)">
+										      	<a class="open2 fs12" href="#" >《风险揭示书及禁止行为承诺》</a>
+										      </div>
+										      <div onclick="agreement(3)">
+										      	<a class="open2 fs12" href="#" >《电子签章自动签署授权协议》</a>
+										      </div>
+									      </div>
+								      </p>
+							       <input class="c9" style="margin-top:16px;border-radius:5px;box-sizing:border-box;padding:0 9px;width:280px;height:38px;line-height:38px; border: solid 1px #e6e6e6; position: relative;z-index: 10;background:none;" type="password" placeholder="请输入交易密码" class="xf_wylc_tbje p_129inp" id="dealpwd" name="dealpwd" ><br />   <!--onMouseOver="checkPwdDel();"-->
+							      </div>
+						    #{/if}
+					#{/if}
+				  #{/if}
+				 #{if user != null && user.payPassword == null}
+							      <div class="mt10"><a href="@{front.account.BasicInformation.modifyPassword()}" class="xf_ta_onclick f12 cozhuse p_un">您未设置交易密码！点击此处设置交易密码</a></div>
+							      #{/if}
+							      #{else}
+							       <div style="text-align:right;" class="mt10"><a href="@{front.account.BasicInformation.modifyPassword()}" class="xf_ta_onclick f12 p_un" style="color:#00aeef;">忘记交易密码？</a></div>
+							      #{/else}
+				#{if bid?.amount > bid?.hasInvestedAmount && bid?.status > 0 && bid?.product?.isDealPassword == true}
+                <a style="height:50px;line-height:50px;background:#FF384F;width:280px;" onclick="investApplyNow();" class="p_xq_b1r04 p_op mt10">确认出借</a>
+                #{/if}
+                #{elseif bid?.amount > bid?.hasInvestedAmount && bid?.status > 0}
+                   <a style="height:50px;line-height:50px;" onclick="investApplyNow();" class="p_xq_b1r04 p_op">确认出借</a>
+                #{/elseif}
+
+                #{/form}
+
+                <!--
+                <div class="xf_cps_top_r">
+                    <div class="xf_wylc_erweima p_xq_erwm">
+                        <span class="xf_wylc_erweima_text p_xq_erwm_text">
+                            扫一扫<br>
+                            推荐好友加入我们
+                        </span>
+                    </div>
+                </div>
+                 -->
+            </div>
+        </div>
+        <div class="p_xq_xxkbox">
+            <ul class="p_xq_xxkul clr">
+                <li><span>借款标详情</span></li>
+                <li><span>出借记录</span></li>
+                <li><span>向借款人提问</span></li>
+                <li class="p_xq_xxjbli" id="reportNow" onclick="reportNow();"><span>举报此会员</span></li>
+            </ul>
+        </div>
+        <div class="p_xq_tabox">
+            <div class="p_bd_tbox01">
+            	<div style="height:1px;">&nbsp</div>
+            	<div style="border-bottom: 1px solid #E0E0E0;padding-bottom: 31px;">
+	            	<div class="investDetailTitle" style="margin-top:25px" >
+	            		借款人基本资料
+	            	</div>
+	            	#{if bid?.user?.user_type == 1}
+	            	<table width="100%" class="basic">
+	            		<tr>
+	            			<td width="100px">主体性质: </td>
+	            			<td width="300px">
+	            				  个人
+	            			 </td>
+	            			<td width="100">年龄: </td>
+	            			<td width="210">${bid?.user?.age}</td>
+	            			<td width="100">婚姻状况:</td>
+	            			<td>${bid?.user?.maritalName }</td>
+	            		</tr>
+	            		<tr>
+	            			<td width="100">姓名: </td>
+	            			<td>${bid?.user?.realityName}</td>
+	            			<td width="100">授信额度: </td>
+	            			<td>#{if bid?.creditAmount} ${bid?.creditAmount}#{/if} #{else}${bid?.user?.creditAmount} #{/else}</td>
+	            			<td width="100">文化程度:</td>
+	            			<td>${bid?.user?.educationName}</td>
+	            		</tr>
+	            		<tr>
+	            			<td width="100">身份证号 :</td>
+	            			<td>${borrowerIdNumber}</td>
+	            			<td width="100">戶籍地: </td>
+	            			<td>${city} </td>
+	            			<td width="100">购房情况:</td>
+	            			<td>${bid?.user?.houseName}</td>
+	            		</tr>
+	            		<tr>
+	            			<td width="100">性别: </td>
+	            			<td>${bid?.user?.sex}</td>
+	            			<td width="100">借款人居住地 :</td>
+	            			<td>${liveCity} </td>
+	            			<td width="100">购车情况:</td>
+	            			<td>${bid?.user?.carName}</td>
+	            		</tr>
+	            		<tr>
+	            			<td width="100">工作性质:</td>
+	            			<td>${bid?.user?.getUserInfo()?.business_scope}</td>
+	            		</tr>
+	            	</table>
+	            	#{/if}
+	            	#{if bid?.user?.user_type == 2}
+	            	<table width="100%" class="basic">
+	            		<tr>
+	            			<td width="100px">主体性质: </td>
+	            			<td width="200px">
+	            				企业
+	            			 </td>
+	            			<td width="100">企业成立时间: </td>
+	            			<td width="200">${bid?.user?.birthday?.format('yyyy-MM-dd')}</td>
+	            			<td width="100">所属行业:</td>
+	            			<td>${bid?.user?.getUserInfo()?.industry_name }</td>
+	            		</tr>
+	            		<tr>
+	            			<td width="100">企业名称: </td>
+	            			<td>${bid?.user?.realityName}</td>
+	            			<td width="100">授信额度: </td>
+	            			<td>#{if bid?.creditAmount} ${bid?.creditAmount}#{/if} #{else}${bid?.user?.creditAmount} #{/else}</td>
+	            			<td width="100">企业经营范围:</td>
+	            			<td>${bid?.user?.getUserInfo()?.business_scope}</td>
+	            		</tr>
+	            		<tr>
+	            			<td width="150">统一社会信用代码 :</td>
+	            			<td>${borrowerIdNumber}</td>
+	            			<td width="100">企业注册地: </td>
+	            			<td>${city} </td>
+	            		</tr>
+	            		<tr>
+	            			<td width="100">法定代表人: </td>
+	            			<td>${bid?.user?.getUserInfo()?.legal_person}</td>
+	            			<td width="100">企业经营地址 :</td>
+	            			<td>${liveCity} </td>
+	            		</tr>
+
+	            	</table>
+	            	#{/if}
+	            	#{if bid?.user?.user_type == 3}
+	            	<table width="100%" class="basic">
+	            		<tr>
+	            			<td width="130px">主体性质: </td>
+	            			<td width="260px">
+	            				个体工商户
+	            			 </td>
+	            			<td width="100">注册日期: </td>
+	            			<td>${bid?.user?.birthday?.format('yyyy-MM-dd')}</td>
+	            			<td width="100">所属行业:</td>
+	            			<td>${bid?.user?.getUserInfo()?.industry_name }</td>
+	            		</tr>
+	            		<tr>
+	            			<td width="100">名称: </td>
+	            			<td>${bid?.user?.realityName}</td>
+	            			<td width="100">授信额度: </td>
+	            			<td>#{if bid?.creditAmount} ${bid?.creditAmount}#{/if} #{else}${bid?.user?.creditAmount} #{/else}</td>
+	            			<td width="100">经营范围:</td>
+	            			<td>${bid?.user?.getUserInfo()?.business_scope}</td>
+	            		</tr>
+	            		<tr>
+	            			<td width="100">统一社会信用代码 :</td>
+	            			<td>${borrowerIdNumber}</td>
+	            			<td width="100">注册地: </td>
+	            			<td>${city} </td>
+	            		</tr>
+	            		<tr>
+	            			<td width="100">经营者: </td>
+	            			<td>${bid?.user?.getUserInfo()?.legal_person}</td>
+	            			<td width="100">经营地址 :</td>
+	            			<td width="200">${liveCity} </td>
+	            		</tr>
+
+	            	</table>
+	            	#{/if}
+
+            	</div>
+            	<div style="border-bottom: 1px solid #E0E0E0;padding-bottom: 31px;">
+	            	<div class="investDetailTitle" >
+	            		项目描述
+	            	</div>
+	            	<div class="content">
+	            		${bid?.description}
+	            	</div>
+            	</div>
+
+            	<div style="border-bottom: 1px solid #E0E0E0;padding-bottom: 31px;">
+	            	<div class="investDetailTitle" >
+	            		还款保障措施
+	            	</div>
+	            	<div class="content">${bid?.auditSuggest}</div>
+            	</div>
+
+            	<div style="border-bottom: 1px solid #E0E0E0;padding-bottom: 31px;">
+	            	<div class="investDetailTitle" >
+	            		原债方资料
+	            	</div>
+	            	<div>
+	            		<ul class="docImg">
+	            			#{list items:itemsInfo , as: 'image'}
+		            			<li><div>
+		            				<img class="LookImg" width="100%" src=${image?.imgpath} />
+		            			</div></li>
+	            			#{/list}
+	            		</ul>
+	            	</div>
+            	</div>
+            	<div style="clear:both;"></div>
+            	<div style="border-bottom: 1px solid #E0E0E0;padding-bottom: 31px;">
+	            	<div class="investDetailTitle" >
+	            		涉诉情况
+	            	</div>
+	            	<div class="content">
+	            		${bid?.user?.lawSuit}
+	            	</div>
+            	</div>
+							<div style="border-bottom: 1px solid #E0E0E0;padding-bottom: 31px;">
+	            	<div class="investDetailTitle" >
+	            		资产情况
+	            	</div>
+	            	<div class="content">
+	            		${bid?.user?.getUserInfo()?.asset_info}
+	            	</div>
+            	</div>
+            	<div style="border-bottom: 1px solid #E0E0E0;padding-bottom: 31px;">
+	            	<div class="investDetailTitle" >
+	            		收入及负债情况
+	            	</div>
+	            	<div class="content">
+	            		${bid?.user?.getUserInfo()?.income_debt_info}
+	            	</div>
+            	</div>
+            	<div style="border-bottom: 1px solid #E0E0E0;padding-bottom: 31px;">
+	            	<div class="investDetailTitle" >
+	            		近半年征信报告状况
+	            	</div>
+	            	<div class="content">
+	            		${bid?.user?.creditReport}
+	            	</div>
+            	</div>
+
+            	<div style="border-bottom: 1px solid #E0E0E0;padding-bottom: 31px;">
+	            	<div class="investDetailTitle" >
+	            		其他金融平台融资情况
+	            	</div>
+	            	<div class="content">
+	            		${bid?.user?.getUserInfo()?.other_finance_info}
+	            	</div>
+            	</div>
+            	<div style="border-bottom: 1px solid #E0E0E0;padding-bottom: 31px;">
+	            	<div class="investDetailTitle" >
+	            		其他信息
+	            	</div>
+	            	<div class="content">
+	            		${bid?.user?.getUserInfo()?.other_info}
+	            	</div>
+            	</div>
+            	<div style="border-bottom: 1px solid #E0E0E0;padding-bottom: 31px;">
+	            	<div class="investDetailTitle" >
+	            		借款人平台历史情况
+	            	</div>
+	            	<div class="content">
+	            		<table width="100%">
+	            		<tbody><tr>
+	            			<td width="150">平台历史逾期次数： </td>
+	            			<td >${bid?.user?.overdueCnt}次</td>
+	            			<td width="150">平台历史逾期金额： </td>
+	            			<td>${bid?.user?.overdueAmount}元 </td>
+	            			<td width="150">平台当前逾期金额：</td>
+	            			<td>${bid?.user?.currentOverdueAmount}元</td>
+	            		</tr>
+	            	</tbody></table>
+	            	</div>
+            	</div>
+            	<div style="border-bottom: 1px solid #E0E0E0;padding-bottom: 31px;">
+	            	<div class="investDetailTitle" >
+	            		借款标状况
+	            	</div>
+	            	<div class="content">
+	            		${bid?.strStatus}
+	            	</div>
+            	</div>
+            </div>
+        </div>
+        <div class="p_xq_tabox none" >
+            <div class="p_bd_tbox02" id="bidInvestRecords" >
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" class="xf_wylc_tb_viewcpms">
+                    <tbody>
+                        <tr>
+                            <th>序号</th>
+                            <th>出借人</th>
+                            <th>出借金额</th>
+                            <th>出借时间</th>
+                            <th>出借状态</th>
+                            <th>提问情况</th>
+                        </tr>
+                        	#{list items:pageBean?.page , as: 'records'}
+                        <tr>
+                            <td>${records_index}</td>
+                            <td>#{if records?.mobile}${records?.mobile.substring(0,3)}****${records?.mobile.substring(7)}#{/if}</td>
+                            <td>${records?.invest_amount}</td>
+                            <td>${records?.time?.format('yyyy-MM-dd')}</td>
+                            <td>
+                            #{if records?.transfer_status == 0}
+									正常
+									#{/if}
+									#{if records?.transfer_status == -1}
+									已转让出
+									#{/if}
+									#{if records?.transfer_status == 1}
+									转让中
+							#{/if}
+                            </td>
+                            <td>问<span class="xf_wylc_view_tblist">（${records?.question_count}）</span>答<span class="xf_wylc_view_tblist">（${records?.answer_count}）</span></td>
+                        </tr>
+
+                        	#{/list}
+                    </tbody>
+                </table>
+                <!-- 分页器 -->
+                <div class="xf_wylc_page xf_zqzr_view_page1">
+                    #{page funMethod:"showBidRecords",currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:2 /}
+                </div>
+            </div>
+        </div>
+
+        <div class="p_xq_tabox none">
+        	<input type="hidden" id="hiddenUserId" name="hiddenbidvalue" value=${bid?.signUserId} />
+			<input type="hidden" id="hiddenbidvalue" name="hiddenbidvalue" value=${bid?.sign} />
+            <div class="p_bd_tbox02" id="bidQuestions">
+             <ul class="xf_wylc_tabletwo_twul" >
+						#{list items:page.page, as:'question'}
+							<li>
+								<div class="xf_wylc_tabletwo_title" style="word-break:break-all;">
+									<span class="xf_wylc_tabletwo_tspan"><span class="xf_wylc_view_tblist">${question?.name?.asterisk()}：</span>${question?.content}</span>
+									<span class="xf_wylc_tabletwo_tdatetiem">提问时间：${question?.time?.format('yyyy-MM-dd HH:mm:ss')}</span>
+								</div>
+								#{list items:question.bidAnswerList, as:'answer'}
+
+								<div class="xf_wylc_tabletwo_content">
+									<div class="xf_wylc_tabletwo_bihot"></div>
+									<div class="xf_wylc_tabletwo_tstwo"><span class="xf_wylc_view_tblist">借款人</span>回复：</div>
+									<div class="xf_wylc_tabletwo_three" style="word-break:break-all;">
+										${answer?.content}
+									</div>
+
+									<!-- 清除浮动 -->
+									<div class="clear"></div>
+									<span class="xf_wylc_tabletwo_tdatetiem">回复时间：	${answer?.time?.format('yyyy-MM-dd HH:mm:ss')}</span><span class="xf_wylc_tabletwo_tdatetiem">浏览次数：${answer?.readCount}</span>
+								</div>
+								#{/list}
+
+							</li>
+					#{/list}
+				</ul>
+                <div class="xf_wylc_zxzx">
+                    <div class="xf_wylc_zxzx_title"><span class="xf_wylc_view_tblist">我要提问：</span> (字数在1-200之间)</div>
+                    <div class="xf_wylc_zxzx_input">
+                        <textarea type="text" class="xf_wylc_zxzx_inputx" id="questContent" >${flash?.error}</textarea>
+                    </div>
+                    <div class="xf_wylc_zxzx_yzm">
+                       	 请输入验证码：<input type="text" class="xf_wylc_zxzx_inputext" id="inputCode">
+                        <img class="xf_login_yzmimg" id="question" width="70px" height="35px" onclick="changeCode();"src="">
+                        <input type="hidden" id="randmCode">
+                        <a class="xf_accout_cont_imginput" onclick="questionNow();">提交</a>
+                    </div>
+                </div>
+
+                <!-- 分页器 -->
+                <div class="xf_wylc_page xf_zqzr_view_page1">
+
+                    #{page funMethod:"showBidAllQuestion",currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:2,style:2 /}
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- 查看资料弹出层 -->
+<div id="showitem" class="xf_ht_ttc" >
+</div>
+
+<!-- 举报该会员 -->
+<div class="xf_ht_ttc" id="report">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_ht_jr_obu_title clr">
+      <div class="xf_ht_jr_obu_l">举报该会员</div>
+      <div class="xf_ht_jr_obu_r" onclick="hideReport();">&nbsp;</div>
+    </div>
+    <div class="xf_ht_ptjbk_shok_bottom">
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form xf_ht_sh_form2" width="100%">
+       <tr>
+			<td align="right">
+				<span class="xf_zqzr_znx_title">被举报人：</span>
+			</td>
+			<td>
+				<span class="xf_zqzr_znx_r">${bid?.user?.name?.asterisk()}</span>
+			</td>
+	</tr>
+		<tr>
+			<td align="right" valign="top">
+				<span class="xf_zqzr_znx_title">具体描述：</span>
+			</td>
+			<td>
+				<textarea class="xf_ht_jr_obttd_textarea xf_ht_jr_obttd_textarea2" cols=40 rows=10 id="reason" onkeyup="LimitReseaon(this, 'showReasonLength', 240)" oninput="LimitReseaon(this, 'showReasonLength', 240)"></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center">
+				<span class="xf_con_zqzr_znx">您还可以输入<span class="xf_con_zqzr_znxsz" id="showReasonLength">240</span>字</span>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<span class="xf_zqzr_znx_title">&nbsp;</span>
+			</td>
+			<td class="xf_zqzr_znx_title_td">
+				<input type="button" class="xf_ht_tcc_button_ok" value="举报"  onclick="confirmReportUser();"/>
+				<input type="button" class="xf_ht_tcc_button_on" value="取 消"  onclick="hideReport();"/>
+			</td>
+		</tr>
+
+      </table>
+    </div>
+  </div>
+</div>
+
+<!--发送站内信 -->
+<div class="xf_ht_ttc" id="sendLetter">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_ht_jr_obu_title clr">
+      <div class="xf_ht_jr_obu_l">发送站内信</div>
+      <div class="xf_ht_jr_obu_r" onclick="hideLetter();">&nbsp;</div>
+    </div>
+    <div class="xf_ht_ptjbk_shok_bottom">
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form xf_ht_sh_form2" width="100%">
+
+       <tr>
+			<td width="121" align="right">
+				<span class="xf_zqzr_znx_title">发&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;给： </span>
+			</td>
+			<td>
+				<span class="xf_zqzr_znx_r">${bid?.user?.name?.asterisk()}</span>
+			</td>
+	</tr>
+
+
+        <tr>
+			<td align="right">
+				<span class="xf_zqzr_znx_title">标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题：</span>
+			</td>
+			<td>
+			<input class="xf_zqzr_wszl" type="text" id="title"/>
+			</td>
+		</tr>
+		<tr>
+			<td align="right" valign="top">
+				<span class="xf_zqzr_znx_title">内&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;容：</span>
+			</td>
+			<td>
+				<textarea class="xf_ht_jr_obttd_textarea xf_ht_jr_obttd_textarea2" cols=40 rows=10  id="content" onkeyup="LimitReseaon(this,'showLetterLength',1000)" oninput="LimitReseaon(this,'showLetterLength',1000)" ></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center">
+			<span class="xf_con_zqzr_znx">您还可以输入<span class="xf_con_zqzr_znxsz" id="showLetterLength">1000</span>字</span>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<span class="xf_zqzr_znx_title">&nbsp;</span>
+			</td>
+			<td class="xf_zqzr_znx_title_td">
+				<input type="button" class="xf_ht_tcc_button_ok" value="发送" onclick="sendLetter();"/>
+				<input type="button" class="xf_ht_tcc_button_on" value="取 消" onclick="hideLetter();"/>
+			</td>
+		</tr>
+
+      </table>
+    </div>
+  </div>
+</div>
+		<script>
+	// 协议显示区分
+	function agreement(type=1){
+		var agreementTitle = '';
+		var agreementHTML = '';
+		if(type==1){
+			agreementTitle+='《借款协议》';
+			agreementHTML+='credit'
+		}else if(type==2){
+			agreementTitle+='《风险揭示书及禁止行为承诺》';
+			agreementHTML+='commtiment';
+		}else if(type==3){
+			agreementTitle+='《电子签章自动签署授权协议》';
+			agreementHTML+='authorization';
+		}else{
+			agreementTitle+='《借款协议》';
+			agreementHTML+='credit'
+		}
+
+		$('.con_tit').text(agreementTitle)
+		$('#context').html($('.'+agreementHTML).html());
+	}
+
+		function reportNow(){
+			 /** 检查用户是否激活, fronMain.html 中的拦截器*/
+	   		var result = frontJSIntercepter();
+
+	   		if(!result){
+      	 		showReport();
+	  		}
+	}
+
+
+		function showReport(){
+			showDiv($("#report"));
+		}
+		function hideReport(){
+			$("#report").hide();
+		}
+		function confirmReportUser(){
+
+			var investTransferId = 0;
+			var userName = "${bid?.signUserId}";
+			var reason = $.trim($("#reason").val());
+			var bidId = "${bid?.sign}";
+			if(reason == "" ){
+				alert("对不起！举报原因不能为空！");
+				return;
+			}
+			if(reason.length >= 240){
+				alert("对不起！举报原因内容过于冗余！");
+				retutn;
+			}
+			var reportUser = #{jsAction @front.debt.DebtAction.reportUser(':userName',':reason',':bidId',':investTransferId')/}
+	        $.post(reportUser({userName : userName,reason : encodeURI(reason),bidId: bidId,investTransferId : investTransferId}), function(data) {
+
+	        	//拦截器，拦截判断。frontMain.html
+				if(checkIntercepterResult(data)){
+					return;
+				}
+
+	        	var myData= eval(data);
+	        	alert(myData.msg);
+	        	hideReport();
+	        });
+	   }
+
+	   function sendNow(){
+		 	/** 检查用户是否激活, fronMain.html 中的拦截器*/
+	   		var result = frontJSIntercepter();
+
+	   		if(!result){
+      	 		showLetter();
+	  		}
+	   }
+
+	   function attentionNow(){
+	   		/** 检查用户是否激活, fronMain.html 中的拦截器*/
+	   		var result = frontJSIntercepter();
+
+	   		if(!result){
+      	 		attentionUser();
+	  		}
+	   }
+
+	   function attentionUser() {
+		var id = "${bid?.signUserId}";
+		var test = #{jsAction @front.account.AccountHome.attentionUser(':id')/}
+        $.post(test({id: id}), function(data) {
+
+        	//拦截器，拦截判断。frontMain.html
+			if(checkIntercepterResult(data)){
+				return;
+			}
+
+        	var myData= eval(data);
+            alert(myData.error);
+        });
+	}
+
+	    function showLetter(){
+	    	showDiv($("#sendLetter"));
+	    }
+	    function hideLetter(){
+	    	$("#sendLetter").hide();
+	    }
+
+    function sendLetter(){
+    	var receiverUserId = "${bid?.signUserId}";
+    	var title = encodeURI($.trim($("#title").val()));
+    	var content = encodeURI($.trim($("#content").val()));
+
+    	if(title == "" ){
+    		alert("对不起！发送标题不能为空！");
+    		return ;
+    	}
+    	if(content == ""){
+    		alert("对不起！发送内容不能为空！");
+    		return ;
+    	}
+    	if(content.length >= 1000){
+    		alert("对不起！发送内容过于冗余！");
+    		return ;
+    	}
+    	var sendMessage = #{jsAction @front.account.AccountHome.sendMessage(':sign',':title',':content')/}
+        $.post(sendMessage({sign : receiverUserId,title : title,content: content}), function(data) {
+
+        	//拦截器，拦截判断。frontMain.html
+			if(checkIntercepterResult(data)){
+				return;
+			}
+
+        	alert(data.error.msg);
+
+        	hideLetter();
+        });
+    }
+
+		</script>
+
+
+		<script>
+
+       function checkReportReason() //textarea输入长度处理
+			{
+			var reason = $("#reason").val();
+			var len;//记录剩余字符串的长度
+
+			if(reason.length>=240)//textarea控件不能用maxlength属性，就通过这样显示输入字符数了
+			{
+				alert("对不起！举报原因过于冗余！");
+			}
+			else
+			{
+				len=240-reason.length;
+			}
+				var show=len;
+				document.getElementById("showReasonLength").innerText=show;
+			}
+
+
+		 function checkLetter() //textarea输入长度处理
+				{
+				var content = $("#content").val();
+				var len;//记录剩余字符串的长度
+
+				if(content.length>=1000)//textarea控件不能用maxlength属性，就通过这样显示输入字符数了
+				{
+					alert("对不起！信件内容过于冗余！");
+				}
+				else
+				{
+					len=1000-content.length;
+				}
+					var show=len;
+					document.getElementById("showLetterLength").innerText=show;
+			}
+
+		function LimitReseaon(obj, targetId, len){
+			  if (obj.value.length > len){
+    		      obj.value = obj.value.substring(0, len);
+              }
+    		  $("#" + targetId).html(len - obj.value.length);
+		}
+
+
+		</script>
+
+<script type="text/javascript">
+
+
+	showTime();
+
+	 function showTime(){
+
+				    var endTime =" ${bid?.investExpireTime?.format('yyyy/MM/dd HH:mm:ss')}";
+
+				     time_end = new Date(endTime);//结束的时间
+
+			          var tt = time_end.getTime();
+				      var now = new Date().getTime();
+		              var cha = tt-now;
+		              var SysSecond=parseInt(cha);
+
+				 	 if (SysSecond > 0) {
+
+   	                  int_day=Math.floor(SysSecond/86400000);
+                      SysSecond-=int_day*86400000;
+                      int_hour=Math.floor(SysSecond/3600000);
+                      SysSecond-=int_hour*3600000;
+                      int_minute=Math.floor(SysSecond/60000);
+                      SysSecond-=int_minute*60000;
+                      int_second=Math.floor(SysSecond/1000);
+
+                    if(int_hour<10){
+             	       int_hour="0"+int_hour;
+			          }
+
+                   if(int_minute<10){
+           		       int_minute="0"+int_minute;
+		              }
+
+       		       if (int_second<10){
+            	      int_second="0"+int_second;
+                       }
+
+  			       $("#day").html(int_day);
+  			       $("#hours").html(int_hour);
+  			       $("#minutes").html(int_minute);
+  			       $("#seconds").html(int_second);
+  		       }else{
+
+  		       	   $("#day").html("00");
+  			       $("#hours").html("00");
+  			       $("#minutes").html("00");
+  			       $("#seconds").html("00");
+  		       }
+			setTimeout('showTime()',1000);
+	     }
+
+		$(function(){
+			$("a").limit();
+			$("#xf_wyjkfb_4_window").center();
+
+			$(".xf_wyjkfb_4_windowClose,#xf_wyjkfb_4_windowCancle,#xf_con_inputfbqux").click(function(){
+				$("#xf_wyjkfb_4_window").hide(500);
+			});
+
+
+
+			//竞拍成功
+			$("#xf_zqzrtb_4_window").center();
+
+			$("#xf_con_inputfbjk").click(function(){
+				$("#xf_wyjkfb_4_window").hide("fast",function(){
+					$("#xf_wyjkfb_4_window").show();
+
+				});
+			});
+			$(".xf_zqzr_4_windowClose").click(function(){
+				$("#xf_zqzrtb_4_window").hide();
+			});
+		});
+
+
+	</script>
+
+	<script>
+
+		$(function(){
+
+			$("#addBottom").click(function(){
+				var investAmount = $("#investAmountBottom").val();
+				var patrn=/^([1-9]\d*)$/;
+				var patrn1=/^([0-9]\d*)$/;
+			    var flag = patrn1.exec(investAmount);
+			    var copys = ${bid?.amount - bid?.hasInvestedAmount}/${bid?.averageInvestAmount};
+				if(!flag){
+					alert("请您输入正整数！");
+				 	return;
+		        }
+
+			    $("#investAmountBottom").val(parseInt($("#investAmountBottom").val())+1);//加
+			    if($("#investAmountBottom").val() > copys){
+			    	$("#investAmountBottom").val(copys);
+			    }
+			});
+
+			$("#plusBottom").click(function(){
+				var investAmount = $("#investAmountBottom").val();
+				var patrn=/^([1-9]\d*)$/;
+			    var flag = patrn.exec(investAmount);
+				if(!flag){
+					alert("对不起！请您输入正整数！");
+				 	return;
+		         }
+			    $("#investAmountBottom").val(parseInt($("#investAmountBottom").val())-1);//减
+			    if($("#investAmountBottom").val() <= 1){
+			    	$("#investAmountBottom").val(1);
+			    }
+			});
+
+			$("#confirmInvestBottom").keydown(function(e){
+			  if(e.keyCode == 13){
+				  investNow();
+
+				  return false;
+			  }
+			});
+
+		})
+	</script>
+
+
+<script>
+
+
+  	function investNow(){
+
+  	  /** 检查用户是否激活, fronMain.html 中的拦截器*/
+  	  var result = frontJSIntercepter();
+
+  	  if(!result){
+  		 confirmInvestBottom();
+  	  }
+	}
+
+	function confirmInvestBottom(){
+
+		var investAmount = $("#investAmountBottom").val();
+
+		var minInvestAmount = ${bid?.minAllowInvestAmount};
+		var maxInvestAmount = ${bid?.amount - bid?.hasInvestedAmount};
+		var averageInvestAmount = ${bid?.averageInvestAmount};
+
+		var patrn=/^([1-9]\d*)$/;
+		var flag = patrn.exec(investAmount);
+
+		var isDealPassword = ${bid?.product?.isDealPassword};
+
+		if( isDealPassword == true && !${ipsEnable}){
+			if($("#dealpwdBottom").val().replace(/\s+/g,"") == "" || null ==$("#dealpwdBottom").val().replace(/\s+/g,"")){
+				alert("对不起！请输入交易密码！");
+				return;
+			}
+		}
+
+		if(minInvestAmount > 0){
+
+			if(investAmount == "" || investAmount == null){
+			    alert("对不起！投标金额不能为空！");
+			    return;
+		    }
+		    if(!flag){
+				alert("对不起！请您输入正整数！");
+			 	return;
+		   }
+			if(investAmount < minInvestAmount){
+				alert("对不起！您的投标金额少于最低投标金额！");
+				return;
+			}
+			if(investAmount > maxInvestAmount){
+				alert("对不起！您的投标金额超过了剩余投标金额！");
+				return;
+			}
+		}
+
+		if(averageInvestAmount > 0){
+			var maxInvestcopys = ${bid?.amount - bid?.hasInvestedAmount}/${bid?.averageInvestAmount};
+
+			if(investAmount.replace(/\s+/g,"")== "" || null == investAmount.replace(/\s+/g,"")){
+			    alert("对不起！投标份数不能为空！");
+			    return;
+		    }
+		    if(!flag){
+				alert("对不起！请您输入正确格式的数字！");
+				return;
+		    }
+			if(investAmount <= 0){
+				alert("对不起！您的投标份数不能小于0！");
+			    return;
+			}
+			if(investAmount > maxInvestcopys){
+				alert("对不起！您最多只能投"+maxInvestcopys+"份!");
+			    return;
+			}
+
+		}
+
+		$("#confirmInvestBottom").submit();
+	}
+
+	$(function(){
+		var init_Progress = 0;
+		var speed = 0;
+		var ProgressMax = $('.progressVal').val();
+		if(ProgressMax<10){
+			speed+=0.1;
+		}else{
+			speed+=1;
+		}
+
+		function reset(){
+			setTimeout(increment, 500);
+		}
+
+		 function increment() {
+        	 init_Progress += speed;
+
+		    if (init_Progress >= ProgressMax) {
+		      $('.progressNum').text(ProgressMax);
+		      return false;
+		    }
+    		setTimeout(increment, 30);
+    		$('.progressNum').text(init_Progress.toFixed(2));
+  		}
+  		reset();
+
+		$("#loanSchedulexx").css({"width":${bid?.loanSchedule}});
+
+		var code = "${flash?.code}";
+		if (code == "-999") {
+			alert("${flash?.msg}");
+			window.open("@{front.account.FundsManage.recharge()}");
+		}
+	})
+
+	function checkDelPwd(){
+		var str = "请输入交易密码";
+		#{if bid?.product?.isDealPassword == true}
+
+			#{if user != null && user.payPassword == null}
+			 str = "您还未设置交易密码,请设置交易密码";
+        	#{/if}
+		#{/if}
+
+		$("#dealpwdBottom").attr("title",str);
+	}
+
+</script>
+
+<script>
+	      	$(function(){
+	      		    var setCode = #{jsAction @front.account.LoginAndRegisterAction.setCode()/}
+					$.post(setCode({}),function(data){
+					var arr=eval(data);
+					var imgs = arr.img;
+					$("#question").attr("src","@{front.account.LoginAndRegisterAction.getImg()}?id="+imgs);
+					$("#randmCode").val(imgs);
+	      	    });
+	        })
+
+	       function changeCode(){
+			    var setCode = #{jsAction @front.account.LoginAndRegisterAction.setCode()/}
+				$.post(setCode({}),function(data){
+				var arr=eval(data);
+				var imgs = arr.img;
+				$("#question").attr("src","@{front.account.LoginAndRegisterAction.getImg()}?id="+imgs);
+				$("#randmCode").val(imgs);
+			  });
+	    	}
+	  </script>
+	  <script>
+
+	      	function questionxx(){
+
+	      		var code = $("#randmCode").val();
+	      		var bidId = $("#hiddenbidvalue").val();
+	      		var toUserId = $("#hiddenUserId").val();
+	      		var content = $("#questContent").val();
+	      		var inputCode = $("#inputCode").val();
+	      		var randmCode = $("#inputCode").val();
+
+	      		if($.trim(content) == ""){
+	      			alert("对不起！提问内容不能为空！");
+	      			return;
+	      		}
+
+				if(content.length >=200){
+					alert("对不起！提问内容字数不可超过200字！");
+	      			return;
+				}
+				if(inputCode==""){
+					alert("请输入验证码");
+	      			return;
+				}
+
+	      		content = encodeURI(content);
+	      		var questionToBorrower = #{jsAction @questionToBorrower(':toUserIdSign',':bidIdSign',':content',':code',':inputCode')/}
+	      		$.post(questionToBorrower({toUserIdSign:toUserId,bidIdSign:bidId,content:content,code:code,inputCode:inputCode}),function(data){
+
+	      				//拦截器，拦截判断。frontMain.html
+	    				if(checkIntercepterResult(data)){
+	    					return;
+	    				}
+
+			    		var arr = eval(data);
+						var result = arr.error.msg;
+						$("#content").val(arr.content);
+						alert(result);
+						if(arr.error.code >= 0){
+							showBidAllQuestion(1, 10);
+						}
+    	          })
+
+    	          changeCode();
+	      	}
+
+	      	function showBidAllQuestion(pageNum, pageSize){
+				var bidId = $("#hiddenbidvalue").val();
+				$.ajax({
+			     	url : "@{viewBidAllQuestion()}",
+				    type : "POST",
+				    data : {
+				     	"pageNum" : pageNum, "pageSize":pageSize, "bidIdSign":bidId
+				     },
+				    success : function(data) {
+					     $("#bidQuestions").html(data);
+				     },
+				    error : function() {
+						alert("对不起，出现错误!");
+					}
+				});
+
+			}
+
+			 function showBidRecords(pageNum, pageSize,bidId) {
+
+			       var bidId = $("#hiddenbidvalue").val();
+
+				   $.ajax({
+				     	url : "@{viewBidInvestRecords()}",
+					    type : "POST",
+					    data : {
+					     	"pageNum" : pageNum, "pageSize":pageSize, "bidIdSign":bidId
+					     },
+					    success : function(data) {
+						     $("#bidInvestRecords").html(data);
+					     },
+					   error : function() {
+						alert("对不起，出现错误!");
+					}
+				});
+			}
+
+
+
+	        function questionNow(){
+
+	        	 /** 检查用户是否激活, fronMain.html 中的拦截器*/
+	      	  	var result = frontJSIntercepter();
+
+	      	  	if(!result){
+	            	 questionxx();
+
+	      	 	 }
+
+
+	    	}
+	      </script>
+
+<script type="text/javascript">
+
+  function investApplyNow(){
+		 /** 检查用户是否激活, fronMain.html 中的拦截器*/
+	 	 var result = frontJSIntercepter();
+
+	    if(!result){
+      	   confirmInvest();
+	    }
+	 }
+
+	function confirmInvest(){
+
+		var investAmount = $("#investAmount").val();
+		var minInvestAmount = ${bid?.minAllowInvestAmount};
+		var maxInvestAmount = ${bid?.amount - bid?.hasInvestedAmount};
+		var averageInvestAmount = ${bid?.averageInvestAmount};
+
+		var patrn=/^([1-9]\d*)$/;
+		var flag = patrn.exec(investAmount);
+
+		var isDealPassword = ${bid?.product?.isDealPassword};
+
+
+		if(!$("#agree").is(':checked')){
+			alert("请阅读协议并同意!");
+			return false;
+		}
+		if(!${ipsEnable} && isDealPassword == true){
+			if($("#dealpwd").val().replace(/\s+/g,"") == "" || null ==$("#dealpwd").val().replace(/\s+/g,"")){
+				alert("对不起！请输入交易密码!");
+				return;
+			}
+		}
+
+		if(minInvestAmount > 0){
+
+			if(investAmount.replace(/\s+/g,"") == "" || null == investAmount.replace(/\s+/g,"")){
+			    alert("对不起！投标金额不能为空！");
+			    return;
+		    }
+		    if(!flag){
+				alert("对不起！请您输入正整数！");
+			 	return;
+		   }
+			if(investAmount < minInvestAmount){
+				alert("对不起！您的投标金额少于最低投标金额！");
+				return;
+			}
+			if(investAmount > maxInvestAmount){
+				alert("对不起！您的投标金额超过了剩余投标金额！");
+				return;
+			}
+		}
+
+		if(averageInvestAmount > 0){
+			var maxInvestcopys = ${bid?.amount - bid?.hasInvestedAmount}/${bid?.averageInvestAmount};
+
+			if(investAmount.replace(/\s+/g,"")== "" || null == investAmount.replace(/\s+/g,"")){
+			    alert("对不起！投标份数不能为空！");
+			    return;
+		    }
+		    if(!flag){
+				alert("对不起！请您输入正整数！");
+				return;
+		    }
+			if(investAmount <= 0){
+				alert("对不起！您的投标份数不能小于0！");
+			    return;
+			}
+			if(investAmount > maxInvestcopys){
+				alert("对不起！您最多只能投"+maxInvestcopys+"份!");
+			    return;
+			}
+		}
+
+		$("#confirmInvest").submit();
+	}
+	$(function(){
+		$("#investAmount").val('');
+
+		$(".close_all,.lay,.close_img").on("click",function(){
+						$(".lay,.pop,.close_img").hide();
+					})
+		$(".open2").on("click",function(){
+						$(".close_img,.close_all").css("display","block")
+					})
+		$(".open2").bind("click", function() {
+					showDailog();
+			    });
+	});
+				function showDailog() {
+					//alert(123);
+					$(".lay").show();
+					$(".close_all").show();
+					$(".code_fix").show();
+					var dH = $(document).height(); //获取文档的高度
+					$(".lay").css("height", dH); //黑色遮罩层高度设置为文档高度
+					var wW = $(window).width(), //window的宽度
+						wH = $(window).height(), //window的高度
+						pW = $(".pop").width(), //弹出层的宽度
+						pH = $(".pop").height(), //弹出层的高度
+						pL = (wW - pW) / 2, //弹出层距离左边的距离
+						pT = (wH - pH) / 2;
+					$(".pop").show().css({
+						"left": pL + "px",
+						"top": pT + "px"
+					});
+					$(".close").show().css({
+						"left": pL + "px",
+						"top": pT + "px"
+					});
+
+				}
+
+	function setMoney(ia){
+		if(ia == ''){
+			ia = 0;
+		}
+		if(isNaN(parseFloat(ia))){
+			$("#investAmount").val('');
+			ia= 0;
+		}
+
+		var flag = false;
+		$("#red_sign_st option").each(function() {
+			var value = $(this).val();
+			if(value != ''){
+				var valid = parseFloat(value.split(',')[2]);
+				if(parseFloat(ia) >= valid){
+					$(this).prop('selected',true);
+					flag = true;
+					return false;
+				}
+			}
+        });
+        if(!flag){
+        	$("#red_sign_st option").each(function() {
+				var value = $(this).val();
+				if(value == ''){
+					$(this).prop('selected',true);
+				}
+	        });
+        }
+
+		var sign = $("#red_sign_st").val();
+		var amount = 0;
+		if(sign == ''){
+			$("#invest_dt").html(parseFloat(ia));
+			amount = parseFloat(ia);
+			$("#red_sign").val('');
+		}else{
+			var money = sign.split(',')[1];
+			$("#invest_dt").html(parseFloat(ia) + parseFloat(money));
+			amount = parseFloat(ia) + parseFloat(money);
+			$("#red_sign").val(sign.split(',')[0]);
+		}
+		calculate(amount);
+	}
+
+	function selectPack(sign){
+		var ia = $("#investAmount").val();
+		if(ia == ''){
+			ia = 0;
+		}
+		if(isNaN(parseFloat(ia))){
+			$("#investAmount").val('');
+			ia= 0;
+		}
+		var amount = 0;
+		if(sign == ''){
+			$("#invest_dt").html(parseFloat(ia));
+			amount = parseFloat(ia);
+			$("#red_sign").val('');
+		}else{
+			var money = sign.split(',')[1];
+			$("#invest_dt").html(parseFloat(ia) + parseFloat(money));
+			amount = parseFloat(ia) + parseFloat(money);
+			$("#red_sign").val(sign.split(',')[0]);
+		}
+		calculate(amount);
+	}
+
+	function calculate(amount){
+		var apr = ${bid?.apr} * 1;
+		var period = ${bid?.period} * 1;
+		var periodUnit = ${bid?.periodUnit} * 1;
+		
+		var repaymentType = ${bid?.repayment?.id} * 1;
+		var awardScale = ${bid?.awardScale} * 1;
+		var bonus = ${bid?.bonus} * 1;
+
+		if(amount <= 0 || amount > 100000000 || isNaN(amount)){
+			return;
+		}
+
+		if(apr > 100 || apr <= 0 || isNaN(apr)){
+			return;
+		}
+
+		if(period < 1 || period > 1000 || isNaN(period)){
+			return;
+		}
+
+		if(1 == periodUnit &&　period > 30){
+			return ;
+		}
+
+		var award = 0;
+
+		if(awardScale > 100 || awardScale < 0){
+			return;
+		}else if(awardScale != 0){
+			award = amount * awardScale / 100;
+		}
+
+		if(bonus < 0 || bonus > amount){
+			return;
+		}else if(bonus != 0){
+			award = bonus;
+		}
+
+		var interest = 0; // 年、月、日 年利率
+		var monthApr = apr / 12 / 100; // 月利率
+		var rperiod = 0; // 还款期数
+
+		/* 根据借款期限算出利息 */
+		switch(periodUnit){
+			/* 年 */
+			case -1:
+				interest = apr/100*period*amount;
+				rperiod = period ;//* 12;
+				break;
+			/* 月 */
+			case 0:
+				interest = apr/12/100*period*amount;
+				rperiod = period;
+				break;
+			/* 日 */
+			case 1:
+				interest = apr/360/100*period*amount;
+				rperiod = period;
+				break;
+		}
+
+		var monthSum = 0;
+		var monthText = $("#monthText");
+
+		/* 根据还款方式算出利息 */
+		switch(repaymentType){
+			/* 按月还款、等额本息 */
+			case 1:
+				monthSum = (amount * monthApr * Math.pow((1 + monthApr), rperiod)) / (Math.pow((1 + monthApr), rperiod) - 1);
+				interest = monthSum * rperiod - amount;
+				monthText.html("月还本息:");
+				break;
+
+			/* 按月付息、一次还款 */
+			case 2:
+				monthText.html("月还利息:");
+				monthSum = interest / rperiod;
+			 	break;
+
+			/* 一次还款 */
+			case 3:
+				monthText.html("应还本息:");
+				monthSum = interest + amount;
+				break;
+		}
+
+		/* 年化收益、总收益 */
+		var apr1 = ${bid?.increaseRate}||0;
+		var apr2 = ${activityInfo?.rate2}||0;
+		var apr3 = ${activityInfo?.rate3}||0;
+		console.log(apr1);
+		console.log(apr2);
+		console.log(apr3);
+		
+		var listAction = #{jsAction @front.home.HomeAction.aprCalculator2(':amount', ':apr',':apr1',':apr2',':apr3',':repaymentType',':award',':rperiod',':periodUnit') /};
+		console.log({amount:amount, apr:apr,apr1: apr1,apr2: apr2,apr3: apr3,repaymentType:repaymentType,award:award,rperiod:rperiod,periodUnit: periodUnit});
+		// listAction({amount:amount, apr:apr,apr1: apr1,apr2: apr2,apr3: apr3,repaymentType:repaymentType,award:award,rperiod:rperiod})
+		$.post('@{front.home.homeAction.aprCalculator2}',{amount:amount, apr:apr,apr1: apr1,apr2: apr2,apr3: apr3,repaymentType:repaymentType,award:award,rperiod:rperiod,periodUnit: periodUnit},function(data) {
+			console.log(data);
+			/*if(!parseInt(data.earning1)){
+			  $('.earning1').parent().hide();
+			}else{
+			  $('.earning1').parent().show();
+			}
+			if(!parseInt(data.earning2)){
+			  $('.earning2').parent().hide();
+			}else{
+			  $('.earning2').parent().show();
+			}*/
+			$('.earning').text(data.earning);
+			$('.earning1').text(data.earning1);
+			$('.earning2').text(data.earning2);
+			$('.earning3').text(data.earning3);
+			$("#income_dt").text((data.earning+data.earning1).toFixed(2));
+			var serviceFee = data.managementRate * interest;
+			//$("#income_dt").html((interest + award - serviceFee).toFixed(2)); // 总收益
+		});
+	}
+</script>
+
+<!-- 详细资料 -->
+<script type="text/javascript">
+
+	function showitemNow(mark,signUserId){
+	   /** 检查用户是否激活, fronMain.html 中的拦截器*/
+	   var result = frontJSIntercepter();
+
+	   if(!result){
+   	  showitem(mark,signUserId);
+	   }
+	}
+
+	/* 查看弹出层 */
+	function showitem(mark,signUserId){
+		var listAction = #{jsAction @front.invest.InvestAction.showitem(':mark',':signUserId') /};
+		$.post(listAction({mark:mark,signUserId:signUserId}), function(data) {
+
+			//拦截器，拦截判断。frontMain.html
+			if(checkIntercepterResult(data)){
+				return;
+			}
+
+			showDiv($("#showitem").html(data));
+		});
+	}
+</script>
+<script>
+	$(document).ready(function(){
+		//项目描述换行
+		$('.content').eq(0).html($('.content').eq(0).html().trim().replace(/\s/g,"<br/>"));
+	 	//保障措施换行
+	 	$('.content').eq(1).html($('.content').eq(1).html().trim().replace(/\s/g,"<br/>"));
+
+	 	var height = $(window).height()-130;
+	 	var width = $(window).width()-300;
+		$("body").before('<div id="tmp" style="z-index:100;position:fixed;height:100%;width:100%;background:black;opacity:.8"></div>'
+		+'<div style="position:relative">'
+			+'<div id="imgs" style="z-index:100;height:100%;top:5%;cursor:pointer;position:fixed;width:100%;text-align:center;transform:translateY(-800%)">'
+				+'<img style="width:initial;" class="big" src="" />'
+			+'</div>'
+		+'</div>');
+		$('.big').css({'max-height':height,'max-width':width});
+		$(".LookImg").click(function(){
+				$('#tmp').fadeIn();
+				console.log($(this).prop('src'));
+				$('.big').prop('src',$(this).prop('src'));
+				$("#imgs").removeAttr("class");
+				$("#imgs").css({'transform':'translateY(0)','transition':'all .8s ease-in-out'});
+		});
+
+			$('#imgs').click(function(){
+					$("#imgs").addClass("remove");
+					$('#tmp').fadeOut();
+			})
+	})
+</script>
+
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_invest.js'}"></script>

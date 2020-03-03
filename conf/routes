@@ -1,0 +1,2999 @@
+# Home page
+#网站首页
+GET     /old  																	front.home.HomeAction.home
+GET     /  																	    front.home.NewHomeAction.home
+#留言心声
+GET     /front/home/usermsg  													front.home.NewHomeAction.msg
+POST    /front/home/addUserMsg  												front.home.NewHomeAction.addUserMsg
+GET     /front/home/msgdata  													front.home.NewHomeAction.msgdata
+*       /front/home/test  													    front.home.NewHomeAction.test
+#*       /front/home/test1 													    front.home.NewHomeAction.test1
+#禁止百度收录
+* /robots.txt																	front.home.HomeAction.robots
+#新手入门我们
+GET     /front/home/getStart              										front.home.HomeAction.getStart
+#关于我们
+GET     /front/home/aboutUs        												front.home.HomeAction.aboutUs
+GET     /front/home/aboutUs/{<[0-9]+>id}.html        							front.home.HomeAction.restAboutUs
+
+GET     /errorFront                   											Application.errorFront
+GET     /errorSupervisor              											Application.errorSupervisor
+POST    /Application/randomID                           						Application.randomID
+GET     /Application/captcha                            						Application.captcha
+GET     /Application/exportExcel                        						Application.exportExcel
+POST    /Application/getCity                            						Application.getCity
+GET     /images                            			 							Application.images
+GET     /dlimg                            			 	 						Application.dlImages
+GET     /downloadFiles                            		 						Application.downloadFiles
+POST    /vipAgreement                           		 						Application.vipAgreement
+GET 	/dlWidget										 						Application.dlWidget
+GET 	/log										 							Application.logs
+GET 	/dlpacks/{version}										 				Application.dlpacks
+GET     /favicon.ico                            								404
+
+#上传图片
+*     	/FileUpload/uploadImage 												FileUpload.uploadImage
+*     	/FileUpload/uploadImage2 												FileUpload.uploadImage2
+*     	/FileUpload/uploadImageReturnType 										FileUpload.uploadImageReturnType
+# 上传文件
+*     	/FileUpload/uploadFile 													FileUpload.uploadFile
+# 下载图片
+*    	/FileUpload/downloadImage    											FileUpload.downloadImage
+# Map static resources from the /app/public folder to the /public path
+
+GET     /public/                                staticDir:public
+GET     /data/                                  staticDir:data
+
+# Catch all
+
+#* 		/{frontOrSupervisor}/{packageName}/{controller}/{action}  {frontOrSupervisor}.{packageName}.{controller}.{action}
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^快速登录^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+GET     /sns/qzone         						 		 						front.quicklogin.qzone.QZoneAPI.index
+GET     /sns/qzone/login         		    									front.quicklogin.qzone.QZoneAPI.login
+GET     /sns/weibo         						 		 						front.quicklogin.weibo.WeiBoAPI.index
+GET     /sns/weibo/login         						 						front.quicklogin.weibo.WeiBoAPI.login
+*	    /quick/regist									 						front.quicklogin.QuickLogin.quickRegist
+POST	/quick/registing								 						front.quicklogin.QuickLogin.quickRegisting
+*		/quick/login									 						front.quicklogin.QuickLogin.quickLogin
+POST	/quick/logining								 	 						front.quicklogin.QuickLogin.quickLogining
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^我的账户^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#1 		account Home page
+GET     /front/account/home                      								front.account.AccountHome.home
+POST    /front/account/queryQualityDebts        					            front.account.AccountHome.queryQualityDebts
+POST    /front/account/queryQualityBids          					            front.account.AccountHome.queryQualityBids
+POST    /front/account/attentionUser											front.account.AccountHome.attentionUser
+POST    /front/account/cancelAttentionUser   								    front.account.AccountHome.cancelAttentionUser
+POST    /front/account/vipMoney  											    front.account.AccountHome.vipMoney
+POST    /front/account/vipApply   											    front.account.AccountHome.vipApply
+POST    /front/account/setNoteName  										    front.account.AccountHome.setNoteName
+POST    /front/account/uploadPhoto 											    front.account.AccountHome.uploadPhoto
+POST    /front/account/sendMessage      										front.account.AccountHome.sendMessage
+#申请超额借款页面
+POST    /front/account/applyForOverBorrowInit      								front.account.AccountHome.applyForOverBorrowInit
+#申请超额借款
+POST    /front/account/applyForOverBorrow      									front.account.AccountHome.applyForOverBorrow
+#选择申请超额借款审核资料
+POST    /front/account/selectAuditItemsInit      								front.account.AccountHome.selectAuditItemsInit
+#选择申请超额借款审核资料
+POST    /front/account/submitAuditItemInit      								front.account.AccountHome.submitAuditItemInit
+#申请超额借款页面ips
+POST    /front/account/applyForOverBorrowWin      								front.account.AccountHome.applyForOverBorrowWin
+#选择申请超额借款审核资料ips
+POST    /front/account/selectAuditItemsWin      								front.account.AccountHome.selectAuditItemsWin
+#选择申请超额借款审核资料ips
+POST    /front/account/submitAuditItemWin	      								front.account.AccountHome.submitAuditItemWin
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^首页模块路由配置^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+# app上传图像
+*    /app/uploadPhoto                     						        		FileUpload.uploadPhoto
+
+# app服务接口
+*    /app/services                     						        		    app.AppController.index
+*    /app/download                    						        		    app.AppController.download
+
+#--------------------------------------------------appWap页面显示结尾----------------------------------------------------------
+*    /app/showForum                    						        		    app.AppController.showForum
+#论坛搜索
+*    /app/forumSearch                    						        		app.AppController.forumSearch
+*    /app/myCommunity                    						        		app.AppController.myCommunity
+*    /app/myPosts                    						        			app.AppController.myPosts
+*    /app/myPostsInfo                    						        		app.AppController.myPostsInfo
+*    /app/submitAnswers                    						        		app.AppController.submitAnswers
+*    /app/appDeletePosts                    						        	app.AppController.appDeletePosts
+*    /app/updateForumName                    						        	app.AppController.updateForumName
+*    /app/submitForumName                    						        	app.AppController.submitForumName
+*    /app/showMyAnswersPosts                    						        app.AppController.showMyAnswersPosts
+#情况弹出
+*    /app/clesrFlash                   						        app.AppController.clesrFlash
+
+#用户发帖页面
+*    /app/userPosts                    						        		app.AppController.userPosts
+#用户发帖
+*    /app/userAddPosts                    						        		app.AppController.userAddPosts
+#我的消息
+*    /app/showMyNews                    						        		app.AppController.showMyNews
+#我的收藏
+*    /app/showMyCollection                    						        		app.AppController.showMyCollection
+#编辑收藏
+*    /app/eidtCollection                    						        		app.AppController.eidtCollection
+#还款公告
+*    /app/repaymentNews                    						        		app.AppController.repaymentNews
+#亿亿看板
+*    /app/youFind                    						        		app.AppController.youFind
+#每日签到
+*    /app/everyDaySign                    						        		app.AppController.everyDaySign
+#帮助学堂
+*    /app/helpSchool                    						        		app.AppController.helpSchool
+*    /app/helpSchoolPosts                    						        		app.AppController.helpSchoolPosts
+#新人报道
+*    /app/newStudent                    						        		app.AppController.newStudent
+*    /app/newStudentPosts                    						        		app.AppController.newStudentPosts
+#社区活动
+*    /app/forumActivity                    						        		app.AppController.forumActivity
+*    /app/forumActivityPosts                    						        		app.AppController.forumActivityPosts
+#理财心得
+*    /app/investmentIdea                    						        		app.AppController.investmentIdea
+*    /app/investmentIdeaPosts                    						        		app.AppController.investmentIdeaPosts
+#亿亿闲聊
+*    /app/liveChat                    						        			app.AppController.liveChat
+*    /app/liveChatPosts                    						        		app.AppController.liveChatPosts
+
+#活动中心显示
+*    /app/showActivityCenter                    						        		app.AppController.showActivityCenter
+#活动中心内容
+*    /app/activityCenterInfo                    						        		app.AppController.activityCenterInfo
+#用户失效页面跳转登入
+*    /app/unUser                    						        		app.AppController.unUser
+#活动中心前往地址
+*    /app/activityCenterConnect                    						        		app.AppController.activityCenterConnect
+
+#-----------------------------------------------------appWap页面显示结尾-------------------------------------------------------
+
+# app上传用户图像
+*    /app/uploadUserPhoto                     						        	FileUpload.uploadUserPhoto
+
+# 财富工具箱
+GET    /front/homeAction/wealthToolkit                     						front.home.homeAction.wealthToolkit
+# 信用图标说明
+GET    /front/homeAction/creditLevelIco					  			 			front.home.homeAction.creditLevelIco
+# 产品图标说明
+GET    /front/homeAction/productIco					       						front.home.homeAction.productIco
+# 信用借款器
+GET	   /front/homeAction/wealthToolkitCreditCalculator     						front.home.homeAction.wealthToolkitCreditCalculator
+# 还款计算器
+GET	   /front/homeAction/wealthToolkitRepaymentCalculator  						front.home.homeAction.wealthToolkitRepaymentCalculator
+# 还款计算明细
+POST   /front/homeAction/repaymentCalculate				  	 					front.home.homeAction.repaymentCalculate
+# 净值计算器
+GET	   /front/homeAction/wealthToolkitNetValueCalculator   						front.home.homeAction.wealthToolkitNetValueCalculator
+# 利率计算器
+GET    /front/homeAction/wealthToolkitAPRCalculator        						front.home.homeAction.wealthToolkitAPRCalculator
+# 利率计算器(年化收益,总收益)
+*   /front/homeAction/aprCalculator					   						front.home.homeAction.aprCalculator
+POST   /front/homeAction/aprCalculator2					   						front.home.homeAction.aprCalculator2
+# 服务手续费
+GET    /front/homeAction/wealthToolkitServiceFee           						front.home.homeAction.wealthToolkitServiceFee
+# 超额借款
+GET    /front/homeAction/wealthToolkitOverLoad             						front.home.homeAction.wealthToolkitOverLoad
+# 理财风云榜（更多）
+GET    /front/homeAction/moreInvest             								front.home.homeAction.moreInvest
+
+# 发标公告详情
+GET    /front/homeAction/bidPublishDetails             							front.home.homeAction.bidPublishDetails
+
+# 更多发标公告
+GET    /front/homeAction/moreBidPublish             							front.home.homeAction.moreBidPublish
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^我要借款^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#借款首页
+GET    /front/bidAction/index                          							front.bid.bidAction.index
+#最新满标
+GET    /front/bidAction/fullBid 			     	    						front.bid.bidAction.fullBid
+#详情
+GET    /front/bidAction/detail                         							front.bid.bidAction.detail
+#立即申请
+*    /front/bidAction/applyNow                       							front.bid.bidAction.applyNow
+#发布借款
+POST   /front/bidAction/createBid					    						front.bid.bidAction.createBid
+# 完善基本资料
+POST   /front/bidAction/addBaseInfo 											front.bid.bidAction.addBaseInfo
+# 弹框登录
+POST   /front/bidAction/logining												front.bid.bidAction.logining
+# 激活邮箱
+POST   /front/bidAction/activeEmail												front.bid.bidAction.activeEmail
+# 保存基本资料
+POST   /front/bidAction/saveInformation											front.bid.bidAction.saveInformation
+# 计算总利息
+POST   /front/bidAction/planapr													front.bid.bidAction.planapr
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^借款子账户^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+#1 account loanAccount
+GET    /front/account/loanAccount                          						front.account.AccountHome.loanAccount
+GET    /front/account/myAttentionUser                      						front.account.AccountHome.myAttentionUser
+#我的账户 用户详情 关注的人
+#POST   /front/account/AttentionUsers                     	 					front.account.AccountHome.AttentionUsers
+#关注的人 修改备注名
+POST   /front/account/attentionUserNote                   						front.account.AccountHome.attentionUserNote
+#我关注的人 发送站内信
+POST   /front/account/attentionUsersStation               						front.account.AccountHome.attentionUsersStation
+#我的账户 用户详情  借款列表
+#POST   /front/account/loanList                            						front.account.AccountHome.loanList
+#我的账户 用户详情  最新动态
+#POST   /front/account/currentEvents                       						front.account.AccountHome.currentEvents
+#我的账户 用户详情  投资记录
+#POST   /front/account/investRecords                       						front.account.AccountHome.investRecords
+# 查看资料
+POST   /front/account/showitem													front.account.AccountHome.showitem
+
+
+#  account myMessages 我的站内信
+
+GET      /front/account/systemMsgs                      						front.account.Message.systemMsgs
+GET      /front/account/inboxMsgs                      							front.account.Message.inboxMsgs
+GET      /front/account/outboxMsgs                      						front.account.Message.outboxMsgs
+GET      /front/account/sendMsgInit                      						front.account.Message.sendMsgInit
+POST      /front/account/selectUserInit                      					front.account.Message.selectUserInit
+POST      /front/account/countMessage                      					    front.account.Message.countMessage
+POST      /front/account/sendMsg                      							front.account.Message.sendMsg
+
+POST      /front/account/systemMsgDetail                      					front.account.Message.systemMsgDetail
+POST      /front/account/inboxMsgDetail                      					front.account.Message.inboxMsgDetail
+POST      /front/account/outboxMsgDetail                      					front.account.Message.outboxMsgDetail
+
+POST      /front/account/replyMsgInit                      						front.account.Message.replyMsgInit
+POST      /front/account/replyMsg                      							front.account.Message.replyMsg
+
+POST      /front/account/deleteSystemMsgs                      					front.account.Message.deleteSystemMsgs
+POST      /front/account/deleteInboxMsgs                      					front.account.Message.deleteInboxMsgs
+POST      /front/account/deleteOutboxMsgs                      					front.account.Message.deleteOutboxMsgs
+
+POST      /front/account/markMsgsReaded                      					front.account.Message.markMsgsReaded
+POST      /front/account/markMsgsUnread                      					front.account.Message.markMsgsUnread
+
+#========================================企业认证|个体工商户认证====================================================
+GET      /front/account/auth                      								front.account.CompanyAuth.auth
+GET      /front/account/individualAuth                      					front.account.CompanyAuth.individualAuth
+POST	 /front/account/addOrUpdateAuthReview									front.account.CompanyAuth.addOrUpdateAuthReview
+
+# 借款提问
+*      /front/account/bidQuestions												front.account.Message.bidQuestions
+# 提问查看详情
+POST   /front/account/bidQuestionDetail											front.account.Message.bidQuestionDetail
+# 删除提问
+POST   /front/account/deleteBidQuestion				    						front.account.Message.deleteBidQuestion
+# 回复
+POST   /front/account/createAnswers					    						front.account.Message.createAnswers
+#2 account myLoadBills
+*      /front/account/myLoanBills                      							front.account.AccountHome.myLoanBills
+# 下载数据(我的借款账单)
+GET    /front/account/exportLoanBills                      						front.account.AccountHome.exportLoanBills
+#2 account loanBillDetails
+GET    /front/account/loanBillDetails                  							front.account.AccountHome.loanBillDetails
+#2 account toLoanBill
+GET    /front/account/toLoanBill                  							    front.account.AccountHome.toLoanBill
+#2 account loanBidDetails
+GET    /front/account/loanBidDetails                  							front.account.AccountHome.loanBidDetails
+GET    /front/account/toInvestBill                                              front.account.InvestAccount.toInvestBill
+#3 account loadBillDetails
+GET    /front/account/loanBillDetail                   							front.account.AccountHome.loanBillDetails
+# 待验证的借款标列表
+*      /front/account/waitVerifyBids											front.account.AccountHome.waitVerifyBids
+# 审核中的借款标列表
+*      /front/account/auditingLoanBids                 							front.account.AccountHome.auditingLoanBids
+# 审核资料认证
+*      /front/account/auditMaterials                   							front.account.AccountHome.auditMaterials
+# 审核资料认证IPS
+*      /front/account/auditMaterialsIPS                   						front.account.AccountHome.auditMaterialsIPS
+#
+POST   /front/account/queryUploadedItems                   						front.account.AccountHome.queryUploadedItems
+#
+GET   /front/account/submitUploadedItems                   						front.account.AccountHome.submitUploadedItems
+#
+GET   /front/account/clearUploadedItems                   						front.account.AccountHome.clearUploadedItems
+#5 account vipFirst
+GET    /front/account/vipFirst                         							front.account.AccountHome.vipFirst
+# 等待满标的借款标列表
+*      /front/account/loaningBids                      							front.account.AccountHome.loaningBids
+# 待放款的借款标列表
+*      /front/account/readyReleaseBid                      					    front.account.AccountHome.readyReleaseBid
+
+# 还款中的借款标列表
+*      /front/account/repaymentBids                    							front.account.AccountHome.repaymentBids
+#11 account prepayment
+GET    /front/account/prepayment                       							front.account.AccountHome.prepayment
+# 详情
+GET    /front/account/bidDetail                        							front.account.AccountHome.bidDetail
+# 投标记录
+POST   /front/account/bidRecord                        							front.account.AccountHome.bidRecord
+# 已成功的借款标列表
+*      /front/account/successBid                       							front.account.AccountHome.successBids
+# 失败的借款标列表
+*      /front/account/failBid													front.account.AccountHome.failBids
+#17 account repayment
+GET    /front/account/repayment                       	 						front.account.AccountHome.repayment
+#18 account submitRepayment
+POST   /front/account/submitRepayment                 							front.account.AccountHome.submitRepayment
+#19 account deleteMaterials
+GET    /front/account/submitPrepayment                 							front.account.AccountHome.submitPrepayment
+# 审核中->撤销
+GET    /front/account/auditToRepeal                 						    front.account.AccountHome.auditToRepeal
+# 提前借款->撤销
+GET    /front/account/advanceLoanToRepeal                 						front.account.AccountHome.advanceLoanToRepeal
+# 筹款中->撤销
+GET    /front/account/fundraiseToRepeal                 						front.account.AccountHome.fundraiseToRepeal
+# 查看层
+POST   /front/account/auditMaterialsSameItem									front.account.AccountHome.auditMaterialsSameItem
+# 删除用户资料
+GET    /front/account/deleteAuditItem											front.account.AccountHome.deleteAuditItem
+# 提交资料
+POST   /front/account/createUserAuditItem										front.account.AccountHome.createUserAuditItem
+# 提交资料IPS
+POST   /front/account/createUserAuditItemIPS									front.account.AccountHome.createUserAuditItemIPS
+
+# 借款合同
+*      /front/account/pact                                                      front.account.AccountHome.pact
+# 居间服务协议
+*      /front/account/intermediaryAgreement                                     front.account.AccountHome.intermediaryAgreement
+# 保障涵
+*      /front/account/guaranteeBid                                              front.account.AccountHome.guaranteeBid
+# 查询某一个标的借款合同，居间服务协议，保证函
+*	   /front/account/queryPactTemplates										front.account.AccountHome.queryPactTemplates
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^理财子账户^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+#1 account investAccount
+GET    /front/account/investAccount                      						front.account.InvestAccount.investAccount
+GET    /front/account/loanAgreement                      						front.account.InvestAccount.loanAgreement
+GET    /front/account/repayingIbbProtoco                      					front.account.InvestAccount.repayingInvestBidBrokerageProtoco
+GET    /front/account/letterOfGuarantee                      					front.account.InvestAccount.letterOfGuarantee
+GET    /front/account/guarantee                      						    front.account.InvestAccount.guarantee
+POST    /front/account/canaleDebt                      						    front.account.InvestAccount.canaleDebt
+POST    /front/account/cancleBid                      						    front.account.InvestAccount.cancleBid
+POST   /front/account/InvestAccount/queryQualityBid                      		front.account.InvestAccount.queryQualityBid
+
+POST   /front/account/InvestAccount/queryQualityDebt                      		front.account.InvestAccount.queryQualityDebt
+
+#2 account investBills
+GET    /front/account/investBill                      							front.account.InvestAccount.investBills
+# 下载数据(我的理财账单)
+GET    /front/account/exportInvestBills                      					front.account.InvestAccount.exportInvestBills
+#3 account investBillDetails
+GET    /front/account/investBillDetail                      					front.account.InvestAccount.investBillDetails
+#我的理财账单 历史还款情况
+POST   /front/account/investBillRepayment                      					front.account.InvestAccount.investBillRepayment
+#4 account investRecord
+*    /front/account/investRecord                      						    front.account.InvestAccount.investRecord
+
+#4 account queryInvestRecords
+POST   /front/account/queryInvestRecords                      					front.account.InvestAccount.queryInvestRecords
+#5 account myDebts
+GET    /front/account/myDebts                      								front.account.InvestAccount.myDebts
+
+POST   /front/account/increaseAuction                      						front.account.InvestAccount.increaseAuction
+#6 account debtDetails
+GET    /front/account/debtDetails                      							front.account.InvestAccount.debtDetails
+#7 account acceptDebts
+POST   /front/account/acceptDebt                      							front.account.InvestAccount.acceptDebts
+#8 account transact
+POST    /front/account/transact                      							front.account.InvestAccount.transact
+#8 account firstDealDebt
+POST    /front/account/firstDealDebt                      						front.account.InvestAccount.firstDealDebt
+#9 account loaningInvestBid
+GET    /front/account/loaningInvestBid                      					front.account.InvestAccount.loaningInvestBid
+
+#9 account queryUserAllloaningInvestBids
+POST   /front/account/queryUserAllloaningInvestBids                      		front.account.InvestAccount.queryUserAllloaningInvestBids
+#10 account repayingInvestBid
+GET    /front/account/repayingInvestBid                      					front.account.InvestAccount.repayingInvestBid
+
+*      /front/investAccount/readyReleaseBid                      					    front.account.InvestAccount.readyReleaseBid
+
+#10 account repayingInvestBid
+POST   /front/account/queryUserAllReceivingInvestBids                      		front.account.InvestAccount.queryUserAllReceivingInvestBids
+
+#10 account repayingInvestBid
+GET    /front/account/billDetails                      							front.account.InvestAccount.billDetails
+
+
+#11 account debtTransfer
+GET    /front/account/debtTransfer                      						front.account.InvestAccount.debtTransfer
+#13 account addBlack
+POST   /front/account/addBlack                      							front.account.InvestAccount.addBlack
+#14 account successInvestBid
+*      /front/account/successInvestBid                      					front.account.InvestAccount.successInvestBid
+
+#15 account blackList
+GET    /front/account/blackList                      							front.account.InvestAccount.blackList
+#15 account removeBlacklist
+POST   /front/account/removeBlacklist                      						front.account.InvestAccount.removeBlacklist
+#16 account investStatistics
+GET    /front/account/investStatistics                      					front.account.InvestAccount.investStatistics
+#16 account auditmaticInvest
+GET    /front/account/auditmaticInvest                      					front.account.InvestAccount.auditmaticInvest
+
+*    /front/account/closeRobot                      							front.account.InvestAccount.closeRobot
+
+#16 account auditmaticInvest
+POST   /front/account/saveOrUpdateRobot                      					front.account.InvestAccount.saveOrUpdateRobot
+#16 account attentionBid
+GET    /front/account/attentionBid                      						front.account.InvestAccount.attentionBid
+#16 account attentionDebts
+POST   /front/account/attentionDebts                      						front.account.InvestAccount.attentionDebts
+#17 account getBalance
+GET    /front/account/getBalance                      							front.account.InvestAccount.getBalance
+#18 account receivedRecord
+GET    /front/account/receivedRecord                      						front.account.InvestAccount.receivedRecord
+
+#20 account receivedDebts
+POST   /front/account/receivedDebt                      						front.account.InvestAccount.receivedDebts
+#20 account transferDebts
+POST   /front/account/transferDebts                      						front.account.InvestAccount.transferDebts
+#21 account notAccept
+POST   /front/account/notAccept                      							front.account.InvestAccount.notAccept
+#21 account debtDetailsSuccess
+GET    /front/account/debtDetailsSuccess                						front.account.InvestAccount.debtDetailsSuccess
+#21 account debtDetailsTransfering
+GET    /front/account/debtDetailsTransfering                					front.account.InvestAccount.debtDetailsTransfering
+#21 account debtDetailsAuditing
+GET    /front/account/debtDetailsAuditing                						front.account.InvestAccount.debtDetailsAuditing
+#21 account debtDetailsNoPass
+GET    /front/account/debtDetailsNoPass                							front.account.InvestAccount.debtDetailsNoPass
+#21 account debtDetailsFailure
+GET    /front/account/debtDetailsFailure                						front.account.InvestAccount.debtDetailsFailure
+#21 account ajaxViewAuctionRecords
+POST   /front/account/ajaxViewAuctionRecords                					front.account.InvestAccount.ajaxViewAuctionRecords
+#21 account receiveDebtDetails
+GET    /front/account/receiveDebtDetails                						front.account.InvestAccount.receiveDebtDetails
+#21 account auctionSuccess
+GET    /front/account/auctionSuccess                							front.account.InvestAccount.auctionSuccess
+
+#21 account auctionFailure
+GET    /front/account/auctionFailure                							front.account.InvestAccount.auctionFailure
+#21 account auctionBidding
+GET    /front/account/auctionBidding                							front.account.InvestAccount.auctionBidding
+
+#21 account auctionWaitConcirm
+GET    /front/account/auctionWaitConcirm                						front.account.InvestAccount.auctionWaitConcirm
+#21 account ajaxViewAuctionRecords
+GET    /front/account/directionalDebt                							front.account.InvestAccount.directionalDebt
+
+# 借款合同
+*      /front/account/InvestAccount/investPact                                  front.account.InvestAccount.investPact
+# 居间服务协议
+*      /front/account/InvestAccount/intermediaryAgreement                       front.account.InvestAccount.intermediaryAgreement
+# 保障涵
+*      /front/account/InvestAccount/guaranteeBid                                front.account.InvestAccount.guaranteeBid
+# 转让协议
+*      /front/debt/deptPact                                                     front.account.InvestAccount.deptPact
+# 查询理财人的理财合同，居间服务协议以及保证函
+*	   /front/account/InvestAccount/queryPactTemplates							front.account.InvestAccount.queryPactTemplates
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^资金管理^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+#1 account accountInformation
+GET    /front/account/accountInformation                      					front.account.FundsManage.accountInformation
+#2 account addBank
+POST   /front/account/addBank                      								front.account.FundsManage.addBank
+#3 account myCredit
+GET    /front/account/myCredit                     	 							front.account.FundsManage.myCredit
+#4 account viewCreditRule
+POST   /front/account/viewCreditRule                      						front.account.FundsManage.viewCreditRule
+#5 account creditintegral
+POST   /front/account/creditintegral                      						front.account.FundsManage.creditintegral
+#5 account creditItem
+POST   /front/account/creditItem                      						    front.account.FundsManage.creditItem
+#6 account applyOverBorrow
+GET    /front/account/applyOverBorrow                      						front.account.FundsManage.applyOverBorrow
+#7 account submitApply
+GET    /front/account/submitApply                      							front.account.FundsManage.submitApply
+#7 account viewOverBorrow
+POST   /front/account/viewOverBorrow                      						front.account.FundsManage.viewOverBorrow
+#7 account viewOverBorrowIps
+POST   /front/account/viewOverBorrowIps                      					front.account.FundsManage.viewOverBorrowIps
+#7 account userAuditItem
+POST   /front/account/userAuditItem                      						front.account.FundsManage.userAuditItem
+#8 account editBank
+POST   /front/account/editBank                      							front.account.FundsManage.editBank
+#9 account deleteBank
+POST   /front/account/deleteBank                      							front.account.FundsManage.deleteBank
+#10 account saveBank
+GET    /front/account/saveBank                      							front.account.FundsManage.saveBank
+#11 account creditDetailLoan
+POST   /front/account/creditDetailLoan                      					front.account.FundsManage.creditDetailLoan
+#11 account creditDetailAuditItem
+POST   /front/account/creditDetailAuditItem                      				front.account.FundsManage.creditDetailAuditItem
+#11 account creditDetailInvest
+POST   /front/account/creditDetailInvest                      					front.account.FundsManage.creditDetailInvest
+#11 account creditDetailRepayment
+POST   /front/account/creditDetailRepayment                      				front.account.FundsManage.creditDetailRepayment
+#11 account creditDetailOverdue
+POST   /front/account/creditDetailOverdue                      					front.account.FundsManage.creditDetailOverdue
+#12 account recharge
+*    /front/account/recharge                      							front.account.FundsManage.recharge
+GET    /front/account/rechargeApp                      							front.account.FundsManage.rechargeApp
+GET    /front/account/rechargePay                      							front.account.FundsManage.rechargePay
+GET    /front/account/rechargePayIps                      						front.account.FundsManage.rechargePayIps
+#13 account submitRecharge
+*      /front/account/submitRecharge                      						front.account.FundsManage.submitRecharge
+*      /front/account/submitRechargeApp                      				    front.account.FundsManage.submitRechargeApp
+POST   /front/account/submitRechargePay                      					front.account.FundsManage.submitRechargePay
+#13 account submitRecharge
+GET    /front/account/callback                      							front.account.FundsManage.callback
+*    /front/account/callbackSys                      							front.account.FundsManage.callbackSys
+#13 account submitRecharge
+POST   /front/account/gCallback                      							front.account.FundsManage.gCallback
+POST   /front/account/gCallbackSys                      						front.account.FundsManage.gCallbackSys
+#连连支付充值回调
+*   /front/account/llWebCallback                     							front.account.FundsManage.llWebCallback
+*   /front/account/llWebCallbackSys                      						front.account.FundsManage.llWebCallbackSys
+
+#宝付支付充值回调
+*   /front/account/baofuWebCallback                     						front.account.FundsManage.baofuWebCallback
+*   /front/account/baofuWebCallbackSys                      					front.account.FundsManage.baofuWebCallbackSys
+GET  /front/account/bfAppCallback                      						    front.account.FundsManage.bfAppCallback
+*    /front/account/bfRetCallback                      							front.account.FundsManage.bfRetCallback
+#14 account withdrawal
+*      /front/account/withdrawal                      							front.account.FundsManage.withdrawal
+# 查询银行卡信息
+POST   /front/account/QueryBankInfo                      						front.account.FundsManage.QueryBankInfo
+# 确认提现
+POST   /front/account/submitWithdrawal                      					front.account.FundsManage.submitWithdrawal
+#15 account applyWithdrawal
+GET    /front/account/applyWithdrawal                      						front.account.FundsManage.applyWithdrawal
+#16 account submitTransfer
+GET    /front/account/submitTransfer                      						front.account.FundsManage.submitTransfer
+#17 account transfer
+GET    /front/account/transfer                      							front.account.FundsManage.transfer
+#18 account dealRecord
+GET    /front/account/dealRecord                      							front.account.FundsManage.dealRecord
+#19 account dealDetails
+GET    /front/account/dealDetail                      							front.account.FundsManage.dealDetails
+#20 account exportData
+GET    /front/account/exportDealRecords                      					front.account.FundsManage.exportDealRecords
+#20 account showitem
+POST    /front/account/FundsManage/showitem                      				front.account.FundsManage.showitem
+
+#托管开户
+*   /front/account/createAcct                                                   front.account.CheckAction.createAcct
+#我的托管账户
+GET     /front/account/trustAccount                      						front.account.CheckAction.trustAccount
+#托管账号登陆
+GET    /front/account/loginAccount			                      				front.account.FundsManage.loginAccount
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^基本信息^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+#1 account basicInformation
+GET    /front/account/basicInformation                      					front.account.BasicInformation.basicInformation
+#2 account changeHead
+GET    /front/account/changeHead                      							front.account.BasicInformation.changeHead
+#2 account getCity
+POST   /front/account/getCity                      								front.account.BasicInformation.getCity
+#3 account saveInformation
+POST   /front/account/saveInformation                      						front.account.BasicInformation.saveInformation
+#4 account applyVip
+GET    /front/account/applyVip                      							front.account.BasicInformation.applyVip
+#5 account renewVip
+GET    /front/account/renewVip                      							front.account.BasicInformation.renewVip
+#7 account modifyQuestion
+GET    /front/account/setSafeQuestionModify                      				front.account.BasicInformation.setSafeQuestionModify
+#6 account vipDetail
+POST   /front/account/vipDetail                      							front.account.BasicInformation.vipDetail
+#7 account setSafeQuestion
+GET    /front/account/setSafeQuestion                      						front.account.BasicInformation.setSafeQuestion
+#7 account verifySafeQuestion
+POST   /front/account/verifySafeQuestion                      					front.account.BasicInformation.verifySafeQuestion
+#8 account saveSafeQuestion
+POST   /front/account/saveSafeQuestion                      					front.account.BasicInformation.saveSafeQuestion
+#9 account getSafeQuestion
+GET    /front/account/getSafeQuestion                      						front.account.BasicInformation.getSafeQuestion
+#10 account activeEmail
+POST   /front/account/activeEmail                      							front.account.BasicInformation.activeEmail
+#11 account saveEmail
+POST   /front/account/saveEmail                      							front.account.BasicInformation.saveEmail
+#12 account modifyEmail
+GET    /front/account/modifyEmail                      							front.account.BasicInformation.modifyEmail
+#12 account bindEmail
+POST   /front/account/bindEmail                      							front.account.BasicInformation.bindEmail
+#13 account modifyPassword
+GET    /front/account/modifyPassword                      						front.account.BasicInformation.modifyPassword
+#13 account resetDelPassword
+GET    /front/account/resetDelPassword                      					front.account.BasicInformation.resetDelPassword
+#13 account savePayPasswordByEmail
+GET    /front/account/savePayPasswordByEmail                      				front.account.BasicInformation.savePayPasswordByEmail
+#14 account savePassword
+POST   /front/account/savePassword                      						front.account.BasicInformation.savePassword
+#14 account savePayPassword
+POST   /front/account/savePayPassword                      						front.account.BasicInformation.savePayPassword
+#14 account editPayPassword
+POST   /front/account/editPayPassword                      						front.account.BasicInformation.editPayPassword
+#14 account resetPayPassword
+POST   /front/account/resetPayPassword                      					front.account.BasicInformation.resetPayPassword
+#14 account resetPayPassword
+POST   /front/account/resetPayPasswordByEmail                      				front.account.BasicInformation.resetPayPasswordByEmail
+#15 account resetSafeQuestion
+POST   /front/account/resetSafeQuestion                      					front.account.BasicInformation.resetSafeQuestion
+#16 account modifyMobile
+GET   /front/account/modifyMobile                      							front.account.BasicInformation.modifyMobile
+#16 通过邮箱重置安全问题
+GET    /front/account/resetQuestion                     						front.account.BasicInformation.resetQuestion
+#16 通过邮件重置后，保存安全问题答案
+GET    /front/account/saveSafeQuestionByEmail                     				front.account.BasicInformation.saveSafeQuestionByEmail
+#17 account saveMobile
+POST   /front/account/saveMobile                      							front.account.BasicInformation.saveMobile
+#18 account bindMobile
+*   /front/account/bindMobile                      							    front.account.BasicInformation.bindMobile
+#19account verifyMobile
+GET    /front/account/verifyMobile                      						front.account.BasicInformation.verifyMobile
+#20 account forgetSafeQuestion
+GET    /front/account/forgetSafeQuestion                      					front.account.BasicInformation.forgetSafeQuestion
+#实名认证
+GET    /front/account/certification                      					    front.account.BasicInformation.certification
+POST   /front/account/doCertification                                           front.account.BasicInformation.doCertification
+
+#安全银行卡设置
+* /front/account/addSafeBankCard      											front.account.BasicInformation.addSafeBankCard
+#账户激活
+GET     /front/account/inactiveUser                      						front.account.CheckAction.inactiveUser
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^cps推广^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#20 account forgetSafeQuestion
+GET    /front/account/spreadLink                      							front.account.Spread.spreadLink
+#20 account forgetSafeQuestion
+GET    /front/account/spreadUser                      							front.account.Spread.spreadUser
+#21 cps推广会员明细
+POST   /front/account/incomeDetail                      						front.account.Spread.incomeDetail
+#20 account spreadUser
+GET    /front/account/spreadIncome                      						front.account.Spread.spreadIncome
+GET    /front/AccountHome/userDetail                                            Application.errorFront
+#20 account AccountHome(此功能暂时注释)
+#GET    /front/AccountHome/userDetail                      						front.account.AccountHome.userDetail
+
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^账户中心注册登录等功能^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#会员登录
+GET    /login                          											front.account.LoginAndRegisterAction.login
+GET    /logout                          										front.account.LoginAndRegisterAction.logout
+#会员登录
+POST   /front/account/topLogin                          						front.account.LoginAndRegisterAction.topLogin
+#查询底部链接条目
+POST   /front/account/buttomLinks                          						front.account.LoginAndRegisterAction.buttomLinks
+
+#会员登录
+POST   /login                         											front.account.LoginAndRegisterAction.logining
+#获取验证码并返回页面
+POST   /front/account/codeReturn                         						front.account.LoginAndRegisterAction.codeReturn
+#会员注册
+GET    /register                       											front.account.LoginAndRegisterAction.register
+#手机注册
+GET    /registerMobile                       											front.account.LoginAndRegisterAction.registerMobile
+#APP以手机号码注册页面
+GET    /reg                     												front.account.LoginAndRegisterAction.appReg
+GET    /reg/new                     											front.account.LoginAndRegisterAction.appRegNew
+#APP以手机号码注册
+POST    /appRegMobile                       									front.account.LoginAndRegisterAction.appRegMobile
+#发送手机验证码
+POST    /sendSmsCode                       											front.account.LoginAndRegisterAction.sendSmsCode
+#生成验证码
+POST   /front/account/setCode                       							front.account.LoginAndRegisterAction.setCode
+#校验验证码
+POST   /front/account/checkCode                       							front.account.LoginAndRegisterAction.checkCode
+#判断邮箱是否存在
+POST   /front/account/hasEmailExist                       						front.account.LoginAndRegisterAction.hasEmailExist
+#判断用户名是否存在
+POST   /front/account/hasNameExist                       						front.account.LoginAndRegisterAction.hasNameExist
+#检查推荐人信息
+POST   /front/account/checkRecommendName                       					front.account.LoginAndRegisterAction.checkRecommendName
+#判断手机号码是否存在
+POST   /front/account/hasMobileExist                       						front.account.LoginAndRegisterAction.hasMobileExist
+#获取验证码
+GET    /front/account/getImg                       								front.account.LoginAndRegisterAction.getImg
+#验证注册信息
+POST   /front/account/register                  								front.account.LoginAndRegisterAction.registering
+#激活帐号
+GET    /front/account/accountActivation              							front.account.LoginAndRegisterAction.accountActivation
+#通过邮箱找回用户名
+GET    /front/account/findBackUsernameByEmail       							front.account.LoginAndRegisterAction.findBackUsernameByEmail
+#保存通过邮箱找回用户名的信息
+POST   /front/account/saveUsernameByEmail       								front.account.LoginAndRegisterAction.saveUsernameByEmail
+#通过邮箱找回用户名后跳转到成功页面
+GET    /front/account/emailSuccess       										front.account.LoginAndRegisterAction.emailSuccess
+#检测手机是否已注册
+*    /front/account/hasMobileExists       											front.account.LoginAndRegisterAction.hasMobileExists
+
+#通过手机重置密码
+GET    /front/account/resetPasswordByMobile          							front.account.LoginAndRegisterAction.resetPasswordByMobile
+POST   /front/account/savePasswordByMobile           							front.account.LoginAndRegisterAction.savePasswordByMobile
+#通过邮箱重置密码
+GET    /front/account/resetPasswordByEmail           							front.account.LoginAndRegisterAction.resetPasswordByEmail
+#跳转到邮箱重置密码页面
+GET    /front/account/resetPassword                  							front.account.LoginAndRegisterAction.resetPassword
+#邮箱重置密码保存
+GET    /front/account/savePasswordByEmail                 						front.account.LoginAndRegisterAction.savePasswordByEmail
+#发送手机验证码
+POST   /front/account/verifyMobile                 								front.account.LoginAndRegisterAction.verifyMobile
+POST   /front/account/sendResetEmail           									front.account.LoginAndRegisterAction.sendResetEmail
+POST   /front/account/verifyMobileForReg           								front.account.LoginAndRegisterAction.verifyMobileForReg
+POST   /front/account/verifyEmailForReg           								front.account.LoginAndRegisterAction.verifyEmailForReg
+POST   /front/account/verifySmsCodeForReg           							front.account.LoginAndRegisterAction.verifySmsCodeForReg
+POST   /front/account/findPasswordByMobile           							front.account.LoginAndRegisterAction.findPasswordByMobile
+
+#通过手机找回用户名
+GET    /front/account/findBackUsernameBytele       								front.account.LoginAndRegisterAction.findBackUsernameBytele
+#保存通过手机找回用户名的信息
+POST   /front/account/saveUsernameByTele       									front.account.LoginAndRegisterAction.saveUsernameByTele
+#通过手机找回用户名后跳转到成功页面
+GET    /front/account/teleSuccess       										front.account.LoginAndRegisterAction.teleSuccess
+
+#通过手机重置密码
+GET    /front/account/resetPasswordByMobile          							front.account.LoginAndRegisterAction.resetPasswordByMobile
+#通过邮箱重置密码
+GET    /front/account/resetPasswordByEmail           							front.account.LoginAndRegisterAction.resetPasswordByEmail
+
+# Ignore favicon requests
+GET    /favicon.ico                             404
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^我要理财模块路由配置^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+#理财首页
+GET    /front/invest/investHome                        							front.invest.investAction.investHome
+POST   /front/invest/homeBids                        							front.invest.investAction.homeBids
+POST   /front/invest/queryUserCollectBids                        				front.invest.investAction.queryUserCollectBids
+#标的详情
+GET    /front/invest/bidDetails                         						front.invest.investAction.bidDetails
+#向借款者提问
+POST   /front/invest/questionToBorrower                							front.invest.investAction.questionToBorrower
+#投标
+GET    /front/invest/invest                            							front.invest.investAction.invest
+#确认投标
+POST   /front/invest/confirmInvest                      						front.invest.investAction.confirmInvest
+
+#确认投标
+POST   /front/invest/confirmInvestBottom                      					front.invest.investAction.confirmInvestBottom
+#收藏借款标
+POST   /front/invest/collectBid                        							front.invest.investAction.collectBid
+#取消收藏借款标
+POST   /front/invest/cancleBidAttention                        					front.invest.investAction.cancleBidAttention
+POST   /front/invest/showitem                        							front.invest.investAction.showitem
+
+#查看资料图片
+POST   /front/invest/showitem                        							front.invest.investAction.showitem
+
+#发送站内信
+GET    /front/invest/sendLetters                       							front.invest.investAction.sendLetters
+#举报会员
+GET    /front/invest/reportMember                      							front.invest.investAction.reportMember
+
+#查看投标记录ajax分页
+*     /front/invest/viewBidInvestRecords                        				front.invest.investAction.viewBidInvestRecords
+#查看借款标提问记录ajax分页
+*     /front/invest/viewBidAllQuestion                        					front.invest.investAction.viewBidAllQuestion
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^前台债权转让模块路由配置^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+#债权转让首页
+GET    /front/debt/debtHome                        								front.debt.debtAction.debtHome
+POST   /front/debt/debtHomeDebtList                        						front.debt.debtAction.debtHomeDebtList
+#债权转让详情页面
+GET    /front/debt/debtTransferDetails              							front.debt.debtAction.debtTransferDetails
+#债权详情页面
+GET    /front/debt/debtDetails                      							front.debt.debtAction.debtDetails
+#我要竞拍债权
+POST   /front/debt/auction                         								front.debt.debtAction.auction
+#确认竞拍债权
+POST   /front/debt/confirmTransfer                 								front.debt.debtAction.confirmTransfer
+#查看借款标提问记录ajax分页
+POST   /front/debt/viewDebtAllAuctionRecords           							front.debt.debtAction.viewDebtAllAuctionRecords
+#查看资料图片
+POST   /front/debt/showitem                        								front.debt.debtAction.showitem
+#举报债权用户
+POST   /front/debt/reportUser           										front.debt.debtAction.reportUser
+
+#收藏债权
+POST   /front/debt/collectDebt           										front.debt.debtAction.collectDebt
+
+#检验定向转让用户是否存在
+POST   /front/debt/judgeUserNameExist           								front.debt.debtAction.judgeUserNameExist
+
+
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^前台本金保障模块路由配置^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+#前台本金保障首页
+GET    /front/principal/principalGuaranteeHome                            		front.principal.PrincipalGuaranteeAction.principalGuaranteeHome
+GET    /front/principal/principalGuaranteeAppHome                            	front.principal.PrincipalGuaranteeAction.principalGuaranteeAppHome
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^前台财富资讯模块路由配置^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#财富资讯首页
+GET    /front/wealthinfomation/home                            					front.wealthinfomation.WealthInfomationAction.home
+GET    /front/wealthinfomation/restHome/{<[0-9]+>typeId}.html                   front.wealthinfomation.WealthInfomationAction.restHome
+GET    /front/wealthinfomation/newDetails/{<[0-9]+>id}.html                     front.wealthinfomation.WealthInfomationAction.restNewDetails
+
+
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^前台帮助中心模块路由配置^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+#前台帮助中心首页
+GET    /front/help/index                                          				front.help.HelpCenterAction.index
+# 合作伙伴
+GET    /front/help/partner                                          			front.help.HelpCenterAction.partner
+GET    /front/help/partnerJson                                          		front.help.HelpCenterAction.partnerJson
+GET    /front/help/detail                                      					front.help.HelpCenterAction.detail
+POST   /front/help/support                                          			front.help.HelpCenterAction.support
+POST   /front/help/opposition                                          			front.help.HelpCenterAction.opposition
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^前台财富资讯模块路由配置^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#前台财富资讯首页
+GET    /front/wealthinfomation/wealthInfomationHome                     		front.wealthinfomation.WealthInfomationAction.wealthInfomationHome
+#前台财富资讯首页
+GET    /front/wealthinfomation/newList                                  		front.wealthinfomation.WealthInfomationAction.newList
+GET    /front/wealthinfomation/newsList                                  		front.wealthinfomation.WealthInfomationAction.newsList
+#前台财富资讯首页
+GET    /front/wealthinfomation/newDetails                                		front.wealthinfomation.WealthInfomationAction.newDetails
+
+#财富工具箱
+
+GET    /front/wealthinfomation/wealthBox                                		front.wealthinfomation.WealthInfomationAction.wealthBox
+
+#信用等级图标说明
+
+GET    /front/wealthinfomation/creditratingiconDescription               		front.wealthinfomation.WealthInfomationAction.creditratingiconDescription
+
+#借款标图标说明
+
+GET    /front/wealthinfomation/borrowIconDescription                     		front.wealthinfomation.WealthInfomationAction.borrowIconDescription
+
+
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^后台路由配置^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+# ***********************************************登录*****************************************************
+# 登录
+GET    /supervisor/?                                  							supervisor.login.LoginAction.loginInit
+POST   /supervisor                                  							supervisor.login.LoginAction.login
+GET	   /supervisor/ukeyCheck                                  					supervisor.login.LoginAction.ukeyCheck
+GET    /supervisor/logout                           							supervisor.login.LoginAction.logout
+GET    /supervisor/login/loginAlert                        						supervisor.login.LoginAction.loginAlert
+
+GET    /supervisor/login/ipLocation                        						supervisor.login.LoginAction.ipLocation
+
+GET   /supervisor/checkUkeyInIt                          						supervisor.login.LoginAction.checkUkeyInIt
+GET   /supervisor/UkeyCheck                        						        supervisor.login.LoginAction.checkUkeySign
+GET   /supervisor/toBlank                        						        supervisor.login.LoginAction.toBlank
+
+# ***********************************************用户中心*****************************************************
+GET    /supervisor/account/home                            						supervisor.account.AccountAction.home
+POST   /supervisor/editSupervisor                          						supervisor.account.AccountAction.editSupervisor
+
+
+# ***********************************************管理首页*****************************************************
+GET    /supervisor/managementHome/showHome          							supervisor.managementHome.HomeAction.showHome
+*	   /supervisor/managementHome/saveIndexSetting          					supervisor.managementHome.HomeAction.saveIndexSetting
+GET	   /supervisor/managementHome/showEchartsData                               supervisor.managementHome.HomeAction.showEchartsData
+
+# ***********************************************网站内容管理*****************************************************
+# -----------------------------------------------新闻资讯管理--------------------------------------------------------
+# 内容管理
+*      /supervisor/webContentManager/contentManagement      					supervisor.webContentManager.NewsManageAction.contentManagement
+# 用于类别下拉联动
+POST   /supervisor/webContentManager/typeList                 					supervisor.webContentManager.NewsManageAction.typeList
+#用于异步请求某类别下的新闻条数
+POST   /supervisor/webContentManager/newsCount									supervisor.webContentManager.NewsManageAction.newsCount
+# 添加内容
+POST   /supervisor/webContentManager/addContent                    				supervisor.webContentManager.NewsManageAction.addContent
+# 添加内容页面
+GET   /supervisor/webContentManager/contentManagementAdd                    	supervisor.webContentManager.NewsManageAction.contentManagementAdd
+# 异步判断排序序号是否已经存在
+POST   /supervisor/webContentManager/ajaxJudgeOrder                				supervisor.webContentManager.NewsManageAction.ajaxJudgeOrder
+# 删除内容
+POST   /supervisor/webContentManager/deletContent                  				supervisor.webContentManager.NewsManageAction.deletContent
+# 改变显示状态
+POST   /supervisor/webContentManager/updateUseStatus              				supervisor.webContentManager.NewsManageAction.updateUseStatus
+# 编辑初始化
+GET   /supervisor/webContentManager/editContentInit               				supervisor.webContentManager.NewsManageAction.editContentInit
+# 编辑内容
+POST   /supervisor/webContentManager/editContent                    			supervisor.webContentManager.NewsManageAction.editContent
+
+# 类别管理
+GET    /supervisor/webContentManager/categoryManagement             			supervisor.webContentManager.NewsManageAction.categoryManagement
+# 编辑类别
+POST   /supervisor/webContentManager/editCategory                  				supervisor.webContentManager.NewsManageAction.editCategory
+# 编辑子类别
+POST   /supervisor/webContentManager/editChildCategory                  		supervisor.webContentManager.NewsManageAction.editChildCategory
+# 添加类别
+GET    /supervisor/webContentManager/addCategory                    			supervisor.webContentManager.NewsManageAction.addCategory
+# 类别隐藏
+POST   /supervisor/webContentManager/hideType                      				supervisor.webContentManager.NewsManageAction.hideType
+# 类别显示
+POST   /supervisor/webContentManager/showType                      				supervisor.webContentManager.NewsManageAction.showType
+# 删除子类别
+POST   /supervisor/webContentManager/deleteSubcategory             				supervisor.webContentManager.NewsManageAction.deleteSubcategory
+
+# -----------------------------------------------广告内容管理--------------------------------------------------------
+# 广告条管理
+GET    /supervisor/webContentManager/bannermanagement              				supervisor.webContentManager.AdManageAction.bannermanagement
+# 查询要编辑的广告条
+POST   /supervisor/webContentManager/queryAds                      				supervisor.webContentManager.AdManageAction.queryAds
+# 广告条管理编辑
+GET    /supervisor/webContentManager/editBanner                     			supervisor.webContentManager.AdManageAction.editBanner
+# 改变广告条状态
+POST   /supervisor/webContentManager/updateBanner                 				supervisor.webContentManager.AdManageAction.updateBanner
+# 4大安全保障编辑
+POST   /supervisor/webContentManager/securityEditor                				supervisor.webContentManager.AdManageAction.securityEditor
+# 4大安全保障
+GET    /supervisor/webContentManager/security                       			supervisor.webContentManager.AdManageAction.security
+# 改变启用状态
+POST   /supervisor/webContentManager/updateSecurityStatus          				supervisor.webContentManager.AdManageAction.updateSecurityStatus
+# 保存4大安全保障编辑
+GET    /supervisor/webContentManager/SaveSecurity                   			supervisor.webContentManager.AdManageAction.SaveSecurity
+# 合作伙伴
+GET    /supervisor/webContentManager/partner                       				supervisor.webContentManager.AdManageAction.partner
+# 合作伙伴 编辑
+POST   /supervisor/webContentManager/partnerEditor                				supervisor.webContentManager.AdManageAction.partnerEditor
+# 编辑合作伙伴
+GET    /supervisor/webContentManager/editPartner                   				supervisor.webContentManager.AdManageAction.editPartner
+# 删除合作伙伴
+POST   /supervisor/webContentManager/deletPartner                 				supervisor.webContentManager.AdManageAction.deletPartner
+# 增加合作伙伴
+GET    /supervisor/webContentManager/increasedPartner               			supervisor.webContentManager.AdManageAction.increasedPartner
+# 底部链接管理
+GET    /supervisor/webContentManager/bottomLinkManager              			supervisor.webContentManager.AdManageAction.bottomLinkManager
+# 底部链接管理编辑
+POST   /supervisor/webContentManager/bottomManagerEditor           				supervisor.webContentManager.AdManageAction.bottomManagerEditor
+#底部友情连接添加
+POST   /supervisor/webContentManager/bottomManagerAdd           				supervisor.webContentManager.AdManageAction.bottomManagerAdd
+# 校验order的唯一性
+POST   /supervisor/webContentManager/verifyOrder                   				supervisor.webContentManager.AdManageAction.verifyOrder
+# 修改链接显示状态
+POST   /supervisor/webContentManager/updateBottomLinkStatus                     supervisor.webContentManager.AdManageAction.updateBottomLinkStatus
+
+# -----------------------------------------------站内信管理--------------------------------------------------------
+# 发送站内信初始化页面
+GET    /supervisor/webContentManager/sendMessageInit       						supervisor.webContentManager.Message.sendMessageInit
+# 查询模板
+POST   /supervisor/webContentManager/queryTemplate       						supervisor.webContentManager.Message.queryTemplate
+# 发送站内信
+POST   /supervisor/webContentManager/sendMessage      							supervisor.webContentManager.Message.sendMessage
+# 选择用户初始化页面
+POST   /supervisor/webContentManager/selectUsersInit      						supervisor.webContentManager.Message.selectUsersInit
+# 发送快捷站内信
+POST   /supervisor/webContentManager/sendGroupMessage      						supervisor.webContentManager.Message.sendGroupMessage
+# 待回复站内信
+GET    /supervisor/webContentManager/toReplyMessages      						supervisor.webContentManager.Message.toReplyMessages
+# 待回复站内信 详情弹出层
+*      /supervisor/webContentManager/toReplyMessageDetail      					supervisor.webContentManager.Message.toReplyMessageDetail
+# 待回复站内信 回复弹出层
+*      /supervisor/webContentManager/toReplyMessageReply      					supervisor.webContentManager.Message.toReplyMessageReply
+# 待回复站内信 回复
+*      /supervisor/webContentManager/reply      								supervisor.webContentManager.Message.reply
+# 删除收件箱站内信
+*      /supervisor/webContentManager/deleteInboxMsg      						supervisor.webContentManager.Message.deleteInboxMsg
+# 删除发件箱站内信
+*      /supervisor/webContentManager/deleteOutboxMsg     						supervisor.webContentManager.Message.deleteOutboxMsg
+# 待回复站内信 拒收弹出层
+*      /supervisor/webContentManager/toReplyMessageReject      					supervisor.webContentManager.Message.toReplyMessageReject
+# 待回复站内信 拒收
+*      /supervisor/webContentManager/reject      								supervisor.webContentManager.Message.reject
+# 已回复站内信
+GET    /supervisor/webContentManager/repliedMessages     						supervisor.webContentManager.Message.repliedMessages
+# 已回复站内信 详情弹出层
+*      /supervisor/webContentManager/repliedMessageDetail      					supervisor.webContentManager.Message.repliedMessageDetail
+# 已删除站内信
+GET    /supervisor/webContentManager/deletedMessages     						supervisor.webContentManager.Message.deletedMessages
+# 已删除站内信 详情弹出层
+*      /supervisor/webContentManager/deletedMessageDetail      					supervisor.webContentManager.Message.deletedMessageDetail
+# 发送记录
+*    /supervisor/webContentManager/outboxMessages               				supervisor.webContentManager.Message.outboxMessages
+# 发送记录 详情弹出层
+*      /supervisor/webContentManager/outboxMessageDetail      					supervisor.webContentManager.Message.outboxMessageDetail
+# 拒收名单
+GET    /supervisor/webContentManager/rejectedUsers                				supervisor.webContentManager.Message.rejectedUsers
+# 拒收用户详情
+*      /supervisor/webContentManager/rejectedUserDetail               			supervisor.webContentManager.Message.rejectedUserDetail
+# 接收
+*      /supervisor/webContentManager/receive                					supervisor.webContentManager.Message.receive
+
+# -----------------------------------------------借款标产品管理--------------------------------------------------------
+# 借款端已分配列表详情
+*      /supervisor/webContentManager/allotDetails                   			supervisor.webContentManager.ProductAction.allotDetails
+# 产品列表
+*      /supervisor/webContentManager/productList                   				supervisor.webContentManager.ProductAction.productList
+# 上架
+GET    /supervisor/webContentManager/enableProduct 								supervisor.webContentManager.ProductAction.enableProduct
+# 下架
+GET    /supervisor/webContentManager/notEnableProduct 							supervisor.webContentManager.ProductAction.notEnableProduct
+# 文件上传
+GET    /supervisor/webContentManager/upload										supervisor.webContentManager.ProductAction.upload
+# 添加产品 页面跳转
+GET    /supervisor/webContentManager/addProduct                    				supervisor.webContentManager.ProductAction.addProduct
+# 添加
+POST   /supervisor/webContentManager/addingProduct                 				supervisor.webContentManager.ProductAction.addingProduct
+# 检查名称是否唯一
+POST   /supervisor/webContentManager/checkName									supervisor.webContentManager.ProductAction.checkName
+# 编辑 页面跳转
+GET    /supervisor/webContentManager/editProduct								supervisor.webContentManager.ProductAction.editProduct
+# 编辑
+POST   /supervisor/webContentManager/editingProduct    							supervisor.webContentManager.ProductAction.editingProduct
+# 借款标常量列表
+GET    /supervisor/webContentManager/constantList 								supervisor.webContentManager.ProductAction.constantList
+# 编辑审核机制
+POST   /supervisor/webContentManager/editAuditMechanism							supervisor.webContentManager.ProductAction.editAuditMechanism
+# 显示借款目的
+GET    /supervisor/webContentManager/enablePurpose								supervisor.webContentManager.ProductAction.enablePurpose
+# 隐藏借款目的
+GET    /supervisor/webContentManager/notEnablePurpose							supervisor.webContentManager.ProductAction.notEnablePurpose
+# 添加借款用途
+POST   /supervisor/webContentManager/addingPurpose								supervisor.webContentManager.ProductAction.addingPurpose
+# 编辑借款用途
+POST   /supervisor/webContentManager/editingPurpose								supervisor.webContentManager.ProductAction.editingPurpose
+# 显示还款类型
+GET	   /supervisor/webContentManager/enableRepaymentType						supervisor.webContentManager.ProductAction.enableRepaymentType
+# 隐藏还款类型
+GET	   /supervisor/webContentManager/notEnableRepaymentType						supervisor.webContentManager.ProductAction.notEnableRepaymentType
+# 编辑编号字母
+POST   /supervisor/webContentManager/editingNumber 								supervisor.webContentManager.ProductAction.editingNumber
+# 审计资料列表
+GET	   /supervisor/webContentManager/audtiItemList                 				supervisor.webContentManager.ProductAction.audtiItemList
+# 启用审计资料
+GET    /supervisor/webContentManager/enableAuditItem							supervisor.webContentManager.ProductAction.enableAuditItem
+# 暂停审计资料
+GET    /supervisor/webContentManager/notEnableAuditItem							supervisor.webContentManager.ProductAction.notEnableAuditItem
+# 添加审计项目
+POST   /supervisor/webContentManager/addingAuditItem							supervisor.webContentManager.ProductAction.addingAuditItem
+# 检查审计项目名
+POST    /supervisor/webContentManager/checkName									supervisor.webContentManager.ProductAction.checkName
+# 编辑审计项目
+POST    /supervisor/webContentManager/editingAuditItem							supervisor.webContentManager.ProductAction.editingAuditItem
+# 实名信息
+POST    /supervisor/webContentManager/realityNameInfo							supervisor.webContentManager.ProductAction.realityNameInfo
+
+# 信用等级管理
+#信用等级列表
+*      /supervisor/webContentManager/creditLevelList							supervisor.webContentManager.CreditLevelManager.creditLevelList
+#添加信用等级初始化
+POST    /supervisor/webContentManager/addCreditLevelInit						supervisor.webContentManager.CreditLevelManager.addCreditLevelInit
+#添加信用等级
+POST	/supervisor/webContentManager/addCreditLevel							supervisor.webContentManager.CreditLevelManager.addCreditLevel
+#编辑信用等级初始化
+POST	/supervisor/webContentManager/editCreditLevelInit						supervisor.webContentManager.CreditLevelManager.editCreditLevelInit
+#编辑信用等级
+POST	/supervisor/webContentManager/editCreditLevel							supervisor.webContentManager.CreditLevelManager.editCreditLevel
+#暂停/启用信用等级
+POST	/supervisor/webContentManager/enable									supervisor.webContentManager.CreditLevelManager.enable
+#信用规则设置初始化
+GET 	/supervisor/webContentManager/creditRuleSetInit							supervisor.webContentManager.CreditLevelManager.creditRuleSetInit
+#信用规则设置
+POST	/supervisor/webContentManager/creditRuleSet								supervisor.webContentManager.CreditLevelManager.creditRuleSet
+#积分明细
+POST	/supervisor/webContentManager/pointsDetail								supervisor.webContentManager.CreditLevelManager.pointsDetail
+
+#--------------------------------------盈盈社区帖子管理--------------------------------------------------
+#显示发帖类型
+*	/supervisor/webContentManager/showPostsType								supervisor.webContentManager.PostsAction.showPostsType
+*	/supervisor/webContentManager/updatePostsType								supervisor.webContentManager.PostsAction.updatePostsType
+*	/supervisor/webContentManager/queryPostsType								supervisor.webContentManager.PostsAction.queryPostsType
+*	/supervisor/webContentManager/editPostsType								supervisor.webContentManager.PostsAction.editPostsType
+#
+*	/supervisor/webContentManager/showForumPosts								supervisor.webContentManager.PostsAction.showForumPosts
+*	/supervisor/webContentManager/updatePostsrId								supervisor.webContentManager.PostsAction.updatePostsrId
+*	/supervisor/webContentManager/updatePostsStatue								supervisor.webContentManager.PostsAction.updatePostsStatue
+*	/supervisor/webContentManager/addPosts								supervisor.webContentManager.PostsAction.addPosts
+*	/supervisor/webContentManager/submitAdd								supervisor.webContentManager.PostsAction.submitAdd
+*	/supervisor/webContentManager/deletePosts								supervisor.webContentManager.PostsAction.deletePosts
+*	/supervisor/webContentManager/editPostsContent								supervisor.webContentManager.PostsAction.editPostsContent
+*	/supervisor/webContentManager/submitEdit								supervisor.webContentManager.PostsAction.submitEdit
+*	/supervisor/webContentManager/showUserQuestions								supervisor.webContentManager.PostsAction.showUserQuestions
+*	/supervisor/webContentManager/deleteUserQuestions								supervisor.webContentManager.PostsAction.deleteUserQuestions
+*	/supervisor/webContentManager/showAdminAnswers								supervisor.webContentManager.PostsAction.showAdminAnswers
+*	/supervisor/webContentManager/saveAdminAnswers								supervisor.webContentManager.PostsAction.saveAdminAnswers
+#活动中心
+*	/supervisor/webContentManager/activityCenter								supervisor.webContentManager.ActivityCenterAction.activityCenter
+*	/supervisor/webContentManager/deleteActivityCenter								supervisor.webContentManager.ActivityCenterAction.deleteActivityCenter
+*	/supervisor/webContentManager/addActivityCenter								supervisor.webContentManager.ActivityCenterAction.addActivityCenter
+*	/supervisor/webContentManager/submitActivityCenter								supervisor.webContentManager.ActivityCenterAction.submitActivityCenter
+*	/supervisor/webContentManager/eidtActivityCenter								supervisor.webContentManager.ActivityCenterAction.eidtActivityCenter
+*	/supervisor/webContentManager/eidtActivityCenterByid								supervisor.webContentManager.ActivityCenterAction.eidtActivityCenterByid
+#-----------------------------------------盈盈社区帖子管理-----------------------------------------------
+
+# -----------------------------------------------系统通知模版管理--------------------------------------------------------
+# 邮件模版列表
+GET     /supervisor/TemplateAction/emailTemplates          						supervisor.webContentManager.TemplateAction.emailTemplates
+# 预览邮件模版
+POST    /supervisor/TemplateAction/previewEmailTemplate          				supervisor.webContentManager.TemplateAction.previewEmailTemplate
+# 编辑邮件模版页面
+POST    /supervisor/TemplateAction/editEmailTemplateInit          				supervisor.webContentManager.TemplateAction.editEmailTemplateInit
+# 编辑邮件模版
+POST    /supervisor/TemplateAction/editEmailTemplate          					supervisor.webContentManager.TemplateAction.editEmailTemplate
+# 更新邮件模板状态
+POST    /supervisor/TemplateAction/updateEmailTemplateStatus       				supervisor.webContentManager.TemplateAction.updateEmailTemplateStatus
+
+# 短信模版列表
+GET     /supervisor/TemplateAction/smsTemplates          						supervisor.webContentManager.TemplateAction.smsTemplates
+# 预览短信模版
+POST    /supervisor/TemplateAction/previewSmsTemplate          					supervisor.webContentManager.TemplateAction.previewSmsTemplate
+# 编辑短信模版页面
+POST    /supervisor/TemplateAction/editSmsTemplateInit          				supervisor.webContentManager.TemplateAction.editSmsTemplateInit
+# 编辑短信模版
+POST    /supervisor/TemplateAction/editSmsTemplate          					supervisor.webContentManager.TemplateAction.editSmsTemplate
+# 更新短信模板状态
+POST    /supervisor/TemplateAction/updateSmsTemplateStatus         				supervisor.webContentManager.TemplateAction.updateSmsTemplateStatus
+
+# 短信黑名单
+*		/supervisor/TemplateAction/smsBlacklistTemplates						supervisor.webContentManager.TemplateAction.smsBlacklistTemplates
+# 将用户加入短信黑名单
+POST	/supervisor/TemplateAction/addOrRemoveSmsBlacklist						supervisor.webContentManager.TemplateAction.addOrRemoveSmsBlacklist
+
+# 平台协议模版列表
+*    /supervisor/TemplateAction/platformProtocol          					    supervisor.webContentManager.TemplateAction.platformProtocol
+# 系统站内信模版列表
+GET     /supervisor/TemplateAction/stationTemplates          					supervisor.webContentManager.TemplateAction.stationTemplates
+# 预览站内信模版
+POST    /supervisor/TemplateAction/previewStationTemplate          				supervisor.webContentManager.TemplateAction.previewStationTemplate
+# 编辑站内信模版页面
+POST    /supervisor/TemplateAction/editStationTemplateInit         				supervisor.webContentManager.TemplateAction.editStationTemplateInit
+# 编辑站内信模版
+POST    /supervisor/TemplateAction/editStationTemplate          				supervisor.webContentManager.TemplateAction.editStationTemplate
+# 更新站内信模板状态
+POST    /supervisor/TemplateAction/updateStationTemplateStatus     				supervisor.webContentManager.TemplateAction.updateStationTemplateStatus
+
+# 自定义站内信模版列表
+GET     /supervisor/TemplateAction/myStationTemplates          					supervisor.webContentManager.TemplateAction.myStationTemplates
+# 添加自定义站内信模版
+POST    /supervisor/TemplateAction/createStationTemplate          				supervisor.webContentManager.TemplateAction.createStationTemplate
+#
+*    /supervisor/TemplateAction/updatePactStatus          				        supervisor.webContentManager.TemplateAction.updatePactStatus
+#
+POST    /supervisor/TemplateAction/updatePact          				            supervisor.webContentManager.TemplateAction.updatePact
+#
+*    /supervisor/TemplateAction/viewPact          				                supervisor.webContentManager.TemplateAction.viewPact
+
+# ***********************************************借款标管理*****************************************************
+# -----------------------------------------------平台借款标管理--------------------------------------------------------
+# 审核中的借款标列表
+*       /supervisor/BidPlatformAction/auditingList                   			supervisor.bidManager.BidPlatformAction.auditingList
+# 筹款中的借款标列表
+*       /supervisor/BidPlatformAction/fundraiseingList                 			supervisor.bidManager.BidPlatformAction.fundraiseingList
+# 满标待放款
+*       /supervisor/BidPlatformAction/fullList                         			supervisor.bidManager.BidPlatformAction.fullList
+# 还款中的借款标列表
+*       /supervisor/BidPlatformAction/repaymentingList                 			supervisor.bidManager.BidPlatformAction.repaymentingList
+# 已完成的借款标列表
+*       /supervisor/BidPlatformAction/repaymentList								supervisor.bidManager.BidPlatformAction.repaymentList
+# 逾期的借款标
+*       /supervisor/BidPlatformAction/overdueList                      			supervisor.bidManager.BidPlatformAction.overdueList
+# 未通过的借标列表款
+*       /supervisor/BidPlatformAction/notThroughList                   			supervisor.bidManager.BidPlatformAction.notThroughList
+# 坏账借款标列表
+*       /supervisor/BidPlatformAction/badList                          			supervisor.bidManager.BidPlatformAction.badList
+# 审核中的借款标详情
+*       /supervisor/BidPlatformAction/auditingDetail							supervisor.bidManager.BidPlatformAction.auditingDetail
+# 筹款中的借款标详情
+*       /supervisor/BidPlatformAction/fundraiseingDetail						supervisor.bidManager.BidPlatformAction.fundraiseingDetail
+# 删除借款标中的提问
+*       /supervisor/BidPlatformAction/deleteBidQuestion							supervisor.bidManager.BidPlatformAction.deleteBidQuestion
+# 增加后台上传审核资料
+*       /supervisor/BidPlatformAction/createUserAuditItem						supervisor.bidManager.BidPlatformAction.createUserAuditItem
+# 满标待放款的借款标详情
+*       /supervisor/BidPlatformAction/fullDetail								supervisor.bidManager.BidPlatformAction.fullDetail
+# 还款中的、已完成的、逾期的、坏账的借款标详情
+*       /supervisor/BidPlatformAction/loanSucceedDetail							supervisor.bidManager.BidPlatformAction.loanSucceedDetail
+# 未通过的借款标详情
+*       /supervisor/BidPlatformAction/notThroughDetail							supervisor.bidManager.BidPlatformAction.notThroughDetail
+# 发站内信给用户
+POST    /supervisor/BidPlatformAction/sendMessages	  							supervisor.bidManager.BidPlatformAction.sendMessages
+# 资料列表
+POST    /supervisor/BidPlatformAction/userItemsList								supervisor.bidManager.BidPlatformAction.userItemsList
+# 历史记录
+POST    /supervisor/BidPlatformAction/historyDetail								supervisor.bidManager.BidPlatformAction.historyDetail
+# 提问记录
+POST    /supervisor/BidPlatformAction/bidQuestion								supervisor.bidManager.BidPlatformAction.bidQuestion
+# 投标记录
+POST    /supervisor/BidPlatformAction/bidRecord 	  							supervisor.bidManager.BidPlatformAction.bidRecord
+# 举报记录
+POST    /supervisor/BidPlatformAction/reportRecord								supervisor.bidManager.BidPlatformAction.reportRecord
+# 还款情况
+POST    /supervisor/BidPlatformAction/repaymentSituation						supervisor.bidManager.BidPlatformAction.repaymentSituation
+
+# 秒还标后台还款
+*    /supervisor/BidPlatformAction/serondPayment								supervisor.bidManager.BidPlatformAction.serondPayment
+
+# 还款情况详情
+GET     /supervisor/BidPlatformAction/repaymentSituationDetail					supervisor.bidManager.BidPlatformAction.repaymentSituationDetail
+# 设置优质标
+POST    /supervisor/BidPlatformAction/siteQuality								supervisor.bidManager.BidPlatformAction.siteQuality
+# 设置火标
+POST    /supervisor/BidPlatformAction/siteHot									supervisor.bidManager.BidPlatformAction.siteHot
+# 打印
+GET     /supervisor/BidPlatformAction/print                          			supervisor.bidManager.BidPlatformAction.print
+# 审核中->提前借款
+*    	/supervisor/BidPlatformAction/auditToadvanceLoan 						supervisor.bidManager.BidPlatformAction.auditToadvanceLoan
+# 审核中->筹款中
+*    	/supervisor/BidPlatformAction/auditToFundraise 							supervisor.bidManager.BidPlatformAction.auditToFundraise
+# 提前借款->筹款中
+*    	/supervisor/BidPlatformAction/advanceLoanToFundraise 					supervisor.bidManager.BidPlatformAction.advanceLoanToFundraise
+# 审核中->审核不通过
+*    	/supervisor/BidPlatformAction/auditToNotThrough 						supervisor.bidManager.BidPlatformAction.auditToNotThrough
+# 提前借款->借款中不通过
+*    	/supervisor/BidPlatformAction/advanceLoanToPeviewNotThrough 			supervisor.bidManager.BidPlatformAction.advanceLoanToPeviewNotThrough
+# 筹款中->借款中不通过
+*    	/supervisor/BidPlatformAction/fundraiseToPeviewNotThrough 				supervisor.bidManager.BidPlatformAction.fundraiseToPeviewNotThrough
+# 满标->待放款
+*    	/supervisor/BidPlatformAction/fundraiseToEaitLoan 						supervisor.bidManager.BidPlatformAction.fundraiseToEaitLoan
+# 满标->放款不通过
+*    	/supervisor/BidPlatformAction/fundraiseToLoanNotThrough 				supervisor.bidManager.BidPlatformAction.fundraiseToLoanNotThrough
+
+# 运营活动->加息审核
+*       /supervisor/BidPlatformAction/ratesList                 			supervisor.bidManager.BidPlatformAction.ratesList
+# -----------------------------------------------机构合作标管理--------------------------------------------------------
+# 机构合作标列表
+*       /supervisor/BidAgencyAction/agencyBidList                      			supervisor.bidManager.BidAgencyAction.agencyBidList
+# 详情
+GET     /supervisor/BidAgencyAction/detail										supervisor.bidManager.BidAgencyAction.detail
+# 发布机构合作标 页面跳转
+GET     /supervisor/BidAgencyAction/addAgencyBid                     			supervisor.bidManager.BidAgencyAction.addAgencyBid
+# 选择用户
+POST    /supervisor/BidAgencyAction/addAgencyBid                     			supervisor.bidManager.BidAgencyAction.selectUsersInit
+# 发布机构合作标
+POST    /supervisor/BidAgencyAction/addingAgencyBid                 			supervisor.bidManager.BidAgencyAction.addingAgencyBid
+# 上传图片
+GET     /supervisor/BidAgencyAction/upload										supervisor.bidManager.BidAgencyAction.upload
+# 合作机构列表
+*       /supervisor/BidAgencyAction/agencyList                         			supervisor.bidManager.BidAgencyAction.agencyList
+# 标的用户风险等级显示
+*       /supervisor/BidAgencyAction/bidUserRiskShow                         	supervisor.bidManager.BidAgencyAction.bidUserRiskShow
+# 标的用户风险等级批量更新
+*       /supervisor/BidAgencyAction/bidUserRiskUpdateBatch                      supervisor.bidManager.BidAgencyAction.bidUserRiskUpdateBatch
+# 合作结构详情
+*       /supervisor/BidAgencyAction/agencyDetail								supervisor.bidManager.BidAgencyAction.agencyDetail
+# 启用合作机构
+GET     /supervisor/BidAgencyAction/enanleAgency 								supervisor.bidManager.BidAgencyAction.enanleAgency
+# 暂停合作机构
+GET     /supervisor/BidAgencyAction/notEnanleAgency 							supervisor.bidManager.BidAgencyAction.notEnanleAgency
+# 添加合作机构 页面跳转
+GET     /supervisor/BidAgencyAction/addAgency                        			supervisor.bidManager.BidAgencyAction.addAgency
+# 添加合作机构
+POST    /supervisor/BidAgencyAction/addingAgency                    			supervisor.bidManager.BidAgencyAction.addingAgency
+# 检查名称是否唯一
+POST    /supervisor/BidAgencyAction/checkName									supervisor.bidManager.BidAgencyAction.checkName
+# 检查营业执照号是否唯一
+POST    /supervisor/BidAgencyAction/checkIdNumber								supervisor.bidManager.BidAgencyAction.checkIdNumber
+# -----------------------------------------------债权转让管理----------------------------------------------------------
+# 待审核债权转让标
+GET     /supervisor/bidManager/debtTransferPending                  			supervisor.bidManager.DebtTransferAction.debtTransferPending
+# 待审核债权转让标 （新）
+GET     /supervisor/bidManager/debtTransferPendingNew                  			supervisor.bidManager.DebtTransferNewAction.debtTransferPendingNew
+# 待审核债权转让标详情（新）
+GET     /supervisor/bidManager/auditTransferPendingDetailsNew                  	supervisor.bidManager.DebtTransferNewAction.auditTransferPendingDetailsNew
+
+# 审核
+POST    /supervisor/bidManager/audit                                			supervisor.bidManager.DebtTransferAction.audit
+# 债权转让审核（新）
+*		/supervisor/debt/auditDebt												supervisor.debt.DebtTransferAction.auditDebt
+# 不通过
+POST    /supervisor/bidManager/notThrough                           			supervisor.bidManager.DebtTransferAction.notThrough
+
+# 转让中债权转让标
+GET     /supervisor/bidManager/debtIsTransfer                        			supervisor.bidManager.DebtTransferAction.debtIsTransfer
+# 转让中债权转让标(新)
+GET     /supervisor/bidManager/debtIsTransferNew                        		supervisor.bidManager.DebtTransferNewAction.debtIsTransferNew
+# 转让中债权转让标详情
+GET     /supervisor/bidManager/transferDetails                       			supervisor.bidManager.DebtTransferAction.transferDetails
+# 转让中债权转让标详情（新）
+*		/supervisor/bidManager/debtIsTransferDetailNew                  		supervisor.bidManager.DebtTransferNewAction.debtIsTransferDetailNew
+# 转让中债权转让标详情
+POST    /supervisor/bidManager/viewDebtAllAuctionRecords            			supervisor.bidManager.DebtTransferAction.viewDebtAllAuctionRecords
+# 债权转让撤标/流标
+POST    /supervisor/bidManager/transferingToNotThrough            				supervisor.bidManager.DebtTransferNewAction.transferingToNotThrough
+
+# 成功的债权转让标
+GET     /supervisor/bidManager/successDebtTransfer                   			supervisor.bidManager.DebtTransferAction.successDebtTransfer
+# 成功的债权转让标(新)
+GET     /supervisor/bidManager/successDebtTransferNew                   		supervisor.bidManager.DebtTransferNewAction.successDebtTransferNew
+# 成功的债权转让标详情
+GET     /supervisor/bidManager/successDebtDetails                    			supervisor.bidManager.DebtTransferAction.successDebtDetails
+# 成功债权转让标详情（新）
+*		/supervisor/bidManager/successDebtIsTransferDetailNew                  	supervisor.bidManager.DebtTransferNewAction.successDebtIsTransferDetailNew
+
+# 未通过的转让债权标
+GET     /supervisor/bidManager/nopassAssignedClaims                  			supervisor.bidManager.DebtTransferAction.nopassAssignedClaims
+# 未通过的转让债权标（新）
+GET     /supervisor/bidManager/nopassAssignedClaimsNew                  		supervisor.bidManager.DebtTransferNewAction.nopassAssignedClaimsNew
+# 未通过债权转让标详情（新）
+*		/supervisor/bidManager/noPassDebtIsTransferDetailNew                  	supervisor.bidManager.DebtTransferNewAction.noPassDebtIsTransferDetailNew
+# 未通过的转让债权标重审
+GET     /supervisor/bidManager/retrial                               			supervisor.bidManager.DebtTransferAction.retrial
+
+# 失败的债权转让标
+GET     /supervisor/bidManager/failedDebtTransfer                    			supervisor.bidManager.DebtTransferAction.failedDebtTransfer
+# 失败的债权转让标（新）
+GET     /supervisor/bidManager/failedDebtTransferNew                    		supervisor.bidManager.DebtTransferNewAction.failedDebtTransferNew
+# 失败的债权转让标详情
+GET     /supervisor/bidManager/failedTransferDetails                 			supervisor.bidManager.DebtTransferAction.failedTransferDetails
+# 失败的债权转让标详情（新）
+*		/supervisor/bidManager/failedDebtIsTransferDetailNew                  	supervisor.bidManager.DebtTransferNewAction.failedDebtIsTransferDetailNew
+
+# 上一件
+GET     /supervisor/bidManager/ahead                      						supervisor.bidManager.DebtTransferAction.ahead
+# 下一件
+GET     /supervisor/bidManager/back                      						supervisor.bidManager.DebtTransferAction.back
+
+
+# -----------------------------------------------会员借款资料审核管理---------------------------------------------------
+# 会员借款资料审核管理
+GET     /supervisor/bidManager/memberLoanAudit                       			supervisor.bidManager.UserAuditItemAction.memberLoanAudit
+# 会员借款资料审核明细
+GET     /supervisor/bidManager/memberAuditDetails                    			supervisor.bidManager.UserAuditItemAction.memberAuditDetails
+# 会员借款资料审核管理
+*       /supervisor/BidPlatformAction/userAuditItemList                			supervisor.bidManager.UserAuditItemAction.userAuditItemList
+# 审核明细
+*       /supervisor/BidPlatformAction/auditDetail  								supervisor.bidManager.UserAuditItemAction.auditDetail
+# 审核明细查看页面
+POST    /supervisor/BidPlatformAction/showitem  								supervisor.bidManager.UserAuditItemAction.showitem
+# 审核明细审核页面
+POST    /supervisor/BidPlatformAction/audititem  								supervisor.bidManager.UserAuditItemAction.audititem
+# 审核
+*    /supervisor/BidPlatformAction/audit										supervisor.bidManager.UserAuditItemAction.audit
+
+# -----------------------------------------------超额借款管理----------------------------------------------------------
+# 超额借款管理
+GET     /supervisor/bidManager/overBorrows             							supervisor.bidManager.OverBorrowAction.overBorrows
+# 超额借款审核明细
+GET     /supervisor/bidManager/overBorrowDetails            					supervisor.bidManager.OverBorrowAction.overBorrowDetails
+# 发送站内信
+POST    /supervisor/bidManager/sendMessage  									supervisor.bidManager.OverBorrowAction.sendMessage
+# 超额借款审核
+POST    /supervisor/bidManager/auditOverBorrow            						supervisor.bidManager.OverBorrowAction.audit
+
+
+# ***********************************************账单催收管理*****************************************************
+# -----------------------------------------------我的会员账单----------------------------------------------------------
+# 借款会员账单管理
+# 本月到期账单
+*       /supervisor/billCollectionManager/thisMonthMaturityBills      			supervisor.billCollectionManager.UserLoanBills.thisMonthMaturityBills
+# 逾期账单
+*       /supervisor/billCollectionManager/overdueBills         					supervisor.billCollectionManager.UserLoanBills.overdueBills
+# 已还款账单
+*       /supervisor/billCollectionManager/paidBills         					supervisor.billCollectionManager.UserLoanBills.paidBills
+# 借款标详情
+GET     /supervisor/billCollectionManager/detail         						supervisor.billCollectionManager.UserLoanBills.detail
+# 账单详情
+GET     /supervisor/billCollectionManager/billDetail      						supervisor.billCollectionManager.UserLoanBills.billDetail
+# 催收页面
+POST    /supervisor/billCollectionManager/queryCollection         				supervisor.billCollectionManager.UserLoanBills.queryCollection
+# 标记账单逾期页面
+POST	/supervisor/billCollectionManager/queryOverdue         					supervisor.billCollectionManager.UserLoanBills.queryOverdue
+# 标记账单坏账页面
+POST	/supervisor/billCollectionManager/queryBadBills         				supervisor.billCollectionManager.UserLoanBills.queryBadBills
+#标记逾期
+POST    /supervisor/billCollectionManager/markOverdue         					supervisor.billCollectionManager.UserLoanBills.markOverdue
+#标记坏账
+POST    /supervisor/billCollectionManager/markBillBad         					supervisor.billCollectionManager.UserLoanBills.markBillBad
+# 发送站内信催收
+POST	/supervisor/userLoanBills/updateBillCollectionByMessage    				supervisor.billCollectionManager.UserLoanBills.updateBillCollectionByMessage
+# 发送邮件催收
+POST	/supervisor/userLoanBills/updateBillCollectionByEmail      				supervisor.billCollectionManager.UserLoanBills.updateBillCollectionByEmail
+# 电话催收
+POST	/supervisor/userLoanBills/updateBillCollectionByMobile     				supervisor.billCollectionManager.UserLoanBills.updateBillCollectionByMobile
+
+# 会员借款标管理
+# 还款中借款标列表
+*       /supervisor/billCollectionManager/repaymentingList            			supervisor.billCollectionManager.UserBidAction.repaymentingList
+# 已完成借款标列表
+*       /supervisor/billCollectionManager/repaymentList               			supervisor.billCollectionManager.UserBidAction.repaymentList
+# 坏账借款标列表
+*       /supervisor/billCollectionManager/badList        			    		supervisor.billCollectionManager.UserBidAction.badList
+# 借款标详情
+GET     /supervisor/UserBidAction/detail					        			supervisor.billCollectionManager.UserBidAction.detail
+
+# 借款会员管理
+# 借款会员列表
+GET     /supervisor/billCollectionManager/loanUserManager         				supervisor.billCollectionManager.LoanUsers.loanUserManager
+# 借款会员借款标列表
+POST    /supervisor/billCollectionManager/userBidDetail        					supervisor.billCollectionManager.LoanUsers.userBidDetail
+# 借款会员借款标详情
+*      /supervisor/billCollectionManager/bidDetail        						supervisor.billCollectionManager.LoanUsers.bidDetail
+# 坏账会员管理
+GET     /supervisor/billCollectionManager/BadBillUserManager        			supervisor.billCollectionManager.BadBillUsers.BadBillUserManager
+# 坏账会员借款标列表
+POST    /supervisor/billCollectionManager/userBadBidDetail         				supervisor.billCollectionManager.BadBillUsers.userBadBidDetail
+# 坏账会员借款标详情
+POST    /supervisor/billCollectionManager/bidDetail         					supervisor.billCollectionManager.BadBillUsers.bidDetail
+
+# -----------------------------------------------部门账单管理----------------------------------------------------------
+#待分配借款会员列表
+GET     /supervisor/billCollectionManager/toAssignUsers         				supervisor.billCollectionManager.ToAssignLoanUsers.toAssignUsers
+#借款会员贷后管理分配
+POST    /supervisor/billCollectionManager/loanUserAssign         				supervisor.billCollectionManager.ToAssignLoanUsers.loanUserAssign
+#借款会员管理
+POST    /supervisor/billCollectionManager/assignBid         					supervisor.billCollectionManager.ToAssignLoanUsers.assignBid
+POST    /supervisor/billCollectionManager/assignUser         					supervisor.billCollectionManager.ToAssignLoanUsers.assignUser
+POST    /supervisor/billCollectionManager/assignUserAgain         				supervisor.billCollectionManager.ToAssignLoanUsers.assignUserAgain
+
+# 借款会员账单管理
+# 本月到期账单
+*       /supervisor/billCollectionManager/thisMonthMaturityBillDept   			supervisor.billCollectionManager.UserLoanBills.thisMonthMaturityBillDept
+# 逾期账单
+*       /supervisor/billCollectionManager/overdueBillDept         				supervisor.billCollectionManager.UserLoanBills.overdueBillDept
+# 已还款账单
+*       /supervisor/billCollectionManager/paidBillDept         					supervisor.billCollectionManager.UserLoanBills.paidBillDept
+# 借款标详情
+GET     /supervisor/billCollectionManager/detailToDep        					supervisor.billCollectionManager.UserLoanBills.detailToDep
+# 账单详情
+GET     /supervisor/billCollectionManager/billDetailDept      					supervisor.billCollectionManager.UserLoanBills.billDetailDept
+# 催收页面
+POST    /supervisor/billCollectionManager/queryCollectionDept      				supervisor.billCollectionManager.UserLoanBills.queryCollectionDept
+# 逾期页面
+POST	/supervisor/billCollectionManager/queryOverdueDept         				supervisor.billCollectionManager.UserLoanBills.queryOverdueDept
+#标记逾期
+POST    /supervisor/billCollectionManager/markOverdueDept         				supervisor.billCollectionManager.UserLoanBills.markOverdueDept
+# 发送站内信催收
+POST	/supervisor/updateBillCollectionDeptByMessage         					supervisor.billCollectionManager.UserLoanBills.updateBillCollectionDeptByMessage
+# 发送邮件催收
+POST	/supervisor/updateBillCollectionDeptByEmail         					supervisor.billCollectionManager.UserLoanBills.updateBillCollectionDeptByEmail
+# 电话催收
+POST	/supervisor/updateBillCollectionDeptByMobile         					supervisor.billCollectionManager.UserLoanBills.updateBillCollectionDeptByMobile
+
+# 部门借款标管理
+# 部门还款中借款标列表
+*       /supervisor/billCollectionManager/repaymentingListToDep       			supervisor.billCollectionManager.UserBidAction.repaymentingListToDep
+# 部门已完成借款标列表
+*       /supervisor/billCollectionManager/repaymentListToDep          			supervisor.billCollectionManager.UserBidAction.repaymentListToDep
+# 部门坏账借款标列表
+*       /supervisor/billCollectionManager/badListToDep        					supervisor.billCollectionManager.UserBidAction.badListToDep
+# 部门借款标详情
+GET     /supervisor/billCollectionManager/detailDep							    supervisor.billCollectionManager.UserBidAction.detailToDep
+
+
+# 手动逾期(测试专用)
+GET     /supervisor/billCollectionManager/billList							    supervisor.billCollectionManager.MyOverdue.billList
+GET     /supervisor/billCollectionManager/startOverdue						    supervisor.billCollectionManager.MyOverdue.startOverdue
+POST    /supervisor/billCollectionManager/updateTime						    supervisor.billCollectionManager.MyOverdue.updateTime
+
+# 部门借款会员管理
+# 已分配的借款会员列表
+GET     /supervisor/billCollectionManager/deptLoanUserManager       			supervisor.billCollectionManager.LoanUsers.deptLoanUserManager
+# 已分配的借款标列表
+GET     /supervisor/billCollectionManager/deptLoanBidManager       			    supervisor.billCollectionManager.LoanUsers.deptLoanBidManager
+# 借款会员借款标列表
+POST    /supervisor/billCollectionManager/deptLoanUserBidDetail    				supervisor.billCollectionManager.LoanUsers.deptLoanUserBidDetail
+# 借款会员借款标详情
+POST    /supervisor/billCollectionManager/bidDetail        						supervisor.billCollectionManager.LoanUsers.bidDetail
+# 部门坏账会员管理
+GET     /supervisor/billCollectionManager/deptBadLoanUserManager    			supervisor.billCollectionManager.LoanUsers.deptBadLoanUserManager
+# 坏账会员借款标列表
+POST    /supervisor/billCollectionManager/deptUserBidDetail        				supervisor.billCollectionManager.LoanUsers.deptUserBidDetail
+# 坏账会员借款标详情
+POST    /supervisor/billCollectionManager/bidDetailDept         				supervisor.billCollectionManager.LoanUsers.bidDetailDept
+# 分配
+POST    /supervisor/billCollectionManager/queryAllSupervisors      				supervisor.billCollectionManager.LoanUsers.queryAllSupervisors
+# 客服管理
+#客服列表
+GET     /supervisor/CustomerManager/customers         							supervisor.billCollectionManager.CustomerManager.customers
+#添加客服初始化
+POST	/supervisor/CustomerManager/addCustomerInit								supervisor.billCollectionManager.CustomerManager.addCustomerInit
+#添加客服
+POST	/supervisor/CustomerManager/addCustomers								supervisor.billCollectionManager.CustomerManager.addCustomers
+#选择的管理员
+POST	/supervisor/CustomerManager/selectedSupervisors							supervisor.billCollectionManager.CustomerManager.selectedSupervisors
+#选择客服初始化
+POST	/supervisor/CustomerManager/selectSupervisorInit						supervisor.billCollectionManager.CustomerManager.selectSupervisorInit
+#编辑管理员初始化
+POST	/supervisor/CustomerManager/editSupervisorInit							supervisor.billCollectionManager.CustomerManager.editSupervisorInit
+#编辑管理员
+POST	/supervisor/CustomerManager/editSupervisor								supervisor.billCollectionManager.CustomerManager.editSupervisor
+#设置管理员的权限组
+POST	/supervisor/CustomerManager/selectGroupsOfSupervisorInit				supervisor.billCollectionManager.CustomerManager.selectGroupsOfSupervisorInit
+POST	/supervisor/CustomerManager/setGroupsOfSupervisor						supervisor.billCollectionManager.CustomerManager.setGroupsOfSupervisor
+#锁定
+POST    /supervisor/CustomerManager/enable         								supervisor.billCollectionManager.CustomerManager.enable
+#密码重置
+POST    /supervisor/CustomerManager/resetPassword         						supervisor.billCollectionManager.CustomerManager.resetPassword
+
+# ***********************************************会员管理*****************************************************
+# -----------------------------------------------全部会员列表----------------------------------------------------------
+# 列表
+*     	/supervisor/allUser/allUser         									supervisor.userManager.AllUser.allUser
+# 详情
+POST    /supervisor/allUser/detail         										supervisor.userManager.AllUser.detail
+# 用户主体属性
+POST    /supervisor/allUser/userExclusiveContent         						supervisor.userManager.AllUser.userExclusiveContent
+# 站内信
+POST    /supervisor/allUser/stationLetter         								supervisor.userManager.AllUser.stationLetter
+# 邮件
+POST    /supervisor/allUser/email         										supervisor.userManager.AllUser.email
+# 发信息
+POST    /supervisor/allUser/sendMsg         									supervisor.userManager.AllUser.sendMsg
+# 重置密码
+POST    /supervisor/allUser/resetPassword         								supervisor.userManager.AllUser.resetPassword
+# 添加用户信息
+POST     /supervisor/allUser/addUserBaseinfo         							supervisor.userManager.AllUser.addUserBaseinfo
+# 编辑用户信息弹框
+POST     /supervisor/allUser/editUserInfoWin         							supervisor.userManager.AllUser.editUserInfoWin
+# 编辑用户信息
+POST     /supervisor/allUser/editUserInfo         								supervisor.userManager.AllUser.editUserInfo
+# 编辑用户信息
+POST     /supervisor/allUser/editUserBaseinfo         							supervisor.userManager.AllUser.editUserBaseinfo
+# 重置用户信息
+POST     /supervisor/allUser/addUser         									supervisor.userManager.AllUser.addUser
+# 重置用户信息
+POST     /supervisor/allUser/resetUserBaseinfo         							supervisor.userManager.AllUser.resetUserBaseinfo
+# 模拟登录
+GET     /supervisor/allUser/simulateLogin         								supervisor.userManager.AllUser.simulateLogin
+# 锁定
+POST   	/supervisor/allUser/lockUser         									supervisor.userManager.AllUser.lockUser
+#更新签名
+POST    /supervisor/allUser/changeSign         									supervisor.userManager.AllUser.changeSign
+#解绑银行卡
+POST    /supervisor/allUser/deleteUserBank        								supervisor.userManager.AllUser.deleteUserBank
+#修改手机号
+POST    /supervisor/allUser/modifyMobile         								supervisor.userManager.AllUser.modifyMobile
+# -----------------------------------------------借款会员列表----------------------------------------------------------
+# 列表
+*     	/supervisor/loanUser/loanUser         									supervisor.userManager.LoanUser.loanUser
+# 详情
+#POST  	/supervisor/loanUser/detail         									supervisor.userManager.LoanUser.detail
+POST  	/supervisor/loanUser/detail         									supervisor.userManager.AllUser.detail
+# 站内信
+POST    /supervisor/loanUser/stationLetter         								supervisor.userManager.LoanUser.stationLetter
+# 邮件
+POST    /supervisor/loanUser/email         										supervisor.userManager.LoanUser.email
+# 发信息
+POST    /supervisor/loanUser/sendMsg         									supervisor.userManager.LoanUser.sendMsg
+# 重置密码
+POST    /supervisor/loanUser/resetPassword         								supervisor.userManager.LoanUser.resetPassword
+# 模拟登录
+GET     /supervisor/loanUser/simulateLogin         								supervisor.userManager.LoanUser.simulateLogin
+# 锁定
+POST   	/supervisor/loanUser/lockUser         									supervisor.userManager.LoanUser.lockUser
+
+# -----------------------------------------------理财会员列表----------------------------------------------------------
+# 迁移用户
+POST  	/supervisor/investUser/migrateBenfuStep1         			            supervisor.userManager.InvestUser.migrateBenfuStep1
+# 列表
+*       /supervisor/investUser/investUser         								supervisor.userManager.InvestUser.investUser
+# 详情
+POST  	/supervisor/investUser/detail         									supervisor.userManager.InvestUser.detail
+# 站内信
+POST    /supervisor/investUser/stationLetter         							supervisor.userManager.InvestUser.stationLetter
+# 邮件
+POST    /supervisor/investUser/email         									supervisor.userManager.InvestUser.email
+# 发信息
+POST    /supervisor/investUser/sendMsg         									supervisor.userManager.InvestUser.sendMsg
+# 重置密码
+POST    /supervisor/investUser/resetPassword         							supervisor.userManager.InvestUser.resetPassword
+# 模拟登录
+GET     /supervisor/investUser/simulateLogin         							supervisor.userManager.InvestUser.simulateLogin
+# 锁定
+POST   	/supervisor/investUser/lockUser         								supervisor.userManager.InvestUser.lockUser
+#亿亿理财迁移到奔赴牧场 导出用户数据											
+POST	/supervisor/investUser/migrationExport									supervisor.userManager.InvestUser.migrationExport
+# -----------------------------------------------复合会员列表----------------------------------------------------------
+# 列表
+*       /supervisor/complexUser/complexUser         							supervisor.userManager.ComplexUser.complexUser
+# 详情
+POST  	/supervisor/complexUser/detail         									supervisor.userManager.ComplexUser.detail
+# 站内信
+POST    /supervisor/complexUser/stationLetter         							supervisor.userManager.ComplexUser.stationLetter
+# 邮件
+POST    /supervisor/complexUser/email         									supervisor.userManager.ComplexUser.email
+# 发信息
+POST    /supervisor/complexUser/sendMsg         								supervisor.userManager.ComplexUser.sendMsg
+# 重置密码
+POST    /supervisor/complexUser/resetPassword         							supervisor.userManager.ComplexUser.resetPassword
+# 模拟登录
+GET     /supervisor/complexUser/simulateLogin         							supervisor.userManager.ComplexUser.simulateLogin
+# 锁定
+POST   	/supervisor/complexUser/lockUser         								supervisor.userManager.ComplexUser.lockUser
+
+# -----------------------------------------------VIP会员列表----------------------------------------------------------
+# 列表
+*       /supervisor/vipUser/vipUser         									supervisor.userManager.VIPUser.vipUser
+# 详情
+POST  	/supervisor/vipUser/detail         										supervisor.userManager.VIPUser.detail
+# 站内信
+POST    /supervisor/vipUser/stationLetter         								supervisor.userManager.VIPUser.stationLetter
+# 邮件
+POST    /supervisor/vipUser/email         										supervisor.userManager.VIPUser.email
+# 发信息
+POST    /supervisor/vipUser/sendMsg         									supervisor.userManager.VIPUser.sendMsg
+# 重置密码
+POST    /supervisor/vipUser/resetPassword         								supervisor.userManager.VIPUser.resetPassword
+# 模拟登录
+GET     /supervisor/vipUser/simulateLogin         								supervisor.userManager.VIPUser.simulateLogin
+# 锁定
+POST   	/supervisor/vipUser/lockUser         									supervisor.userManager.VIPUser.lockUser
+
+# -----------------------------------------------CPS会员列表----------------------------------------------------------
+# 列表
+*       /supervisor/cpsUser/cpsUser         									supervisor.userManager.CPSUser.cpsUser
+# 详情
+POST  	/supervisor/cpsUser/detail         										supervisor.userManager.CPSUser.detail
+# 站内信
+POST    /supervisor/cpsUser/stationLetter         								supervisor.userManager.CPSUser.stationLetter
+# 邮件
+POST    /supervisor/cpsUser/email         										supervisor.userManager.CPSUser.email
+# 发信息
+POST    /supervisor/cpsUser/sendMsg         									supervisor.userManager.CPSUser.sendMsg
+# 重置密码
+POST    /supervisor/cpsUser/resetPassword         								supervisor.userManager.CPSUser.resetPassword
+# 模拟登录
+GET     /supervisor/cpsUser/simulateLogin         								supervisor.userManager.CPSUser.simulateLogin
+# 锁定
+POST   	/supervisor/cpsUser/lockUser         									supervisor.userManager.CPSUser.lockUser
+
+# -----------------------------------------------未激活会员列表----------------------------------------------------------
+# 未激活会员列表
+*       /supervisor/inactiveUser/inactiveUser         							supervisor.userManager.InactiveUser.inactiveUser
+#激活会员
+POST    /supervisor/inactiveUser/activeUser                   					supervisor.userManager.InactiveUser.activeUser
+
+# -----------------------------------------------已锁定会员列表----------------------------------------------------------
+# 已锁定会员列表
+*       /supervisor/lockedUser/lockedUser         								supervisor.userManager.LockedUser.lockedUser
+# 开启
+POST    /supervisor/lockedUser/openUser        									supervisor.userManager.LockedUser.openUser
+
+# -----------------------------------------------被举报会员列表----------------------------------------------------------
+# 列表
+*       /supervisor/reportedUser/reportedUser         							supervisor.userManager.ReportedUser.reportedUser
+#被举报会员列表
+POST    /supervisor/reportedUser/reportUsers         							supervisor.userManager.ReportedUser.reportUsers
+#被举报会员加入黑名单
+POST    /supervisor/reportedUser/addBlacklist        							supervisor.userManager.ReportedUser.addBlacklist
+# 详情
+POST  	/supervisor/reportedUser/detail         								supervisor.userManager.ReportedUser.detail
+# 站内信
+POST    /supervisor/reportedUser/stationLetter         							supervisor.userManager.ReportedUser.stationLetter
+# 邮件
+POST    /supervisor/reportedUser/email         									supervisor.userManager.ReportedUser.email
+# 发信息
+POST    /supervisor/reportedUser/sendMsg         								supervisor.userManager.ReportedUser.sendMsg
+# 模拟登录
+GET     /supervisor/reportedUser/simulateLogin         							supervisor.userManager.ReportedUser.simulateLogin
+# 锁定
+POST   	/supervisor/reportedUser/lockUser         								supervisor.userManager.ReportedUser.lockUser
+
+# -----------------------------------------------黑名单会员列表----------------------------------------------------------
+# 列表
+*       /supervisor/blacklistUser/blacklistUser         						supervisor.userManager.BlacklistUser.blacklistUser
+#解除黑名单
+POST    /supervisor/blacklistUser/removeBlacklist         						supervisor.userManager.BlacklistUser.removeBlacklist
+# 模拟登录
+GET     /supervisor/blacklistUser/simulateLogin         						supervisor.userManager.BlacklistUser.simulateLogin
+
+# ***********************************************财务管理*****************************************************
+# -----------------------------------------------放款管理----------------------------------------------------------
+# 待放款借款标管理
+*       /supervisor/financeManager/readyReleaseList           					supervisor.financeManager.LoanManager.readyReleaseList
+# 放款账号列表
+POST    /supervisor/financeManager/userBank           		        			supervisor.financeManager.LoanManager.userBank
+# 放款到账户
+POST    /front/account/releaseAccount											supervisor.financeManager.LoanManager.releaseAccount
+# 放款到平台
+*       /supervisor/financeManager/releaseAudit									supervisor.financeManager.LoanManager.releaseAudit
+# 放款标记
+GET     /supervisor/financeManager/releaseSign	 								supervisor.financeManager.LoanManager.releaseSign
+# 已放款借款标管理
+*       /supervisor/financeManager/alreadyReleaseList         					supervisor.financeManager.LoanManager.alreadyReleaseList
+# 详情
+GET     /supervisor/financeManager/detail      			    					supervisor.financeManager.LoanManager.detail
+
+# -----------------------------------------------应收账单管理----------------------------------------------------------
+#待收款借款账单列表
+*       /supervisor/financeManager/toReceiveBills         						supervisor.financeManager.ReceivableBillManager.toReceiveBills
+#逾期账单列表
+*       /supervisor/financeManager/overdueBills         						supervisor.financeManager.ReceivableBillManager.overdueBills
+#已收款借款账单列表
+*       /supervisor/financeManager/receivedBills         						supervisor.financeManager.ReceivableBillManager.receivedBills
+#财务管理模块账单详情
+*    /supervisor/ReceivableBillManager/billDetail         						supervisor.financeManager.ReceivableBillManager.billDetail
+#财务管理模块借款标详情
+*    /supervisor/ReceivableBillManager/bidDetail         						supervisor.financeManager.ReceivableBillManager.bidDetail
+#已完成借款标列表
+GET     /supervisor/financeManager/repaymentList         						supervisor.financeManager.ReceivableBillManager.repaymentList
+#应收款借款账单统计表
+*       /supervisor/financeManager/receivableBills         						supervisor.financeManager.ReceivableBillManager.receivableBills
+#线下收款
+GET    /supervisor/financeManager/offlineReceive         						supervisor.financeManager.ReceivableBillManager.offlineReceive
+#公司垫付
+GET		/supervisor/financeManager/paymentOnCompany 							supervisor.financeManager.ReceivableBillManager.paymentOnCompany
+#账单代扣
+GET		/supervisor/financeManager/autoReturnMoney 								supervisor.financeManager.ReceivableBillManager.autoReturnMoney
+#垫付账单列表
+*		/supervisor/financeManager/advanceBills         						supervisor.financeManager.ReceivableBillManager.advanceBills
+#垫付后账单代扣
+*		/supervisor/financeManager/autoReturnMoneyAfterPaymentOnCompany         supervisor.financeManager.ReceivableBillManager.autoReturnMoneyAfterPaymentOnCompany
+#垫付后线下还款
+*		/supervisor/financeManager/offlineReceiveAfterPaymentOnCompany         	supervisor.financeManager.ReceivableBillManager.offlineReceiveAfterPaymentOnCompany
+
+# -----------------------------------------------应付账单管理----------------------------------------------------------
+#待付款理财账单列表
+*       /supervisor/financeManager/toPayBills         							supervisor.financeManager.PayableBillManager.toPayBills
+#待付款理财账单详情页面
+*       /supervisor/financeManager/investBillForPay       						supervisor.financeManager.PayableBillManager.investBillForPay
+#待付款理财账单详情页面
+POST    /supervisor/financeManager/payInvestBill      							supervisor.financeManager.PayableBillManager.payInvestBill
+#待付款理财账单列表---账单详情
+*       /supervisor/financeManager/investBillDetails         					supervisor.financeManager.PayableBillManager.investBillDetails
+#3 investBill
+POST    /supervisor/financeManager/investBill                     		 		supervisor.financeManager.PayableBillManager.investBill
+#逾期未付理财账单列表
+GET     /supervisor/financeManager/overdueUnpaidBills         					supervisor.financeManager.PayableBillManager.overdueUnpaidBills
+#已付款理财账单列表
+GET     /supervisor/financeManager/paidBills         							supervisor.financeManager.PayableBillManager.paidBills
+#本金垫付理财账单列表
+GET     /supervisor/financeManager/principalAdvanceBills         				supervisor.financeManager.PayableBillManager.principalAdvanceBills
+#应付款理财账单统计表
+GET     /supervisor/financeManager/payableBills         						supervisor.financeManager.PayableBillManager.payableBills
+#坏账借款标列表
+GET     /supervisor/financeManager/badList         								supervisor.financeManager.PayableBillManager.badList
+#账单详情
+GET     /supervisor/PayableBillManager/billDetail         						supervisor.financeManager.PayableBillManager.billDetail
+#标详情
+GET     /supervisor/PayableBillManager/bidDetail         						supervisor.financeManager.PayableBillManager.bidDetail
+#本金垫付
+*    /supervisor/financeManager/principalAdvance         					    supervisor.financeManager.PayableBillManager.principalAdvance
+
+# -----------------------------------------------平台账户管理----------------------------------------------------------
+# 客户银行账户列表
+GET     /supervisor/PlatformAccountManager/toAccountBankList        			supervisor.financeManager.PlatformAccountManager.toAccountBankList
+# 查看客户银行账户信息
+*     /supervisor/PlatformAccountManager/editAccountBankInfoInit        		supervisor.financeManager.PlatformAccountManager.editAccountBankInfoInit
+# 保存客户银行账户信息
+*     /supervisor/PlatformAccountManager/editBankAccount        				supervisor.financeManager.PlatformAccountManager.editBankAccount
+# 根据省编号查询城市
+*     /supervisor/PlatformAccountManager/queryCityCode2NameByProvinceCode       supervisor.financeManager.PlatformAccountManager.queryCityCode2NameByProvinceCode
+# 待审核提现列表
+GET     /supervisor/PlatformAccountManager/toReviewWithdraws        			supervisor.financeManager.PlatformAccountManager.toReviewWithdraws
+# 提现申请审核通过
+GET     /supervisor/PlatformAccountManager/withdrawPass							supervisor.financeManager.PlatformAccountManager.withdrawPass
+# 提现申请审核不通过
+POST    /supervisor/PlatformAccountManager/withdrawReview						supervisor.financeManager.PlatformAccountManager.withdrawReview
+# 详情
+POST    /supervisor/PlatformAccountManager/withdrawDetail						supervisor.financeManager.PlatformAccountManager.withdrawDetail
+# 待付款提现列表
+GET     /supervisor/PlatformAccountManager/toPayWithdraws         				supervisor.financeManager.PlatformAccountManager.toPayWithdraws
+# 付款通知弹出层
+POST    /supervisor/PlatformAccountManager/payNotificationInit    				supervisor.financeManager.PlatformAccountManager.payNotificationInit
+# 付款通知
+POST    /supervisor/PlatformAccountManager/payNotification      				supervisor.financeManager.PlatformAccountManager.payNotification
+#  打印付款单弹出层
+POST    /supervisor/PlatformAccountManager/printPayBill           				supervisor.financeManager.PlatformAccountManager.printPayBill
+# 已付款提现列表
+GET     /supervisor/PlatformAccountManager/paidWithdraws         				supervisor.financeManager.PlatformAccountManager.paidWithdraws
+# 未通过提现列表
+GET     /supervisor/PlatformAccountManager/noPassWithdraws         				supervisor.financeManager.PlatformAccountManager.noPassWithdraws
+# 模拟登录
+GET     /supervisor/PlatformAccountManager/simulateLogin         				supervisor.financeManager.PlatformAccountManager.simulateLogin
+# 打印付款单
+GET     /supervisor/PlatformAccountManager/printPayBill        					supervisor.financeManager.PlatformAccountManager.printPayBill
+# 未通过提现详情
+GET     /supervisor/PlatformAccountManager/noPassWithdrawDetail     			supervisor.financeManager.PlatformAccountManager.noPassWithdrawDetail
+# 未通过提现原因
+POST    /supervisor/PlatformAccountManager/noPassWithdrawReason     			supervisor.financeManager.PlatformAccountManager.noPassWithdrawReason
+# 手工充值页面
+GET     /supervisor/PlatformAccountManager/manualRecharge        				supervisor.financeManager.PlatformAccountManager.manualRecharge
+# 通过名字查询用户
+POST    /supervisor/PlatformAccountManager/queryUserByName        				supervisor.financeManager.PlatformAccountManager.queryUserByName
+# 通过收入|支出来查找平台交易类型名称
+POST	/supervisor/PlatformAccountManager/queryDetailTypeNames					supervisor.financeManager.PlatformAccountManager.queryDetailTypeNames
+# 手工充值
+POST    /supervisor/PlatformAccountManager/rechargeByHand        				supervisor.financeManager.PlatformAccountManager.rechargeByHand
+# 充值记录
+GET     /supervisor/PlatformAccountManager/rechargeRecord        				supervisor.financeManager.PlatformAccountManager.rechargeRecord
+# 提现记录
+GET     /supervisor/PlatformAccountManager/withdrawRecords        				supervisor.financeManager.PlatformAccountManager.withdrawRecords
+# 交易记录
+GET     /supervisor/PlatformAccountManager/transactionRecords       			supervisor.financeManager.PlatformAccountManager.transactionRecords
+# 本金保障账户管理
+GET     /supervisor/PlatformAccountManager/ppAccountManagement      			supervisor.financeManager.PlatformAccountManager.ppAccountManagement
+# 本金保障账户信息
+GET     /supervisor/PlatformAccountManager/ppAccountInfo         				supervisor.financeManager.PlatformAccountManager.ppAccountInfo
+# 添加保障金
+GET     /supervisor/PlatformAccountManager/addPrincipalProtection   			supervisor.financeManager.PlatformAccountManager.addPrincipalProtection
+# 保障金收支记录
+GET     /supervisor/PlatformAccountManager/principalProtectionRecords   		supervisor.financeManager.PlatformAccountManager.principalProtectionRecords
+# 交易掉单
+GET     /supervisor/PlatformAccountManager/ipsDetails   						supervisor.financeManager.PlatformAccountManager.ipsDetails
+# 交易补单
+POST    /supervisor/PlatformAccountManager/ipsRepair   						    supervisor.financeManager.PlatformAccountManager.ipsRepair
+# 对账单列表查询
+GET     /supervisor/PlatformAccountManager/queryForAccBalance                   supervisor.financeManager.PlatformAccountManager.queryForAccBalance
+
+# 日志列表查询
+GET     /supervisor/PlatformAccountManager/queryLogData                   		supervisor.financeManager.PlatformAccountManager.queryLogData
+*     /supervisor/PlatformAccountManager/remarkInfo                 			supervisor.financeManager.PlatformAccountManager.remarkInfo
+#日志补单
+*     /supervisor/PlatformAccountManager/singleSupplement                   	supervisor.financeManager.PlatformAccountManager.singleSupplement
+#通过流水号查找流水号账单信息
+*     /supervisor/PlatformAccountManager/lookForRarkInfo                   	supervisor.financeManager.PlatformAccountManager.lookForRarkInfo
+#通过流水号查找发送参数信息
+*     /supervisor/PlatformAccountManager/lookForSendRarkInfo                   	supervisor.financeManager.PlatformAccountManager.lookForSendRarkInfo
+
+
+# -----------------------------------------------汇付商户管理----------------------------------------------------------
+#商户充值页面
+GET     /supervisor/MerchantAccountManager/merRecharge                          supervisor.financeManager.MerchantAccountManager.merRecharge
+POST    /supervisor/MerchantAccountManager/submitRecharge                       supervisor.financeManager.MerchantAccountManager.submitRecharge
+GET     /supervisor/MerchantAccountManager/merWithdrawal                        supervisor.financeManager.MerchantAccountManager.merWithdrawal
+POST    /supervisor/MerchantAccountManager/submitWithdrawal                     supervisor.financeManager.MerchantAccountManager.submitWithdrawal
+GET     /supervisor/MerchantAccountManager/dealDetail                           supervisor.financeManager.MerchantAccountManager.dealDetails
+
+# -----------------------------------------------资金托管账户管理----------------------------------------------------------
+#账户信息
+GET     /supervisor/financeManager/accountInfo         							supervisor.financeManager.FundsEscrowAccountManager.accountInfo
+#登录（记录用户名）
+GET     /supervisor/financeManager/login         								supervisor.financeManager.FundsEscrowAccountManager.login
+#资金托管协议
+GET     /supervisor/financeManager/fundsEscrowProtocol        					supervisor.financeManager.FundsEscrowAccountManager.fundsEscrowProtocol
+#上传
+GET     /supervisor/financeManager/upload         								supervisor.financeManager.FundsEscrowAccountManager.upload
+
+
+# ***********************************************平台推广***********************************************************
+# -----------------------------------------------CPS推广管理----------------------------------------------------------
+# CPS推广会员管理主页面
+GET 	/supervisor/CPSSpreadAction/CPSAll 										supervisor.networkMarketing.CPSSpreadAction.CPSAll
+# CPS推广会员明细
+POST    /supervisor/CPSSpreadAction/CPSDetail 									supervisor.networkMarketing.CPSSpreadAction.CPSDetail
+# CPS推广会员佣金(回扣)发放明细
+GET 	/supervisor/CPSSpreadAction/CPSRebateDetail 							supervisor.networkMarketing.CPSSpreadAction.CPSRebateDetail
+# CPS推广会员佣金(回扣)发放交易明细
+GET 	/supervisor/CPSSpreadAction/CPSTransactionDetail 						supervisor.networkMarketing.CPSSpreadAction.CPSTransactionDetail
+# CPS推广会员佣金(回扣)发放统计
+GET 	/supervisor/CPSSpreadAction/CPSRebateStatistic 							supervisor.networkMarketing.CPSSpreadAction.CPSRebateStatistic
+# CPS推广规则设置
+GET 	/supervisor/CPSSpreadAction/CPSSpreadRule  								supervisor.networkMarketing.CPSSpreadAction.CPSSpreadRule
+POST 	/supervisor/CPSSpreadAction/saveRule 									supervisor.networkMarketing.CPSSpreadAction.saveRule
+
+# CPS推广会员发标公告
+GET 	/supervisor/CPSSpreadAction/bidPublish 									supervisor.networkMarketing.CPSSpreadAction.bidPublish
+
+# CPS推广会员添加发标公告初始化
+POST 	/supervisor/CPSSpreadAction/addBidPublishInit 							supervisor.networkMarketing.CPSSpreadAction.addBidPublishInit
+# CPS推广会员添加发标公告
+POST 	/supervisor/CPSSpreadAction/addBidPublish 							    supervisor.networkMarketing.CPSSpreadAction.addBidPublish
+
+#-----------------------------------------------网站流量统计分析----------------------------------------------------------
+# 流量统计
+GET 	/supervisor/NetworkTrafficAction/trafficStatistic 						supervisor.networkMarketing.NetworkTrafficAction.trafficStatistic
+# 左边导航栏
+GET 	/supervisor/NetworkTrafficAction/leftBar				        		supervisor.networkMarketing.NetworkTrafficAction.leftBar
+GET 	/supervisor/NetworkTrafficAction/test				        			supervisor.networkMarketing.NetworkTrafficAction.test
+# 申请开通
+GET 	/supervisor/NetworkTrafficAction/applyOpen 								supervisor.networkMarketing.NetworkTrafficAction.applyOpen
+# 申请开通->已开通
+GET 	/supervisor/NetworkTrafficAction/open 									supervisor.networkMarketing.NetworkTrafficAction.open
+# 申请开通->未开通->有百度账号
+GET 	/supervisor/NetworkTrafficAction/account 								supervisor.networkMarketing.NetworkTrafficAction.account
+# 申请开通->未开通->有百度账号->登录成功
+POST 	/supervisor/NetworkTrafficAction/loginSuccess 							supervisor.networkMarketing.NetworkTrafficAction.loginSuccess
+# 申请开通->未开通->无百度账号
+GET 	/supervisor/NetworkTrafficAction/notAccount 							supervisor.networkMarketing.NetworkTrafficAction.notAccount
+# 保存流量统计代码
+GET 	/supervisor/NetworkTrafficAction/saveNetworkTraffic 					supervisor.networkMarketing.NetworkTrafficAction.saveNetworkTraffic
+# 编辑流量统计代码
+GET 	/supervisor/NetworkTrafficAction/editNetworkTraffic 					supervisor.networkMarketing.NetworkTrafficAction.editNetworkTraffic
+
+#-----------------------------------------------SEO设置-----------------------------------------------
+# SEO设置
+GET		/supervisor/SEOSetingAction/SEOSite 									supervisor.networkMarketing.SEOSettingAction.SEOSite
+# 保存SEO设置
+GET		/supervisor/SEOSetingAction/save 										supervisor.networkMarketing.SEOSettingAction.save
+#-----------------------------------------------财富圈管理---------------------------------------------
+# 邀请码设置
+GET 	/supervisor/WealthCircleAction/InvitationCodeSetting 					supervisor.networkMarketing.WealthCircleAction.invitationCodeSetting
+# 邀请码列表
+GET		/supervisor/WealthCircleAction/InviteCodeInfoList						supervisor.networkMarketing.WealthCircleAction.inviteCodeInfoList
+# 邀请码设置修改
+POST 	/supervisor/WealthCircleAction/saveInvitationCode 						supervisor.networkMarketing.WealthCircleAction.saveInvitationCode
+# 邀请码详情
+POST 	/supervisor/WealthCircleAction/inviteCodeDetails						supervisor.networkMarketing.WealthCircleAction.inviteCodeDetails
+#邀请码详情
+GET     /supervisor/WealthCircleAction/investDetails							supervisor.networkMarketing.WealthCircleAction.investDetails
+#赠送邀请码
+POST    /supervisor/WealthCircleAction/giveInviteCodeToUser 					supervisor.networkMarketing.WealthCircleAction.giveInviteCodeToUser
+#更新财富圈是否启用
+POST    /supervisor/WealthCircleAction/updateCodeActive          			    supervisor.networkMarketing.WealthCircleAction.updateCodeActive
+# 财富圈统计
+GET 	/supervisor/WealthCircleAction/invitationStatistic						supervisor.networkMarketing.WealthCircleAction.invitationStatistic
+# 财富圈统计-返佣明细
+GET 	/supervisor/WealthCircleAction/invitationStatisticDetails				supervisor.networkMarketing.WealthCircleAction.invitationStatisticDetails
+#查询用户信息
+GET     /supervisor/WealthCircleAction/searchUserInfo							supervisor.networkMarketing.WealthCircleAction.searchUserInfo
+# ***********************************************数据统计***********************************************************
+# -----------------------------------------------财务数据统计分析表---------------------------------------------------
+#充值统计(首页)
+* /supervisor/FinancialStatisticsAction/rechargeStatistic 				supervisor.dataStatistics.FinancialStatisticsAction.rechargeStatistic
+#提现统计
+GET	/supervisor/FinancialStatisticsAction/withdrawalStatistic 				supervisor.dataStatistics.FinancialStatisticsAction.withdrawalStatistic
+#平台收入统计
+GET		/supervisor/FinancialStatisticsAction/incomeStatistic 					supervisor.dataStatistics.FinancialStatisticsAction.incomeStatistic
+#平台浮存金统计
+GET		/supervisor/FinancialStatisticsAction/floatAurum 						supervisor.dataStatistics.FinancialStatisticsAction.floatAurum
+#保障本金统计
+*		/supervisor/FinancialStatisticsAction/guaranteeStatistic 				supervisor.dataStatistics.FinancialStatisticsAction.guaranteeStatistic
+
+# -----------------------------------------------运营数据统计分析---------------------------------------------------
+#会员数据统计(首页)
+*		/supervisor/OperationStatisticsAction/userStatistic 					supervisor.dataStatistics.OperationStatisticsAction.userStatistic
+#会员数据统计分析对比
+GET /supervisor/FinancialStatisticsAction/userStatisticData 				    supervisor.dataStatistics.OperationStatisticsAction.userStatisticData
+#借款情况统计
+GET		/supervisor/OperationStatisticsAction/loanStatistic 					supervisor.dataStatistics.OperationStatisticsAction.loanStatistic
+#借款数据统计分析对比
+GET		/supervisor/OperationStatisticsAction/loanStatisticData  				supervisor.dataStatistics.OperationStatisticsAction.loanStatisticData
+#理财情况统计
+GET		/supervisor/OperationStatisticsAction/investorsStatistic 				supervisor.dataStatistics.OperationStatisticsAction.investorsStatistic
+#理财数据统计分析对比
+GET		/supervisor/OperationStatisticsAction/investorsStatisticData  			supervisor.dataStatistics.OperationStatisticsAction.investorsStatisticData
+#借款标销量情况统计
+GET		/supervisor/OperationStatisticsAction/loanBidStatistic 					supervisor.dataStatistics.OperationStatisticsAction.loanBidStatistic
+#债权转让情况统计
+GET		/supervisor/OperationStatisticsAction/debtStatistic 					supervisor.dataStatistics.OperationStatisticsAction.debtStatistic
+#审核科目库统计
+GET		/supervisor/OperationStatisticsAction/auditItemsStatistic 				supervisor.dataStatistics.OperationStatisticsAction.auditItemsStatistic
+#信披数据统计
+GET		/supervisor/OperationStatisticsAction/dataDisclosureStatistic 			supervisor.dataStatistics.OperationStatisticsAction.dataDisclosureStatistic
+
+
+# ***********************************************系统设计***********************************************************
+# -----------------------------------------------安全设计-----------------------------------------------------------
+#安全云盾
+GET		/supervisor/SecuritySettingAction/UKeyList 								supervisor.systemSettings.SecuritySettingAction.UKeyList
+#安全参数设置
+GET		/supervisor/SecuritySettingAction/safeParam   							supervisor.systemSettings.SecuritySettingAction.safeParam
+POST	/supervisor/SecuritySettingAction/saveSafeParam   						supervisor.systemSettings.SecuritySettingAction.saveSafeParam
+#安全问题设置
+GET		/supervisor/SecuritySettingAction/safeQuestion 							supervisor.systemSettings.SecuritySettingAction.safeQuestion
+POST	/supervisor/SecuritySettingAction/addsafeQuestion 						supervisor.systemSettings.SecuritySettingAction.addsafeQuestion
+POST	/supervisor/SecuritySettingAction/updateSafeQuestion 					supervisor.systemSettings.SecuritySettingAction.updateSafeQuestion
+#详情
+GET		/supervisor/SecuritySettingAction/UKeyListDetail 						supervisor.systemSettings.SecuritySettingAction.UKeyListDetail
+#编辑UKey
+GET		/supervisor/SecuritySettingAction/updateUKey 							supervisor.systemSettings.SecuritySettingAction.updateUKey
+#添加安全云盾
+GET		/supervisor/SecuritySettingAction/addUKey 								supervisor.systemSettings.SecuritySettingAction.addUKey
+#添加安全云盾时选择管理员
+GET		/supervisor/SecuritySettingAction/selectSupervisor 						supervisor.systemSettings.SecuritySettingAction.selectSupervisor
+#添加新的安全问题
+GET		/supervisor/SecuritySettingAction/addQuestion 							supervisor.systemSettings.SecuritySettingAction.addQuestion
+#数据初始化管理
+GET		/supervisor/DBOperationAction/db 										supervisor.systemSettings.DBOperationAction.db
+#清空数据
+POST	/supervisor/DBOperationAction/clearData 								supervisor.systemSettings.DBOperationAction.clearData
+#重置(还原出厂设置)
+POST	/supervisor/DBOperationAction/reset 									supervisor.systemSettings.DBOperationAction.reset
+#从操作记录还原
+POST	/supervisor/DBOperationAction/recoverFromOperation 						supervisor.systemSettings.DBOperationAction.recoverFromOperation
+#备份
+POST	/supervisor/DBOperationAction/backup 									supervisor.systemSettings.DBOperationAction.backup
+
+# -----------------------------------------------财务设置-----------------------------------------------------------
+#服务费设置
+GET		/supervisor/FinanceSettingAction/serviceFees 							supervisor.systemSettings.FinanceSettingAction.serviceFees
+POST	/supervisor/FinanceSettingAction/saveServiceFees 						supervisor.systemSettings.FinanceSettingAction.saveServiceFees
+POST	/supervisor/FinanceSettingAction/saveScroeRule 							supervisor.systemSettings.FinanceSettingAction.saveScroeRule
+#支付方式管理
+POST	/supervisor/FinanceSettingAction/savePayment 							supervisor.systemSettings.FinanceSettingAction.savePayment
+#支付方式保存
+GET		/supervisor/FinanceSettingAction/payment 								supervisor.systemSettings.FinanceSettingAction.payment
+POST	/supervisor/FinanceSettingAction/savePayment 							supervisor.systemSettings.FinanceSettingAction.savePayment
+#应付账单管理
+GET		/supervisor/FinanceSettingAction/payableBills    						supervisor.systemSettings.FinanceSettingAction.payableBills
+POST	/supervisor/FinanceSettingAction/saveBillsPayable    					supervisor.systemSettings.FinanceSettingAction.saveBillsPayable
+#资金托管账户设置
+GET		/supervisor/FinanceSettingAction/managedFunds 							supervisor.systemSettings.FinanceSettingAction.managedFunds
+#系统积分规则
+GET		/supervisor/FinanceSettingAction/systemScoreRule   						supervisor.systemSettings.FinanceSettingAction.systemScoreRule
+#系统积分规则设置
+POST	/supervisor/FinanceSettingAction/setSystemScoreRule   					supervisor.systemSettings.FinanceSettingAction.setSystemScoreRule
+#支付接口掉单处理
+GET		/supervisor/offSingleDeal												supervisor.financeManager.PlatformAccountManager.offSingleDeal
+#环迅支付接口掉单处理
+GET		/supervisor/ipsOffSingleDeal											supervisor.financeManager.PlatformAccountManager.ipsOffSingleDeal
+#闪电快充失败，重新进行转账
+GET		/supervisor/reTransfer											        supervisor.financeManager.PlatformAccountManager.reTransfer
+
+# -----------------------------------------------管理员管理-----------------------------------------------------------
+#系统管理员列表
+GET		/supervisor/supervisorAction/list										supervisor.systemSettings.supervisorAction.list
+#添加管理员初始化
+POST	/supervisor/supervisorAction/createSupervisorInit						supervisor.systemSettings.supervisorAction.createSupervisorInit
+#添加管理员
+POST	/supervisor/supervisorAction/createSupervisor							supervisor.systemSettings.supervisorAction.createSupervisor
+#编辑管理员初始化
+POST	/supervisor/supervisorAction/editSupervisorInit							supervisor.systemSettings.supervisorAction.editSupervisorInit
+#编辑管理员
+POST	/supervisor/supervisorAction/editSupervisor								supervisor.systemSettings.supervisorAction.editSupervisor
+#设置管理员的权限组页面
+POST	/supervisor/supervisorAction/selectGroupsOfSupervisorInit				supervisor.systemSettings.supervisorAction.selectGroupsOfSupervisorInit
+#设置管理员的权限组
+POST	/supervisor/supervisorAction/setGroupsOfSupervisor						supervisor.systemSettings.supervisorAction.setGroupsOfSupervisor
+#查看详情
+POST	/supervisor/supervisorAction/detail										supervisor.systemSettings.supervisorAction.detail
+#设置权限页面
+POST	/supervisor/supervisorAction/setRightsInit								supervisor.systemSettings.supervisorAction.setRightsInit
+#设置权限
+POST	/supervisor/supervisorAction/setRights									supervisor.systemSettings.supervisorAction.setRights
+#锁定/启用
+POST	/supervisor/supervisorAction/enable										supervisor.systemSettings.supervisorAction.enable
+#删除管理员
+POST	/supervisor/supervisorAction/deleteSupervisor							supervisor.systemSettings.supervisorAction.deleteSupervisor
+#管理员重置密码
+GET 	/supervisor/supervisorAction/resetPassword							    supervisor.systemSettings.supervisorAction.resetPassword
+#重置EnumModel
+GET 	/supervisor/supervisorAction/enumModelInit							    supervisor.systemSettings.supervisorAction.enumModelInit
+
+
+# -----------------------------------------------权限管理-----------------------------------------------------------
+#权限地图
+GET		/supervisor/rightAction/rightsMap 										supervisor.systemSettings.rightAction.rightsMap
+#权限管理
+GET		/supervisor/rightAction/rightsManage 									supervisor.systemSettings.rightAction.rightsManage
+#添加权限组页面
+POST	/supervisor/rightAction/addRightGroupInit 								supervisor.systemSettings.rightAction.addRightGroupInit
+#添加权限组
+POST	/supervisor/rightAction/addRightGroup 									supervisor.systemSettings.rightAction.addRightGroup
+#编辑权限组页面
+POST	/supervisor/rightAction/editRightGroupInit 								supervisor.systemSettings.rightAction.editRightGroupInit
+#编辑权限组
+POST	/supervisor/rightAction/editRightGroup 									supervisor.systemSettings.rightAction.editRightGroup
+#编辑权限组名单页面
+POST	/supervisor/rightAction/setGroupRosterInit 								supervisor.systemSettings.rightAction.setGroupRosterInit
+#编辑权限组名单
+POST	/supervisor/rightAction/setGroupRoster 									supervisor.systemSettings.rightAction.setGroupRoster
+#权限组权限设置页面
+POST	/supervisor/rightAction/setGroupRightsInit 								supervisor.systemSettings.rightAction.setGroupRightsInit
+#权限组权限设置
+POST	/supervisor/rightAction/setGroupRights 									supervisor.systemSettings.rightAction.setGroupRights
+#查询管理员通过账号
+POST	/supervisor/rightAction/querySupervisorByName 							supervisor.systemSettings.rightAction.querySupervisorByName
+#选择管理员名单页面
+POST	/supervisor/rightAction/selectGroupRosterInit 							supervisor.systemSettings.rightAction.selectGroupRosterInit
+#选择管理员页面
+POST	/supervisor/rightAction/selectSupervisorInit 							supervisor.systemSettings.rightAction.selectSupervisorInit
+#添加管理员
+POST	/supervisor/rightAction/addSupervisor 									supervisor.systemSettings.rightAction.addSupervisor
+#删除权限组
+POST	/supervisor/rightAction/deleteRightGroup 								supervisor.systemSettings.rightAction.deleteRightGroup
+
+# -----------------------------------------------第三方通道设置-----------------------------------------------------------
+#短信通道
+GET		/supervisor/TripartiteSettingAction/SMSPassage 							supervisor.systemSettings.TripartiteSettingAction.SMSPassage
+#短信通道 保存短信通道
+POST	/supervisor/TripartiteSettingAction/saveSMS 							supervisor.systemSettings.TripartiteSettingAction.saveSMS
+#邮件通道
+GET		/supervisor/TripartiteSettingAction/mailPassage 						supervisor.systemSettings.TripartiteSettingAction.mailPassage
+#邮件通道 保存邮件通道
+POST	/supervisor/TripartiteSettingAction/saveMail 							supervisor.systemSettings.TripartiteSettingAction.saveMail
+
+# -----------------------------------------------操作日志管理-----------------------------------------------------------
+#操作日志列表
+GET		/supervisor/LogManagerAction/logs 										supervisor.systemSettings.LogManagerAction.logs
+#删除操作日志页面
+GET		/supervisor/LogManagerAction/deleteLogsInit 							supervisor.systemSettings.LogManagerAction.deleteLogsInit
+#删除操作日志
+POST	/supervisor/LogManagerAction/deleteLogs 								supervisor.systemSettings.LogManagerAction.deleteLogs
+
+# -----------------------------------------------软件授权设置-----------------------------------------------------------
+#系统基本资料设置
+GET		/supervisor/SoftwareLicensAction/basicInfo 								supervisor.systemSettings.SoftwareLicensAction.basicInfo
+#系统基本资料设置 上传图片
+POST	/supervisor/SoftwareLicensAction/upload 								supervisor.systemSettings.SoftwareLicensAction.upload
+#系统基本资料设置 编辑基本资料
+POST	/supervisor/SoftwareLicensAction/saveSystemData 						supervisor.systemSettings.SoftwareLicensAction.saveSystemData
+#系统基本资料设置 获取省份
+POST	/supervisor/SoftwareLicensAction/getProvinces 							supervisor.systemSettings.SoftwareLicensAction.getProvinces
+#软件正版注册
+GET		/supervisor/SoftwareLicensAction/genuineSoftware 						supervisor.systemSettings.SoftwareLicensAction.genuineSoftware
+#软件正版注册信息->已注册
+GET		/supervisor/SoftwareLicensAction/register 								supervisor.systemSettings.SoftwareLicensAction.register
+#软件正版注册信息->未注册
+GET		/supervisor/SoftwareLicensAction/notRegister 							supervisor.systemSettings.SoftwareLicensAction.notRegister
+POST	/supervisor/SoftwareLicensAction/saveSoftwareLicens 					supervisor.systemSettings.SoftwareLicensAction.saveSoftwareLicens
+GET		/supervisor/AppAction/version 											supervisor.systemSettings.AppAction.version
+GET		/supervisor/AppAction/borrowVersion 									supervisor.systemSettings.AppAction.borrowVersion
+POST	/supervisor/AppAction/saveVersion 										supervisor.systemSettings.AppAction.saveVersion
+POST	/supervisor/AppAction/saveBorrowVersion 								supervisor.systemSettings.AppAction.saveBorrowVersion
+
+# ***********************************************OBU风控联盟***********************************************************
+# -------------------------------------------------------------------------------------------------------------------——
+
+GET 	/supervisor/obu															supervisor.obuUnion.OBUUnionAction.index
+
+
+
+#登记债权人回调ws
+POST    /front/PaymentAction/registerCreditorWS			                      	front.account.PaymentAction.registerCreditorWS
+#登记债权人回调ws后post
+POST    /front/PaymentAction/registerCreditorPost			                    front.account.PaymentAction.registerCreditorPost
+#充值回调ws
+POST    /front/PaymentAction/doDpTradeWS			                            front.account.PaymentAction.doDpTradeWS
+#充值回调ws后post
+POST    /front/PaymentAction/doDpTradePost			                    		front.account.PaymentAction.doDpTradePost
+#提现回调ws
+POST    /front/PaymentAction/doDwTradeWS			                      		front.account.PaymentAction.doDwTradeWS
+#提现回调ws后post
+POST    /front/PaymentAction/doDwTradePost			                    		front.account.PaymentAction.doDwTradePost
+#还款回调ws
+POST    /front/PaymentAction/repaymentNewTradeWS			                    front.account.PaymentAction.repaymentNewTradeWS
+#还款回调ws后post
+POST    /front/PaymentAction/repaymentNewTradePost			                    front.account.PaymentAction.repaymentNewTradePost
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^拦截器匹配^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#GET 	/interceptor/tests                   									interceptor.SInterceptor.test2;
+#GET 	/interceptor/test                   									interceptor.FInterceptor.test2;
+#*  	/supervisor/{<[\s\S]*>action}         									Application.error2
+#*  	/{<[\s\S]*>action}         												Application.error
+GET     /front/paymentAction/ips												front.account.PaymentAction.ipsCommit
+
+#-------------------------------------------------------微信-----------------------------------------------------
+#----微信消息入口
+*    /wechat/others/microMessageEntrance                                        wechat.others.WeChatFrontGateway.microMessageEntrance
+#----多客服插件地址
+*   /wechat/plugin                                                              wechat.others.WeChatFrontGateway.plugin
+#微信修改菜单名称
+#"微信修改菜单名称"暂时不开放
+#POST /wechat/others/editMenu                                                    wechat.others.WeChatFrontGateway.editMenu
+*   /wechat/others/createMenu                                                   wechat.others.WeChatFrontGateway.createMenu
+*   /wechat/others/queryMenu                                                    wechat.others.WeChatFrontGateway.queryMenu
+#---微信用户授权
+*   /wechat/others/userOAuth                                                    wechat.others.WeChatFrontGateway.userOAuth
+#----多客服查询sp2p用户信息
+*   /wechat/others/userInformation                                              wechat.others.WeChatFrontGateway.userInformation
+#--------------------------------------------      微信服务接口后台设置            --------------------------------------
+
+
+#--------------------------------------------      微信服务接口服务设置            --------------------------------------
+#绑定账号
+GET  /wechat/registAndLogin/bindUser                                            wechat.service.RegistAndLogin.bindUser
+POST /wechat/registAndLogin/bindUsering                                         wechat.service.RegistAndLogin.bindUsering
+#解绑账号
+GET  /wechat/registAndLogin/unBoundUser                                         wechat.service.RegistAndLogin.unBoundUser
+POST /wechat/registAndLogin/unBoundUsering                                      wechat.service.RegistAndLogin.unBoundUsering
+#-----------注册登录--------------
+GET   /wechat/registAndLogin/login                                    		    wechat.service.RegistAndLogin.login
+POST  /wechat/registAndLogin/logining                               			wechat.service.RegistAndLogin.logining
+GET   /wechat/registAndLogin/register											wechat.service.RegistAndLogin.register
+POST  /wechat/registAndLogin/registering										wechat.service.RegistAndLogin.registering
+GET   /wechat/registAndLogin/registerSuccess									wechat.service.RegistAndLogin.registerSuccess
+POST  /wechat/registAndLogin/hasMobileExist                       		        wechat.service.RegistAndLogin.hasMobileExist
+
+GET   /wechat/registAndLogin/forgetPassword									    wechat.service.RegistAndLogin.forgetPassword
+POST  /wechat/registAndLogin/forgetPasswording								    wechat.service.RegistAndLogin.forgetPasswording
+# 发送验证码
+POST  /wechat/registAndLogin/verifyMobile                                       wechat.service.RegistAndLogin.verifyMobile
+GET   /wechat/registAndLogin/forgetPasswordByEmail							    wechat.service.RegistAndLogin.forgetPasswordByEmail
+POST  /wechat/registAndLogin/forgetPasswordByEmailing							wechat.service.RegistAndLogin.forgetPasswordByEmailing
+#-------------------------------------------------------微信模块 我要理财---------------
+#所有的投标
+GET   /wechat/investAction/queryAllBids                                         wechat.service.InvestAction.queryAllBids
+POST  /wechat/investAction/queryAllBidsAjax                                     wechat.service.InvestAction.queryAllBidsAjax                                         wechat.service.InvestAction.queryAllBids
+#标的详细信息
+GET   /wechat/investAction/queryBidDetail                                       wechat.service.InvestAction.queryBidDetail
+#异步查询审核资料
+POST   /wechat/investAction/showitemAjax                                        wechat.service.InvestAction.showitemAjax
+#ajax得到投标记录
+POST  /wechat/investAction/queryBidInvestRecordsAjax                            wechat.service.InvestAction.queryBidInvestRecordsAjax
+#确认投标
+POST   /wechat/investAction/confirmInvest                                       wechat.service.InvestAction.confirmInvest
+#分享标页面
+GET   /wechat/investAction/shareBidPage                                        	wechat.service.InvestAction.shareBidPage
+#-------------------------------------------------------微信模块 我要投标-----------------
+#查询所有的非合作机构产品
+GET  /wechat/bidAction/queryAllProducts                                         wechat.service.BidAction.queryAllProducts
+#查询产品详情信息
+GET  /wechat/bidAction/queryProductDetail                                       wechat.service.BidAction.queryProductDetail
+#发布借款页面
+GET  /wechat/bidAction/bidPage                                                  wechat.service.BidAction.bidPage
+#发布借款
+POST /wechat/bidAction/bid                                                      wechat.service.BidAction.bid
+#验证用户
+GET /wechat/bidAction/verifyUser                                               wechat.service.BidAction.verifyUser
+#-------------------------------------------------------微信模块 债权转让  -----------------
+#查询所有的债权转让
+GET  /wechat/transferAction/queryAllTransfers                                   wechat.service.TransferAction.queryAllTransfers
+POST /wechat/transferAction/queryAllTransfersAjax                               wechat.service.TransferAction.queryAllTransfersAjax
+#查询债权转让详情
+GET  /wechat/transferAction/queryTransferDetail                                 wechat.service.TransferAction.queryTransferDetail
+#债权转让
+POST /wechat/transferAction/transfer                                            wechat.service.TransferAction.transfer
+#ajax查看债权竞拍记录
+POST /wechat/transferAction/queryTransferAuctionRecordsAjax                     wechat.service.TransferAction.queryTransferAuctionRecordsAjax
+#分享债权标页面
+GET  /wechat/transferAction/shareTransferPage                                   wechat.service.TransferAction.shareTransferPage
+#-------------------------------------------------------微信账户中心-----------------------------------------------------
+#用户基本信息
+GET /wechat/home/accountInfo                               wechat.account.WechatAccountHome.accountInfo
+#错误页面
+GET /wechat/home/errorShow                                 wechat.account.WechatAccountHome.errorShow
+#完善资料
+GET /wechat/home/baseInfo                                  wechat.account.WechatAccountHome.baseInfo
+#保存基本信息
+GET /wechat/home/saveInformation                           wechat.account.WechatAccountHome.saveInformation
+#收件箱
+* /wechat/home/message                                     wechat.account.WechatAccountHome.message
+#收件箱详情
+GET /wechat/home/messageDetails                            wechat.account.WechatAccountHome.messageDetails
+#银行卡管理
+GET /wechat/home/bankManage                                wechat.account.WechatAccountHome.bankManage
+#编辑银行卡
+POST /wechat/home/saveBank                                 wechat.account.WechatAccountHome.saveBank
+#添加银行卡
+POST /wechat/home/addBank                                  wechat.account.WechatAccountHome.addBank
+#安全设置
+GET /wechat/home/securitySet                               wechat.account.WechatAccountHome.securitySet
+#保存手机号码
+GET /wechat/home/saveMobile                                wechat.account.WechatAccountHome.saveMobile
+#添加支付密码
+GET /wechat/home/addPayPassword                            wechat.account.WechatAccountHome.addPayPassword
+#保存支付密码
+GET /wechat/home/savePayPassword                           wechat.account.WechatAccountHome.savePayPassword
+#保存邮箱
+GET /wechat/home/saveEmail                                 wechat.account.WechatAccountHome.saveEmail
+#保存密码
+* /wechat/home/savePassword                                wechat.account.WechatAccountHome.savePassword
+#充值
+GET /wechat/home/recharge                                  wechat.account.WechatAccountHome.recharge
+#微信确认充值
+GET /wechat/home/submitRecharge                            wechat.account.WechatAccountHome.submitRecharge
+#提现
+GET /wechat/home/withdraw                                  wechat.account.WechatAccountHome.withdraw
+#确认提现
+GET /wechat/home/submitWithdrawal                          wechat.account.WechatAccountHome.submitWithdrawal
+#交易记录
+* /wechat/home/dealRecord                                  wechat.account.WechatAccountHome.dealRecord
+#我的借款标
+* /wechat/home/myLoanBids                                  wechat.account.WechatAccountHome.myLoanBids
+#审核中的借款标
+* /wechat/home/auditingLoanBids                            wechat.account.WechatAccountHome.auditingLoanBids
+#等待满标的借款标
+GET /wechat/home/loaningBids                               wechat.account.WechatAccountHome.loaningBids
+#待放款的借款标
+GET /wechat/home/readyReleaseBid                           wechat.account.WechatAccountHome.readyReleaseBid
+#还款中的借款标
+GET /wechat/home/repaymentBids                             wechat.account.WechatAccountHome.repaymentBids
+#已成功的借款标
+GET /wechat/home/successBids                               wechat.account.WechatAccountHome.successBids
+#失败的借款标
+GET /wechat/home/failBids                                  wechat.account.WechatAccountHome.failBids
+#我的借款标详情
+GET /wechat/home/myLoanBidDetails                          wechat.account.WechatAccountHome.myLoanBidDetails
+#我的借款账单
+* /wechat/home/myLoanBills                                 wechat.account.WechatAccountHome.myLoanBills
+#我的借款账单详情
+GET /wechat/home/myLoanBillDetails                         wechat.account.WechatAccountHome.myLoanBillDetails
+#借款账单还款
+POST /wechat/home/submitRepayment                          wechat.account.WechatAccountHome.submitRepayment
+#上传审核资料
+GET /wechat/home/uploadAuthDatas                           wechat.account.WechatAccountHome.uploadAuthDatas
+#提交已上传的资料
+* /wechat/home/submitUploadedItems                         wechat.account.WechatAccountHome.submitUploadedItems
+# 清空用户上传未付款的资料
+* /wechat/home/clearUploadedItems                          wechat.account.WechatAccountHome.clearUploadedItems
+#我的理财标
+* /wechat/home/myInvestBids                                wechat.account.WechatAccountHome.myInvestBids
+#完成的理财标
+GET /wechat/home/successInvestBid                          wechat.account.WechatAccountHome.successInvestBid
+#待放款的理财标
+GET /wechat/home/readyReleaseInvestBid                     wechat.account.WechatAccountHome.readyReleaseInvestBid
+#收款中的理财标
+GET /wechat/home/repayingInvestBid                         wechat.account.WechatAccountHome.repayingInvestBid
+#等待满标的理财标
+GET /wechat/home/loaningInvestBid                          wechat.account.WechatAccountHome.loaningInvestBid
+#我的理财标详情
+GET /wechat/home/myInvestBidDetails                        wechat.account.WechatAccountHome.myInvestBidDetails
+#我的理财账单
+* /wechat/home/myInvestBills                               wechat.account.WechatAccountHome.myInvestBills
+#我的理财账单详情
+GET /wechat/home/myInvestBillDetails                       wechat.account.WechatAccountHome.myInvestBillDetails
+#债权转让管理页面
+GET /wechat/home/debeManages                               wechat.account.WechatAccountHome.debeManage
+#债权竞拍页面
+GET /wechat/home/debeManageTransfer                        wechat.account.WechatAccountHome.debeManageTransfer
+#债权转让管理
+* /wechat/home/transferDebts                               wechat.account.WechatAccountHome.transferDebts
+#确认转让债权
+* /wechat/home/confirmTransfer                             wechat.account.WechatAccountHome.confirmTransfer
+#受让债权管理
+* /wechat/home/receivedDebts                               wechat.account.WechatAccountHome.receivedDebts
+#债权转让管理详情入口
+GET /wechat/home/debeManageDetails                         wechat.account.WechatAccountHome.debeManageDetails
+#转让债权管理审核中详情
+GET /wechat/home/debtDetailsAuditing                       wechat.account.WechatAccountHome.debtDetailsAuditing
+#债权管理转让中详情
+GET /wechat/home/debtDetailsTransfering                    wechat.account.WechatAccountHome.debtDetailsTransfering
+#债权管理已成功详情
+GET /wechat/home/debtDetailsSuccess                        wechat.account.WechatAccountHome.debtDetailsSuccess
+#债权管理失败详情
+GET /wechat/home/debtDetailsFailure                        wechat.account.WechatAccountHome.debtDetailsFailure
+#债权管理不通过详情
+GET /wechat/home/debtDetailsNoPass                         wechat.account.WechatAccountHome.debtDetailsNoPass
+#竞拍确认成交
+* /wechat/home/firstDealDebt                               wechat.account.WechatAccountHome.firstDealDebt
+#受让债权详情入口
+* /wechat/home/debtReceiveDetails                          wechat.account.WechatAccountHome.debtReceiveDetails
+#受让债权管理定向转让债权详情页面
+* /wechat/home/directionalDebt                             wechat.account.WechatAccountHome.directionalDebt
+#受让债权管理竞价成功债权详情页面
+* /wechat/home/auctionSuccess                              wechat.account.WechatAccountHome.auctionSuccess
+#受让债权管理竞价竞拍中债权详情页面
+* /wechat/home/auctionBidding                              wechat.account.WechatAccountHome.auctionBidding
+#受让债权管理竞价竞拍中债权详情页面
+* /wechat/home/auctionWaitConcirm                          wechat.account.WechatAccountHome.auctionWaitConcirm
+#受让债权管理审核不通过债权详情页面
+* /wechat/home/auctionFailure                              wechat.account.WechatAccountHome.auctionFailure
+#受让债权成交
+* /wechat/home/transact                                    wechat.account.WechatAccountHome.transact
+#接收定向债权转让
+* /wechat/home/acceptDebts                                 wechat.account.WechatAccountHome.acceptDebts
+#拒收定向转让债权
+* /wechat/home/notAccept                                   wechat.account.WechatAccountHome.notAccept
+
+#信用计算器
+* /wechat/calculator/wealthToolkitCreditCalculator         wechat.others.InterestCalculator.wealthToolkitCreditCalculator
+#还款明细(异步)
+* /wechat/calculator/repaymentCalculate                    wechat.others.InterestCalculator.repaymentCalculate
+#还款计算器
+* /wechat/calculator/wealthToolkitRepaymentCalculator      wechat.others.InterestCalculator.wealthToolkitRepaymentCalculator
+#净值计算器
+* /wechat/calculator/wealthToolkitNetValueCalculator       wechat.others.InterestCalculator.wealthToolkitNetValueCalculator
+#利率计算器
+* /wechat/calculator/wealthToolkitAPRCalculator            wechat.others.InterestCalculator.wealthToolkitAPRCalculator
+#利率计算器,计算年华收益、总利益(异步)
+* /wechat/calculator/aprCalculator                         wechat.others.InterestCalculator.aprCalculator
+#财富资讯信息
+* /wechat/wealthInfo/wealthinfos                           wechat.others.WealthInfomation.wealthinfos
+#财富资讯详情
+* /wechat/wealthInfo/wealthDetails                         wechat.others.WealthInfomation.wealthDetails
+#关于我们
+GET /wechat/aboutUs/aboutTeam                              wechat.others.AboutUs.aboutTeam
+
+#退出登录
+GET /wechat/home/loginOut                                  wechat.account.WechatAccountHome.loginOut
+
+#首页
+GET /wechat/home/home                                      wechat.account.WechatAccountHome.home
+#用户是否激活
+POST /wechat/home/checkUserStatusAndActiveEmail			   wechat.account.WechatAccountHome.checkUserStatusAndActiveEmail
+#----------------------------------微信后台设置---------------------------
+#查询微信欢迎语
+GET /supervisor/WeChatSettingAction/weiXinWelcomeToLanguage          supervisor.systemSettings.WeChatSettingAction.weiXinWelcomeToLanguage
+#设置微信欢迎语(绑定)
+POST /supervisor/WeChatSettingAction/saveWeiXinWelcomeToLanguageBind     supervisor.systemSettings.WeChatSettingAction.saveWeiXinWelcomeToLanguageBind
+#设置微信欢迎语(解绑)
+POST /supervisor/WeChatSettingAction/saveWeiXinWelcomeToLanguageUnBound     supervisor.systemSettings.WeChatSettingAction.saveWeiXinWelcomeToLanguageUnBound
+
+#查询微信在线咨询语
+GET /supervisor/WeChatSettingAction/weiXinConsultingLanguage         supervisor.systemSettings.WeChatSettingAction.weiXinConsultingLanguage
+#设置微信在线咨询语
+POST /supervisor/WeChatSettingAction/saveWeiXinConsultingLanguage    supervisor.systemSettings.WeChatSettingAction.saveWeiXinConsultingLanguage
+GET     /front/paymentAction/ips												front.account.PaymentAction.ipsCommit
+
+#用户绑卡银行卡开户信息
+GET /dict/queryCityCode2NameByProvinceCode/{provinceCode}                       front.account.FundsManage.queryCityCode2NameByProvinceCode
+*   /dict/queryBankCode2NameByCondition                                         front.account.FundsManage.queryBankCode2NameByCondition
+
+#----------------------------------闪电快充---------------------------
+#通联网银支付入口
+*  /front/fastPay/tonglian/cyberbankPay                   front.account.TongLianPaymentAction.cyberbankPay
+*  /front/fastPay/tonglian/synCallBack                   front.account.TongLianPaymentAction.synCallBack
+*  /front/fastPay/tonglian/asynCallBack                   front.account.TongLianPaymentAction.asynCallBack
+
+#标的分享
+*    /app/shareBid                    						        		    app.AppController.shareBid
+*    /app/shareIncome                    						        		app.AppController.shareIncome
+# user失效登陆页面
+*    /app/applogining                    						        		app.AppController.applogining
+#积分商城
+*    /app/mallScroeEarnings                    						        	app.AppController.mallScroeEarnings
+*    /app/mallScroeExpend                    						        	app.AppController.mallScroeExpend
+*    /app/mallGoodsInfo                    						        		app.AppController.mallGoodsInfo
+*    /app/scroeInfo                    						        			app.AppController.scroeInfo
+*    /app/mallGoodsDetail                    						        	app.AppController.mallGoodsDetail
+*   /front/mall/addAddress										                front.mall.MallAction.addAddress
+*   /front/mall/scroeConvertRedPackages										    front.mall.MallAction.scroeConvertRedPackages
+*   /front/mall/sign										                	front.mall.MallAction.sign
+#绑卡
+*   /front/account/userBindCard                                     front.account.FundsManage.userBindCard
+
+#资金托管错误提示页面
+* /BaseController/payErrorInfo									    BaseController.payErrorInfo
+
+#-----------------------------------------托管action基类PaymentBaseAction路由-------------------------------------------------------------
+#资金托管错误提示页面
+*   /payment/payErrorInfo									    				payment.PaymentBaseAction.payErrorInfo
+#资金托管认证注册
+GET /front/account/approve			                      					    payment.PaymentBaseAction.approve
+#资金托管认证注册
+GET     /front/account/check      												payment.PaymentBaseAction.check
+#资金托管邮箱注册页面（手机注册）
+GET     /front/account/checkEmailSet											payment.PaymentBaseAction.checkEmailSet
+#邮箱认证页面
+GET     /front/account/checkEmail      											payment.PaymentBaseAction.checkEmail
+#发送激活邮件
+POST     /front/account/sendActiveEmail      									payment.PaymentBaseAction.sendActiveEmail
+#邮箱认证成功
+GET     /front/account/checkEmailSuccess     									payment.PaymentBaseAction.checkEmailSuccess
+#实名认证页面
+GET     /front/account/checkRealName      										payment.PaymentBaseAction.checkRealName
+#资金托管邮箱注册（手机注册）
+GET     /front/account/doCheckEmailSet											payment.PaymentBaseAction.doCheckEmailSet
+#实名认证
+GET     /front/account/doCheckRealName      									payment.PaymentBaseAction.doCheckRealName
+#手机认证页面
+GET     /front/account/checkMobile      										payment.PaymentBaseAction.checkMobile
+#短信验证码
+GET     /front/account/sendCode      											payment.PaymentBaseAction.sendCode
+#手机认证
+GET     /front/account/doCheckMobile      										payment.PaymentBaseAction.doCheckMobile
+#资金托管开户页面
+GET     /front/account/createIpsAcct      										payment.PaymentBaseAction.createIpsAcct
+#认证成功
+GET     /front/account/checkSuccess      										payment.PaymentBaseAction.checkSuccess
+#绑卡认证
+GET     /front/account/checkFyBank      										payment.PaymentBaseAction.checkFyBank
+
+#-----------------------------------------环讯托管回调地址开始-------------------------------------------------------------
+#开户回调地址
+* /payment/ips/returnRegister										payment.ips.IpsPaymentCallBackAction.returnRegister
+
+#充值回调地址
+* /payment/ips/returnRecharge										payment.ips.IpsPaymentCallBackAction.returnRecharge
+
+#标的发布回调地址
+* /payment/ips/returnBidCreate										payment.ips.IpsPaymentCallBackAction.returnBidCreate
+
+#投资回调地址
+* /payment/ips/returnInvest											payment.ips.IpsPaymentCallBackAction.returnInvest
+
+#还款回调
+* /payment/ips/returnRepayment										payment.ips.IpsPaymentCallBackAction.returnRepayment
+
+#自动还款签约提交地址
+* /payment/ips/IpsPaymentAction/autoRepaymentSignature				payment.ips.IpsPaymentAction.autoRepaymentSignature
+
+#自动还款签约回调
+* /payment/ips/returnAutoRepaymentSignature							payment.ips.IpsPaymentCallBackAction.returnAutoRepaymentSignature
+
+#自动投标签约回调
+* /payment/ips/returnAutoInvestSignature							payment.ips.IpsPaymentCallBackAction.returnAutoInvestSignature
+
+#登记债权人回调
+* /payment/ips/returnDebtorTransfer									payment.ips.IpsPaymentCallBackAction.returnDebtorTransfer
+
+#债权转让成交回调
+* /payment/ips/returnDebtorTransferConfirm							payment.ips.IpsPaymentCallBackAction.returnDebtorTransferConfirm
+
+#标的审核不通过
+* /payment/ips/returnBidAuditFail									payment.ips.IpsPaymentCallBackAction.returnBidAuditFail
+
+#提现回调
+* /payment/ips/returnWithdraw										payment.ips.IpsPaymentCallBackAction.returnWithdraw
+
+#满标复审回调
+* /payment/ips/returnBidAuditSucc									payment.ips.IpsPaymentCallBackAction.returnBidAuditSucc
+
+#解冻保证金回调
+* /payment/ips/returnUnFreeze										payment.ips.IpsPaymentCallBackAction.returnUnFreeze
+
+#登记担保方回调
+* /payment/ips/returnAdvance										payment.ips.IpsPaymentCallBackAction.returnAdvance
+
+#本金垫付回调
+* /payment/ips/returnAdvanceConfirm									payment.ips.IpsPaymentCallBackAction.returnAdvanceConfirm
+
+#垫付还款回调
+* /payment/ips/returnAdvanceRepayment								payment.ips.IpsPaymentCallBackAction.returnAdvanceRepayment
+#-----------------------------------------环讯托管回调地址结束-------------------------------------------------------------
+
+#-----------------------------------------汇付天下托管回调地址开始-------------------------------------------------------------
+#用户注册
+*	/payment/chinapnr/userRegisterSyn											payment.hf.HfPaymentCallBackAction.userRegisterSyn
+*	/payment/chinapnr/userRegisterAyns											payment.hf.HfPaymentCallBackAction.userRegisterAyns
+#充值
+*   /payment/chinapnr/netSaveSyn												payment.hf.HfPaymentCallBackAction.netSaveSyn
+*   /payment/chinapnr/netSaveAyns												payment.hf.HfPaymentCallBackAction.netSaveAyns
+#标的信息录入,并冻结保证金
+*   /payment/chinapnr/addBidInfoAyns											payment.hf.HfPaymentCallBackAction.addBidInfoAyns
+*   /payment/chinapnr/freezeBailAmountAyns										payment.hf.HfPaymentCallBackAction.freezeBailAmountAyns
+#主动投标
+*   /payment/chinapnr/initiativeTender											payment.hf.HfPaymentCallBackAction.initiativeTender
+*   /payment/chinapnr/initiativeTenderAyns										payment.hf.HfPaymentCallBackAction.initiativeTenderAyns
+#提现
+*   /payment/chinapnr/cash														payment.hf.HfPaymentCallBackAction.cash
+*   /payment/chinapnr/cashAyns													payment.hf.HfPaymentCallBackAction.cashAyns
+#充值-商户
+*   /payment/chinapnr/merNetSave												payment.hf.HfPaymentCallBackAction.merNetSave
+*   /payment/chinapnr/merNetSaveAyns											payment.hf.HfPaymentCallBackAction.merNetSaveAyns
+#提现-商户
+*   /payment/chinapnr/merCash													payment.hf.HfPaymentCallBackAction.merCash
+*   /payment/chinapnr/merCashAyns												payment.hf.HfPaymentCallBackAction.merCashAyns
+#绑卡
+*   /payment/chinapnr/userBindCardAyns											payment.hf.HfPaymentCallBackAction.userBindCardAyns
+#余额查询
+*   /payment/chinapnr/queryBalance/{userId}										payment.chinapnr.ChinaPnrAction.queryBalance
+#自动投标计划
+*   /payment/chinapnr/autoInvestSignature										payment.hf.HfPaymentCallBackAction.autoInvestSignature
+#自动投标
+*   /payment/chinapnr/autoTenderAyns										    payment.hf.HfPaymentCallBackAction.autoTenderAyns
+#用户绑卡
+*	/payment/chinapnr/userBindCardAyns											payment.hf.HfPaymentCallBackAction.userBindCardAyns
+#提现审核
+*	/payment/chinapnr/cashAudit													payment.hf.HfPaymentCallBackAction.cashAudit
+#资金冻结
+*	/payment/chinapnr/usrFreezeAyns												payment.hf.HfPaymentCallBackAction.usrFreezeAyns
+#放款
+*	/payment/chinapnr/loansAyns													payment.hf.HfPaymentCallBackAction.loansAyns
+#还款
+*	/payment/chinapnr/batchRepaymentAyns										payment.hf.HfPaymentCallBackAction.batchRepaymentAyns
+#资金解冻
+*	/payment/chinapnr/usrUnFreezeAyns											payment.hf.HfPaymentCallBackAction.usrUnFreezeAyns
+#债权转让
+*	/payment/chinapnr/creditAssign												payment.hf.HfPaymentCallBackAction.creditAssign
+*	/payment/chinapnr/creditAssignAyns											payment.hf.HfPaymentCallBackAction.creditAssignAyns
+#
+*	/payment/chinapnr/usrAcctPay												payment.hf.HfPaymentCallBackAction.usrAcctPay
+*	/payment/chinapnr/usrAcctPayAyns											payment.hf.HfPaymentCallBackAction.usrAcctPayAyns
+#商户转账异步回调
+*	/payment/chinapnr/transferAyns												payment.hf.HfPaymentCallBackAction.transferAyns
+#平帐
+*	/priceSign																	payment.chinapnr.ChinaPnrAction.priceSign
+
+#平台子账户查询
+*	/payment/chinapnr/tools/queryPlatFormQueryAccts								payment.chinapnr.ChinaPnrToolAction.queryPlatFormQueryAccts
+#平台余额查询
+*	/payment/chinapnr/tools/queryPlatFormQueryBalanceBg							payment.chinapnr.ChinaPnrToolAction.queryPlatFormQueryBalanceBg
+#用户余额查询
+*	/payment/chinapnr/tools/queryBalanceBg/{usrCustId}							payment.chinapnr.ChinaPnrToolAction.queryBalanceBg
+#债权转让对账
+*	/payment/chinapnr/tools/creditAssignReconciliation/{beginDate}/{endDate}	payment.chinapnr.ChinaPnrToolAction.creditAssignReconciliation
+#提现对账
+*	/payment/chinapnr/tools/cashReconciliation/{beginDate}/{endDate}			payment.chinapnr.ChinaPnrToolAction.cashReconciliation
+#充值对账
+*	/payment/chinapnr/tools/saveReconciliation/{beginDate}/{endDate}			payment.chinapnr.ChinaPnrToolAction.saveReconciliation
+#放还款对账
+*	/payment/chinapnr/tools/reconciliation/{beginDate}/{endDate}/{type}			payment.chinapnr.ChinaPnrToolAction.reconciliation
+#查询用户信息
+*	/payment/chinapnr/tools/queryUsrInfo/{certId}								payment.chinapnr.ChinaPnrToolAction.queryUsrInfo
+#交易状态查询
+*	/payment/chinapnr/tools/queryTransStat/{ordId}/{ordDate}/{type}				payment.chinapnr.ChinaPnrToolAction.queryTransStat
+
+
+#-----------------------------------------汇付天下托管回调地址结束-------------------------------------------------------------
+#-----------------------------------------富友托管回调地址开始-------------------------------------------------------------
+#获取银行列表
+* /payment/fy/findByCity														payment.fy.FyPaymentAction.findByCity
+* /payment/fy/addBank															payment.fy.FyPaymentAction.addBank
+* /payment/fy/returnRecharge													payment.fy.FyPaymentCallBackAction.returnRecharge
+* /payment/fy/returnWithdraw													payment.fy.FyPaymentCallBackAction.returnWithdraw
+#-----------------------------------------富友托管回调地址结束-------------------------------------------------------------
+
+#-----------------------------------------财富圈-------------------------------------------------------------
+#前台，我的财富圈
+#我的邀请码
+GET /front/account/wealthcircle/wealthHome                                       front.account.WealthCircle.wealthHome
+#我邀请的会员
+GET /front/account/wealthcircle/invitationMember                                 front.account.WealthCircle.invitationMember
+#返佣明细
+GET /front/account/wealthcircle/myInvitationUserDetails                          front.account.WealthCircle.myInvitationUserDetails
+
+
+#------------------------------------------------------红包后台设置--------------------------------------------------------
+#查询所有红包类型
+*		/supervisor/systemSettings/RedPackageAction/redTypeList					 supervisor.systemSettings.RedPackageAction.redTypeList
+*		/supervisor/systemSettings/RedPackageAction/toAddDetails				 supervisor.systemSettings.RedPackageAction.toAddDetails
+*		/supervisor/systemSettings/RedPackageAction/addDetails					 supervisor.systemSettings.RedPackageAction.addDetails
+POST	/supervisor/systemSettings/RedPackageAction/disableRedType				 supervisor.systemSettings.RedPackageAction.disableRedType
+POST	/supervisor/systemSettings/RedPackageAction/enableRedType				 supervisor.systemSettings.RedPackageAction.enableRedType
+*		/supervisor/systemSettings/RedPackageAction/deleteRedType				 supervisor.systemSettings.RedPackageAction.deleteRedType
+*		/supervisor/systemSettings/RedPackageAction/updateDetails			 	 supervisor.systemSettings.RedPackageAction.updateDetails
+*		/supervisor/systemSettings/RedPackageAction/details					 	 supervisor.systemSettings.RedPackageAction.details
+
+
+#红包发放记录
+*		/supervisor/systemSettings/RedPackageHistoryAction/showList				supervisor.systemSettings.RedPackageHistoryAction.showList
+*		/supervisor/systemSettings/RedPackageHistoryAction/showListByType		supervisor.systemSettings.RedPackageHistoryAction.showListByType
+*		/supervisor/systemSettings/RedPackageHistoryAction/saveRedPacketsUsers  supervisor.systemSettings.RedPackageHistoryAction.saveRedPacketsUsers
+#红包使用规则设置
+*		/supervisor/systemSettings/RedPackageHistoryAction/redRules				supervisor.systemSettings.RedPackageHistoryAction.redRules
+*		/supervisor/systemSettings/RedPackageHistoryAction/redRulesUpdate		supervisor.systemSettings.RedPackageHistoryAction.redRulesUpdate
+#------------------------------------------------------------------------------------------------------------------
+
+#----------------------------------------积分商城-------------------------------------------------
+#前台
+* /front/mall/home												      front.mall.MallAction.mallHome
+* /front/mall/sign											          front.mall.MallAction.sign
+* /front/mall/scroeRecord											  front.mall.MallAction.scroeRecord
+* /front/mall/exchangedGoods										  front.mall.MallAction.exchangedGoods
+* /front/mall/goodsDetail										      front.mall.MallAction.goodsDetail
+* /front/mall/exchange										          front.mall.MallAction.exchange
+* /front/mall/submitExchange										  front.mall.MallAction.submitExchange
+* /front/mall/addAddress										      front.mall.MallAction.addAddress
+* /front/mall/modifyAddress										      front.mall.MallAction.modifyAddress
+* /front/mall/contentDetail										      front.mall.MallAction.contentDetail
+* /front/mall/home2												      front.mall.MallAction.home2
+* /front/mall/updateAddress											  front.mall.MallAction.updateAddress
+* /front/mall/logout                          						  front.mall.MallAction.logout
+
+#微信端积分商城
+* /wechat/MallAction/mallHome										wechat.account.MallAction.mallHome
+#微信端积分商品详情
+* /wechat/MallAction/goodsDetail									wechat.account.MallAction.goodsDetail
+#微信端积分商品异步分页
+* /wechat/MallAction/queryMallgoodAjax								wechat.account.MallAction.queryMallgoodAjax
+#微信端商品交换查询地址
+* /wechat/MallAction/addressList									wechat.account.MallAction.addressList
+#微信端商品交换修改地址
+* /wechat/MallAction/modifyAddress									wechat.account.MallAction.modifyAddress
+#微信端商品交换查询地址
+POST /wechat/MallAction/address										wechat.account.MallAction.updateWechatAddress
+#微信端商品兑换
+* /wechat/MallAction/submitExchange									wechat.account.MallAction.submitExchange
+#微信端增加地址
+* /wechat/MallAction/addAddressInit									wechat.account.MallAction.addAddressInit
+#微信端商品增加地址
+* /wechat/MallAction/addAddress										wechat.account.MallAction.addAddress
+#微信端商品交换查询地址
+* /wechat/MallAction/goodExchange									wechat.account.MallAction.goodExchange
+#微信端商品交换成功
+* /wechat/MallAction/exchageSuccess									wechat.account.MallAction.exchageSuccess
+#微信端商品交换失败
+* /wechat/MallAction/exchageFail									wechat.account.MallAction.exchageFail
+#商品 后台
+* /supervisor/GoodsAction/goodsList                               		  supervisor.mall.GoodsAction.goodsList
+* /supervisor/GoodsAction/saveGoods                               		  supervisor.mall.GoodsAction.saveGoods
+* /supervisor/GoodsAction/editGoods                               		  supervisor.mall.GoodsAction.editGoods
+* /supervisor/GoodsAction/deleteGoods                             		  supervisor.mall.GoodsAction.deleteGoods
+* /supervisor/GoodsAction/stopGoods                               		  supervisor.mall.GoodsAction.stopGoods
+#积分规则 后台
+* /supervisor/ScroeRuleAction/scroeRuleList                               supervisor.mall.ScroeRuleAction.scroeRuleList
+* /supervisor/ScroeRuleAction/saveScroeRule                               supervisor.mall.ScroeRuleAction.saveScroeRule
+* /supervisor/ScroeRuleAction/editScroeRule                               supervisor.mall.ScroeRuleAction.editScroeRule
+* /supervisor/ScroeRuleAction/stopScroeRule                               supervisor.mall.ScroeRuleAction.stopScroeRule
+* /supervisor/ScroeRuleAction/addScroeRule                                supervisor.mall.ScroeRuleAction.addScroeRule
+* /supervisor/ScroeRuleAction/addingScroeRule                             supervisor.mall.ScroeRuleAction.addingScroeRule
+
+#积分记录 后台
+* /supervisor/ScroeRecordAction/scroeRecordList                    supervisor.mall.ScroeRecordAction.scroeRecordList
+
+##后台 -财务管理 - 平台账户管理 - 待审核提现列表
+* /supervisor/PlatformAccountManager/downloadUserBankList		   supervisor.financeManager.PlatformAccountManager.downloadUserBankList
+
+# 推荐管理
+* /supervisor/profitUser/profitUser         				supervisor.userManager.ProfitUser.profitUser
+
+# 银行卡投保记录
+* /supervisor/BankInsur/list         						supervisor.userManager.BankInsur.list
+
+# 亿亿公益
+* /supervisor/publicBenefit/UserDonate/donateList         					supervisor.publicBenefit.UserDonate.donateList
+* /supervisor/publicBenefit/UserDonate/benefitList         					supervisor.publicBenefit.UserDonate.benefitList
+* /supervisor/publicBenefit/UserDonate/benefitAccount         				supervisor.publicBenefit.UserDonate.benefitAccount
+* /supervisor/publicBenefit/UserDonate/benefitEdit         					supervisor.publicBenefit.UserDonate.benefitEdit
+* /supervisor/publicBenefit/UserDonate/benefitRateEdit         					supervisor.publicBenefit.UserDonate.benefitRateEdit
+##高管连接禁止访问-已和冬青确认过
+#GET     /front/home/aboutUs/senior             										front.home.HomeAction.senior
+GET    /front/account/investBillDetailPact                      					front.account.InvestAccount.investBillDetailsPact
+#手动类型红包
+*      /supervisor/systemSettings/RedPackageHistoryAction/manualRed					 supervisor.systemSettings.RedPackageHistoryAction.manualRed
+
+
+#加息汇总列表
+*       /supervisor/financeManager/increaseSum         						supervisor.financeManager.IncreaseManager.increaseSum
+#加息明细列表
+*       /supervisor/financeManager/increaseDetail         						supervisor.financeManager.IncreaseManager.increaseDetail
+
+# 批量付款通知
+POST    /supervisor/PlatformAccountManager/batchPayNotification      				supervisor.financeManager.PlatformAccountManager.batchPayNotification
+
+#客服管理-实名、绑卡失败统计-分页
+*       /supervisor/CustomerService/modifyRecordInit          				supervisor.customerService.AuthRecordAction.modifyRecordInit
+POST    /supervisor/CustomerService/modifyRecord     				    	supervisor.customerService.AuthRecordAction.modifyRecord
+*       /supervisor/CustomerService/authPageList          				    supervisor.customerService.AuthRecordAction.pageList
+
+
+#修改实名信息
+POST    /supervisor/allUser/modifyRealityName         								supervisor.userManager.AllUser.modifyRealityName
+#绑定银行卡
+POST    /supervisor/allUser/bindBank        								supervisor.userManager.AllUser.bindBank
+
+#积分规则
+*       /supervisor/scoreManager/showRule                                   supervisor.scoreManager.ScoreAction.showRule
+POST       /supervisor/scoreManager/saveScoreRule                                   supervisor.scoreManager.ScoreAction.saveScoreRule
+#手动添加积分
+*       /supervisor/scoreManager/addScore                                  supervisor.scoreManager.ScoreAction.addScore
+*       /supervisor/scoreManager/getUserInfo                                  supervisor.scoreManager.ScoreAction.getUserInfo
+POST       /supervisor/scoreManager/saveScore                                  supervisor.scoreManager.ScoreAction.saveScore
+#积分统计
+*       /supervisor/scoreManager/scoreList                                  supervisor.scoreManager.ScoreAction.scoreList
+#积分扣除-兑吧
+* 		/db/score/deduct                                          front.score.DuibaCallbackAction.deduct
+#积分通知-兑吧
+* 		/db/score/convert                                          front.score.DuibaCallbackAction.convert
+#虚拟商品充值-兑吧
+* 		/db/score/recharge                                          front.score.DuibaCallbackAction.recharge
+#进入积分商城
+* 		/db/scoreShop                                          front.score.DuibaCallbackAction.login
+
+#风险评测
+GET    /front/invest/risk                        							front.invest.investAction.checkRisk
+*    /front/invest/risk-save                        							front.invest.investAction.saveRiskResult
+GET    /front/invest/risk-result                        							front.invest.investAction.checkRiskResult
+
+
+#查看电子存证
+GET    /front/account/investBillDetailCert                     front.account.InvestAccount.investBillDetailsCert
+
+#带验证码登录
+GET    /loginCode                          										front.account.LoginAndRegisterAction.loginCode
+POST   /loginCode                         										front.account.LoginAndRegisterAction.loginingCode
+POST   /front/account/verifyMobileForLogin           								front.account.LoginAndRegisterAction.verifyMobileForLogin
+
+#协议支付
+POST   /front/account/pay/code                      								front.account.FundsManage.getProtocolPayCode
+
+#客服-会员列表
+*       /supervisor/CustomerService/allUser          				    supervisor.customerService.AuthRecordAction.allUser
+
+#用户所在地查询设置页面
+GET    /supervisor/supervisorAction/userAddrManage          				    supervisor.systemSettings.supervisorAction.userAddrManageList
+#编辑管理员可见用户地区列表
+GET    /supervisor/supervisorAction/editCitysInit          				    	supervisor.systemSettings.supervisorAction.editCitysInit
+#获取省份列表
+POST 	/supervisor/supervisorAction/getProvinceList          				    supervisor.systemSettings.supervisorAction.getProvinceList
+#获取市列表
+POST 	/supervisor/supervisorAction/getCityList          				    	supervisor.systemSettings.supervisorAction.getCityList
+#可见用户地区列表
+GET    /supervisor/supervisorAction/supervisorCitysList							supervisor.systemSettings.supervisorAction.supervisorCitysList
+#管理员添加城市
+POST   /supervisor/supervisorAction/addCitys									supervisor.systemSettings.supervisorAction.addCitys
+#删除管理员可见城市
+POST   /supervisor/supervisorAction/deleteSupervisorCitys						supervisor.systemSettings.supervisorAction.deleteSupervisorCitys
+#批量删除管理员可见城市
+POST   /supervisor/supervisorAction/deleteAllCitys								supervisor.systemSettings.supervisorAction.deleteAllCitys
+
+#客服-用户所在地查询
+*     /supervisor/customerService/AuthRecordAction/userAddress          		supervisor.customerService.AuthRecordAction.userAddress
+
+#宝付网关充值同步回调
+*   /front/account/baofooGwSynCallback                    						front.account.FundsManage.baofooGwSynCallback
+#宝付网关充值异步回调
+*   /front/account/baofooGwAsynCallback                      					front.account.FundsManage.baofooGwAsynCallback
+
+# 客服-投资列表 2018-6-12
+GET  /supervisor/customerService/AuthRecordAction/investList 					supervisor.customerService.AuthRecordAction.investList
+
+# 客服-投资账单
+*  /supervisor/customerService/AuthRecordAction/allInvest 						supervisor.customerService.AuthRecordAction.allInvest
+
+# 银行卡限额设置
+*	/supervisor/webContentManager/payLimit								supervisor.webContentManager.PayLimitAction.payLimit
+*	/supervisor/webContentManager/payLimit-set								supervisor.webContentManager.PayLimitAction.payLimitSet
+
+# cps黑名单
+* 	/supervisor/CPSSpreadAction/cpsBlacklist 										supervisor.networkMarketing.CPSSpreadAction.cpsBlacklist
+#企业会员列表管理
+# 列表
+*     	/supervisor/allUser/companyUser         									supervisor.userManager.AllUser.companyUser
+# 审核企业用户认证
+*     	/supervisor/allUser/auditCompanyUser         									supervisor.userManager.AllUser.auditCompanyUser
+# 审核企业用户列表
+*     	/supervisor/allUser/listCompanyUser         									supervisor.userManager.AllUser.listCompanyUser
+
+#获取字典表市列表
+POST 	/supervisor/getNewCity          				    						supervisor.SupervisorController.getNewCity
+#获取字典表市列表2
+POST 	/supervisor/getAdCity   												supervisor.SupervisorController.getAdCity
+# 借款申请 发标跳转到发标页面
+GET     /supervisor/BidAgencyAction/addAgencyBid                     			supervisor.bidManager.BidAgencyAction.addAgencyBid
+
+
+# 渠道管理
+GET		/supervisor/channelManage/channelList						            supervisor.channel.ChannelController.channelList
+*		/supervisor/channelManage/addChannel						            supervisor.channel.ChannelController.addChannel
+GET		/supervisor/channelManage/getChannelById						        supervisor.channel.ChannelController.getChannelById
+*		/supervisor/channelManage/editChannel						            supervisor.channel.ChannelController.editChannel
+*		/supervisor/channelManage/updateChannelState						    supervisor.channel.ChannelController.updateChannelState
+
+GET		/supervisor/channelManage/channelTotalList						        supervisor.channel.ChannelController.channelTotalList
+GET		/supervisor/channelManage/channelUserList						        supervisor.channel.ChannelController.channelUserList
+GET		/supervisor/channelManage/channelUserInvestList						    supervisor.channel.ChannelController.channelUserInvestList
+
+#借款产品/借款申请审核列表
+GET		/supervisor/BidApplicationAction/applicationCheckList						supervisor.bidManager.BidApplicationAction.applicationCheckList
+#借款产品/借款申请审核视图
+GET		/supervisor/BidApplicationAction/applicationCheckView					supervisor.bidManager.BidApplicationAction.applicationCheckView
+#借款产品/借款申请审核
+POST	/supervisor/BidApplicationAction/applicationCheck						supervisor.bidManager.BidApplicationAction.applicationCheck
+
+#借款产品/借款申请尽调列表
+GET		/supervisor/BidApplicationAction/applicationDueDiligenceList			supervisor.bidManager.BidApplicationAction.applicationDueDiligenceList
+
+#借款产品/借款申请详情视图
+*		/supervisor/BidApplicationAction/applicationDetailView					supervisor.bidManager.BidApplicationAction.applicationDetailView
+
+# 选择用户
+POST    /supervisor/BidAgencyAction/selectBorrowUsersInit                     			supervisor.bidManager.BidAgencyAction.selectBorrowUsersInit
+
+*       /front/home/pactTest												    front.home.PactTestAction.test
+# 我要借款申请提交
+POST	/front/account/borrowApplySubmit										front.account.AccountHome.borrowApplySubmit
+
+
+#借款端-首页
+GET     /front/home/LoanIndex        											front.home.HomeAction.LoanIndex
+#借款端-申请借款
+GET     /front/home/applyLoan        											front.account.AccountHome.applyLoan
+#借款端-会员登录
+GET    /loginLoan                     											front.account.LoginAndRegisterAction.loginLoan
+#借款端-会员注册
+GET    /registerLoan                     										front.account.LoginAndRegisterAction.registerLoan
+#借款端-下载APP页面
+GET    /apploan/download                     									front.home.NewHomeAction.download
+
+# 贷后管理----用户列表
+*      /supervisor/postLoanManager/userList      							supervisor.postLoanManager.UserListAction.userList
+# 贷后管理----查看通讯录
+*      /supervisor/postLoanManager/getUserAddressList      					supervisor.postLoanManager.UserListAction.getUserAddressList
+
+
+#活动加息路由
+*      /supervisor/activity/activityList      							supervisor.activity.IncreaseRate.activityList
+POST   /supervisor/activity/addActivity      							supervisor.activity.IncreaseRate.addActivity
+POST   /supervisor/activity/editActivity      							supervisor.activity.IncreaseRate.editActivity
+*      /supervisor/activity/getActivityDetail      						supervisor.activity.IncreaseRate.getActivityDetail
+POST   /supervisor/activity/firstAuditActivity      					supervisor.activity.IncreaseRate.firstAuditActivity
+POST   /supervisor/activity/lastAuditActivity      						supervisor.activity.IncreaseRate.lastAuditActivity
+POST   /supervisor/activity/closeActivity      							supervisor.activity.IncreaseRate.closeActivity
+*   /supervisor/activity/increaseTotalList      						supervisor.activity.IncreaseRate.increaseTotalList
+*   /supervisor/activity/increaseDetailList      					supervisor.activity.IncreaseRate.increaseDetailList
+
+
+#客户推广费明细h5接口
+*	  /front/usercps/findUserCPSProfit										front.account.UserCPSAction.findUserCPSProfit
+*	  /front/usercps/activityRule										    front.account.UserCPSAction.activityRule
+
+
+*    /app/ymd/getPersonsCreditInfo                   						ymd.XhjController.getPersonsCreditInfo
+*    /app/ymd/rtAddrVer                                                             ymd.XhjController.rtAddrVer     
+*    /app/ymd/getTdCommonScore                                          ymd.XhjController.getTdCommonScore     
+
+
+#app身份证解析     
+*    /app/ymd/ocridcard                   						        	        ymd.FrontFileUploadController.ocridcard
+#内部身份证信息校验
+*    /app/ymd/checkIdCardInfo                   						        ymd.FrontFileUploadController.checkIdCardInfo
+#app活体认证
+*    /app/ymd/verifyLiving                   						        	    ymd.FrontFileUploadController.verifyLiving
+#app单个文件上传
+*    /app/ymd/uploadFile                   						        	        ymd.FrontFileUploadController.uploadFile
+#app选择图片并保存提交
+*    /app/ymd/selectFileSave                   						        	ymd.FrontFileUploadController.selectFileSave
+#摩羯运营商认证H5页面url
+*    /app/ymd/getOperatorAuthH5URL                                  ymd.FrontFileUploadController.getOperatorAuthH5URL
+#=====================================================================================
+#pc所有图片一起提交(添加医院机构使用)只保存图片的url
+*    /pc/ymd/allFileSubmit                   						        	    ymd.BackFileUploadController.allFileSubmit
+#pc删除文件关系
+*    /pc/ymd/delFileRelation                   						        		ymd.BackFileUploadController.delFileRelation
+#pc单个文件上传
+*    /pc/ymd/uploadFile                   						        	    	ymd.BackFileUploadController.uploadFile
+#接收摩羯H5运营商认证结果
+*    /pc/ymd/getOperatorAuthCallBack                                  ymd.BackFileUploadController.getOperatorAuthCallBack
+#摩羯运营商认证回调接口
+*    /pc/ymd/getOperatorAuthResultCallBack                                  ymd.BackFileUploadController.getOperatorAuthResultCallBack
+
+
+
+#亿美贷打分
+*       /supervisor/SettingAction/setRisk                   					supervisor.ymd.SettingAction.setRisk
+#亿美贷授信列表
+*       /supervisor/UserManageAction/borrowerInfoList                   		supervisor.ymd.UserManageAction.borrowerInfoList
+#亿美贷授信列表详情
+*       /supervisor/UserManageAction/borrowerInfo                   			supervisor.ymd.UserManageAction.borrowerInfo
+#亿美贷审核基本信息设置
+*       /supervisor/SystemSettingAction/basicallyInfo                   		supervisor.ymd.SettingAction.basicallyInfo
+#亿美贷月工资系数添加
+*       /supervisor/SettingAction/saveSalaryCoefficient                   		supervisor.ymd.SettingAction.saveSalaryCoefficient
+#亿美贷服务费率添加
+*       /supervisor/SettingAction/createServiceCostRate                   		supervisor.ymd.SettingAction.createServiceCostRate
+
+#额度申请列表
+*       /supervisor/CreditManageAction/creditApplyList                   		supervisor.ymd.CreditManageAction.creditApplyList
+#额度申请详情
+*       /supervisor/CreditManageAction/creditApplyInfo                   		supervisor.ymd.CreditManageAction.creditApplyInfo
+#额度申请审核通过
+*       /supervisor/CreditManageAction/audit                   					supervisor.ymd.CreditManageAction.audit
+#额度申请审核通过
+*       /supervisor/CreditManageAction/auditIncreaseApply                   	supervisor.ymd.CreditManageAction.auditIncreaseApply
+#额度申请审核拒绝
+*       /supervisor/CreditManageAction/notThrough                   			supervisor.ymd.CreditManageAction.notThrough
+#冻结额度
+*       /supervisor/CreditManageAction/freeze                   				supervisor.ymd.CreditManageAction.freeze
+#解冻额度
+*       /supervisor/CreditManageAction/unfreeze                   				supervisor.ymd.CreditManageAction.unfreeze
+#关闭额度申请
+*       /supervisor/CreditManageAction/close                   					supervisor.ymd.CreditManageAction.close
+#通话记录列表
+*       /supervisor/CreditManageAction/creditApplyInfo/reportContactDetail      supervisor.ymd.CreditManageAction.reportContactDetail
+
+#提额申请列表
+*       /supervisor/CreditManageAction/increaseCreditApplyList                  supervisor.ymd.CreditManageAction.increaseCreditApplyList
+#提额申请详情
+*       /supervisor/CreditManageAction/increaseCreditApplyInfo                  supervisor.ymd.CreditManageAction.increaseCreditApplyInfo
+
+#亿美贷借款申请列表
+*       /supervisor/CreditManageAction/YMDBorrowApplyList                   	supervisor.ymd.CreditManageAction.YMDBorrowApplyList
+#亿美贷借款申请审核
+*       /supervisor/CreditManageAction/YMDBorrowApplyInfo                   	supervisor.ymd.CreditManageAction.YMDBorrowApplyInfo
+#亿美贷借款申请审核/拒绝/关闭
+*       /supervisor/BidApplicationAction/YMDApplicationCheck                   	supervisor.bidManager.BidApplicationAction.YMDApplicationCheck
+
+
+
+
+#机构列表详情
+*       /supervisor/OrganizationAction/organizationList                   			supervisor.ymd.OrganizationAction.organizationList
+
+#机构列表启用
+*       /supervisor/OrganizationAction/enableOrganization                   		supervisor.ymd.OrganizationAction.enableOrganization
+
+#机构列表关闭
+*       /supervisor/OrganizationAction/notEnableOrganization                   		supervisor.ymd.OrganizationAction.notEnableOrganization
+
+#机构列表添加页面跳转
+GET     /supervisor/OrganizationAction/addOrganization                   			supervisor.ymd.OrganizationAction.addOrganization
+
+#机构列表添加
+POST    /supervisor/OrganizationAction/createOrganization                   			supervisor.ymd.OrganizationAction.createOrganization
+
+#机构列表详情
+*       /supervisor/OrganizationAction/organizationDetail                   		supervisor.ymd.OrganizationAction.organizationDetail
+
+#机构列表详情
+*       /supervisor/OrganizationAction/editOrganizationInfo                   		supervisor.ymd.OrganizationAction.editOrganizationInfo
+
+#机构项目添加
+*       /supervisor/OrganizationAction/createOrgProject                   		supervisor.ymd.OrganizationAction.createOrgProject
+
+#机构项目删除
+*       /supervisor/OrganizationAction/deleteProject                   		supervisor.ymd.OrganizationAction.deleteProject
+
+#机构利息添加
+*       /supervisor/OrganizationAction/createInterestRate                   		supervisor.ymd.OrganizationAction.createInterestRate
+
+#保存风控打分规则
+*  		/supervisor/riskSetting/saveRiskScore                   			supervisor.ymd.SettingAction.saveRiskScore
+#保存风控打分规则
+*  		/supervisor/riskSetting/saveAllRiskScore                   			supervisor.ymd.SettingAction.saveAllRiskScore
+
+# 发布机构合作标 页面跳转
+GET     /supervisor/BidAgencyAction/mytest                     			supervisor.bidManager.BidAgencyAction.mytest
+
+#应收账单明细
+*       /supervisor/financeManager/allBills         						supervisor.financeManager.ReceivableBillManager.allBills
+
+#签署代扣合同
+*       /front/account/signProtocol         							front.account.FundsManage.signProtocol
+
+#mongodb  test
+*    /app/ymd/addMongodb                   						        	    ymd.TestController.addMongodb 
+
+#mongodb  test
+*    /app/ymd/getMongodbDataList                   						        	    ymd.TestController.getMongodbDataList 
+#mongodb  test
+*    /app/ymd/getMxData                   						        	    ymd.TestController.getMxData 
+
+# 用户迁移统计列表
+* 	/supervisor/dataStatistics/migrateUser 				    supervisor.dataStatistics.MigrateStatisticsAction.migrateUser
+
+
+
+

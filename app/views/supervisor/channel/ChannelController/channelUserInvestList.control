@@ -1,0 +1,376 @@
+<style>
+	#details table tr td{
+    padding:5px 10px ;
+  }
+  #add_rates table tr td{
+    padding:5px 10px ;
+  }
+  ._btnstyle{
+    background:#169BD5;
+    color:white;
+    height:40px;
+    width:130px;
+    border-radius:5px;
+    border:0;
+  }
+</style>
+
+<div id="details" style="display:none;height:500px;margin:20px;">
+		  <table>
+			<tr><td style="font-weight:bold;">选择加息类型</td>
+			  <td>
+				<select class="xf_membill_selectAge addSelect" name="type" disabled="disabled">
+				  <option class="d_type1" value="1" >全场加息</option>
+				  <option class="d_type2" value="2" >首投加息</option>
+				  <option class="d_type3" value="3" >尾投加息</option>
+				</select>
+			  </td>
+			  </tr>
+			  <tr><td>名称:</td>
+				<td><input type="text" class="search_w d_name" name="name" ></td>
+			  </tr>
+			  <tr><td>加息利率:</td>
+				<td><input type="text"  class="search_w d_rate" name="rate" >%</td>
+			  </tr>
+			  <tr><td>开始时间：</td>
+				<td><input style="width:100%" type="text" class="search_time laydate-icon d_start_time" disabled/>
+				</td>
+				<td>结束时间:</td>
+				<td><input style="width:100%" type="text" class="search_time  laydate-icon d_stop_time" disabled/></td>
+			  </tr>
+		</table>
+	<table style="font-size:18px;"><tr><td>操作记录</td></tr></table>
+	<div style="max-height: 200px;overflow: auto;"><table border="1" class="d_log"></table></div>
+	<tr class="d_log"></tr>
+	<div style="margin-top:30px;"><input onclick="cancel()" class="_btnstyle" value="返回" type="button" /></div>
+</div>
+
+<div id="examine" style="display:none;height:500px;margin:20px;">
+  <input type="hidden" class="firstId" />
+  <input type="hidden" class="isFirst" />
+  
+  <div>名称:<span></span></div>
+  <div style="margin-top:20px;"><textarea style="width:500px;height:200px;" placeholder="请输入" class="examineAdvice"></textarea></div>
+  <div style="margin-top:50px;">
+    <input onclick="firstAuditActivity(1)" class="_btnstyle" value="通过" type="button" />
+    <input onclick="firstAuditActivity(0)" class="_btnstyle" value="不通过" type="button" />
+  </div>
+</div>
+
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    <div class="xf_ht_search">
+    	<!-- 保存更新还是添加标识 -->
+		<input type="hidden" id="isUpdateFlag" />
+		<input type="hidden" id="listid" />
+    </div>
+	<form action="@{supervisor.channel.ChannelController.channelUserInvestList}" id="fundraiseingList" method="GET">
+		<input type="hidden" id="currPage" name="currPage"/>
+  	  <input type="hidden" id="pageSize" name="pageSize"/>
+  	  <input type="hidden" id="orderIndex" name="orderIndex"/>
+  	  <input type="hidden" id="orderStatus" name="orderStatus"/>
+		<div class="xf_ht_search_inon">
+		  <div class="xf_ht_search_r">
+			<div class="xf_ht_search_xl">
+			  <span class="search_timesp">用户名/手机号/姓名</span>
+			  <input type="text" placeholder="请输入用户信息" class="search_w" name="userName" value="${userName}" >
+			</div>
+		   <div class="xf_ht_search_xl">
+			  <span class="search_timesp">投资时间</span>
+			  <input type="text" value="${startTime}" name="startTime" onclick="laydate()" class="search_time" style="cursor:pointer">
+			  <span>-</span>
+			  <input type="text" value="${stopTime}"   name="stopTime" id="stopTime" onclick="laydate()"  class="search_time"   style="cursor:pointer">
+			</div>
+			<div class="xf_ht_search_xl">
+			  <span class="search_timesp">首投/复投</span>
+			   <select class="xf_membill_selectAge" name="isFirst">
+				<option value="0" #{if isFirst==0} selected="selected"#{/if}>全部</option>
+				<option class="stateAll"  value="1" #{if isFirst==1} selected="selected"#{/if}>首投</option>
+				<option value="2" #{if isFirst==2} selected="selected"#{/if}>复投</option>
+			  </select>
+			</div>
+			<div class="xf_ht_search_xl">
+			  <span class="search_timesp">渠道号</span>
+			  <input type="text" placeholder="请输入渠道号" class="search_w" name="num" value="${num}" >
+			</div>
+			<div class="xf_ht_search_xl">
+			  <span class="search_timesp">渠道名称</span>
+			  <input type="text" placeholder="请输入渠道名称" class="search_w" name="name" value="${name}" >
+			</div>
+			<div class="xf_ht_search_xl">
+			  <input type="submit" class="search_button" value="搜索">
+			</div>
+			
+		  </div>
+		  <div style="clear:both;margin-top:10px;"></div>
+			
+			
+			<div class="xf_ht_search_xl">
+			  <span class="search_timesp">渠道二级名称</span>
+			  <input type="text" placeholder="请输入渠道二级名称" class="search_w" name="subname" value="${subname}" >
+			</div>
+			
+			
+		</div>
+    </form>
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}编号#{/th}
+		  #{th}用户名#{/th}
+          #{th}手机号#{/th}
+          #{th}真实姓名#{/th}
+          #{th}投资时间#{/th}
+          #{th}首投/复投#{/th}
+          #{th}项目编号#{/th}
+		   #{th}项目名称#{/th}
+          #{th}项目期限#{/th}
+          #{th}标的利率#{/th}
+          #{th}投资金额#{/th}
+		  #{th}渠道号#{/th}
+		  #{th}渠道名称#{/th}
+		  #{th}渠道二级名称#{/th}
+        #{/tr}
+		#{list pageBean?.page}
+			#{tr tr_index:_index}
+				  #{td}${(pageBean?.currPage - 1)*pageBean?.pageSize + _index}#{/td}
+				  #{td}${_?.username}#{/td}
+				  #{td}${_?.mobile}#{/td}
+				  #{td}${_?.reality_name}#{/td}
+				  #{td}${_?.invest_time?.format('yyyy-MM-dd HH:mm:ss')}#{/td}
+				  #{td}${_?.isfirsts}#{/td}
+				  #{td}J${_?.bid_no}#{/td}
+				  #{td}${_?.title}#{/td}
+				  #{td}${_?.period}#{/td}
+				  #{td}${_?.apr?.format('0.00')}%#{/td}
+				  #{td}${_?.amount}#{/td}
+				  #{td}${_?.num}#{/td}
+				  #{td}${_?.storename}#{/td}
+				  #{td}${_?.subname}#{/td}
+			   #{/tr}
+			   #{/list}
+      #{/table}
+	  <div style="margin:20px;font-size:16px;">
+		  <div>合计：</div>
+		  <div>投资笔数：<span>${pageBean?.totalMap.count}</span>笔</div>
+		  <div>投资金额：<span>${pageBean?.totalMap.invest_money}</span>元</div>
+	  </div>
+	 
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      <div class="page_warp">
+        #{page currPage:pageBean.currPage,totalCount:pageBean.totalCount,pageSize:pageBean.pageSize,theme:2,style:4/}
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+
+/* 条件搜素查询 */
+function showPage(currPage, pageSize){
+
+     $("#currPage").val(currPage);
+     $("#pageSize").val(pageSize);
+     $("#fundraiseingList").submit();
+}
+
+/* 排序搜索 */
+function orderSearch(order){
+	var orderStatus = "${pageBean?.conditions?.orderStatus}";
+	var orderIndex = "${pageBean?.conditions?.orderIndex}";
+
+	if(orderStatus == '' || '1' == orderStatus || order != orderIndex){
+		$("#orderStatus").val(0);
+	}else{
+		$("#orderStatus").val(1);
+	}
+
+	$("#orderIndex").val(order);
+	$("#fundraiseingList").submit();
+}
+
+
+/* 添加加息或编辑1.添加0.编辑 */
+function show_rates(i,id,_this) {
+	  $('#isUpdateFlag').val(i);
+	  $('#listid').val(id);
+	  var typeJson = {'全场加息':1,'首投加息':2,'尾投加息':3};
+	  var thisVal = $(_this).closest('tr').find('td');
+	  // console.log(id);
+	  // i=1 清空表单
+	  if(i){
+	    $('.addSelect').attr('disabled','');
+	    $('#ratesform')[0].reset();
+	  }else{
+	  	// 赋值
+	  	var u_rate = thisVal.eq(2).find('span').text();
+	  	var u_start_time = thisVal.eq(3).text();
+	  	var u_stop_time = thisVal.eq(4).text();
+	  	var u_name = thisVal.eq(5).text();
+	  	
+	    var u_type = typeJson[$.trim(thisVal.eq(1).text())];
+	  	
+	  	$('.u_rate').val(u_rate);
+	  	$('.u_start_time').val(u_start_time);
+	  	$('.u_stop_time').val(u_stop_time);
+	  	$('.u_name').val(u_name);
+	  	$('.u_type'+u_type).prop('selected','selected');
+	  }
+	  $.layer({
+	        type: 1,
+	        area: ['800px', 'auto'],
+	        title: '加息规则设置',
+	        page: {dom : '#add_rates'}
+	  });
+}
+// 添加
+function addOrUpdate(i){
+	var ii = 0;
+	// 为空提示
+	$('.isNull').each(function(i,e){
+		if(!$.trim($(e).val())){
+			ii+=1;
+		}
+	});
+	if(ii){
+		layer.alert('请填写后提交');
+		return false;
+	}
+  var url = '';
+  var flag = $('#isUpdateFlag').val();
+  console.log(flag==false);
+  var args = $('#ratesform').serialize();
+  console.log(args);
+  // 添加
+  if(parseInt(flag)){
+  	
+	url = '/supervisor/activity/addActivity?';
+  }else{
+  	var id = $('#listid').val();
+  	
+   // 编辑接口
+	url = '/supervisor/activity/editActivity?detailId='+id+'&';
+  }
+  console.log(url+args);
+  $.post(url+args,function(res){
+    if(!res.error.code){
+      layer.closeAll();
+      window.location.reload();
+    }else{
+      layer.alert(res.error.msg);
+    }
+  });
+}
+
+// 取消
+function cancel(){
+	layer.closeAll();
+}
+// 审核弹框
+function examine(id,t,isFirst){
+   $('.isFirst').val(isFirst);
+   var v_name = $(t).parent().prev().prev().text();
+   $('.firstId').val(id);
+   $('.firstId').next().find('span').text(v_name);
+   $.layer({
+        type: 1,
+        area: ['800px', 'auto'],
+        title: '审核意见',
+        page: {dom : '#examine'}
+   });
+}
+// 详情弹框
+function details(id){
+	console.log(id);
+  $.layer({
+        type: 1,
+        area: ['800px', 'auto'],
+        title: '详情',
+        page: {dom : '#details'}
+      });
+      var layerMsg = layer.load('加载中',{
+		    icon: 0, 
+		    shade: [0.5,'black'] // 黑色透明度0.5背景
+		});
+      $.post('',{activityId: id},function(res){
+		    if(!res.error.code){
+			     var head = '<tr><td>操作内容</td><td>管理员姓名</td><td>管理员账号</td><td>操作时间</td><td>操作结果</td><td>备注</td></tr>';
+			     var logHTML = '';
+		    	 var detail = res.result.detail[0];
+		    	 var log = res.result.logs;
+		    	$('.d_type'+detail.type).prop('selected','selected');
+		    	$('.d_name').val(detail.name);
+		    	$('.d_rate').val(detail.rate);
+		    	$('.d_start_time').val(detail.start_time);
+		    	$('.d_stop_time').val(detail.stop_time);
+		    	$.each(log,function(i,e){
+		    		var r = $(e)[0];
+		    		console.log(r);
+		    		logHTML+='<tr>'
+		    		    +'<td>'+r.description_title+'</td>'
+			    		+'<td>'+r.reality_name+'</td>'
+			    		+'<td>'+r.name+'</td>'
+			    		+'<td>'+r.time+'</td>'
+			    		+'<td>'+r.result+'</td>'
+			    		+'<td>'+r.description+'</td>'
+		    		+'</tr>'
+		    	});
+		    	$('.d_log').html(head+logHTML);
+		    }else{
+		      layer.alert(res.error.msg);
+		    }
+		    layer.close(layerMsg); 
+  	  });     
+}
+// 初审是否通过事件
+function firstAuditActivity(ispass){
+	var firstId = $('.firstId').val();
+    var isFirst = $('.isFirst').val();// 区分初审、复审
+    console.log('id'+firstId);
+    console.log('pass'+ispass);
+    var txt = $.trim($('.examineAdvice').val());
+    if(!txt){
+        layer.alert('请填写后提交');
+        return false;
+    }
+
+    if(!parseInt(isFirst)){
+        console.log('a');
+        $.post('',{detailId: firstId,ispass: ispass,remark: txt},function(res){
+            if(!res.error.code){
+                window.location.reload();
+            }else{
+                layer.alert(res.error.msg);
+            }
+        });
+    }else{
+        console.log('b');
+        $.post('',{detailId: firstId,ispass: ispass,remark: txt},function(res){
+            if(!res.error.code){
+                window.location.reload();
+            }else{
+                layer.alert(res.error.msg);
+            }
+        });
+    }
+	 window.location.reload();
+	 layer.closeAll();
+}
+
+// 关闭
+function stateClose(id){
+	layer.confirm('是否确认关闭？', function(index){
+		 $.post('',{activityId: id},function(res){
+		    if(!res.error.code){
+			    window.location.reload();
+		    }else{
+		      layer.alert(res.error.msg);
+		    } 
+  	  });
+	 	layer.close(index);
+	});
+}
+</script>

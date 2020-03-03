@@ -1,0 +1,62 @@
+ <div class="xn_c_ban_jox_zzaqyd">
+        <div class="xf_ht_jr_obu_width">
+            <div class="xf_ht_glylist_ss">
+                <div class="xfht_t_jk_zt2">
+                  <div class="xfht_t_jk_zt_wz">时间范围：</div>
+                  <div class="xfht_t_jk_zt_rj">
+                  <input name="beginTime" type="text" id="startDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${page?.conditions?.beginTime}" />
+                  </div>
+                  <div class="xfht_t_j_zt_x">__</div>
+                  <div class="xfht_t_jk_zt_rj">
+                    <input name="endTime" type="text" class="xfht_t_jk_zt_rj1" id="endDate" onclick="laydate()" style="cursor: pointer; color: #777;" value="${page?.conditions?.endTime}" />
+                  </div>
+                  <input class="search_w" placeholder="用户名" type="text" id="UserName" value="${page?.conditions?.name}">
+                  <a class="xf_ht_jkbgl_page_prev xf_ht_dfp" onClick="showPagess(1, 5)">搜索</a>
+                </div>
+            </div>
+            <div class="xf_ht_glylist_two">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="xf_con_mem_r_b_table">
+                    <tr>
+                        <th>序号</th>
+            <th>用户名</th>
+            <th>注册时间</th>
+            <th>信用等级</th>
+            <th>注册时长(天)</th>
+            <th>充值总额</th>
+            <th>借款总额</th>
+            <th>还款总额</th>
+            <th>理财总额</th>
+            <th>佣金总额</th>
+                    </tr>
+                    #{list items:page?.page, as:'cpsDetail'}
+          <tr>
+            <td>${cpsDetail_index}</td>
+            <td>${cpsDetail?.name}</td>
+            <td>${cpsDetail?.time?.format('yyyy-MM-dd')}</td>
+            <td>#{img src:"${cpsDetail.credit_level_image_filename}",alt:"",width:"30px",height:"30px"}#{/img}</td>
+            <td>${cpsDetail?.register_length}</td>
+            <td>${cpsDetail?.recharge_amount?.format("###,##0.00")}</td>
+            <td>${cpsDetail?.bid_amount?.format("###,##0.00")}</td>
+            <td>${cpsDetail?.repayment_amount?.format("###,##0.00")}</td>
+             <td>${cpsDetail?.invest_amount?.format("###,##0.00")}</td>
+            <td>${cpsDetail?.commission_amount?.format("###,##0.00")}</td>
+          </tr>
+          #{/list}
+                </table>
+            </div>
+             <div class="xf_ht_shmx_button xf_ht_jobx_page">
+                  <div class="page_warp">
+                      #{page funMethod:"showPagess",currPage:page?.currPage,totalCount:page?.totalCount,pageSize:page?.pageSize,theme:2,style:4}
+				      #{/page}
+                  </div>
+                </div>
+        </div>
+    </div>
+<script type="text/javascript">
+      $("#xf_ht_mememail_ttc").center();
+      $("#xf_ht_mememail_ttc").show();
+      
+      $("#close").click(function(){
+          $("#xf_ht_mememail_ttc").hide();
+      })
+</script>

@@ -1,0 +1,175 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} #{set title:currBackstageSet.seoTitle +' | 我的账户 | 站内信 | 发送站内信' /}
+
+<!-- 内容区域 start -->
+<div class="xf_con_box">
+	<div class="xf_con_mem_nav"></div>
+	<!-- 左边导航区域 -->
+	#{include "front/account/AccountHome/homeLeft.control"/}
+
+	<!-- 右侧内容区域 -->
+	<!-- 我的站内信 -->
+	<div class="xf_con_mem_r_content" id="mymessages">
+		<div id="msglist" class="xf_con_wyjk_tentultbody">
+			<!-- 发送站内信 -->
+			<div class="xf_mem_Account">
+			<h3 class="xf_mem_accout_title">发送站内信</h3>
+			<br/>
+				<table border="0" cellpadding="0" cellspacing="0" width="779"
+					class="xf_mem_znx_fsznx">
+					<tr>
+						<td align="right" width="81">发&nbsp;&nbsp;给：</td>
+						<td>
+							<input type="text" class="xf_memznx_fsznx_i" id="xf_memznx_fsznx_name"> 
+							<span class="xf_memznx_fsznx_s" id="xf_memznx_fsznx_s" onclick="selectUserInit(1, 6);">选择用户</span>
+							<span class="xf_memznx_fsznx_s" id="sendToSupervisor">发送给管理员</span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">标&nbsp;&nbsp;题：</td>
+						<td><input type="text" class="xf_memznx_fsznx_i"
+							id="xf_memznx_fsznx_title"></td>
+					</tr>
+					<tr>
+						<td valign="top" align="right">内&nbsp;&nbsp;容：</td>
+						<td><textarea id="xf_memznx_fsznx_content" class="xf_memznx_fsznx_t" name="xf_memznx_fsznx_t"></textarea></td>
+					</tr>
+					<tr>
+						<td align="top">&nbsp;</td>
+						<td class="xf_zqzr_znx_title_td"><a
+							class="xf_con_inputfbjk xf_con_inputfbjk_show" onclick="sendMsg();">发送</a>
+							<span class="xf_con_zqzr_znx">您还可以输入
+							<span class="xf_con_zqzr_znxsz" id="remainingCharNum">1000</span>字</span></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div id="detail" class="xf_con_wyjk_tentultbody"></div>
+
+	</div>
+	<!-- 清除浮动 -->
+	<div class="clear"></div>
+</div>
+<!-- 内容区域 end -->
+
+<!-- 后期补充-站内信选择用户 -->
+<div class="xf_zqzr_znx_window" id="xf_znx_xzyh_window">
+</div>
+
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript">
+     
+	$(function(){
+		
+		count();
+	});
+
+	$(function(){
+		/* 高亮显示 */
+		showHighLightFront(5);
+		showHighLightFront2(7, 2);
+		
+		$(".xf_wyjkfb_4_windowClose").click(function() {
+			$("#xf_znx_xzyh_window").hide();
+		});
+		
+		$("#sendToSupervisor").click(function() {
+			$("#xf_memznx_fsznx_name").val("${adminName}");
+		});
+		
+		$("#xf_memznx_fsznx_content").bind("keyup", function() {
+			var maxLimit = 1000;
+
+			if ($(this).val().length > maxLimit) {
+				$(this).val($(this).val().substring(0, maxLimit));
+			}
+	
+			$("#remainingCharNum").html(maxLimit - $(this).val().length);
+		});
+	});
+
+	//显示选择用户弹窗
+	function selectUserInit(currPage, pageSize) {
+		$.ajax({
+			url : "@{selectUserInit()}",
+			type : "POST",
+			data : {
+				"currPage" : currPage,
+				"pageSize" : pageSize
+			},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+
+					return;
+				}
+
+				var ttc = $("#xf_znx_xzyh_window");
+				ttc.html(data);
+				showDiv(ttc);
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+
+	//用户已选择
+	function userDidSelect(userName) {
+		$("#xf_memznx_fsznx_name").val(userName);
+	}
+
+	function sendMsg() {
+		var receiverName = $("#xf_memznx_fsznx_name").val().trim();
+
+		if ("" == receiverName) {
+			alert("请输入收信人名称!");
+
+			return;
+		}
+
+		var title = $("#xf_memznx_fsznx_title").val().trim();
+
+		if ("" == title) {
+			alert("请输入标题!");
+
+			return;
+		}
+		
+		if (title.length>40) {
+			alert("站内信标题不能超过40个字符！");
+
+			return;
+		}
+
+		var content = $("#xf_memznx_fsznx_content").val().trim();
+
+		if ("" == content) {
+			alert("请输入内容!");
+
+			return;
+		}
+
+		$.ajax({
+			url : "@{sendMsg()}",
+			type : "POST",
+			data : {
+				"receiverName" : receiverName,
+				"title" : title,
+				"content" : content
+			},
+			success : function(error) {
+				alert(error.msg);
+				$('#xf_memznx_fsznx_name').val('');
+				$('#xf_memznx_fsznx_title').val('');
+				$('#xf_memznx_fsznx_content').val('');
+				$('#remainingCharNum').text('1000');
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+</script>

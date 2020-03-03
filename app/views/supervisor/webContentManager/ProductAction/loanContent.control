@@ -1,0 +1,258 @@
+<style>
+  .label_w{
+  	width: 140px;
+  }
+  .col_width{
+    width: 180px;
+  }
+  .sel_col{
+    width: 184px;
+    height: 22px;
+  }
+  .z_msg{
+    margin-top:10px; 
+    font-size:13px;
+    color:red;
+  }
+  .outer table tr td{
+   	padding:5px;
+   }
+</style>
+<div style="border: 1px solid #AEAEAE;margin-top: 30px;" class="">
+  <div class="z_title" style="border-bottom: 1px solid #AEAEAE;background:#F2F2F2;">
+    <em>实名信息
+      #{if user?.realityName == null}
+      <span style="color:red">（未实名）</span>
+      #{/if}
+      #{else}
+      <span style="color:red">（已实名）</span>
+      #{/else}
+    </em>
+    #{if authority == 3 && user?.realityName != null}
+    <a href="javascript:void();" style="float:right;color:#0044FC;" onclick="details('${user?.sign}');">更改</a>
+    <a href="javascript:void();" style="float:right;color:#0044FC;margin-right:20px;" onclick="resetUser(${user?.id});">重置</a>
+    #{/if}
+    #{if (authority == 2 || authority == 3) && user?.realityName == null}
+    <a href="javascript:addUser(${user?.id});" style="float:right;color:#0044FC;">添加</a>
+    #{/if}
+  </div>
+  <!--实名属性信息-->
+  <div class="outer" style="font-size:15px;">
+  	<table width="100%">
+  	  <tbody>
+  	  	<tr>
+  	  	  <td align="right" class="label_w">主体性质：</td>
+  	  	  <td colspan="3">
+  	  	    #{if (authority == 2 || authority == 3) && user?.realityName == null && user?.user_type == 0}
+  	  	  	<select id="userType" class="sel_col" onchange="changeUserType(${user?.id});" #{if usesr?.user_type > 0}disabled#{/if}>   
+		     <option value="0" #{if user?.user_type == 0}selected#{/if}>请选择</option> 	
+		     <option value="1" #{if user?.user_type == 1}selected#{/if}>个人</option> 
+		     <option value="2" #{if user?.user_type == 2}selected#{/if}>企业</option>
+		     <option value="3" #{if user?.user_type == 3}selected#{/if}>个体工商户</option>
+		    </select>
+		    #{/if}
+		    #{else}
+		     #{if user?.user_type == 0}未知#{/if}	
+		     #{if user?.user_type == 1}个人#{/if}	
+		     #{if user?.user_type == 2}企业#{/if}	
+		     #{if user?.user_type == 3}个体工商户#{/if}	
+		    #{/else}
+  	  	  </td>
+  	  	</tr>
+  	  </tbody>
+  	</table>
+  	<div id="divContent" >
+  	#{if !(authority == 1 && user?.user_type == 0)}
+  	  #{include 'supervisor/webContentManager/ProductAction/realityNameInfo.html'/}
+  	#{/if}
+  	</div>
+  </div>
+</div>
+<!--弹出层-->
+<div class="xn_c_ban_jox xn_c_ban_jox_hyxq" id="xf_ht_fkzh_ttc" style="display: none;"></div>
+<script type="text/javascript">
+//更改用户主体性质
+function changeUserType(userId){
+  var userType = $('#userType').val();
+  $.ajax({
+    url : "@{supervisor.webContentManager.ProductAction.realityNameInfo()}",
+    type : "POST",
+    data : {
+      "userId" : userId,
+      "userType" : userType,
+      "authority" : ${authority}
+    },
+    success : function(data) {
+      if (data.code < 0) {
+        alert(data.msg);
+        return;
+      }
+      $("#divContent").html(data);
+    },
+    error : function() {
+      alert("对不起，出现错误!");
+    }
+  });
+}
+function details(userId){
+  $.ajax({
+    url : "@{supervisor.userManager.AllUser.detail()}",
+    type : "POST",
+    data : {
+      "sign" : userId
+    },
+    success : function(data) {
+      if (data.code < 0) {
+        alert(data.msg);
+        return;
+      }
+      $("#xf_ht_fkzh_ttc").html(data);
+      $.layer({
+        type: 1,
+        area: ['750px', '850px'],
+        title: '会员详情',
+        page: {dom : '#xf_ht_fkzh_ttc'}
+      });
+    },
+    error : function() {
+      alert("对不起，出现错误!");
+    }
+  });
+}
+function resetUser(userId){
+  if(confirm("确定重置？")){
+    $.ajax({
+      url : "@{supervisor.userManager.AllUser.resetUserBaseinfo()}",
+      type : "POST",
+      data : {
+        "userId" : userId
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+          return;
+        }
+        alert("重置成功！");
+        location.reload();
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+}
+function addUser(userId){
+  if($('#userType').val() != undefined && $('#userType').val() == '0'){
+    alert('请选择主体性质！');
+    return false;
+  }
+  var userType = $('#userType').val()? $('#userType').val(): ${user?.user_type};
+  var realityName = $('#realityName').val();
+  if($.trim(realityName) == ''){
+    var errMsg = '';
+  	switch(userType)
+  	{
+  	case '1':
+  	  errMsg = '姓名不能为空！';
+  	  break;
+  	case '2':
+  	case '3':
+  	  errMsg = '企业名称不能为空！';
+  	  break;
+  	}
+  	alert(errMsg);
+    return false;
+  }
+  var idNumber = $('#idNumber').val();
+  if($.trim(idNumber) == ''){
+    var errMsg = '';
+  	switch(userType)
+  	{
+  	case '1':
+  	  errMsg = '身份证号不能为空！';
+  	  break;
+  	case '2':
+  	case '3':
+  	  errMsg = '统一社会信用代码不能为空！';
+  	  break;
+  	}
+  	alert(errMsg);
+    return false;
+  }
+  var bankName = $('#bankName').val();
+  if(bankName == ''){
+    alert('开户行不能为空！');
+    return false;
+  }
+  var bankNo = $('#bankNo').val();
+  if($.trim(bankNo) == ''){
+    var errMsg = '';
+  	switch(userType)
+  	{
+  	case '1':
+  	  errMsg = '银行卡号不能为空！';
+  	  break;
+  	case '2':
+  	case '3':
+  	  errMsg = '对公账户不能为空！';
+  	  break;
+  	}
+  	alert(errMsg);
+    return false;
+  }
+  var bankMobile = $('#bankMobile').val();
+  if(bankMobile != undefined && $.trim(bankMobile) == ''){
+    alert('银行预留手机号不能为空！');
+    return false;
+  }
+  var bankAccount = $('#bankAccount').val();
+  if(bankAccount != undefined && $.trim(bankAccount) == ''){
+    alert('持卡人姓名不能为空！');
+    return false;
+  }
+  var cityId = $('#newCity').val();
+  if($('#newProvince').val() == '' || cityId == ''){
+    alert('所在地不能为空！');
+    return false;
+  }
+  var creditAmount = $('#creditAmount').val();
+  if($.trim(creditAmount) == ''){
+    alert("授信金额不能为空!");
+    return false;
+  }
+  if(creditAmount < 0){
+    alert("授信金额不能为负数!");
+    return false;
+  }
+  
+  if(confirm("确定添加？")){
+    $.ajax({
+      url : "@{supervisor.userManager.AllUser.addUser()}",
+      type : "POST",
+      data : {
+        "userId": userId,
+        "userType": userType,
+        "realityName": realityName,
+        "idNumber": idNumber,
+        "bankName": bankName,
+        "bankNo": bankNo,
+        "bankMobile": bankMobile,
+        "bankAccount": bankAccount,
+        "cityId": cityId,
+        "creditAmount": creditAmount
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+          return;
+        }
+        alert("添加成功！");
+        location.reload();
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+}
+</script>

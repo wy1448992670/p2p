@@ -1,0 +1,118 @@
+<div class="xn_c_ban_jox xn_c_ban_jox_qxsz" style="overflow: auto;">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_ht_damem_hy_box">
+      <div class="xf_ht_jbox_table">
+        <table class="xf_htgl_jg_tableone_table" cellspacing="0" cellpadding="0" border="0">
+          <tr>
+            <td>权限组：</td>
+            <td>${group?.name}</td>
+          </tr>
+          <tr>
+            <td>权限组描述：</td>
+            <td><input id="description" value="${group?.description}" class="xfht_zr_input xfht_zr_bjqxz_w" type="text"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="xf_ht_damem_hy_bott xf_ht_damem_hy_bott6">
+        #{list rightMapList, as : 'rightMap'} 
+        <div class="xf_ht_damem_hy_bott_t clr">
+          <div class="xf_ht_damem_hy_bott_l">${rightMap?.get("type")?.name}</div>
+        </div>
+        <div class="xf_ht_damem_hy_bott_ta3">
+          <table width="100%" cellspacing="0" cellpadding="0" border="0" class="xf_mem_qx_jbox">
+            #{list rightMap.get("rights"), as : 'right'}
+            #{if right_index % 4 == 1}
+            <tr>
+              <td valign="middle" align="left"><input type="checkbox" value="${right?.id}" class="xf_input_raio">
+                ${right?.name}
+              </td>
+              #{/if} 
+              #{elseif right_index % 4 == 0 || right_index == rightMap.get("rights").size()}
+              <td valign="middle" align="left"><input type="checkbox" value="${right?.id}" class="xf_input_raio">
+                ${right?.name}
+              </td>
+            </tr>
+              #{/elseif} 
+              #{else}
+              <td valign="middle" align="left"><input  type="checkbox" value="${right?.id}" class="xf_input_raio">
+                ${right?.name}
+              </td>
+              #{/else} 
+              #{/list}
+          </table>
+        </div>
+        #{/list}
+      </div>
+      <div class="jbox_tan_ondiv jbox_tan_width4">
+        <input class="jbox_ok" type="button" onclick="setGroupRights()" value="确 定">
+        <input class="jbox_on" type="button" value="取 消">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    //关闭
+    $(".xf_ht_jr_obu_r").click(function() {
+      $("#xf_ht_fkzh_ttc2").hide();
+    });
+    
+    init();
+
+    //取消
+    $(".jbox_on").click(function() {
+      layer.close(pop2);
+      //layer.closeAll();
+      //$("#xf_ht_fkzh_ttc2").hide();
+    });
+  });
+
+  //初始化
+  function init() {
+    var rights = '${rightIds}'.split(',');
+
+    $("#xf_ht_fkzh_ttc2 :checkbox").each(function() {
+      if (rights.inArray($(this).val())) {
+        $(this).attr("checked","checked");
+      }
+    });
+  }
+  
+  //设置权限
+  function setGroupRights() {
+    var arr = new Array(); 
+    
+    $("#xf_ht_fkzh_ttc2 :checkbox:checked").each(function(){ 
+         arr.push($(this).val()); 
+    }); 
+    
+    var ids = arr.join(',');
+    var groupId = '${group?.id}';
+    
+    $.ajax({
+      url : "@{setGroupRights()}",
+      type : "POST",
+      data : {
+        "groupId" : '${group?.id}',
+        "rightIds" : ids
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+
+          return;
+        }
+
+        alert(data.msg);
+        layer.closeAll();
+        //$("#xf_ht_fkzh_ttc2").hide();
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+    
+  }
+  
+</script>

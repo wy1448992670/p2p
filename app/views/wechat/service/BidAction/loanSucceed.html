@@ -1,0 +1,88 @@
+<div id="main" class="s_fixedbg" style="display:none;">
+		<div id="success" class="s_fixedbox s_fbtabbox" style="display:none;">
+			<i id="close" class="s_closebtn">×</i>
+			<h3>发布成功</h3>
+			<div class="s_overflowy">
+				<dl>
+					<dt>必须审核资料：</dt>
+					<dd>
+						<ul>
+							#{list product?.requiredAuditItem}
+							<li>${_index}、 ${_?.auditItem?.name}</li>
+							#{/list}
+						</ul>
+					</dd>
+					
+				</dl>
+				<dl>
+					<dt>可选审核资料：</dt>
+					<dd>
+						<ul>
+							#{list product?.selectAuditItem}
+							<li>${_index}、 ${_?.auditItem?.name}</li>
+							#{/list}
+						</ul>
+					</dd>
+				</dl>
+			</div>
+			<div class="upbtns">
+				<input id="now" type="button" value="现在提交" />
+				<input id="later" type="button" value="稍后提交" />
+			</div>
+		</div>
+		<div id="fail" class="s_fixedbox s_fbtabbox" style="display:none;">
+			<h3>发布失败</h3>
+			<p class="unenought">${flash?.msg}</p>
+			<div class="upbtns">
+				<input id="confirm" type="button" value="确定" />
+				<input id="cancel" type="button" value="取消" />
+			</div>
+		</div>
+</div>
+%{int BAIL_NOT_ENOUGH = constants.Constants.BAIL_NOT_ENOUGH;}%
+<script type="text/javascript">
+	$(function () {
+		var code = "${flash.code}";
+
+		if (code != '' && code != 'undefined') {
+			if (code == '${BAIL_NOT_ENOUGH}') {
+				$("#main").css({display:"block"});
+				$("#fail").css({display:"block"});
+			} else if (code >= 0) {
+				$("#main").css({display:"block"});
+				$("#success").css({display:"block"});
+			} else {
+				var msg = "${flash.msg}";
+				if (msg != '' && code != 'undefined') {
+					alert(msg);
+				}
+			}
+		} else {
+			var msg = "${flash.msg}";
+			if (msg != '' && code != 'undefined') {
+				alert(msg);
+			}
+		}
+	})
+	
+	$("#now").click(function () {
+		window.location.href="@{wechat.account.WechatAccountHome.uploadAuthDatas}";
+	})
+	
+	$("#later").click(function () {
+		window.location.href="@{wechat.service.BidAction.queryAllProducts}";
+	})
+	
+	$("#confirm").click(function () {
+		window.location.href="@{wechat.account.WechatAccountHome.recharge}";
+	})
+	
+	$("#cancel").click(function () {
+		$("#main").css({display:"none"});
+	})
+	
+	$("#close").click(function () {
+		$("#main").css({display:"none"});
+	})
+	
+</script>

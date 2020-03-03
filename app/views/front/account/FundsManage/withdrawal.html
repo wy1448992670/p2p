@@ -1,0 +1,356 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle + ' | 我的账户   | 资金管理  | 提现'/}
+<!-- 内容区域 start -->
+<div class="xf_con_box">
+	<div class="xf_con_mem_nav"></div>
+	<!-- 左边导航区域 -->
+	#{include "front/account/AccountHome/homeLeft.control"/}
+	<!-- 右侧内容区域 -->
+	<div class="xf_mem_Account">
+		<h3 class="xf_mem_accout_title">提现</h3>
+		<!-- 提现 -->
+		#{if ipsEnable}
+		<ul class="xf_zjgl_tx_ul">
+			<li class="li1"><label class="s_label01">账户余额：</label>
+				<input class="xf_zjgl_tx_input" type="text" value="${(user?.balanceDetail?.user_amount+user?.balanceDetail?.user_amount2)?.format('###,##0.00')}" readonly="readonly">元
+			</li>
+			<li class="li2"><label class="s_label02">可提现余额：</label>
+				<input class="xf_zjgl_tx_input" type="text" value="${withdrawalAmount?.format('###,##0.00')}" readonly="readonly">元
+			</li>
+			<li class="xf_zjgl_tx_inputlast">				
+				<input class="xf_zjgl_tx_inputsq s_sub-btn s_sure-btn" onClick="ipsWithDrawApply()" type="button" value="提现申请">
+			</li>
+		</ul>
+		#{/if}
+		#{else}
+		<ul class="xf_zjgl_tx_ul">
+			<li>账户可用余额：
+				<input class="xf_zjgl_tx_input" type="text" value="${(user?.balanceDetail?.user_amount)?.format('###,##0.00')}" readonly="readonly"> 元
+			</li>
+			 <li>,其中可提现余额为：
+				<input class="xf_zjgl_tx_input" type="text" value="${withdrawalAmount?.format('###,##0.00')}" readonly="readonly">元
+			</li> 
+			<li class="xf_zjgl_tx_inputlast"><input
+				class="xf_zjgl_tx_inputsq" onClick="withDrawApply()" type="button" value="申请提现">
+			</li>
+		</ul>
+		#{/else}
+	</div>
+	<!-- 右侧内容区域 提现记录 -->
+	<div class="xf_mem_Account xf_mem_passage">
+		<h3 class="xf_mem_accout_title">提现记录</h3>
+		<!-- 搜索区域 -->
+		<ul class="xf_jkzlshrz_search xf_zjgl_tx_sousou clr">
+		#{form @withdrawal(), id:'withdrawal'}
+			<li>
+				<input type="hidden" id="currPage" name="currPage"/>
+        		<input type="hidden" id="pageSize" name="pageSize"/>
+				<select name="type" class="xf_membill_selectAge xf_memjkzlshrz_selectAge">
+					<option value="0" id="type0">全部</option>
+					<option value="1" id="type1">已成功</option>
+					<option value="2" id="type2">审核中</option>
+					<option value="3" id="type3">付款中</option>
+					<option value="4" id="type-1">未通过</option>
+				</select> 
+				<input type="text" name="startDate" id="startDate" class="laydate-icon" onclick="laydate()" style="cursor:pointer" /> 
+				<span class="xf_jkzlshrz_searspantwo">——</span>
+				<input type="text" name="endDate" id="endDate" class="laydate-icon" onclick="laydate()" style="cursor:pointer" /> 
+				<input type="submit" value="查 看" class="xf_membill_button_yhm xf_membill_button_more">
+			</li>
+		#{/form}		
+		</ul>
+		<div class="xf_membill_search_jg">
+			<table border="0" cellpadding="0" cellspacing="0" width="740"
+				class="xf_membill_acc_viewcpms xf_membill_acc_vtx">
+				<tr>
+					<th align="center" width="74">序号</th>
+					<th width="108">提现金额（元）</th>
+					<th align="center" width="192">银行卡</th>
+					<th width="144">申请时间</th>
+					<th width="138">付款时间</th>
+					<th width="78">状态</th>
+				</tr>
+				#{if page.page != null}
+				#{list page.page}
+					<tr>
+						<td align="center">${_index}</td>
+						<td align="center"><span class="membill_list_lvs">${_?.amount}</span>
+						</td>
+						<td align="center">${_?.bank_name}</td>
+						<td align="center">${_?.time?.format('yyyy-MM-dd')}</td>
+						<td align="center">${_?.pay_time?.format('yyyy-MM-dd')}</td>
+						<td align="center">
+						<span class="membill_list_whk">
+							#{if _?.status == 0}
+								审核中
+							#{/if}
+							#{elseif _?.status == 1}
+								付款中
+							#{/elseif}
+							#{elseif _?.status == 2}
+								已成功
+							#{/elseif}
+							#{elseif _?.status == -1}
+								未通过
+							#{/elseif}
+							#{elseif _?.status == 3}
+								失败
+							#{/elseif}
+							#{elseif _?.status == 4}
+								审核中
+							#{/elseif}
+							#{elseif _?.status == -3}
+								提现失败
+							#{/elseif}
+							#{elseif _?.status == -2}
+								提现回退
+							#{/elseif}
+						</span>
+						</td>
+					</tr>
+				#{/list}
+				#{/if}
+			</table>
+		</div>
+		<!-- 分页器 -->
+		<div class="xf_wylc_page xf_zqzr_view_page1 xf_zjgl_tx_page">
+			#{page pageTitle:"提现", currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:2 /}
+		</div>
+	</div>
+	<!-- 清除浮动 -->
+	<div class="clear"></div>
+</div>
+<!-- 内容区域 end -->
+
+<!-- 申请提现 -->
+<div class="xf_zqzr_znx_window" id="xf_mem_sqtx_window">
+	<div class="xf_wyjkwszl_4_windowInner xf_hmd_sqtx_window">
+		<div class="xf_wyjkfb_4_windowClose" onClick="withDrawCancle()"></div>
+		<div class="xf_wyjkfb_4_windowColName">
+			申请提现
+		</div>
+		#{form @submitWithdrawal(), id:'mountSubmit'}
+		<input type="hidden" name="uuidRepeat" value="${flash?.success}">
+		<div class="xf_zqzr_znx_windowCot">
+			<table border="0" cellpadding="0" cellspacing="0" width="465" class="xf_zqzr_znx_teot xf_zqzr_sqtx_teot">
+				<tr>
+					<td width="120" align="right" valign="top">
+						<span class="xf_zqzr_znx_title">提现金额： </span>
+					</td>
+					<td>
+						<input onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{2}).*/g, '$1')" class="xf_memvip_input" type="text" name="amount" id="amount" autocomplete="off"> 元<br />
+						<input type="hidden" name="bankId" id="bankId">
+						<input type="hidden" name="type" value="1"> 
+						<!-- <span class="xf_mem_sqtx_tccspan">可提现金额为：<span class="xf_mem_sqtx_tccred">#{if ipsEnable}${withdrawalAmount2?.format('###,##0.00')}#{/if}#{else}${withdrawalAmount?.format("###,##0.00")}#{/else}</span> 元， -->单次最多可提现：<span class="xf_mem_sqtx_tccred">${maxWithDrawalAmount?.format("###,##0.00")}</span>元</span>
+					</td>
+				</tr>
+				
+				<tr>
+					<td width="120" align="right">
+						<span class="xf_zqzr_znx_title">选择提现银行卡 : </span>
+					</td>
+					<td>
+						<select name="bankList" id="bankList" onChange="bankInfo()" class="xf_wylc_sqtx"> 
+						*{<option value="no">请选择银行卡</option>}*
+						#{list items:banks, as:'bank'}  
+					       <option value="${bank?.id}">${bank?.bankName}</option> 
+					    #{/list}  
+						</select>
+						#{if banks == null || banks.size() == 0}
+							<a href="@{front.account.FundsManage.accountInformation()}">请先添加银行卡</a>
+						#{/if}
+					</td>
+				</tr>
+				<tr>
+					<td align="right" valign="top">
+						<span class="xf_zqzr_znx_title">银行卡信息：</span>
+					</td>
+					<td>
+						<textarea class="xf_zqzr_wszl_text" id="infoBank" readonly="readonly"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td align="right">
+						<span class="xf_zqzr_znx_title">交易密码： </span>
+					</td>
+					<td>
+						<input class="xf_memvip_input" type="text" name="payPassword" id="payPassword" onfocus="this.type='password'"> 
+					 #{if user.payPassword == '' || user.payPassword == null}
+					    <a href="@{front.account.BasicInformation.modifyPassword()}">请设置交易密码</a>
+					 #{/if}
+					</td>
+				</tr>
+				
+				<tr>
+					<td>
+						<span class="xf_zqzr_znx_title">&nbsp;</span>
+					</td>
+					<td class="xf_zqzr_znx_title_td xf_zqzr_znx_title_tdtcc">
+						<a class="xf_con_inputfbjk" onClick="withDrawSubmits()">确 定</a>
+						<a class="xf_con_inputfbqux" onClick="withDrawCancle()">取 消</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+		#{/form}
+	</div>
+</div>
+<!--托管账户提现申请-->
+<div class="s_nomoney s_tixiantab s_txtabone" style="display:none;" id="ipsWithDrawApply">
+	<h3>申请提现</h3>
+	<span class="s_closebtn" onclick="$('#ipsWithDrawApply').hide();">×</span>
+	#{form @submitWithdrawal(), id:'ipsAmountSubmit',target:'_blank'}
+	<input type="hidden" name="uuidRepeat" value="${flash?.success}">
+	<table width="100%">
+		<tr height="38">
+			<th width="30%">提现金额：</th>
+			<td width="70%"><input type="text" class="text" name="amount" id="ipsAmount"/> 元<!-- ，可提现金额为：<span class="xf_mem_sqtx_tccred">${withdrawalAmount?.format("###,##0.00")}</span>元， -->单次最多可提现：<span class="xf_mem_sqtx_tccred">${maxWithDrawalAmount?.format("###,##0.00")}</span>元</td>
+			<input type="hidden" name="ipsSelect" value="1"/>
+		</tr>
+		#{if !bindedBankCard}
+		<tr>
+			<th></th>
+			<td>
+				您好，您尚未绑定银行卡，请<a href="@{front.account.FundsManage.userBindCard}" class="xf_mem_acc_sjvip" target="_blank">[绑定银行卡]</a>
+			</td>
+		</tr>
+		#{/if}
+		<tr height="60">
+			<th></th>
+			<td>
+				<a class="s_confirmbtns btn-sure" onclick="ipsWithDrawSubmits()">确定</a>
+				<a class="s_confirmbtns btn-cancel" onclick="$('#ipsWithDrawApply').hide();">取消</a>
+			</td>
+		</tr>
+	</table>
+	#{/form}
+</div>
+<script src="@{'/public/javascripts/laydate/laydate.js'}"></script>
+<script type="text/javascript">
+
+	/* 条件搜素查询 */
+	function showPage(currPage, pageSize){
+         $("#currPage").val(currPage);
+         $("#pageSize").val(pageSize);
+         $("#withdrawal").submit();
+    }
+	
+	$(function(){
+	    $("#xf_mem_sqtx_window").hide();
+	     
+	    //var tess = "<span>开户银行11：</span>"+'${banks[0]?.bankName}'+"<br/>"+"<span>账号：</span>"+
+		  // '${banks[0]?.account}'+"<br/>"+"<span>收款人：</span>"+'${banks[0]?.accountName}';
+		// $("#infoBank").html(tess);
+	
+		/* 给搜索条件赋记录值 */
+		var type = "${page?.conditions?.condition}";
+		var beginTime = "${page?.conditions?.beginTime}";
+		var endTime = "${page?.conditions?.endTime}";
+	    
+		switch(parseInt(type)){
+			case 0:$("#type0").attr("selected","selected");break;
+			case 1:$("#type1").attr("selected","selected");break;
+			case 2:$("#type2").attr("selected","selected");break;
+			case 3:$("#type3").attr("selected","selected");break;
+			case -1:$("#type-1").attr("selected","selected");break;
+		}
+		
+		$("#startDate").val(beginTime);
+		$("#endDate").val(endTime);
+		
+		bankInfo();
+	});
+  
+  function bankInfo(){
+      var QueryBankInfo = #{jsAction @QueryBankInfo(':id')/}
+	  $.post(QueryBankInfo({id:$("#bankList").val()}),function(data){
+		  var arr = eval(data);
+		  
+		  if(arr.bank.account == ''){
+		      return;
+		  }
+		  
+		  var cssHtml = "真实姓名："+arr.bank.accountName + "\r\n账号："+
+		     arr.bank.account + "\r\n开户行：" + arr.bank.bankName
+		     + "\r\n支行：" + arr.bank.branchBankName
+		     + "\r\n支行所在地：" + arr.bank.province + " | " + arr.bank.city;
+		 $("#infoBank").html(cssHtml);
+   });
+  }
+  
+  function ipsWithDrawApply() {
+  	showDiv($("#ipsWithDrawApply"));
+  }
+
+   function withDrawApply(){
+       showDiv($("#xf_mem_sqtx_window"));
+  }
+
+   function withDrawSubmits(){
+      if($("#amount").val() == ''){
+          alert("提现金额不能为空！");
+          return;
+      }
+      
+      if($("#amount").val() > 50000000){
+    	  alert("提现金额不能大于50000000");
+    	  return;
+      }
+ /*     
+		var ipsEnable = ${ipsEnable};
+		if (ipsEnable) {
+			$("#mountSubmit").submit();
+			return;
+		}
+  */    
+      if($("#bankList").val() == "no"){
+          alert("未选择要提现的银行！");
+          return;
+      }
+      
+      if($("#payPassword").val() == ''){
+          alert("交易密码不能为空！");
+          return;
+      }
+      
+      $("#bankId").val($("#bankList").val());
+      $("#mountSubmit").submit();
+  }
+  
+  function ipsWithDrawSubmits(){
+	  if(!${bindedBankCard}){
+          alert("您好，您尚未绑定银行卡，请前往绑定银行卡！");
+          return;
+	  }
+	  
+  	  if($("#ipsAmount").val() == ''){
+          alert("提现金额不能为空！");
+          return;
+      }
+  	  
+  	  if($("#ipsAmount").val() > 50000000){
+  	 	 alert("提现金额不能大于50000000");
+  	 	 return;
+    }
+      
+      $("#ipsAmountSubmit").submit();
+      $('#ipsWithDrawApply').hide();
+  }
+  
+  function withDrawCancle(){
+      $("#xf_mem_sqtx_window").hide();
+  }
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript">
+<!--
+	$(function(){
+		/* 高亮显示 */
+		showHighLightFront(28);
+		showHighLightFront2(7, 5);
+	});
+//-->
+</script>

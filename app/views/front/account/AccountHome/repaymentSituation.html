@@ -1,0 +1,40 @@
+#{extends 'common/frontMain.html' /}
+#{set title:'借款标账单' /}
+
+<!-- 内容区域 start -->
+<div class="xf_con_box">
+	<div class="xf_con_mem_nav"></div>
+	<!-- 左边导航区域 -->
+	#{include "front/account/AccountHome/homeLeft.control"/}
+	
+	<!-- 右侧内容区域 我的借款账单 -->
+	<div class="xf_mem_Account xf_mem_shzdjkb_box" >
+		<div class="xf_membill_search_jg xf_membill_search_table" id = "showRepaymentSituation">
+		
+			<input type="hidden" value="${bidId}" id="bidId"/>
+			
+		</div>
+	</div>
+	
+	<!-- 清除浮动 -->
+	<div class="clear"></div>
+</div>
+<!-- 内容区域 end -->
+
+<script type="text/javascript">
+<!--
+	repaymentSituation(1);
+
+	/* 还款情况 */
+	function repaymentSituation(currPage) {
+		alert(bidId);
+		 /* 当前标ID */
+  		var bidId = $("#bidId").val();
+	
+		var listAction = #{jsAction @supervisor.bidManager.BidPlatformAction.repaymentSituation(':currPage',':bidId') /};
+		$.get(listAction({currPage:currPage,bidId:bidId}), function(data) {
+			$("#showRepaymentSituation").html(data);
+		});		
+	}
+//-->
+</script>

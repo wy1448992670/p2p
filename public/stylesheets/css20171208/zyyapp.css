@@ -1,0 +1,41 @@
+body{
+	font-size: 14px;
+}
+.all{
+	
+	width: 3.45rem;
+	margin: 0 auto; 
+}
+.all input{
+	margin-top: 0.2rem;
+	/*width: 3.4rem;*/
+	
+}
+.yzm{
+	width: 1.4rem;
+}
+.hq{
+	width: 1.6rem;
+	float: right;
+	
+	
+}
+
+.tjr{
+	width: 2.4rem;
+}
+.footer{
+	width: 100%;
+	margin: 0 auto;
+}
+.footer .lj{
+	width: 2rem;
+	height: 0.2rem;
+	/*background: #f45;*/
+	margin: 0 auto;
+	margin-top: 0.2rem;
+}
+.footer .lj a{
+	text-decoration: none;
+}
+	

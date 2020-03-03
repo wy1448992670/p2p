@@ -1,0 +1,115 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'迁移用户统计' /}
+
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/dataStatistics/statisticLeft.html"/}
+    <div class="xn_c_content">
+      <div class="xf_ht_tablelist">
+        <!-- 搜索 --> 
+         #{form @supervisor.dataStatistics.MigrateStatisticsAction.migrateUser(), id:'submit'}
+         <input type="hidden" id="currPage" name="currPage"/>
+         <input type="hidden" id="pageSize" name="pageSize"/>
+        <div class="xf_ht_search">
+          <div class="xf_ht_search_l">
+            <span id="div_0" onClick="order(0);">默认排序 </span>
+          </div>
+        </div>
+        <div class="xf_ht_search_inon">
+          <div class="xf_ht_search_r">
+            
+            <div class="xf_ht_search_xl">
+              
+            </div>
+            <div class="xf_ht_search_xl">
+                <input type="text" class="xfht_t_jk_zt_rj3" id="keyword" placeholder="账号/真实姓名/手机" value="${page?.conditions?.keyword}" />
+            </div>
+            <div class="xf_ht_search_xl">
+              <span class="search_timesp">迁移时间范围：</span>
+              <input name="startDate" type="text" id="startDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${page?.conditions?.startDateStr}" />
+              <span class="search_timesp">--</span>
+              <input name="endDate" type="text" id="endDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${page?.conditions?.endDateStr}" />
+            </div>
+            <div class="xf_ht_search_xl">
+              <input type="button" class="search_button" onclick="search(0);" value="搜 索" />
+            </div>
+            
+          </div>
+        </div>
+        #{/form}
+        <!-- 列表内容 -->
+        <div class="xn_c_content_top">
+          #{table class:"xn_c_content_list",cellspacing:"0",cellpadding:"0",border:"0",width:"1300px",tr_class_odd:"xn_tr_bj"}
+            #{tr}
+              #{th}序号#{/th}
+              #{th}用户名#{/th}
+              #{th}手机号#{/th}
+              #{th}真实姓名#{/th}
+              #{th}身份证#{/th} 
+              #{th}迁移时间#{/th} 
+              #{th}迁移待收本金#{/th} 
+              #{th}迁移待收利息#{/th}  
+              #{th}迁移后还款#{/th}
+              #{th}迁移金额#{/th}
+              #{th}迁移未还账单数#{/th}
+              #{th}迁移已还账单数#{/th}
+              #{th}迁移投资数#{/th}
+            #{/tr}
+            #{list page?.page}
+            #{tr tr_index:_index}
+              #{td}${(page?.currPage - 1)*page?.pageSize + _index}#{/td}
+              #{td}${_?.name}#{/td}
+              #{td}${_?.mobile}#{/td}
+              #{td}${_?.realityName}#{/td}
+              #{td}${_?.idNumber}#{/td}
+              #{td}${_?.migrationTime}#{/td}
+              #{td}${_?.receiveCorpus?.format('###,##0.00')}#{/td}
+              #{td}${_?.receiveInterest}#{/td} 
+              #{td}${_?.afterMigrationRepay?.format('###,##0.00')}#{/td}
+              #{td}${_?.migrationAmount?.format('###,##0.00')}#{/td}
+              #{td}${_?.noRepayBillCount}#{/td}
+              #{td}${_?.repayedBillCount}#{/td}
+              #{td}${_?.investCount}#{/td}
+            #{/tr}
+            #{/list}
+          #{/table}
+        </div>
+        <!-- 列表底部 -->
+        <div class="xn_c_content_bottom"> 
+          <div class="page_warp">
+           #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4/}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+<script type="text/javascript"> 
+$(function() {
+  /* 高亮显示 */
+  showHighLight(1, 4, 13);
+  init();
+});
+  
+function showPage(currPage, pageSize){
+	  $("#currPage").val(currPage);
+	  $("#pageSize").val(pageSize);
+	  $("#submit").submit();
+	}
+function search(type){
+	var startDate = $("#startDate").val();
+	var endDate = $("#endDate").val();
+	var keyword = $("#keyword").val();
+	window.location.href = "@{supervisor.dataStatistics.MigrateStatisticsAction.migrateUser()}?keyword="+keyword+"&startDateStr="+startDate +"&endDateStr=" +endDate ;
+}
+  
+    
+function check(){
+  if($("#month option:selected").val() >= 13){
+    $("#day").attr("disabled","disabled");
+  }else{
+    $("#day").removeAttr("disabled");
+  }
+}
+</script>

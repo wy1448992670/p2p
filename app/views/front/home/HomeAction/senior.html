@@ -1,0 +1,104 @@
+#{extends 'common/frontMain.html' /} 
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{set title:currBackstageSet.seoTitle+'|关于我们' /}
+
+<style>
+<!--
+.peop_alls{height: 1780px;background: #fff;margin: 0 auto;}
+.peop_all{height: 60px;margin: 0 auto;float: left;}
+.peop_all p{width: 750px;height: 40px;line-height: 40px;margin: 0 auto;margin-top: 20px;background: #fff;border-bottom: 1px solid #dcdcdc;}
+.peop_all p span{display: inline-block;width: 5px;height: 20px;float: left;margin-top: 10px;margin-right: 10px;background:#e84c3d;}
+.peop_cont{width: 750px;height: 560px;margin: 0 auto;}
+.con1{width: 750px;height: 630px;border-bottom: 1px solid #dcdcdc;}
+.con2{width: 750px;height: 544px;border-bottom: 1px solid #dcdcdc;}
+.con3{width: 750px;height: 545px;}
+.co2_le{width: 375px!important;height: 544px!important;}
+.co3_le{width: 375px!important;height: 544px!important;}
+
+
+.peop_cont .con_left{width: 375px;height: 630px;float: left;font-size: 0;border-right: 1px solid #ebebeb;box-sizing: border-box;}
+.peop_cont .con_left img{width: 101px;height: 101px;border-radius: 50%;margin-top: 50px;margin-left: 137px;}
+.peop_cont .con_left h3{text-align: center;font-size: 18px;margin-top: 15px;color: #333;font-weight: normal;}
+.peop_cont .con_left p{text-align: center;font-size: 14px;color: #333;margin-top: 8px;}
+.peop_cont .con_left div{display: inline-block;font-size: 14px;line-height: 28px;color: #666;margin: 25px 40px 50px;}
+
+.peop_cont .con_right{width: 375px;float: right;}
+
+
+/*右边的*/
+.peop_cont .con_right{width: 375px;float: left;font-size: 0;box-sizing: border-box;}
+.peop_cont .con_right img{width: 101px;height: 101px;border-radius: 50%;margin-top: 50px;margin-left: 137px;}
+.peop_cont .con_right h3{text-align: center;font-size: 18px;margin-top: 15px;color: #333;font-weight: normal;}
+.peop_cont .con_right p{text-align: center;font-size: 14px;color: #333;margin-top: 8px;}
+.peop_cont .con_right div{display: inline-block;font-size: 14px;line-height: 28px;color: #666;margin: 25px 40px 50px;}
+.first_left{width: 375px;height: 629px;}
+.thr_left{width: 375px;height: 545px;}
+
+-->
+</style>
+<!--内容区-->
+<div class="p_bgf1_box pb30 pt30">
+    <div class="p_main clr">
+       <!--侧边导航栏-->
+	  #{include "front/home/HomeAction/aboutUsLeft.html"/}
+		<div class="p_right_wordbox">
+			<div class="p_hp_rtbox">
+				<div class="peop_alls">
+			<div class="peop_all">
+				<p><span></span>公司高管</p>
+			</div>
+			<div class="clear"></div>
+			<div class="peop_cont con1">
+				<div class="con_left">
+					<img src="/public/images-new/people/zhneg.png" alt="" />
+					<h3>郑发文</h3>
+					<p>创始合伙人&amp;执行董事</p>
+					<div>浙鲁集团有限公司法人兼董事长，山东枣庄市政协委员，交大MBA工商管理硕士，国家高级理财规划师。他是一个有梦想的实践主义者，在金融领域具有深刻的见地。历经多年的实践后，郑发文先生准备用自己的专业与智慧开始实现他的梦想，2015年他将视野转至互联网金融，创立中亿云投资有限公司。以先进的经营理念，创新性的金融服务手段，独特个人魅力凝聚了一批行业人才，打造全新的P2P金融服务平台。以诚信为本、专业为主，以服务中小微企业，普惠大众为宗旨，立志打造一家安全、透明、可信的金融平台。</div>
+				</div>
+				<div class="con_right first_left">
+					<img src="/public/images-new/people/liu.png" alt="" />
+					<h3>刘建</h3>
+					<p>副总经理&amp;首席风控官</p>
+					<div>中国建设银行20余年从业管理经验，丰富的建行行长领导和管理经验，熟悉金融管理体系，对个人零售、中小微企业、供应链金融等各类信贷风险管理均有着极深的理解和实际经验，在风险控制和资金监管等方面有着优秀的实战工作经验。2015年加入中亿云投资有限公司，主导负责公司旗下“亿亿理财”平台风控管理，为平台搭建了一整套完善的业务风控体系、风控管理流程、风控管理制度等。</div>
+				</div>
+			</div>
+			<!--第二组-->
+			<div class="peop_cont con2">
+				<div class="con_left co2_le">
+					<img src="/public/images-new/people/song.png" alt="" />
+					<h3>宋光宁</h3>
+					<p>宁德分公司总经理</p>
+				    <div>中国工商银行15余年从业管理经验，历任工商银行国际业务部行长及总经理、资产风控管理及法律事务部总经理、信贷管理部总经理等重要领导岗位，熟悉金融行业销售、服务、管理、技术、渠道等业务内容，同时具有优秀的营销策略能力和市场创新思维。2016年起担任中亿云投资有限公司宁德分公司总经理，专业负责分公司金融业务拓展和经营管理，对公司整体的业务建设和市场发展具有卓越的贡献。</div>
+				</div>
+				<div class="con_right">
+					<img src="/public/images-new/people/04.png" alt="" />
+					<h3>黄晓</h3>
+					<p>温州分公司总经理</p>
+				    <div>国有银行和商业银行20余年从业管理经验，历任乐清中行行长、中国银行支部行长、中信银行行长等，熟悉宏观经济和金融业务，具备创新精神和创新意识。2016年加入中亿云投资有限公司以来，善于开拓创新，建立起以市场为导向、以客户为中心、以防范风险为重点的组织体系，如今已领导组织一批奋发向上的专业团队，立志带领中亿云投资有限公司温州分公司逐渐走向辉煌，蒸蒸日上。</div>
+				</div>
+			</div>
+			<!--第三组-->
+			<div class="peop_cont con3">
+				<div class="con_left thr_left co3_le">
+					<img src="/public/images-new/people/05.png" alt="" />
+					<h3>张公武</h3>
+					<p>金融事业部总经理</p>
+					<div>中国建设银行20余年从业管理工作经验，荣获国际注册中级理财规划师认证，熟悉金融理财规划业务、个人与企业金融信贷业务，具有专业的金融服务营销和管理经验。2016年起担任中亿云投资有限公司金融事业部总经理，帮助构筑亿亿理财成为一家专业的网贷理财平台，与全体同仁一起共同开拓市场、成就平台行业领先地位。</div>
+				</div>
+				<div class="con_right">
+					<img src="/public/images-new/people/06.png" alt="" />
+					<h3>廖宇航</h3>
+					<p>宁德分公司风控总监</p>
+					<div>10余年金融公司工作经验，北师大国际贸易金融系学士，曾任国创控股集团省管理中心总经理，对金融市场及产品、投资、风险防范措施具有多年的行业积累。2016年起担任中亿云投资有限公司宁德分公司风控总监，负责平台项目的风险调查，风险评估和风险审核工作，帮助建立金融风控体系和健全公司风控制度，
+					逻辑思维和风控意识较强，是一位年富力强、有事业心、责任心的风控总指挥。
+					</div>
+				</div>
+			</div>
+		</div>
+			</div>
+		</div>
+    </div>
+</div>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_about_us.js'}"></script>

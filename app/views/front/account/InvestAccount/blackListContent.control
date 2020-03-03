@@ -1,0 +1,148 @@
+	<div class="xf_mem_Account">
+	<h3 class="xf_mem_accout_title">黑名单</h3>
+	<!-- 搜索区域 -->
+	#{form @blackList(), id:"submit"}
+	 <input type="hidden" id="currPage" name="currPage"/>
+         <input type="hidden" id="pageSize" name="pageSize"/>
+	<ul class="xf_membill_search">
+		<li>
+<!--			<select name="type" id="type" class="xf_membill_selectAge"> 
+			   #{if page.conditions?.type = 1}  
+		       <option value="0">全部</option>   
+		       <option value="1"  selected="selected">用户名</option>
+		       #{/if}   
+		       #{else}
+		       <option value="0" selected="selected">全部</option>   
+		       <option value="1" >用户名</option>
+		       #{/else}
+			</select>
+ -->  
+         &nbsp; &nbsp; 用户名：
+		</li>
+		<li class="xf_membill_searchLi">
+			<input type="text"  id="key" name="key" class="xf_membill_shurk_yhm" value="${page.conditions?.get('key')}">
+			<input type="button" onClick="search()" value="搜 索" class="xf_membill_button_yhm">
+		</li>
+	</ul>
+	#{/form}
+	<!-- 搜索结果 -->
+	<div class="xf_membill_search_jg">
+		<table border="0" cellpadding="0" cellspacing="0" width="auto" class="xf_membill_acc_viewcpms">
+			<tbody>
+				<tr>
+					<th align="center" width="46">序号</th>
+				  	<th width="182">会员用户名</th>
+				  	<th align="center" width="86">加入黑名单时间</th>
+				  	<th align="center" width="63">原因</th>
+				  	<th width="64">关联借款标编号</th>
+				  	<th width="200">操作</th>
+				</tr>
+
+                #{if page.page.size()!=0}
+		        #{list items:page.page,as:'black'}
+				<tr>
+					<td align="center">${black_index}</td>
+					<td align="center">${black?.blacklist_name}</td>
+					<td align="center">${black?.time?.format('yyyy-MM-dd')}</td>
+					<td align="center">${black?.reason}</td>
+					<td align="center">${black?.bid_id}</td>
+					<td align="center"><a onClick="reason('${black?.blacklist_name}', '${black?.reason}')" class="xf_membill_cza">原因</a>&nbsp&nbsp&nbsp&nbsp<a onClick="removeBlacklist(${black?.id})" class="xf_membill_cza">删除</a></td>
+				</tr>
+				#{/list}
+				#{/if}
+			</tbody>
+		</table>
+		<!-- 分页器 -->
+		<div class="xf_wylc_page xf_membill_view_page1">
+			#{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:1 ,style:2}type=${page.conditions?.get("type")}&key=${page.conditions?.get("key")}
+			#{/page}
+		</div>
+		</div>
+		<!-- 清除浮动 -->
+		<div class="clear"></div>
+       </div>
+       <div class="xf_zqzr_znx_window" id="blackListDetail">
+			<div class="xf_wyjkwszl_4_windowInner xf_vip_tcc_window">
+				<div class="xf_wyjkfb_4_windowClose" id="close"></div>
+				<div class="xf_wyjkfb_4_windowColName">
+					查看黑名单详情
+				</div>
+				<div class="xf_mem_tgxytc xf_mem_vipbox" style="padding-top:0;">
+					<table border="0" cellpadding="0" cellspacing="0" width="322" class="xf_mem_vip_tcc" id="table">
+						<tr>
+							<td align="right" width="130">
+								用户名：
+							</td>
+							<td id="name">
+								
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								原因：
+							</td>
+							<td id="reason">
+								
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+<script type="text/javascript">   
+     
+     function reason(name,reason){
+         $("#name").html(name);
+         $("#reason").html(reason);
+         $("#blackListDetail").center();
+         $("#blackListDetail").show();
+     }
+     
+     $("#close").click(function(){
+         $("#blackListDetail").hide();
+     
+     })
+     
+     function removeBlacklist(id){
+            var removeBlacklist = #{jsAction @removeBlacklist(':blacklistId')/}
+			$.post(removeBlacklist({blacklistId:id}),function(data){
+			var arr=eval(data);
+			if(arr.error.code < 0){
+			     alert(arr.error.msg);
+			     return;
+			}
+			alert(arr.error.msg);
+			location.reload();
+			});
+     
+     }
+     
+        $(function(){
+         $("#blackListDetail").hide();
+     });
+     
+	    $(function(){
+			$("#key").focus(function(){
+				 
+				  if($(this).val() == "请输入关键词"){  
+	                  $(this).val("");           
+				  } 
+			}).blur(function(){
+				 
+				 if ($(this).val() == '') {
+	                $(this).val("请输入关键词");
+	             }
+			});
+		});
+		
+		function search(){
+		     $("#submit").submit();
+		
+		}
+		
+		function showPage(currPage, pageSize){
+		    $("#currPage").val(currPage);
+		    $("#pageSize").val(pageSize);
+		    $("#submit").submit();
+		}
+</script>   

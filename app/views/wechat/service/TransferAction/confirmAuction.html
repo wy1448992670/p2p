@@ -1,0 +1,133 @@
+
+	#{if user == null}
+	<br>
+		<li>
+		&nbsp;&nbsp;<span style="color: red">您未登录&nbsp;&nbsp;</span>  <span ><a href="/wechat/registAndLogin/login"><span style="color: green">请登录</span></a></span>
+		</li>
+	#{/if}
+	#{elseif debt?.status == 1 && new java.util.Date() < debt?.endTime}
+		#{if debt?.invest?.bid?.product?.isDealPassword == true}
+		<li>
+			#{if user != null && user.payPassword == null}
+				<a href="/wechat/home/securitySet" class="s_errortips" style="color:red">请设置交易密码！</a>
+			#{/if}
+			#{else}
+			<label>我的出价：</label>
+			<input id="offerPrice" name="offerPrice" type="text" class="text" onkeyup="value=value.replace(/[^\d]/g,'')"/><span class="blue">元</span>
+		</li>
+		<br>
+		<li>
+			<label>交易密码：</label>
+			<input type="password" class="text" name="dealpwd" id="dealpwd"/>
+			<li>
+			<input id="acution" type="button" value="确认竞拍" class="btn" />
+			</li>
+			#{/else}
+		</li>
+		#{/if}
+		#{else}
+		<li>
+			<label>我的出价：</label>
+			<input id="offerPrice" name="offerPrice" type="text" class="text" onkeyup="value=value.replace(/[^\d]/g,'')"/><span class="blue">元</span>
+			<input id="acution" type="button" value="确认竞拍" class="btn" />
+		</li>
+		#{/else}
+	#{/elseif}
+
+<script type="text/javascript">
+
+	$("#acution").click(function() {
+		var listAction = #{jsAction @wechat.account.WechatAccountHome.checkUserStatusAndActiveEmail() /};
+		$.post(listAction(), function(data) {
+			if (data.code < 0) {
+				alert(data.msg);
+				return;
+			}
+			switch(data.status * 1){
+			    case 1:
+			    	acutionApplyNow();  
+					break;
+					return;
+				case -1: 
+				/* 未登录 */
+					window.location.href="@{wechat.service.RegistAndLogin.login}";
+					return;
+				case -2: 
+				/* 未激活 */
+					var info = data.email;
+					alert("您账号未激活\n邮箱已经发送到您的:"+info+"请激活！");
+					break;
+					return;
+				 case -3: 
+				 /* 未完善基本资料 */
+					acutionApplyNow();
+					break;
+					return;
+			}
+		});	
+	 });
+	
+	function acutionApplyNow() {				
+		var maxOfferPrice = ${debt?.maxOfferPrice};
+		var transferPrice = ${debt?.transferPrice};
+		var debtAmount = ${debt?.debtAmount};
+		var offerPrice = $("#offerPrice").val();
+	
+		var patrn=/^\d+$/; 
+		var flag = patrn.exec(offerPrice);
+		
+		if(offerPrice.replace(/\s+/g,"") == "" || null == offerPrice.replace(/\s+/g,"")){
+	        alert("对不起！竞拍出价不能为空！");
+	        return false;
+	     }
+	    if(!flag){
+			alert("对不起！请您输入正整数！");
+		 	return false;
+	  	 }
+		
+		if(offerPrice <= 0){
+			alert("对不起！您的出价不能小于0！");
+	 	    return false;
+		}
+		
+		if(offerPrice < transferPrice){
+			alert("对不起！您的出价不能低于债权拍卖底价！");
+	 	    return false;
+		}
+		if(offerPrice > debtAmount){
+			alert("对不起！您的出价不能高于债权总额！");
+	 	    return false;
+		}
+		if(offerPrice <= maxOfferPrice){
+			alert("对不起！您的出价应该高于目前竞拍最高价！");
+	 	    return false;
+		}
+		var id = "${debt?.id}";
+		var fileName = "${small_image_filename}";
+	    var password = $("#dealpwd").val();
+		$.ajax({
+			url : "@{wechat.service.transferAction.transfer()}",
+			type : "post",
+			data : {"debtId":id, "small_image_filename":fileName, "price":offerPrice, "password":password},
+			success : function(data) {
+	 			var info = eval(data);
+	 			if (info.code > 0) {
+	 				alert(info.msg);
+	 				window.location.href="@{wechat.account.WechatAccountHome.debeManage(2)}";
+					
+	 				return;
+	 			} else {
+	 				%{ String BALANCE_NOT_ENOUGH = constants.Constants.BALANCE_NOT_ENOUGH;}%
+	 				if ( ${BALANCE_NOT_ENOUGH} == info.code) {
+	 					alert(info.msg);
+	 					window.location.href = "@{wechat.account.WechatAccountHome.recharge()}";
+	 					
+	 					return;
+	 				}
+	 				alert(info.msg);
+	 				return;
+	 			}
+			}
+		});
+	}
+</script>

@@ -1,0 +1,48 @@
+    @media only screen and (min-width: 1440px), only screen and (min-device-width:1440px) {
+    html body .swiper-container {
+         width: 1423px;
+         height: 444.68px;
+     }
+    
+   }
+
+   @media only screen and (max-width: 1440px), only screen and (max-device-width:1440px) {
+    html body  .swiper-container{
+         width: 1423px;
+           height: 444.68px;
+     }
+     
+     
+     
+   }
+     @media only screen and (max-width: 1366px), only screen and (max-device-width:1366px) {
+    html body  .swiper-container{
+         width: 1349px;
+         height: 421.56px;
+     }
+    
+     
+     
+     
+     
+   }
+     @media only screen and (max-width: 1360px), only screen and (max-device-width:1360px) {
+    html body  .swiper-container{
+          width: 1343px;
+          height:419.68px;
+          
+     }
+     
+     
+   }
+     @media only screen and (max-width: 1280px), only screen and (max-device-width:1280px) {
+     html body .swiper-container {
+         width: 1263px;
+         height: 394.68px;
+         
+     }
+    
+     
+     
+   }
+    

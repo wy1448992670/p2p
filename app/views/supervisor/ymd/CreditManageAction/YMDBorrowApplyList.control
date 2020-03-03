@@ -1,0 +1,186 @@
+<style>
+	#details table tr td{
+    padding:5px 10px ;
+  }
+  #add_rates table tr td{
+    padding:5px 10px ;
+  }
+  ._btnstyle{
+    font-size: 13px;
+    padding: 5px 12px;
+    background-color: #199ED8;
+    border-radius: 5px;
+    border: 0;
+    color: white;
+  }
+  .red{
+	color:red !important;
+  }
+</style>
+
+<div id="details" style="display:none;height:500px;margin:20px;">
+		<table>
+		   <tr><td style="font-weight:bold;">选择加息类型</td>
+			  <td>
+				<select class="xf_membill_selectAge " name="type">
+				  <option class="d_type1" value="1" >全场加息</option>
+				  <option class="d_type2" value="2" >首投加息</option>
+				  <option class="d_type3" value="3" >尾投加息</option>
+				</select>
+			  </td>
+			  </tr>
+			  <tr><td>名称:</td>
+				<td><input type="text" class="search_w d_name" name="name" ></td>
+			  </tr>
+			  <tr><td>加息利率:</td>
+				<td><input type="text"  class="search_w d_rate" name="rate" >%</td>
+			  </tr>
+			  <tr><td>开始时间：</td>
+				<td><input style="width:100%" type="text" class="search_time laydate-icon d_start_time" disabled/>
+				</td>
+				<td>结束时间:</td>
+				<td><input style="width:100%" type="text" class="search_time  laydate-icon d_stop_time" disabled/></td>
+			  </tr>
+		</table>
+	<table style="font-size:18px;"><tr><td>操作记录</td></tr></table>
+	<div style="max-height: 200px;overflow: auto;"><table border="1" class="d_log"></table></div>
+	<tr class="d_log"></tr>
+	<div style="margin-top:30px;"><input onclick="cancel()" class="_btnstyle" value="返回" type="button" /></div>
+</div>
+
+<div id="examine" style="display:none;height:500px;margin:20px;">
+  <input type="hidden" class="firstId" />
+  <div>名称:<span></span></div>
+  <div style="margin-top:20px;"><textarea style="width:500px;height:200px;" placeholder="请输入" class="examineAdvice"></textarea></div>
+  <div style="margin-top:50px;">
+    <input onclick="firstAuditActivity(1)" class="_btnstyle" value="通过" type="button" />
+    <input onclick="firstAuditActivity(0)" class="_btnstyle" value="不通过" type="button" />
+  </div>
+</div>
+
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    <div class="xf_ht_search">
+    	<!-- 保存更新还是添加标识 -->
+    </div>
+	<form action="@{supervisor.ymd.CreditManageAction.YMDBorrowApplyList}" id="fundraiseingList" method="POST">
+	<input type="hidden" id="currPage" name="currPage"/>
+  	  <input type="hidden" id="pageSize" name="pageSize"/>
+  	  <input type="hidden" id="orderIndex" name="orderIndex"/>
+  	  <input type="hidden" id="orderStatus" name="orderStatus"/>
+    <div class="xf_ht_search_inon">
+      <div class="xf_ht_search_r">
+		<div class="xf_ht_search_xl">
+          <span class="search_timesp">状态</span>
+          <select class="xf_membill_selectAge" name="apply_status">
+          	<option></option>
+            #{list statusList}
+				<option value="${_?.id}" #{if apply_status==_?.id} selected="selected" #{/if}>${_?.enum_name}</option>
+			#{/list}
+          </select>
+        </div>
+	  
+		<div class="xf_ht_search_xl">
+          <span class="search_timesp">姓名</span>
+  	      <input type="text" placeholder="请输入姓名" class="search_w" name="reality_name" value="${reality_name}" >
+  	    </div>
+		<div class="xf_ht_search_xl">
+          <span class="search_timesp">身份证号</span>
+  	      <input type="text" placeholder="请输入身份证号" class="search_w" name="user_idnumber" value="${user_idnumber}" >
+  	    </div>
+		<div class="xf_ht_search_xl">
+          <span class="search_timesp">手机号</span>
+  	      <input type="text" placeholder="请输入手机号" class="search_w" name="user_mobile" value="${user_mobile}" >
+  	    </div>
+		 <div class="xf_ht_search_xl">
+		  <span class="search_timesp">申请时间：</span>
+		  <input type="text" value="${apply_star_date}" name="apply_star_date" onclick="laydate()" class="search_time" style="cursor:pointer">
+		  <span>-</span>
+		  <input type="text" value="${apply_end_date}"  name="apply_end_date"  onclick="laydate()" class="search_time" style="cursor:pointer">
+	    </div>
+        
+	    <div class="xf_ht_search_xl">
+		  <input type="submit" class="search_button" value="搜索">
+	    </div>
+      </div>
+    </div>
+    </form>
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}编号#{/th}
+		  #{th}对应产品#{/th}
+          #{th}身份证号#{/th}
+          #{th}客户姓名#{/th}
+          #{th}手机号#{/th}
+          #{th}注册时间#{/th}
+          #{th}申请时间#{/th}
+		  #{th}处理时间#{/th}
+		  #{th}总额度#{/th}
+		  #{th}已使用额度#{/th}
+		  #{th}剩余额度#{/th}
+		  #{th}状态#{/th}
+		  #{th}上标进度#{/th}
+		  #{th}操作#{/th}
+        #{/tr}
+		#{list borrowApplyList?.page}
+			#{tr tr_index:_index}
+				  #{td}${(borrowApplyList?.currPage - 1)*borrowApplyList?.pageSize + _index}#{/td}
+				  #{if _?.apply_status_name=='未分配'}
+					#{td class:"red"}${_?.product_name}#{/td}
+				  #{/if}
+				  #{else}
+					#{td}${_?.product_name}#{/td}
+				  #{/else}
+				  #{td}${_?.id_number}#{/td}
+				  #{td}${_?.reality_name}#{/td}
+				  #{td}${_?.mobile}#{/td}
+				  #{td}${_?.user_time}#{/td}
+				  #{td}${_?.apply_time}#{/td}
+				  #{td}${_?.recheck_time}#{/td}
+				  #{td}${_?.audit_credit_amount}#{/td}
+				  #{td}${_?.useCredit}#{/td}
+				  #{td}${_?.audit_credit_amount-_?.useCredit}#{/td}
+				  #{td}${_?.apply_status_name}#{/td}
+				  #{td}  
+			   		#{if _?.approve_amount != 0 }
+			   			${(_?.bid_amount / _?.approve_amount * 100).format("0.00")}%
+			   		#{/if}
+			   		#{else} 0 #{/else}
+				   #{/td}
+				  #{td}
+					  <a href="@{supervisor.ymd.CreditManageAction.YMDBorrowApplyInfo}?borrow_apply_id=${_?.id}"><input  type="button" class="_btnstyle" value="详情"></a>
+					  	#{if _?.apply_status == 5} 
+	             			<a href="@{supervisor.bidManager.BidAgencyAction.addAgencyBid()}?borrow_apply_id=${_?.id}"> 上标  </a>
+	             		#{/if}
+				  #{/td}
+			   #{/tr}
+			   #{/list}
+      #{/table}
+	 
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      <div class="page_warp">
+        #{page currPage:borrowApplyList.currPage,totalCount:borrowApplyList.totalCount,pageSize:borrowApplyList.pageSize,theme:2,style:4/}
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+
+/* 条件搜素查询 */
+function showPage(currPage, pageSize){
+
+     $("#currPage").val(currPage);
+     $("#pageSize").val(pageSize);
+     $("#fundraiseingList").submit();
+}
+
+$(function(){
+	/* 高亮显示 */
+	showHighLight(3, 3, 6);
+});
+</script>

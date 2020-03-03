@@ -1,0 +1,200 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'待分配借款会员列表' /}
+
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/billCollectionManager/common/billCollectionManagerLeft.control"/}
+    <div class="xn_c_content">
+      <div class="xf_ht_tablelist">
+        <!-- 搜索 -->
+        #{form @toAssignUsers(), id:'toAssignUsers'}
+        <input type="hidden" id="currPage" name="currPage"/>
+        <input type="hidden" id="pageSize" name="pageSize"/>
+        <input type="hidden" id="orderType" name="orderType" value="${page?.conditions?.order}"/>
+        <div class="xf_ht_search">
+          <div class="xf_ht_search_l">
+            <span id="div_0" onClick="conditonSearch(0)">默认排序</span>
+            <span id="div_1" onClick="conditonSearch(1)">注册时间 <a id="div_a_1">↑</a></span>
+            <span id="div_3" onClick="conditonSearch(3)">借款标编号 <a id="div_a_3">↑</a></span>
+            <span id="div_5" onClick="conditonSearch(5)">借款标金额 <a id="div_a_5">↑</a></span>
+          </div>
+        </div>
+        <div class="xf_ht_search_inon">
+          <div class="xf_ht_search_r">
+            <div class="xf_ht_search_xl">
+              <select id="select" name="productId" class="xf_membill_selectAge">
+                <option value="0">全部</option>
+                #{list items:products ,as:'product'}
+                <option value="${product.id}"
+                	#{if page?.conditions?.productIdStr == product.id}
+                		selected="selected"
+                	#{/if}
+                >${product.name}</option>
+                #{/list}
+              </select>
+            </div>
+            <div class="xf_ht_search_xl">
+              <span class="search_timesp">注册时间：</span>
+              <input name="startDate" type="text" id="startDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${page?.conditions?.startDate}"/>
+              <span class="search_timesp">--</span>
+              <input name="endDate" type="text" id="endDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${page?.conditions?.endDate}"/>
+            </div>
+            <div class="xf_ht_search_xl">
+              <input  type="text" class="search_w" id="textfield" title="请输入会员名" name="name" value="${page?.conditions?.name}"/>
+            </div>
+            <div class="xf_ht_search_xl">
+              <input type="button" onclick="toAssignUserSubmit();" class="search_button" value="搜 索" />
+            </div>
+          </div>
+        </div>
+        #{/form}
+        <!-- 列表内容 -->
+        <div class="xn_c_content_top">
+          #{table class:"xn_c_content_list",cellspacing:"0",cellpadding:"0",border:"0",tr_class_odd:"xn_tr_bj"}
+            #{tr}
+              #{th}序号#{/th}
+              #{th}会员名#{/th}
+              #{th}注册时间#{/th}
+              #{th}信用等级#{/th}
+              #{th}借款标编号#{/th}
+              #{th}借款标类型#{/th}
+              #{th}借款标金额#{/th}
+              #{th}放款时间#{/th}
+              #{th}会员等级#{/th}
+              #{th}会员年龄#{/th}
+              #{th}性别#{/th}
+              #{th}户口所在地#{/th}
+              #{th}操作#{/th}
+            #{/tr}
+            #{list page?.page}
+            #{tr tr_index:_index}
+              #{td}${(page?.currPage - 1) * page?.pageSize + _index}#{/td}
+              #{td}${_?.name}#{/td}
+              #{td}${_?.register_time?.format('yyyy-MM-dd')}#{/td}
+              #{td}#{img src:"${_?.credit_level_image_filename}",alt:"",width:"25",height:"25"}#{/img}#{/td}
+              #{td}${_?.bid_no}#{/td}
+              #{td}${_?.product_name}#{/td}
+              #{td}${_?.amount?.format("###,##0.00")}#{/td}
+              #{td}${_?.audit_time?.format('yyyy-MM-dd HH:mm:ss')}#{/td}
+              #{td}${_?.vip_status ? "vip会员" : "普通会员"}#{/td}
+              #{td}${_?.age}#{/td}
+              #{td}
+                #{if _?.sex==1}男#{/if}
+                #{if _?.sex==2}女#{/if}
+                #{if _?.sex==3}未知#{/if}
+              #{/td}
+              #{td}${_?.province_name}/${_?.city_name}#{/td}
+              #{td}
+                <span class="xf_ta_onclick" onClick="allocation('${_?.sign}','${_?.type}')">分配</span>
+              #{/td}
+            #{/tr}
+            #{/list}
+          #{/table}
+        </div>
+        <!-- 列表底部 -->
+        <div class="xn_c_content_bottom">
+          <div class="page_warp">
+            #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4/}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="kefu" style="display: none;"></div>
+
+<script type="text/javascript">
+function conditonSearch(num){
+	  var orderType= ${page.conditions?.order};
+	  if(orderType == 0){
+	    $("#orderType").val(num);
+	    $("#toAssignUsers").submit();
+	    return;
+	  }
+	  var sum = orderType/2;
+	  if(sum.toString().indexOf('.') == -1){
+	    var sum2 = orderType - 1;
+	    $("#orderType").val(num);
+	    $("#toAssignUsers").submit();
+	    return;
+	  }else{
+	    if(orderType == num){
+	      $("#orderType").val(num + 1);
+	      $("#toAssignUsers").submit();
+	      return;
+	    }else{
+	      $("#orderType").val(num);
+	      $("#toAssignUsers").submit();
+	      return;
+	    }
+	  }
+	}
+
+
+
+
+$(function(){  
+  /* 高亮样式 */
+  showHighLight(2, 2, 9);
+  
+  //条件查询控制样式
+  var num= ${page.conditions?.order};
+  
+  if(num == 0){
+    $("#div_0").addClass("xf_sea_isshow");
+    return;
+  }
+
+  var sum = num/2;
+  if(sum.toString().indexOf('.') == -1){
+    var sum2 = num -1;
+    $("#div_"+sum2).addClass("xf_sea_isshow");
+    $("#div_a_"+sum2).html("↓");
+    return;
+  }
+
+  $("#div_"+num).addClass("xf_sea_isshow");
+  $("#div_a_"+num).html("↑");
+});
+
+function toAssignUserSubmit(){
+  $("#toAssignUsers").submit();
+}
+
+function showPage(currPage, pageSize){
+  $("#currPage").val(currPage);
+  $("#pageSize").val(pageSize);
+  $("#toAssignUsers").submit();
+}
+
+function allocation(bidId,type){
+  var keywords = $("#keywords").val();
+  $.ajax({
+    url : "@{loanUserAssign()}",
+    type : "POST",
+    data : {
+      "currPage" : 1,
+      "pageSize" : 5,
+      "keyword"  :"",
+      "bidId"    : bidId,
+      "type"     :type
+    },
+    success : function(data) {
+      if (data.code < 0) {
+        alert(data.msg);
+        return;
+      }
+      $("#kefu").html(data);
+      $.layer({
+        type: 1,
+        area: ['60%', 'auto'],
+        title: '借款会员贷后管理分配',
+        page: {dom : '#kefu'}
+      });
+    },
+    error : function() {
+      alert(data.msg);
+    }
+  });
+}
+</script>

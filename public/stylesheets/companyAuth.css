@@ -1,0 +1,55 @@
+@charset "utf-8";
+/*存管添加模块*/
+/*子账户充值提现开户*/
+.sub_open{
+  padding:36px 0 55px 0; width: 360px;margin: auto;font-size: 16px;
+}
+.auth_height{min-height: 520px;}
+._user{text-align: center;line-height: 390px;}
+/*认证中状态*/
+.authentication{
+  color:#3697FF !important;
+  font-size: 18px !important;
+}
+/*认证失败*/
+.auth_fail{
+  color: #E84C3D !important;
+  font-size: 18px !important;
+}
+.sub_open_inp{
+  /* padding: 0 5px; width: 200px; height: 20px;  */
+    line-height: 20px;
+    width: 317px;
+    height: 40px;
+    line-height: 40px;
+    border:1px solid rgba(224,224,224,1);
+    border-radius:4px;
+    font-size: 16px;
+    text-indent: 14px;
+}
+.tit{
+  margin-bottom: 10px;
+  color: #999999;
+}
+.success_input{
+  background:rgba(242,242,242,1);
+  border:1px solid rgba(224,224,224,1);
+}
+._status{color: rgba(14,183,106,1);font-size: 18px;padding-bottom: 6px;}
+._status_fail{color:rgba(232,76,61,1);font-size: 18px;padding-bottom: 6px;}
+.sub_open .xf_con_inputfbjk{margin: 10px auto 0; width: 120px;}
+.sub_open .xf_con_inputfbjk3{margin: 10px auto 0; width: 120px;}
+.sub_trade{padding: 36px 8px 38px; width: 336px;}
+.sub_info_item{display: inline-block;margin-bottom: 20px; line-height: 24px; font-size: 16px; color: #333333;}
+.sub_info_item .sub_inp{margin-right: 2px; padding: 0 5px; width: 100px; height: 20px; line-height: 20px; text-align: right;}
+.sub_trade .xf_con_inputfbjk{margin: 10px auto 0;}
+.sub_reminder{padding: 28px 8px 12px; border-top: 1px solid #e7eaec; color: #666666;}
+.sub_reminder>h5{margin-bottom: 8px; line-height: 28px; font-size: 16px;}
+.sub_reminder>p{line-height: 28px; font-size: 14px;}
+.sub_reminder .sub_tel{color: #E84C3D;}
+/*子账户充值提现开户状态*/
+.sub_trade_state{padding: 120px 0 40px;}
+.sub_trade_state .state_txt{line-height:30px; font-size:26px; color:#333; text-align: center;}
+.sub_trade_state .xf_con_inputfbjk{margin: 118px auto 0;}
+.schedule_status{width: 317px;background-color: yellow;}
+.xf_mem_Account .sub_open .bg_gray{background-color:#0EB76A;color:#BDE3D2;}

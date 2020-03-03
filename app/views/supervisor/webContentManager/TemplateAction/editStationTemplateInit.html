@@ -1,0 +1,96 @@
+<script charset="utf-8" src="@{'public/javascripts/kindeditor-4.1.7/kindeditor-min.js'}"></script>
+<script type="text/javascript">  
+  var editor;
+  KindEditor.ready(function(K) {
+    editor = K.create('#editstation', {
+    cssPath :"@{'public/javascripts/kindeditor-4.1.7/plugins/code/prettify.css'}",
+    uploadJson : '@{FileUpload.uploadImage2()}',
+    allowFileManager : true,
+    allowUpload: true,
+    syncType:'auto'
+    });
+  });
+</script>
+<!-- 编辑邮件模版弹窗 -->
+<div class="xn_c_ban_jox xn_c_ban_jox_qxsz" id="xf_ht_edit" style="background:#fff; z-index:999;">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_ht_damem_hy_box">
+      <div class="xf_ht_jbox_table">
+        <table class="xf_htgl_jg_tableone_table" cellspacing="0" cellpadding="0" border="0">
+          <tr>
+            <td>应用场景：</td>
+            <td><input class="xfht_zr_input xfht_zr_bjqxz_w" type="text" id="scenarios" value="${template?.scenarios}"></td>
+          </tr>
+          <tr>
+            <td>站内信标题：</td>
+            <td><input class="xfht_zr_input xfht_zr_bjqxz_w" type="text" id="title" value="${template?.title}"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="xf_ht_damem_hy_bott xf_ht_damem_hy_bott6">
+        <div class="xf_ht_cytc_cont">站内信内容：</div>
+        <!--  
+        <div class="xf_ht_damem_hy_bott_t clr">
+        <div class="xf_ht_damem_hy_bott_l">编辑器</div>
+      </div>
+      <div class="xf_ht_damem_hy_bott_ta3">
+      -->
+        <textarea name="content" id="editstation" style="width: 480px; height: 200px;border:none;" class="xf_ht_jr_obttd_textarea">${template?.content?.raw()}</textarea>
+       <!--
+       </div>
+       -->
+     </div>
+     <div class="jbox_tan_ondiv jbox_tan_width4">
+       <input class="jbox_ok" type="button" value="浏 览" onclick="previewTemplate('${template?.id}');">
+       <input class="jbox_ok" type="button" value="确 定" onclick="editStationTemplate();">
+       <input class="jbox_on" type="button" value="取 消" onclick="cancle()">
+     </div>
+   </div>
+  </div>
+</div>
+<script type="text/javascript">
+  function editStationTemplate() {
+    var id = ${template?.id};
+    var scenarios = $("#scenarios").val();
+    var title = $("#title").val();
+    var content = editor.html();
+    if ("" == scenarios.trim()) {
+      alert("请填写应用场景");
+			
+      return;
+    }
+		
+    if ("" == title.trim()) {
+      alert("请填写标题");
+			
+      return;
+    }
+		
+    if ("" == content.trim()) {
+      alert("请填写内容");
+			
+      return;
+    }
+    content = replaceAllHTML(content);
+    var setCode = #{jsAction @supervisor.webContentManager.TemplateAction.editStationTemplate(":id",":scenarios",":title",":content")/}
+    $.post(setCode({id:id,scenarios:encodeURI(scenarios),title:encodeURI(title),content:encodeURIComponent(content)}),function(data){
+	  var arr = eval(data);
+
+	  if(arr.error.code < 0){
+	    alert(arr.error.msg);
+	    return;
+	  }
+
+	  alert(arr.error.msg);
+	  $("#stationId").val(0);
+	  cancle();
+	  });
+  }
+  
+  function cancle(){
+    $("#xf_ht_edit").hide();
+	$("#hiddenshow").hide();
+	$("#xf_ht_edit_ttc").hide();
+	layer.closeAll();
+  }
+</script>

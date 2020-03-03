@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>亿亿理财</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<meta name="keywords" content="亿亿理财" />
+<meta name="description" content="亿亿理财">
+<meta name="author" content="亿亿理财" />
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<link href="/public/h5/css/base.css" rel="stylesheet" type="text/css" />
+<link href="/public/h5/css/login.css" rel="stylesheet" type="text/css" />
+<!--rem start-->
+<script type="text/javascript">
+    new function (){
+        var _self = this;
+        _self.width = 750;//设置默认最大宽度
+        _self.fontSize = 100;//默认字体大小
+        _self.widthProportion = function(){var p = (document.body&&document.body.clientWidth||document.getElementsByTagName("html")[0].offsetWidth)/_self.width;return p>1?1:p;};
+        _self.changePage = function(){
+            document.getElementsByTagName("html")[0].setAttribute("style","font-size:"+_self.widthProportion()*_self.fontSize+"px !important");
+        }
+        _self.changePage();
+        window.addEventListener('resize',function(){_self.changePage();},false);
+    };
+</script>
+<!--rem end-->
+</head>
+<body>
+<div class="login_box">
+    <h1 class="login_h"><img src="/public/h5/images/login_h.jpg" alt="亿亿title"/></h1>
+    <!--start:拆红包区域-->
+    <div class="open_red_box">
+        <img class="red_img" src="/public/h5/images/red_img.jpg" alt="红包"/>
+        <img class="open_img" src="/public/h5/images/open_img.png" alt="拆"/>
+    </div>
+    <!--end:拆红包区域-->
+    <!--start:登录区-->
+    <div class="login_show_box">
+    		#{form @front.account.loginAndRegisterAction.registering(), id:'submit',onSubmit:'return register()'}
+    		<input type="hidden" name="randomID" id = "randomID" />
+    		<input type="hidden" name="userName" id="name" placeholder="用户名">
+    		<input type="hidden" name="h5" value="caogle.com" placeholder="用户名">
+        <div class="entry_box">
+            <div class="inp_box">
+                <input class="l_inp1 mb30_rem" type="text" id="tel" type="text" name="mobile" placeholder="请输入手机号"/>
+                <input class="l_inp1" type="password" id="mm" name="password" type="password" placeholder="请输入登录密码"/>
+                <p class="pw_hint">密码由8到20位数字、字母组成</p>
+            </div>
+            <div class="inp_box mb30_rem clearfix">
+                <input class="l_inp2 fl" type="text" id="code" name="code" placeholder="请输入图形验证码"/>
+                <em class="tx_btn fr"><img class="yzm_src1" onclick="change()" id="img" width="100%" height="100%" style="border-radius:5px;"/></em>
+            </div>
+            <div class="inp_box mb30_rem clearfix">
+                <input class="l_inp2 fl" type="text" id="smsCode" name="smsCode" placeholder="请输入验证码"/>
+                <a class="PIN_btn fr" href="##" id="get_yzm" onclick="sendCode()">获取验证码</a>
+            </div>
+            <div class="us_protocol"><label for="agree"><input id="agree" type="checkbox"/>我同意</label><a href="javascript:;" id="xySee">《亿亿理财用户协议》</a></div>
+            <button class="login_btn" type="button" onclick="register()">立即注册领取</button>
+            <div class="dl_app"><a href="/app/download">下载APP</a></div>
+        </div>
+        #{/form}
+        <div class="show_img"><img src="/public/h5/images/show_img1.jpg" alt="精品爆款"/></div>
+        <div class="show_img"><img src="/public/h5/images/show_img2.jpg" alt="关于亿亿理财"/></div>
+    </div>
+    <!--end:登录区-->
+</div>
+
+<!--start:协议弹框区-->
+<div class="lay"></div>
+<div class="pop">
+    <div class="close_all">
+        <img src="/public/h5/images/close.png" alt=关闭" />
+    </div>
+    <div class="pop_con">
+        <div class="xy_tit">亿亿理财用户注册协议</div>
+        <div class="xy_text">
+        		#{include 'front/account/LoginAndRegisterAction/register.control'/}
+        </div>
+    </div>
+</div>
+<!--end:协议弹框区-->
+
+<script type="text/javascript" src="/public/h5/scripts/jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+
+function register(){
+	 var reg1=/^[0-9]{11}$/;
+	 var reg2=/^[A-Za-z0-9]{8,20}$/;
+	 if(!reg1.test(tel.value)){
+		alert("请输入11位的手机号码");
+		return false;
+	 }
+	 $("#name").val("zzy"+$("#tel").val());
+   if(!reg2.test(mm.value)){
+		alert("密码需要由8-20位数字、字母组成");
+		return false;
+	}
+   if(!$("#agree").is(':checked')){
+		alert("请阅读并同意《亿亿理财用户协议》")
+		return false;
+		
+	}
+   if($("#code").val() == '' || $("#code").val() =="请输入验证码") {
+   	  alert("请输入图形验证码");
+  		  return false;
+     }
+   var smsCode = $("#smsCode").val();
+  if(smsCode == ""){
+	   alert("请输入短信校验码");
+     return false;
+  }
+  
+  //$("#submit").submit();
+  $.ajax({
+	  url:"/front/account/register",
+	  type:"post",
+	  data: $("form").serialize(),
+	  success:function(result){
+		  if("success" == result){
+			  location.href = "/app/download";
+		  }else{
+			  alert(result);
+		  }
+	  }
+  });
+}
+
+//获取验证码
+var countdown = 120;
+
+function settime() {
+	if(countdown == 0) {
+		$('#get_yzm').attr("disabled", false);
+		$('#get_yzm').html("获取验证码");
+		 $("#get_yzm").attr("onclick", "sendCode();");
+	    $("#get_yzm").attr("style", "cursor:pointer");
+		countdown = 120;
+		return;
+	} else {
+		$('#get_yzm').attr("disabled", true);
+		$('#get_yzm').html("重发(" + countdown + ")");
+		countdown--;
+	}
+	setTimeout(function() {
+		settime()
+	}, 1000)
+}
+
+
+function sendCode(){
+ var mobile = $("#tel").val().trim();
+	var code = '';
+	var randomId = '';
+	if(mobile == ""){
+		alert("请输入11位的手机号码");
+  	return;
+ }
+	
+	code = $("#code").val().trim();
+	randomID = $("#randomID").val().trim();
+	if(code == '') {
+		alert("请输入图形验证码");
+		  return;
+  }
+ 	
+  var verifyMobile = #{jsAction @front.account.loginAndRegisterAction.verifyMobileForReg(':mobile',':code',':randomID')/}
+		$.post(verifyMobile({mobile:mobile,code:code,randomID:randomID}),function(data){
+	    if(data.code < 0){
+	    	alert(data.msg)
+	    	change();
+	    }else{
+	    		settime();
+		}
+	},'json');
+}
+
+function change(){
+    var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+	$.post(setCode({}),function(data){
+	  var arr=eval(data);
+	  var img = arr.img;
+	  $("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img);
+	  $("#randomID").val(img);	
+	});
+};
+  $(function(){
+	    var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+		$.post(setCode({}),function(data){
+			var arr=eval(data);
+			var img = arr.img;
+			$("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img);	
+			$("#randomID").val(img);
+		});
+		 if('${flash.error}' !='') {
+		      alert('${flash?.error}');
+	      if('${flash?.emailUrl}' !='') {
+	        window.open('${flash?.emailUrl}');
+	      }
+	    }
+	});
+
+  $(function(){
+//    适配弹框txt部分的高度
+    var xyTxtH = $('.pop').height() * 0.8;
+    $('.xy_text').height(xyTxtH);
+
+    $(window).resize(function() {
+        xyTxtH = $('.pop').height() * 0.8;
+        $('.xy_text').height(xyTxtH);
+    });
+
+//    打开红包效果
+    var openBtn = $('.open_img'),
+        redBox = $('.open_red_box'),
+        loginBox = $('.login_box'),
+        loginShowBox = $('.login_show_box'),
+        redBTimer;
+
+    openBtn.css('transform','rotateY(0deg)');
+
+    openBtn.on('click',function(){
+        var loginH = $('.login_h').height(),
+            winW = $(window).height(),
+            upH = winW - loginH;
+
+            $(this).css('transform','rotateY(720deg)');
+
+            redBTimer = setTimeout(redBagUp,1000);
+
+            function redBagUp(){
+                redBox.animate({'marginTop':'-' + upH},800,function(){
+                    redBox.hide();
+                    loginBox.css('overflow','visible');
+                    loginShowBox.css({'overflow':'scroll','height':winW,'position':'absolute','top':loginH,'left':0});
+
+                    clearTimeout(redBTimer);
+                });
+            }
+    });
+
+    //    用户协议弹框
+    $("#xySee").on("click", function() {
+        $('.lay,.pop,.close_all').show();
+    });
+
+    $(".close_all,.close_img").on("click",function(){
+        $(".lay,.pop,.close_all").hide();
+    })
+
+})
+
+</script>
+</body>
+</html>

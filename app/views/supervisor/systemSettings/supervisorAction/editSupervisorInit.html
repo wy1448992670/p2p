@@ -1,0 +1,192 @@
+<div class="xf_ht_jr_obu_width">
+  <div class="xf_fktz_tcc_table">
+  <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form">
+    <tr>
+      <td align="right" width="140">管理员账号：</td>
+      <td><input class="xf_ht_ptgl_dfk_i" type="text" value="${supervisor?.name}" readonly ></td>
+    </tr>
+    <tr>
+      <td align="right" valign="middle" class="xf_ht_jr_obttd_l">管理员等级：</td>
+      <td><select name="select" id="level" class="xf_ht_jr_dfk_i xf_ht_jr_dfk_i2">
+          <option value="0" #{if supervisor?.level ==0}selected="selected"#{/if}>普通管理员</option>
+          <option value="1" #{if supervisor?.level ==1}selected="selected"#{/if}>超级管理员</option>
+      </select></td>
+    </tr>
+    <tr>
+      <td align="right" width="140">权限组：</td>
+      <td><span class="roleName">${supervisor?.groupNames}</span> <input type="button" onclick="selectGroupsOfSupervisorInit(1, 3);" value="设置权限组" class="xf_ht_tcc_zzezat2" id="xf_dfk_fkzh_tcc10"></td>
+    </tr>
+    <tr>
+      <td align="right" width="140">真实姓名：</td>
+      <td><input id="realityName" class="xf_ht_ptgl_dfk_i" type="text" value="${supervisor?.realityName}"></td>
+    </tr>
+   
+    <tr>
+      <td align="right" width="140">手机：</td>
+      <td><input id="mobile1" class="xf_ht_ptgl_dfk_i" type="text" value="${supervisor?.mobile1}"></td>
+    </tr>
+    
+    <tr>
+      <td align="right" width="140">邮箱：</td>
+      <td><input id="email" class="xf_ht_ptgl_dfk_i" type="text" value="${supervisor?.email}"></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td class="xf_ht_tcc_button">
+        <input class="jbox_ok" type="button" value="确  定" onclick="editSupervisor();">
+        <input class="jbox_on" type="button" value="取  消" onclick="layer.closeAll()">
+      </td>
+    </tr>
+  </table>
+  </div>
+</div>
+
+<script type="text/javascript">
+  var g_groupIds;
+  var g_selectedIds;
+  
+  $(function() {
+    //关闭
+    $(".xf_ht_jr_obu_r").click(function() {
+      $("#xf_ht_bjgly_ttc").hide();
+    });
+
+    init();
+
+  });
+
+  //初始化
+  function init() {
+    var groupIds = '${groupIds}'.trim();
+    
+    if ("" == groupIds) {
+      g_groupIds = new Array();
+      g_selectedIds = new Array();
+    } else {
+      g_groupIds = groupIds.split(",");
+      g_selectedIds = groupIds.split(",");
+    }
+  }
+  
+  //设置权限组
+  function selectGroupsOfSupervisorInit(currPage, pageSize) {
+    $.ajax({
+      url : "@{supervisor.systemSettings.supervisorAction.selectGroupsOfSupervisorInit()}",
+      type : "POST",
+      data : {
+        "currPage" : currPage,
+        "pageSize" : pageSize
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+          
+          return;
+        }
+        
+        if(p2p >=2 && p2p!=pt) {
+          layer.close(p2p);
+        }
+      
+        var ttc = $("#xf_ht_szqxz_ttc");
+        ttc.html(data);
+        p2p = $.layer({
+                type: 1,
+                area: ['800', 'auto'],
+                title: '设置权限组',
+                page: {dom : ttc}
+              });
+        //showDiv(ttc);
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+  
+  //权限组选择完毕
+  function groupsDidSelect(groupIds) {
+    //g_groupIds = clone(groupIds);
+    //var groupIds = g_groupIds.join(",");
+    
+    $.ajax({
+      url : "@{supervisor.systemSettings.supervisorAction.setGroupsOfSupervisor()}",
+      type : "POST",
+      data : {
+        "sign" : '${supervisor?.sign}',
+        "groupIds" : groupIds
+      },
+      success : function(data) {
+        alert(data.msg);
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+  
+  //确定(编辑管理员)
+  function editSupervisor() {
+    var level = $("#level").val()
+    var realityName = $("#realityName").val().trim();
+    if ("" == realityName) {
+      alert("请输入真实姓名!");
+      $("#realityName").focus();
+      
+      return;
+    }
+
+   
+    
+    var mobile1 = $("#mobile1").val().trim();
+    
+    if ("" == mobile1) {
+      alert("请输入手机!");
+      $("#mobile1").focus();
+      
+      return;
+    } else if (!mobile1.isMobileNum()) {
+      alert("手机格式不正确，请重新输入");
+      $("#mobile1").focus();
+      
+      return;
+    }
+    
+    var email = $("#email").val().trim();
+    
+    if ("" == email) {
+      alert("请输入邮箱!");
+      $("#email").focus();
+      
+      return;
+    } else if (!email.isEmail()) {
+      alert("邮箱格式不正确，请重新输入");
+      $("#email").focus();
+      
+      return;
+    }
+    
+    $.ajax({
+      url : "@{editSupervisor()}",
+      type : "POST",
+      data : {
+        "sign" : '${supervisor?.sign}',
+        "level" : level,
+        "realityName" : realityName,
+        "mobile1" : mobile1,
+        "email" : email
+      },
+      success : function(data) {
+        alert(data.msg);
+        
+        if (data.code == 0) {
+          location.reload();
+        }
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+    layer.closeAll();
+  }
+</script>

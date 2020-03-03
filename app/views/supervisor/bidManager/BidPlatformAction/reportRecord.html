@@ -1,0 +1,25 @@
+<div class="xf_ht_tab_view">
+   #{table class:"xf_con_mem_r_b_table", cellspacing:"0", cellpadding:"0", border:"0", width:"100%"}
+     #{tr}
+       #{th}序号#{/th}
+       #{th}举报人#{/th}
+       #{th}举报内容#{/th}
+       #{th}举报时间#{/th}
+       #{th}处理情况#{/th}
+     #{/tr}
+     #{list pageBean?.page}	
+     #{tr}
+       #{td}${_index}#{/td}
+       #{td}${_?.name}#{/td}
+       #{td}${_?.reason}#{/td}
+       #{td}${_?.time?.format('yyyy-MM-dd')}#{/td}
+       #{td}${_?.situation}#{/td}
+     #{/tr}
+     #{/list}
+   #{/table}
+  <div class="xf_ht_page">
+    <div class="page_warp">
+      #{page funMethod:"reportRecord",currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:4 /}
+    </div>
+  </div>
+</div>

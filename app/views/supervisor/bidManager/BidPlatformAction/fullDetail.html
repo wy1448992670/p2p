@@ -1,0 +1,184 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'满标的借款标详情' /} 
+#{if (bid?.status == 1 || bid?.status == 2) && bid?.amount == bid?.hasInvestedAmount}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include '/supervisor/bidManager/bidManagerLeft.control'/} 
+      <div class="xn_c_content">
+        <div class="xf_content_add">
+          <div class="xfht_t_j_y_2">
+            <!--右上-->
+            <div class="xf_ht_obu_fklm">
+              #{include '/supervisor/bidManager/BidPlatformAction/lastAndNext.control'/} 
+            </div>
+            <!-- 审核详情 -->
+            <div class="xfht_t_j_y_2">
+              #{include '/supervisor/bidManager/BidPlatformAction/detailTop.control'/} 
+              <div class="xf_con_mem_r_bottomtwo">
+                 <div class="xf_con_mem_r_h3">
+                   	综合评定：
+                 </div>
+                 #{table width:"100%", border:"0", cellspacing:"0", cellpadding:"0", class:"xf_ht_memcz_table"}
+                   #{tr}
+                     #{td align:"right", width:"133"}<span class="xf_s_sz">审核进度：</span>#{/td}
+                     #{td}
+                       <div class="xf_jd_ds">
+                         <div class="xf_jd_sj" id="showAuditScheduleDown"></div>
+                       </div>
+                     #{/td}
+                   #{/tr}
+                   #{tr}
+                     #{td align:"right", width:"133"}<span class="xf_s_sz">借款进度：</span>#{/td}
+                     #{td}
+                       <div class="xf_jd_ds">
+		                 <div class="xf_jd_sj" style="width:${bid?.loanSchedule}px">${bid?.loanSchedule}%</div>
+		               </div>
+                     #{/td}
+                   #{/tr}
+                   #{if bid?.status == 1}
+                   #{tr}
+                     #{td align:"right", valign:"top"}<span class="xf_s_sz">CBO风控体系审核：</span>#{/td}
+                     #{td}
+                       <textarea class="xf_ht_jr_obttd_textarea xf_ht_jr_shmx_textarea" id="setSuggest"></textarea>
+                     #{/td}
+                   #{/tr}
+                   #{tr}
+                     #{td}#{/td}
+                     #{td class:"xf_ht_shmx_button"}
+                       #{form @advanceLoanToFundraise(bid?.sign), method:'POST', id:'auditPass'} 
+                         <input type="hidden" name="suggest" id="suggest"/>
+                       #{/form}
+                       <input class="xf_ht_tcc_button_ok" type="button" value="通  过"
+                         onclick="advanceLoanToFundraise()";
+                       />
+                       <input class="xf_ht_tcc_button_on" type="button" value="不通过"
+                         onclick="showNotPassBox();"
+                       />
+                     #{/td}
+                   #{/tr}
+                   #{/if}
+                   #{elseif bid?.status == 2}
+                   #{tr}
+                     #{td align:"right", valign:"top"}<span class="xf_s_sz">CBO风控体系审核：</span>#{/td}
+                     #{td}
+                       <textarea class="xf_ht_jr_obttd_textarea xf_ht_jr_shmx_textarea" style="max-width:760px;"  disabled="disabled">${bid?.auditSuggest}</textarea>
+                     #{/td}
+                   #{/tr}
+                   #{tr}
+                     #{td}#{/td}
+                     #{td class:"xf_ht_shmx_button"}
+                       #{form @fundraiseToEaitLoan(bid?.sign), method:'POST', id:'fundraiseToEaitLoan'}
+                         <input class="xf_ht_tcc_button_ok" type="button" value="同意放款" onclick="fundraiseToEaitLoan();"/>
+                       #{/form}
+                       #{form @fundraiseToLoanNotThrough(bid?.sign), method:'POST', id:'fundraiseToLoanNotThrough'}
+                         <input class="xf_ht_tcc_button_on" type="button" value="不同意放款" onclick="fundraiseToLoanNotThrough();"/>
+                       #{/form}
+                     #{/td}
+                   #{/tr}
+                   #{/elseif}
+                 #{/table}
+             </div>
+             <div class="xf_jkb_btowarp">
+               <div class="xf_jkb_bto">
+                 #{include '/supervisor/bidManager/BidPlatformAction/lastAndNext.control'/} 
+               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 不通过-弹出层 -->
+<div class="xn_c_ban_jox xn_c_ban_jox_qxsz" style="display: none;" id="showNotPassBox">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_ht_damem_hy_box">
+      #{form @advanceLoanToPeviewNotThrough(bid?.sign), method:'POST', id:'loanNotPass'}
+      <div class="xf_ht_jbox_table">
+        #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xf_htgl_jg_tableone_table"}
+          #{tr}
+            #{td}审核结果：#{/td}
+            #{td}提前借款审核不通过#{/td}
+          #{/tr}
+          #{tr}
+            #{td}不通过原因：#{/td}
+            #{td}<textarea class="xf_ht_jr_obttd_textarea xf_ht_jr_obttd_textarea2" name="suggest" id="through"></textarea>#{/td}
+          #{/tr}
+        #{/table}
+      </div>
+      <div class="jbox_tan_ondiv jbox_tan_width4">
+        <input class="jbox_ok" type="button" value="确 定" onclick="loanNotPass();">
+        <input class="jbox_on" type="button" value="取 消 " onclick="closeNotPassBox();">
+      </div>
+     #{/form}
+     </div>
+  </div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		/* 高亮显示 */
+		showHighLight(1, 1, 3);
+	 });
+
+	function fundraiseToEaitLoan(){
+
+		if(confirm("确认放款?")){
+			 $("#fundraiseToEaitLoan").submit();
+		}
+		
+	}
+
+	function fundraiseToLoanNotThrough(){
+		if(confirm("确认不同意放款?")){
+			 $("#fundraiseToLoanNotThrough").submit();
+		}
+		
+	}
+
+	/* 提前借款审核通过 */
+	function advanceLoanToFundraise(){
+	    var setSuggest = $.trim($("#setSuggest").val());
+		
+		if(setSuggest == ""){
+			//layer.msg("请填写审核意见!", 1, 5);
+			alert("请填写审核意见!");
+			
+			return;
+		}
+		
+		$("#suggest").val(setSuggest);
+ 		$("#auditPass").submit();
+	}
+	
+	/* 审核不通过 */
+	function showNotPassBox(){
+		$("#showNotPassBox").show();
+		$.layer({
+          type: 1,
+          area: ['500', 'auto'],
+          title: '审核资料',
+          page: {dom : '#showNotPassBox'}
+        });
+	}
+
+	/* 提前借款审核不通过验证 */
+	function loanNotPass(){
+		if($.trim($("#through").val()) == ""){
+			//layer.msg("请填写不通过原因!", 2, 5);
+			alert("请填写不通过原因!");
+			
+			return;
+		}
+
+		$("#loanNotPass").submit();
+	}
+	
+	function upBid(){
+		window.location.href = "@{fullDetail(bid?.upId)}"; 
+	}
+	
+	function nextBid(){
+		window.location.href = "@{fullDetail(bid?.nextId)}"; 
+	}
+</script>
+#{/if}

@@ -1,0 +1,40 @@
+<div class="xf_ht_ttc" id="xf_ht_fkzh_ttc" style="display:none;">
+  <div class="xf_ht_jr_obu_width">
+    #{form @editCategory()}
+    <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form" width="100%">
+      <tr>
+        <td align="right" valign="middle" width="130">类别名称：</td>
+        <td>
+          <input type="text" class="xf_ht_pro_in_bq" maxlength="8" id="parentName" name="name"/>
+          <input type="hidden" name="parentId" id="parentId"/>
+        </td>
+      </tr>
+      <tr>
+        <td align="right" valign="top">描述：</td>
+        <td>
+          <textarea class="xf_ht_jr_obttd_textarea" style="width:275px;" name="description" id="parentDescription"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td align="right">排序：</td>
+        <td>
+          <input type="text" class="xf_ht_pro_in_bq" id="parentOrder" name="parentOrder">
+        </td>
+      </tr>
+      <tr>
+        <td align="right">&nbsp;</td>
+        <td style="padding:20px 0 40px 0;">
+          <input class="xf_ht_tcc_button_ok" type="submit"  value="确  定">
+          <input class="xf_ht_tcc_button_on" type="button" onClick="cancle()" value="取  消">
+        </td>
+      </tr>
+    </table>
+    #{/form}
+  </div>
+</div>
+<script type="text/javascript">
+  function cancle(){
+    layer.closeAll();
+  }
+  
+</script>

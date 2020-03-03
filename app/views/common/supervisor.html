@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+	business.Supervisor supervisor = business.Supervisor.currSupervisor();
+}%
+<head>
+  <title>#{get 'title' /}</title>
+  <meta name="keywords" content="${currBackstageSet?.seoKeywords}" />
+  <meta name="description" content="${currBackstageSet?.seoDescription}" />
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+  <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.ico'}" />
+  <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/xfback.css'}" />
+  <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/temp.css'}" />
+  <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/debt/base.css'}" />
+  <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/debt/zq_attorn.css'}" />
+
+  <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
+  <script type="text/javascript" src="@{'/public/javascripts/index.js'}"></script>
+  <script type="text/javascript" src="@{'/public/javascripts/jquery.json-2.4.min.js'}"></script>
+  <script charset="utf-8" src="@{'public/javascripts/ajaxfileupload.js'}"></script>
+  <script type="text/javascript" src="@{'/public/javascripts/common.js'}"></script>
+  <script src="@{'/public/javascripts/laydate/laydate.js'}"></script>
+  <style type="text/css">
+  </style>
+
+</head>
+<body>
+<!--
+<object
+  id="eims"
+  classid="clsid:2D37D5F7-B18B-4E8E-8B3C-F26171922C16"
+  codebase="/public/ActiveLoginProj1.ocx#version=1,0,0,0"
+  width=0
+  height=0
+  align=center
+  hspace=0
+  vspace=0 >
+</object> -->
+<!-- 头部 -->
+<div style="width:100%; height:100%; background:#000; filter:alpha(opacity=30); opacity:0.3; z-index:10; position:fixed; display:none;" id="hiddenshow"></div>
+<div class="xn_c_top_01">
+  <div class="xn_c_logo">#{img style:"margin-top: 10px;", src:"${currBackstageSet?.supervisorPlatformLog}", alt:"LOGO",width:300,height:86}#{/img}</div>
+  *{<div class="xn_c_line"></div>
+  <div class="xn_c_title">
+    <span>${currBackstageSet?.platformName}</span><br />
+    <span>后台管理系统</span>
+  </div>}*
+  <div class="xn_c_top_right">
+    <span class="xn_c_top_right_t1">欢迎</span>
+    <span class="xn_c_top_right_t1">[#{if supervisor?.level ==0}普通管理员#{/if}#{else}超级管理员#{/else}]</span>
+    <span class="xn_c_top_right_t1 xn_c_top_right_admin">${supervisor?.name}</span>
+    <span class="xn_c_top_right_t1">的到来!</span>
+    <span class="xn_c_top_right_link">
+      <a href="@{supervisor.account.AccountAction.home()}">用户中心</a>
+    <span>|</span>
+      <a href="@{supervisor.login.LoginAction.logout()}" class="xn_c_top_right_a2">安全退出</a>
+    </span>
+    <div class="xn_c_top_right_t2">
+      <span>权限组：</span>
+      <span>${supervisor?.groupNames?.length() > 8 ? supervisor?.groupNames.substring(0, 8) + "..." : supervisor?.groupNames} </span>
+      <span id="date"></span>
+      <span id="week"></span>
+	  <span id="time"></span>
+    </div>
+    <div class="xn_c_top_right_t3">
+      <span>登录IP： </span>
+      <span>${supervisor?.loginIp} [#{if supervisor?.loginCity != null && supervisor?.loginCity != ''}${supervisor?.loginCity}#{/if}#{else}未知#{/else}]</span>
+      <span>上次登录IP : </span>
+      <span>${supervisor?.lastLoginIp} [#{if supervisor?.lastLoginCity != null && supervisor?.lastLoginCity != ''}${supervisor?.lastLoginCity}#{/if}#{else}未知#{/else}] </span>
+    </div>
+  </div>
+</div>
+<div class="xn_c_top_02">
+  <div class="top_span" id="mg_index"><a href="@{supervisor.managementHome.HomeAction.showHome()}">首页管理</a></div>
+    <div class="top_span" id="mg_post"><a href="@{supervisor.postLoanManager.UserListAction.userList()}">贷后管理</a></div>
+  <div class="top_span" id="mg_web"><a href="@{supervisor.webContentManager.NewsManageAction.contentManagement()}">平台内容管理</a></div>
+  <div class="top_span" id="mg_bid"><a href="@{supervisor.bidManager.BidPlatformAction.auditingList()}">借款标管理</a></div>
+  <div class="top_span" id="mg_account"><a href="@{supervisor.billCollectionManager.UserLoanBills.thisMonthMaturityBills()}">账单催收</a></div>
+  <div class="top_span" id="mg_usr"><a href="@{supervisor.userManager.AllUser.allUser()}">会员管理</a></div>
+  <div class="top_span" id="mg_donate"><a href="@{supervisor.publicBenefit.UserDonate.donateList()}">亿亿公益</a></div>
+  <div class="top_span" id="mg_active"><a href="@{supervisor.activity.IncreaseRate.activityList()}?state=-10">运营活动</a></div>
+  <div class="top_span" id="mg_bill"><a href="@{supervisor.financeManager.LoanManager.readyReleaseList()}">财务管理</a></div>
+  <div class="top_span" id="mg_seo"><a href="@{supervisor.networkMarketing.CPSSpreadAction.CPSAll()}">平台推广</a></div>
+  <div class="top_span" id="mg_cust"><a href="@{supervisor.customerService.AuthRecordAction.pageList()}">客服功能</a></div>
+  <div class="top_span" id="mg_datasta"><a href="@{supervisor.dataStatistics.FinancialStatisticsAction.rechargeStatistic()}">数据统计</a></div>
+  <div class="top_span" id="mg_sys"><a href="@{supervisor.systemSettings.SecuritySettingAction.UKeyList()}">系统设置</a></div>
+  <div class="top_span" id="mg_risk"><a href="@{supervisor.ymd.SettingAction.setRisk()}">风控审核</a></div>
+  *{<div class="top_span" id="mg_obu"><a href="@{supervisor.obuUnion.OBUUnionAction.index()}">OBU风控联盟</a></div>}*
+</div>
+<div style="clear: both;"></div>
+<!-- 头部end -->
+#{doLayout /}
+<!-- 底部 -->
+<div class="xn_c_bottom">
+  <div class="xn_c_bottom_left">
+    <span class="xn_c_bottom_t">授权单位：${systemOptions?.companyName}</span> <br />
+    <span class="xn_c_bottom_t2">售后服务包到期时间：${currBackstageSet?.sellService}</span>
+  </div>
+  <div class="xn_c_bottom_btn"><a href="http://sop.eims.com.cn/customer/Default.aspx" target="_Blank">在线提交工单</a></div>
+    <div class="xn_c_bottom_right">
+      <div class="xn_c_more">
+        <a href="http://www.shovebank.com" target="_blank">了解更多</a>
+      </div>
+      *{<span class="xn_c_bottom_rightT">最新版本：SP2P6</span>}*
+      <span class="xn_c_bottom_rightT">当前版本：${currBackstageSet?.versionName}</span>
+    </div>
+  </div>
+<!-- 底部end -->
+<script type="text/javascript" src="@{'/public/javascripts/layer/layer.min.js'}"></script>
+<script type="text/javascript">
+ var isTip = 0;
+  $(function() {
+    if('${flash.error}' !='') {
+	  alert('${flash?.error}');
+	}
+	/*  与重复提交冲突，注释，如功能发生冲突，请更改其他处
+	if('${flash.success}' != ''){
+	  alert('${flash?.success}');
+	}
+	*/
+	setInterval(updateTime, 1000);
+	updateTime();
+
+	$('.top_span').click(function(){
+		location.href = $(this).find('a').attr('href');
+	})
+
+
+  	var title = document.title;
+    isNewTip();
+    setInterval(function(){
+		if(isTip > 0){
+			document.title = "【有用户提现，请及时处理】";
+			setTimeout(function(){
+				document.title = title;
+			}, 1000);
+		}
+	},2000);
+	var is_localhost=${constants.Constants.IS_LOCALHOST};
+
+	if(!is_localhost){//测试环境关闭定时访问,方便修改
+		setInterval("isNewTip()",180000);
+	}
+  });
+
+  function isNewTip(){
+	  $.get("/supervisor/PlatformAccountManager/toReviewWithdraws?isCount=1", function(result){
+		  isTip = result;
+	  })
+  }
+   //（下面注释的代码只有在测试的时候注释掉）
+  //$(window).bind("click",clickthing);
+
+  function clickthing(){
+	  if(document.all.eims.object == null){
+        alert("未识别到有效的云盾控件");
+        return false;
+		}
+
+	  var sign = document.getElementById("eims").intercepter('${supervisor?.keySign}');
+
+	  if(sign != "0"){
+		  window.location.href="@{supervisor.login.LoginAction.toBlank}?sign="+sign;
+		  return false;
+		}
+  }
+
+  function updateTime() {
+    var date = new Date();
+	$("#date").html(date.format("yyyy年MM月dd日"));
+	$("#time").html(date.format("HH:mm:ss"));
+	$("#week").html(date.format("EEE"));
+  }
+
+
+</script>
+</body>
+</html>

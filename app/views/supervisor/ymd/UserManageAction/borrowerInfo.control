@@ -1,0 +1,694 @@
+<head>
+	<link rel="stylesheet" href="/public/paging/jquery.pagination.css" />
+	<script src="/public/paging/jquery.pagination.min.js"></script>
+</head>
+<style>
+	table.commTablePadding tr td{
+		padding:10px 0;
+	}
+	table.commTablePaddingSmall tr td{
+		padding:5px 0;
+	}
+	.imgMargin{
+		margin:10px 7px;
+	}
+	ul.title li{
+		float: left;
+		width: 130px;
+		text-align: center;
+		font-weight: bold;
+		background: #E4E4E4;
+		margin-right: 5px;
+	}
+	.inputSelectWidth{
+		width:150px;
+		box-sizing: border-box;
+	}
+	.inputSelectWidthSmall{
+		width:130px;
+		box-sizing: border-box;
+	}
+	.textareaWidth{
+		width:330px;
+		height:60px;
+	}
+	.tdPadding tr td{
+		padding:15px 0;
+	}
+	.btnStyle{
+		background-color:#199ED8;
+		border-radius:5px;
+		border:0;
+		color:white;
+		height:28px;
+		width:80px;
+	}
+	.padleft30{
+		padding-left:30px;
+	}
+	.borderBot{
+		border-bottom: 1px dashed  #707070;
+	    padding-left: 30px;
+	    padding-bottom:15px;
+	    margin:15px 0;
+	}
+	.right{
+		float: right;
+	    position: relative;
+	    top: 13px;
+	    right: 10px;
+	    transform:rotateX(180deg);
+	}
+	.xf_htgl_jgtitle{
+		margin:0;
+	}
+	.contextPadding{
+		padding:0 60px 0 20px;
+		margin:20px 0;
+	}
+	.hiddenContext{
+		display:none;
+	}
+	.Tright{
+		text-align:right;
+		padding-right: 15px;
+	}
+	.pleft10{
+		padding-left:10px;
+	}
+	.tabList{
+		display:none;
+	}
+	.tleft{
+		text-align:left !important;
+	}
+	.tabList:nth-child(2){
+		display:block;
+	}
+	.tabColor:nth-child(1){
+		background:#D7D7D7;
+	}
+</style>
+<div class="xn_c_content" style="background:white">
+    <div style="padding-left:20px;background:#E1E1E1;height:53px;line-height:53px;font-size:19px;">
+  		详情
+    </div>
+    <div class="contextPadding">
+	 		<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+	 			<div>
+		 			<span>注册信息：</span>
+			 		<span class="right">
+		 				<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+		 			</span>
+	 			</div>
+	 		</h3>
+		<div class="hiddenContext pleft10">
+		  <table class="commTablePadding" width="100%">
+			<tr>
+				<td width="60">用户名：</td>
+				<td>${user?.name}</td>
+				<td width="80">注册邮箱：</td>
+				<td>${user?.email}</td>
+			</tr>
+		  </table>
+		</div>
+	</div>
+	
+	<div class="contextPadding">
+	 		<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+	 			<div>
+		 			<span>基本信息</span>
+			 		<span class="right">
+		 				<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+		 			</span>
+	 			</div>
+	 		</h3>
+	 		<div class="hiddenContext pleft10">
+	 			<table class="commTablePadding" width="100%">
+					<tr>
+						<td width="80">主体性质：</td>
+						<td width="200">
+					     	<select id="userType" style="width:157px;" #{if user?.user_type == 0}class="inputSelectWidthSmall" onchange="changeUserType(${user?.id});"#{/if} disabled>   
+						     <option value="0" #{if user?.user_type == 0 && userViewType == 0}selected#{/if}>请选择</option> 	
+						     <option value="1" #{if user?.user_type == 1 || (user?.user_type == 0 && userViewType == 1 ) }selected#{/if}>个人</option> 
+						     <option value="2" #{if user?.user_type == 2 || (user?.user_type == 0 && userViewType == 2 ) }selected#{/if}>企业</option>
+						     <option value="3" #{if user?.user_type == 3 || (user?.user_type == 0 && userViewType == 3 ) }selected#{/if}>个体工商户</option>
+						   	</select>
+						</td>
+						<td width="120">#{if userViewType == 1}借款人居住地：#{/if}#{if userViewType == 2}企业经营地址：#{/if}#{if userViewType == 3}经营地址：#{/if}</td>
+						<td>
+							<select id="adProvince" class="inputSelectWidthSmall" style="width:157px;" disabled>
+			                <option value=''>请选择</option>
+			                #{list items:provinces, as:'item'}
+			                <option value="${item?.id}" #{if adCity?.province_id == item?.id}selected#{/if}>${item?.name}</option>
+			                #{/list}
+			              </select>
+			              <select id="adCity" class="inputSelectWidthSmall" style="width:157px;" disabled>
+			                <option value=''>请选择</option>
+			                #{list items:citys, as:'item'}
+			                <option value="${item?.id}" #{if adCity?.id == item?.id}selected#{/if}>${item?.name}</option>
+			                #{/list}
+			              </select>
+						</td>
+					</tr>
+					<tr>
+						<td width="80">身份证号：</td>
+						<td width="200">
+							<input class="inputSelectWidth" type="text" value=${user?.idNumber} disabled />
+						</td>
+						<td width="120">#{if userViewType == 1}户籍所在地：#{/if}#{if userViewType == 2}企业注册地：#{/if}#{if userViewType == 3}注册地：#{/if}</td>
+						<td>
+				              <select id="province" class="inputSelectWidthSmall" style="width:157px;" disabled>
+				                <option value=''>请选择</option>
+				                #{list items:newProvinces, as:'item'}
+				                <option value="${item?.province_id}" #{if userCity?.province_id == item?.province_id}selected#{/if}>${item?.province}</option>
+				                #{/list}
+				              </select>
+				              <select id="city" class="inputSelectWidthSmall" style="width:157px;" disabled>
+				                <option value=''>请选择</option>
+				                #{list items:newCitys, as:'item'}
+				                <option value="${item?.city_id}" #{if userCity?.city_id == item?.city_id}selected#{/if}>${item?.city}</option>
+				                #{/list}
+				              </select>
+						</td>
+					</tr>
+					<tr>
+						#{if userViewType == 1} 
+					      <td width="80">性别：</td>
+					      <td width="200">
+						      <select id="sex" class="inputSelectWidthSmall" style="width:157px;" disabled>   
+							    <option value="0">请选择</option> 	
+							    <option value="1" #{if user?.sex == '男'}selected#{/if}>男</option> 
+							    <option value="2" #{if user?.sex == '女'}selected#{/if}>女</option>
+							  </select>
+						  </td>
+					#{/if}
+					#{else}
+					    <td width="80"> #{if userViewType == 2}法定代表人：#{/if}#{if userViewType == 3}经营人：#{/if} 
+					      <input type="text" id="legal_person" class="inputSelectWidthSmall" value="${user?.getUserInfo()?.legal_person}" disabled style="width:90px;"/>
+					    </td>
+					#{/else}
+					#{if userViewType == 1}
+					    <td width="80">婚姻状况： </td>
+					    <td width="200">
+					       <select id="marital" class="inputSelectWidthSmall" style="width:157px;" disabled>
+					       	  	<option value=''>请选择</option>
+					            #{list items:maritals,as:'item'}
+					            <option value="${item?.id}" #{if user?.maritalId == item?.id}selected#{/if}>${item?.name}</option>
+					            #{/list}
+					       </select>
+					    </td>
+					#{/if}
+					#{else}
+					    <td width="80"> 所属行业： </td>
+					    <td width="200">
+					      <select id="industry" class="inputSelectWidthSmall" style="width:157px;" disabled>
+					       	  	<option value="">请选择</option>
+					            #{list items:new models.t_industries().fetchEnumList(),as:'item'}
+					            <option value="${item?.id}" #{if user?.getUserInfo()?.industry_id == item?.id}selected#{/if}>${item?.name}</option>
+					            #{/list}
+					      </select>
+					    </td>
+					#{/else}
+					</tr>
+					
+					#{if userViewType == 1}
+					<tr>
+					    <td width="80"> 年龄： </td>
+					    <td width="200">
+						  <input type="text" id="age" min="0" value="${user?.age}" disabled style="width:90px;"/>岁
+						</td>
+					    <td valign="middle" align="center">
+					   		<td width="80"> 所属行业： </td>
+					   		<td width="200">
+						      	<select id="education" class="inputSelectWidthSmall" style="width:157px;" disabled>
+						       	  	<option value=''>请选择</option>
+						            #{list items:educations,as:'item'}
+						            <option value="${item?.id}" #{if user?.educationId == item?.id}selected#{/if}>${item?.name}</option>
+						            #{/list}
+						       </select>
+					    	</td>
+					</tr>
+					#{/if}
+					<tr>
+						 <td width="80"> #{if userViewType == 1}工作性质：#{/if}#{else}经营范围：#{/else}   </td>
+					   	 <td width="200">
+					      	<input type="text" id="business_scope" class="inputSelectWidthSmall" value="${user?.getUserInfo()?.business_scope}" disabled/>
+					     </td>
+					#{if userViewType == 1}
+					     <td width="80"> 购房状况：  </td>
+					   		<td width="200">
+					       <select id="house" class="inputSelectWidthSmall" style="width:157px;" disabled>
+					       	  	<option value=''>请选择</option>
+					            #{list items:houses,as:'item'}
+					            <option value="${item?.id}" #{if user?.houseId == item?.id}selected#{/if}>${item?.name}</option>
+					            #{/list}
+					       </select>
+					    </td>
+					#{/if}
+					#{else}
+					#{if userViewType == 2}
+						 <td width="80"> 企业注册资本金： </td>
+					   		<td width="200">
+					      <input type="number" id="reg_capital" min="0"  class="inputSelectWidthSmall" value="${user?.getUserInfo()?.reg_capital}" disabled style="width:90px;"/>
+					    </td>
+					#{/if}
+					#{/else}
+					</tr>
+		 		</table>
+		 		<div  style="margin-top:15px;">亿美贷授信金额：  <input type="number" id="creditAmount" min="0" class="inputSelectWidthSmall" value="${user?.creditAmount? user?.creditAmount: 0.00}" disabled/>元</div>
+		 		<div style="margin-top:50px;">累计收益：0.00元</div>
+		 		<table class="commTablePadding" width="100%">
+		 			<tr>
+		 				<td width="130px">平台历史逾期次数：</td><td>${user?.overdueCnt}次</td>
+		 				<td width="130px">平台历史逾期金额：</td><td>${user?.overdueAmount}元</td>
+		 				<td width="130px">平台当前逾期金额：</td><td>${user?.currentOverdueAmount}元</td>
+		 			</tr>
+		 		</table>
+		 		
+		 		<table class="commTablePadding" width="100%">
+		 			<tr>
+		 				<td valign="top" width="90px">涉诉情况：</td><td><textarea id="lawSuit" class="textareaWidth" rows="3" cols="60"  style="resize: none;"  disabled>${user?.lawSuit}</textarea></td>
+		 			</tr>
+		 			<tr>
+		 				<td valign="top" width="90px">近半年征信报告状况 :</td><td> <textarea id="creditReport" class="textareaWidth" rows="3" cols="60" style="resize: none;" disabled>${user?.creditReport}</textarea></td>
+		 			</tr>
+		 			
+		 			<tr>
+		 				<td valign="top" width="90px">收入及负债情况:</td><td> <textarea id="income_debt_info" class="textareaWidth" rows="3" cols="60" style="resize: none;" disabled>${user?.getUserInfo()?.income_debt_info}</textarea></td>
+		 			</tr>
+		 			
+		 			<tr>
+		 				<td valign="top" width="90px">征信报告状况  :</td><td><textarea id="asset_info" class="textareaWidth" rows="3" cols="60" style="resize: none;" disabled>${user?.getUserInfo()?.asset_info}</textarea></td>
+		 			</tr>
+		 			 
+		 			<tr>
+		 				<td valign="top" width="90px">其他金融平台融资情况 :</td><td> <textarea id="other_finance_info" class="textareaWidth" rows="3" cols="60" style="resize: none;" disabled>${user?.getUserInfo()?.other_finance_info}</textarea></td>
+		 			</tr>
+		 			<tr>
+		 				<td valign="top" width="90px">其他信息:</td><td> <textarea id="other_info" class="textareaWidth" rows="3" cols="60" style="resize: none;" disabled>${user?.getUserInfo()?.other_info}</textarea></td>
+		 			</tr>
+		 			
+		 		
+		 		 <tr>
+					<td width="18%" valign="middle" align="right" >
+		          	   手机：
+		            </td>
+		            <td valign="top">
+		              <input type="text" id="umobile" name="umobile" value="${user?.mobile}"/> 
+		             <!--  #{if supervisor?.level ==1}
+		              <a href="javascript:modifyMobile('${user?.id}')" style="color:green;padding-left:20px">修改</a>
+		              #{/if} -->
+		            </td>
+		          </tr>
+		           <tr>
+				    <td width="18%" valign="middle" align="right" >
+		          	   实名信息：
+		            </td>
+		            <td valign="top" >
+		              #{if user?.user_type == 0}
+		              <select id="uuserType" style="width:90px;height: 21px;">   
+					     <option value="0" #{if user?.user_type == 0}selected#{/if}>请选择</option> 	
+					     <option value="1" #{if user?.user_type == 1}selected#{/if}>个人</option> 
+					     <option value="2" #{if user?.user_type == 2}selected#{/if}>企业</option>
+					     <option value="3" #{if user?.user_type == 3}selected#{/if}>个体工商户</option>
+					  </select>
+					  #{/if}
+		              <input type="text" id="urealityName"  value="${user?.realityName}" placeholder="姓名"/> 
+		              <input type="text" id="uidNumber" value="${user?.idNumber}" placeholder="身份证号"/> 
+		             <!--  #{if supervisor?.level ==1 && !(user?.hasBids)}
+		              <a href="##" onclick="javascript:modifyRealityName('${user?.id}')" style="color:green;padding-left:20px">修改</a>
+		              #{/if} -->
+		            </td>
+		          </tr>
+		          #{if banks_!=null && banks_.size() > 0}
+		          <tr>
+				    <td width="18%" valign="middle" align="right" >
+		          	   银行卡：
+		            </td>
+		            <td valign="top">
+		            <select id="bank_">
+						#{list items:banks_,as:'b'}
+						<option value="${b?.id}">${b?.account}</option>
+						#{/list}
+					</select>
+		           <!--  #{if supervisor?.level ==1 }
+		            <a href="javascript:deletebankCard('${user?.id}')"  style="color:green;padding-left:30px">解绑</a>
+		            #{/if} -->
+		            </td>
+		            <td valign="middle" align="center"><span class="xf_td_title"></td>
+		          </tr>
+	          #{/if}
+	          #{if banks?.account==null && user?.realityName != null}
+	           <tr>
+			    <td width="18%" valign="middle" align="right" >
+	          	   银行卡：
+	            </td>
+	           	<td valign="top">
+	              <select id="bankCode" style="width:100px;height: 21px;">
+		            #{list bankCodeNameTable,as:'peo'}
+					<option value="${peo.key}">${peo.value}</option>
+					#{/list}
+		          </select>
+	              <input type="text" id="bankNo" value="" placeholder="卡号"/>
+	              <span id="bindBankBlock">
+	                #{if user?.user_type == 1}
+	                <input type="text" id="bankMobile" value="" placeholder="手机号"/>
+	                #{/if}
+	                #{if user?.user_type == 3}
+	                <input type="text" id="bankRealName" value="" placeholder="银行卡预留姓名"/>
+	                #{/if}
+	              </span>
+	             <!--  <a href="javascript:bindBank('${user?.id}')" style="color:green;">绑定</a> -->
+	            </td>
+	          </tr>
+	          #{/if}
+		     </table>
+	 	</div>
+		 
+	</div>
+	
+	<div class="contextPadding ">
+					<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+						<div>
+							<span>机审报告</span>
+							<span class="right">
+								<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+							</span>
+						</div>
+					</h3>
+					<div class="pleft10 hiddenContext" style="text-align:center;margin-top:35px;">
+					  <table  class="commTablePaddingSmall" width="60%" border="1">
+						<tr>
+							<td width="200">审核内容</td>
+							<td >数值</td>
+							<td >机审得分</td>
+						</tr>
+						#{list items:scoreList , as:'score'}
+						
+						<tr>
+							<td>${score.risk_manage_type.name}</td>
+							<td>${score.value}</td>
+							<td>${score.score}</td>
+						</tr>
+						#{/list}
+					  </table>
+					  <div style="text-align:left;">
+						  <div style="margin-top:30px;">机审分数：<span>${creditApply?.machine_score}</span>分</div>
+						  <div style="margin-top:15px;">机审额度：<span>${creditApply?.machine_credit_amount}</span></div>
+						  <div style="margin-top:15px;color: red">温馨提示：居住地验证代码：01：0-2公里；02：2-5公里；03：5-10公里；04：10公里以上，但在同一个城市；05：不在同一个城市</div>
+					  </div>
+					</div>
+			</div>
+	#{if reportList.size()>0}
+	<div class="contextPadding">
+	 		<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+	 			<div>
+		 			<span>第三方报告</span>
+					<span class="right">
+						<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+					</span>
+	 			</div>
+	 		</h3>
+			<div class="hiddenContext">
+				<ul class="imgMargin">
+					%{String file_dict_name="";}%
+					#{list items:reportList , as:'fileRe'}
+					<li style="float:left;">
+						<div><img src="${fileRe.file.real_path}" width="300px" /></div>
+						<div style="text-align:center;">${fileRe.file.file_dict_name}</div>
+					</li>
+					#{/list}
+					
+					#{list items:creditPictureList, as:'fileRe'}
+						<div>
+							%{
+								if(!file_dict_name.equals(fileRe.file.file_dict_name)){
+									file_dict_name=fileRe.file.file_dict_name;
+									out.println("<div class='imgMargin'>"+fileRe.file.file_dict_name+":</div>");
+								}
+							}%
+							<div><img src="${fileRe.file.real_path}" width="300px" /></div>
+						</div>
+					#{/list}
+					
+					<li style="float:left;">
+						<div><img src="/public/images/risk/Noimg.jpg" width="300px" /></div>
+						<div style="text-align:center;">xxx</div>
+					</li>
+				</ul>
+			</div>
+	</div>
+	#{/if}
+	
+	<div style="clear:both;"></div>
+	
+	#{if creditPictureList.size()>0}  
+	<div class="contextPadding">
+	 		<h3 class="xf_htgl_jgtitle" style="text-indent:0">
+				<ul class="title">
+					<li class="tabColor" onclick="tabList(0,this)">额度申请附件</li>
+				<ul>
+	 		</h3>
+		     <div class="">	
+				<!-- <div style="margin:15px 0">
+					<input style="font-size:14px;height: 28px;width: 80px;" type="button" class="btnStyle" value="下载附件" />
+				</div> -->
+				<div style="clear:both;"></div>
+				%{file_dict_name="";}%
+				#{list items:creditPictureList, as:'fileRe'}
+					<div>
+						%{
+							if(!file_dict_name.equals(fileRe.file.file_dict_name)){
+								file_dict_name=fileRe.file.file_dict_name;
+								out.println("<div class='imgMargin'>"+fileRe.file.file_dict_name+":</div>");
+							}
+						}%
+						<div><img src="${fileRe.file.real_path}" width="300px" /></div>
+					</div>
+				#{/list}
+		</div>
+	</div>
+	#{/if}
+	
+	<div class="contextPadding">
+		<h3 class="xf_htgl_jgtitle" style="text-indent:0">
+				<ul class="title">
+					<li class="tabColor" onclick="tabList(1,this)">手机通讯录</li>
+				<ul>
+	 	</h3>
+	    <input type="hidden" id="currPage" name="currPage"/>
+	    <input type="hidden" id="pageSize" name="pageSize"/>
+	    <div class="xf_ht_search">
+	
+	    </div>
+	    <div class="xf_ht_search_inon">
+	      <div class="xf_ht_search_r" style="width:100%">
+	        <div class="xf_ht_search_xl">
+	              <input name="mobile" type="text" placeholder="手机号码" class="search_w" id="mobile" value="" />
+	        </div>
+	 
+	        <div class="xf_ht_search_xl">
+	          <input type="button" class="search_button" onclick="getPage();" value="搜 索" />
+	        </div>
+	    </div>
+		<div class="">	
+				<table border="0" cellspacing="0" cellpadding="0" class="xn_c_content_list">
+					<tbody id="contacts">
+						<tr>
+							<th width="80">序号</th>
+							<th width="500">联系人姓名</th>
+							<th align="left">联系电话</th>
+						</tr>
+						#{list items:userAddressPage.page, as:'userAddress'}
+							<tr uid = ${userAddress.user_id}>
+								<td>${(userAddressPage.currPage-1)*userAddressPage.pageSize+userAddress_index}</td>
+								<td>${userAddress.name}</td>
+								<td class="tleft">${userAddress.mobile}</td>
+							</tr>
+						#{/list}
+					</tbody>
+				</table>
+			<div class="box">
+				<div id="pagination3" class="page fl"></div>
+				<div class="info ">
+					<p>当前页数：<span id="current3">1</span></p>
+				</div>
+			</div>
+	   </div>
+	</div>
+	
+			<div class="contextPadding">
+		 		<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+		 			<div>
+			 			<span>预审结果</span>
+						<span class="right">
+							<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+						</span>
+		 			</div>
+		 		</h3>
+				<div class="hiddenContext">
+				  <table  class="commTablePadding" width="100%" >
+					<tr>
+						<td class="Tright" width="100">申请金额：</td>
+						<td >${creditApply.apply_credit_amount}</td>
+					</tr>
+					<tr>
+						<td class="Tright" width="100">机审得分：</td>
+						<td >${creditApply.machine_score}分</td>
+					</tr>
+					<tr>
+						<td class="Tright">机审建议额度：</td>
+						<td >${creditApply.machine_credit_amount}</td>
+					</tr>
+					<tr>
+						<td class="Tright">最终审批额度：</td>
+						#{if creditApply.canAudit() && business.Supervisor.currSupervisor().haveRight("supervisor.ymd.CreditManageAction.audit")}
+						<td ><input type="text" class="inputSelectWidth" id="audit_credit_amount" name="audit_credit_amount" value="${creditApply.audit_credit_amount}" /></td>
+						#{/if}
+						#{else}
+						<td >${creditApply.audit_credit_amount}</td>
+						#{/else}
+					</tr>
+					<tr>
+						<td style="vertical-align:top;" class="Tright">备注：</td>
+						<td>${creditApply.remark}</td>
+					</tr>
+				  </table>
+				</div>
+			</div>
+			
+			<div class="contextPadding ">
+					<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+						<div>
+							<span>操作日志</span>
+							<span class="right">
+								<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+							</span>
+						</div>
+					</h3>
+					<div class="pleft10 hiddenContext" style="text-align:center;margin-top:35px;">
+					  <table  class="commTablePaddingSmall" width="60%" border="1">
+						<tr>
+							<td width="100">操作人员</td>
+							<td>操作结果</td>
+							<td>操作时间</td>
+							<td>备注</td>
+						</tr>
+						#{list items:creditApplyLogs, as:'log'}
+							<tr>
+								<td>${log.user_name}</td>
+								<td>${log.status_name}</td>
+								<td>${log.time}</td>
+								<td>${log.description}</td>
+							</tr>
+						#{/list}
+						
+					  </table>
+					</div>
+			</div>
+	<input id="uid" type="hidden" />
+</div>
+	
+<script type="text/javascript">
+//切换附件与通讯录列表
+function tabList(i,_this){
+	$('.tabColor').css('background','#E4E4E4');
+	$(_this).css('background','#D7D7D7');
+	$('.tabList').hide();
+	$('.tabList').eq(i).show();
+}
+
+$('._xf_htgl_jgtitle').click(function(){
+	$(this).next().toggle(100);
+})
+
+$(function(){
+	/* 高亮显示 */
+	showHighLight(2, 2, 3);
+});
+</script>
+<script>
+	// 搜索事件
+	function getPage(){
+			var str1 = '';
+			var mobile = $('#mobile').val();
+			var uid = $('#uid').val();
+			 // alert(mobile);
+			var layerMsg = layer.load('加载通讯录中…',{ icon: 0, shade: [0.5,'black']});
+			$.get("@{supervisor.postLoanManager.UserListAction.getUserAddressList}",{id: uid,returnJson: 1,currPage: 1,mobile: mobile},function(res){
+							
+							$.each(res.page,function(i,e){
+								str1 +='<tr><td>'+(i+1)+'</td><td>'+e.name+'</td><td class="tleft">'+e.mobile+'</td></tr>'
+								
+							})
+							$("#pagination3").pagination({
+									currentPage: 1,
+									totalPage: res.totalPageCount,
+									isShow: true,
+									count: 7,
+									homePageText: "首页",
+									endPageText: "尾页",
+									prevPageText: "上一页",
+									nextPageText: "下一页",
+									callback: function(current) {
+										var str = '';
+										var layerMsg = layer.load('加载通讯录中…',{ icon: 0, shade: [0.5,'black']});
+										$.get("@{supervisor.postLoanManager.UserListAction.getUserAddressList}",{id: uid,returnJson: 1,currPage: current,mobile: mobile},function(res){
+											$.each(res.page,function(i,e){
+												console.log(e.name);
+												str +='<tr><td>'+parseInt(((current-1)*10)+1+i)+'</td><td>'+e.name+'</td><td class="tleft">'+e.mobile+'</td></tr>'
+												
+											})
+											layer.close(layerMsg); 
+										$("#contacts").html('<tr><th width="80">序号</th><th width="500">联系人姓名</th><th align="left">联系电话</th></tr>'+str);
+										});
+										$("#current3").text(current);
+										
+									}
+							});
+							layer.close(layerMsg); 
+						$("#contacts").html('<tr><th width="80">序号</th><th width="500">联系人姓名</th><th align="left">联系电话</th></tr>'+str1);
+			});
+		
+			
+	}
+		// 分页js
+			$(function() {
+				var pageCount = ${userAddressPage.totalPageCount}||0;
+				var user_id = '';
+				
+				if($('#contacts').find('tr').length>2){
+					user_id = $('#contacts').find('tr').eq(1).attr('uid');
+				}
+				$('#uid').val(user_id);
+				var mobile = $("#mobile").val();
+				$("#pagination3").pagination({
+					currentPage: 1,
+					totalPage: pageCount,
+					isShow: true,
+					count: 7,
+					homePageText: "首页",
+					endPageText: "尾页",
+					prevPageText: "上一页",
+					nextPageText: "下一页",
+					callback: function(current) {
+						var str = '';
+						var layerMsg = layer.load('加载通讯录中…',{ icon: 0, shade: [0.5,'black']});
+						$.get("@{supervisor.postLoanManager.UserListAction.getUserAddressList}",{id: user_id,returnJson: 1,currPage: current,mobile:mobile},function(res){
+							$.each(res.page,function(i,e){
+								str +='<tr><td>'+parseInt(((current-1)*10)+1+i)+'</td><td>'+e.name+'</td><td class="tleft">'+e.mobile+'</td></tr>'
+								
+							})
+							layer.close(layerMsg); 
+						$("#contacts").html('<tr><th width="80">序号</th><th width="500">联系人姓名</th><th align="left">联系电话</th></tr>'+str);
+						});
+						$("#current3").text(current);
+						
+					}
+				});
+			 	 
+
+				
+			});
+</script>

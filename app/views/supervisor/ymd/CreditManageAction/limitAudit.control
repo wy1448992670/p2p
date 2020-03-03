@@ -1,0 +1,533 @@
+<head>
+	<link rel="stylesheet" href="/public/paging/jquery.pagination.css" />
+	<script src="/public/paging/jquery.pagination.min.js"></script>
+</head>
+<style>
+	table.commTablePadding tr td{
+		padding:10px 0;
+		color:#3E3833;
+	}
+	table.commTablePaddingSmall tr td{
+		padding:5px 0;
+		color:#3E3833;
+	}
+	.imgMargin{
+		margin:10px 7px;
+	}
+	ul.title li{
+		float: left;
+		width: 130px;
+		text-align: center;
+		font-weight: bold;
+		background: #E4E4E4;
+		margin-right: 5px;
+	}
+	.inputSelectWidth{
+		width:150px;
+		box-sizing: border-box;
+	}
+	.inputSelectWidthSmall{
+		width:130px;
+		box-sizing: border-box;
+	}
+	.textareaWidth{
+		width:330px;
+		height:60px;
+	}
+	.tdPadding tr td{
+		padding:15px 0;
+	}
+	.btnStyle{
+		background-color:#199ED8;
+		border-radius:5px;
+		border:0;
+		color:white;
+		height:40px;
+		width:140px;
+		margin-right:30px;
+		font-size:16px;
+	}
+	.padleft30{
+		padding-left:30px;
+	}
+	.borderBot{
+		border-bottom: 1px dashed  #707070;
+	    padding-left: 30px;
+	    padding-bottom:15px;
+	    margin:15px 0;
+	}
+	.right{
+		float: right;
+	    position: relative;
+	    top: 13px;
+	    right: 10px;
+	    transform:rotateX(180deg);
+	}
+	.xf_htgl_jgtitle{
+		margin:0;
+	}
+	.contextPadding{
+		padding:0 60px 0 20px;
+		margin:20px 0;
+	}
+	.hiddenContext{
+		display:none;
+	}
+	.Tright{
+		text-align:right;
+		padding-right: 15px;
+	}
+	.pleft10{
+		padding-left:10px;
+	}
+	.tabList{
+		display:none;
+	}
+	.tleft{
+		text-align:left !important;
+	}
+	.tabList:nth-child(2){
+		display:block;
+	}
+	.tabColor:nth-child(1){
+		background:#D7D7D7;
+	}
+</style>
+<div class="xn_c_content" style="background:white">
+    <div style="padding-left:20px;background:#E1E1E1;height:53px;line-height:53px;font-size:19px;">
+  		详情
+    </div>
+			<div class="contextPadding ">
+					<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+						<div>
+							<span>基础信息</span>
+							<span class="right">
+								<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+							</span>
+						</div>
+					</h3>
+					<div class="pleft10" style="text-align:center;margin-top:35px;">
+					  <table  class="commTablePaddingSmall" width="90%" border="1" style="border:1px solid #B7B7B7;">
+						<tr style="background:#AFDFE4;">
+							<td width="100">姓名</td>
+							<td width="100">手机号</td>
+							<td width="100">身份证号</td>
+							<td width="100">学历</td>
+							<td >婚姻状况</td>
+							<td >工作行业</td>
+							<td>工作城市</td>
+							<td>居住地址</td>
+							<td >月工资</td>
+							<td>公积金汇缴金额</td>
+							<td>是否租房</td>
+							<td>月房租</td>
+						</tr>
+						<tr>
+							<td height="30"></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					  </table>
+					   <table  class="commTablePaddingSmall"  border="1" style="margin-top:20px;border:1px solid #B7B7B7;">
+						<tr style="background:#AFDFE4;">
+							<td>常用联系人</td>
+							<td>常用联系人关系</td>
+							<td>公司全称</td>
+							<td>QQ/微信</td>
+						</tr>
+						<tr>
+							<td height="30" width="100"></td>
+							<td width="100"></td>
+							<td width="100"></td>
+							<td width="100"></td>
+						</tr>
+					  </table>
+					</div>
+			</div>
+			
+			<div class="contextPadding ">
+					<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+						<div>
+							<span>项目信息</span>
+							<span class="right">
+								<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+							</span>
+						</div>
+					</h3>
+					<div class="pleft10" style="text-align:center;margin-top:35px;">
+					   <table  class="commTablePaddingSmall"  border="1" style="border:1px solid #B7B7B7;">
+						<tr style="background:#AFDFE4;">
+							<td>医院名称</td>
+							<td>申请期数</td>
+							<td>申请项目</td>
+							<td>项目金额</td>
+							<td>申请金额</td>
+							<td>还款方式</td>
+						</tr>
+						<tr>
+							<td height="30" width="100"></td>
+							<td width="100"></td>
+							<td width="100"></td>
+							<td width="100"></td>
+							<td width="100"></td>
+							<td width="100"></td>
+						</tr>
+					  </table>
+					</div>
+			</div>
+		
+		
+		<div class="contextPadding ">
+					<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+						<div>
+							<span>机审报告</span>
+							<span class="right">
+								<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+							</span>
+						</div>
+					</h3>
+					<div class="pleft10" style="text-align:center;margin-top:35px;">
+					  <table  class="commTablePaddingSmall" width="60%" border="1">
+						<tr>
+							<td width="200">审核内容</td>
+							<td >数值</td>
+							<td >机审得分</td>
+						</tr>
+						<tr>
+							<td >xx</td>
+							<td>xx</td>
+							<td>xx</td>
+						</tr>
+					  </table>
+					  <div style="text-align:left;">
+						  <div style="margin-top:30px;">机审分数：<span>80</span>分</div>
+						  <div style="margin-top:15px;">机审额度：<span>5,00</span></div>
+					  </div>
+					</div>
+			</div>
+	
+	<div class="contextPadding">
+	 		<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+	 			<div>
+		 			<span>第三方报告</span>
+					<span class="right">
+						<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+					</span>
+	 			</div>
+	 		</h3>
+	 		<ul class="imgMargin">
+				<li style="float:left;">
+					<div><img src="/public/images/risk/Noimg.jpg" width="300px" /></div>
+					<div style="text-align:center;">xxx</div>
+				</li>
+				<li style="float:left;">
+					<div><img src="/public/images/risk/Noimg.jpg" width="300px" /></div>
+					<div style="text-align:center;">xxx</div>
+				</li>
+			</ul>
+		<div >
+		  <table width="100%">
+			<tr>
+				<td width="60"></td>
+			</tr>
+		  </table>
+		</div>
+	</div>
+	
+	<div class="contextPadding">
+	 		<h3 class="xf_htgl_jgtitle" style="text-indent:0">
+				<ul class="title">
+					<li class="tabColor" onclick="tabList(0,this)">预审附件</li>
+					<li class="tabColor" onclick="tabList(1,this)">下载附件</li>
+					<li class="tabColor" onclick="tabList(2,this)">手机通讯录</li>
+				<ul>
+	 		</h3>
+		     <div class="tabList">	
+				<div style="margin:15px 0">
+					<input style="font-size:14px;height: 28px;width: 80px;" type="button" class="btnStyle" value="下载附件" />
+				</div>
+				<div class="imgMargin">身份信息图片：</div>
+				<ul>
+					<li style="float:left;">
+						<div><img src="/public/images/risk/Noimg.jpg" width="300px" /></div>
+						<div style="text-align:center;">身份证正面照</div>
+					</li>
+					<li style="float:left;">
+						<div><img src="/public/images/risk/Noimg.jpg" width="300px" /></div>
+						<div style="text-align:center;">身份证反面照</div>
+					</li>
+				</ul>
+				<div style="clear:both;"></div>
+				<div>
+					<div class="imgMargin">花呗截图</div>
+					<div><img src="/public/images/risk/Noimg.jpg" width="300px" /></div>
+				</div>	
+				<div>
+					<div class="imgMargin">借呗截图</div>
+					<div><img src="/public/images/risk/Noimg.jpg" width="300px" /></div>
+				</div>	
+				<div>
+					<div class="imgMargin">淘宝收货地址截图</div>
+					<div><img src="/public/images/risk/Noimg.jpg" width="300px" /></div>
+				</div>	
+				<div>
+					<div class="imgMargin">收入证明</div>
+					<div><img src="/public/images/risk/Noimg.jpg" width="300px" /></div>
+				</div>	
+				<div>
+					<div class="imgMargin">信用卡额度截图</div>
+					<div><img src="/public/images/risk/Noimg.jpg" width="300px" /></div>
+				</div>	
+				<div>
+					<div class="imgMargin">社保缴费基数截图</div>
+					<div><img src="/public/images/risk/Noimg.jpg" width="300px" /></div>
+				</div>	
+				<div>
+					<div class="imgMargin">其他</div>
+					<div><img src="/public/images/risk/Noimg.jpg" width="300px" /></div>
+				</div>	
+		</div>
+		 <div class="tabList">	
+				<div style="margin:15px 0">
+					<input style="font-size:14px;height: 28px;width: 80px;" type="button" class="btnStyle" value="下载附件" />
+				</div>
+				
+				<div style="clear:both;"></div>
+				<div>
+					<div class="imgMargin">手持身份证附件</div>
+					<div><img src="/public/images/risk/Noimg.jpg" width="300px" /></div>
+				</div>	
+				<div>
+					<div class="imgMargin">手术清单</div>
+					<div><img src="/public/images/risk/Noimg.jpg" width="300px" /></div>
+				</div>	
+				<div>
+					<div class="imgMargin">其他</div>
+					<div><img src="/public/images/risk/Noimg.jpg" width="300px" /></div>
+				</div>	
+		</div>
+		 <div class="tabList">	
+			<table border="0" cellspacing="0" cellpadding="0" class="xn_c_content_list">
+				<tbody>
+				<tr>
+				  <th width="80">序号</th>
+				  <th width="200">联系人姓名</th>
+				  <th align="left">联系电话</th>
+				</tr>
+				
+				<tr class="xn_tr_bj">
+				  <td width="80">1</td>
+				  <td >闫巨帅（常用联系人）</td>
+				  <td class="tleft">13012869256</td>    
+				</tr>
+		</tbody>
+		</table>
+			<div class="box">
+				<div id="pagination3" class="page fl"></div>
+				<div class="info fl">
+					<p>当前页数：<span id="current3">4</span></p>
+				</div>
+				<button id="getPage">getPage</button>
+				<button id="setPage">setPage</button>
+			</div>
+	   </div>
+	</div>
+	
+			<div class="contextPadding">
+		 		<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+		 			<div>
+			 			<span>预审结果</span>
+						<span class="right">
+							<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+						</span>
+		 			</div>
+		 		</h3>
+				<div>
+				  <table  class="commTablePadding" width="100%" >
+					<tr>
+						<td class="Tright" width="100">申请金额：</td>
+						<td >60,000.00</td>
+					</tr>
+					<tr>
+						<td class="Tright" width="100">机审得分：</td>
+						<td >60分</td>
+					</tr>
+					<tr>
+						<td class="Tright">机审建议额度：</td>
+						<td >60,000.00</td>
+					</tr>
+					<tr>
+						<td class="Tright">审批额度：</td>
+						<td>60,000.00</td>
+					</tr>
+					<tr>
+						<td style="vertical-align:top;" class="Tright">备注：</td>
+						<td>xxx</td>
+					</tr>
+					
+				 
+				 </table>
+				</div>
+			</div>
+			
+			<div class="contextPadding">
+		 		<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+		 			<div>
+			 			<span>提额结果</span>
+						<span class="right">
+							<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+						</span>
+		 			</div>
+		 		</h3>
+				<div>
+				  <table  class="commTablePadding" width="100%" >
+					<tr>
+						<td class="Tright" width="100">预审额度：</td>
+						<td >60,000.00</td>
+					</tr>
+					<tr>
+						<td class="Tright" width="100">机审建议额度：</td>
+						<td >60分</td>
+					</tr>
+					<tr>
+						<td class="Tright">申请提额：</td>
+						<td>60,000.00</td>
+					</tr>
+					<tr>
+						<td class="Tright">确认提额额度：</td>
+						<td>600000</td>
+					</tr>
+					<tr>
+						<td style="vertical-align:top;" class="Tright">备注：</td>
+						<td>xx</td>
+					</tr>
+				  </table>
+				</div>
+			</div>
+			<div class="contextPadding">
+		 		<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+		 			<div>
+			 			<span>使用额度审核</span>
+						<span class="right">
+							<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+						</span>
+		 			</div>
+		 		</h3>
+				<div>
+				  <table  class="commTablePadding" width="100%" >
+					<tr>
+						<td class="Tright" width="100">当前额度：</td>
+						<td >60,000.00</td>
+					</tr>
+					<tr>
+						<td class="Tright" width="100">使用额度：</td>
+						<td >60分</td>
+					</tr>
+					<tr>
+						<td class="Tright">剩余额度：</td>
+						<td>6</td>
+					</tr>
+					<tr>
+						<td style="vertical-align:top;" class="Tright">备注：</td>
+						<td><textarea class="textareaWidth"></textarea></td>
+					</tr>
+					<tr>
+							<td></td>
+							<td><input class="btnStyle" type="button" value="确认通过" /><input class="btnStyle" type="button" value="拒绝通过" /></td>
+						</tr>
+				  </table>
+				</div>
+			</div>
+			
+						
+			
+			<div class="contextPadding ">
+					<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+						<div>
+							<span>操作日志</span>
+							<span class="right">
+								<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+							</span>
+						</div>
+					</h3>
+					<div class="pleft10" style="text-align:center;margin-top:35px;">
+					  <table  class="commTablePaddingSmall" width="60%" border="1">
+						<tr>
+							<td width="100">操作人员</td>
+							<td >操作类型</td>
+							<td >操作结果</td>
+							<td >操作时间</td>
+							<td >状态</td>
+							<td>备注</td>
+						</tr>
+						<tr>
+							<td >xx</td>
+							<td>xx</td>
+							<td>xx</td>
+							<td>xx</td>
+							<td>xx</td>
+							<td>xx</td>
+						</tr>
+					  </table>
+					</div>
+			</div>
+		
+	
+</div>
+	
+<script type="text/javascript">
+//切换附件与通讯录列表
+function tabList(i,_this){
+	$('.tabColor').css('background','#E4E4E4');
+	$(_this).css('background','#D7D7D7');
+	$('.tabList').hide();
+	$('.tabList').eq(i).show();
+}
+
+
+$('._xf_htgl_jgtitle').click(function(){
+	$(this).next().toggle(100);
+})
+
+$(function(){
+	/* 高亮显示 */
+	showHighLight(3, 3, 6);
+});
+</script>
+
+<script>
+		// 分页js
+			$(function() {
+				$("#pagination3").pagination({
+					currentPage: 4,
+					totalPage: 16,
+					isShow: true,
+					count: 7,
+					homePageText: "首页",
+					endPageText: "尾页",
+					prevPageText: "上一页",
+					nextPageText: "下一页",
+					callback: function(current) {
+						$("#current3").text(current)
+					}
+				});
+
+				$("#getPage").on("click", function() {
+					var info = $("#pagination3").pagination("getPage");
+					alert("当前页数：" + info.current + ",总页数：" + info.total);
+				});
+
+				$("#setPage").on("click", function() {
+					$("#pagination3").pagination("setPage", 1, 10);
+				});
+			});
+	</script>

@@ -1,0 +1,97 @@
+<!-- 申请超额借款 -->
+<div class="xf_wyjkwszl_4_windowInner xf_zqzr_znxback_window" id="overBorrows">
+	<div class="xf_wyjkfb_4_windowClose" onClick="cancle()"></div>
+	<div class="xf_wyjkfb_4_windowColName" onClick="cancle()">
+		申请超额借款
+	</div>
+	<div class="xf_zqzr_znx_windowCot">
+		<table border="0" cellpadding="0" cellspacing="0" width="426" class="xf_zqzr_znx_teot">
+			<tr>
+							<td width="121" align="right">
+								<span class="xf_zqzr_znx_title">申请超额额度： </span>
+							</td>
+							<td>
+								${overBorrows?.amount}元
+							</td>
+						</tr>
+						<tr>
+							<td width="121" align="right">
+								<span class="xf_zqzr_znx_title">审核时间： </span>
+							</td>
+							<td>
+								${overBorrows?.time?.format('yyyy-MM-dd')}
+							</td>
+						</tr>
+						<tr>
+							<td width="121" align="right" valign="top">
+								<span class="xf_zqzr_znx_title">申请原因： </span>
+							</td>
+							<td>
+								${overBorrows?.reason}
+							</td>
+						</tr>
+		</table>
+	</div>
+	<div class="xf_mem_tgxytc">
+		<table id="table_audit_items" border="0" cellpadding="0" cellspacing="0" width="423" class="xf_mem_tgxyed_teot">
+			<tr>
+				<th>序号</th>
+				<th>审核科目</th>
+				<th>提交情况</th>
+				<th>审核状态</th>
+				<th>操作</th>
+			</tr>
+			#{list items:auditItems, as:'itemsList'}
+			<tr>
+				<td>${itemsList_index}</td>
+				<td>${itemsList?.name}</td>
+				<td>
+					<span id="s1${itemsList?.sign}">
+					#{if itemsList.status == 0}
+						未提交
+					#{/if}
+					#{else}
+						已提交
+					#{/else}
+					</span>
+				</td>
+				<td>
+					<span id="s2${itemsList?.sign}">
+						${itemsList.strStatus}
+					</span>
+				</td>
+				<td>
+					#{if itemsList.status == 1 || itemsList.status == 2}
+						<a class='xf_mem_tgxyed_cza' onclick="showitem('${itemsList?.mark}', '${itemsList?.signUserId}');">查看</a>
+					#{/if}
+					#{else}
+						<a class='xf_mem_tgxyed_cza' onclick="submititemIps('${itemsList?.sign}', '${itemsList?.signItemId}', '${itemsList?.name}', '${itemsList?.description}', '${itemsList?.type}');">上传</a>
+					#{/else}
+				</td>
+			</tr>
+			#{/list}
+		</table>
+		<div class="xf_wylc_page xf_membill_view_page1" style="width: 421px; margin-bottom:10px; cursor: pointer;">
+		</div>
+	</div>
+</div>
+<div id="show">
+</div>
+<!-- 查看资料弹出层 -->
+<div class="xf_ht_jr_obu_width" id="showitemIps" style="width: 505px;">
+<script type="text/javascript">
+   function cancle(){
+       $("#overBorrows").hide();
+       $("#backGround").hide();
+   }
+   /* 查看弹出层 */
+	function showitem(mark, signUserId){
+		var action = #{jsAction @front.account.FundsManage.showitem(':mark',':signUserId') /};
+		$.post(action({mark:mark, signUserId:signUserId}), function(data) {
+			$("#showitemIps").html(data).show();
+		});		
+	}
+
+	
+
+</script>

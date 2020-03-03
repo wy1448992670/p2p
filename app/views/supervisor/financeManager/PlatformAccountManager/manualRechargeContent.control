@@ -1,0 +1,131 @@
+<div class="xn_c_content">
+  <div class="xf_content_add">
+    <div class="xfht_t_j_y_2">
+      <!--右上-->
+      <div class="xf_ht_obu_fklm">
+		手工充值
+      </div>
+      <div class="xfht_t_j_y_yx_k">
+      <table class="xfht_t_table_bjbz" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+        <td width="300" align="right" style="padding-right:18px;">请输入手工充值金额：</td>
+        <td><input type="text" class="xfht_zr_input" id="amount" onkeyup="inputNum(this)" onpaste="return false"> 元</td>
+        </tr>
+        <tr>
+        <td align="right" style="padding-right:18px;">请输入充值对象：</td>
+        <td><input type="text" class="xfht_zr_input" id="userName">
+        *{<a href="#" class="xfht_zr_input_a xf_ht_hs">浏览</a></td>}*
+        </tr>
+        <tr class="xf_ht_tcc_area_height">
+        <td align="right" style="padding-right:18px;">&nbsp;</td>
+        <td>
+          <textarea class="xf_ht_jr_obttd_textarea" id="description" readonly></textarea>
+        </td>
+        </tr>
+        <tr>
+        <td>&nbsp;</td>
+        <td>
+          <input class="xf_ht_tcc_button_ok" type="button" value="确 定"  onclick="rechargeByHand();" id="xf_ht_tjbzj">
+        </td>
+        </tr>
+      </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    $('#userName').bind('input propertychange', function() {
+      onUserNameChanged($(this).val());
+    });
+  });
+  
+  /**
+   *  充值
+   */
+  function rechargeByHand() {
+  
+   if(confirm("确定充值？")){
+   		    var name = $('#userName').val().trim();
+
+    if ("" == name) {
+      layer.msg("请输入充值对象", 2, 2);
+
+      return;
+    }
+    
+    var amount = $('#amount').val().trim();
+
+    if ("" == amount) {
+      layer.msg("请输入充值金额", 2, 2);
+
+      return;
+    }
+    
+    if(isNaN(amount)){
+      layer.msg("请输入数字", 2, 2);
+
+      return;
+    }    
+    
+    $.ajax({
+      url : "@{rechargeByHand()}",
+      type : "POST",
+      data : {
+        "name" : name,
+        "amount" : amount
+      },
+      success : function(data) {
+        alert(data.msg);
+        if (data.code == 0) {
+          $('#userName').val("");
+          $('#amount').val("");
+          $("#description").val("");
+        }
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+   }
+
+  }
+  
+  /**
+   *  用户账号输入框值发生改变时回调
+   */
+  function onUserNameChanged(name) {
+    name = name.trim();
+
+    if ("" == name) {
+      $("#description").val("");
+
+      return;
+    }
+
+    $.ajax({
+      url : "@{queryUserByName()}",
+      type : "POST",
+      data : {
+        "name" : $("#userName").val()
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          $("#description").val(data.msg);
+
+          return;
+        }
+        var reality_name = "";
+        if(data.reality_name !=null &&  typeof(data.reality_name) != "undefined") {
+          reality_name = data.reality_name;
+        }
+        var description = "用户名：" + data.name + "\n真实姓名：" + reality_name + "\n注册邮箱:" + data.email;
+        $("#description").val(description);
+      },
+      error : function() {
+        layer.msg("对不起，出现错误!", 3, 4);
+      }
+    });
+  }
+</script>

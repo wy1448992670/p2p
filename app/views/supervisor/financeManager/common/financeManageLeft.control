@@ -1,0 +1,148 @@
+%{
+  String trustType = constants.Constants.TRUST_FUNDS_TYPE;
+}%
+<div class="xn_c_content_left">
+  <div class="xn_c_content_leftul">
+    <ul>
+      <li>
+        <div class="xn_c_li_head_one">
+          <!-- 展开样式：xn_c_li_bg_jian -->
+          <div class="xn_c_li_bg" id="lab_1"></div>放款管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_1">
+          <!-- 当前样式：xn_c_li_head_ishow -->
+          <a id="mg_1" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.LoanManager.readyReleaseList()}">待放款借款标管理</a>
+          <a id="mg_2" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.LoanManager.alreadyReleaseList()}">已放款借款标管理</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_2"></div>应收账单管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_2">
+          <a id="mg_3" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.ReceivableBillManager.toReceiveBills()}">待收款借款账单列表</a>
+          <a id="mg_4" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.ReceivableBillManager.overdueBills()}">逾期账单列表</a>
+          <a id="mg_5" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.ReceivableBillManager.receivedBills()}">已收款借款账单列表</a>
+		  <a id="mg_6" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.ReceivableBillManager.repaymentList()}">已完成借款标列表</a>
+		  <a id="mg_7" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.ReceivableBillManager.receivableBills()}">应收款借款账单统计表</a>
+		  <a id="mg_40" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.ReceivableBillManager.allBills()}">应收账单明细</a>
+		  <a id="mg_9" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.ReceivableBillManager.advanceBills()}">垫付账单列表</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_3"></div>应付账单管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_3">
+          <a id="mg_8" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.PayableBillManager.toPayBills()}">待付款投资账单列表</a>
+          <a id="mg_9" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.PayableBillManager.overdueUnpaidBills()}">逾期未付投资账单列表</a>
+          <a id="mg_10" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.PayableBillManager.paidBills()}">已付款投资账单列表</a>
+		  <a id="mg_11" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.PayableBillManager.principalAdvanceBills()}">本金垫付投资账单列表</a>
+		  <a id="mg_12" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.PayableBillManager.payableBills()}">应付款投资账单统计表</a>
+		  <a id="mg_13" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.PayableBillManager.badList()}">坏账借款标列表</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_4"></div>平台账户管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_4">
+          <a id="mg_14" class="xn_c_li_three_twli">提现管理</a>
+          <div class="xn_c_li_head_three">
+             <a id="mg_26" class="xn_c_li_three_twli" href="@{supervisor.financeManager.PlatformAccountManager.toAccountBankList()}"> · 用户银行卡列表</a>
+          	 <a id="mg_15" class="xn_c_li_three_twli" href="@{supervisor.financeManager.PlatformAccountManager.toReviewWithdraws()}"> · 待审核提现列表</a>
+             <a id="mg_16" class="xn_c_li_three_twli" href="@{supervisor.financeManager.PlatformAccountManager.toPayWithdraws()}"> · 待付款提现列表</a>
+             <a id="mg_17" class="xn_c_li_three_twli" href="@{supervisor.financeManager.PlatformAccountManager.paidWithdraws()}"> · 已付款提现列表</a>
+		     <a id="mg_18" class="xn_c_li_three_twli" href="@{supervisor.financeManager.PlatformAccountManager.noPassWithdraws()}"> · 未通过提现列表</a>
+		  </div>
+		  #{if !constants.Constants.IPS_ENABLE}
+		  <a id="mg_19" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.PlatformAccountManager.manualRecharge()}">手工充值</a>
+		  #{/if}
+		  <a id="mg_25" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.PlatformAccountManager.rechargeRecord()}">充值记录</a>
+		  #{if constants.Constants.IPS_ENABLE}
+      	<a id="mg_27" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.PlatformAccountManager.withdrawRecords()}">提现记录</a>
+      #{/if}
+		  <a id="mg_20" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.PlatformAccountManager.transactionRecords()}">交易记录</a>
+		  
+		  <!-- 注意：v8.0.0 去掉了交易补单功能，全部通过日志进行补单 -->
+		  <a id="mg_21">本金保障账户管理</a>
+		  <div class="xn_c_li_head_three">
+		    <a id="mg_22" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.PlatformAccountManager.ppAccountInfo()}"> · 本金保障账户信息</a>
+		    <a id="mg_23" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.PlatformAccountManager.principalProtectionRecords()}"> · 保障金收支记录</a>
+		  </div>
+        </div>
+      </li>
+      #{if trustType == 'HF' && constants.Constants.IPS_ENABLE}
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_5"></div>汇付商户管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_5">
+          <a id="mg_30" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.MerchantAccountManager.merRecharge()}">商户号充值</a>
+          <a id="mg_31" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.MerchantAccountManager.merWithdrawal()}">商户号提现</a>
+          <a id="mg_32" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.MerchantAccountManager.dealDetails()}">交易记录</a>
+        </div>
+      </li>
+      #{/if}
+      *{<li>
+        <div class="xn_c_li_head_one">
+          <a id="mg_24" class="xn_c_li_head_a" href="@{supervisor.systemSettings.FinanceSettingAction.managedFunds()}">资金托管账户管理</a>
+        </div>
+      </li>}*
+      
+      #{if constants.Constants.IPS_ENABLE}
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_6"></div>用户资金校对
+        </div>
+        <div class="xn_c_li_head_two" id="hi_6">
+          <a id="mg_61" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.PlatformAccountManager.queryForAccBalance('',1,5)}">校对列表</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_7"></div>托管交易日志
+        </div>
+        <div class="xn_c_li_head_two" id="hi_7">
+          <a id="mg_71" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.PlatformAccountManager.queryLogData('',1,7)}">托管交易日志</a>
+        </div>
+      </li>
+      #{/if}
+      
+      <!-- <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_8"></div>红包管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_8">
+          <a id="mg_81" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.RedPackageAction.redTypeList(1)}">自动类红包</a>
+          <a id="mg_84" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.RedPackageHistoryAction.manualRed(1)}">手动类红包</a>
+          <a id="mg_82" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.RedPackageHistoryAction.showList(1)}">红包统计</a>
+          <a id="mg_83" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.RedPackageHistoryAction.redRules()}">红包规则设置</a>
+        </div>
+      </li>
+             <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_10"></div>加息券管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_10">
+          <a id="mg_101" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.RedPackageAction.redTypeList(2)}">自动类加息券</a>
+          <a id="mg_102" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.RedPackageHistoryAction.manualRed(2)}">手动类加息券</a>
+          <a id="mg_103" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.RedPackageHistoryAction.showList(2)}">加息券统计</a>
+        </div>
+      </li>
+      
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_9"></div>加息统计
+        </div>
+        <div class="xn_c_li_head_two" id="hi_9">
+          <a id="mg_91" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.IncreaseManager.increaseSum()}">加息汇总</a>
+          <a id="mg_92" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.IncreaseManager.increaseDetail()}">加息明细</a>
+        </div>
+      </li>-->
+    </ul>
+  </div>
+  <div class="xn_c_con_leftbutton">
+    <div class="xn_c_con_enimg">导航点击</div>
+  </div>
+</div>

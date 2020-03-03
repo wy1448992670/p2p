@@ -1,0 +1,104 @@
+<div class="xn_c_content_left">
+  <div class="xn_c_content_leftul">
+    <ul>
+      <li>
+        <div class="xn_c_li_head_one">
+          <!-- 展开样式：xn_c_li_bg_jian -->
+          <div class="xn_c_li_bg" id="lab_1"></div>安全设置
+        </div>
+        <div class="xn_c_li_head_two" id="hi_1">
+          <a id="mg_1" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.SecuritySettingAction.UKeyList()}">安全云盾设置</a>
+          <a id="mg_2" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.SecuritySettingAction.safeParam()}">安全参数设置</a>
+          <a id="mg_3" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.SecuritySettingAction.safeQuestion()}">安全问题库设置</a>
+          <a id="mg_4" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.DBOperationAction.db()}">数据初始化管理</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_2"></div>财务设置
+        </div>
+        <div class="xn_c_li_head_two" id="hi_2">
+          <a id="mg_5" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.FinanceSettingAction.serviceFees()}">服务费设置</a>
+          <a id="mg_6" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.FinanceSettingAction.payment()}">支付方式设置</a>
+          <a id="mg_7" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.FinanceSettingAction.payableBills()}">应付账单设置</a>
+          *{<a id="mg_9" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.FinanceSettingAction.systemScoreRule()}">积分规则设置</a>}*
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_3"></div>管理员管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_3">
+          <a id="mg_10" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.supervisorAction.list()}">管理员列表</a>
+          <a id="mg_21" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.supervisorAction.userAddrManageList()}">用户所在地查询设置</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_4"></div>权限管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_4">
+          <a id="mg_11" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.rightAction.rightsMap()}">权限地图</a>
+          <a id="mg_12" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.rightAction.rightsManage()}">权限管理</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_5"></div>第三方通道设置
+        </div>
+        <div class="xn_c_li_head_two" id="hi_5">
+          <a id="mg_13" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.TripartiteSettingAction.SMSPassage()}">短信通道设置</a>
+          <a id="mg_14" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.TripartiteSettingAction.mailPassage()}">邮件通道设置</a>
+        </div>
+      </li>
+      <li>
+         <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_6"></div>操作日志管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_6">
+          <a id="mg_15" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.LogManagerAction.logs()}">操作日志列表</a>
+          <a id="mg_16" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.LogManagerAction.deleteLogsInit()}">删除操作日志</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_8"></div>微信设置
+        </div>
+        <div class="xn_c_li_head_two" id="hi_8">
+          <a id="mg_19" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.WeChatSettingAction.weiXinWelcomeToLanguage()}">关注欢迎语设置</a>
+          <a id="mg_20" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.WeChatSettingAction.weiXinConsultingLanguage()}">在线咨询语设置</a>
+        </div>
+      </li>
+       <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_9"></div>APP版本管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_9">
+          <a id="mg_24" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.AppAction.version()}">APP版本设置</a>
+          <a id="mg_25" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.AppAction.borrowVersion()}">借款APP版本设置</a>
+        </div>
+      </li>
+       <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_7"></div>软件授权设置
+        </div>
+        <div class="xn_c_li_head_two" id="hi_7">
+          <a id="mg_17" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.SoftwareLicensAction.basicInfo()}">系统基本资料设置</a>
+          <a id="mg_18" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.SoftwareLicensAction.notRegister()}">软件正版注册信息</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_10"></div>缓存设置
+        </div>
+        <div class="xn_c_li_head_two" id="hi_10">
+          <a id="mg_26" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.supervisorAction.enumModelInit()}">重置EnumModel缓存</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="xn_c_con_leftbutton">
+    <div class="xn_c_con_enimg">导航点击</div>
+  </div>
+</div>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_mg_sys.js'}"></script>

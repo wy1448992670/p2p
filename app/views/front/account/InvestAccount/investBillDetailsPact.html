@@ -1,0 +1,22 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle +' | 我的账户   | 投资子账户 | 我的投资账单  | '+investDetail?.title+'借款标账单详细表  '/}
+
+<div class="xf_con_box">
+	<div class="xf_con_wyjk_nav">
+	<span class="sf_con_wyjk_dq">我要出借</span><span class="sf_con_wyjk_gtnav">&gt;</span><span class="sf_con_wyjk_dq">出借子账户</span><span class="sf_con_wyjk_gtnav">&gt;</span><span class="sf_con_wyjk_dq">出借账单</span><span class="sf_con_wyjk_gtnav">&gt;</span><span class="sf_con_wyjk_dq">电子合同</span></div>
+	<div class="xf_membill_view_xq">
+		<iframe src="${result.pact_location}" frameborder="0" id="pdfContainer" name="pdfContainer" width="100%" height="6900"></iframe>
+	</div>
+</div>
+<script>
+    function showPage(currPage, pageSize){
+         $("#currPage").val(currPage);
+         $("#investBillSubmit").submit();
+    }
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript" src="/public/javascripts-new/pdf.js"></script>
+<script type="text/javascript" src="/public/javascripts-new/pdf.worker.js"></script>

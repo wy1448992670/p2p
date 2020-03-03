@@ -1,0 +1,21 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'借款标详情' /} 
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include '/supervisor/bidManager/bidManagerLeft.control'/} 
+    #{include '/supervisor/bidManager/BidPlatformAction/loanSucceed.control'/}  
+  </div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		showHighLight(1, 1, ${type});
+	});
+	
+	function upBid(){
+		window.location.href = "@{supervisor.bidManager.BidPlatformAction.loanSucceedDetail(bid?.upId, type, falg)}"; 
+	}
+	
+	function nextBid(){
+		window.location.href = "@{supervisor.bidManager.BidPlatformAction.loanSucceedDetail(bid?.nextId, type, falg)}"; 
+	}
+</script>

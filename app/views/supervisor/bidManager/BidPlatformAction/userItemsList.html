@@ -1,0 +1,391 @@
+#{table class:"xf_con_mem_r_b_table", cellspacing:"0", cellpadding:"0", border:"0", width:"100%", tr_class_odd:"xn_tr_bj"}
+  #{tr}
+  	#{th colspan:"8"}风控审核管理#{/th}
+  #{/tr}
+  #{tr}
+    #{th}序号#{/th}
+    #{th}科目#{/th}
+    #{th}格式#{/th}
+    #{th}是否必审#{/th}
+    #{th}提交时间#{/th}
+    #{th}状态#{/th}
+    #{th}审核时间#{/th}
+    #{th}操作#{/th}
+  #{/tr}
+  #{list items}
+  #{tr}
+  	#{td}${_index}#{/td}
+    #{td}${_?.name}#{/td}
+    #{td}
+      #{if _?.type == 1}
+		图片文件
+	  #{/if}
+	  #{elseif _?.type == 2}
+		文本文件
+	  #{/elseif}
+	  #{elseif  _?.type == 3}
+		视频文件
+	  #{/elseif}
+	  #{elseif  _?.type == 4}
+		音频文件
+	  #{/elseif}
+	  #{else}
+		表格文件
+	  #{/else}
+    #{/td}
+    #{td}
+      %{ boolean falg = false; }%
+	  #{list items: requiredAuditItem, as : 'ritem'}
+		#{if ritem?.auditItem?.id == _?.audit_item_id}
+			%{ 
+				falg = true;
+				break; 
+			}%
+		#{/if}
+	  #{/list}
+      %{ if(falg){ }%
+   		<font color="red">必须</font>
+   	  %{ }else{ }%
+   		可选
+      %{ } }%
+    #{/td}
+    #{td}${_?.time?.format('yyyy-MM-dd')}#{/td}
+    #{td}${ _?.strStatus}#{/td}
+    #{td}#{if _?.status != 1 && _?.status != 4}${_?.audit_time?.format('yyyy-MM-dd')}#{/if}#{/td}
+    #{td}
+      *{ 状态为0,1,2的时候才能审核资料(屏蔽其它页面嵌套过来) }*
+      #{if _?.status == 0}
+     	<a class="xf_ta_onclick" style="cursor: pointer;" onclick="openUploadWin(${_?.type},'${_?.name}','${_?.description}',${_?.user_id},${_?.id})">上传(清晰)</a>
+      	<a class="xf_ta_onclick" style="cursor: pointer;" onclick="openUploadWins(${_?.type},'${_?.name}','${_?.description}',${_?.user_id},${_?.id})">上传(打码)</a>
+      #{/if}
+      #{if _?.status == 1}
+      	<a class="xf_ta_onclick" style="cursor: pointer;" onclick="openUploadWin(${_?.type},'${_?.name}','${_?.description}',${_?.user_id},${_?.id})">上传(清晰)</a>
+      	<a class="xf_ta_onclick" style="cursor: pointer;" onclick="openUploadWins(${_?.type},'${_?.name}','${_?.description}',${_?.user_id},${_?.id})">上传(打码)</a>
+      	<a class="xf_ta_onclick" style="cursor: pointer;" onclick="showaudititem('${_?.mark}', '${_?.signUserId}');">审核</a>
+      	<a class="xf_ta_onclick" style="cursor: pointer;" onclick="showitem('${_?.mark}', '${_?.signUserId}');">查看</a>
+      	<a class="xf_ta_onclick" style="cursor: pointer;" href="@{Application.downloadFiles(_?.images, _?.type)}">下载</a>
+      #{/if}
+      #{elseif _?.status == 2}
+      	<a class="xf_ta_onclick" style="cursor: pointer;" onclick="showitem('${_?.mark}', '${_?.signUserId}');">查看</a>
+      	<a class="xf_ta_onclick" style="cursor: pointer;" href="@{Application.downloadFiles(_?.images, _?.type)}">下载</a>
+      #{/elseif}
+      #{elseif _?.status == 3}
+      	<a class="xf_ta_onclick" style="cursor: pointer;" onclick="showitem('${_?.mark}', '${_?.signUserId}');">查看</a>
+      	<a class="xf_ta_onclick" style="cursor: pointer;" href="@{Application.downloadFiles(_?.images, _?.type)}">下载</a>
+      	<a class="xf_ta_onclick" style="cursor: pointer;" onclick="openUploadWin(${_?.type},'${_?.name}','${_?.description}',${_?.user_id},${_?.id})">上传</a>
+      #{/elseif}
+      #{elseif _?.status == 4}
+      	<a class="xf_ta_onclick" style="cursor: pointer;" onclick="openUploadWin(${_?.type},'${_?.name}','${_?.description}',${_?.user_id},${_?.id})">上传</a>
+      	<a class="xf_ta_onclick" style="cursor: pointer;" onclick="showitem('${_?.mark}', '${_?.signUserId}');">查看</a>
+      	<a class="xf_ta_onclick" style="cursor: pointer;" href="@{Application.downloadFiles(_?.images, _?.type)}">下载</a>
+      #{/elseif}
+      #{elseif _?.status == -1}
+      	<a class="xf_ta_onclick" style="cursor: pointer;" onclick="openUploadWin(${_?.type},'${_?.name}','${_?.description}',${_?.user_id},${_?.id})">上传</a>
+      	<a class="xf_ta_onclick" style="cursor: pointer;" onclick="showitem('${_?.mark}', '${_?.signUserId}');">查看</a>
+      	<a class="xf_ta_onclick" style="cursor: pointer;" href="@{Application.downloadFiles(_?.images, _?.type)}">下载</a>
+      #{/elseif}
+    #{/td}
+  #{/tr}
+  #{/list}
+#{/table}             
+<!-- 查看资料弹出层 -->
+<div id="showitem" class="xn_c_ban_jox xn_c_ban_jox_ptsh" style="height: 400px; overflow: auto; display: none;"></div>
+<!-- 审核资料弹出层 -->
+<div id="audititem" class="xn_c_ban_jox xn_c_ban_jox_ptsh" style="height: 400px; overflow: auto; display: none;"></div>
+
+
+<div class="xf_wyjkfb_4_window" id="xf_wyjkfb_4_window">
+	#{include '/supervisor/bidManager/BidPlatformAction/userItemsListUpload.html'/}
+</div>
+
+<div class="xf_wyjkfb_4_windows" id="xf_wyjkfb_4_windows">
+	#{include '/supervisor/bidManager/BidPlatformAction/userItemsListUploadNext.html'/}
+</div>
+
+<script type="text/javascript">
+
+	$(function(){
+		$("#xf_wyjkfb_4_window").hide();
+		
+		$("#xf_wyjkfb_4_windows").hide();
+	})
+	// 详情页折叠
+    var tabH = $(".xf_con_mem_r_bottom").height();
+    
+    $(".xf_mem_r_b_title_x").click(function(){
+      if ( $(this).parents(".xf_con_mem_r_bottom").height() > 45 ) {
+        $(this).addClass("xf_mem_r_b_title_x2");
+        $(this).parents(".xf_mem_r_b_title_th").addClass("xf_mem_r_b_title_th2");
+        $(this).parents(".xf_con_mem_r_bottom").animate({height:"45px"});
+      } else{
+        $(this).removeClass("xf_mem_r_b_title_x2");
+        $(this).parents(".xf_con_mem_r_bottom").animate({height:tabH});
+      };
+    });
+
+    $('#bgTab').find('tr:odd').find('td').css('background-color', '#f4f4f4');
+
+    /* 查看弹出层 */
+	function showitem(mark, signUserId){
+		var action = #{jsAction @supervisor.bidManager.UserAuditItemAction.showitem(':mark',':signUserId') /};
+		$.post(action({mark:mark, signUserId:signUserId}), function(data) {
+			var audititem = $("#audititem");
+			if(audititem.is(":visible"))
+				audititem.hide();
+			$("#showitem").html(data);
+	        $.layer({
+	          type: 1,
+	          area: ['608', 'auto'],
+	          title: '查看资料',
+	          page: {dom : '#showitem'}
+	        });
+		});		
+	}
+
+	/* 审核弹出层 */
+	function showaudititem(mark, signUserId){
+		var action = #{jsAction @supervisor.bidManager.UserAuditItemAction.audititem(':mark',':signUserId') /};
+		$.post(action({mark:mark, signUserId:signUserId}), function(data) {
+			var showitem = $("#showitem");
+			if(showitem.is(":visible"))
+				showitem.hide();
+			$("#audititem").html(data);
+	        $.layer({
+	          type: 1,
+	          area: ['608', 'auto'],
+	          title: '审核资料',
+	          page: {dom : '#audititem'}
+	        });
+		});	
+	}
+	function appendZero(s){return ("00"+ s).substr((s+"").length);}  
+	
+   	 var items = new Array();
+	 var itemIndex = 0;
+  	 //打吗上传
+	 var items1 = new Array();
+	 var itemIndex1 = 0;
+	/**
+	 * 上传文件
+	 */
+	
+	 function uploadFile() {
+			var a = $("#file").val();
+			if($("#file").val() == "") {
+				alert("请选择上传的文件");
+				return;
+			}
+		   		
+			var d = new Date();
+			var date = d.getFullYear() + "-" + appendZero(d.getMonth() + 1) + "-" + appendZero(d.getDate()); 
+			
+			var type = $("#fileType").val();
+			
+			$.ajaxFileUpload({
+				url : "@{FileUpload.uploadFile()}",
+				secureuri : false,
+				fileElementId : 'file',
+				dataType : 'text',
+				data: { 
+					"type": type
+				},
+				success : function(data) {
+					data = $.evalJSON(data);
+					if (data.code < 0) {
+						alert(data.msg);
+		   	
+						return;
+					}
+
+					var td = type==1 ? '<img src="'+data.fileName+'" width="35" height="35" />' : '---';
+					var html = '<tr id="itemTr'+itemIndex+'">'+
+					'<td>'+(itemIndex+1)+'</td>'+
+					'<td>'+data.fileType+'</td>'+
+					'<td>'+date+'</td>'+
+					'<td>'+data.size+'k'+'</td>'+
+					'<td>成功</td>'+
+					'<td>'+td+'</td>'+
+					'</tr>';
+		   				   	
+					$("#itemTr"+(itemIndex-1)).after(html);
+					items[itemIndex] = data.fileName;
+					itemIndex++;
+				},
+				error : function(data, status, e) {
+					$("#itemTr"+(itemIndex-1)).after(html);
+
+					//$("#showimg" + itemIndex).attr("src", path);
+					$("#size"+itemIndex).html('---');
+					$("#type"+itemIndex).html('---');
+		   				
+					$("#status"+itemIndex).html('失败');
+					itemIndex++;
+				}
+			});
+		}
+	 
+	 
+	
+	 function uploadFiles() {
+			var a = $("#files").val();
+		
+			if($("#files").val() == "") {
+				alert("请选择上传的文件");
+				return;
+			}
+		   		
+			var d = new Date();
+			var date = d.getFullYear() + "-" + appendZero(d.getMonth() + 1) + "-" + appendZero(d.getDate()); 
+			
+			var type = $("#fileTypes").val();
+			
+			$.ajaxFileUpload({
+				url : "@{FileUpload.uploadFile()}",
+				secureuri : false,
+				fileElementId : 'files',
+				dataType : 'text',
+				data: { 
+					"type": type
+				},
+				success : function(data) {
+					data = $.evalJSON(data);
+					if (data.code < 0) {
+						alert(data.msg);
+		   	
+						return;
+					}
+
+					var td = type==1 ? '<img src="'+data.fileName+'" width="35" height="35" />' : '---';
+					var html = '<tr id="itemTrs'+itemIndex1+'">'+
+					'<td>'+(itemIndex1+1)+'</td>'+
+					'<td>'+data.fileType+'</td>'+
+					'<td>'+date+'</td>'+
+					'<td>'+data.size+'k'+'</td>'+
+					'<td>成功</td>'+
+					'<td>'+td+'</td>'+
+					'</tr>';
+		   				   	
+					$("#itemTrs"+(itemIndex1-1)).after(html);
+		   				
+					items1[itemIndex1] = data.fileName;
+					itemIndex1++;
+				},
+				error : function(data, status, e) {
+					$("#itemTr"+(itemIndex1-1)).after(html);
+
+					//$("#showimg" + itemIndex).attr("src", path);
+					$("#size"+itemIndex1).html('---');
+					$("#type"+itemIndex1).html('---');
+		   				
+					$("#status"+itemIndex1).html('失败');
+					itemIndex1++;
+				}
+			});
+		}
+	 
+	var docUserId, docItemId;
+	function openUploadWin(fileType,itemName,description,userId,itemId){
+		$("#itemName").html(itemName);
+		$("#description").html(description);
+		$("#fileType").val(fileType);
+		docUserId = userId;
+		docItemId = itemId;
+		switch(parseInt(fileType)) {
+		case 1: 
+			type = "图片文件";
+			break;
+		case 2: 
+			type = "文本文件";
+			break;
+		case 3: 
+			type = "视频文件";
+			break;
+		case 4: 
+			type = "音频文件";
+			break;
+		default:
+			type = "表格文件";
+			break;	
+		}
+		$("#fileTypeShow").html(type);
+		showDiv($("#xf_wyjkfb_4_window"));
+		center($("#xf_wyjkfb_4_window"));
+	}
+	
+	
+	var docUserIds, docItemIds;
+	function openUploadWins(fileType,itemName,description,userId,itemId){
+		$("#itemNames").html(itemName);
+		$("#descriptions").html(description);
+		$("#fileTypes").val(fileType);
+		docUserIds = userId;
+		docItemIds = itemId;
+		switch(parseInt(fileType)) {
+		case 1: 
+			type = "图片文件";
+			break;
+		case 2: 
+			type = "文本文件";
+			break;
+		case 3: 
+			type = "视频文件";
+			break;
+		case 4: 
+			type = "音频文件";
+			break;
+		default:
+			type = "表格文件";
+			break;	
+		}
+		$("#fileTypeShows").html(type);
+		showDiv($("#xf_wyjkfb_4_windows"));
+		center($("#xf_wyjkfb_4_windows"));
+	}
+	
+	function closessubmititem(){
+		$("#xf_wyjkfb_4_window").hide(300);
+		//$("#hide").hide();
+	}
+	
+	function closessubmititems(){
+		$("#xf_wyjkfb_4_windows").hide(300);
+		//$("#hide").hide();
+	}
+	
+	function createUserAuditItemSubmit(){
+		var len = items.length;
+		if(len <=0){
+			alert('请先上传资料!');
+			return;
+		}
+	
+		var action = #{jsAction @supervisor.bidManager.BidPlatformAction.createUserAuditItem(':userId',':userItemId',':items',':uploadType') /};
+		$.post(action({userId:docUserId, userItemId:docItemId, items:items,uploadType:1}), function(data) {
+			if("" != data.msg){
+				alert(data.msg);
+				return;
+			}
+	  	  location.reload();
+		});
+	}
+	
+	function createUserAuditItemSubmits(){
+		var len = items1.length;
+		if(len <=0){
+			alert('请先上传资料!');
+			return;
+		}
+	    
+		var action = #{jsAction @supervisor.bidManager.BidPlatformAction.createUserAuditItem(':userId',':userItemId',':items',':uploadType') /};
+		$.post(action({userId:docUserIds, userItemId:docItemIds, items:items1,uploadType:2}), function(data) {
+			if("" != data.msg){
+				alert(data.msg);
+				return;
+			}
+		  	  location.reload();
+			
+		});
+	}
+
+	   	
+</script>

@@ -1,0 +1,123 @@
+<div class="xn_c_ban_jox xn_c_ban_jox_ptsh">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xfht_tbox_ft">
+      <div class="xfht_t_jk_zt3 xf_ht_obu_ss">
+        <div class="xfht_t_jkb_view">
+          <span class="xfht_t_lespan">关键词：</span>
+          <input name="keywords" type="text" class="xfht_t_jk_zt_rj3" id="keywords" value="${keywords}" />
+        </div>
+        <div class="xfht_t_jkb_view">
+          <span class="xfht_t_lespan">借款状态：</span>
+          <select id="status" name="select" class="xf_membill_selectAge xf_membill_selectAge11">
+            <option >请选择</option>
+            <option value="0" #{if status == '0'} selected="selected" #{/if}>审核中</option>
+            <option value="1" #{if status == '1'} selected="selected" #{/if}>提前借款</option>
+            <option value="2" #{if status == '2'} selected="selected" #{/if}> 借款中</option>
+            <option value="3" #{if status == '3'} selected="selected" #{/if}>待放款</option>
+            <option value="4" #{if status == '4'} selected="selected" #{/if}> 还款中</option>
+            <option value="5" #{if status == '5'} selected="selected" #{/if}>已还款</option>
+            <option value="-1" #{if status == '-1'} selected="selected" #{/if}>审核不通过</option>
+            <option value="-2" #{if status == '-2'} selected="selected" #{/if}>借款中不通过</option>
+            <option value="-3" #{if status == '-3'} selected="selected" #{/if}>放款不通过</option>
+            <option value="-4" #{if status == '-4'} selected="selected" #{/if}>流标</option>
+            <option value="-5" #{if status == '-5'} selected="selected" #{/if}>撤销</option>
+          </select>
+          <a href="javascript:void(0);" class="xf_ht_jkbgl_page_prev xf_ht_dfp" onclick="showUserBidDetails(1,5,'${sign}',${type});">搜索</a>
+        </div>
+      </div>
+    </div>
+    <div class="xf_ht_ures_view_tcc">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="xf_con_mem_r_b_table">
+        <tr>
+          <th>借款编号</th>
+          <th>借款标题</th>
+          <th>借款金额</th>
+          <th>借款状态</th>
+        </tr>
+        <!-- 逾期加红 -->
+        #{list items:page.page,as:'bid'}
+        <tr class="xf_ht_yq_red">
+          <td><a href=@{bidDetail(bid?.id, light)}>${bid?.no}</a></td>
+          <td><a href=@{bidDetail(bid?.id, light)}>${bid?.title}</a></td>
+          <td><a href=@{bidDetail(bid?.id, light)}>${bid?.amount?.format("###,##0.00")}</a></td>
+          <td>
+            #{if bid?.status==0}
+            审核中
+            #{/if}
+            #{elseif bid?.status==1}
+            提前借款
+            #{/elseif}
+            #{elseif bid?.status==2}
+            借款中
+            #{/elseif}
+            #{elseif bid?.status==3}
+            待放款
+            #{/elseif}
+            #{elseif bid?.status==4}
+            还款中
+            #{/elseif}
+            #{elseif bid?.status==5}
+            已还款
+            #{/elseif}
+            #{elseif bid?.status==-1}
+            审核不通过
+            #{/elseif}
+            #{elseif bid?.status==-2}
+            借款中不通过
+            #{/elseif}
+            #{elseif bid?.status==-3}
+            放款不通过
+            #{/elseif}
+            #{elseif bid?.status==-4}
+            流标
+            #{/elseif}
+            #{else bid?.status==-5}
+            撤销
+            #{/else}
+          </td>
+        </tr>
+        #{/list}
+      </table>
+    </div>
+    <div class="xf_ht_shmx_button xf_ht_ssjt">
+      <input class="xf_ht_tcc_button_on" onclick="showReport();" type="button" value="加入黑名单">
+      <div class="page_warp">
+        #{page funMethod:"showRecords",currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:2,style:4 /}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+function showReport(){
+  $.layer({
+    type: 1,
+    area: ['500px', 'auto'],
+    title: '加入黑名单',
+    page: {dom : '#report'}
+  });
+}
+
+function hideReport(){
+  parent.layer.close(layer.index);
+}
+
+function reportUser(){
+  var sign = "${sign}";
+  var reason = $("#reason").val();
+  if($.trim(reason) == ""){
+    alert("对不起！原因不能为空！");
+    return;
+  }
+  var listAction = #{jsAction @supervisor.userManager.ReportedUser.addBlacklist(':sign', ':reason') /};
+  $.post(listAction({sign:sign, reason:reason}), function(data) {
+    alert(data.error.msg);
+    parent.layer.close(layer.index);
+  });  
+  
+}
+
+function showRecords(pageNum,pageSize){
+  showUserBidDetails(pageNum,pageSize,'${sign}',5);
+}
+</script>

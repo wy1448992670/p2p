@@ -1,0 +1,120 @@
+<div class="xf_ht_ttc" id="xf_ht_fkzh_tt" style="display:none;width:500;height: 400px;overflow: auto;">
+  <div class="xf_ht_jr_obu_width">
+    #{form @editPartner(), id:'editPartner'}
+    <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form" width="100%">
+      <tr>
+        <td align="right" valign="middle" width="130">名称：</td>
+        <td>
+          <input type="hidden" value="${partner?.id}" name="partnerId"/>	
+          <input class="xf_ht_pro_in_bq" type="text" value="${partner?.name}" id="name" name="name"/>
+        </td>
+      </tr>
+      <tr>
+        <td  align="right" valign="middle">上传LOGO：</td>
+        <td>
+          <input type="hidden"  name="resolution" id="imageResolution3" value=""/>
+          <input type="hidden"  name="type" id="imageType3" value=""/>
+          <input type="hidden" id="filename" name="filename" value=""/>
+          <span>
+		    <input type='button' class='upload_btn' value='上传'/> 
+		    <input type="file" class="upload_file" name="imgFile" id="imgFileTemp" onchange="uploadImage('imgFileTemp','loanImage');" style="top:85px; left:142px;" />
+		  </span>
+          <span style="color:#999; padding:0 0 0 10px;" id="imageResolution2">${partner?.resolution}</span> 
+        </td>
+      </tr>
+      <tr>
+        <td align="right" valign="top">格式：</td>
+        <td>
+          <span class="xf_ht_banner_s" id="imageType10">${partner?.fileFormat}</span>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+         #{img src:"${partner?.imageFileName}",alt:"",class:"xf_ht_banner_simg",id:"loanImage"}#{/img}
+        </td>
+      </tr>
+      <tr>
+        <td align="right" valign="top">链接地址：</td>
+        <td>
+          <input class="xf_ht_banner_input" type="text" value="${partner?.url}" id="url" name="url"/>
+        </td>
+      </tr>
+      <tr>
+        <td align="right" valign="top">排序：</td>
+        <td>
+          <input class="xf_ht_banner_input" type="text" style="width:80px"  value="${partner?.order}" id="order" name="order"/>
+        </td>
+      </tr>
+      <tr>
+        <td align="right" valign="top">合作伙伴描述：</td>
+        <td>
+          <textarea class="xf_ht_jr_obttd_textarea" id="description" name="description">${partner?.description}</textarea>
+        </td>
+      </tr>
+      <tr>
+        <td align="right">&nbsp;</td>
+        <td style="padding:20px 0 40px 0;">
+          <input class="xf_ht_tcc_button_ok" type="button" onclick="editPartner();" value="保  存">
+          <input class="xf_ht_tcc_button_on" type="button" onclick="concel();" value="取  消">
+        </td>
+      </tr>
+    </table>
+    #{/form}
+  </div>
+</div>
+<script>
+  $(function() {
+    $("#imageResolution3").val('${partner?.resolution}')
+ 	$("#imageType3").val('${partner?.fileFormat}')
+  })
+ 
+  function concel(){
+    layer.closeAll();
+  }
+ 	
+  function editPartner(){
+    var loanImage = $("#loanImage").attr("src");
+ 		
+    if(loanImage =="" || loanImage == null){
+      alert("对不起！请上传图片！");
+      
+      return;
+    }
+ 		
+    $("#filename").val(loanImage);
+    	
+    var temp = $("#imageType10").text(); 
+    $("#imageType3").val(temp);
+    var imageResolution = $("#imageResolution2").text();
+    $("#imageResolution3").attr("value",imageResolution);
+    	
+    var url = $("#url").val();
+    var description = $("#description").val();
+    var order = $("#order").val();
+    if(url.replace(/(^\s*)/, "") =="" || url.replace(/(^\s*)/, "")==null){
+      alert("对不起！链接不能为空！");
+      
+      return;
+    }
+
+    if(url.indexOf('http://') !== 0 && url.indexOf('https://') !== 0){
+    	alert("请填写完整的连接地址；如：http://、https://");
+    	
+    	return;
+    }
+    
+    if(description.replace(/(^\s*)/, "") =="" || description.replace(/(^\s*)/, "")==null){
+      alert("对不起！描述不能为空！");
+      
+      return;
+    }
+    if(order.replace(/(^\s*)/, "") =="" || order.replace(/(^\s*)/, "")==null){
+      alert("对不起！排序不能为空！");
+      
+      return;
+    }
+    	
+    $("#editPartner").submit();	
+  }
+</script>

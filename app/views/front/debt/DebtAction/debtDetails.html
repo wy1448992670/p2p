@@ -1,0 +1,562 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /}
+#{set title:currBackstageSet.seoTitle +'| 债权转让  |' +debt?.title+'债权标详情'/}
+
+     <!--内容区-->
+		<div class="p_bgf1_box pb30 pt30">
+		    <div class="p_main">
+		        <div class="p_xq_box01 clr">
+		            <div class="p_xq_b1left">
+		                <table width="100%">
+		                    <tr height="78">
+		                        <td colspan="3">
+		                            <img src="${debt?.invest?.bid?.product?.smallImageFilename}" alt="" width="23" height="22" class="fl" />
+		                            <span class="p_xq_listt">${debt?.title}</span>
+		                            <span class="p_xq_bianh">项目编号：${debt?.no}</span>
+		                        </td>
+		                    </tr>
+		                    <tr height="42">
+		                        <td width="230">借款总额：<span class="p_lc_import">￥${debt?.invest?.bid?.amount?.format("###,##0.00")}</span></td>
+		                        <td width="232">年利率：<span class="p_lc_import">${debt?.invest?.bid?.apr}%</span></td>
+		                        <td>还款日期：${debt?.map?.receive_time != "" ? debt?.map?.receive_time: '已还款'}</td>
+		                    </tr>
+		                    <tr height="42">
+		                        <td>投标本金：￥${debt?.invest?.amount?.format("###,##0.00")}</td>
+		                        <td>信用等级：#{img width:"25px",height:"25px",src:"${debt?.invest?.user?.myCredit?.imageFilename}",alt:""}#{/img}</td>
+		                         <td>待收本金：￥${debt?.map?.receive_corpus}</td>
+		                    </tr>
+		                    <tr height="42">
+		                       <td>拍卖底价：￥#{format money:debt.transferPrice}#{/format}</td>
+		                        <td>待收本息(最高价)：￥${investMap?.remainReceivedAmount}</td>
+		                        <td>目前拍价：￥#{format money:debt.maxOfferPrice}#{/format}</td>
+		                    </tr>
+		                </table>
+		            </div>
+		            <div class="p_xq_b1line"></div>
+		            <div class="p_xq_b1right">
+		                <div class="p_xq_b1r01"><span>竞拍状态：
+		                  #{if debt?.status == 1}
+							竞拍中
+							#{/if}
+							#{if debt?.status == 2}
+							等待认购
+							#{/if}
+							#{if debt?.status == 3}
+							已成功
+							#{/if}
+							#{if debt?.status == 4}
+							待确认
+							#{/if}
+							#{if debt?.status == -2}
+							流拍
+							#{/if}
+							#{if debt?.status == -3}
+							流拍
+							#{/if}
+							#{if debt?.status == -5}
+							流拍
+							#{/if}
+		                </span></div>
+		                 #{if debt.status == 1 && new java.util.Date() < debt?.endTime}
+		                <div class="p_xq_b1r09">
+		                    <input type="hidden" id="hiddenTime" value="${debt?.endTime?.format('yyyy/MM/dd HH:mm:ss')}" />
+		                    <span class="">剩余时间： 
+		                        <strong class="p_zq_str01" id="day"></strong>天
+		                        <strong class="p_zq_str01" id="hour"></strong>小时
+		                        <strong class="p_zq_str01" id="minutes"></strong>分
+		                        <strong class="p_zq_str01" id="seconds"></strong>秒
+		                    </span>
+		                </div>
+		                <a onclick="showDivDebt();" title="" class="p_xq_b1r04 p_op">我要竞拍</a>
+		                 #{/if}
+		                <div class="xf_cps_top_r">
+		                    <div class="xf_wylc_erweima p_xq_erwm">
+
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		        <div class="p_xq_xxkbox">
+		            <ul class="p_xq_xxkul clr">
+		                <li id="debtAuctionRecords" onclick="showDebtAuctionRecords(1,10);" >竞拍记录</li>
+		                <li>转让标详情</li>
+		            </ul>
+		        </div>
+		        <div class="p_xq_tabox">
+		            <div class="p_bd_tbox02" id="debtAuctionsRecords">
+		               <!--   <table border="0" cellpadding="0" cellspacing="0" width="100%" class="xf_zqzr_viewcpms">
+		                    <tbody>
+		                        <tr>
+		                            <th>序号</th>
+		                            <th>竞拍人</th>
+		                            <th>竞拍出价</th>
+		                            <th>竞拍时间</th>
+		                            <th>竞拍状态</th>
+		                        </tr>
+		                        
+		                        #{list items:page?.page, as:'records'}
+			                        <tr>
+			                            <td>${records_index}</td>
+			                            <td>${records?.name?.asterisk()}</td>
+			                            <td>${records?.offer_price?.format("###,##0.00")}</td>
+			                            <td>${records?.time?.format('yyyy-MM-dd HH:mm:ss')}</td>
+			                            <td>
+										#{if records?.status==0}
+												正常
+												#{/if}
+												#{if records?.status==1}
+												成交
+												#{/if}
+												#{if records?.status==2}
+												待接受
+												#{/if}
+												#{if records?.status==3}
+												待确认
+												#{/if}
+												#{if records?.status==-1}
+												失败
+												#{/if}
+										</td>
+			                        </tr>
+		                        #{/list}
+		                    </tbody>
+		                </table>
+		               
+		                <div class="xf_wylc_page">
+		                   
+		                     #{page funMethod:"showDebtAuctionRecords",currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:2,style:2 /} 
+		                </div>-->
+		            </div>
+		        </div>
+		        <div class="p_xq_tabox none">
+		            <div class="p_bd_tbox01">
+		                <table class="p_bd_table01">
+		                    <tr>
+		                        <td width="64" class="p_bd_td01">借款人基本资料</td>
+		                        <td width="852">
+		                            <table class="p_bd_table02">
+		                                <tbody><tr>
+		                                    <td width="84">真实姓名：</td>
+		                                    <td width="188">${debt?.invest?.bid?.user?.realityName?.asterisk()}</td>
+		                                    <td width="86">性别：</td>
+		                                    <td width="129">${debt?.invest?.bid?.user?.sex}</td>
+		                                    <td width="77">年龄：</td>
+		                                    <td>${debt?.invest?.bid?.user?.age}岁</td>
+		                                </tr>
+		                                <tr>
+		                                    <td>身份证号：</td>
+		                                    <td>${debt?.invest.bid?.user?.idNumber?.asterisk()}</td>
+		                                    <td>户口所在地：</td>
+		                                    <td>${debt?.invest?.bid?.user?.provinceName}${debt?.invest?.bid?.user?.cityName}</td>
+		                                    <td>文化程度：</td>
+		                                    <td>${debt?.invest?.bid?.user?.educationName}</td>
+		                                </tr>
+		                                <tr>
+		                                    <td>婚姻状况：</td>
+		                                    <td>${debt?.invest?.bid?.user?.maritalName}</td>
+		                                    <td>购房情况：</td>
+		                                    <td>${debt?.invest?.bid?.user?.houseName}</td>
+		                                    <td>购车情况：</td>
+		                                    <td>${debt?.invest?.bid?.user?.carName}</td>
+		                                </tr>
+		                                <tr>
+		                                    <td valign="middle">借款目的：</td>
+		                                    <td colspan="5">${debt?.invest?.bid?.purpose?.name}</td>
+		                                    <td>&nbsp;</td>
+		                                    <td>&nbsp;</td>
+		                                    <td>&nbsp;</td>
+		                                    <td>&nbsp;</td>
+		                                </tr>
+		                            </tbody></table>
+		                        </td>
+		                    </tr>
+		                    <tr>
+		                        <td class="p_bd_td01">借款详情对借款用途还款能力的详细说明</td>
+		                        <td>${debt?.invest?.bid?.description}</td>
+		                    </tr>
+		                    <tr>
+		                        <td class="p_bd_td01">必须资料审核科目</td>
+		                        <td>
+		                            <table class="p_bd_table03">
+		                                <tbody><tr>
+		                                    <th>序号</th>
+		                                    <th>审核科目</th>
+		                                    <th>状态</th>
+		                                    <th>操作</th>
+		                                    <th>CBO风控体系审核</th>
+		                                </tr>
+		                                  #{list uItems}	
+												#{if _?.status == 2}
+												<tr>
+													<td align="center">
+														${_index}
+													</td>
+													<td align="center">
+														${_?.auditItem?.name}
+													</td>
+													<td align="center">
+														${_?.strStatus}
+													</td>
+													<td align="center" width="90">
+														#{if _?.isVisible}
+															<a onclick="showitemNow('${_?.mark}','${debt?.invest?.bid?.signUserId}');">查看</a>
+														#{/if}
+														#{else}
+															不可见
+														#{/else}
+													</td>
+													#{if _index == 1}
+													<td valign="top" rowspan="${uItems?.size}" class="xf_wylc_l_memhyA_zh">
+														${debt?.invest?.bid?.auditSuggest}
+													</td>
+													#{/if}
+												</tr>
+												#{/if}
+											#{/list}
+		                            	</tbody>
+		                            </table>
+		                        </td>
+		                    </tr>
+		                    <tr>
+		                        <td class="p_bd_td01">历史情况</td>
+		                        <td>
+		                            <table class="p_bd_table02" width="100%">
+		                                <tbody><tr>
+		                                    <td>注册时间：${debt?.invest?.bid?.user?.time?.format('yyyy-MM-dd HH:mm:ss')}</td>
+		                                    <td>成功借款次数：${historySituationMap?.successBidCount}次</td>
+		                                    <td>正常还款次数：${historySituationMap?.normalRepaymentCount}  次</td>
+		                                    <td>逾期还清次数：${historySituationMap?.overdueRepaymentCount} 次</td>
+		                                </tr>
+		                                <tr>
+		                                    <td>待付款金额：${historySituationMap?.pendingRepaymentAmount}元</td>
+		                                    <td>共计借入金额：${historySituationMap?.loanAmount}元</td>
+		                                    <td>投资投标笔数：${historySituationMap?.financialCount} 笔</td>
+		                                    <td>待收款金额：${historySituationMap?.receivingAmount} 元</td>
+		                                </tr>
+		                            </tbody></table>
+		                        </td>
+		                    </tr>
+		                    <tr>
+		                        <td class="p_bd_td01">投标奖励</td>
+		                        <td>不设置奖励</td>
+		                    </tr>
+		                    <tr height="84">
+		                        <td colspan="2">
+		                            <strong class="p_xq_str01 debt_table_details">竞拍状态：
+		                               #{if debt?.status == 1}
+										竞拍中
+										#{/if}
+										#{if debt?.status == 2}
+										等待认购
+										#{/if}
+										#{if debt?.status == 3}
+										已成功
+										#{/if}
+										#{if debt?.status == 4}
+										待确认
+										#{/if}
+										#{if debt?.status == -2}
+										流拍
+										#{/if}
+										#{if debt?.status == -3}
+										流拍
+										#{/if}
+										#{if debt?.status == -5}
+										流拍
+										#{/if}
+									 </strong>
+		                            <strong class="p_xq_str02 debt_table_details">当前拍价：#{format money:debt.maxOfferPrice}#{/format}元</strong>
+		                             <strong class="p_xq_str04 debt_table_details">待收本息(最高价)：￥${investMap?.remainReceivedAmount}元</strong>
+		                            #{if debt.status == 1 && new java.util.Date() < debt?.endTime}
+										<a onclick="showDivDebt();" class="p_xq_btn p_op" style="margin-left:80px;">我要竞拍</a>
+									#{/if}
+		                        </td>
+		                    </tr>
+		                </table>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		<!-- 内容区域 start -->
+		*{	<div class="xf_con_box">
+			
+				<!-- 借款标详情 -->
+							<div class="xf_con_wyjk_nav"><a href="@{debtHome()}">债权转让</a><span class="sf_con_wyjk_gtnav">&gt;</span><span class="sf_con_wyjk_dq">${debt?.title}</span></div>
+				<!-- 借款详细区域 -->
+				<div class="xf_wylc_view_content content_view clr" style="overflow:hidden;">
+				 #{include 'front/debt/DebtAction/debtDetailsUserInfo.control' /}
+				  #{include 'front/debt/DebtAction/debtDetailsBidInfo.control' /}
+				  #{include 'front/debt/DebtAction/debtDetailsAuction.control' /}
+				</div>	
+					 #{include 'front/debt/DebtAction/debtDetailsRecords.control' /}
+				<!-- 我要投标 -->
+				<div class="xf_wylc_fbjkb clr">
+					<div class="xf_wylc_fbjkb_l">
+						<ul class="xf_wylc_fbjkb_ull xf_zqzr_fbjkb_ull clr">                  
+							<li>竞拍状态：
+							#{if debt?.status == 1}
+							竞拍中
+						#{/if}
+						#{if debt?.status == 2}
+							等待认购
+						#{/if}
+						#{if debt?.status == 3}
+							已成功
+						#{/if}
+						#{if debt?.status == -2}
+							流拍
+						#{/if}
+						#{if debt?.status == -3}
+							流拍
+						#{/if}
+						#{if debt?.status == -5}
+							流拍
+						#{/if}
+							
+							</li>
+							<li>本息合计：#{format money:debt.debtAmount}#{/format}元</li>
+							<li>拍卖底价：#{format money:debt.transferPrice}#{/format}元</li>
+							<li>目前拍价：<span class="xf_zqzr_jpjg">#{format money:debt.maxOfferPrice}#{/format}</span>元</li>
+						</ul>
+					</div>
+					<div class="xf_wylc_fbjkb_r">
+					#{if debt.status == 1 && new java.util.Date() < debt?.endTime}
+						<a  class="xf_con_inputfbjk" onclick="showDivDebt();">我要竞拍</a>
+					#{/if}
+					</div>
+				</div>
+			</div>}*
+		<!-- 内容区域 end -->
+		
+		<!-- 确认竞拍 -->
+		#{form @front.debt.debtAction.auction(debt?.id), method:'POST', id:'auction'}
+		<div class="xf_wyjkfb_4_window_debt" id="xf_wyjkfb_4_window_debt" >
+			<div class="xf_wyjkfb_4_windowInner xf_wylcfb_4_windowInner">
+				<div class="xf_wyjkfb_4_windowClose"></div>
+				<div class="xf_wyjkfb_4_windowColName">
+					我要竞拍<span class="xf_zqzr_jpbh">${debt?.no}号债权转让</span>
+				</div>
+				<div class="xf_zqzrtb_4_windowCot">
+					<div class="xf_wyjkfb_4_windowCol">转让人：  <span class="xf_wyjkfb_4_windowNo">${debt?.invest?.user?.name}</span></div>
+					<div class="xf_wyjkfb_4_windowCol">本息合计：#{format money:debt.debtAmount}#{/format}元 <span class="xf_zqzr_pmdj">拍卖底价：</span>#{format money:debt.transferPrice}#{/format}元</div>
+					<div class="xf_wyjkfb_4_windowCol">目前最高拍价：<span class="xf_wyjkfb_4_windowNum"></span>#{format money:debt.maxOfferPrice}#{/format}元</div>
+					<div class="xf_zqzrtb_4_windowCol">我的出价：<input class="xf_zqzrtb_input" name="offerPrice" id="offerPrice"></input> 元</div>
+					
+					 #{if debt?.invest?.bid?.product?.isDealPassword == true}
+					 <div class="xf_zqzrtb_4_windowCol">交易密码：<input type="password" class="xf_zqzrtb_input" name="dealpwd" id="dealpwd" onMouseOver="checkPwdDel();"></input> </div>
+				       #{if user != null && user.payPassword == null}
+				      <a href="@{front.account.BasicInformation.modifyPassword()}" class="xf_ta_onclick f12 cozhuse p_un">您未设置交易密码！点击此处设置交易密码</a>
+				     #{/if}
+				     #{/if}
+					<div class="xf_zqzrtb_4_windowCol xf_zqzrtb_4_windowgo">
+						<a class="xf_con_inputfbjk" id="xf_con_inputfbjk" >确 定</a> 	
+						<a class="xf_con_inputfbqux" id="xf_con_inputfbqux">取 消</a> 	
+					</div>
+				</div>
+			</div>
+		</div>
+		#{/form}
+		<!-- 资料图片显示层-->
+			<div id="itemImage" class="xf_ht_ttc"></div>
+		<!-- 竞拍成功 -->
+#{if success > 0}
+		
+		
+		<div class="xf_zqzrtb_4_window" id="success">
+			<div class="xf_zqzrtb_4_windowInner">
+				<div class="xf_zqzr_4_windowClose"></div>
+				<h2 class="xf_zqzrh2_titl">恭喜您，竞拍成功！</h2>
+			</div>
+		</div>
+	#{/if}	
+	#{if success < 0}
+		<script type="text/javascript">
+		#{if success == -999} //余额不足
+			if (confirm('${descrption}')) {
+				window.open("@{front.account.FundsManage.recharge()}");
+		    }
+		#{/if}
+		#{else}
+			alert('${descrption}');
+		#{/else}
+		</script>
+	#{/if}
+	</body>
+	</html>
+	
+	<script type="text/javascript">
+		$(function(){
+
+			$(".xf_zqzr_4_windowClose").click(function(){				
+				$("#success").hide();
+			});	
+			
+			$(".xf_wyjkfb_4_windowClose,#xf_wyjkfb_4_windowCancle,#xf_con_inputfbqux").click(function(){				
+				$("#xf_wyjkfb_4_window_debt").hide();
+			});
+			
+			$("#xf_wyjkfb_4_window_debt").center();
+			$("#success").center();
+			
+			$("#xf_con_inputfbjk").click(function(){				
+					var maxOfferPrice = ${debt?.maxOfferPrice};
+					var  transferPrice = ${debt?.transferPrice};
+					var debtAmount = ${debt?.debtAmount};
+					var offerPrice = $("#offerPrice").val();
+
+					var patrn=/^\d+$/; 
+					var flag = patrn.exec(offerPrice);
+	            	
+	            	if(offerPrice.replace(/\s+/g,"") == "" || null == offerPrice.replace(/\s+/g,"")){
+			             alert("对不起！竞拍出价不能为空！");
+			            return;
+		             }
+				    if(!flag){
+						alert("对不起！请您输入正整数！");
+					 	return;
+				   }
+					
+					if(offerPrice <= 0){
+						alert("对不起！您的出价不能小于0！");
+				 	    return;
+					}
+					if(offerPrice < transferPrice){
+						alert("对不起！您的出价不能低于债权拍卖底价！");
+				 	    return;
+					}
+					if(offerPrice > debtAmount){
+						alert("对不起！您的出价不能高于债权总额！");
+				 	    return;
+					}
+					if(offerPrice <= maxOfferPrice){
+						alert("对不起！您的出价应该高于目前竞拍最高价！");
+				 	    return;
+					}
+					$("#auction").submit();
+					
+			});
+			$(".xf_zqzr_4_windowClose").click(function(){
+				$("#xf_wyjkfb_4_window_debt").hide();
+			});
+		});
+
+	function showDivDebt(){
+	  /** 拦截器拦截, fronMain.html 中的拦截器*/
+	  var result = frontJSIntercepter();
+	  
+	  if(!result){
+      	 $("#xf_wyjkfb_4_window_debt").show(); 
+	  }
+	}
+
+	function checkPwdDel(){
+		var str = "请输入交易密码";
+		#{if debt?.invest?.bid?.product?.isDealPassword == true}	
+		
+			#{if user != null && user.payPassword == null}
+			 str = "您还未设置交易密码,请设置交易密码";
+        	#{/if}
+		#{/if}
+
+		$("#dealpwd").attr("title",str);
+	}
+	
+	
+	</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_claim.js'}"></script>
+
+<script>
+			$(function(){
+				 showDebtAuctionRecords(1,10);
+			})
+
+			function showDebtAuctionRecords(pageNum,pageSize){
+				var debtId = ${debt?.id};
+				$.ajax({
+					url:"@{viewDebtAllAuctionRecords()}",
+					type:"POST",
+					data: {"pageNum" : pageNum, "pageSize" : pageSize , "debtId":debtId},
+			    	success:function(data){$("#debtAuctionsRecords").html(data);},
+			    	error:function(){alert("对不起，出现错误!");}
+				})
+			}
+			
+			
+			
+	function showitemNow(mark,signUserId){
+	  /** 检查用户是否激活, fronMain.html 中的拦截器*/
+	  var result = frontJSIntercepter();
+	  
+	  if(!result){
+      	 showitem(mark,signUserId); 
+	  }		  		
+	}
+	
+	/* 查看弹出层 */
+	function showitem(mark,signUserId){
+		var listAction = #{jsAction @front.invest.InvestAction.showitem(':mark',':signUserId') /};
+		$.post(listAction({mark:mark,signUserId:signUserId}), function(data) {
+			
+			//拦截器，拦截判断。frontMain.html
+			if(checkIntercepterResult(data)){
+				return;
+			}
+			
+			showDiv($("#itemImage").html(data));
+		});		
+	}
+	</script>
+	
+	<script type="text/javascript">
+$(function(){
+	
+    showTime();
+});
+
+function showTime(){
+	var time = $("#hiddenTime").val();
+	date = new Date(time);
+	var tt = date.getTime();
+	var now = new Date().getTime();
+	var cha = tt-now;
+	var SysSecond=parseInt(cha);
+  
+    if (SysSecond > 0) { 
+ 	      int_day=Math.floor(SysSecond/86400000);
+          SysSecond-=int_day*86400000;
+          int_hour=Math.floor(SysSecond/3600000);
+          SysSecond-=int_hour*3600000;
+          int_minute=Math.floor(SysSecond/60000);
+          SysSecond-=int_minute*60000;
+          int_second=Math.floor(SysSecond/1000);
+          
+          if(int_hour<10){
+           	 int_hour="0"+int_hour;
+		 }
+		 
+          if(int_minute<10){
+         		int_minute="0"+int_minute;
+	     }
+	     
+     		if (int_second<10){
+          	int_second="0"+int_second;
+          }
+           
+			$("#day").html(int_day);
+			$("#hour").html(int_hour);
+			$("#minutes").html(int_minute);
+			$("#seconds").html(int_second);
+		}else{
+        $("#day").html("00");
+	    $("#hour").html("00");
+	    $("#minutes").html("00");
+	    $("#seconds").html("00");
+      }
+    
+    setTimeout('showTime()',1000);
+   }
+    
+    
+</script>

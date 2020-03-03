@@ -1,0 +1,66 @@
+<form id="formSort" method="GET"
+	action="@{wechat.service.InvestAction.queryAllBids}">
+	<div class="s_search">
+	<input id="keywords" name="keywords" type="text" placeholder="请输入借款标题/借款编号" value="${pageBean?.conditions?.keywords}"/> <label><i
+		id="search" class="icobg"></i></label>
+	</div>
+	<input id="orderType" name="orderType" type="hidden"
+		value="${pageBean?.conditions?.orderType}">
+	<ul class="s_order">
+		<li id="li_0" class="clicked" onclick="conditonSearch(0)">默认排序</li>
+		<li id="li_1" onclick="conditonSearch(1)">金额<i class="icobg" ></i></li>
+		<li id="li_3" onclick="conditonSearch(3)">利率<i class="icobg"></i></li>
+		<li id="li_5" onclick="conditonSearch(5)">进度<i class="icobg"></i></li>
+	</ul>
+</form>
+<script type="text/javascript">
+
+	$("#search").click(function() {
+		var keywords = $("#keywords").val();
+		var orderType = $("#orderType").val();
+		window.location.href = "@{wechat.service.InvestAction.queryAllBids}?keywords=" + keywords + "&orderType=" + orderType;
+	})
+	
+	$(function () {
+		var order = "${pageBean?.conditions?.orderType}";
+		if (order == 0) {
+			var $li = $("#li_" + order);
+			$li.siblings().removeClass("clicked");
+			$li.addClass("clicked");
+		} else if (order % 2 == 0) {
+			var $li = $("#li_" + (order - 1));
+			$li.siblings().removeClass("clicked");
+			$li.addClass("clicked");
+			$li.addClass("dbclicked");
+		} else {
+			var $li = $("#li_" + order);
+			$li.siblings().removeClass("clicked");
+			$li.addClass("clicked");
+		}
+	})
+
+	function conditonSearch(num) {
+		var order = "${pageBean?.conditions?.orderType}";
+		if (order == 0) {
+			$("#orderType").val(num);
+			$("#formSort").submit();
+			return;
+		}
+		var sum = order % 2;
+		if (sum == 0) {
+			$("#orderType").val(num);
+			$("#formSort").submit();
+			return;
+		} else {
+			if (order == num) {
+				$("#orderType").val(num + 1);
+				$("#formSort").submit();
+				return;
+			} else {
+				$("#orderType").val(num);
+				$("#formSort").submit();
+				return;
+			}
+		}
+	}
+</script>

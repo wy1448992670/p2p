@@ -1,0 +1,176 @@
+#{extends 'common/frontMain.html' /}
+#{set title:'我的借款账单详细表' /}
+<!-- 内容区域 start -->
+		<div class="xf_con_box">
+			<div class="xf_con_wyjk_nav">
+			<span class="sf_con_wyjk_dq">我要借款</span><span class="sf_con_wyjk_gtnav">&gt;</span><span class="sf_con_wyjk_dq">借款子账户</span><span class="sf_con_wyjk_gtnav">&gt;</span><span class="sf_con_wyjk_dq">借款账单</span></div>
+			<div class="xf_membill_view_xq">
+				<h1 class="xf_membill_view_title">${backSet?.platformName}借款客户对账单</h1>
+				<h3 class="xf_membill_view_No">${billDetail?.bid_id}号借款标第${billDetail?.current_period}期</h3>
+				<div class="xf_membill_view_content">
+					尊敬的${billDetail?.user_name}用户，您好！<br />
+					<span class="xf_membill_view_textaler">感谢您使用${backSet.platformName}借款服务，我平台客服专线：${backSet?.platformTelephone} 竭诚为您服务！</span><br /><br />
+
+					本期借款账单还款日：<span class="xf_view_datetime_red">${billDetail?.repayment_time?.format('yyyy-MM-dd')}</span> <br /><br />
+
+					重要提示：<br />
+					 
+					<span class="xf_membill_view_textaler">
+						尊敬的客户，为确保您还款准确，请您仔细阅读下面需还款明细栏目中各账户本期应还款金额及本期最低还款额等信息。<br />
+					</span>
+				</div>
+				<!-- 本期借款账单明细 -->
+				<div class="xf_membill_view_bqjkzd xf_membill_view_bqjkzd2">
+					<table border="0" cellpadding="0" cellspacing="0" width="918" class="xf_membill_view_contable">
+						<tbody>
+							<tr>
+								<th align="left" colspan="3">本期借款账单明细：</th>
+							</tr>
+							<tr>
+								<td colspan="3" class="xf_membill_view_td">&nbsp;</td>
+							</tr>
+							<tr>                                          
+								<td align="left" width="240">本期账单应还款：<span class="xf_membill_view_tdlv">${billDetail?.current_pay_amount}元</span></td>
+								<td align="left" width="240">还款到期时间：<span class="xf_membill_view_tdred">${billDetail?.repayment_time?.format('yyyy-MM-dd')}</span></td>
+								<td align="left">还款方式：<span class="xf_membill_view_tdlv">${billDetail?.repayment_type}</span></td>
+							</tr>
+							<tr>
+								<td colspan="3">&nbsp;</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- 借款标详细情况 -->
+				<div class="xf_membill_view_jkbxxqk">
+					<table border="0" cellpadding="0" cellspacing="0" width="918" class="xf_membill_view_contable xf_membill_view_contable2">
+						<tbody>
+							<tr>
+								<th align="left" colspan="3">借款标详细情况：</th>
+							</tr>
+							<tr>
+								<td align="left" colspan="3" class="xf_membill_view_tbhc">${billDetail?.bid_title}</td>
+							</tr>
+							<tr class="xf_membill_view_tbtr">
+								<td align="left" colspan="3">借款总额： ${billDetail?.loan_amount?.format('###,##0.00')}元</td>
+							</tr>                          
+							<tr class="xf_membill_view_tbtr">                                          
+								<td align="left" width="240">借款本息合计： ${billDetail?.loan_principal_interest?.format('###,##0.00')}元</td>
+								<td align="left" width="240">借款期数：  ${billDetail?.loan_periods}期</td>
+								<td align="left">年利率：  ${billDetail?.apr}%</td>
+							</tr>
+							<tr class="xf_membill_view_tbtr xf_membill_view_tblast">                                          
+								<td align="left">已还期数：  ${billDetail?.has_payed_periods}期</td>
+								<td align="left">剩余期限：   ${billDetail?.loan_periods - billDetail?.has_payed_periods}期</td>
+								<td>&nbsp;</td>
+							</tr>
+						</tbody>
+					</table>	
+				</div>
+				<!-- 历史还款情况 -->
+				<div class="xf_membill_view_bqjkzd">
+					<table border="0" cellpadding="0" cellspacing="0" width="918" class="xf_membill_view_contable">
+						<tbody>
+							<tr>
+								<th align="left">历史还款情况：</th>
+							</tr>
+							<tr>                                          
+								<td align="left" class="xf_membill_view_tdzytable">
+									<table border="0" cellpadding="0" cellspacing="0" width="879" class="xf_membill_view_lishi">
+										<tbody>
+											<tr>
+												<th align="center">序号</th>
+												<th align="center">账单标题</th>
+												<th align="center">本期需还款金额</th>
+												<th align="center">是否逾期</th>
+												<th align="center">状态</th>
+												<th align="center">到期还款时间</th>
+												<th align="center">实际还款时间</th>
+											</tr>
+											#{if page.page.size() != 0}
+											#{list items:page.page, as:'bill'}
+											<tr class="membill_list_yqtr">                                          
+												<td>${bill_index}</td>
+												<td>${bill?.title}</td>
+												<td><span class="xf_membill_view_tdlv">￥${bill?.current_pay_amount}</span></td>
+												#{if bill.overdue_mark == 0}
+												<td><span class="xf_membill_view_tdlv">未逾期</span></td>
+												#{/if}
+												#{else}
+												<td><span class="xf_membill_view_tdlv">逾期</span></td>
+												#{/else}
+												#{if bill.status == -1 || bill.status == -2 }
+												<td><span class="xf_membill_view_tdlv">未还款</span></td>
+												#{/if}
+												#{else}
+												<td><span class="xf_membill_view_tdlv">已还款</span></td>
+												#{/else}
+												<td><span class="xf_membill_view_tdred">${bill?.repayment_time?.format('yyyy-MM-dd')}</span></td>
+												<td><span class="xf_membill_view_tdred">#{if bill?.status == 0 || bill?.status == -3}${bill?.real_repayment_time?.format('yyyy-MM-dd')}#{/if}</span></td>
+											</tr>
+											#{/list}
+											#{/if}
+										</tbody>
+									</table>
+								</td>
+							</tr>
+								<tr>
+									<td>
+									    #{form @front.account.AccountHome.loanBidDetails(), id:'loanBill'}
+									      <input type="hidden" id="billId" name="billId" value="${billDetail?.sign}" />
+									      <input type="hidden" name="currPage" id="currPage" />
+									    #{/form}
+										<!-- 分页器 -->
+										<div class="xf_wylc_page xf_zqzr_view_page1 xf_znx_view_page1">
+										#{page pageTitle:"借款账单还款情况", currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:2 /}
+										</div>
+									</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="xf_jkzd_view_div">
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- 提交 -->
+			</div>
+			<!-- 底部备注 -->
+			<div class="xf_membill_view_footer_t">
+				<div class="xf_membill_view_footer_l">
+					账单编号：${billDetail?.bill_number}
+				</div>
+				<div class="xf_membill_view_footer_r">
+					客服专线：${backSet?.platformTelephone}<br/>
+					${backSet?.platformName}平台：${backSet?.companyEmail}<br/>
+					借款账单生成日期：${billDetail?.produce_bill_time?.format('yyyy-MM-dd')}
+				</div>
+			</div>
+		</div>
+		<!-- 内容区域 end -->
+<script type="text/javascript">   
+     function submitRepayment(amount){
+          if($("#password").val() == ''){
+               alert("请输入交易密码");
+               return;
+          }
+          
+          var submitRepayment = #{jsAction @submitRepayment(':payPassword', ':amount', ':billId')/}
+		$.post(submitRepayment({payPassword:$("#password").val(), amount:amount, billId:$("#billId").val()}),function(data){
+		var arr=eval(data);
+		if(arr.error.code < 0){
+		     alert(arr.error.msg);
+		     return;
+		}
+		alert(arr.error.msg);
+		location.reload();
+		});
+     }
+     
+     function showPage(currPage, pageSize){
+         $("#currPage").val(currPage);
+         $("#loanBill").submit();
+    }
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>

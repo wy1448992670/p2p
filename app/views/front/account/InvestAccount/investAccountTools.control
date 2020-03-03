@@ -1,0 +1,42 @@
+<div class="xf_mem_Account xf_mem_passage">
+					<h3 class="xf_mem_accout_title">财富工具箱</h3>
+					<ul class="xf_wylc_cfgjContent xf_memsuba_cfgjContent">
+						<li style="margin-right:60px;">
+	                        <a href="@{front.home.homeAction.wealthToolkit(1)}" title="" class="p_sy_cfacon p_sy_cfa01" target="_blank">
+	                            <span><i></i></span>
+	                            <em>信用计算器</em>
+	                        </a>
+	                    </li>
+	                    <li style="margin-right:60px;">
+                        <a href="@{front.home.homeAction.wealthToolkit(2)}" title="" class="p_sy_cfacon p_sy_cfa02" target="_blank">
+                            <span><i></i></span>
+                            <em>还款计算器</em>
+                        </a>
+                    	</li>
+                    	<li style="margin-right:60px;">
+                        <a href="@{front.home.homeAction.wealthToolkit(3)}" title="" class="p_sy_cfacon p_sy_cfa03" target="_blank">
+                            <span><i></i></span>
+                            <em>净值计算器</em>
+                        </a>
+                    	</li>
+                    	<li style="margin-right:60px;">
+                        <a href="@{front.home.homeAction.wealthToolkit(4)}" title="" class="p_sy_cfacon p_sy_cfa04" target="_blank">
+                            <span><i></i></span>
+                            <em>利率计算器</em>
+                        </a>
+                    	</li>
+                    	<li style="margin-right:60px;">
+                        <a href="@{front.home.homeAction.wealthToolkit(5)}" title="" class="p_sy_cfacon p_sy_cfa05" target="_blank">
+                            <span><i></i></span>
+                            <em>服务手续费</em>
+                        </a>
+                    	</li>
+                    	
+                    	<li style="margin-right:60px;">
+                        <a href="@{front.home.homeAction.wealthToolkit(6)}" title="" class="p_sy_cfacon p_sy_cfa06" target="_blank">
+                            <span><i></i></span>
+                            <em>超额借款</em>
+                        </a>
+                    	</li>
+					</ul>
+				</div>

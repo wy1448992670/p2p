@@ -1,0 +1,58 @@
+#{extends 'common/frontMain.html' /} 
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{set title:currBackstageSet.seoTitle+'|关于我们' /}
+
+
+<!--banner-->
+<div class="xf_bjbz_banner">
+	<img src="@{'public/images/more_invest.jpg'}" width="1000">
+</div>
+<!--理财风云榜列表-->
+<div class="xf_zjbz_home_top">
+	<h3 class="xf_mem_accout_title">TOP50投资金额排行</h3>
+	<div class="xf_mem_lcfyblist">
+		<table class="xf_mem_lcfyblist_table" cellspacing="0" cellpadding="0" border="0" width="956">
+			<tr>
+				<th>排名</th>
+				<th>用户名</th>
+				<th>投资金额</th>
+				<th>投资笔数</th>
+				<th>收益率</th>
+			</tr>
+			
+			#{list items:page.page,as:'investBillboard'}
+			<tr class="xf_lcfyb_bj">
+				<td>
+					#{if (investBillboard_index == 1 || investBillboard_index ==2 || investBillboard_index == 3) && page.currPage==1}
+						<span class="xf_lcfyb_hg">${investBillboard_index+(page.currPage-1)*page.pageSize}<span>
+					#{/if}
+					#{else}
+						<span class="xf_lcfyb_span">${investBillboard_index+(page.currPage-1)*page.pageSize}</span>
+					#{/else}
+				</td> 
+				<td>${investBillboard?.name?.asterisk()}</td>
+				<td>
+					<span class="xf_lcfyb_price">￥${investBillboard?.corpus?.format("###,##0.00")}</span>
+				</td>
+				<td>${investBillboard?.bid_count}</td>
+				<td>
+					<span class="xf_lcfyb_gains">${(investBillboard?.interest*100/investBillboard?.corpus)?.format('0.00')}%</span>
+				</td>		
+			</tr>
+			#{/list}
+		</table>
+		<!-- 分页器 -->
+		<div class="xf_wylc_page xf_membill_view_page1" style="width:100%">
+		#{page pageTitle:"条",funMethod:"moreInvest",currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:2,style:2 /}
+	</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function moreInvest(currPage, pageSize) {
+		window.location.href="@{front.home.HomeAction.moreInvest()}?currPage="+currPage;
+	}
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_invest.js'}"></script>

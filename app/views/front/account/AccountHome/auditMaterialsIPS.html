@@ -1,0 +1,442 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle + ' | 我的账户   | 借款子账户  | 借款资料审核认证'/}
+<!-- 内容区域 start -->
+<div class="xf_con_box">
+	<div class="xf_con_mem_nav"></div>
+	<!-- 左边导航区域 -->
+	#{include "front/account/AccountHome/homeLeft.control"/}
+	<!-- 右侧内容区域 我的借款账单 -->
+	<div class="xf_mem_Account xf_mem_shzdjkb_box">
+		<h3 class="xf_mem_accout_title">借款资料审核认证</h3>
+		<!-- 搜索区域 -->
+		#{form @auditMaterialsIPS(), id:'auditMaterialsIPS'}
+		<ul class="xf_jkzlshrz_search clr">
+			<li style="margin-right:100px;">
+				
+				<span class="xf_jkzlshrz_searspan">关联借款标：</span>
+				<select name="productId" class="xf_membill_selectAge xf_memjkzlshrz_selectAge" id="productId">   
+					<option value="0">全部</option>
+					#{list products}
+					<option value="${_?.id}"
+					#{if _?.id == pageBean?.conditions?.productId }
+					selected="selected"
+					#{/if}
+					>${_?.name}</option>
+					#{/list}   
+				</select>
+				<select name="productType" class="xf_membill_selectAge xf_memjkzlshrz_selectAge" id="productType">   
+					<option value="10" id="type010">全部</option>
+					<option value="1" id="type01">必须</option>
+					<option value="0" id="type00">可选</option>
+				</select>
+			</li>
+			<li>
+				<input type="hidden" id="currPage" name="currPage"/>
+				<input type="hidden" id="pageSize" name="pageSize"/>
+				<span class="xf_jkzlshrz_searspan">状态：</span>
+				<select name="status" class="xf_membill_selectAge xf_memjkzlshrz_selectAge">   
+					<option value="10" id="type110">全部</option>   
+					<option value="0" id="type10">未提交</option>   
+					<option value="1" id="type11">审核中</option>
+					<option value="2" id="type12">通过审核</option>
+					<option value="3" id="type13">过期失效</option>   
+					<option value="4" id="type14">上传未付款</option>   
+					<option value="-1" id="type-11">未通过</option> 
+				</select>
+				<span class="xf_jkzlshrz_searspantwo">
+					<input type="text" name="startDate" id="startDate" class="laydate-icon" onclick="laydate()" style="cursor:pointer" /> 
+					<span class="laydate-span">——</span>
+					<input type="text" name="endDate" id="endDate" class="laydate-icon" onclick="laydate()" style="cursor:pointer" /> 
+				</span>
+				
+				<input type="submit" value="查 看" class="xf_membill_button_yhm xf_membill_button_more">
+			</li>
+		</ul>
+		#{/form}
+		<!-- 搜索结果 -->
+		<div class="xf_membill_search_jg xf_membill_search_table">
+			<div class="xf_membill_search_jgleft">
+				<ul>
+					<li class="xf_membill_search_th">序号</li>
+					#{list pageBean?.page}
+					<li #{if _index % 2 == 0}
+					style="background-color:#f6f6f6"
+					#{/if}
+					class="xf_membill_search_td"
+					>${_index}</li>
+					#{/list}
+				</ul>
+			</div>
+			<div class="xf_membill_search_jgcenter">
+				<table border="0" cellpadding="0" cellspacing="0" width="800" class="xf_membill_acc_viewcpms" id="bgTab">
+					<tbody>
+						<tr>
+							<th height="45">科目编号</th>
+							<th>资料名称</th>
+							<th>格式</th>
+							<th>审核状态</th>
+							<th>有效期(月)</th>
+							<th>创建时间</th>
+							<th>审核时间</th>
+							<th>到期时间</th>
+							<th>有效期状态</th>
+							<th>信用积分</th>
+							<th>是否关联超额借款</th>
+							<th>关联借款标</th>
+						</tr>
+						#{list pageBean?.page}
+						<tr>
+							<td align="center">${_?.no}</td>
+							<td align="center">${_?.name}</td>
+							<td align="center">
+								#{if _?.type == 1}
+								图片文件
+								#{/if}
+								#{elseif _?.type == 2}
+								文本文件
+								#{/elseif}
+								#{elseif  _?.type == 3}
+								视频文件
+								#{/elseif}
+								#{elseif  _?.type == 4}
+								音频文件
+								#{/elseif}
+								#{else}
+								表格文件
+								#{/else}
+							</td>
+							<td align="center" id="status${_?.sign}">${_?.strStatus}</td>
+							<td align="center">${_?.period}</td>
+							<td align="center" id="time${_?.sign}">${_?.time?.format('yyyy-MM-dd')}</td>
+							<td align="center">
+							#{if _?.status != 1 && _?.status != 4}
+							${_?.audit_time?.format('yyyy-MM-dd')}
+							#{/if}
+							</td>
+							<td align="center">${_?.expire_time?.format('yyyy-MM-dd')}</td>
+							<td align="center">
+								#{if _?.status == 2}
+								有效
+								#{/if}
+								#{elseif _?.status == 3}
+								失效
+								#{/elseif}	
+								#{else}
+								无效
+								#{/else}
+							</td>
+							<td align="center">${_?.credit_score}</td>
+							<td align="center">
+								#{if _?.is_over_borrow}
+								是
+								#{/if}
+								#{else}
+								否
+								#{/else}
+							</td>
+							<td align="left" width="100" class="xf_con_wyjk_bbox">
+								#{list items:_?.productNames, as : 'name'}
+								#{img src:"${name}",alt:"",width:"20",height:"20"}#{/img}
+								#{/list}
+							</td>
+						</tr>
+						#{/list}
+					</tbody>
+				</table>
+			</div>
+			<div class="xf_membill_search_jgright">
+				<ul>
+					<li class="xf_membill_search_th">操作项</li>
+					#{list pageBean?.page}
+					<li #{if _index % 2 == 0}
+					style="background-color:#f6f6f6"
+					#{/if}
+					class="xf_membill_search_td"
+					>
+					*{
+					#{if _?.status == 1 || _?.status == 2}
+					---
+					#{/if}
+					#{else}
+					<a class="xf_membill_cza xf_memjkzlshrz_cza" onclick="submititem('${_?.sign}', '${_?.signItemId}', '${_?.name}', '${_?.description}', '${_?.type}');">上传</a>
+					#{/else} <span class="xf_memshzdjkb_czspan">|</span>}*
+					
+					<a class="xf_membill_cza xf_memjkzlshrz_cmore" onclick="showitem('${_?.mark}');">查看</a>
+				</li>
+				#{/list}
+			</ul>
+		</div>
+		<!-- 清除浮动 -->
+		<div class="clear"></div>
+	</div>
+	<!-- 分页器 -->
+	<div class="xf_wylc_page xf_membill_view_page1">
+		#{page currPage:pageBean.currPage,totalCount:pageBean.totalCount,pageSize:pageBean.pageSize,theme:2,style:2}#{/page}
+	</div>
+	<!-- <div style = "text-align: center; padding:14px 0 0 0;">
+		<a class="xf_con_inputfbjk" style="display: inline-block;" onclick="submitUploadedItems();">提交</a>
+		<a class="xf_con_inputfbqux" style="display: inline-block;" href="@{front.account.AccountHome.clearUploadedItems()}">取消</a>
+	</div> -->
+</div>
+<!-- 清除浮动 -->
+<div class="clear"></div>
+
+<!-- 提交资料 -->
+<div class="xf_wyjkfb_4_window" id="xf_wyjkfb_4_window">
+	#{include "front/account/AccountHome/auditMaterialsSumitbItemIPS.control"/}
+</div>
+	
+<!-- 查看详情 -->
+<div class="xf_wyjkfb_4_window" id="xf_jkzshrz_4_window">
+</div>
+</div>
+<!-- 内容区域 end -->
+		
+<!-- 遮盖层 -->
+<div class="xf_mem_shzdjkb_box_tcc" id="hide"></div>
+<script src="@{'/public/javascripts/laydate/laydate.js'}"></script>	
+<script type="text/javascript">
+var itemIndex = 0;
+var items = null;
+var key1 = 0;
+var key2 = 0;
+var key3 = 0;
+
+
+/*  显示查看层 */
+function showitem(mark){
+	var listAction = #{jsAction @auditMaterialsSameItem(':mark') /};
+	$.post(listAction({mark:mark}), function(data) {
+		showDiv($("#xf_jkzshrz_4_window").html(data));
+	});
+}
+
+/* 条件搜素查询 */
+function showPage(currPage, pageSize){
+	$("#currPage").val(currPage);
+	$("#pageSize").val(pageSize);
+	$("#auditMaterialsIPS").submit();
+}
+    
+function closessubmititem(){
+	$("#xf_wyjkfb_4_window").hide(300);
+	//$("#hide").hide();
+}
+
+function submititem(sign, signItemId, itemName, description, fileType){
+	itemIndex = 0;
+	items = new Array();
+	$("#itemList tr").eq(0).nextAll().remove();
+   		 
+	key1 = sign;
+	key2 = signItemId;
+
+	$("#itemName").html(itemName);
+	$("#description").html(description);
+	$("#fileType").val(fileType);
+	
+	var type;
+	switch(parseInt(fileType)) {
+	case 1: 
+		type = "图片文件";
+		break;
+	case 2: 
+		type = "文本文件";
+		break;
+	case 3: 
+		type = "视频文件";
+		break;
+	case 4: 
+		type = "音频文件";
+		break;
+	default:
+		type = "表格文件";
+		break;	
+	}
+	$("#fileTypeShow").html(type);
+	
+	if(parseInt(fileType) == 1){
+		
+		$("#recommandImagDiv").show();
+	}
+   		
+	//$("#hide").show();
+	showDiv($("#xf_wyjkfb_4_window"));
+	
+	
+}
+   	
+/**
+ * 上传文件
+ */
+function uploadFile() {
+	var a = $("#file").val();
+	if($("#file").val() == "") {
+		alert("请选择上传的文件");
+		return;
+	}
+   		
+	if(itemIndex > 4){
+		alert("您上传累了,提交之后再上传吧!");
+		return;
+	}
+   			
+	var d = new Date();
+	var date = d.getFullYear() + "-" + appendZero(d.getMonth() + 1) + "-" + appendZero(d.getDate()); 
+
+	var type = $("#fileType").val();	
+	$.ajaxFileUpload({
+		url : "@{FileUpload.uploadFile()}",
+		secureuri : false,
+		fileElementId : 'file',
+		dataType : 'text',
+		data: { 
+			"type": type
+		},
+		success : function(data) {
+			data = $.evalJSON(data);
+			if (data.code < 0) {
+				alert(data.msg);
+   	
+				return;
+			}
+
+			var td = type==1 ? '<img src="'+data.fileName+'" width="35" height="35" />' : '---';
+			var html = '<tr id="itemTr'+itemIndex+'">'+
+			'<td>'+(itemIndex+1)+'</td>'+
+			'<td>'+data.fileType+'</td>'+
+			'<td>'+date+'</td>'+
+			'<td>'+data.size+'k'+'</td>'+
+			'<td>成功</td>'+
+			'<td>'+td+'</td>'+
+			'</tr>';
+   				   	
+			$("#itemTr"+(itemIndex-1)).after(html);
+   				
+			items[itemIndex] = data.fileName;
+			itemIndex++;
+		},
+		error : function(data, status, e) {
+			$("#itemTr"+(itemIndex-1)).after(html);
+
+			//$("#showimg" + itemIndex).attr("src", path);
+			$("#size"+itemIndex).html('---');
+			$("#type"+itemIndex).html('---');
+   				
+			$("#status"+itemIndex).html('失败');
+			itemIndex++;
+		}
+	});
+}
+   	
+//补0函数
+function appendZero(s){return ("00"+ s).substr((s+"").length);}  
+       
+/* 提交 */
+function createUserAuditItemSubmit(){
+	var len = items.length;
+	if(len <=0){
+		alert('请先上传资料!');
+		return;
+	}
+   		
+	var str = '您上传了'+itemIndex+'项资料，其中'+len+'项成功，'+(itemIndex-len)+'项失败。如果有暴力、色情、国家机密将会追究相关法律责任，确定提交?';
+
+	if(!confirm(str)){
+		return;
+	}	
+
+	var action = #{jsAction @front.account.AccountHome.createUserAuditItemIPS(':sign',':signItemId',':items', ':size') /};
+	$.post(action({sign:key1, signItemId:key2, items:items, size:key3}), function(data) {
+		if("" != data.msg){
+			alert(data.msg);
+			return;
+		}
+		
+		$("#status"+key1).html("上传未付款");
+		if (data.time != "" && data.time != null && data.time != undefined){
+			$("#time"+key1).html(data.time);
+		}
+		$("#xf_wyjkfb_4_window").hide(300);
+	});
+}
+
+$(function(){
+	/* 高亮显示 */
+	showHighLightFront(13);
+	showHighLightFront2(7, 3);
+		
+	$("#xf_wyjkfb_4_window").hide();
+	$("#xf_jkzshrz_4_window").hide();
+    	
+	/* 偶数行，改变其td的背景颜色(tr是无法修改的，会被子元素所替代) */
+	$('#bgTab').find('tr:even').find('td').css('background-color', '#f6f6f6');
+		
+	/* 给搜索条件赋记录值 */
+	var status = "${pageBean?.conditions?.status}";
+	var startDate = "${pageBean?.conditions?.startDate}";
+	var endDate = "${pageBean?.conditions?.endDate}";
+	var type = "${pageBean?.conditions?.type}";
+
+	switch(parseInt(type)){
+		case 10:$("#type010").attr("selected","selected");break;
+		case 1:$("#type01").attr("selected","selected");break;
+		case 0:$("#type00").attr("selected","selected");break;
+	}
+		
+	switch(parseInt(status)){
+		case 10:$("#type110").attr("selected","selected");break;
+		case 0:$("#type10").attr("selected","selected");break;
+		case 1:$("#type11").attr("selected","selected");break;
+		case 2:$("#type12").attr("selected","selected");break;
+		case 3:$("#type13").attr("selected","selected");break;
+		case -1:$("#type-11").attr("selected","selected");break;
+	}
+		
+	$("#startDate").val(startDate);
+	$("#endDate").val(endDate);
+
+	/* 选了产品，才能选择必选和可选 */
+	var type2 = $("#productType");
+	if ($("#productId").val() == 0)
+		type2.attr("disabled","disabled");
+		
+	$("#productId").change(function(){
+		if($(this).val() == 0)
+			type2.attr("disabled","disabled");
+		else
+			type2.removeAttr("disabled");
+	});
+	var code = "${flash.code}";
+	if (code == "-999") { // 费用不足
+
+		showRechargeWin();	 
+	    return ;		
+	}
+});
+
+function submitUploadedItems() {
+	var action = #{jsAction @front.account.AccountHome.queryUploadedItems() /};
+	$.post(action(), function(data) {
+		if(data.code < 0){
+			alert(data.msg);
+			return;
+		}
+		
+		var count = data.count;
+		var fees = data.fees;
+		
+		var str = '您上传了'+count+'项资料  。如果有暴力、色情、国家机密将会追究相关法律责任，确定提交?';
+	
+		if(!confirm(str)){
+			return;
+		}
+		
+		window.location.href = "@{front.account.AccountHome.submitUploadedItems()}";
+	});
+}
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>

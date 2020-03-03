@@ -1,0 +1,161 @@
+#{extends 'common/supervisor.html' /} #{set title:'支付方式' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/systemSettings/common/leftBar.control"/}
+    <div class="xn_c_content">
+      <div class="xf_content_add">
+        #{form @savePayment(), id:'savePaymentSubmit'}
+        <input type="hidden" id="select1" name="select1">
+        <input type="hidden" id="select2" name="select2">
+        <div class="xfht_t_j_y_2">
+          <!--右上-->
+          <div class="xf_ht_obu_fklm">
+                                        支付方式设置
+          </div>
+          <div class="xf_htgl_jgone">
+            <h3 class="xf_htgl_jgtitle">
+              <input type="checkbox" id="check_1" #{if gateways[0]?.is_use} value="1" checked="checked" #{/if}> 国付宝
+            </h3>
+            <div class="xf_htgl_jg_tableone xf_htgl_jg_table2">
+              <table border="0" cellspacing="0" cellpadding="0" class="xf_htgl_jg_tableone_table">
+              <tr>
+                <td width="328" align="right">输入国付宝收款账号：</td>
+                <td>
+                <input class="xfht_zr_input xfht_zr_input_shoping" type="text" id="account1" name="account1" value="${gateways[0]?.account}">
+                </td>
+              </tr>
+              <tr>
+                <td width="328" align="right">输入国付宝PID：</td>
+                <td>
+                <input class="xfht_zr_input xfht_zr_input_shoping" type="text" id="pid1" name="pid1" value="${gateways[0]?.pid}">
+                </td>
+              </tr>
+              <tr>
+                <td width="328" align="right">输入国付宝的KEY或者密钥：</td>
+                <td>
+                <input class="xfht_zr_input xfht_zr_input_shoping" type="text" id="key1" name="key1" value="${gateways[0]?._key}">
+                </td>
+              </tr>
+              </table>
+            </div>
+            </div>
+          <div class="xf_htgl_jgone" style="display:none">
+            <h3 class="xf_htgl_jgtitle">
+              <input type="checkbox" id="check_2" #{if gateways[1]?.is_use} value="1" checked="checked" #{/if}> 环迅
+            </h3>
+            <div class="xf_htgl_jg_tableone xf_htgl_jg_table2">
+              <table border="0" cellspacing="0" cellpadding="0" class="xf_htgl_jg_tableone_table">
+              <tr>
+                <td width="328" align="right">输入环迅收款账号：</td>
+                <td>
+                <input class="xfht_zr_input xfht_zr_input_shoping" type="text" id="account2" name="account2" value="${gateways[1]?.account}">
+                </td>
+              </tr>
+              <tr>
+                <td width="328" align="right">输入环迅PID：</td>
+                <td>
+                <input class="xfht_zr_input xfht_zr_input_shoping" type="text" id="pid2" name="pid2" value="${gateways[1]?.pid}">
+                </td>
+              </tr>
+              <tr>
+                <td width="328" align="right">输入环迅的KEY或者密钥：</td>
+                <td>
+                <input class="xfht_zr_input xfht_zr_input_shoping" type="text" id="key2" name="key2" value="${gateways[1]?._key}">
+                </td>
+              </tr>
+              </table>
+            </div>
+            </div>
+          <div class="xf_htgl_jgsix_hyg">
+            <input class="xf_ht_tcc_button_ok" type="submit" value="确  定">
+          </div>
+        </div>
+        #{/form}  
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function savePaymentSure(){
+  
+    if($("#select1").val() == 1){
+      if($("#account1").val() == ''){
+        alert("国付宝收款账号不能为空");
+        
+        return;
+      }
+          
+      if($("#pid1").val() == ''){
+        alert("国付宝PID不能为空");
+        
+        return;
+      }
+          
+      if($("#key1").val() == ''){
+        alert("国付宝的KEY或者密钥不能为空");
+        
+        return;
+      }
+    }
+      
+    if($("#select2").val() == 2){
+      if($("#account2").val() == ''){
+        alert("环迅收款账号不能为空");
+        
+        return;
+      }
+          
+      if($("#pid2").val() == ''){
+        alert("环迅PID不能为空");
+        
+        return;
+      }
+          
+      if($("#key2").val() == ''){
+        alert("环迅的KEY或者密钥不能为空");
+        
+        return;
+      }
+    }
+      
+    //$("#savePaymentSubmit").submit();
+  }
+  
+  $(function(){
+    /* 高亮显示 */
+    showHighLight(2,2,6);
+    var gopayValue = ${gateways[0]?.is_use};
+    var pidValue = ${gateways[1]?.is_use};
+  
+    if(gopayValue){
+      $("#select1").val(1);
+    }
+         
+    if(pidValue){
+      $("#select2").val(1);
+    }
+  
+    $("#check_1").click(function(){
+      var blug = this.checked;
+         
+      if(blug){
+         $("#select1").val(1);
+      }else{
+        $("#select1").val(0);
+      }
+    })
+     
+    $("#check_2").click(function(){
+      var mark = this.checked;
+         
+      if(mark){
+        $("#select2").val(1);
+      }else{
+        $("#select2").val(0);
+      }
+    })
+  })
+</script>
+
+

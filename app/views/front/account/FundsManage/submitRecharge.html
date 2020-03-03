@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>跳转中...</title>
+</head>
+<body>
+<form action="${args.url}" id="frm1" method="post">
+ <input type="hidden" name="Mer_code" value="${args.Mer_code}">
+      <input type="hidden" name="Billno" value="${args.Billno}">
+      <input type="hidden" name="Amount" value="${args.Amount}" >
+      <input type="hidden" name="Date" value="${args.Date}">
+      <input type="hidden" name="Currency_Type" value="${args.Currency_Type}">
+      <input type="hidden" name="Gateway_Type" value="${args.Gateway_Type}">
+      <input type="hidden" name="Lang" value="${args.Lang}">
+      <input type="hidden" name="Merchanturl" value="${args.Merchanturl}">
+      <input type="hidden" name="FailUrl" value="${args.FailUrl}">
+      <input type="hidden" name="ErrorUrl" value="${args.ErrorUrl}">
+      <input type="hidden" name="Attach" value="${args.Attach}">
+      <input type="hidden" name="OrderEncodeType" value="${args.OrderEncodeType}">
+      <input type="hidden" name="RetEncodeType" value="${args.RetEncodeType}">
+      <input type="hidden" name="Rettype" value="${args.Rettype}">
+      <input type="hidden" name="ServerUrl" value="${args.ServerUrl}">
+      <input type="hidden" name="SignMD5" value="${args.SignMD5}">
+</form>
+<script language="javascript">
+document.getElementById("frm1").submit();
+</script>
+</body>
+</html>

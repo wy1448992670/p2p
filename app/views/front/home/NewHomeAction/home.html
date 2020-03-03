@@ -1,0 +1,403 @@
+%{
+business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+business.User currUser = business.User.currUser();
+}%
+#{extends 'common/head.html' /}
+#{set title:currBackstageSet.seoTitle /}
+<!-- 大广告 -->
+*{#{include "front/home/NewHomeAction/banner.html"/}}*
+
+
+*{<div class="notice">
+    <div class="notice_box">
+        <p><img src="/public/images/newhome/lb.png" alt="" />网站公告：</p>
+        <div class="single_carousel">
+            <ul>
+			#{list news10}
+                <li><a href="front/wealthinfomation/newDetails?id=${_?.id}">${_?.title}</a><span>${_?.time.format("MM.dd")}</span></li>
+			#{/list}
+            </ul>
+        </div>
+        <p><a href="@{front.wealthinfomation.WealthInfomationAction.restHome(10)}">更多</a>&gt;</p>
+    </div>
+</div>}*
+
+<!--contant-->
+<!--第一部分项目推荐-->
+<div class="main">
+<div class="contant cont_one">
+    <img src="/public/images/newhome/tjxm.png" alt="" />
+    <div class="conta">
+	#{set count:0 /}
+	#{list items:bidList , as:'bid'}
+		#{if count == 0}
+        <div class="cont on">
+		#{/if}
+		#{else}
+        <div class="cont le">
+		#{/else}
+        <p><a href="@{front.invest.InvestAction.invest(bid?.id)}" class="bd_name">${bid?.title}</a><span class="total_sum">总额：￥${bid?.amount?.format('###,##0.00')}</span></p>
+        <ul>
+            <li><span>合同约定年化利率</span><span>出借期限</span></li>
+            <li>
+				#{if bid?.period_unit ==-1}
+                    <span>${bid?.apr}%</span>#{if bid?.isIncreaseRate == true} <span style="font-size:18px;">+${bid?.increaseRate}%</span> #{/if}<div class="new_fr"><span>${bid?.period}</span><span>年</span></div>
+				#{/if}
+				#{if bid?.period_unit ==0}
+                    <span>${bid?.apr}%</span> #{if bid?.isIncreaseRate == true} <span style="font-size:18px;">+${bid?.increaseRate}%</span> #{/if}<div class="new_fr"><span>${bid?.period}</span><span>个月</span></div>
+				#{/if}
+				#{if bid?.period_unit ==1}
+                    <span>${bid?.apr}%</span>#{if bid?.isIncreaseRate == true} <span style="font-size:18px;">+${bid?.increaseRate}%</span> #{/if}<div class="new_fr"><span>${bid?.period}</span><span>天</span></div>
+				#{/if}
+            </li>
+            <li>
+                <progress max="100" value="${bid?.loan_schedule}" class="pro"></progress>
+                <span>${bid?.loan_schedule.format('###,##0')}%</span>
+            </li>
+        </ul>
+		#{if bid?.has_invested_amount == bid?.amount}
+            <a href="@{front.invest.InvestAction.invest(bid?.id)}">
+                <input type="button" value="售罄" class="on_twice"/>
+            </a>
+		#{/if}
+		#{else}
+            <a href="@{front.invest.InvestAction.invest(bid?.id)}">
+                <input type="button" value="立即出借" class="on_once"/>
+            </a>
+		#{/else}
+    </div>
+		#{set count:count+1/}
+	#{/list}
+    </div>
+    </div>
+    <!--第二部分信亿贷-->
+<div class="contant cont_one">
+    <img src="/public/images/newhome/xyd.png" alt="" />
+    <a href="@{front.invest.InvestAction.investHome()}">&gt;</a>
+    <div class="conta2">
+	#{set count:0 /}
+	#{list items:bidLEList , as:'bid'}
+		#{if count == 0}
+        <div class="cont on">
+		#{/if}
+		#{else}
+        <div class="cont le">
+		#{/else}
+        <p><a href="@{front.invest.InvestAction.invest(bid?.id)}" class="bd_name">${bid?.title}</a><span class="total_sum">总额：￥${bid?.amount?.format('###,##0.00')}</span></p>
+        <ul>
+            <li><span>合同约定年化利率</span><span>出借期限</span></li>
+            <li>
+				#{if bid?.period_unit ==-1}
+                    <span>${bid?.apr}%</span>#{if bid?.isIncreaseRate == true} <span style="font-size:18px;">+${bid?.increaseRate}%</span> #{/if}<div class="new_fr"><span>${bid?.period}</span><span>年</span></div>
+				#{/if}
+				#{if bid?.period_unit ==0}
+                    <span>${bid?.apr}%</span>#{if bid?.isIncreaseRate == true} <span style="font-size:18px;">+${bid?.increaseRate}%</span> #{/if}<div class="new_fr"><span>${bid?.period}</span><span>个月</span></div>
+				#{/if}
+				#{if bid?.period_unit ==1}
+                    <span>${bid?.apr}%</span>#{if bid?.isIncreaseRate == true} <span style="font-size:18px;">+${bid?.increaseRate}%</span> #{/if}<div class="new_fr"><span>${bid?.period}</span><span>天</span></div>
+				#{/if}
+            </li>
+            <li>
+                <progress max="100" value="${bid?.loan_schedule}" class=""></progress>
+                <span>${bid?.loan_schedule.format('###,##0')}%</span>
+            </li>
+        </ul>
+		#{if bid?.has_invested_amount == bid?.amount}
+            <a href="@{front.invest.InvestAction.invest(bid?.id)}">
+                <input type="button" value="售罄" class="con2_twice"/>
+            </a>
+		#{/if}
+		#{else}
+            <a href="@{front.invest.InvestAction.invest(bid?.id)}">
+                <input type="button" value="立即出借" class="con2_once"/>
+            </a>
+		#{/else}
+    </div>
+		#{set count:count+1/}
+	#{/list}
+    </div>
+    </div>
+    <!--第三部分房亿贷-->
+
+<div class="contant cont_one">
+    <img src="/public/images/newhome/fyd.png" alt="" />
+    <a href="@{front.invest.InvestAction.investHome()}">&gt;</a>
+    <div class="conta3">
+	#{set count:0 /}
+	#{list items:bidCHList , as:'bid'}
+		#{if count == 0}
+        <div class="cont on">
+		#{/if}
+		#{else}
+        <div class="cont le">
+		#{/else}
+        <p><a href="@{front.invest.InvestAction.invest(bid?.id)}" class="bd_name">${bid?.title}</a><span class="total_sum">总额：￥${bid?.amount?.format('###,##0.00')}</span></p>
+        <ul>
+            <li><span>合同约定年化利率</span><span>出借期限</span></li>
+            <li>
+				#{if bid?.period_unit ==-1}
+                    <span>${bid?.apr}%</span>#{if bid?.isIncreaseRate == true} <span style="font-size:18px;">+${bid?.increaseRate}%</span> #{/if}<div class="new_fr"><span>${bid?.period}</span><span>年</span></div>
+				#{/if}
+				#{if bid?.period_unit ==0}
+                    <span>${bid?.apr}%</span>#{if bid?.isIncreaseRate == true} <span style="font-size:18px;">+${bid?.increaseRate}%</span> #{/if}<div class="new_fr"><span>${bid?.period}</span><span>个月</span></div>
+				#{/if}
+				#{if bid?.period_unit ==1}
+                    <span>${bid?.apr}%</span>#{if bid?.isIncreaseRate == true} <span style="font-size:18px;">+${bid?.increaseRate}%</span> #{/if}<div class="new_fr"><span>${bid?.period}</span><span>天</span></div>
+				#{/if}
+            </li>
+            <li>
+                <progress max="100" value="${bid?.loan_schedule}" class=""></progress>
+                <span>${bid?.loan_schedule?.format('###,##0')}%</span>
+            </li>
+        </ul>
+		#{if bid?.has_invested_amount == bid?.amount}
+            <a href="@{front.invest.InvestAction.invest(bid?.id)}">
+                <input type="button" value="售罄" class="con3_twice"/>
+            </a>
+		#{/if}
+		#{else}
+            <a href="@{front.invest.InvestAction.invest(bid?.id)}">
+                <input type="button" value="立即出借" class="con3_once"/>
+            </a>
+		#{/else}
+    </div>
+		#{set count:count+1/}
+	#{/list}
+    </div>
+    </div>
+
+    <!--第四部分车亿贷-->
+
+    <!--<div class="contant cont_one">
+        <img src="/public/images/newhome/cyd.png" alt="" />
+        <a href="@{front.invest.InvestAction.investHome()}">&gt;</a>
+        <div class="conta4">
+		#{set count:0/}
+		#{list items:bidCashList , as:'bid'}
+			#{if count == 0}
+            <div class="cont on">
+			#{/if}
+			#{else}
+            <div class="cont le">
+			#{/else}
+            <p><a href="@{front.invest.InvestAction.invest(bid?.id)}" class="bd_name">${bid?.title}</a><span class="total_sum">总额：￥${bid?.amount?.format('###,##0.00')}</span></p>
+            <ul>
+                <li><span>合同约定年化利率</span><span>出借期限</span></li>
+                <li>
+					#{if bid?.period_unit ==-1}
+                        <span>${bid?.apr}%</span><div class="new_fr"><span>${bid?.period}</span><span>年</span></div>
+					#{/if}
+					#{if bid?.period_unit ==0}
+                        <span>${bid?.apr}%</span><div class="new_fr"><span>${bid?.period}</span><span>个月</span></div>
+					#{/if}
+					#{if bid?.period_unit ==1}
+                        <span>${bid?.apr}%</span><div class="new_fr"><span>${bid?.period}</span><span>天</span></div>
+					#{/if}
+                </li>
+                <li>
+                    <progress max="100" value="${bid?.loan_schedule}" class=""></progress>
+                    <span>${bid?.loan_schedule.format('###,##0')}%</span>
+                </li>
+            </ul>
+			#{if bid?.has_invested_amount == bid?.amount}
+                <a href="@{front.invest.InvestAction.invest(bid?.id)}">
+                    <input type="button" value="售罄" class="con4_twice"/>
+                </a>
+			#{/if}
+			#{else}
+                <a href="@{front.invest.InvestAction.invest(bid?.id)}">
+                    <input type="button" value="立即出借" class="con4_once"/>
+                </a>
+			#{/else}
+        </div>
+			#{set count:count+1/}
+		#{/list}
+        </div>
+        </div>-->
+        <!--行业新闻 理财风云榜-->
+        <div class="newfyb">
+            <div class="news" id="news">
+                <ul id="news_title">
+                    <li><a url="@{front.wealthinfomation.wealthinfomationAction.restHome(8)}" class="active">行业新闻</a></li>
+                    <li><a url="@{front.wealthinfomation.wealthinfomationAction.restHome(11)}">出借百科</a></li>
+                    <li><a url="@{front.wealthinfomation.wealthinfomationAction.restHome(7)}">公司动态</a></li>
+                    <a href="@{front.wealthinfomation.wealthinfomationAction.restHome(8)}" id="news_more">更多&gt;</a>
+                </ul>
+                <div id="content">
+                    <div class="now">
+					#{if news8?.size() > 0}
+						#{img src:"${news8?.get(0)?.image_filename}"}#{/img}
+					#{/if}
+                        <ul>
+						#{list news8}
+                            <li><a href="front/wealthinfomation/newDetails?id=${_?.id}">${_?.title.truncate(0,28)}</a><span>${_?.time.format("MM.dd")}</span></li>
+						#{/list}
+                        </ul>
+                    </div>
+                    <div>
+					#{if news11?.size() > 0}
+						#{img src:"${news11?.get(0)?.image_filename}"}#{/img}
+					#{/if}
+                        <ul>
+						#{list news11}
+                            <li><a href="front/wealthinfomation/newDetails?id=${_?.id}">${_?.title.truncate(0,28)}</a><span>${_?.time.format("MM.dd")}</span></li>
+						#{/list}
+                        </ul>
+                    </div>
+                    <div>
+					#{if news7?.size() > 0}
+						#{img src:"${news7?.get(0)?.image_filename}"}#{/img}
+					#{/if}
+                        <ul>
+						#{list news7}
+                            <li><a href="front/wealthinfomation/newDetails?id=${_?.id}">${_?.title.truncate(0,28)}</a><span>${_?.time.format("MM.dd")}</span></li>
+						#{/list}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="fyb">
+                <h3>出借风云榜</h3>
+                <ul>
+				#{list items:investBillboard,as:'investBillboard'}
+                    <li><img src="/public/images/newhome/fyb${investBillboard_index}.png" alt="" /><span>${investBillboard?.name?.asterisk()}</span></li>
+				#{/list}
+                </ul>
+            </div>
+        </div>
+	#{if msgs != null && msgs?.size() > 0}
+        <div class="voice">
+            <h3>出借心声</h3>
+            <a href="@{front.home.newHomeAction.msg()}">查看更多&gt;</a>
+            <ul>
+				#{list msgs}
+                    <li>
+						#{img src:"${_?.photo}" ,width:"60",height:"60",class:"vi_pic"}#{/img}
+                        <h5 class="voice_name vi_name"></>${_?.name}</h5>
+                        <span class="vioce_sp vi_cont">${_?.msg}</span>
+                    </li>
+				#{/list}
+            </ul>
+        </div>
+	#{/if}
+        <div class="partner">
+            <span></span><span></span><span>合作伙伴</span><span></span><span></span>
+            <div class="big">
+                <div id="pics_foot">
+                    <div class="pall_foot">
+                        <a href="javascript:;" id="prev_foot">&lt;</a>
+                        <div id="pics_foot_small">
+						#{set count:1 /}
+						#{list adsPartner}
+							#{if count == 1}
+                            <div class="imgs1 pic">
+							#{/if}
+                            <a>
+								#{img src:"${_?.image_filename}",width:"180",height:"65"}#{/img}
+                            </a>
+							#{if count>=6 && count % 6 == 0}
+                            </div>
+								#{if count < adsPartner.size()}
+                                <div class="imgs2 pic" style="display:none">
+								#{/if}
+							#{/if}
+							#{if count == adsPartner.size() && count % 6 > 0}
+                            </div>
+							#{/if}
+							#{set count:count+1/}
+						#{/list}
+                        </div>
+                        <a href="javascript:;" id="next_foot">&gt;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <script>
+        /*下边轮播*/
+        $(function(){
+            var pics_foot=document.getElementById("pics_foot");
+            var imgs=document.getElementsByClassName("pic");
+            var prev_foot=document.getElementById("prev_foot");
+            var next_foot=document.getElementById("next_foot");
+            var timer=null;
+            var index=0;
+            var length = imgs.length;
+            //兼容不同浏览器的透明度函数
+            function setOpacity(elem,po){
+            }
+            function fadeIn(elem){  //淡入函数
+                $elem = $(elem);
+                $elem.show(100);
+            }
+            function fadeOut(elem){ 	//淡出函数
+                $elem = $(elem);
+                $elem.hide(100);
+            }
+            //左边按钮  上一张
+            prev_foot.onclick=function(){
+                if(index==0){
+                    fadeOut(imgs[index]);
+                    index=length-1;
+                    fadeIn(imgs[index]);
+                }else{
+                    fadeOut(imgs[index]);
+                    fadeIn(imgs[index-1]);
+                    index--;
+                }
+                /*showButton();*/
+            }
+            //右边按钮 下一张
+            next_foot.onclick=function(){
+                if(index==length-1){
+                    fadeOut(imgs[index]);
+                    index=0;
+                    fadeIn(imgs[index]);
+                }else{
+                    fadeOut(imgs[index]);
+                    fadeIn(imgs[index+1]);
+                    index++;
+                }
+                /*showButton();*/
+            }
+
+            timer=setInterval("next_foot.onclick()",5000);
+
+            /*pics_foot.onmouseover=function(){
+                prev_foot.style.display="block";
+                next_foot.style.display="block";
+                clearInterval(timer);
+            }
+            pics_foot.onmouseout=function(){
+                prev_foot.style.display="none";
+                next_foot.style.display="none";
+                timer=setInterval("next_foot.onclick()",2000);
+            }*/
+
+        })
+        /*单行轮播*/
+        $(function(){
+            function fun(){
+                $(".single_carousel ul").animate({"margin-top":"-28px"},function(){
+                    $(".single_carousel ul li:eq(0)").appendTo($(".single_carousel ul"));
+                    $(".single_carousel ul").css("margin-top",0);    //css中属性与属性值用逗号隔开
+                });
+            }
+            setInterval(fun,2000);
+        });
+    </script>
+    <!-- 活动宣传 -->
+    <div id="xf_advise">
+	#{if currUser == null}
+    <a href="/register">
+	#{/if}
+	#{if currUser != null}
+    <a>
+	#{/if}
+        <!--
+            <img src="/public/images/newhome/active.png'}" alt="" />
+         -->
+	#{img src:"${advise?.image_filename}"}#{/img}
+    </a>
+    </div>

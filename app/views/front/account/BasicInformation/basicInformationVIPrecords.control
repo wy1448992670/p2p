@@ -1,0 +1,49 @@
+			<!-- VIP会员记录 -->
+				<div class="xf_mem_Account xf_mem_passage">
+					<h3 class="xf_mem_accout_title">
+						VIP会员记录
+					</h3>
+					<table border="0" cellpadding="0" cellspacing="0" width="738" class="xf_mem_jbzl_tabale">
+						<tr>
+							<th>序号</th>
+							<th>科目</th>
+							<th>购买时间</th>
+							<th>服务到期时间</th>
+							<th>状态</th>
+							<th>操作</th>
+						</tr>
+						#{if vipRecords.size() != 0}
+						#{list items:vipRecords, as:'vipRecords'}
+						<tr>
+							<td>${vipRecords_index}</td>
+							<td>VIP会员</td>
+							<td>${vipRecords?.time?.format("yyyy-MM-dd HH:mm:ss")}</td>
+							<td>${vipRecords?.expiry_date?.format("yyyy-MM-dd HH:mm:ss")}</td>
+							#{if vipRecords.status}
+							<td>有效</td>
+							#{/if}
+							#{else}
+							<td>无效</td>
+							#{/else}
+							<td>
+							#{if vipRecords.status}
+							<a class="xf_membill_cza" onClick="continuVip()">续费</a>
+								<span class="xf_membill_cza"> | </span>
+							#{/if}
+								<a class="xf_membill_cza" onClick="vipDetail()">详情</a>
+							</td>
+						</tr>
+						#{/list}
+						#{/if}
+					</table>
+				</div>
+				
+<script type="text/javascript">
+     function continuVip(){
+         showDiv($("#xf_mem_acc_sjvip_tcc"));
+     }
+     
+     function vipDetail(){
+        showDiv($("#xf_mem_sqtx_window"));
+     }
+</script>

@@ -1,0 +1,163 @@
+#{extends 'common/frontMain.html' /}
+#{set title:'通过邮箱重置安全问题' /}
+<div class="xf_login_centent clr">
+	<div class="xf_login_title xf_login_title2">
+		<span class="xf_login_title_yhdl">重置安全问题</span>
+	</div>
+	<div class="xf_register_email">
+		#{form @saveSafeQuestionByEmail(), id:'resetQuestion'}
+		<input type="hidden" name="sign" value="${sign}">
+		<div class="xf_con_wyjk_tentultbody">
+			<ul class="xf_login_inputsrul xf_login_inputsrul_zhyhm">
+				<li>
+					<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">安全问题1：</div>
+					<div class="xf_login_inputsrul_r">
+						<select id="q1" onchange="selectQ1(this);" name="secretQuestion1">
+							<option value="0">请选择安全问题</option>
+							#{list questions}
+								<option value="${_?.id}">${_?.name}</option>
+							#{/list}
+						</select>
+					</div>
+				</li>
+				<li>
+				<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">输入答案：</div>
+					<div class="xf_login_inputsrul_r">
+						<input type="text" name="answer1" id="answer1" />
+					</div>
+				</li>
+				
+				<li>
+					<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">安全问题2：</div>
+					<div class="xf_login_inputsrul_r">
+						<select id="q2" onchange="selectQ2(this);" name="secretQuestion2">
+						<option value="0">请选择安全问题</option>
+						#{list questions}
+							<option value="${_?.id}">${_?.name}</option>
+						#{/list}
+					</select>
+					</div>
+				</li>
+				<li>
+				<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">输入答案：</div>
+					<div class="xf_login_inputsrul_r">
+						<input type="text" name="answer2" id="answer2" />
+					</div>
+				</li>
+				
+				<li>
+					<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">安全问题3：</div>
+					<div class="xf_login_inputsrul_r">
+						<select id="q3" onchange="selectQ3(this);" name="secretQuestion3">
+						<option value="0">请选择安全问题</option>
+						#{list questions}
+							<option value="${_?.id}">${_?.name}</option>
+						#{/list}
+					</select>
+					</div>
+				</li>
+				<li>
+				<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">输入答案：</div>
+					<div class="xf_login_inputsrul_r">
+						<input type="text" name="answer3" id="answer3" />
+					</div>
+				</li>
+				<li>
+					<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">&nbsp;</div>
+					<div class="xf_login_inputsrul_r">
+						<a href="javascript:void(0);" onClick="resetQuestion()" class="xf_con_inputfbjk">设置安全问题</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+		#{/form}
+	</div>
+</div>
+<!-- 底部阴影 -->
+<div class="xf_login_kjyy"></div>
+<script type="text/javascript">
+	function selectQ1(po){
+		var q2 = $("#q2");
+		var q3 = $("#q3");
+		var text1 = q2.find("option:selected").text();
+		var text2 = q3.find("option:selected").text();
+		var option1 = '<option value="'+q2.val()+'">'+text1+'</option>';
+		var option2 = '<option value="'+q3.val()+'">'+text2+'</option>';
+		#{list questions}
+		    if(po.value != '${_?.id}' && q3.val() != '${_?.id}') {
+		    	option1 += '<option value="${_?.id}">${_?.name}</option>';
+		    }
+		    
+		    if(po.value != '${_?.id}' && q2.val() != '${_?.id}') {
+		    	option2 += '<option value="${_?.id}">${_?.name}</option>';
+		    }
+		#{/list}
+		q2.empty();
+		q3.empty();
+		q2.append(option1);
+		q3.append(option2);
+	}
+
+	function selectQ2(po){
+   		var q2 = $("#q1");
+   		var q3 = $("#q3");
+   		var text1 = q2.find("option:selected").text();
+   		var text2 = q3.find("option:selected").text();
+   		var option1 = '<option value="'+q2.val()+'">'+text1+'</option>';
+   		var option2 = '<option value="'+q3.val()+'">'+text2+'</option>';
+   		#{list questions}
+		   if(po.value != '${_?.id}' && q3.val() != '${_?.id}') {
+		    	option1 += '<option value="${_?.id}">${_?.name}</option>';
+		    }
+		    
+		    if(po.value != '${_?.id}' && q2.val() != '${_?.id}') {
+		    	option2 += '<option value="${_?.id}">${_?.name}</option>';
+		    }
+		#{/list}
+		q2.empty();
+		q3.empty();
+		q2.append(option1);
+		q3.append(option2);
+   }
+    	
+   function selectQ3(po){
+   		var q2 = $("#q1");
+   		var q3 = $("#q2");
+   		var text1 = q2.find("option:selected").text();
+   		var text2 = q3.find("option:selected").text();
+   		var option1 = '<option value="'+q2.val()+'">'+text1+'</option>';
+   		var option2 = '<option value="'+q3.val()+'">'+text2+'</option>';
+   		#{list questions}
+		   if(po.value != '${_?.id}' && q3.val() != '${_?.id}') {
+		    	option1 += '<option value="${_?.id}">${_?.name}</option>';
+		    }
+		    
+		    if(po.value != '${_?.id}' && q2.val() != '${_?.id}') {
+		    	option2 += '<option value="${_?.id}">${_?.name}</option>';
+		    }
+		#{/list}
+		q2.empty();
+		q3.empty();
+		q2.append(option1);
+		q3.append(option2);
+   }
+			   
+     function resetQuestion(){
+	   if($("#answer1").val() == ''){
+	        alert("安全问题1不能为空");
+	        return;
+	    }
+       
+       if($("#answer2").val() == ''){
+          alert("安全问题2不能为空");
+          return;
+       }
+       
+       if($("#answer3").val() == ''){
+          alert("安全问题3不能为空");
+          return;
+       }
+	     
+	   $("#resetQuestion").submit();
+    }
+</script>

@@ -1,0 +1,155 @@
+%{
+	business.User currUser = business.User.currUser();
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/head.html' /} 
+#{set title:currBackstageSet.seoTitle /}
+		<!--心声-->
+		<link rel="stylesheet" href="@{'/public/stylesheets/newhome/fenye.css'}" />
+		<link rel="stylesheet" href="@{'/public/stylesheets/newhome/pagination.css'}" />
+         <div class="chart_all">
+         	<div class="con_top clearfix">
+				<div class="con_topleft">
+					<p>用户<br/>心声</p>
+				</div>
+				<div class="con_topright">
+					#{form @addUserMsg(), id:'addUserMsg'}
+					<input type="text"  placeholder="请输入您的心声(请输入100字以内)" class="chart" name="msg" id="user_msg_content" autocomplete="off"/>
+					<button id="su">提交</button>
+					#{/form}
+				</div>
+			</div>
+         	<div class="con"></div>
+		    <div class="usermsg_foot">
+		    	<div class="pag_all">
+		    		 <div id="Pagination" class="pagination"></div> 
+			         <div id="Searchresult"></div>
+			         <div id="hiddenresult" style="display: none;"></div>
+		    	</div>
+		    </div>
+		</div>
+		<div style="height:50px;width:100%;background:#f1f1f1;"></div>
+		
+	<script type="text/javascript" src="@{'/public/javascripts/newhome/fenye.js'}"></script>
+	<script type="text/javascript" src="@{'/public/javascripts/newhome/jquery.pagination.js'}"></script>
+	<script>
+		$(function () {
+          var pageCount = 0;
+          var pageSize = 5;
+		  
+          //从服务器获得总页数
+          $.ajax({
+        	  url: "@{front.home.newHomeAction.msgdata}",
+              type: "get",
+              contentType: "application/json",
+              data: { "currPage": 1, "pageSize": pageSize }, //发送给服务器的数据
+              dataType: "json",
+              cache: false,
+              async: false,
+              success: function (data) {
+                  if (data) {
+                      pageCount = data.totalPageCount;
+                  }
+
+              }
+
+          })
+
+          //取得总页数;
+          
+
+          //此demo通过Ajax加载分页元素
+          var initPagination = function () {
+              var num_entries = $("#hiddenresult div.result").length;
+              
+              // 创建分页
+              $("#Pagination").pagination(pageCount, {
+                  num_edge_entries: 1, //边缘页数
+                  num_display_entries: 4, //主体页数
+                  callback: pageselectCallback,
+                  items_per_page: 1, //每页显示1项
+                  prev_text: "前一页",
+                  next_text: "后一页"
+              });
+          };
+
+          function pageselectCallback(page_index, jq) {
+              $.ajax({
+                  url: "@{front.home.newHomeAction.msgdata}",
+                  type: "get",
+                  contentType: "application/json",
+                  data: { "currPage": page_index + 1, "pageSize": pageSize }, //发送给服务器的数据
+                  dataType: "json",
+                  cache: false,
+                  success: function (data) {
+                      var str = "";
+                      //返回过来的json对象
+                      if (data != undefined && data != null) {
+                    	  var msgs = data.page;
+                          for (var i = 0; i < msgs.length; i++){    
+                        	  str += '<div class="line clearfix">';    
+                              str += '<div class="line_left">';                            
+                              str += '<img class="icon_left" src="' + msgs[i].photo + '" onerror="this.src=\'/public/images/default.png\'"/>';                                                                                   
+                              str += '</div>';
+                              str += '<div class="line_right">';
+                              str += '<p class="p_first">' + msgs[i].msg + '</p>';
+                              str += '<p class="p_twice"><span>' + msgs[i].name + '</span><span>' + msgs[i].date + '</span>';
+                              str += '</div>'; 
+                              str +='</div>';
+                         }
+                          
+                       }
+                       $(".con").html(str);
+                       
+//                     alert($(".p_first").length);
+/**
+                       for(var j=0;j<$(".p_first").length;j++){
+							if($(".p_first").eq(j).height()<=22){
+								$(".line").eq(j).css("height","98px");
+								$(".line").eq(j).css("border-bottom","1px solid #e0e0e0");
+								$(".line_left").eq(j).css("height","97px");
+//								$(".line").eq(j).css("border","1px solid #4f5");
+								$(".p_twice").eq(j).css("border-bottom","10px");
+//								$(".p_twice").eq(j).css("border","1px solid #f45");
+								
+							}
+							
+						}*/
+                   },
+                  error: function () {
+                      alert("出错了");
+                  }
+              });
+
+             
+              return false;
+          }
+
+          $("#hiddenresult").load("load.html", null, initPagination);
+      });
+		
+		
+		
+	 /*点击刷新*/
+	var su=document.getElementById("su")
+		su.onclick=function(){
+		 	#{if currUser == null}
+		 		alert('请先登录后再提交')
+		 		return false;
+		 	#{/if}
+		 	#{else}
+		 		var length = $("#user_msg_content").val().length;
+				var strChart = $('#user_msg_content').val(); 
+				strChart= $.trim(strChart);
+				var st=strChart.replace(/^\s+|\s+$/g,"");
+				$('#user_msg_content').val(st);
+				
+			    if(length>100||length==0||length==null||length==""&&st == null||st == ""||st == " "&&st==0){
+					alert("请输入100字以内的有效内容");
+					return false;
+		 		}else{
+			 		$('#addUserMsg').submit();
+		 		}
+		 	#{/else}
+		}
+	</script>

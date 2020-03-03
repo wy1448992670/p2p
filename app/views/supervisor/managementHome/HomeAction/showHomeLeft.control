@@ -1,0 +1,401 @@
+    <style>
+       .content{
+       		display:none;
+       		cursor:pointer;
+       		background:#FFFFFF;
+       		width:150px;
+       		height:100px;
+       		position:absolute;
+       		padding:10px;
+       		right:-10px;
+       		top:70px;
+       		z-index:1111111;
+       	}
+       	.center_main{
+       	    position:relative;
+       	}
+    </style>
+    <!-- 内容区域 -->
+    <div class="center_wrap">
+		<div class="center_main">
+			<div class="yysj_top">
+				<div class="yysj_name">运营数据</div>	
+				<div class="yysj_time" style="color:red">以下数据的统计时间点：<span>${jobs.IndexStatisticsJob.date?.format('yyyy年MM月dd日  HH:mm:ss')}</span>（每10分钟更新一次）</div>
+				<div class="yysj_syxs">
+	            	<input type="checkbox" id="check" class="radio"/><label for="check" class="radio"></label>
+	            	<span>首页显示统计数据</span>
+	            </div>	
+			</div>
+			<div class="yysj_cn" >
+				<ul>
+					<li>
+						<div class="yysj_title">累计注册会员</div>
+						<div class="yysj_xqsz"><span>${jobs.IndexStatisticsJob.regCount}</span>人</div>
+					</li>
+					<li>
+						<div class="yysj_title">成功借款标数量</div>
+						<div class="yysj_xqsz"><span>${jobs.IndexStatisticsJob.releasedBidsNum}</span>个</div>
+					</li>
+					<li>
+						<div class="yysj_title">成功借款总额</div>
+						<div class="yysj_xqsz"><span>
+												#{if jobs.IndexStatisticsJob.totalBorrowAmount > 100000000}
+													#{format money:jobs.IndexStatisticsJob.totalBorrowAmount}#{/format}
+												#{/if}
+												#{else}
+				                            		 ${jobs.IndexStatisticsJob.totalBorrowAmount?.format('###,##0')}
+				                            	#{/else}
+												</span>元</div>
+					</li>
+					<li>
+						<div class="yysj_title">待还总额</div>
+						<div class="yysj_xqsz"><span>
+												#{if jobs.IndexStatisticsJob.repayingBorrowAmount > 100000000}
+													#{format money:jobs.IndexStatisticsJob.repayingBorrowAmount}#{/format}
+												#{/if}
+												#{else}
+				                            		 ${jobs.IndexStatisticsJob.repayingBorrowAmount?.format('###,##0')}
+				                            	#{/else}
+												</span>元</div>
+					</li>
+					<li>
+                            <div class="yysj_title Mouse">实时站岗资金</div>
+						<div class="yysj_xqsz"><span>
+												#{if jobs.IndexStatisticsJob.balanceFloatSum > 100000000}
+													#{format money:jobs.IndexStatisticsJob.balanceFloatSum}#{/format}
+												#{/if}
+												#{else}
+				                            		 ${jobs.IndexStatisticsJob.balanceFloatSum?.format('###,##0')}
+				                            	#{/else}
+												</span>元</div>
+
+					</li>
+
+				</ul>
+				<div class="content">
+                      <div>包括所有用户的：</div>
+                      <div>     可用余额</div>
+                      <div>     提现冻结资金</div>
+                      <div>     投资未满标的冻结资金</div>
+                 </div>
+			</div>
+			<div class="yysj_xq">
+				<div class="tab1" >
+					<div class="menu" id="menu1">
+						<ul>
+							<li onclick="newMembers(1)">昨日</li>
+							<li onclick="newMembers(2)">最近7天</li>
+							<li onclick="newMembers(3)">最近30天</li>
+						</ul>
+					</div>
+					<div class="menudiv">
+						<div id="showEcharts">
+							<div class="menudiv_img" id="memberDiv"></div>
+						</div>
+					</div>
+				</div>
+				<div class="tab1 tab2" >
+					<div class="menu" id="menu2">
+						<ul>
+							<li onclick="getMoney(1)">昨日</li>
+							<li onclick="getMoney(2)">最近7天</li>
+							<li onclick="getMoney(3)">最近30天</li>
+						</ul>
+					</div>
+					<div class="menudiv">
+						<div id="showEcharts">
+							<div class="menudiv_img" id="moneyDiv"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="yysj_bot">
+				<div class="yysj_bot_cn">
+					<ul>
+						<li>
+							<div class="bot_cn_name_1">风 控</div>	
+						</li>
+						<li>
+							<div class="bot_cn_title">待审核借款标</div>
+							<div class="bot_cn_xqsz"><a href="@{supervisor.bidManager.BidPlatformAction.auditingList}" style="color:#3a7dc0"><span>${result?.waitAuditingBidCount}</span>个</a></div>
+						</li>
+						
+						<li>
+							<div class="bot_cn_title">将要到期借款标</div>
+							<div class="bot_cn_xqsz"><a href="@{supervisor.bidManager.BidPlatformAction.fundraiseingList}" style="color:#3a7dc0"><span>${result?.expireBorrowingBidCount}</span>个</a></div>
+						</li>
+						<li>
+							<div class="bot_cn_title">满标借款标</div>
+							<div class="bot_cn_xqsz"><a href="@{supervisor.bidManager.BidPlatformAction.fullList}" style="color:#3a7dc0"><span>${result?.fullBidCount}</span>个</a></div>
+						</li>
+						<li>
+							<div class="bot_cn_title">转让申请</div>
+							<div class="bot_cn_xqsz"><a href="@{supervisor.bidManager.DebtTransferAction.debtTransferPending}" style="color:#3a7dc0"><span>${result?.transferBidCount}</span>个</a></div>
+						</li>
+						<li></li>
+					</ul>
+				</div>
+				<div class="yysj_bot_cn">
+					<ul>
+						<li>
+							<div class="bot_cn_name_1">财 务</div>	
+						</li>
+						<li>
+							<div class="bot_cn_title">待放款借款标</div>
+							<div class="bot_cn_xqsz"><a href="@{supervisor.financeManager.LoanManager.readyReleaseList}" style="color:#3a7dc0"><span>${result?.waitLendingBidCount}</span>个</a></div>
+						</li>
+						<li>
+							<div class="bot_cn_title">待审核提现</div>
+							<div class="bot_cn_xqsz"><a href="@{supervisor.financeManager.PlatformAccountManager.toReviewWithdraws}" style="color:#3a7dc0"><span>${result?.waitWithdrawCount}</span>个</a></div>
+						</li>
+						<li>
+							<div class="bot_cn_title">待付款提现</div>
+							<div class="bot_cn_xqsz"><a href="@{supervisor.financeManager.PlatformAccountManager.toPayWithdraws}" style="color:#3a7dc0"><span>${result?.waitPayWithdrawCount}</span>笔</a></div>
+						</li>
+						<li>
+							<div class="bot_cn_title">到期还款金额</div>
+							<div class="bot_cn_xqsz"><a href="@{supervisor.financeManager.ReceivableBillManager.toReceiveBills}" style="color:#3a7dc0"><span>
+												#{if result.nextMonthRepaymentSum > 100000000}
+													#{format money:result.nextMonthRepaymentSum}#{/format}
+												#{/if}
+												#{else}
+				                            		 ${result?.nextMonthRepaymentSum?.format('###,##0')}
+				                            	#{/else}
+												</span>元</a></div>
+						</li>
+						<li>
+						#{if constants.Constants.IPS_ENABLE}
+							<div class="bot_cn_title">担保帐户余额</div>
+							<div class="bot_cn_xqsz"><span>
+												#{if result.guaranteeAccountSum > 100000000}
+													#{format money:result.guaranteeAccountSum}#{/format}
+												#{/if}
+												#{else}
+				                            		 ${result?.guaranteeAccountSum?.format('###,##0')}
+				                            	#{/else}
+												</span>元</div>
+						#{/if}
+						</li>
+						
+					</ul>
+				</div>
+				<div class="yysj_bot_cn">
+					<ul>
+						<li>
+							<div class="bot_cn_name_1">运 维</div>	
+						</li>
+						<li>
+							<div class="bot_cn_title">待回复站内信</div>
+							<div class="bot_cn_xqsz"><a href="@{supervisor.webContentManager.Message.toReplyMessages}" style="color:#3a7dc0"><span>${result?.waitReplyMessageCount}</span>封</a></div>
+						</li>
+						<li>
+							<div class="bot_cn_title">被举报会员</div>
+							<div class="bot_cn_xqsz"><a href="@{supervisor.userManager.ReportedUser.reportedUser}" style="color:#3a7dc0"><span>${result?.beReportedMemberCount}</span>人</a></div>
+						</li>
+						<li>
+							<div class="bot_cn_title">已锁定会员</div>
+							<div class="bot_cn_xqsz"><a href="@{supervisor.userManager.LockedUser.lockedUser}" style="color:#3a7dc0"><span>${result?.beLockMemberCount}</span>人</a></div>
+						</li>
+						<li>
+							<div class="bot_cn_title">黑名单会员</div>
+							<div class="bot_cn_xqsz"><a href="@{supervisor.userManager.BlacklistUser.blacklistUser}" style="color:#3a7dc0"><span>${result?.blacklitMemberCount}</span>人</a></div>
+						</li>
+						<li>
+							
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+    
+    <!-- 内容区域end -->
+<script>
+$(function(){
+	$('#check').prop('checked',${business.BackstageSet.getCurrentBackstageSet().isDisplayStatistics == 1});
+	$('#check').click(function(){
+		$.post('@{saveIndexSetting()}',{display:$(this).prop('checked')},function(data){
+			if(data.code < 0){
+				alert(data.msg);
+			}
+		})
+	});
+	
+	newMembers(1);
+	getMoney(1);
+	
+});
+
+function newMembers(type){
+	var showEchartsData =  #{jsAction @showEchartsData(':type',':position')/}; 
+	$.get(showEchartsData({type:type,position:'left'}),function(data){
+	
+		
+		//渲染图表
+		var myChart = echarts.init(document.getElementById('memberDiv'));
+		// 图表使用-------------------
+		var option = {
+		    legend: {
+		        padding: 5,
+		        itemGap: 10,
+		        y:'bottom',
+		        data: ["新增理财会员","新增注册会员"],
+		        textStyle:{
+		        	fontSize: 14
+		        }
+		    },
+		    tooltip: {
+		        trigger: 'axis',
+		        formatter: function (params,ticket,callback) {
+		        				var res ="时间:"+params[0][1]+"<br/>";
+		        				for(var i = 0;i<params.length;i++){
+			        				if(params[i][0]=='新增理财会员'){
+			        					res+="理财会员:"+params[i][2]+"人<br/>"
+			        				}else if(params[i][0]=='新增注册会员'){
+				        				res+="注册会员:"+params[i][2]+"人"
+			        				}
+		        				}
+					            return res;
+					        }
+				        
+		    },
+		    xAxis: [
+		        {
+		            type: 'category',
+		            data: data.axis,
+		            splitLine:{
+		            	show: false
+		            }
+		        }
+		    ],
+		    yAxis: [
+		        {
+		            type: 'value',
+		            boundaryGap: [0, 0.1],
+		            splitNumber: 4
+		        }
+		    ],
+		    grid:{
+				z: 0,
+				x: 40,
+				y: 5,
+				x2: 40,
+				y2: 60,
+		    },
+		    series: [
+		        {
+		            name: '新增理财会员',
+		            type: 'line',
+		            data: data.mapData.financia
+		        },
+		        {
+		            name: '新增注册会员',
+		            type: 'line',
+		            data: data.mapData.register
+		        }
+		    ]
+		};
+	
+	myChart.setOption(option);
+	});
+}
+
+function getMoney(type){
+	var showEchartsData =  #{jsAction @showEchartsData(':type',':position')/}; 
+	$.get(showEchartsData({type:type,position:'right'}),function(data){
+		//渲染图表
+		var myChart = echarts.init(document.getElementById('moneyDiv'));
+	
+		// 图表使用-------------------
+		var option = {
+		    legend: {
+		        padding: 5,
+		        itemGap: 10,
+		        y:'bottom',
+		        data: ["投资金额","充值金额"],
+		        textStyle:{
+		        	fontSize: 14
+		        }
+		    },
+		    tooltip: {
+		        trigger: 'axis',
+		        formatter: function (params,ticket,callback) {
+		        				var res ="时间:"+params[0][1]+"<br/>";
+		        				for(var i = 0;i<params.length;i++){
+			        				if(params[i][0]=='投资金额'){
+			        					res+=params[i][0]+":"+params[i][2]+"元<br/>"
+			        				}else if(params[i][0]=='充值金额'){
+				        				res+=params[i][0]+":"+params[i][2]+"元"
+			        				}
+		        				}
+					            return res;
+					        }
+		    },
+		    xAxis: [
+		        {
+		            type: 'category',
+		            data: data.axis,
+		            splitLine:{
+		            	show: false
+		            }
+		        }
+		    ],
+		    yAxis: [
+		        {
+		            type: 'value',
+		            boundaryGap: [0, 0.1],
+		            splitNumber: 4,
+		            axisLabel : {
+                		formatter: function(value){
+                					if(value>=10000&&value<100000000){
+                						value = value/10000;
+                						value = value.toFixed(2);
+                						return value+"万";
+                					}else if(value>=100000000 && value<1000000000000.00){
+                						value = value/100000000;
+                						value = value.toFixed(2);
+                						return value+"亿";
+                					}else if(value>=1000000000000.00){
+                						value = value/1000000000000.00;
+                						value = value.toFixed(2);
+                						return value+"万亿";
+                					}else{
+                						return value;
+                					}
+                			
+                		}
+ 					}
+		        }
+		    ],
+		    grid:{
+				z: 0,
+				x: 80,
+				y: 8,
+				x2: 40,
+				y2: 60,
+		    },
+		    series: [
+		        {
+		            name: '投资金额',
+		            type: 'line',
+		            data: data.mapData.invest
+		        },
+		        {
+		            name: '充值金额',
+		            type: 'line',
+		            data: data.mapData.recharger
+		        }
+		    ]
+		};
+	
+	myChart.setOption(option);
+	});
+}
+// 移入移除时间
+  $(".Mouse").mouseenter(function(){
+	$('.content').show(50)
+  });
+  $(".Mouse").mouseleave(function(){
+    $('.content').hide(50)
+  });
+</script>

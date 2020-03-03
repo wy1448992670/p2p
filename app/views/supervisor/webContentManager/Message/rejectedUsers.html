@@ -1,0 +1,133 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'拒收名单' /}
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  <!--左-->
+  #{include "supervisor/webContentManager/common/leftBar.control"/}
+  <!--右-->
+  <div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    #{form @supervisor.webContentManager.Message.rejectedUsers(), id:'rejectedUsersList'}
+    <input type="hidden" id="currPage" name="currPage"/>
+	<input type="hidden" id="pageSize" name="pageSize"/>
+    <!-- 搜索 -->
+    <div class="xf_ht_search_inon">
+       <div class="xf_ht_search_r">
+         <div class="xf_ht_search_xl">
+           <input name="keyword" id="keyword" type="text" class="search_w" placeholder="请输入会员名" value="${pageBean.conditions.keyword}"/>
+         </div>
+         <div class="xf_ht_search_xl">
+           <input type="submit" class="search_button" value="搜索">
+         </div>
+       </div>
+     </div>
+     #{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xn_c_content_list",tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}会员名#{/th}
+          #{th}拒收时间#{/th}
+          #{th}拒收原因#{/th}
+          #{th}会员账号状态#{/th}
+		  #{th}操作#{/th}
+        #{/tr}
+		#{list pageBean.page, as:'user'}
+        #{tr tr_index:user_index}
+          #{td}${(pageBean?.currPage - 1)*pageBean?.pageSize + user_index}#{/td}
+          #{td}${user?.name}#{/td}
+          #{td}${user?.refused_time?.format("yyyy-MM-dd HH:mm:ss")}#{/td}
+          #{td}${user?.refused_reason}#{/td}
+		  #{td}#{if user?.is_allow_login == true}正常#{/if}#{else}锁定#{/else}#{/td}
+          #{td}
+            <span class="xf_ta_onclick" onClick="showDetailPage(${user.id})">详情</span>
+            <span class="xf_ta_onclick" onClick="receive(${user.id})">接收</span>
+          #{/td}
+        #{/tr}
+		#{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      #{page currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:4}
+	    keyword=${pageBean.conditions.keyword}&type=${pageBean.conditions.type}
+	  #{/page}
+    </div>
+    </div>
+    </div>
+  </div>
+</div>
+<!-- 详情-弹出层 -->
+<div class="xf_ht_ttc" id="xf_ht_fkzh_ttc">
+</div>
+<script type="text/javascript">
+  function showPage(currPage, pageSize){
+    $("#currPage").val(currPage);
+    $("#pageSize").val(pageSize);
+    $("#rejectedUsersList").submit();
+  }
+  //显示详情弹出层
+  function showDetailPage(userId) {
+    $.ajax({
+      url : "@{rejectedUserDetail()}",
+      type : "POST",
+      data : {
+        "userId" : userId
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+
+          return;
+        }
+
+        var ttc = $("#xf_ht_fkzh_ttc");
+        ttc.html(data);
+        $.layer({
+          type: 1,
+          area: ['600', 'auto'],
+          title: '拒收名单详情',
+          page: {dom : '#xf_ht_js_obu_width'}
+        });
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+	
+  function receive(userId) {
+    $.ajax({
+      url : "@{receive()}",
+      type : "POST",
+      data : {
+        "userId" : userId
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+
+          return;
+        }
+
+        location.reload(true);
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+
+  function search() {
+    window.location.href = "rejectedUsers?keyword=" + encodeURIComponent($("#keyword").val());
+  }
+</script>
+
+<script type="text/javascript">
+$(function(){
+	//高亮显示
+	showHighLight(3,3,12);
+})
+</script>

@@ -1,0 +1,65 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'安全参数设置' /} 
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/systemSettings/common/leftBar.control"/}
+    <div class="xn_c_content">
+      <div class="xf_content_add">
+        #{form @saveWeiXinConsultingLanguage(), id:'paramSet'}
+        <div class="xfht_t_j_y_2">
+          <!--右上-->
+          <div class="xf_ht_obu_fklm">
+                                        微信在线咨询语设置
+          </div>
+          <div class="xf_htgl_jgone">
+          <h3 class="xf_htgl_jgtitle">微信在线咨询语设置(<font color="red">长度不要超过2047/3=682(个)汉字</font>)</h3>
+          <div class="xf_htgl_xt_tableone">
+            
+            <table border="0" cellspacing="0" class="xf_htgl_jg_tableone_table">
+            <tr>
+              <td width="149" align="right" valign="top">请输入微信咨询语：</td>
+               #{if flash.status >= 1}
+              <td>
+              <textarea class="xf_ht_baidu_wkttcc_text xf_ht_baidu_aqcssz" id="weiXinConsultingLanguage" name="weiXinConsultingLanguage">${flash.weiXinConsultingLanguage}</textarea>
+              </td>
+              #{/if}
+              #{else}
+               <td>
+              <textarea class="xf_ht_baidu_wkttcc_text xf_ht_baidu_aqcssz" id="weiXinConsultingLanguage" name="weiXinConsultingLanguage">${weiXinConsultingLanguage}</textarea>
+              </td>
+              #{/else}
+            </tr>
+            </table>
+          </div>
+          </div>
+          <div class="xf_htgl_jgsix_hyg">
+          <input id="save" class="xf_ht_tcc_button_ok" type="button" value="保存">
+          </div>
+        </div>
+        #{/form}
+    </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+	 $(function() {
+	    /* 高亮显示 */
+	    showHighLight(8,8,20);
+	  });
+	 $(function () {
+			var info = "${flash.info}";
+			if (info != '' && info != 'undefined') {
+					alert(info);
+			}
+		})
+	$("#save").click(function () {
+		if ($("#weiXinConsultingLanguage").val().trim() == '') {
+			alert("微信在线咨询语不能为空");
+			return false;
+		}
+		$("#paramSet").submit();
+	})
+ 
+ </script>
+ 

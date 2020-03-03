@@ -1,0 +1,57 @@
+#{extends 'wechat/service/appCommonNext.html' /}
+
+<body>
+<!-- main -->
+<div class="p-fatiemain">
+    <div class="p-fchoicemk">请选择发布模块</div>
+    <ul class="p-fseleor clr">
+    	#{list items:list,as:'postsList'}
+        	<li id="clr${postsList.id}" onclick="changeType('${postsList.id}')">${postsList.name}</li>
+        
+        #{/list}
+    </ul>
+    <div class="p-fbottom">
+    	<form action="@{app.AppController.userAddPosts()}" id="submitF">
+    		<input type="hidden" name="postsType" id="postsType"/>
+    		<input type="hidden" name="userId" value="${userId}"/>
+	        <input type="text" placeholder="请输入标题" name="title" id="title">
+	        <textarea placeholder="请输入内容" name="contents" id="contents"></textarea>
+	        <a  onclick="submintF()">发&nbsp;&nbsp;帖</a>
+        </form>
+    </div>
+</div>
+</body>
+
+<script>
+	
+	$(function(){
+		
+		if('${flash.error}' !='') {
+		  alert('${flash?.error}');
+		}
+		
+		var ids = "clr"+${postsType};
+		$("#"+ids).addClass("cur");
+		$("#postsType").val(${postsType});
+	});
+	
+	function changeType(type){
+		$("#postsType").val(type);
+	}
+	function submintF(){
+		var title = $("#title").val();
+		var contents = $("#contents").val()
+		if(title.trim() == ""){
+			alert("请输入标题");
+			return false;
+		}
+		if(contents.trim() == ""){
+			alert("请输入内容");
+			return false;
+		}
+		/* if(confirm("确定发帖吗")){
+			$("#submitF").submit();
+		} */
+		$("#submitF").submit();
+	}
+</script>

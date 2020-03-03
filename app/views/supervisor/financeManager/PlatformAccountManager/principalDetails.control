@@ -1,0 +1,48 @@
+<div class="xf_ht_ttc" id="xf_ht_fkzh_ttc">
+    <div class="xf_ht_jr_obu_width">
+      <div class="xf_ht_jr_obu_title clr">
+        <div class="xf_ht_jr_obu_l">详情</div>
+        <div class="xf_ht_jr_obu_r" onClick="sure()">&nbsp;</div>
+      </div>
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form xf_ht_jr_obu_formsz">
+        <tr>
+          <td width="132" align="right" valign="middle" class="xf_ht_jr_obttd_l">操作金额：</td>
+          <td>
+            <span class="xf_ht_fk_span" id="amount"></span>
+          </td>
+        </tr>
+        <tr>
+          <td align="right" valign="middle" class="xf_ht_jr_obttd_l">保障金余额：</td>
+          <td><span class="xf_ht_fk_span" id="balance"></span></td>
+        </tr>
+        <tr>
+          <td align="right" valign="middle" class="xf_ht_jr_obttd_l">类型：</td>
+          <td><span class="xf_ht_fk_span" id="type"></span></td>
+        </tr>
+        <tr>
+          <td align="right" valign="middle" class="xf_ht_jr_obttd_l">操作时间：</td>
+          <td><span class="xf_ht_fk_span" id="times"></span></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top" class="xf_ht_jr_obttd_l">备注：</td>
+          <td>
+            <textarea class="xf_ht_jr_obttd_input" name="xf_ht_jr_obttd_input" id="summary"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td align="right" valign="top" class="xf_ht_jr_obttd_l">&nbsp;</td>
+          <td class="xf_ht_tcc_button_two">
+            <input class="xf_ht_tcc_button_ok" type="button" onClick="sure()" value="确  定">
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+   $("#xf_ht_fkzh_ttc").hide();
+   
+   function sure(){
+     $("#xf_ht_fkzh_ttc").hide();
+   }
+</script>

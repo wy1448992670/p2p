@@ -1,0 +1,39 @@
+.ui-pagination-container {
+	height: 34px;
+	line-height: 34px;
+}
+
+.ui-pagination-container .ui-pagination-page-item ,.ui-pagination-container .ui-pagination-page-btn{
+	font-size: 14px;
+	padding: 4px 10px;
+	background: #fff;
+	border: 1px solid #c5b7b7;
+	color: #888;
+	margin: 0 3px;
+	text-decoration: none;
+}
+
+.ui-pagination-container .ui-pagination-page-item:hover {
+	border-color: #568dbd;
+	color: #568dbd;
+	text-decoration: none;
+}
+
+.ui-pagination-container .ui-pagination-page-item.active {
+	background: #30A5DA;
+	border-color: #30A5DA;
+	color: #fff;
+	cursor: default;
+}
+.page{
+	text-align: right;
+	width: 100%;
+}
+.info{
+	
+	text-align:right;
+	width:100%;
+}
+.info>p{
+	padding:10px;
+}

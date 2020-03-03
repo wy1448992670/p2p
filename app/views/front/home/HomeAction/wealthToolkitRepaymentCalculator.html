@@ -1,0 +1,242 @@
+<h3 class="xf_mem_accout_title">还款计算器</h3>
+<div class="xf_mem_jsq_xyjsq">
+	<div class="xf_mem_jsq_hk_t">
+		<table border="0" cellpadding="0" cellspacing="0" width="739" class="xf_mem_jsq_hk_table">
+			<tr>
+				<td class="xf_mem_jsq_hk_tdl">借款金额：</td>
+				<td class="xf_mem_jsq_hk_tdr">
+				<input class="xf_mem_jsq_hk_input" type="text" id="amount" onkeyup="value=value.replace(/[^\d]/g,'')" 
+				onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d  |^\.]/g,''))" />
+				&nbsp;元
+				</td>
+			</tr>
+			<tr>
+				<td class="xf_mem_jsq_hk_tdl">合同约定年化利率：</td>
+				<td class="xf_mem_jsq_hk_tdr">
+				<input class="xf_mem_jsq_hk_input" type="text" id="apr" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{2}).*/g, '$1')"
+				onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d  |^\.]/g,''))" />
+				&nbsp;%
+				</td>
+			</tr>
+			<tr>
+				<td class="xf_mem_jsq_hk_tdl">借款期限：</td>
+				<td class="xf_mem_jsq_hk_tdr"><input class="xf_mem_jsq_hk_input" type="text" id="period" onkeyup="value=value.replace(/[^\d]/g,'')"
+				onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d  |^\.]/g,''))" onblur="checkPeriod()"/>&nbsp;
+					<select id="periodUnit"  onchange="test()"> 
+						<option value="-1">年</option>
+						<option value="0">月</option>
+						<option value="1">日</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="xf_mem_jsq_hk_tdl">还款方式：</td>
+				<td class="xf_mem_jsq_hk_tdr">
+					<select name="xf_memhkjsq_selectAge" class="xf_memhkjsq_selectAge" id="repaymentType">   
+						#{list rtypes}
+							#{if _?.isUse}
+							 <option value="${_?.id}">${_?.name}</option>  
+							#{/if}
+						#{/list}
+					</select>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="xf_mem_jsq_xyjsq_go">
+		<a class="xf_con_inputfbjk" onclick="calculate();">计 算</a>
+	</div>
+	<!-- 计算结果 -->
+	<div class="xf_mem_jsq_hk_c" id="showResult">
+		<table border="0" cellpadding="0" cellspacing="0" width="739" class="xf_mem_jsq_hk_ctble">
+			<tr>
+				<td class="xf_mem_jsq_hk_ctitle" height="52" colspan="2">计算结果</td>
+			</tr>
+			<tr>
+				<td class="xf_mem_jsq_hk_tdl" width="202">借款总额：</td>
+				<td class="xf_mem_jsq_hk_tdr">
+				<span class="xf_mem_jsq_red" id="totalAmount"></span>&nbsp;元
+				</td>
+			</tr>
+			<tr>
+				<td class="xf_mem_jsq_hk_tdl">月利率：</td>
+				<td class="xf_mem_jsq_hk_tdr">
+				<span class="xf_mem_jsq_red" id="monthApr"></span>&nbsp;%
+				</td>
+			</tr>
+			<tr> 
+				<td class="xf_mem_jsq_hk_tdl"><span id="monthCapitalInterestSumText"></span></td>
+				<td class="xf_mem_jsq_hk_tdr">
+					<span class="xf_mem_jsq_red" id="monthCapitalInterestSum"></span>&nbsp;元
+				</td>
+			</tr>
+			<tr>
+				<td class="xf_mem_jsq_hk_tdl">还款本息总额：</td>
+				<td class="xf_mem_jsq_hk_tdr">
+					<span class="xf_mem_jsq_red" id="capitalInterestSum"></span>&nbsp;元
+				</td>
+			</tr>
+		</table>
+	</div>
+	<!-- 还款明细 -->
+	<div class="xf_mem_jsq_hk_b" id="showRepaymentDetail">
+		
+	</div>
+</div>
+
+<script type="text/javascript">
+<!--
+	$(function(){
+		/* 计算结果层 */
+		$("#showResult").hide();
+		/* 返款明细层 */
+		$("#showRepaymentDetail").hide();
+		
+		$("#apr").focus(function(){
+			this.value = "";
+		});
+		
+		$("#amount").focus(function(){
+			this.value = "";
+		});
+		
+		$("#period").focus(function(){
+			this.value = "";
+		});
+	})
+	
+	/* 投标期限为天只能为一次性还款 */
+	function test(){
+		var periodUnit = $("#periodUnit").val() * 1;
+		var repaymentType = $("#repaymentType");
+		if(1 == periodUnit){
+			repaymentType.html("");
+			#{list rtypes}
+				#{if _?.isUse && _?.id == 3}
+					repaymentType.append("<option value=${_?.id}>${_?.name}</option>")  
+				#{/if}
+			#{/list}
+		}else{
+			repaymentType.html("");
+			#{list rtypes}
+				#{if _?.isUse}
+					repaymentType.append("<option value=${_?.id}>${_?.name}</option>")  
+				#{/if}
+			#{/list}
+		}
+	}
+	
+	/* 当投标期限选择为日时，只能为30天以下（包括30） */
+	function checkPeriod(){
+		var periodUnit = $("#periodUnit");
+		var period = $("#period");
+		var periodVal = period.val();
+
+		if(1 == periodUnit.val() &&　periodVal > 30){
+			alert("天标借款期限不能大于30天！");
+		}
+	}
+	
+	/* 计算 */
+	function calculate(){
+		var amount = $("#amount").val() * 1;
+		
+		if(amount <= 0 || amount > 100000000 || isNaN(amount)){
+			$("#amount").val("金额有误!");
+			$("#showResult").hide();
+			$("#showRepaymentDetail").hide();
+			return;
+		}
+
+		var apr = $("#apr").val() * 1;
+		
+		if(apr > 100 || apr <= 0 || isNaN(apr)){
+			$("#apr").val("年利率有误!");
+			$("#showResult").hide();
+			$("#showRepaymentDetail").hide();
+			return;
+		}
+		
+		var period = $("#period").val() * 1;
+		
+		if(period < 1 || isNaN(period)){
+			$("#period").val("期限有误!");
+			$("#showResult").hide();
+			$("#showRepaymentDetail").hide();
+			return;
+		}
+		
+		var periodUnit = $("#periodUnit").val() * 1;
+		var repaymentType = $("#repaymentType").val() * 1;
+		var interest = 0; // 总利息
+		var monthApr = apr / 12 / 100; // 月利率 
+		var rperiod = 0; // 还款期数
+
+		if(1 == periodUnit &&　period > 30){
+			alert("天标借款期限不能大于30天！");
+			return ;
+		}
+		
+		/* 根据借款期限算出利息 */
+		switch(periodUnit){
+			/* 年 */
+			case -1:
+				interest = apr/100*period*amount;
+				rperiod = period * 12; 
+				break;
+			/* 月 */
+			case 0: 
+				interest = apr/12/100*period*amount;
+				rperiod = period; 
+				break;
+			/* 日 */
+			case 1: 
+				interest = apr/360/100*period*amount;
+				rperiod = 1; 
+				break;
+		}
+		
+		var mcist = $("#monthCapitalInterestSumText");
+		var monthSum = 0;
+		if(periodUnit == 1){
+			mcist.html("应还本息");
+			monthSum = interest + amount;   
+		}else{
+			/* 根据还款方式算出利息 */
+			switch(repaymentType){
+				/* 按月还款、等额本息 */
+				case 1: 
+					monthSum = (amount * monthApr * Math.pow((1 + monthApr), rperiod)) / (Math.pow((1 + monthApr), rperiod) - 1); 
+					interest = (monthSum * rperiod - amount).toFixed(2);
+					mcist.html("月还本息"); 
+					break;
+					
+				/* 按月付息、一次还款 */
+				case 2:
+				    mcist.html("月还利息"); 
+				    monthSum = interest / rperiod; 
+				 	break;
+				 	
+				/* 一次还款 */
+				case 3: 
+					mcist.html("应还本息");
+					monthSum = interest + amount; 
+					break;
+			}
+	  }
+		
+		$("#totalAmount").html(amount);
+		$("#monthApr").html((monthApr * 100).toFixed(2));
+		$("#monthCapitalInterestSum").html(monthSum.toFixed(2));
+		$("#capitalInterestSum").html((interest*1 + amount*1).toFixed(2));
+		
+		$("#showResult").show(); // 计算结果层
+		
+		/* 还款明细异步加载 */
+		var listAction = #{jsAction @repaymentCalculate(':amount', ':apr', ':period', ':periodUnit', ':repaymentType') /};
+		$.post(listAction({amount:amount, apr:apr, period:period, periodUnit:periodUnit, repaymentType:repaymentType}), function(data) {
+			$("#showRepaymentDetail").html(data).show();
+		});
+	}
+//-->
+</script>

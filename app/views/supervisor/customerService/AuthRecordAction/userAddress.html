@@ -1,0 +1,247 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'用户所在地查询' /} 
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include '/supervisor/customerService/customerLeft.control'/}
+  <div class="xn_c_content">
+	  <div class="xf_ht_tablelist">
+		<!-- 搜索 -->
+		#{form @userAddress(), id:'submit'}
+		<div class="xf_ht_search">
+		  <input type="hidden" id="currPage" name="currPage"/>
+          <input type="hidden" id="pageSize" name="pageSize"/>
+		 
+		  <input type="hidden" id="orderType" name="orderType" value="${page.conditions?.orderType}"/>
+		    <div class="xf_ht_search_l">
+		        <span id="div_0" onClick="conditonSearch(0)">默认排序</span>
+				<span id="div_1"  onClick="conditonSearch(1)">累计投标金额<a id="sp1">↑</a></span>
+				<span id="div_3"  onClick="conditonSearch(3)">账户可用余额<a id="sp3">↑</a></span>
+		    </div>
+		</div>
+		<div class="xf_ht_search_inon">
+		  <div class="xf_ht_search_r">
+			 
+		    <div class="xf_ht_search_xl">
+				用户名/联系电话：
+				<input type="text" class="search_w" id="name" name="name" value="${page.conditions?.name}">
+			</div>
+			<div class="xf_ht_search_xl">
+				推荐人手机号：
+				<input type="text" class="search_w" id="recommend_user_mobile" name="recommend_user_mobile" value="${page.conditions?.recommend_user_mobile}">
+			</div>
+			
+			<div class="xf_ht_search_xl">
+				注册时间：
+			  <input type="text" class="search_time" name="beginTime" id="beginTime" value="${page.conditions?.beginTime}" onclick="laydate()" class="laydate-icon" style="cursor:pointer">
+			  <span class="search_timesp">--</span>
+			  <input type="text" class="search_time" name="endTime" id="endTime" value="${page.conditions?.endTime}" onclick="laydate()" class="laydate-icon" style="cursor:pointer">  
+		    </div>
+			
+			<div class="xf_ht_search_xl">
+				登录时间：
+			  <input type="text" class="search_time" name="beginLoginTime" id="loginStart" value="${page.conditions?.beginLoginTime}" onclick="laydate()" class="laydate-icon" style="cursor:pointer">
+			  <span class="search_timesp">--</span>
+			  <input type="text" class="search_time" name="endLoginTime" id="loginEnd" value="${page.conditions?.endLoginTime}" onclick="laydate()" class="laydate-icon" style="cursor:pointer">  
+		    </div>
+			
+			<div class="xf_ht_search_xl">
+				省： 
+				<select id="province" name="provinceId" >
+					 
+				</select>
+			</div>
+			<div class="xf_ht_search_xl">
+				市：
+				<select id="city" name="cityId" >
+				 	 
+				</select>
+			</div>
+			<div class="xf_ht_search_xl">
+				<input type="submit" class="search_button" value="搜索">
+			</div>
+			
+		  </div>
+		</div>
+		#{/form}
+		<!-- 列表内容 -->
+		<div class="xn_c_content_top">
+		  #{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+			#{tr}
+			  #{th}序号#{/th}
+			  #{th}会员名#{/th}
+			  #{th}真实姓名#{/th}
+			  #{th}绑定手机#{/th}
+			  #{th}所在省#{/th}
+			  #{th}所在市#{/th}
+			  #{th}是否绑卡#{/th}
+			  #{th}推荐人#{/th}
+			  #{th}推荐人手机#{/th}
+			  #{th}累计投标金额#{/th}
+			  #{th}账户可用余额#{/th}
+			  #{th}注册时间#{/th}
+			  #{th}最后登录时间#{/th}
+			#{/tr}
+			#{list items:page.page, as:'uas'}
+			#{tr tr_index:_index}
+			  #{td}${(page?.currPage - 1)*page?.pageSize + uas_index}#{/td}
+			  #{td}${uas?.name}#{/td}
+			  #{td}${uas?.realityName}#{/td}
+			  #{td}${uas?.mobile}#{/td}
+			  
+			  #{td}${uas?.province}#{/td}
+			  #{td}${uas?.city}#{/td}
+			  
+			  #{td}#{if uas?.bank >0 }是#{/if}#{else}否#{/else}#{/td}
+			 
+			  #{td}${uas?.recommend_user_name} #{/td}   <!-- 推荐人姓名 -->
+          	  #{td}${uas?.recommend_user_mobile} #{/td} <!-- 推荐人手机号 -->
+          	  #{td}${uas?.invest_amount?.format("###,##0.00")}#{/td} <!-- 累计投标金额 -->
+          	  
+          	  #{td}${uas?.user_amount?.format("###,##0.00")}#{/td}<!-- 账户可用余额-->
+          	   #{td}${uas?.register_time?.format('yyyy-MM-dd')}#{/td}<!-- 注册时间 -->
+          	  #{td}${uas?.last_login_time?.format('yyyy-MM-dd')}#{/td}<!--最后登录时间-->
+			#{/tr}
+			#{/list}
+		  #{/table}
+		</div>
+		<!-- 列表底部 -->
+		<div class="xn_c_content_bottom">
+		  <div class="page_warp">
+			#{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4}#{/page}
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </div>
+</div>
+<div id="show"></div>
+
+
+<script type="text/javascript">
+function showPage(currPage, pageSize){
+    $("#currPage").val(currPage);
+    $("#pageSize").val(pageSize);
+    $("#submit").submit();
+  }
+	function conditonSearch(num){
+		var orderType= ${page.conditions?.orderType};
+	  	if(orderType == 0){
+	    	$("#orderType").val(num);
+	    	$("#submit").submit();
+	    	return;
+	  	}
+	  	var sum = orderType/2;
+	  	if(sum.toString().indexOf('.') == -1){
+	    	var sum2 = orderType - 1;
+	    	$("#orderType").val(num);
+	    	$("#submit").submit();
+	    	return;
+	  	} else {
+			    if(orderType == num){
+			      	$("#orderType").val(num + 1);
+			      	$("#submit").submit();
+			      	return;
+			    } else {
+			      	$("#orderType").val(num);
+			      	$("#submit").submit();
+			      	return;
+				}
+			}
+	}
+	 
+	$(function(){  
+		  /* 高亮显示 */
+		  highLight(2);
+		  
+		  //条件查询控制样式
+		  var num= ${page.conditions?.orderType};
+		  if(num == 0){
+		    $("#div_0").addClass("xf_sea_isshow");
+		    return;
+		  }
+		  var sum = num/2;
+		  if(sum.toString().indexOf('.') == -1){
+		    var sum2 = num -1;
+		    $("#div_"+sum2).addClass("xf_sea_isshow");
+		    $("#sp"+sum2).html("↓");
+		    return;
+		  }
+		  $("#div_"+num).addClass("xf_sea_isshow");
+		  $("#sp"+num).html("↑");
+	});
+	$(function(){
+		 //加载省的数据
+		 loadProvince();
+		 //省市联动
+		 var province_id = $("#province").find("option:selected").val();
+		 if(province_id != "" && province_id != null && province_id != "undefined"){
+			
+			 loadCity(province_id); 
+		 }
+		 
+		 $("#province").change(function(){
+			 province_id = $("#province").find("option:selected").val();
+			 if(province_id == "" || province_id == null || province_id == "undefined"){
+			 	province_id = $("#province option:selected").val();
+			 }
+		     loadCity(province_id); 
+		});
+	})
+	//加载省份
+	function loadProvince(){
+		 $.ajax({
+		      url : "@{supervisor.systemSettings.supervisorAction.getProvinceList()}",
+		      type : "POST", 
+		      dataType:"JSON",
+		      async : false,
+		      data : { },
+		      success : function(data) {
+				if (data.code < 0) {
+		          alert(data.msg);
+		          return;
+		        }
+		        $("#province").prepend("<option value=''>请选择</option>");
+				$.each(data, function(n,value) { 
+					if('${page.conditions?.provinceId}' == value.province_id ){
+						$("#province").append("<option value="+value.province_id  + " selected > "+value.province+"</option>");
+					} else {
+						$("#province").append("<option value="+value.province_id  + " > "+value.province+"</option>");
+					}
+					 
+				});
+		      },
+		      error : function() {
+		        alert("对不起，出现错误!");
+		      }
+		});
+	}
+	//加载市
+	function loadCity(provinceId){
+		 $.ajax({
+		      url : "@{supervisor.systemSettings.supervisorAction.getCityList()}",
+		      type : "POST", 
+		      dataType: "JSON",
+		      data : {"province_id":provinceId},
+		      success : function(data) {
+				if (data.code < 0) {
+		          alert(data.msg);
+		          return;
+		        }
+				$("#city").empty();//先清空
+				$("#city").prepend("<option value=''>全部</option>");
+			 	$.each(data, function(n,value) {
+					if('${page.conditions?.cityId}' == value.city_id ){
+						$("#city").append("<option value = "+value.city_id  + " selected='selected' > "+value.city+"</option>");
+					} else {
+						$("#city").append("<option value = "+value.city_id  + " > "+value.city+"</option>");
+					} 
+				});  
+				 
+		      },
+		      error : function() {
+		        alert("对不起，出现错误!");
+		      }
+		});
+	}
+
+</script>

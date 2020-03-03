@@ -1,0 +1,249 @@
+#{extends 'wechat/common.html' /}
+<body>
+	<div class="s_center">
+		<header class="s_header">
+			<span>充值</span>
+			<a href="@{wechat.account.WechatAccountHome.accountInfo()}" class="icobg"></a>
+		</header>
+		<div class="s_czbody">
+		#{form @wechat.account.WechatAccountHome.submitRecharge(), id:'paySubmit'}
+    <input type="hidden" name="uuidRepeat" value="${flash?.success}">
+    <input type="hidden" id="type" name="type" />
+    <input type="hidden" id="bankType" name="bankType" />
+			<ul class="s_czuser">
+				<li>真实姓名：<strong>${user?.realityName}</strong></li>
+				<li>账户：<strong>${user?.name}</strong></li>
+				<li>请输入充值金额：<input type="text" class="text" id="money" name="money" /><span>元</span></li>
+				<li>
+					充值类型：
+					#{if payType[0]?.is_use == true}
+					  <span class="s_likeradio"><i class="s_radio" checked="checked" id="guofuCheck" onclick="select(1)"></i><label><img src="@{'/public/images/banks/gopay.png'}" alt="国付宝"></label></span>
+				  #{/if}
+				  #{else}
+				    #{if payType[1]?.is_use == true}
+				    <span class="s_likeradio"><i class="s_radio" checked="checked" id="huanxunCheck" onclick="select(2)"></i><label><img src="@{'/public/images/banks/ipay.png'}" alt="环迅支付"></label></span>
+				    #{/if}
+				  #{/else}
+				  #{if payType[1]?.is_use == true}
+				    <span class="s_likeradio"><i class="s_radio" id="huanxunCheck" onclick="select(2)"></i><label><img src="@{'/public/images/banks/ipay.png'}" alt="环迅支付"></label></span>
+				  #{/if}
+				</li>
+				<li>
+					请选择充值方式：
+					<!-- 国付宝支持银行 -->
+					<ul class="s_paystyle" id="selectBank">
+						<li>
+							<a href="javascript:void(0);" id="bank_0" class="clicked" onClick="selectBank(0)">
+								<img src="@{'/public/images/banks/bank_01.png'}" alt="" />
+							</a>
+							<a href="javascript:void(0);" id="bank_1" onClick="selectBank(1)">
+								<img src="@{'/public/images/banks/bank_02.png'}" alt="" />
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" id="bank_2" onClick="selectBank(2)">
+								<img src="@{'/public/images/banks/bank_03.png'}" alt="" />
+							</a>
+							<a href="javascript:void(0);" id="bank_3" onClick="selectBank(3)">
+								<img src="@{'/public/images/banks/bank_04.png'}" alt="" />
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" id="bank_4" onClick="selectBank(4)">
+								<img src="@{'/public/images/banks/bank_05.png'}" alt="" />
+							</a>
+							<a href="javascript:void(0);" id="bank_5" onClick="selectBank(5)">
+								<img src="@{'/public/images/banks/bank_06.png'}" alt="" />
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" id="bank_6" onClick="selectBank(6)">
+								<img src="@{'/public/images/banks/bank_08.png'}" alt="" />
+							</a>
+							<a href="javascript:void(0);" id="bank_7" onClick="selectBank(7)">
+								<img src="@{'/public/images/banks/bank_09.png'}" alt="" />
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" id="bank_8" onClick="selectBank(8)">
+								<img src="@{'/public/images/banks/bank_10.png'}" alt="" />
+							</a>
+							<a href="javascript:void(0);" id="bank_9" onClick="selectBank(9)">
+								<img src="@{'/public/images/banks/bank_11.png'}" alt="" />
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" id="bank_10" onClick="selectBank(10)">
+								<img src="@{'/public/images/banks/bank_12.png'}" alt="" />
+							</a>
+							<a href="javascript:void(0);" id="bank_11" onClick="selectBank(11)">
+								<img src="@{'/public/images/banks/bank_13.png'}" alt="" />
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" id="bank_12" onClick="selectBank(12)">
+								<img src="@{'/public/images/banks/bank_14.png'}" alt="" />
+							</a>
+							<a href="javascript:void(0);" id="bank_13" onClick="selectBank(13)">
+								<img src="@{'/public/images/banks/bank_15.png'}" alt="" />
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" id="bank_14" onClick="selectBank(14)">
+								<img src="@{'/public/images/banks/bank_16.png'}" alt="" />
+							</a>
+							<a href="javascript:void(0);" id="bank_16" onClick="selectBank(16)">
+								<img src="@{'/public/images/banks/bank_19.png'}" alt="" />
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" id="bank_17" onClick="selectBank(17)">
+								<img src="@{'/public/images/banks/bank_20.png'}" alt="" />
+							</a>
+							<a href="javascript:void(0);" id="bank_18" onClick="selectBank(18)">
+								<img src="@{'/public/images/banks/bank_30.png'}" alt="" />
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" id="bank_19" onClick="selectBank(19)">
+								<img src="@{'/public/images/banks/bank_24.png'}" alt="" />
+							</a>
+							<a href="javascript:void(0);" id="bank_20" onClick="selectBank(20)">
+								<img src="@{'/public/images/banks/bank_23.png'}" alt="" />
+							</a>
+						</li>
+						<!-- 环迅支付支持 -->
+					</ul>
+					<ul class="s_paystyle s_paystyle2" id="payTypes">
+						<li>
+							<a href="javascript:void(0);" class="clicked" id="pay_0" Onclick="payTypes(0)">
+								人民币借记卡
+							</a>
+							<a href="javascript:void(0);" id="pay_1" Onclick="payTypes(1)">
+								信用卡支付
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" id="pay_2" Onclick="payTypes(2)">
+								IPS账户支付
+							</a>
+							<a href="javascript:void(0);" id="pay_3" Onclick="payTypes(3)">
+								电话支付
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" id="pay_4" Onclick="payTypes(4)">
+								手机支付
+							</a>
+							<a href="javascript:void(0);" id="pay_5" Onclick="payTypes(5)">
+								手机语音支付
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<input value="确定充值" type="button" class="s_czsubbtn"  Onclick="recharge()"/>
+				</li>
+			</ul>
+		#{/form}
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+var bankNum;
+var typeNum
+
+$(function(){
+	
+	if('${flash.error}' != '') {
+		alert('${flash.error}');
+	}
+})
+
+$(function(){
+ if(${payType[0]?.is_use} & ${payType[1]?.is_use}){
+      $("#payTypes").hide();
+      $("#selectBank").show();
+      $("#type").val(1);
+      $("#bankType").val(0);
+ }else{
+     if(${payType[0]?.is_use}){
+        $("#payTypes").hide();
+        $("#selectBank").show();
+        $("#type").val(1);
+        $("#bankType").val(0);
+        return;
+     }
+     
+     if(${payType[1]?.is_use}){
+        $("#payTypes").show();
+        $("#selectBank").hide();
+        $("#type").val(2);
+        $("#bankType").val(0);
+        return;
+     }
+   }
+});
+
+function recharge(){
+    if($("#type").val() == ''){
+       alert("请选择充值类型");
+       return;
+    }
+    
+    if($("#bankType").val() == ''){
+       alert("请选择支付方式");
+       return;
+    }
+    
+    if($("#money").val() == ''){
+  	  alert("充值金额不能为空");
+  	  retur;
+    }
+    
+    if($("#money").val() > 50000000){
+  	  alert("充值金额不能大于50000000");
+  	  return;
+    }
+    
+    $("#paySubmit").submit();
+}	
+
+function select(num){
+ if(num == 1){
+    $("#payTypes").hide();
+    $("#selectBank").show();
+    $("#huanxunCheck").removeAttr("checked");
+    $("#guofuCheck").attr("checked","checked");
+    $("#type").val(num);
+ }
+  
+  if(num == 2){
+    $("#payTypes").show();
+    $("#selectBank").hide();
+    $("#guofuCheck").removeAttr("checked");
+    $("#huanxunCheck").attr("checked","checked");
+    $("#type").val(num);
+  }
+}
+
+function selectBank(num){
+  $("#bank_0").removeClass("clicked");
+  $("#bank_"+bankNum).removeClass("clicked");
+  $("#bank_"+num).addClass("clicked");
+  $("#bankType").val(num)
+  bankNum = num;
+}
+
+function payTypes(num){
+  $("#pay_"+typeNum).removeClass("clicked");
+  $("#pay_0").removeClass("clicked");
+  $("#pay_"+num).addClass("clicked");
+  $("#bankType").val(num);
+  typeNum = num;
+}
+</script>
+</body>
+
+
+

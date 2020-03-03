@@ -1,0 +1,34 @@
+#{extends 'wechat/service/appCommonNext.html' /}
+
+<body>
+<!-- main -->
+<div class="p-sznamebox">
+	<form action="@{app.AppController.submitForumName()}" id="submit">
+		<input type="hidden" name="userId" value="${userId}"/>
+	    <input type="text" class="p-szinput" name="forumName" id="forumName" placeholder="请输入您的昵称">
+	    <div class="p-sztips"><em>*</em>1.昵称可设置4-20个字符，支持中英文、数字。2昵称只能修改一次哦~</div>
+	    <a  class="p-szbtn" onclick="submitTo()">保 存</a>
+	</form>
+</div>
+</body>
+<script type="text/javascript">
+	$(function(){
+		if('${flash.error}' !='') {
+		  alert('${flash?.error}');
+		}
+	});
+
+	function submitTo(){
+		var name = $("#forumName").val();
+		if(name.length < 4){
+			alert("昵称不能小于4个字符");
+			return;
+		}
+		if(name.length > 20){
+			alert("昵称不能大于20个字符");
+			return;
+		}
+		
+		$("#submit").submit();
+	}
+</script>

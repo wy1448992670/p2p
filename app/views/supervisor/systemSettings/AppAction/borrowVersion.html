@@ -1,0 +1,154 @@
+#{extends 'common/supervisor.html' /} #{set title:'借款APP版本设置' /}
+<div class="xn_c_contentwarp">
+	<div class="xn_c_contentlist">
+		#{include "supervisor/systemSettings/common/leftBar.control"/}
+		<div class="xn_c_content">
+			<div class="xf_content_add">
+				#{form @saveBorrowVersion(), id:'saveBorrowVersion'}
+				<div class="xfht_t_j_y_2">
+					<!--右上-->
+					<div class="xf_ht_obu_fklm">借款APP版本设置</div>
+					<div class="xf_htgl_jgone">
+						<h3 class="xf_htgl_jgtitle">IOS</h3>
+						<div class="xf_htgl_jg_tableone xf_htgl_jg_table2">
+							<table border="0" cellspacing="0" cellpadding="0"
+								class="xf_htgl_jg_tableone_table">
+								<tr>
+									<td width="328" align="right">ios审核是否通过(版本号+"|"+审核结果):</td>
+									<td><input class="xfht_zr_input xfht_zr_input_shoping"
+										type="text" disabled="disabled" value="${set?.borrowIosAudit}"></td>
+								</tr>
+								<tr>
+									<td width="328" align="right">ios审核是否通过(版本号+"|"+审核结果):</td>
+									<td><input class="xfht_zr_input xfht_zr_input_shoping"
+										type="text" id="borrowIosAudit" name="borrowIosAudit"></td>
+								</tr>
+								<tr>
+								<tr>
+									<td width="328" align="right">当前版本名称：</td>
+									<td><input class="xfht_zr_input xfht_zr_input_shoping"
+										type="text" disabled="disabled" value="${set?.borrowIosVersion}"></td>
+								</tr>
+								<tr>
+									<td width="328" align="right">当前版本号：</td>
+									<td><input class="xfht_zr_input xfht_zr_input_shoping"
+										type="text" disabled="disabled" value="${set?.borrowIosCode}"></td>
+								</tr>
+								<tr>
+									<td width="328" align="right">最新发布版本名称：</td>
+									<td><input class="xfht_zr_input xfht_zr_input_shoping"
+										type="text" id="borrowIosVersion" name="borrowIosVersion"></td>
+								</tr>
+								<tr>
+									<td width="328" align="right">最新发布版本号：</td>
+									<td><input class="xfht_zr_input xfht_zr_input_shoping"
+										type="text" id="borrowIosCode" name="borrowIosCode"></td>
+								</tr>
+								<tr>
+									<td width="328" align="right">升级信息(默认为上轮)：</td>
+									<td><textarea id="borrowIosMsg" name="borrowIosMsg" rows="10" cols="35">${set?.borrowIosMsg}</textarea></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="xf_htgl_jgone">
+						<h3 class="xf_htgl_jgtitle">Android</h3>
+						<div class="xf_htgl_jg_tableone xf_htgl_jg_table2">
+							<table border="0" cellspacing="0" cellpadding="0"
+								class="xf_htgl_jg_tableone_table">
+								<tr>
+									<td width="328" align="right">当前版本名称：</td>
+									<td><input class="xfht_zr_input xfht_zr_input_shoping"
+										type="text" disabled="disabled" value="${set?.borrowAndroidVersion}"></td>
+								</tr>
+								<tr>
+									<td width="328" align="right">当前版本号：</td>
+									<td><input class="xfht_zr_input xfht_zr_input_shoping"
+										type="text" disabled="disabled" value="${set?.borrowAndroidCode}"></td>
+								</tr>
+								<tr>
+									<td width="328" align="right">最新发布版本名称：</td>
+									<td><input class="xfht_zr_input xfht_zr_input_shoping"
+										type="text" id="borrowAndroidVersion" name="borrowAndroidVersion"></td>
+								</tr>
+								<tr>
+									<td width="328" align="right">最新发布版本号：</td>
+									<td><input class="xfht_zr_input xfht_zr_input_shoping"
+										type="text" id="borrowAndroidCode" name="borrowAndroidCode"></td>
+								</tr>
+								<tr>
+									<td width="328" align="right">升级信息(默认为上轮)：</td>
+									<td><textarea id="borrowAndroidMsg" name="borrowAndroidMsg" rows="10" cols="35">${set?.borrowAndroidMsg}</textarea></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="xf_htgl_jgsix_hyg">
+						<input class="xf_ht_tcc_button_ok" type="button" onclick="savePaymentSure();" value="保 存">
+					</div>
+				</div>
+				#{/form}
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function savePaymentSure() {
+		var borrowIosVersion = $.trim($("#borrowIosVersion").val());
+
+		if(borrowIosVersion == ''){
+			alert("请输入IOS版本名称!");
+			
+			return false ;
+		}
+
+		var borrowIosCode = $.trim($("#borrowIosCode").val());
+		var r = /^\+?[1-9][0-9]*$/;　
+		
+		if(borrowIosCode == '' || !r.test(borrowIosCode)){
+			alert("请输入正确的IOS版本号!");
+			
+			return false ;
+		}
+		
+		var borrowIosMsg = $.trim($("#borrowIosMsg").val());
+
+		if(borrowIosMsg == ''){
+			alert("请输入IOS升级信息!");
+			
+			return false ;
+		}
+
+		var borrowAndroidVersion = $.trim($("#borrowAndroidVersion").val());
+
+		if(borrowAndroidVersion == ''){
+			alert("请输入android版本名称!");
+			
+			return false ;
+		}
+
+		var borrowAndroidCode = $.trim($("#borrowAndroidCode").val());
+
+		if(borrowAndroidCode == '' || !r.test(borrowAndroidCode)){
+			alert("请输入正确的android版本号!");
+			
+			return false ;
+		}
+		
+		var borrowAndroidMsg = $.trim($("#borrowAndroidMsg").val());
+
+		if(borrowAndroidMsg == ''){
+			alert("请输入android升级信息!");
+			
+			return false ;
+		}
+		
+		$("#saveBorrowVersion").submit();
+	}
+
+	$(function() {
+    /* 高亮显示 */
+       showHighLight(9,9,25);
+  });
+</script>

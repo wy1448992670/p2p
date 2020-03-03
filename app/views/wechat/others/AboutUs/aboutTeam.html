@@ -1,0 +1,16 @@
+#{extends 'wechat/common.html' /}
+
+<body>
+	<div class="s_main s_center">
+		<header class="s_header">
+			关于我们
+			<a href="@{wechat.account.WechatAccountHome.accountInfo()}" class="icobg"></a>
+		</header>
+		<div class="s_cfdetail s_aboutus">
+      ${content.raw()}
+		</div>
+	</div>
+</body>
+
+
+

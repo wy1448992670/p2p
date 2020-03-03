@@ -1,0 +1,23 @@
+
+<div class="invitation_infor">
+	<ul>
+    	<li class="li1">
+        	<div class="top_img"><img alt="注册人数" src="@{'public/images/zcrs_img.png'}"></div>
+            <p class="p1">已累计邀请注册</p>
+            <p class="p2">${page?.totalCount}位</p> 
+        </li>
+        <li class="li2">
+        	<div class="top_img"><img alt="投资用户" src="@{'public/images/lcyh_img.png'}"></div>
+            <p class="p1">投资用户</p>
+            <p class="p2">${totalFinancialMember}位</p> 
+        </li>
+        <li class="li3">
+        	<div class="top_img"><img alt="投资收益" src="@{'public/images/ljsy_img.png'}"></div>
+            <p class="p1">已累计收益</p>
+            <p class="p2">${cumulativeFinancialGain?.format("###,##0.00")}元</p> 
+        </li>
+    </ul>
+    <p class="pljlc pljlc2"><span>1个</span>邀请码，邀请<span>1个</span>好友,<span>${business.BackstageSet.getCurrentBackstageSet()?.invite_income_rate}%</span>收益</p>
+    <p class="pljlc pljlc3">好友投资服务费优惠<span>${business.BackstageSet.getCurrentBackstageSet()?.invited_user_discount}%</span></p>
+    <a href="@{front.invest.investAction.investHome}" class="qulicai_btn">去投资</a>
+</div>

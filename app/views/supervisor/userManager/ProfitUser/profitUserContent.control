@@ -1,0 +1,150 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    #{form @profitUser(), id:'submit'}
+    <input type="hidden" id="orderType" name="orderType" value=""/>
+    <input type="hidden" id="export" name="export" value="0"/>
+    <div class="xf_ht_search">
+      <div class="xf_ht_search_l sort_select">
+        <span sn = "" #{if orderType == null || orderType == ""}class="xf_sea_isshow"#{/if}>默认排序</span>
+        <span sn = "max_invest_amount" #{if orderType != null&&orderType.indexOf("max_invest_amount") != -1}class="xf_sea_isshow"#{/if}>最大单笔投资 <a>↑</a></span>
+        <span sn = "effective_user_account" #{if orderType != null&&orderType.indexOf("effective_user_account") != -1}class="xf_sea_isshow"#{/if}>有效用户数 <a>↑</a></span>
+        <span sn = "new_user_invest_amount" #{if orderType != null&&orderType.indexOf("new_user_invest_amount") != -1}class="xf_sea_isshow"#{/if}>新手标 <a >↑</a></span>
+      </div>
+    </div>
+    <div class="xf_ht_search_inon">
+      <div class="xf_ht_search_r">
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">时间：</span>
+          <!--
+           <select name="year" class="search_w">
+		    	<option value="">请选择</option>
+		    	<option value="2016" #{if year==2016}selected#{/if}>2016年</option>
+		    	<option value="2017" #{if year==2017}selected#{/if}>2017年</option>
+		    	<option value="2018" #{if year==2018}selected#{/if}>2018年</option>
+		    	<option value="2019" #{if year==2019}selected#{/if}>2019年</option>
+		    	<option value="2020" #{if year==2020}selected#{/if}>2020年</option>
+		    </select>
+		
+           <select name="month" class="search_w">
+           		<option value="">请选择</option>
+		    	<option value="1" #{if month==1}selected#{/if}>01月</option>
+		    	<option value="2" #{if month==2}selected#{/if}>02月</option>
+		    	<option value="3" #{if month==3}selected#{/if}>03月</option>
+		    	<option value="4" #{if month==4}selected#{/if}>04月</option>
+		    	<option value="5" #{if month==5}selected#{/if}>05月</option>
+		    	<option value="6" #{if month==6}selected#{/if}>06月</option>
+		    	<option value="7" #{if month==7}selected#{/if}>07月</option>
+		    	<option value="8" #{if month==8}selected#{/if}>08月</option>
+		    	<option value="9" #{if month==9}selected#{/if}>09月</option>
+		    	<option value="10" #{if month==10}selected#{/if}>10月</option>
+		    	<option value="11" #{if month==11}selected#{/if}>11月</option>
+		    	<option value="12" #{if month==12}selected#{/if}>12月</option>
+		    </select>
+		    -->
+		    
+		    <span class="search_timesp">注册时间：</span>
+          <input name="start" type="text" id="startDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${start}" />
+          <span class="search_timesp">--</span>
+          <input name="end" type="text" id="endDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${end}" />
+        </div>
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">会员名：</span>
+          <input name="userName" type="text" class="search_w" id="name" value="${userName}" />
+        </div>
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">标分类：</span>
+          <select name="bidTag" class="search_w">
+		    	<option value="">全部</option>
+		    	<option value="房亿贷" #{if bidTag!=null&&bidTag=="房亿贷"}selected#{/if}>房亿贷</option>
+		    	<option value="信亿贷" #{if bidTag!=null&&bidTag=="信亿贷"}selected#{/if}>信亿贷</option>
+		    	<option value="车亿贷" #{if bidTag!=null&&bidTag=="车亿贷"}selected#{/if}>车亿贷</option>
+		    </select>
+        </div>
+        <div class="xf_ht_search_xl">
+          <input type="button" class="search_button" onclick="searchSubmit(0);" value="搜 索" />
+        </div>
+        <div class="xf_ht_search_xl">
+          <input type="button" class="search_button" onclick="searchSubmit(1);" value="下载" />
+        </div>
+      </div>
+    </div>
+    #{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table class:"xn_c_content_list1 recommend",cellspacing:"0",cellpadding:"0",border:"1",tr_class_odd:"xn_tr_bj",width:"1000px"}
+        <tr class="head">
+          <td rowspan="2">序号</td>
+          <td rowspan="2">推荐人姓名</td>
+          <td rowspan="2">推荐人最大单笔投资</td>
+          <td rowspan="2">新增被推荐用户数</td>
+          <td rowspan="2">首投新增被推荐用户数</td>
+          <td rowspan="2">复投被推荐人用户数</td>
+          <td rowspan="2">有效用户数</td>
+          <td rowspan="2">新手标(元)</td>
+          <td rowspan="1" colspan="7">${bidTag != null && bidTag != "" ? bidTag : "全部"}</td>
+          <td rowspan="2">合计(元)</td>
+        </tr>
+        <tr class="head">
+		    <td rowspan="1">1月</td>
+		    <td rowspan="1">2月</td>
+		    <td rowspan="1">3月</td>
+		    <td rowspan="1">4月</td>
+		    <td rowspan="1">5月</td>
+		    <td rowspan="1">6月</td>
+		    <td rowspan="1">12月</td>
+		  </tr>
+        #{list result,as:'map'}
+        #{tr}
+          #{td}${map_index}#{/td}
+          #{td}${map.name}#{/td}
+          #{td}${map.max_invest_amount == null ? 0.00 : map.max_invest_amount}#{/td}
+          #{td}${map.spread_user_account}#{/td}
+          #{td}${map.first_user_count}#{/td}
+          #{td}${map.more_user_count}#{/td}
+          #{td}${map.effective_user_account}#{/td}
+          #{td}${map.new_user_invest_amount}#{/td}
+          <td>${map.invest_1}</td>
+          <td>${map.invest_2}</td>
+          <td>${map.invest_3}</td>
+          <td>${map.invest_4}</td>
+          <td>${map.invest_5}</td>
+          <td>${map.invest_6}</td>
+          <td>${map.invest_12}</td>
+          #{td}${map.invest_1+map.invest_2+map.invest_3+map.invest_4+map.invest_5+map.invest_6+map.invest_12+map.new_user_invest_amount}#{/td}
+        #{/tr}
+        #{/list}
+      #{/table}
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+function searchSubmit(export_){
+  $("#export").val(export_);
+  $("#submit").submit();
+  $("#export").val(0);
+}
+
+var _order = "${orderType}";
+var _order_desc = _order.indexOf("DESC") != -1 ? "DESC" : "ASC";
+if(_order_desc == "DESC"){
+	$(".xf_sea_isshow a").html("↑");
+}else{
+	$(".xf_sea_isshow a").html("↓");
+}
+
+$(".sort_select > span").on("click", function(){
+	var obj = $(this);
+	var orderBy = "";
+	
+	if(obj.attr("sn") != ""){
+		orderBy = obj.attr("sn") +" "+ (_order_desc == "DESC" ? "ASC" : "DESC");
+	}
+	
+	$("#orderType").val(orderBy);
+	searchSubmit(0);
+});
+
+</script>

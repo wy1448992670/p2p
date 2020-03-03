@@ -1,0 +1,266 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'优惠券统计' /}
+<div class="xn_c_contentwarp">
+	<div class="xn_c_contentlist">
+	#{include '/supervisor/activity/OperatingActivitiesLeft.control'/}
+  		<div class="xn_c_content">
+	  <div class="xf_ht_tablelist">
+	    <!-- 搜索 -->
+	    #{form @showList(), id:'showForm'}
+	    <div class="xf_ht_search">
+		  <input type="hidden" id="currPage" name="currPage"/>
+		  <input type="hidden" id="pageSize" name="pageSize"/>
+		  <input type="hidden" id="orderIndex" name="orderIndex"/>
+		  <input type="hidden" id="orderStatus" name="orderStatus"/>
+	      <div class="xf_ht_search_l">
+	        <span id="order0"><a title="默认排序" onclick="orderSearch(0);">默认排序  </a></span>
+			<span id="order1"><a title="发放时间" onclick="orderSearch(1);">发放时间  <a id="sp1">↑</a></a></span>
+		    <span id="order2"><a title="过期时间" onclick="orderSearch(2);">过期时间  <a id="sp2">↑</a></a></span>
+	      </div>
+	    </div>
+	    <div class="xf_ht_search_inon">
+	      <div class="xf_ht_search_r">
+	      <div class="xf_ht_search_xl">
+        	${couponName}类型：
+          <select class="xf_membill_selectAge" name="type" >
+				<option value="-1" #{if pageBean?.conditions?.type == -1 } selected="selected" #{/if}>全部</option>
+				#{if couponFlag == '1' }
+				<option value="0" #{if pageBean?.conditions?.type == 0 } selected="selected" #{/if}>手动类</option>
+				<option value="4" #{if pageBean?.conditions?.type == 4 } selected="selected" #{/if}>积分</option>
+				<option value="10" #{if pageBean?.conditions?.type == 10 } selected="selected" #{/if}>积分兑换</option>
+				<option value="2" #{if pageBean?.conditions?.type == 2 } selected="selected" #{/if}>充值</option>
+				#{/if}
+				<option value="1" #{if pageBean?.conditions?.type == 1 } selected="selected" #{/if}>注册</option>-
+				<option value="3" #{if pageBean?.conditions?.type == 3 } selected="selected" #{/if}>投资</option>-
+				<option value="5" #{if pageBean?.conditions?.type == 5 } selected="selected" #{/if}>实名认证</option>-
+				<option value="6" #{if pageBean?.conditions?.type == 6 } selected="selected" #{/if}>添加银行卡</option>-
+				<option value="7" #{if pageBean?.conditions?.type == 7 } selected="selected" #{/if}>累计投资</option>-
+				<option value="8" #{if pageBean?.conditions?.type == 8 } selected="selected" #{/if}>生日</option>-
+				<option value="9" #{if pageBean?.conditions?.type == 9 } selected="selected" #{/if}>自定义</option>-
+			
+		  </select>
+        </div>
+		    <div class="xf_ht_search_xl">
+		      <select class="xf_membill_selectAge" name="dateType">
+		      		<option value="0" #{if pageBean?.conditions?.dateType == 0 } selected="selected" #{/if}>发放时间</option>
+		      		<option value="1" #{if pageBean?.conditions?.dateType == 1 } selected="selected" #{/if}>过期时间</option>
+		      </select>
+			  <input type="text" class="search_time" name="start" id="startDate" onclick="laydate()" class="laydate-icon" style="cursor:pointer">
+			  <span class="search_timesp">--</span>
+			  <input type="text" class="search_time" name="end" id="endDate" onclick="laydate()" class="laydate-icon" style="cursor:pointer">  
+		    </div>
+		    <div class="xf_ht_search_xl">
+		   	 用户名/${couponName}名称/使用标的：
+		      <input type="text" class="search_w" name="keyword" id="keyword">
+		    </div>
+		    	<div class="xf_ht_search_xl" >
+		   	 	${couponName}状态：
+		   	 	<select class="xf_membill_selectAge" name="status" >
+					<option value="-3" #{if pageBean?.conditions?.status == -3 } selected="selected" #{/if}>全部</option>
+					<option value="0" #{if pageBean?.conditions?.status == 0 } selected="selected" #{/if}>未使用</option>
+					<option value="1" #{if pageBean?.conditions?.status == 1 } selected="selected" #{/if}>已使用</option>
+					<option value="-1" #{if pageBean?.conditions?.status == -1 } selected="selected" #{/if}>已过期</option>
+					<option value="2" #{if pageBean?.conditions?.status == 2 } selected="selected" #{/if}>使用中</option>
+			    </select>
+		    </div>
+			<div class="xf_ht_search_xl" style="clear:both;margin-top:10px;">
+		      使用时间：
+			  <input type="text" class="search_time" name="useTimeStart" id="useTimeStart" onclick="laydate()"  class="laydate-icon" style="cursor:pointer">
+			  <span class="search_timesp">--</span>
+			  <input type="text" class="search_time" name="useTimeEnd" id="useTimeEnd" onclick="laydate()"  class="laydate-icon" style="cursor:pointer">
+		    </div>
+		    <div class="xf_ht_search_xl" style="margin-top:10px;">
+		    <input type="hidden" name="isExport" value="0" id="isExport">
+			  <input type="submit" class="search_button" value="搜索">
+			  <input type="submit" class="search_button" onmouseout="clearIsExport();" onclick="download();" value="下载数据">
+		    </div>
+	      </div>
+	
+		
+	    </div>
+	    #{/form}
+	    <!-- 列表内容 -->
+	    <div class="xn_c_content_top">
+	      #{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+			        #{tr}
+			          #{th}序号#{/th}
+			          #{th}${couponName}类型#{/th}
+			          #{th}${couponName}名称#{/th}
+			          #{th}用户名#{/th}
+			          #{th}发放时间#{/th}
+			          #{th}过期时间#{/th}
+			          #{th}使用标的#{/th}
+					  #{th}使用时间#{/th}
+			          #{if couponFlag==1}
+			           #{th}金额#{/th}
+			          #{/if}
+			          #{else couponFlag==2}
+			            #{th}加息年化利率（%）#{/th}
+			            #{th}投资金额#{/th}
+			            #{th}加息金额#{/th}
+			          #{/else}
+			          #{th}状态#{/th}
+			          #{th}备注#{/th}
+			        #{/tr}
+			        #{list pageBean?.page}
+			        	 #{tr tr_index:_index}
+			        	 	#{td}${_index}#{/td}
+			        	 	#{td}
+								#{if _?.type == 1}
+				        	 		注册
+				        	 	#{/if}
+				        	 	#{elseif _?.type == 2}
+				        	 		充值
+				        	 	#{/elseif}
+				        	 	#{elseif _?.type == 3}
+				        	 		投资
+				        	 	#{/elseif}
+				        	 	#{elseif _?.type == 4}
+				        	 		积分
+				        	 	#{/elseif}
+				        	 	#{elseif _?.type == 5}
+				        	 		实名认证
+				        	 	#{/elseif}
+				        	 	#{elseif _?.type == 6}
+				        	 		添加银行卡
+				        	 	#{/elseif}
+				        	 	#{elseif _?.type == 7}
+				        	 		累计投资
+				        	 	#{/elseif}
+				        	 	#{elseif _?.type == 8}
+				        	 		生日
+				        	 	#{/elseif}
+				        	 	#{elseif _?.type == 9}
+				        	 		自定义
+				        	 	#{/elseif}
+				        	 	#{elseif _?.type == 10}
+				        	 		积分兑换
+				        	 	#{/elseif}
+				        	 	#{else}
+				        	 		手动
+				        	 	#{/else}
+				        	 	
+							#{/td}
+			        	 	#{td}${_?.name}#{/td}
+			        	 	#{td}${_?.userName}#{/td}
+			        	 	#{td}${_?.time.format('yyyy-MM-dd HH:mm:ss')}#{/td}
+			        	 	#{td}${_?.validate.format('yyyy-MM-dd HH:mm:ss')}#{/td}
+			        	 	#{td}${_?.title}#{/td}
+							#{td}${_?.useTime?.format('yyyy-MM-dd HH:mm:ss')}#{/td}
+			        	  	#{td}${_?.money?.format('###,##0.00')}#{/td}
+			        	        #{if couponFlag==2}
+			        	
+			        	 	#{td}${_?.amount}#{/td}
+			        	 	#{td}${_?.receive_increase_interest}#{/td}
+			        	 	#{/if}
+			        	 	#{td}
+								#{if _?.status == -1}
+				        	 		已过期
+				        	 	#{/if}
+				        	 	#{if _?.status == 0}
+				        	 		未使用
+				        	 	#{/if}
+				        	 	#{if _?.status == 1}
+				        	 		已使用
+				        	 	#{/if}
+				        	 	#{if _?.status == 2}
+				        	 		使用中
+				        	 	#{/if}
+							#{/td}
+			        	 	#{td}${_?.remark}#{/td}
+			        	 #{/tr}
+			        #{/list}
+			      #{/table}
+    		
+			    <!-- 列表底部 -->
+				<div class="xn_c_content_bottom">
+					${couponName}金额合计(元)：${pageBean?.conditions?.sumAmount?.format("###,##0.00")}
+					<div class="page_warp">
+						#{page currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:4}
+							type=${type}
+						#{/page}
+					</div>
+				</div>
+		  </div>
+		</div>
+    
+	</div>
+  </div>
+ <script>
+ $(function(){
+	//高亮显示
+	
+		var couponFlag=${couponFlag};
+		if('2'==couponFlag){
+			showHighLight(1,10,103);
+		}else{
+			showHighLight(1,8,82);
+		}
+
+ })
+ 	
+ 
+/* 下载数据 */
+function download(){
+  $("#isExport").val(1);
+  $("#showForm").submit();
+}
+
+/* 清除下载数据 */
+function clearIsExport(){
+  $('#isExport').val(0);
+}
+   function showPage(currPage, pageSize){
+         $("#currPage").val(currPage);
+         $("#pageSize").val(pageSize);
+         $("#showForm").submit();
+    }
+ 
+ /* 排序搜索 */
+ function orderSearch(order){
+   var orderStatus = "${pageBean?.conditions?.orderStatus}";
+	var orderIndex = "${pageBean?.conditions?.orderIndex}";
+	
+	if(orderStatus == 1 && orderIndex == order){
+		$("#orderStatus").val(0);
+	}else{
+		$("#orderStatus").val(1);
+	}
+	
+	$("#orderIndex").val(order);
+	$("#showForm").submit();
+ }
+	
+ $(function(){
+	/* 给搜索条件赋记录值 */
+	var keyword = "${pageBean?.conditions?.keyword}";
+	var startDate = "${pageBean?.conditions?.start}";
+	var endDate = "${pageBean?.conditions?.end}";
+	var orderIndex = "${pageBean?.conditions?.orderIndex}";
+	var useTimeStart = "${pageBean?.conditions?.useTimeStart}"
+	var useTimeEnd = "${pageBean?.conditions?.useTimeEnd}"
+	$("#orderIndex").val(orderIndex);
+	var orderStatus = "${pageBean?.conditions?.orderStatus}";
+	$("#orderStatus").val(orderStatus);
+	var order = $("#order" + orderIndex);
+		
+	$("#keyword").val(keyword);
+	$("#startDate").val(startDate);
+	$("#endDate").val(endDate);
+	$("#useTimeStart").val(useTimeStart);
+	$("#useTimeEnd").val(useTimeEnd);
+	
+   /* 初始为默认搜索 */
+   if(orderIndex == ''){
+	  $("#order0").attr("class", "xf_sea_isshow");
+	  $("#sp0").html("↓");
+   }else {
+     order.attr("class", "xf_sea_isshow");
+     if(orderStatus == 1){
+       $("#sp"+orderIndex).html("↑");
+     }else{
+       $("#sp"+orderIndex).html("↓");
+     }
+  }
+ });
+ </script>

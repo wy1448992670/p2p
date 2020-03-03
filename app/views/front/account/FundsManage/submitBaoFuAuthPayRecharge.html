@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>跳转中...</title>
+</head>
+<body>
+<form action="${args.url}" id="frm1" method="post">
+   <input type="hidden" name="version" value="${args.version}"/>
+   <input type="hidden" name="input_charset" value="${args.input_charset}"/>
+   <input type="hidden" name="language" value="${args.language}"/>
+   <input type="hidden" name="terminal_id" value="${args.terminal_id}"/>
+   <input type="hidden" name="txn_type" value="${args.txn_type}"/>
+   <input type="hidden" name="txn_sub_type" value="${args.txn_sub_type}"/>
+   <input type="hidden" name="member_id" value="${args.member_id}"/>
+   <input type="hidden" name="data_type" value="${args.data_type}"/>
+   <input type="hidden" name="data_content" value="${args.data_content}"/>
+   <input type="hidden" name="back_url" value="${args.back_url}"/>
+</form>
+<script language="javascript">
+ document.getElementById("frm1").submit();
+</script>
+</body>
+</html>

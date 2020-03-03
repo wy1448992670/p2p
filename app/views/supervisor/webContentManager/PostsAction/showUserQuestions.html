@@ -1,0 +1,141 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'广告条管理' /}
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  #{include "supervisor/webContentManager/common/leftBar.control"/}
+  <!-- 内容区 --> 
+  <div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    #{form @showUserQuestions(), id:'submit'}
+    <!-- 搜索 -->
+    	<input type="hidden" value="${id}" name="id"/>
+    	 <input type="hidden" id="currPage" name="currPage"/>
+	        <input type="hidden" id="pageSize" name="pageSize"/>
+	     <div class="xf_ht_search_inon" style="border-top: 1px solid #ddd">
+	       <div class="xf_ht_search_r">
+	         
+	         <div class="xf_ht_search_xl">
+	         	<select name="answerStatus" id="answerStatus" class="xf_membill_selectAge">
+	         		
+		         	<option value="0">全部</option>
+		         	<option value="1">已回复</option>
+		         	<option value="2">未回复</option>
+		         </select>
+	           <input name="countent" type="text" class="search_w" id="countent" value="${page.conditions.countent}" />
+	         </div>
+	         <div class="xf_ht_search_xl">
+	           <input type="submit" class="search_button" value="搜索">
+	         </div>
+	         
+	       </div>
+	       
+	     </div>
+		#{/form}
+	    <!-- 列表内容 -->
+	    <div class="xn_c_content_top" style="width: ">
+	    	
+	      #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xn_c_content_list",tr_class_odd:"xn_tr_bj"}
+	        #{tr}
+	          #{th}序号#{/th}
+	          #{th width:"30%"}评论内容#{/th}
+	          #{th}评论人#{/th}
+	          #{th}评论时间#{/th}
+			  #{th}回复次数#{/th}
+			  #{th}所属类别#{/th}
+			  #{th}操作#{/th}
+	        #{/tr}
+			#{list items:page.page, as:'content'}
+		        #{tr tr_index:content_index}
+		          #{td}${(page?.currPage-1)*page?.pageSize + content_index}#{/td}
+		          #{td}${content?.content} #{/td}
+		          #{td}${content?.userName}#{/td}
+		          #{td}${content?.time?.format('yyyy-MM-dd')}#{/td}
+				  #{td}${content?.answers_count}#{/td}
+				  #{td}${content?.typeName}#{/td}
+		          #{td}
+		          
+		            <span><a class="xf_ta_onclick" onclick="answers(${content?.id},${id},${content?.user_id})">回复评论</a></span>
+		            
+		            <span><a class="xf_ta_onclick" onclick="deleteUserQuestions(${content?.id})">删除</a></span>
+		          #{/td}
+		        #{/tr}
+			#{/list}
+	      #{/table}
+	    </div>
+	    <!-- 列表底部 -->
+	    <div class="xn_c_content_bottom">
+	      #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4}#{/page}
+	      </div>
+	    </div>
+	  </div>
+	</div>
+  </div>
+<div id="show"></div>
+
+
+
+<script type="text/javascript">
+
+
+$(function() {
+	//高亮显示
+	showHighLight(1,6,23);
+	
+	$("#answerStatus").val('${page.conditions.answerStatus}');
+	
+});
+
+
+function showPage(currPage, pageSize){
+    $("#currPage").val(currPage);
+    $("#pageSize").val(pageSize);
+    $("#submit").submit();
+  }
+
+
+
+function deleteUserQuestions(id){
+
+	$.ajax({
+		url:"@{supervisor.webContentManager.PostsAction.deleteUserQuestions()}",
+		type:"POST",
+		data:{id:id},
+		success:function(data){
+			
+			if (data.error.code < 0) {
+	          alert(data.error.msg);
+	          
+	          return;
+	        }
+	        
+		
+	        alert(data.error.msg);
+	        location.reload();
+		}
+	});
+}
+
+function answers(id,postsId,userId){
+	$.ajax({
+	      url : "@{supervisor.webContentManager.PostsAction.showAdminAnswers()}",
+	      type : "POST",
+	      data : {
+	    	  id:id,postsId:postsId,userId:userId
+	      },
+	      success : function(data) {
+	    	
+	        $('#show').html(data);
+	        $.layer({
+	          type: 1,
+	          area: ['650', 'auto'],
+	          title: '回复内容',
+	          page: {dom : '#xf_ht_fkzh_admin'}
+	        });
+	      }
+	      
+	    });
+  }
+
+
+</script>

@@ -1,0 +1,39 @@
+<div class="xf_ht_ttc" id="xf_ht_fkzh_ttc_child" style="display:none;">
+  <div class="xf_ht_jr_obu_width">
+    #{form @editChildCategory()}
+    <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form" width="100%">
+      <tr>
+        <td align="right" valign="middle" width="130">所属上级：</td>
+        <td>
+          <input type="text" class="xfht_zr_input" style="width:188px;" id="childParentName" name="name" readonly="readonly" value="">
+          <input type="hidden" name="childId" id="childId"/>
+        </td>
+      </tr>
+      <tr>
+        <td align="right" valign="top">子类名称：</td>
+        <td>
+          <textarea  class="xf_ht_jr_obttd_textarea" style="width:275px;" name="childName" id="childName"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td align="right">排序：</td>
+        <td>
+          <input type="text" class="xfht_zr_input" style="width:188px;" id="childOrder" name="childOrder">
+        </td>
+      </tr>
+      <tr>
+        <td align="right">&nbsp;</td>
+        <td style="padding:20px 0 40px 0;">
+          <input class="xf_ht_tcc_button_ok" type="submit"  value="确  定">
+          <input class="xf_ht_tcc_button_on" type="button" onClick="childCancle()" value="取  消">
+        </td>
+      </tr>
+    </table>
+    #{/form}
+  </div>
+</div>
+<script type="text/javascript">
+  function childCancle(){
+    layer.closeAll();
+  }
+</script>

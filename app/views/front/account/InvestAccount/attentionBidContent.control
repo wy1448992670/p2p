@@ -1,0 +1,217 @@
+		<!-- 右侧内容区域 我的借款账单 -->
+				<div class="xf_mem_Account xf_mem_shzdjkb_box" id="xf_wyjkview_xxk">
+					<h3 class="xf_mem_accout_title">我的收藏</h3>
+					<ul class="xf_con_mem_r_tentul xf_con_mem_r_tentul_sc clr">
+						<li class="xf_con_wyjk_r_liishot" onclick="showBids();">收藏的借款标</li>
+						<!--<li class="xf_con_wyjk_r_liNoborder" onclick="showDebts();">收藏的债权</li>-->
+					</ul>
+					<div class="xf_con_wyjk_tentultbody" id="bids">
+						<!-- 搜索区域 -->
+						<ul class="xf_membill_search clr">
+							#{form @attentionBid(), id:'attentionBid'}
+								<input type="hidden" id="currPage" name="currPage"/>
+						        <input type="hidden" id="pageSize" name="pageSize"/>
+								<li>
+									<select class="xf_membill_selectAge" name="condition">   
+									   <option value="0" id="type0">全部</option>     
+								       <option value="1" id="type1">编号</option>   
+								       <option value="2" id="type2">标题</option>   
+									</select>
+								</li>
+								<li class="xf_membill_searchLi">
+									<input type="text" name="keyword" id="keyword" class="xf_membill_shurk_yhm" />
+									<input type="submit" value="搜 索" class="xf_membill_button_yhm"/>
+								</li>
+							#{/form}
+						</ul>
+						<!-- 搜索结果 -->
+						<div class="xf_membill_search_jg xf_membill_search_table" >
+							<div class="xf_membill_search_jgleft">
+								<ul>
+									<li class="xf_membill_search_th">序号</li>
+									#{list pageBean?.page}
+										<li #{if _index % 2 == 0}
+												style="background-color:#f6f6f6"
+											#{/if}
+											class="xf_membill_search_td" >
+											${_index}
+										</li>
+									#{/list}
+								</ul>
+							</div>
+							<div class="xf_membill_search_jgcenter">
+								<table border="0" cellpadding="0" cellspacing="0" width="730" class="xf_membill_acc_viewcpms" id="bgTab">
+									<tbody>
+										<tr>
+											
+											<th width="74" height="45">借款标编号</th>
+										  	<th align="center" width="80">借款标题</th>
+										  	<th>借款标类型</th>
+										  	<th>借款人</th>
+										  	<th>借款金额</th>
+										  	<th>合同约定年化利率</th>
+										  	<th>本息合计</th>
+										  	<th>须提资料</th>
+										  	<th>通过资料</th>
+										  	<th>状态</th>
+											
+										</tr>
+										#{list pageBean?.page}
+										<tr>
+											<td align="center">${_?.bid_no}</td>
+											<td align="center">
+												<span class="membill_list_limit" limit="24">
+													${_?.title}
+												</span>
+											</td>
+											<td align="center">
+											<span >
+												#{img src:"${_?.small_image_filename}",style:"width: 20px; height: 20px;  display: inline-block;  margin: 5px 6px 0 0;"}#{/img}
+											</span>	
+											</td>
+											<td align="center">${_?.user_name}</td>
+											<td align="center">${_?.amount?.format('###,##0.00')}</td>
+											<td align="center">${_?.apr}%</td>
+											<td align="center">￥${_?.capital_interest_sum?.format('###,##0.00')}</td>
+											<td align="center" width="36">
+												<span class="membill_list_lv">${_?.product_item_count}</span>
+											</td>
+											<td align="center" width="36">
+												<span class="membill_list_red">${_?.user_item_count_true}</span>
+											</td>
+											<td align="center" width="36">
+												#{if _?.status == 0}
+													审核中
+												#{/if}
+												#{elseif _?.status == 1}
+													提前借款
+												#{/elseif}
+												#{elseif _?.status == 2}
+													借款中
+												#{/elseif}
+												#{elseif _?.status == 3}
+													待放款
+												#{/elseif}
+												#{elseif _?.status == 4}
+													还款中
+												#{/elseif}
+												#{elseif _?.status == 5}
+													已还款
+												#{/elseif}
+												#{elseif _?.status == -1}
+													审核不通过
+												#{/elseif}
+												#{elseif _?.status == -2}
+													借款中不通过
+												#{/elseif}
+												#{elseif _?.status == -3}
+													放款不通过
+												#{/elseif}
+												#{elseif _?.status == -4}
+													流标
+												#{/elseif}
+												#{elseif _?.status == -5}
+													撤销
+												#{/elseif}
+											</td>
+										</tr>
+										#{/list}
+									</tbody>
+								</table>
+							</div>
+							<div class="xf_membill_search_jgright">
+								<ul>
+									<li class="xf_membill_search_th">操作项</li>
+									#{list pageBean?.page}
+									<li #{if _index % 2 == 0}
+											style="background-color:#f6f6f6"
+										#{/if}
+										class="xf_membill_search_td"
+									>
+										<a href="@{front.invest.InvestAction.invest(_?.id)}" class="xf_membill_cza" target="_blank">详情</a>
+										<a  class="xf_membill_cza" onclick="cancleBidAttention(${_?.user_id},${_?.bid_id});">取消收藏</a>
+									</li>
+									#{/list}
+								</ul>
+							</div>
+							<!-- 清除浮动 -->
+							<div class="clear"></div>
+						</div>
+						<!-- 分页器 -->
+						<div class="xf_wylc_page xf_membill_view_page1">
+							#{page currPage:pageBean.currPage,totalCount:pageBean.totalCount,pageSize:pageBean.pageSize,theme:2,style:2/}
+						</div>
+					</div>
+					<div class="xf_con_wyjk_tentultbody" id="debts">
+					</div>
+				</div>
+				
+
+<script>
+$(function(){
+	$('#bgTab').find('tr:even').find('td').css('background-color', '#f6f6f6');
+		
+	$("#bids").show();
+    $("#debts").hide();
+
+    /* 给搜索条件赋记录值 */
+	var condition = "${pageBean?.conditions?.condition}";
+	var keyword = "${pageBean?.conditions?.keyword}";
+
+	switch(parseInt(condition)){
+		case 0:$("#type0").attr("selected","selected");break;
+		case 1:$("#type1").attr("selected","selected");break;
+		case 2:$("#type2").attr("selected","selected");break;
+	}
+	
+	if("" != keyword && null != keyword)
+		$("#keyword").val(keyword);
+  })
+
+  /* 条件搜素查询 */
+function showPage(currPage, pageSize){
+      $("#currPage").val(currPage);
+      $("#pageSize").val(pageSize);
+      $("#attentionBid").submit();
+  }
+
+function showBids(){
+	$("#bids").show();
+	$("#debts").hide();
+}
+
+function showDebts(){
+	$("#bids").hide();
+	var pageNum = 1;
+	var pageSize = 10;
+	debts(pageNum,pageSize);
+}
+
+function cancleBidAttention(userId,bidId){
+	var cancle = #{jsAction @front.account.InvestAccount.cancleBid(':userId',':bidId')/}
+
+		$.post(cancle({userId:userId,bidId:bidId}),function(data){
+			
+			var arr=eval(data);
+			var result = arr.error.msg;
+			alert(result);
+			window.location.reload();
+		})
+}
+	
+	
+function debts(pageNum,pageSize){
+	
+	var type = $("#type").val();
+	var paramter = $("#paramter").val();
+	$.ajax({
+		url:"@{attentionDebts()}",
+		type:"POST",
+		data: {"pageNum" : pageNum,"pageSize" : pageSize,"type" : type,"paramter" : paramter},
+    	success:function(data){$("#debts").html(data);},
+    	error:function(){alert("对不起，出现错误!");}
+	
+	})
+
+}
+</script>

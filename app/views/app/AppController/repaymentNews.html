@@ -1,0 +1,57 @@
+#{extends 'wechat/service/appCommonNext.html' /}
+
+<body>
+<!-- main -->
+<div class="p-hkgongg">
+	<form action="@{app.AppController.repaymentNews()}" id="search">
+		<input type="hidden" id="currPage" name="currPage"/>
+	    <input type="hidden" id="pageSize" name="pageSize"/>
+	</form>
+	#{list items:page.page,as:'t'}
+	    <h5 class="p-hktitle">${t?.receive_time?.format('yyyy-MM-dd')} 回款</h5>
+	    <div class="p-hktword">
+	        <table class="p-hktable" width="100%">
+	            <thead>
+	                <tr>
+	                    <th>项目名</th>
+	                    <th>期数</th>
+	                    <th>还款额（元）</th>
+	                </tr>
+	            </thead>
+	            #{list items:t.t,as:'tList'}
+	            <tbody>
+	                <tr>
+	                    <td>${tList.title}</td>
+	                    <td>${tList.periods}/${tList.mPeriodes}</td>
+	                    <td>${tList?.money?.format('###,##0.00')}</td>
+	                </tr>
+	               
+	            </tbody>
+	            #{/list}
+	        </table>
+	        <p class="m-p1">本日共有${t?.counts}个回款项目</p>
+        	<p class="m-p2">共回款¥<span>${t?.money?.format('###,##0.00')}</span>。</p>
+	       	
+	    </div>
+    #{/list}
+        <div class="m-page">
+        	#{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:5}#{/page}
+	    	*{<a href="javascript:void(0);" title="" target="">首页</a>
+	    	<a href="javascript:void(0);" title="" target="">&lt;</a>
+	    	<a href="javascript:void(0);" title="" target="" class="on">1</a>
+	    	<a href="javascript:void(0);" title="" target="">2</a>
+	    	<a href="javascript:void(0);" title="" target="">3</a>
+	    	<a href="javascript:void(0);" title="" target="">4</a>
+	    	<a href="javascript:void(0);" title="" target="" >5</a>
+	    	<a href="javascript:void(0);" title="" target="">&gt;</a>}*
+	    </div>
+    
+</div>
+</body>
+<script>
+	function showPage(currPage, pageSize){
+	    $("#currPage").val(currPage);
+	    $("#pageSize").val(pageSize);
+	    $("#search").submit();
+	}
+</script>

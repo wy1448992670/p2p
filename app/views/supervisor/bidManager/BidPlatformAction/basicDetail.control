@@ -1,0 +1,49 @@
+<div class="xf_ht_tab_view">
+   #{table class:"xf_con_view_table", cellspacing:"0", cellpadding:"0", border:"0", width:"100%"}
+     #{tr}
+		#{td class:"xf_pcir_ltitle"}借款人<br />基本资料#{/td}
+		#{td align:"left"}
+		  #{table class:"xf_view_table_lm", cellspacing:"0", cellpadding:"0", border:"0"}
+		    #{tr}
+		      #{td width:"262"}<span class="xfht_view_table_s">#{if bid?.user?.user_type==1}真实姓名：#{/if}#{if bid?.user?.user_type!=1&&bid?.user?.user_type!=0}企业名称：#{/if}</span>${bid?.user?.realityName}#{/td}
+		      #{td width:"210"}<span class="xfht_view_table_s">性别：</span>${bid?.user?.sex}#{/td}
+		      #{td}<span class="xfht_view_table_s">年龄：</span>${bid?.user?.age}#{/td}
+		    #{/tr}
+		    #{tr}
+		      #{td}<span class="xfht_view_table_s">#{if bid?.user?.user_type==1}身份证号：#{/if}#{if bid?.user?.user_type!=1&&bid?.user?.user_type!=0}社会信用代码：#{/if}</span>${bid?.user?.idNumber}#{/td}
+              #{td}<span class="xfht_view_table_s">户口所在地：</span>${bid?.user?.provinceName}${bid?.user?.cityName}#{/td}
+              #{td}<span class="xfht_view_table_s">文化程度：</span>${bid?.user?.educationName}#{/td}
+		    #{/tr}
+		    #{tr}
+		      #{td}<span class="xfht_view_table_s">婚姻情况：</span>${bid?.user?.maritalName}#{/td}
+              #{td}<span class="xfht_view_table_s">购房情况：</span>${bid?.user?.houseName}#{/td}
+              #{td}<span class="xfht_view_table_s">购车情况：</span>${bid?.user?.carName}#{/td}
+		    #{/tr}
+		    #{tr}
+              #{td colspan:"3"}<span class="xfht_view_table_s">借款用途：</span>${bid?.purpose?.name}#{/td}
+            #{/tr}
+		  #{/table}
+		#{/td}
+     #{/tr}
+     #{tr}
+       #{td class:"xf_pcir_ltitle"}还款能力详细说明#{/td}
+       #{td align:"left"}${bid?.description}#{/td}
+     #{/tr}
+     #{if !(constants.Constants.IPS_ENABLE && bid?.isAgency)}
+     #{tr}
+       #{td class:"xf_pcir_ltitle"}投标奖励#{/td}
+       #{td align:"left"}
+         #{if bid?.bonusType == 0}
+			不设置奖励
+		 #{/if}
+		 #{if bid?.bonusType == 1}
+			按固定奖金<span class="xf_ht_vitd_hong">${bid?.bonus}</span>元进行奖励
+		 #{/if}
+		 #{if bid?.bonusType == 2}
+			按借款总额<span class="xf_ht_vitd_hong">${bid?.awardScale}</span>%进行奖励
+		 #{/if}
+       #{/td}
+     #{/tr}
+     #{/if}
+   #{/table}
+</div>

@@ -1,0 +1,153 @@
+#{extends 'common/supervisor.html' /} #{set title:'APP版本设置' /}
+<div class="xn_c_contentwarp">
+	<div class="xn_c_contentlist">
+		#{include "supervisor/systemSettings/common/leftBar.control"/}
+		<div class="xn_c_content">
+			<div class="xf_content_add">
+				#{form @saveVersion(), id:'saveVersion'}
+				<div class="xfht_t_j_y_2">
+					<!--右上-->
+					<div class="xf_ht_obu_fklm">APP版本设置</div>
+					<div class="xf_htgl_jgone">
+						<h3 class="xf_htgl_jgtitle">IOS</h3>
+						<div class="xf_htgl_jg_tableone xf_htgl_jg_table2">
+							<table border="0" cellspacing="0" cellpadding="0"
+								class="xf_htgl_jg_tableone_table">
+								<tr>
+									<td width="328" align="right">ios审核是否通过(版本号+"|"+审核结果):</td>
+									<td><input class="xfht_zr_input xfht_zr_input_shoping"
+										type="text" disabled="disabled" value="${set?.iosAudit}"></td>
+								</tr>
+								<tr>
+									<td width="328" align="right">ios审核是否通过(版本号+"|"+审核结果):</td>
+									<td><input class="xfht_zr_input xfht_zr_input_shoping"
+										type="text" id="iosAudit" name="iosAudit"></td>
+								</tr>
+								<tr>
+									<td width="328" align="right">当前版本名称：</td>
+									<td><input class="xfht_zr_input xfht_zr_input_shoping"
+										type="text" disabled="disabled" value="${set?.iosVersion}"></td>
+								</tr>
+								<tr>
+									<td width="328" align="right">当前版本号：</td>
+									<td><input class="xfht_zr_input xfht_zr_input_shoping"
+										type="text" disabled="disabled" value="${set?.iosCode}"></td>
+								</tr>
+								<tr>
+									<td width="328" align="right">最新发布版本名称：</td>
+									<td><input class="xfht_zr_input xfht_zr_input_shoping"
+										type="text" id="iosVersion" name="iosVersion"></td>
+								</tr>
+								<tr>
+									<td width="328" align="right">最新发布版本号：</td>
+									<td><input class="xfht_zr_input xfht_zr_input_shoping"
+										type="text" id="iosCode" name="iosCode"></td>
+								</tr>
+								<tr>
+									<td width="328" align="right">升级信息(默认为上轮)：</td>
+									<td><textarea id="iosMsg" name="iosMsg" rows="10" cols="35">${set?.iosMsg}</textarea></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="xf_htgl_jgone">
+						<h3 class="xf_htgl_jgtitle">Android</h3>
+						<div class="xf_htgl_jg_tableone xf_htgl_jg_table2">
+							<table border="0" cellspacing="0" cellpadding="0"
+								class="xf_htgl_jg_tableone_table">
+								<tr>
+									<td width="328" align="right">当前版本名称：</td>
+									<td><input class="xfht_zr_input xfht_zr_input_shoping"
+										type="text" disabled="disabled" value="${set?.androidVersion}"></td>
+								</tr>
+								<tr>
+									<td width="328" align="right">当前版本号：</td>
+									<td><input class="xfht_zr_input xfht_zr_input_shoping"
+										type="text" disabled="disabled" value="${set?.androidCode}"></td>
+								</tr>
+								<tr>
+									<td width="328" align="right">最新发布版本名称：</td>
+									<td><input class="xfht_zr_input xfht_zr_input_shoping"
+										type="text" id="androidVersion" name="androidVersion"></td>
+								</tr>
+								<tr>
+									<td width="328" align="right">最新发布版本号：</td>
+									<td><input class="xfht_zr_input xfht_zr_input_shoping"
+										type="text" id="androidCode" name="androidCode"></td>
+								</tr>
+								<tr>
+									<td width="328" align="right">升级信息(默认为上轮)：</td>
+									<td><textarea id="androidMsg" name="androidMsg" rows="10" cols="35">${set?.androidMsg}</textarea></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="xf_htgl_jgsix_hyg">
+						<input class="xf_ht_tcc_button_ok" type="button" onclick="savePaymentSure();" value="保 存">
+					</div>
+				</div>
+				#{/form}
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function savePaymentSure() {
+		var iosVersion = $.trim($("#iosVersion").val());
+
+		if(iosVersion == ''){
+			alert("请输入IOS版本名称!");
+			
+			return false ;
+		}
+
+		var iosCode = $.trim($("#iosCode").val());
+		var r = /^\+?[1-9][0-9]*$/;　
+		
+		if(iosCode == '' || !r.test(iosCode)){
+			alert("请输入正确的IOS版本号!");
+			
+			return false ;
+		}
+		
+		var iosMsg = $.trim($("#iosMsg").val());
+
+		if(iosMsg == ''){
+			alert("请输入IOS升级信息!");
+			
+			return false ;
+		}
+
+		var androidVersion = $.trim($("#androidVersion").val());
+
+		if(androidVersion == ''){
+			alert("请输入android版本名称!");
+			
+			return false ;
+		}
+
+		var androidCode = $.trim($("#androidCode").val());
+
+		if(androidCode == '' || !r.test(androidCode)){
+			alert("请输入正确的android版本号!");
+			
+			return false ;
+		}
+		
+		var androidMsg = $.trim($("#androidMsg").val());
+
+		if(androidMsg == ''){
+			alert("请输入android升级信息!");
+			
+			return false ;
+		}
+		
+		$("#saveVersion").submit();
+	}
+
+	$(function() {
+    /* 高亮显示 */
+       showHighLight(9,9,24);
+  });
+</script>

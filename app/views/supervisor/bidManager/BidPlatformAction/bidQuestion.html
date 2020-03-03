@@ -1,0 +1,57 @@
+<div class="xf_ht_twwarp">
+  <ul>
+    #{list pageBean?.page}
+    <li>
+      <div class="xf_ht_twwarp_t">
+      <span class="xf_ht_twwarp_tname">${_index}、用户 ${_?.name}：</span>
+                  问：${_?.content}
+      </div>
+      <div style="float: right"><a href="javascript:deleleQuestion(${_?.id})" > 删除</a></div>
+      <div class="xf_ht_twwarp_time">
+                   提问时间：${_?.time?.format('yyyy-MM-dd HH:mm:ss')}
+      </div>
+      #{list items: _?.bidAnswerList, as:'answer'}
+      <div class="xf_ht_twwarp_cowarp">
+        <div class="xf_ht_abut_l"></div>
+        <div class="xf_ht_twwarp_content" style="word-break:break-all;">
+          <span class="xf_ht_twwarp_thf">借款人 ${userName}回复：</span>
+          ${answer?.content}
+        </div>
+        <div class="xf_ht_twwarp_time">
+          <span class="tw_time">回复时间：${answer?.time?.format('yyyy-MM-dd HH:mm:ss')}</span>
+          <span class="tw_llcs">浏览次数：${answer?.readCount}</span>
+        </div>
+      </div>
+      #{/list}
+    </li>
+    #{/list}
+  </ul>
+  <div class="xf_ht_page">
+    <div class="page_warp">
+      #{page funMethod:"bidQuestion", currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:4/}
+    </div>
+  </div>
+</div>
+
+<script>
+	function deleleQuestion(id){
+		if(confirm('确认要删除该提问吗？'))
+		$.ajax({
+			url : "@{deleteBidQuestion()}",
+			type : "POST",
+			data : {
+				"ids" : id
+			},
+			success : function(data) {
+				if(data != '')
+					alert(data);
+				
+				location.reload();				
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+
+</script>

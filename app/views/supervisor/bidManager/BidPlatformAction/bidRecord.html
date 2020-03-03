@@ -1,0 +1,31 @@
+<div class="xf_ht_tab_view">
+   #{table class:"xf_con_mem_r_b_table", cellspacing:"0", cellpadding:"0", border:"0", width:"100%"}
+     #{tr}
+       #{th}序号#{/th}
+       #{th}投标人#{/th}
+       #{th}投标金额#{/th}
+       #{th}投标时间#{/th}
+       #{th}投标状态#{/th}
+       #{th}提问情况#{/th}
+     #{/tr}
+     #{list pageBean?.page}	
+     #{tr}
+       #{td}${_index}#{/td}
+       #{td}${_?.name}#{/td}
+       #{td}￥${_?.invest_amount?.format("###,##0.00")}元#{/td}
+       #{td}${_?.time?.format('yyyy-MM-dd')}#{/td}
+       #{td}
+         #{if _?.transfer_status == 0}正常#{/if}
+		 #{elseif _?.transfer_status == -1}已转让出#{/elseif}
+		 #{else _?.transfer_status == 1}转让中#{/else}
+       #{/td}
+       #{td}问：(${_?.question_count})答：(${_?.answer_count})#{/td}
+     #{/tr}
+     #{/list}
+   #{/table}
+  <div class="xf_ht_page">
+    <div class="page_warp">
+      #{page funMethod:"bidRecord",currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:4 /}
+    </div>
+  </div>
+</div>

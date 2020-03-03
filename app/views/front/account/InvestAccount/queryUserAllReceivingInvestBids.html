@@ -1,0 +1,204 @@
+					<h3 class="xf_mem_accout_title">收款中的投资标</h3>
+					<!-- 搜索区域 -->
+					<ul class="xf_membill_search clr">
+						<li>
+							<select name="xf_wylc_selectAge" class="xf_membill_selectAge" id="type">   
+						       <option value="0"
+						        #{if page?.conditions?.type == 0}
+				                  selected="selected"
+				                  #{/if}>全部</option>   
+						       <option value="1"
+						        #{if page?.conditions?.type == 1}
+				                  selected="selected"
+				                  #{/if}>标题</option>   
+						       <option value="2"
+						        #{if page?.conditions?.type == 2}
+				                  selected="selected"
+				                  #{/if}>编号</option>   
+							</select>
+						</li>
+						<li class="xf_membill_searchLi">
+							<input type="text"   class="xf_membill_shurk_yhm" id="paramter" value="${page?.conditions?.keyWords}"> 
+							<input type="button" value="搜 索" class="xf_membill_button_yhm" onclick="showBids(1,10);">
+						</li>
+					</ul>
+					<!-- 搜索结果 -->
+					<div class="xf_membill_search_jg xf_membill_search_table">
+						<div class="xf_membill_search_jgleft">
+							<ul>
+								<li class="xf_membill_search_th">序号</li>
+								
+								#{list items:page.page, as:'invest'}
+								
+								<li class="xf_membill_search_td">${invest_index}</li>
+								
+								#{/list}
+								
+								<li class="xf_membill_search_td xf_membill_search_tdlast">&nbsp;</li>
+							</ul>
+						</div>
+						<div class="xf_membill_search_jgcenter">
+							<table border="0" cellpadding="0" cellspacing="0" width="730" class="xf_membill_acc_viewcpms">
+								<tbody>
+									<tr>
+									  	<th width="74" height="45">借款标编号</th>
+									  	<th align="left" width="108">借款标标题</th>
+									  	<th>借款人</th>
+									  	<th>借款金额</th>
+									  	<th>年利率</th>
+									  	<th>本息合计应收</th>
+									  	<th>已收金额</th>
+									  	<th>剩余应收</th>
+									  	<th>账单情况</th>
+									  	<th>逾期未还账单</th>
+									  	<th>状态</th>
+									  	<th>协议书</th>
+									</tr>
+							  #{list items:page.page, as:'invest'}
+									<tr>
+										<td align="center">${invest?.no}</td>
+										<td align="left"><span class="membill_list_limit" limit="24">${invest?.title}</span></td>
+										<td align="center">${invest?.name?.asterisk()}</td>
+										<td align="center">￥${invest?.bid_amount?.format('###,##0.00')}</td>
+										<td align="center">${invest?.apr}%</td>
+										<td align="center">
+										#{if invest?.receiving_amount != null}
+										${invest?.receiving_amount?.format('###,##0.00')}
+										#{/if}
+										#{else}
+										0
+										#{/else}
+										</td>
+										<td align="center">
+										#{if invest?.has_received_amount != null}
+										${invest?.has_received_amount?.format('###,##0.00')}
+										#{/if}
+										#{else}
+										0
+										#{/else}
+										</td>
+										<td align="center" >
+										#{if invest?.has_received_amount != null}
+										${(invest?.receiving_amount - invest?.has_received_amount)?.format('###,##0.00')}
+										#{/if}
+										
+										#{else}
+										${invest?.receiving_amount?.format('###,##0.00')}
+										#{/else}
+										</td>
+										<td align="center" width="37">
+										#{if invest?.period_unit == 1 || invest?.is_sec_bid == true}
+										${invest?.has_payback_period}/1
+										#{/if}
+										#{else}
+										${invest?.has_payback_period}/${invest?.period}
+										#{/else}
+										
+										</td>
+										<td align="center">${invest?.overdue_payback_period}</td>
+										<td align="center">
+										#{if invest?.transfer_status ==0}
+										正常
+										#{/if}
+										#{if invest?.transfer_status ==-1}
+										已转让出
+										#{/if}
+										#{if invest?.transfer_status ==1}
+										转让中
+										#{/if}
+										</td>
+										<td align="center">
+											<a class="xf_membill_cza" onclick="showProtocolist('${invest?.bid_id}','${invest?.is_agency}');">查看合同</a>
+											<input type="hidden" id="hidJKHT${invest?.bid_id}" value="@{front.account.InvestAccount.loanAgreement(invest?.sign2)}" />
+											<input type="hidden" id="hidJJFW${invest?.bid_id}" value="@{front.account.InvestAccount.repayingInvestBidBrokerageProtoco(invest?.sign2)} "/>
+											<input type="hidden" id="hidBZH${invest?.bid_id}" value="@{front.account.InvestAccount.letterOfGuarantee(invest?.sign2)}" />
+											<input type="hidden" id="hidDBH${invest?.bid_id}" value="@{front.account.InvestAccount.guarantee(invest?.sign2)}" />
+										</td>
+									</tr>
+									#{/list}
+									
+									<tr>
+										<td align="center"><span class="membill_list_lv2">合计</span></td>
+										<td align="left"></td>
+										<td align="center"></td>
+										<td align="center"><span class="membill_list_lv3" id="bidAmount">￥0.00</span></td>
+										<td align="center"></td>
+										<td align="center"></td>
+										<td align="center"></td>
+										<td align="center"></td>
+										<td align="center"></td>
+										<td align="center"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+					
+						<div class="xf_membill_search_jgright">
+							<ul>
+								<li class="xf_membill_search_th">操作项</li>
+								#{list items:page.page, as:'invest'}
+								<li class="xf_membill_search_td">
+									<a href="@{front.invest.investAction.invest(invest?.bid_id)}" class="xf_membill_cza" target="_blank">标的详情</a>
+									<span class="xf_memshzdjkb_czspan">|</span>
+									<a href="@{front.account.InvestAccount.toInvestBill(invest?.sign)}" class="xf_membill_cza" target="_blank">投资账单</a><br/>
+									#{if invest?.transfer_status == 0}
+									<a href="@{debtTransfer(invest?.sign)}" class="xf_membill_cza" target="_blank">债权转让</a>
+									<span class="xf_memshzdjkb_czspan">|</span>   
+									#{/if}
+									<a  class="xf_membill_cza" onClick="showName('${invest?.name?.asterisk()}',${invest?.bid_id});">黑名单</a>
+									<input type="hidden" value="${invest?.name}" id="black${invest_index}" />
+					            #{/list}
+								
+								</li>
+							</ul>
+						</div>
+					
+						<!-- 清除浮动 -->
+						<div class="clear"></div>
+					</div>
+					<!-- 分页器 -->
+					<div class="xf_wylc_page xf_membill_view_page1">
+						#{page funMethod:"showBids",currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:2,style:2 /}
+					</div>
+			<!-- 黑名单 -->
+			<div class="xf_zqzr_znx_window" id="xf_mem_hmdwindow">
+				#{include "front/account/InvestAccount/repayingInvestBidBlacklist.control"/}	
+		</div>
+     <script type="text/javascript">
+     
+     	function showName(userName,bidId){
+     		$("#zqzrusername").html(userName);
+     		$("#bidId").val(bidId);
+     		$("#xf_mem_hmdwindow").show();
+     	}
+
+function showProtocolist(bidId,isAgency){
+    		
+     		$("#ht_id").attr("href",$("#hidJKHT"+bidId).val());
+     		$("#jj_id").attr("href",$("#hidJJFW"+bidId).val());
+     		$("#bz_id").attr("href",$("#hidBZH"+bidId).val());
+     		$("#db_id").attr("href",$("#hidDBH"+bidId).val());
+     		
+     		
+     		if(isAgency=="false"){
+     			$("#guarantee").show();
+     			$("#agency").hide();
+     		}
+     		else{
+     			$("#guarantee").hide();
+     			$("#agency").show();
+     		}
+     		
+     		$("#xf_mem_protocolistwindow").show();
+     	}
+	
+     	//合计
+		var bidAmount = 0;//借款金额
+		var investAmount = 0;//投标金额
+		#{list items:page.page, as:'invest'}
+		 bidAmount += ${invest?.bid_amount};
+		#{/list}
+		
+		$("#bidAmount").html('￥'+bidAmount.toFixed(2));
+     </script>

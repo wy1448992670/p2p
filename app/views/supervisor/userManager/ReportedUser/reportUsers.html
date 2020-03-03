@@ -1,0 +1,92 @@
+<div class="xn_c_ban_jox">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_ht_ptjbk_shok_bottom">
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jbox_znx" width="100%">
+        #{list items:page?.page, as:'reporter'}
+        <tr>
+          <td align="right" width="112">用户名：</td>
+          <td>${reporter?.name}</td>
+        </tr>
+        <tr>
+          <td align="right" width="112">举报时间：</td>
+          <td>${reporter?.time?.format('yyyy-MM-dd')}</td>
+        </tr>
+        <tr>
+          <td align="right" width="112">具体描述：</td>
+          <td>${reporter?.reason}</td>
+        </tr>
+        <tr>
+          <td align="right" width="112">联系电话：</td>
+          <td>${reporter?.mobile}</td>
+        </tr>
+        <tr class="xf_jbox_bo_t">
+          <td align="right" width="112">关联借款：</td>
+          <td>
+          	  #{if reporter?.bid_title != null}
+          			${reporter?.bid_title}
+              #{/if} 
+               #{if reporter?.invest_transfer_title != null}
+          			${reporter?.invest_transfer_title}
+              #{/if} 
+          </td>
+        </tr>
+        #{/list}
+      </table>
+    </div>
+    <div class="xf_ht_shmx_button xf_ht_ssjt">
+      <input class="xf_ht_tcc_button_on" type="button" onClick="addBlackUsers()" value="加入黑名单">
+      <div class="page_warp">
+        #{page funMethod:"showInboxMsgs",currPage:page?.currPage,pageSize:page?.pageSize,totalCount:page?.totalCount,theme:2,style:4 /}
+      </div>
+    </div>
+  </div>
+</div>
+  
+<script type="text/javascript">
+
+function showInboxMsgs(currPage, pageSize){
+  $.ajax({
+    url : "@{reportUsers()}",
+    type : "POST",
+    data : {
+      "currPage":currPage,
+      "pageSize":pageSize,
+      "sign":'${sign}',
+      "reportedName":'${reportedName}'
+    },
+    success : function(data) {
+      if (data.code < 0) {
+        alert(data.msg);
+
+        return;
+      }
+
+      $("#xf_ht_memjubao_ttc").html(data);
+      $.layer({
+        type: 1,
+        area: ['680px', 'auto'],
+        title: '举报列表',
+        page: {dom : '#xf_ht_memjubao_ttc'}
+      });
+    },
+    error : function() {
+      alert("对不起，出现错误!");
+    }
+  });
+}
+  
+function cancleWindow(){
+  layer.closeAll();
+}
+  
+function addBlackUsers(){
+	$("#reportedNameText").html('${reportedName}');
+	$("#signText").val('${sign}'); 
+	$.layer({
+    type: 1,
+    area: ['500px', 'auto'],
+    title: '添加黑名单',
+    page: {dom : '#xf_ht_addBlack'}
+  });
+}
+</script>

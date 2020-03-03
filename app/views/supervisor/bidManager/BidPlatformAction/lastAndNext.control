@@ -1,0 +1,13 @@
+<input type="button" value="下一个（${bid?.countUpId}）" class="xf_ht_jkbgl_sh_view" 
+   #{if bid?.countUpId == 0}
+     disabled="disabled"
+   #{/if}
+   onclick="upBid();"
+/>
+<input type="button" value="上一个（${bid?.countNextId}）" class="xf_ht_jkbgl_sh_view"
+   #{if bid?.countNextId == 0}
+  	 disabled="disabled"
+   #{/if}
+   onclick="nextBid();"
+/>
+<input type="button" value="返回" class="xf_ht_jkbgl_sh_view" onClick="javascript:history.go(-1);"/>

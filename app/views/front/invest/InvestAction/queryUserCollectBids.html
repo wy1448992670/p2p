@@ -1,0 +1,214 @@
+
+
+
+<!-- 搜索结果 -->
+
+<div class="p_jk_prolist">
+        <table class="p_jk_table" width="100%" >
+            <tr height="48">
+                <td width="240"><strong class="fl pl50">项目名称</strong></td>
+                <td><strong>年利率</strong></td>
+                <td><strong>金额（元）</strong></td>
+                <td><strong>期限</strong></td>
+                <td><strong>进度</strong></td>
+                <td width="210"><strong>状态</strong></td>
+            </tr>
+            #{list items:pageBean.page, as:'bid'}
+            <tr height="100">
+                <td><span class="fl pl30">${bid?.title}</span></td>
+                <td><span class="cozhuse">${bid?.apr}%</span></td>
+                <td><span class="co333">￥${bid?.amount?.format('###,##0.00')}</span></td>
+                <td><span class="co333">
+                #{if bid?.period_unit ==-1}
+				${bid?.period}年
+				#{/if}
+				#{if bid?.period_unit ==0}
+				${bid?.period}个月
+				#{/if}
+				#{if bid?.period_unit ==1}
+				${bid?.period}天
+				 #{/if}
+                </span></td>
+                <td><span class="probar50" probar="${bid?.loan_schedule}">${bid?.loan_schedule}%</span></td>
+                <td>
+                	<a href="@{invest(bid?.bid_id)}" class="p_jk_tbtn">立即投标</a></br>
+                    <a onclick="cancleBid(${bid?.id})" class="p_jk_tbtn" style="margin-top:5px;">取消收藏</a> 
+           		 </td>
+        	</tr>
+        #{/list}
+      
+    </table>
+</div>
+<div class="xf_wylc_page xf_cfzx_page">
+#{page pageTitle:"个标",currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:3 /}
+   
+</div>
+<!--  
+	<ul class="xf_c_idx_4_items xf_c_wylc_items">
+		
+		
+		
+		#{list items:pageBean.page, as:'bid'}
+		
+		<li>
+			<div class="xf_c_idx_4_itemsWrap">
+				<div class="xf_c_idx_4_imgWrap">
+					<div class="xf_c_idx_4_userImg">
+						#{img src:"${bid?.bid_image_filename}",alt:"",align:"absmiddle",width:"111px",height:"110px"}#{/img}
+					</div>
+					<div class="xf_c_idx_4_arrowImg"></div>
+				</div>
+				<div class="xf_c_idx_4_tableWrap xf_c_wylc_tableWrap">
+					<div class="xf_c_idx_4_colTitle xf_wylc_colTitle">
+						<span>#{img src:"${bid?.small_image_filename}",style:"width: 20px; height: 20px;  display: inline-block; float: left; margin: 5px 6px 0 0;"}#{/img}</span> <span
+							class="xf_c_idx_4_loanTitle xf_c_wylc_loanTitle"><a
+							href="@{invest(bid?.bid_id)}">${bid?.title}</a> </span> <span
+							class="xf_wylc_lcpocd">编号：${bid?.no}</span> <span
+							class="xf_c_idx_4_loanProgres"> <span
+							class="xf_c_idx_4_progText">借款进度：</span> <span
+							class="xf_c_idx_4_proWrap"><span id="loanSchedule${bid_index}" class="xf_c_idx_4_proPer">${bid?.loan_schedule}</span>
+						</span> </span>
+					</div>
+					<div class="xf_c_idx_4_data">
+						<ul class="xf_c_idx_4_dataul">
+							<li><div>年利率</div>
+								<div class="xf_c_idx_4_nhsy">${bid?.apr}%</div>
+							</li>
+							<li><div>借款金额</div>
+								<div class="xf_c_idx_4_jkje">${bid?.amount?.format('###,##0.00')}</div>
+							</li>
+							<li><div>还款期限</div>
+								<div class="xf_c_idx_4_hkqx">
+								#{if bid?.period_unit ==-1}
+								${bid?.period}年
+								#{/if}
+								#{if bid?.period_unit ==0}
+								${bid?.period}个月
+								#{/if}
+								#{if bid?.period_unit ==1}
+								${bid?.period}天
+								#{/if}
+								
+							</li>
+							<li><div>还款日期</div>
+								<div class="xf_c_idx_4_hkqx">${bid?.repayment_time?.format('yyyy-MM-dd')}</div>
+							</li>
+							<li class="xf_c_idx_4_last"><div>信用等级</div>
+								<div class="xf_c_idx_4_xydj">#{img src:"${bid?.creditLevel?.imageFilename}",alt:""}#{/img}</div>
+							</li>
+							<div class="clear"></div>
+						</ul>
+					</div>
+					<div class="xf_c_idx_4_tableBttom">
+						<span class="xf_c_idx_4_hxjeWrap">还需金额：<span
+							class="xf_c_idx_4_hxje">￥${(bid?.amount-bid?.has_invested_amount)?.format('###,##0.00')}元</span> </span> <span
+							class="xf_c_idx_4_hkfsWrap">
+							
+								
+							还款方式：${bid?.repay_name}
+							
+							</span> <span
+							class="xf_c_idx_4_hkfsWrap2">投标奖励：
+							#{if bid?.bonus_type == 0}
+							不设置奖励
+							#{/if}
+							#{if bid?.bonus_type == 1}
+							按固定奖金${bid?.bonus}进行奖励
+							#{/if}
+							#{if bid?.bonus_type == 2}
+							按借款总额${bid?.award_scale}%进行奖励
+							#{/if}
+							</span>
+					</div>
+				</div>
+				<div class="xf_wylc_tableWrap_cz">
+				#{if bid?.is_hot ==true}
+					<b class="xf_wylc_tableWrap_czishot">火</b>
+					#{/if}
+					#{if  bid?.amount > bid?.has_invested_amount}
+					 <a href="@{invest(bid?.bid_id)}" target="_blank">立即投标</a>
+					 #{/if}
+					<a onclick="cancleBid(${bid?.id})">取消收藏</a> 
+					<a href="@{invest(bid?.bid_id)}"  target="_blank">查看详细</a>
+				</div>
+			</div></li>
+			
+			#{/list}
+		
+		
+		
+	</ul>
+	<div class="xf_wylc_page">
+		
+			#{page funMethod:"showCollectBids",currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:2 /}
+	</div>	-->
+
+<script>
+
+//进度条
+$(function(){
+	$("#bidTotle").html(${pageBean.totalCount});
+	$(".probar50").map(function(){
+	    var num=$(this).attr("probar"),
+	        timeid;
+	    var str="probar50_",
+	        i=0;
+	        var that=$(this);
+	    var offsetTop=$(this).offset().top-550,
+	    	fn;
+	    that.attr("class","probar50 "+str+num);
+	    $(window).bind("scroll",fn=function(){
+			if($(window).scrollTop()>offsetTop){
+				$(window).unbind("scroll",fn)
+				    timeid=setInterval(function(){
+				    if(i<=num){
+				        that.attr("class","probar50 "+str+i);
+				        that.text(i+"%");
+				        i++;
+				    }else{
+				        clearInterval(timeid);
+				    }
+				},10);
+			}
+		});
+	});
+});
+
+$(function(){
+			
+			
+			#{list items:pageBean.page, as:'bid'}
+			
+			 $('#loanSchedule'+${bid_index}).css({"width":${bid?.loan_schedule}})
+			 
+			#{/list}
+})
+
+    function collectCurrentBid(bidId){
+    	var collectBid = #{jsAction @collectBid(':bidId')/}
+    	$.post(collectBid({bidId:bidId}),function(data){
+    	
+    		var arr=eval(data);
+			var result = arr.error.msg;
+			alert(result);
+    	})
+    
+    }
+
+
+	function cancleBid(attentionId){
+		var cancle = #{jsAction @cancleBidAttention(':attentionId')/}
+
+		$.post(cancle({attentionId:attentionId}),function(data){
+			
+			var arr=eval(data);
+			var result = arr.error.msg;
+			alert(result);
+			checkLoginOther();
+		})
+	}
+
+    
+    
+  
+</script>

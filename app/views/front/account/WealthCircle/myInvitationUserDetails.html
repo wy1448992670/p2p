@@ -1,0 +1,105 @@
+<div class="xf_meminvite_detail_title">返佣明细</div>
+<div class="xf_meminvite_detail">
+	<ul class="xf_meminvite_search clr">
+		<li class="xf_meminvite_searchLi">
+			<input type="hidden" name="currPage" id="currPageDetail" value="${page?.currPage}"/>
+			<input type="hidden" name="currSize" id="currSizeDetail" value="${page?.pageSize}"/>
+			<div class="xf_ht_search_xl">
+		  		<span class="search_timesp">投资时间：</span>
+		 		<input type="text" class="search_time" name="beginTime" id="beginTime" value="${page?.conditions?.beginTime}" onclick="laydate()" class="laydate-icon" style="cursor:pointer">
+		  		<span class="search_timesp">--</span>
+		  		<input type="text" class="search_time" name="endTime" id="endTime" value="${page?.conditions?.endTime}" onclick="laydate()" class="laydate-icon" style="cursor:pointer">  
+	  		</div>
+			<span class="s_closebtn" onclick="$('#inviteIncomeDetails').hide();">×</span>
+		</li>
+		<li><input value="搜 索" class="xf_meminvite_detail_button" onclick="inviteIncomeDetailsSearch();" type="button"></li>
+	</ul><!-- 搜索结果 -->
+	<div class="xf_meminvite_search_jg">
+		<table border="0" cellpadding="0" cellspacing="0" width="auto" >
+			<tbody>
+				<tr>
+					<th align="center" width="55">
+						序号
+					</th>
+					<th align="center" width="190">
+						投资时间
+					</th>
+					<th align="center" width="190">
+						投资金额
+					</th>
+					<th align="center" width="190">
+						返佣金额
+					</th>
+				</tr>
+				#{list items:page.page,as:'inviteIncome'} 
+				<tr>
+					<td align="center">
+						${inviteIncome_index}
+					</td>
+					<td align="center">
+						${inviteIncome.invest_time?.format('yyyy-MM-dd')}
+					</td>
+					<td align="center">
+						${inviteIncome.invest_amount?.format("###,##0.00")}
+					</td>
+					<td align="center">
+						${inviteIncome?.invite_income?.format("###,##0.00")}
+					</td>
+				</tr>
+				#{/list}
+			</tbody>
+		</table>
+	</div>
+	<!-- 清除浮动 -->
+	<div class="clear"></div>
+	<div class="xf_wylc_page xf_meminvite_view_page">
+		<!-- 分页器 -->
+		#{page funMethod:"inviteIncomeDetailsPage",currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:2}#{/page}
+	</div>
+	<div class="xf_mem_cps_tgtj">
+		共${page?.totalCount}条投资记录
+	</div>
+</div>
+
+<script type="text/javascript">
+
+function inviteIncomeDetailsSearch() {
+	var currPage = $("#currPageDetail").val();
+	var currSize = $("#currSizeDetail").val();
+	var beginTime = $("#beginTime").val();
+	var endTime = $("#endTime").val();
+	var invitedUserSign = '${invitedUserSign}';
+
+	$.ajax({
+	  url : "@{front.account.WealthCircle.myInvitationUserDetails()}",
+	  type : "GET",
+	  async : false,
+	  data : {
+	    "currPage" : currPage,
+	    "pageSize" : currSize,
+	    "beginTime" : beginTime,
+	    "endTime" : endTime,
+	    "invitedUserSign" : invitedUserSign
+	  },
+	  success : function(data) {
+	    if (data.code < 0) {
+	      alert(data.msg);
+	      return;
+	    }
+	    $("#inviteIncomeDetails").html(data);
+	  },
+	  error : function() {
+	    alert(data.msg);
+	  }
+	});
+	  
+	showDiv($("#inviteIncomeDetails"));
+}
+
+function inviteIncomeDetailsPage(currPage, currSize) {
+	$("#currPageDetail").val(currPage);
+	$("#currSizeDetail").val(currSize);
+	inviteIncomeDetailsSearch();
+}
+
+</script>

@@ -1,0 +1,105 @@
+<!-- 安全问题设置 -->
+<div class="xf_zqzr_znx_window" id="xf_mem_aqwtsz_tc">
+	<div class="xf_wyjkwszl_4_windowInner xf_mem_aqwtsz_tc">
+		<div class="xf_wyjkfb_4_windowColName">
+			安全问题校验
+		</div>
+		<div class="xf_wyjkfb_aqwt_tclv">
+			您正在进行重要操作，系统需要校验您的安全问题。
+		</div>
+		<!-- 安全问题设置 -->
+		<div class="xf_mem_aqwtsz_qa">
+			<ul>
+				<li>
+					<div class="xf_mem_aqwtsz_qaname"><span class="xf_mem_aqwtsz_xx">*</span>安全问题1：${user?.questionName1}</div>
+					<div class="xf_mem_aqwtsz_qainput">输入答案：<input class="xf_mem_aq_wtszinput" id="answer1" maxlength="20"></div>
+				</li>
+				<li>
+					<div class="xf_mem_aqwtsz_qaname"><span class="xf_mem_aqwtsz_xx">*</span>安全问题2：${user?.questionName2}</div>
+					<div class="xf_mem_aqwtsz_qainput">输入答案：<input class="xf_mem_aq_wtszinput" id="answer2" maxlength="20"></div>
+				</li>
+				<li>
+					<div class="xf_mem_aqwtsz_qaname"><span class="xf_mem_aqwtsz_xx">*</span>安全问题3：${user?.questionName3}</div>
+					<div class="xf_mem_aqwtsz_qainput">输入答案：<input class="xf_mem_aq_wtszinput" id="answer3" maxlength="20"></div>
+				</li>
+				<li class="xf_mem_aqwtsz_lalt2">
+					<a class="xf_con_inputfbjk" id="sure">确 认</a>
+					<a class="xf_con_inputfbqux" onclick="colse();">取消</a>
+					<a class="xf_con_input_text" id="findAnswer">忘了问题答案？</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+var flag = false;
+
+$(function(){
+	 $("#xf_mem_szansj_tc").hide();
+
+	 $("#sure").click(function(){
+	     if($("#answer1").val() == ''){
+	         alert("安全问题1回答不能为空");
+	         return;
+	     }
+	     
+	     if($("#answer2").val() == ''){
+	         alert("安全问题2回答不能为空");
+	         return;
+	     }
+	     
+	     if($("#answer3").val() == ''){
+	         alert("安全问题3回答不能为空");
+	         return;
+	     }
+
+	     var verifySafeQuestion = #{jsAction @verifySafeQuestion(':questionName1', ':questionName2', ':questionName3')/}
+		 $.post(verifySafeQuestion({questionName1:encodeURI($("#answer1").val()), questionName2:encodeURI($("#answer2").val()),
+		  questionName3:encodeURI($("#answer3").val())}),function(data){
+			
+			 var arr=eval(data);
+			 var results = arr.error.code;
+			 if(results < 0){
+				 flag = false;
+			     alert(arr.error.msg);
+			     return;
+			 }
+			 
+			 flag = true;
+			 $("#encryString").val(arr.encryString);
+			 $("#randomId").val(arr.randomId);
+			
+			 $("#xf_mem_aqwtsz_tc").hide();
+			 $(".xf_mem_shzdjkb_box_tcc").hide();
+		});
+	 });
+	 
+	$("#findAnswer").click(function(){
+	    showDiv($("#xf_mem_szansj_tc"));
+	    $("#xf_mem_aqwtsz_tc_dealPass").hide();
+	});
+
+	$("#cancle").click(function(){
+	     $("#xf_mem_aqwtsz_tc").hide();
+	})
+ });
+      
+function colse(){
+	$('#xf_mem_aqwtsz_tc').hide();
+	$('.xf_mem_shzdjkb_box_tcc').hide();
+}
+
+function showSafeQuestion(){
+	#{if user?.isSecretSet} 
+		if(!flag){
+			$('#xf_mem_aqwtsz_tc').show();
+			$('.xf_mem_shzdjkb_box_tcc').show();
+			$('#answer1').val('');
+			$('#answer2').val('');
+			$('#answer3').val('');
+			$('#answer1').focus();
+		}
+	#{/if}
+}
+</script>

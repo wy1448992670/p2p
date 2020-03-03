@@ -1,0 +1,130 @@
+<div class="s_fixedbg" style="display: none">
+		<div class="s_fixedbox">
+			<i class="s_closebtn">×</i>
+			<span class="s_slideprev">&lt;</span>
+			<div class="s_slidebox">
+				<ul class="s_slidepic">
+				</ul>
+			</div>
+			<span class="s_slidenext">&gt;</span>
+		</div>
+</div>		
+	
+<script type="text/javascript">
+	$("i.s_closebtn").click(function () {
+		$("div.s_fixedbg").css({
+			display: "none"
+		});
+	})
+	$(function () {
+		var i = 0;
+		var $banner = $(".s_slidebox"),
+			$bannerUl = $banner.find("ul.s_slidepic"),
+			$bannerLi = $bannerUl.find("li"),
+			len = $bannerLi.length;
+		
+		setInterval(function () {
+			//width=$banner.width();
+			len = $(".s_slidebox").find("ul.s_slidepic").find("li").length;
+			var height = $(".s_fixedbox").height();
+			$(".s_fixedbox").css("margin-top", -height / 2 + "px");
+		}, 10);
+	
+		function scrollLeft() {
+			if (i < len - 1) {
+				$bannerUl.find("li").eq(i).hide("normal");
+				i++;
+				$bannerUl.find("li").eq(i).show("normal");
+			}
+			else {
+				$bannerUl.find("li").eq(i).hide("normal");
+				i = 0;
+				$bannerUl.find("li").eq(i).show("normal");
+			}
+		}
+	
+		function scrollRight() {
+			if (i > 0) {
+				$bannerUl.find("li").eq(i).hide("normal");
+				i--;
+				$bannerUl.find("li").eq(i).show("normal");
+			}
+			else {
+				$bannerUl.find("li").eq(i).hide("normal");
+				i = len - 1;
+				$bannerUl.find("li").eq(i).show("normal");
+			}
+		}
+		$(".s_slideprev").click(function () {
+			len = $bannerUl.find("li").length;
+			if (len > 1) {
+				scrollRight()
+			}
+		});
+		$(".s_slidenext").click(function () {
+			len = $bannerUl.find("li").length;
+			if (len > 1) {
+				scrollLeft();
+			}
+		});
+	});
+	
+	function showitemNow(mark, signUserId) {
+			var listAction = #{jsAction @wechat.account.WechatAccountHome.checkUserStatusAndActiveEmail() /};
+			$.post(listAction(), function (data) {
+				if (data.code < 0) {
+					alert(data.msg);
+					return;
+				}
+				switch (data.status * 1) {
+				case 1:
+					showitem(mark, signUserId);
+					break;
+					return;
+				case -1:
+					/* 未登录 */
+					window.location.href = "@{wechat.service.RegistAndLogin.login}";
+					break;
+					return;
+				case -2:
+					/* 未激活 */
+					var info = data.email;
+					alert("您账号未激活\n邮箱已经发送到您的:"+info+"请激活！");
+					break;
+					return;
+				case -3:
+					/* 未完善基本资料 */
+					showitem(mark, signUserId);
+					break;
+					return;
+				}
+			});
+		}
+	/* 查看弹出层 */
+	function showitem(mark, signUserId) {
+		var listAction = #{jsAction @wechat.service.InvestAction.showitemAjax(':mark', ':signUserId') /};
+		$.post(listAction({
+			mark: mark,
+			signUserId: signUserId
+		}), function (data) {
+			var arr = eval(data);
+			if (data.error.code < 0) {
+				alert("查看失败");
+				return;
+			}
+			else {
+				$("ul.s_slidepic").empty();
+				var images = data.item.items;
+				if (images != null) {
+					for (var i = 0;i < images.length;i++) {
+						$("ul.s_slidepic").append("<li><image width='80px' height='150px' src='" + images[i] + "'/></li>");
+					}
+				}
+				$("div.s_fixedbg").css({
+					display: "block"
+				});
+				return;
+			}
+		});
+	}	
+</script>

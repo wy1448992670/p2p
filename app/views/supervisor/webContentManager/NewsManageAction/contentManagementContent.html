@@ -1,0 +1,216 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    #{form @contentManagement(), id:'submit'}
+    <!-- 搜索 -->
+    <div class="xf_ht_search">
+      <div class="xf_ht_search_l">
+        <input type="hidden" id="orderType" name="orderType">
+        <input type="hidden" id="orderStatus" name="orderStatus"/>
+        <input type="hidden" id="currPage" name="currPage"/>
+        <input type="hidden" id="pageSize" name="pageSize"/>
+		<span id="div_0"><a id="tab_0" onClick="conditonSearch(0)">默认排序</a></span>
+		<span id="div_1"><a id="tab_1" onClick="conditonSearch(1)">浏览次数<a id="sp1">↑</a></a></span>
+		<span id="div_2"><a id="tab_3" onClick="conditonSearch(2)">添加时间<a id="sp2">↑</a></a></span>
+		<span id="div_3"><a id="tab_5" onClick="conditonSearch(3)">显示时间<a id="sp3">↑</a></a></span>
+		<span id="div_4"><a id="tab_7" onClick="conditonSearch(4)">只看推荐<a id="sp4">↑</a></a></span>
+		<span id="div_5"><a id="tab_9" onClick="conditonSearch(5)">只看不显示<a id="sp5">↑</a></a></span>
+      </div>
+     </div>
+     <div class="xf_ht_search_inon">
+       <div class="xf_ht_search_r">
+         <div class="xf_ht_search_xl">
+           #{if page?.conditions?.typeId == 0}
+           #{select 'topTypes', items:types, valueProperty:'id', labelProperty:'name', value:page?.conditions?.topTypes, class:'xf_membill_selectAge', id:'parent' /}
+           #{/if}
+           #{else}
+           #{select 'topTypes', items:types, valueProperty:'id', labelProperty:'name', value:parentType?.id, class:'xf_membill_selectAge', id:'parent' /}
+           #{/else}
+         </div>
+         <div class="xf_ht_search_xl">
+           #{select 'typeId', items:childTypes, valueProperty:'id', labelProperty:'name', value:page?.conditions?.typeId, class:'xf_membill_selectAge', id:'child' /}  
+         </div>
+         <div class="xf_ht_search_xl">
+           <input name="title" type="text" class="search_w"  value="${page.conditions?.title}" />
+         </div>
+         <div class="xf_ht_search_xl">
+           <input type="submit" class="search_button" value="搜索">
+         </div>
+       </div>
+     </div>
+	#{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xn_c_content_list",tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}标  题#{/th}
+          #{th}添加时间#{/th}
+          #{th}显示时间#{/th}
+          #{th}浏览次数#{/th}
+		  #{th}是否推荐#{/th}
+		  #{th}所属类别#{/th}
+		  #{th}是否显示#{/th}
+		  #{th}操作#{/th}
+        #{/tr}
+		#{list items:page.page, as:'content'}
+        #{tr tr_index:content_index}
+          #{td}${(page?.currPage-1)*page?.pageSize + content_index}#{/td}
+          #{td}${content?.title}#{/td}
+          #{td}${content?.time?.format('yyyy-MM-dd')}#{/td}
+          #{td}${content?.startShowTime?.format('yyyy-MM-dd')}#{/td}
+		  #{td}${content?.readCount}#{/td}
+		  #{td}#{if content.locationPc == 0}否#{/if}#{else}是#{/else}#{/td}
+		  #{td}${content.type?.name}#{/td}
+		  #{td}<input name="checkbox" type="checkbox" id="test"  
+                #{if content.isUse}
+                checked="checked"
+                onmouseup="updateShow('${content?.id}','0')"
+                #{/if}
+                #{else}
+                onmouseup="updateShow('${content?.id}','1')"
+                #{/else}
+                />
+                <label for="checkbox"></label>
+          #{/td}
+          #{td}
+          %{int id = constants.Constants.NewsTypeId.REGISTER_AGREEMENT2;}%
+          	#{if content?.id != id}
+            <span class="xf_ta_onclick" onClick="deleteContent('${content?.id}')">删除</span>
+            #{/if}
+            <span><a class="xf_ta_onclick" href="@{supervisor.webContentManager.NewsManageAction.editContentInit(content?.id)}">编辑</a></span>
+          #{/td}
+        #{/tr}
+		#{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4}#{/page}
+      <div class="page_warp_l">
+        #{form @supervisor.webContentManager.NewsManageAction.contentManagementAdd(), id:'addSubmit'}
+          <input type="submit" value="增加" class="xf_htbutton"/>
+        #{/form}
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function() {
+	  var orderType = "${page?.conditions?.orderType}";
+	    $("#orderType").val(orderType);
+	    var orderStatus = "${page?.conditions?.orderStatus}";
+	    $("#orderStatus").val(orderStatus);
+	    var order = $("#div_" + orderType);
+		
+	    /* 初始为默认搜索 */
+		if(orderType == ''){
+			$("#div_0").attr("class", "xf_sea_isshow");
+		}else {
+		  order.attr("class", "xf_sea_isshow");
+		  if(orderStatus == 1){
+		     $("#sp"+orderType).html("↑");
+		  }else{
+		    $("#sp"+orderType).html("↓");
+		  }
+		}
+	  
+    if('${page?.conditions?.typeId}' <= 0 && '${page?.conditions?.topTypes}' <= 0) {
+	  $("#parent").append("<option value='' selected>--请选择--</option>");
+	  $("#child").append("<option value='' selected>--请选择--</option>");
+    }else if('${page?.conditions?.typeId}' <= 0 && '${page?.conditions?.topTypes}' > 0) {
+      $("#parent").append("<option value=''>--请选择--</option>");
+      $("#child").append("<option value='' selected>--请选择--</option>");
+    }else{
+      $("#parent").append("<option value=''>--请选择--</option>");
+	  $("#child").append("<option value=''>--请选择--</option>");
+    }
+    $("#parent").change(function(){
+	  var selectVal = $(this).children('option:selected').val();
+	  var jsAction = #{jsAction @supervisor.webContentManager.NewsManageAction.typeList(":parentId")/}
+	  $.post(jsAction({parentId:selectVal}),function(data) {
+	    var cityList = [];
+		for(var i = 0; i < data.length; i ++){
+		  cityList.push("<option value='"+data[i].id+"'>"+data[i].name+"</option>");
+		}
+		cityList.push("<option value=''>--请选择--</option>");
+		$("#child").html(cityList);
+	  });
+	});
+  })
+  
+  function addContent(){
+    
+  }
+  
+  function updateShow(id, status){
+    var updateUseStatus = #{jsAction @updateUseStatus(':idStr',':useStatus')/}
+	$.post(updateUseStatus({idStr:id, useStatus:status}),function(data){
+	  var arr=eval(data);
+		 
+	  if(arr.error.code < 0 ){
+	    alert(arr.error.msg);
+	  
+	    return;
+      }
+	  alert(arr.error.msg);
+	});
+  }
+   
+  function childSelect(){
+    var op = $("#parentSelect option:selected");
+    var parentId = op.val();
+         
+    var typeList = #{jsAction @typeList(':parentId')/}
+	$.post(typeList({parentId:parentId}),function(data){
+	  var arr=eval(data);
+		 
+	  var childList;
+	  var length = arr.length;
+	  for(var i = 0; i < length; i ++){
+	    childList = childList + "<option value='"+arr[i].id+"'>"+arr[i].name+"</option>";
+	  }
+	  $("#childShow").html(childList);
+	});
+  }
+   
+  function deleteContent(id){
+    var statu = confirm("您确认删除这条新闻吗?");
+    if(!statu){
+      
+      return;
+    }
+	   	
+    var deletContent = #{jsAction @deletContent(':idStr')/}
+	$.post(deletContent({idStr:id}),function(data){
+	  var arr=eval(data);
+		 
+	  if(arr.error.code < 0 ){
+	    alert(arr.error.msg);
+	    
+	    return;
+	  }
+	  alert(arr.error.msg);
+	  location.reload();
+	});
+  }
+
+  function showPage(currPage, pageSize){
+	    $("#currPage").val(currPage);
+	    $("#pageSize").val(pageSize);
+	    $("#submit").submit();
+	  }
+  
+   function conditonSearch(order){
+	   var orderStatus = "${page?.conditions?.orderStatus}";
+	   var orderType = "${page?.conditions?.orderType}";
+		
+		if(orderStatus == 1 && orderType == order){
+			$("#orderStatus").val(0);
+		}else{
+			$("#orderStatus").val(1);
+		}
+		
+		$("#orderType").val(order);
+		$("#submit").submit();
+   }
+</script>

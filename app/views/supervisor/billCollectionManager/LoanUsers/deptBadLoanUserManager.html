@@ -1,0 +1,241 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'部门账单坏账会员管理' /}
+
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/billCollectionManager/common/billCollectionManagerLeft.control"/}
+    <div class="xn_c_content">
+      <div class="xf_ht_tablelist">
+        <!-- 搜索 -->
+        #{form @deptBadLoanUserManager(), id:'deptBadLoanUserManager'}
+        <input type="hidden" id="currPage" name="currPage"/>
+        <input type="hidden" id="pageSize" name="pageSize"/>
+        <input type="hidden" id="orderType" name="orderType" value="${page?.conditions?.order}"/>
+        <div class="xf_ht_search">
+          <div class="xf_ht_search_l">
+            <span id="div_0" onClick="conditonSearch(0)">默认排序</span>
+            <span id="div_1" onClick="conditonSearch(1)">借款标数量 <a id="div_a_1">↑</a></span>
+            <span id="div_3" onClick="conditonSearch(3)">投标数量 <a id="div_a_3">↑</a></span>
+            <span id="div_5" onClick="conditonSearch(5)">逾期账单数量 <a id="div_a_5">↑</a></span>
+            <span id="div_7" onClick="conditonSearch(7)">坏账数量 <a id="div_a_7">↑</a></span>
+          </div>
+        </div>
+        <div class="xf_ht_search_inon">
+          <div class="xf_ht_search_r">
+            <div class="xf_ht_search_xl">
+              <select id="select" name="type" class="xf_membill_selectAge">
+                <option value="0">全部</option>
+                <option value="1">正常</option>
+                <option value="2">逾期</option>
+                <option value="3">坏账</option>
+              </select>
+            </div>
+            <div class="xf_ht_search_xl">
+              <span class="search_timesp">注册时间：</span>
+              <input name="startDate" type="text" id="startDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${page?.conditions?.startDate}"/>
+              <span class="search_timesp">--</span>
+              <input name="endDate" type="text" id="endDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${page?.conditions?.endDate}"/>
+            </div>
+            <div class="xf_ht_search_xl">
+              <input id="textfield" name="keywords" type="text" class="search_w" title="请输入会员名" value="${page?.conditions?.keywords}"/>
+            </div>
+            <div class="xf_ht_search_xl">
+              <input type="hidden" name="isExport" value="0" id="isExport">
+			  <input type="submit" class="search_button" onclick="search();" value="搜索">
+			  <input type="submit" class="search_button" onmouseout="clearIsExport();" onclick="download();" value="下载数据">
+            </div>
+          </div>
+        </div>
+        #{/form}
+        <!-- 列表内容 -->
+        <div class="xn_c_content_top">
+          #{table class:"xn_c_content_list",cellspacing:"0",cellpadding:"0",border:"0",tr_class_odd:"xn_tr_bj",width:"1300px"}
+            #{tr}
+              #{th}序号#{/th}
+              #{th}会员名#{/th}
+              #{th}注册时间#{/th}
+              #{th}信用等级#{/th}
+              #{th}借款标数量#{/th}
+              #{th}累计借款总额#{/th}
+              #{th}投标数量#{/th}
+              #{th}累计投标总额#{/th}
+              #{th}还款中的借款标数量#{/th}
+              #{th}逾期账单数量#{/th}
+              #{th}坏账借款标数量#{/th}
+              #{th}坏账金额#{/th}
+              #{th}账户余额#{/th}
+              #{th}最后登录时间#{/th}
+              #{th}客服#{/th}
+              #{th}操作#{/th}
+            #{/tr}
+            #{list page?.page}
+            #{tr tr_index:_index}
+              #{td}${(page?.currPage - 1) * page?.pageSize + _index}#{/td}
+              #{td}${_?.name}#{/td}
+              #{td}${_?.register_time?.format('yyyy-MM-dd')}#{/td}
+              #{td}#{img src:"${_?.credit_level_image_filename}",alt:"",width:"25",height:"25"}#{/img}#{/td}
+              #{td}${_?.bid_count}#{/td}
+              #{td}${_?.bid_amount?.format("###,##0.00")}#{/td}
+              #{td}${_?.invest_count}#{/td}
+              #{td}${_?.invest_amount?.format("###,##0.00")}#{/td}
+              #{td}${_?.bid_loaning_count}#{/td}
+              #{td}${_?.overdue_bill_count}#{/td}
+              #{td}${_?.bad_bid_count}#{/td}
+              #{td}${_?.bad_bid_amount?.format("###,##0.00")}#{/td}
+              #{td}${_?.user_amount?.format("###,##0.00")}#{/td}
+              #{td}${_?.last_login_time?.format('yyyy-MM-dd ')}#{/td}
+              #{td}
+              #{if _?.supervisor_name==null || _?.supervisor_name==''}
+              #{/if}
+              #{else}
+              ${_?.supervisor_name}
+              #{/else}
+              #{/td}
+              #{td}
+                <span class="xf_ta_onclick" onclick="showUserBidDetails(1,5,'${_?.sign}');">借款标详情</span>
+              #{/td}
+            #{/tr}
+            #{/list}
+          #{/table}
+        </div>
+        <!-- 列表底部 -->
+        <div class="xn_c_content_bottom">
+          <div class="page_warp">
+            #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4/}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--借款标详情-弹出层 -->
+<div id="detail" style="display:none;"></div>
+
+<!--  举报  -->
+<div id="report" style="display: none;">
+  <div class="xn_c_ban_jox xn_c_ban_jox_fdx">
+    <div class="xf_ht_jr_obu_width">
+      <div class="xn_c_ban_fdxwarp">
+        <table class="xf_ht_jr_obu_form" width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td valign="top" align="right">原因：</td>
+            <td>
+              <textarea id="reason" class="xf_ht_baidu_wkttcc_text xf_ht_baidu_wkttcc_text6"></textarea>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><input type="button" onclick="reportUser();" value="提 交" class="jbox_ok"></td>
+          </tr>
+        </table>  
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+/* 搜索 */
+function search(){
+  $("#isExport").val(0);
+  $("#deptBadLoanUserManager").submit();
+}
+
+/* 下载数据 */
+function download(){
+  $("#isExport").val(1);
+  $("#deptBadLoanUserManager").submit();
+}
+
+/* 清除下载数据 */
+function clearIsExport(){
+  $('#isExport').val(0);
+}
+
+function hideDetail(){
+  $("#detail").hide();
+}
+
+function showPage(currPage, pageSize){
+  $("#currPage").val(currPage);
+  $("#pageSize").val(pageSize);
+  $("#deptBadLoanUserManager").submit();
+}
+
+function conditonSearch(num){
+	 var orderType= ${page?.conditions?.order};
+	  if(orderType == 0){
+	    $("#orderType").val(num);
+	    $("#deptBadLoanUserManager").submit();
+	    return;
+	  }
+	  var sum = orderType/2;
+	  if(sum.toString().indexOf('.') == -1){
+	    var sum2 = orderType - 1;
+	    $("#orderType").val(num);
+	    $("#deptBadLoanUserManager").submit();
+	    return;
+	  }else{
+	    if(orderType == num){
+	      $("#orderType").val(num + 1);
+	      $("#deptBadLoanUserManager").submit();
+	      return;
+	    }else{
+	      $("#orderType").val(num);
+	      $("#deptBadLoanUserManager").submit();
+	      return;
+	    }
+	  }
+	}
+
+
+
+$(function(){  
+  /* 高亮样式 */
+  showHighLight(2, 2, 17);
+  
+  //条件查询控制样式
+  var num= ${page.conditions?.order};
+  
+  if(num == 0){
+    $("#div_0").addClass("xf_sea_isshow");
+    return;
+  }
+
+  var sum = num/2;
+  if(sum.toString().indexOf('.') == -1){
+    var sum2 = num -1;
+    $("#div_"+sum2).addClass("xf_sea_isshow");
+    $("#div_a_"+sum2).html("↓");
+    return;
+  }
+
+  $("#div_"+num).addClass("xf_sea_isshow");
+  $("#div_a_"+num).html("↑"); 
+});
+
+function submit(){
+  $("#deptBadLoanUserManager").submit();
+}
+
+function showUserBidDetails(pageNum,pageSize,sign){
+  var keywords = $("#keywords").val();
+  var status = $("#status").val();
+  $.ajax({
+    url:"@{deptUserBidDetail()}",
+    type:"POST",
+    data: {"pageNum" : pageNum, "pageSize" : pageSize,"sign" : sign,"keywords":keywords,"status" : status },
+    success:function(data){
+      $("#detail").html(data);
+      
+      $.layer({
+        type: 1,
+        area: ['60%', 'auto'],
+        title: '借款标详情',
+        page: {dom : '#detail'}
+      });
+    },
+    error:function(){alert("对不起，出现错误!");}
+  })
+}
+</script>

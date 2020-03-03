@@ -1,0 +1,51 @@
+﻿@charset "utf-8";
+/*
+*
+* webname:维度端前端网
+* website:http://www.weiduduan.com/
+* author:vdu
+* qq:2210682628
+*
+*/
+
+/* reset */
+body{font:12px/18px arial,sans-serif;color:#585858;}
+
+body,div,p,span,form,iframe,table,td,th,input,textarea,button,label,ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5,h6{margin:0;padding:0;}
+h1,h2,h3,h4,h5,h6{font-size:100%; }
+ul,ol,li,dl{list-style-type:none;}
+em,i,dfn,cite,strong,small{font-style:normal;} 
+img{border:0;}
+fieldset,button,input,select,option{vertical-align:middle;font:12px/18px arial,sans-serif;}
+table{border-collapse:collapse;border-spacing:0}
+textarea{resize:none}
+
+/* color */
+a:link,a:visited{color:#575757;text-decoration:none;}
+a:hover{color:#ef4165;text-decoration:none;}
+a:active{color:#1d7400;}
+
+/* clearfix */
+.clearfix{ *zoom:1;}
+.clearfix:after{display:table; line-height:0; content:""; clear:both;}
+
+/* public.omission */
+.fl{ float:left;}            .fr{ float:right;}            .tc{ text-align:center;}      .tr{ text-align:right;} 
+.fb{ font-weight:bold;}      .f12{ font-size:12px;}        h3{ font-weight:normal;}      .listop{ padding-top:15px;}
+.mr10{ margin-right:10px;}   .mr15{ margin-right:15px;}    .mL10{ margin-left:10px;}     .mL15{ margin-left:15px;}
+.mt10{ margin-top:10px;}     .mt15{ margin-top:15px;}      .mb10{ margin-bottom:10px;}   .mb15{ margin-bottom:15px;}
+
+/* weiduduan */
+.weiduduan{ width:800px; margin:15px auto 0 auto;}
+#focus{width:800px;height:280px;overflow:hidden;position:relative;}
+#focus ul{height:380px;position:absolute;}
+#focus ul li{float:left;width:800px;height:280px;overflow:hidden;position:relative;background:#000;}
+#focus ul li div{position:absolute;overflow:hidden;}
+#focus .btnBg{position:absolute;width:800px;height:20px;left:0;bottom:0;background:#000;}
+#focus .btn{position:absolute;width:780px;height:10px;padding:5px 10px;right:0;bottom:0;text-align:right;}
+#focus .btn span{display:inline-block;_display:inline;_zoom:1;width:25px;height:10px;_font-size:0;margin-left:5px;cursor:pointer;background:#fff;}
+#focus .btn span.on{background:#fff;}
+#focus .preNext{width:45px;height:100px;position:absolute;top:90px;background:url(../images/sprite.png) no-repeat 0 0;cursor:pointer;}
+#focus .pre{left:0;}
+#focus .next{right:0;background-position:right top;}
+/* 维度端前端网整理 http://www.weiduduan.com */

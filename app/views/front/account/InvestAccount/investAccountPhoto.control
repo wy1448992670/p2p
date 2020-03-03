@@ -1,0 +1,38 @@
+<div class="xf_mem_accout_cont_l">
+	#{img src:"${user?.photo}",id:"image",alt:"头像",width:"146",height:"136"}#{/img}
+	<div class="xf_accout_cont_imgbj" style="position: relative;">
+		<input type='button' class='upload_btn' value='更换头像' /> 
+		<input type="file" class="upload_file" name="imgFile" id="imgFile" onchange="upload('imgFile','image');" />
+	</div>
+</div>
+
+<script type="text/javascript">
+    $("#showOrHide").hide();
+    
+    function photo(){
+      $("#showOrHide2").hide();
+      $("#showOrHide").show();
+    }
+    
+function upload() {
+	$.ajaxFileUpload({
+		url : '@{front.account.AccountHome.uploadPhoto()}',
+		secureuri : false,
+		fileElementId : 'imgFile',
+		dataType : 'text',
+		success : function(data) {
+			data = $.evalJSON(data);
+			if (data.code < 0) {
+				alert(data.msg);
+
+				return;
+			}
+			$("#image").attr("src", data.filename);
+			$("#imgFile").val('');
+		},
+		error : function(data, status, e) {
+			alert("上传图片失败");
+		}
+	})
+}
+</script>

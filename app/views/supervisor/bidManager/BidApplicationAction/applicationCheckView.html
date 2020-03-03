@@ -1,0 +1,33 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'借款申请审核' /} 
+<style>
+  .z_title{
+    font-size: 16px;
+    padding: 15px;
+  }
+  .optWidth{
+    width: 13%;
+  }
+  .outer{
+    padding:20px;
+  }
+  .z_msg{
+    margin-top:10px; 
+    font-size:13px;
+    color:red;
+  }
+  .outer table tr td{
+    padding: 8px 3px!important;
+  }
+</style>
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  #{include '/supervisor/bidManager/bidManagerLeft.control'/}
+  <div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    #{include '/supervisor/bidManager/BidApplicationAction/applicationView.control'/}
+  </div>
+  </div>
+  </div>
+</div>	

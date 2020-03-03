@@ -1,0 +1,92 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'微信欢迎语参数设置' /} 
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/systemSettings/common/leftBar.control"/}
+    <div class="xn_c_content">
+      <div class="xf_content_add">
+        <div class="xfht_t_j_y_2">
+          <!--右上-->
+          <div class="xf_ht_obu_fklm">
+                                       微信欢迎语设置
+          </div>
+          <form action="@{supervisor.systemSettings.WeChatSettingAction.saveWeiXinWelcomeToLanguageBind()}" method="post" id="paramSetBind">
+	          <div class="xf_htgl_jgone">
+	          <h3 class="xf_htgl_jgtitle">微信欢迎语设置(已绑定)(<font color="red">必须包含'${bind}',方便后台程序作处理,且长度不要超过2047/3=682(个)汉字</font>)</h3>
+	          <div class="xf_htgl_xt_tableone">
+	            
+	            <table border="0" cellspacing="0" cellpadding="0" class="xf_htgl_jg_tableone_table">
+	            <tr>
+	              <td width="149" align="right" valign="top">请输入微信欢迎语：</td>
+	              #{if flash.status >= 1}
+	              <td>
+	              <textarea class="xf_ht_baidu_wkttcc_text xf_ht_baidu_aqcssz" id="languageBind" name="languageBind" >${weiXinWelcomeBind}</textarea>
+	              </td>
+	              #{/if}
+	              #{else}
+	               <td>
+	              <textarea class="xf_ht_baidu_wkttcc_text xf_ht_baidu_aqcssz" id="languageBind" name="languageBind">${languageBind}</textarea>
+	              </td>
+	              #{/else}
+	            </tr>
+	            </table>
+	          </div>
+	          </div>
+     	
+	          <div class="xf_htgl_jgone">
+	          <h3 class="xf_htgl_jgtitle">微信欢迎语设置(解绑)(<font color="red">必须包含'${unbound}',方便后台程序作处理,且长度不要超过2047/3=682(个)汉字</font>)</h3>
+	          <div class="xf_htgl_xt_tableone">
+	            
+	            <table border="0" cellspacing="0" cellpadding="0" class="xf_htgl_jg_tableone_table">
+	            <tr>
+	              <td width="149" align="right" valign="top">请输入微信欢迎语：</td>
+	              #{if flash.status >= 1}
+	              <td>
+	              <textarea class="xf_ht_baidu_wkttcc_text xf_ht_baidu_aqcssz" id="languageUnBound" name="languageUnBound">${weiXinWelcomeUnBind}</textarea>
+	              </td>
+	              #{/if}
+	              #{else}
+	               <td>
+	              <textarea class="xf_ht_baidu_wkttcc_text xf_ht_baidu_aqcssz" id="languageUnBound" name="languageUnBound">${languageUnBound}</textarea>
+	              </td>
+	              #{/else}
+	            </tr>
+	            </table>
+	          </div>
+	          </div>
+	          <div class="xf_htgl_jgsix_hyg">
+	          <input id="saveBind" class="xf_ht_tcc_button_ok" type="button" value="保存">
+	          </div>
+	          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+	 $(function() {
+	    /* 高亮显示 */
+	    showHighLight(8,8,19);
+	  });
+  
+	$(function () {
+		var msg = "${flash.info}";
+		if (msg != '' && msg != 'undefined') {
+				alert(msg);
+		}
+	})
+ 	$("#saveBind").click(function () {
+ 		if ($("#languageBind").val().trim() == '') {
+ 			alert("微信欢迎语(绑定)不能为空");
+ 			return false;
+ 		}
+ 		
+ 		if ($("#languageUnBound").val().trim() == '') {
+			alert("微信欢迎语(解绑)不能为空");
+			return false;
+		}
+ 		$("#paramSetBind").submit();
+ 	})
+ </script>
+ 

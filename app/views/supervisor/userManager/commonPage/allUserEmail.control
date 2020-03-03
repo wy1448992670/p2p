@@ -1,0 +1,99 @@
+<div class="xn_c_ban_jox xn_c_ban_jox_fdx" id="xf_ht_mememail_ttc" style="background:#fff; z-index:999;">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xn_c_ban_fdxwarp">
+      <table class="xf_ht_jr_obu_form" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="60" align="right">发给：</td>
+          <td>
+            <span class="xf_ht_fk_span" id="emailto"></span>
+            <input type="hidden" id="transEmail">
+          </td>
+        </tr>
+        <tr>
+          <td valign="top" align="right">内容：</td>
+          <td>
+            <textarea id="editorContent" oninput="editorLimit(this)" onkeyup="editorLimit(this)" style="width:300px;height:150px;" class="xf_ht_baidu_wkttcc_text xf_ht_baidu_wkttcc_text6"></textarea>
+          </td>
+        </tr>
+         <tr><td></td><td><span class="xf_ht_wa_font" id="limit">您还可以输入<span class="xf_con_zqzr_znxsz" id="editornum">300</span>字</span></td></tr>
+        <tr>
+          <td></td>
+          <td>
+            <input type="button" value="发 送" onclick="emailSend()" class="jbox_ok">
+          </td>
+        </tr>
+      </table>  
+    </div>
+  </div>
+</div>
+
+<style>
+.ke-container-default{width:576px !important;}
+</style>
+<script type="text/javascript">
+$("#xf_ht_mememail_ttc").hide();
+
+function emailSend(){
+	var lens = $("#editorContent").val().length;
+    if($("#editorContent").val() == ''){
+    alert("内容不能为空");
+    return;
+ 	}
+  if(lens > 300){
+  	alert("内容过长");
+    return;
+  }   
+  var email = "";
+          
+  switch (g_users_type) {
+  case "all_users":
+    email = #{jsAction @supervisor.userManager.AllUser.email(':email', ':content')/};
+    break;
+  case "complex_users":
+    email = #{jsAction @supervisor.userManager.ComplexUser.email(':email', ':content')/};
+    break;
+  case "cps_users":
+    email = #{jsAction @supervisor.userManager.CPSUser.email(':email', ':content')/};
+    break;
+  case "invest_users":
+    email = #{jsAction @supervisor.userManager.InvestUser.email(':email', ':content')/};
+    break;
+  case "loan_users":
+    email = #{jsAction @supervisor.userManager.LoanUser.email(':email', ':content')/};
+    break;
+  case "reported_users":
+    email = #{jsAction @supervisor.userManager.ReportedUser.email(':email', ':content')/};
+    break;
+  case "vip_users":
+    email = #{jsAction @supervisor.userManager.VIPUser.email(':email', ':content')/};
+    break;
+  default:
+    break;
+  }
+  
+  var content = $("#editorContent").val();
+  $.post(email({email:$("#transEmail").val(), content:encodeURIComponent(content)}),function(data){
+     
+    var arr=eval(data);
+   
+    if(arr.error.code < 0){
+      alert(arr.error.msg);
+      $("#xf_ht_mememail_ttc").hide();
+      $("#hiddenshow").hide();
+      layer.closeAll(); 
+      return;
+    }
+    alert(arr.error.msg);
+    $("#xf_ht_mememail_ttc").hide();
+    $("#hiddenshow").hide(); 
+    layer.closeAll();
+  });
+} 
+
+function editorLimit(obj){
+	 if (obj.value.length > 300){
+    	obj.value = obj.value.substring(0, 300);
+     }
+     $("#editornum").html(300 - obj.value.length);
+}
+</script>

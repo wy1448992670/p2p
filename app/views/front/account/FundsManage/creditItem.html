@@ -1,0 +1,110 @@
+   		<!-- -正常还款积分明细 -->
+		<div class="xf_zqzr_znx_window" id="raudtitems">
+			<div class="xf_wyjkwszl_4_windowInner xf_hmd_wdxydj_window">
+				<div class="xf_wyjkfb_4_windowClose" id="closeItem"></div>
+				<div class="xf_wyjkfb_4_windowColName">
+					审核资料积分明细
+				</div>
+        		<!-- 搜索区域 -->
+				<ul class="xf_memzjgl_wdxydji clr">
+					<li class="xf_membill_searchLi">
+						<input type="text" id="keyWords" value="${page?.conditions?.key}" class="xf_membill_shurk_yhm">
+					</li>
+					<li>
+						<input type="button" Onclick="showScore('1')" value="搜 索" class="xf_membill_button_yhm xf_membill_button_yhm2">
+					</li>
+				</ul>
+				<!-- 搜索结果 -->
+				<div class="xf_mem_xydj_search">
+					<table border="0" cellpadding="0" cellspacing="0" width="565" class="xf_mem_xydj_viewcpms">
+						<tbody>
+							<tr>
+								<td>序号</td>
+								<td>编号</td>
+								<td>名称</td>
+								<td>格式</td>
+								<td>有效期(月)</td>
+								<td>审核期(日)</td>
+								<td>信用积分</td>
+								<td>信用额度(元)</td>
+								<td>创建时间</td>
+							</tr>
+							#{list items:page.page}
+							<tr>
+								<td>${_index}</td>
+								<td>${_?.id}</td>
+								<td>${_?.name}</td>
+								<td>
+									#{if _?.type == 1}
+										图片文件
+									#{/if}
+									#{elseif _?.type == 2}
+										文本文件
+									#{/elseif}
+									#{elseif  _?.type == 3}
+										视频文件
+									#{/elseif}
+									#{elseif  _?.type == 4}
+										音频文件
+									#{/elseif}
+									#{else}
+										表格文件
+									#{/else}
+								</td>
+								<td>${_?.period}</td>
+								<td>${_?.audit_cycle}</td>
+								<td>${_?.credit_score}</td>
+								<td>
+									#{if amountKey == 0}
+										---
+									#{/if}
+									#{else}
+										${_?.credit_score * amountKey}
+									#{/else}
+								</td>
+								<td>${_?.time?.format('yyyy-MM-dd')}</td>
+							</tr>
+							#{/list}
+						</tbody>
+					</table>
+				</div>
+				<!-- 分页器 -->
+				<div class="xf_wylc_page xf_memxydj_view">
+			    #{page pageTitle:"审核资料积分明细", funMethod:"showScore",currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:2,style:2 /}
+				</div>
+				<div class="xf_xydj_a_bq xf_xydj_a_bq2">
+					<a href="#" class="xf_con_inputfbjk" id="closeItem1">关 闭</a>
+				</div>
+			</div>
+		</div>
+<script type="text/javascript">
+	$(function(){
+		showDiv("#raudtitems");
+	
+	    $("#closeItem").click(function(){
+	        $("#raudtitems").hide();
+	     })
+	
+	     $("#closeItem1").click(function(){
+	        $("#raudtitems").hide();
+	     })
+	});
+     
+  function showScore(currPage){
+     var values = $("#keyWords").val();
+     $.ajax({
+		url : "@{creditItem()}",
+		type : "POST",
+		data : {
+		   "currPage" : currPage,
+		   "key"  : values
+		},
+		success : function(data) {
+		    $("#creditItem").html(data);
+		},
+		error : function() {
+			alert("对不起，查询数据出现错误");
+		}
+	});
+  }
+</script>

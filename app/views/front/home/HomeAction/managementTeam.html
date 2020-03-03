@@ -1,0 +1,20 @@
+#{extends 'common/frontMain.html' /} 
+#{set title:'关于我们' /}
+
+
+<div class="xf_con_box">
+<!--侧边导航栏-->
+#{include "front/home/HomeAction/aboutUsLeft.html"/}
+#{include "front/home/HomeAction/managementTeamcontent.control"/}
+</div>
+<!-- 财富理财说明 -->
+<div class="xf_wylc_wylcExp">
+	#{include "common/WealthToolbox.control"/}
+		
+	#{include "common/CreditRatingIcons.control"/}
+	
+	#{include "common/BorrowingIcons.control"/}
+	
+	<div class="clear"></div>
+</div>
+

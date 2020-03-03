@@ -1,0 +1,300 @@
+#{extends 'common/frontMain.html' /} #{set title:'充值' /}
+%{
+	String TRUST_FUNDS_TYPE = constants.Constants.TRUST_FUNDS_TYPE;
+}%
+<!-- 内容区域 start -->
+<div class="xf_con_box">
+	<div class="xf_con_mem_nav"></div>
+	<!-- 左边导航区域 -->
+	#{include "front/account/AccountHome/homeLeft.control"/}
+	<!-- 右侧内容区域 -->
+	#{form @submitRecharge(), id:'paySubmit', target:'_blank'}
+	<div class="xf_mem_Account xf_mem_shzdjkb_box">
+		<input type="hidden" name="uuidRepeat" value="${flash?.success}">
+		<h3 class="xf_mem_accout_title">充值</h3>
+		<!-- 充值 -->
+		<div class="xf_mem_accout_content" style="height: 160px;">
+			<table border="0" cellpadding="0" cellspacing="0" width="738" class="xf_mem_zjgl_cz">
+				<tr>
+					<td align="right">真实姓名：</td>
+					<td>${user?.realityName}</td>
+				</tr>
+				<tr>
+					<td align="right">用户名：</td>
+					<td>${user?.name}</td>
+				</tr>
+				<tr>
+					<td align="right">充值金额： </td>
+					<td><input class="xf_mem_zjgl_czinput" type="text" id="money" name="money">	元，最低充值${rechargeLowest}元</td>
+				</tr>
+				
+				<!-- 是否需要选择银行，环讯，富友需要 -->
+				#{if isNeedSelectBank}
+				<tr id ="tr_bankCode">
+					<td align="right">选择充值银行： </td>
+					<td>
+						<select name="bankCode" class="xf_membill_selectAge" id="bankCode">
+							<option value="0">-请选择-</option>
+							#{list bankList}
+							<option value="${_?.code}">${_?.name}</option>
+							#{/list}
+						</select>
+					</td>
+				</tr>
+				#{/if}
+				
+				<!-- 是否支持闪电充值，环讯不支持 -->
+				#{if isFastRecharge}
+				<tr>
+					<td align="right">充值类型： </td>
+					<td>
+						<input type="hidden" name="bankCode" id="bank_code">
+						<input type="radio" name="rechargeType" value="1" id="radio_fast_recharge" checked="checked"><label for="radio_fast_recharge" style="padding-right:10px;">闪电快充</label>
+                   		<input type="radio" name="rechargeType" value="2" id="radio_account_recharge"><label for="radio_account_recharge" style="padding-right:10px;">账户直充</label>
+					</td>
+				</tr>
+				#{/if}
+			</table>
+		</div>
+		
+		<!-- 银行列表id命名规则："bank_" + recharge_type + bankIndex  例如：bank_1_0，闪电快充第0个银行， bank_2_0，账户直充第0个银行-->
+		
+		<!-- 闪电快充（通联支付）支持的银行列表 -->
+		<div class="xf_mem_acc_titlebox" id="fast_recharge">
+			<h3 class="xf_mem_zflx_lti">选择开户银行：</h3>
+			<ul class="xf_mem_accout_titleUL clr">
+				<li value="0" id="bank_1_0" onClick="selectBank(0,'vbank')">
+					<div class="xf_mem_zjgl_img">
+						<img src="" alt="通联测试银行">
+					</div>
+				</li>
+				<li id="bank_1_1" onClick="selectBank(1,'ICBC')">
+					<div class="xf_mem_zjgl_img">
+						<img src="@{'/public/images/banks/ICBC.png'}" alt="工商银行">
+					</div>
+				</li>
+				<li id="bank_1_2" onClick="selectBank(2,'ABC')">
+					<div class="xf_mem_zjgl_img">
+						<img src="@{'/public/images/banks/ABC.png'}" alt="农业银行">
+					</div>
+				</li>
+				<li id="bank_1_3" onClick="selectBank(3,'BOC')">
+					<div class="xf_mem_zjgl_img">
+						<img src="@{'/public/images/banks/BOC.png'}" alt="中国银行">
+					</div>
+				</li>
+				<li id="bank_1_4" onClick="selectBank(4,'CCB')">
+					<div class="xf_mem_zjgl_img">
+						<img src="@{'/public/images/banks/CCB.png'}" alt="建设银行">
+					</div>
+				</li>
+				<li id="bank_1_5" onClick="selectBank(5,'COMM')">
+					<div class="xf_mem_zjgl_img">
+						<img src="@{'/public/images/banks/BOCOM.png'}" alt="交通银行">
+					</div>
+				</li>
+				<li id="bank_1_6" onClick="selectBank(6,'CMBC')">
+					<div class="xf_mem_zjgl_img">
+						<img src="@{'/public/images/banks/CMBC.png'}" alt="民生银行">
+					</div>
+				</li>
+				<li id="bank_1_7" onClick="selectBank(7,'CMB')">
+					<div class="xf_mem_zjgl_img">
+						<img src="@{'/public/images/banks/CMB.png'}" alt="招商银行">
+					</div>
+				</li>
+				<li id="bank_1_8" onClick="selectBank(8,'CEB')">
+					<div class="xf_mem_zjgl_img">
+						<img src="@{'/public/images/banks/CEB.png'}" alt="光大银行">
+					</div>
+				</li>
+				<li id="bank_1_9" onClick="selectBank(9,'CIB')">
+					<div class="xf_mem_zjgl_img">
+						<img src="@{'/public/images/banks/CIB.png'}" alt="兴业银行">
+					</div>
+				</li>
+				<li id="bank_1_10" onClick="selectBank(10,'SPDB')">
+					<div class="xf_mem_zjgl_img">
+						<img src="@{'/public/images/banks/SPDB.png'}" alt="浦发银行">
+					</div>
+				</li>
+				<li id="bank_1_11" onClick="selectBank(11,'PSBC')">
+					<div class="xf_mem_zjgl_img">
+						<img src="@{'/public/images/banks/PSBC.png'}" alt="中国邮政储蓄银行">
+					</div>
+				</li>
+				<li id="bank_1_12" onClick="selectBank(12,'BOS')">
+					<div class="xf_mem_zjgl_img">
+						<img src="@{'/public/images/banks/BOS.png'}" alt="上海银行">
+					</div>
+				</li>
+			</ul>
+		</div>
+		
+		<!-- 账户直充（资金托管方：汇付）支持的银行列表，目前本平台不支持选择开户行，请托管方选择 
+		<div class="xf_mem_acc_titlebox" id="account_recharge">
+			<h3 class="xf_mem_zflx_lti">选择开户银行：</h3>
+			<ul class="xf_mem_accout_titleUL clr">
+				<li value="0" id="bank_2_0" onClick="selectBank(0,'testBank0')">
+					<div class="xf_mem_zjgl_img">
+						<img src="" alt="托管方测试银行">
+					</div>
+				</li>
+				<li id="bank_2_1" onClick="selectBank(1,'testBank1')">
+					<div class="xf_mem_zjgl_img">
+						<img src="@{'/public/images/banks/bank_02.png'}" alt="">
+					</div>
+				</li>
+				<li id="bank_2_2" onClick="selectBank(2,'testBank2')">
+					<div class="xf_mem_zjgl_img">
+						<img src="@{'/public/images/banks/bank_03.png'}" alt="">
+					</div>
+				</li>
+				<li id="bank_2_3" onClick="selectBank(3,'testBank3')">
+					<div class="xf_mem_zjgl_img">
+						<img src="@{'/public/images/banks/bank_04.png'}" alt="">
+					</div>
+				</li>
+				<li id="bank_2_4" onClick="selectBank(4,'testBank4')">
+					<div class="xf_mem_zjgl_img">
+						<img src="@{'/public/images/banks/bank_05.png'}" alt="">
+					</div>
+				</li>
+				<li id="bank_2_5" onClick="selectBank(5,'testBank5')">
+					<div class="xf_mem_zjgl_img">
+						<img src="@{'/public/images/banks/bank_06.png'}" alt="">
+					</div>
+				</li>
+				<li id="bank_2_6" onClick="selectBank(6,'testBank6')">
+					<div class="xf_mem_zjgl_img">
+						<img src="@{'/public/images/banks/bank_08.png'}" alt="">
+					</div>
+				</li>
+				<li id="bank_2_7" onClick="selectBank(7,'testBank7')">
+					<div class="xf_mem_zjgl_img">
+						<img src="@{'/public/images/banks/bank_09.png'}" alt="">
+					</div>
+				</li>
+				<li id="bank_2_8" onClick="selectBank(8,'testBank8')">
+					<div class="xf_mem_zjgl_img">
+						<img src="@{'/public/images/banks/bank_10.png'}" alt="">
+					</div>
+				</li>
+				<li id="bank_2_9" onClick="selectBank(9,'testBank9')">
+					<div class="xf_mem_zjgl_img">
+						<img src="@{'/public/images/banks/bank_11.png'}" alt="">
+					</div>
+				</li>
+				<li id="bank_2_10" onClick="selectBank(10,'testBank10')">
+					<div class="xf_mem_zjgl_img">
+						<img src="@{'/public/images/banks/bank_12.png'}" alt="">
+					</div>
+				</li>
+			</ul>
+		</div>
+		-->
+		
+		<div class="xf_mem_zjgl_input_atijiao"  style="text-align: center">
+			<a href="#" onclick="recharge();" class="xf_con_inputfbjk" >确定充值</a>
+		</div>
+	</div>
+	#{/form}
+	
+	<!-- 清除浮动 -->
+	<div class="clear"></div>
+</div>
+<!-- 内容区域 end -->
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript">
+#{if isFastRecharge}	
+   	var rechargeType = $('input[name="rechargeType"]:checked').val();
+   	
+    $(function(){
+    	if(rechargeType == 1){
+    		showFRecBankList();
+    	}
+    	
+    	if(rechargeType == 2){
+    		showARecBankList();
+    	}
+	
+    	$("#radio_fast_recharge").change(function(){
+    		rechargeType = 1;
+    		showFRecBankList();
+		});
+		
+		$("#radio_account_recharge").change(function(){
+			rechargeType = 2;
+			showARecBankList();
+		});
+	});
+#{/if}    
+
+    $(function(){
+    	 /* 高亮显示 */
+		showHighLightFront(27);
+		showHighLightFront2(7, 5);
+		
+    	$("#money").focus();
+
+    	#{if TRUST_FUNDS_TYPE == "FY"}	
+			$("#bankCode").html('<option value="1">-请选择-</option>');
+			$("#tr_bankCode").hide();
+		#{/if} 
+    });
+    
+    function showFRecBankList(){
+    	$("#fast_recharge").show();
+		$("#account_recharge").hide();
+		
+		$(".xf_mem_img_ishowt").removeClass("xf_mem_img_ishowt");
+		$("#bank_1_0").addClass("xf_mem_img_ishowt");  
+		$("#bank_code").val('vbank');
+    }
+    
+    function showARecBankList(){
+    	$("#account_recharge").show();
+		$("#fast_recharge").hide();
+		
+		$(".xf_mem_img_ishowt").removeClass("xf_mem_img_ishowt");
+		$("#bank_2_0").addClass("xf_mem_img_ishowt"); 
+		$("#bank_code").val('testBank0');
+    }
+
+	function selectBank(newNum, bankCode){
+	    $(".xf_mem_img_ishowt").removeClass("xf_mem_img_ishowt");
+	    $("#bank_"+rechargeType+"_"+newNum).addClass("xf_mem_img_ishowt");
+	    $("#bank_code").val(bankCode);
+	}
+	
+  function recharge(){
+	if(${isNeedSelectBank} && $("#bankCode").val() == '0'){
+		   alert("请选择充值银行");
+		   return;
+	} 
+    if($("#money").val() == '' || $("#money").val() == '0'){
+    	alert("充值金额不能为空或0");
+    	return;
+    }
+    
+    if(isNaN($("#money").val())){
+    	alert("请输入正确的充值金额");
+    	return;
+    }
+    
+    if($("#money").val() < ${rechargeLowest} ){
+    	alert("最低充值${rechargeLowest}元");
+    	return;
+    }
+    
+    if($("#money").val() > ${rechargeHighest}){
+  	  alert("充值金额不能大于${rechargeHighest}元");
+  	  return;
+    }	
+    
+    $("#paySubmit").submit();
+    var _html = '<a href="@{front.account.FundsManage.recharge()}" class="xf_con_inputfbjk" style="display:inline-block">充值成功</a> ' +
+	'<a href="@{front.help.HelpCenterAction.index(13)}" class="xf_con_inputfbjk" style="display:inline-block">充值遇到问题</a> ';
+	$('.xf_mem_zjgl_input_atijiao').html(_html);
+  }
+</script>

@@ -1,0 +1,169 @@
+#{extends 'common/supervisor.html' /} #{set title:'转让中债权转让标详情' /}
+
+<div class="xn_c_contentwarp">
+	<div class="xn_c_contentlist">
+		#{include 'supervisor/bidManager/bidManagerLeft.control' /}
+		<div class="audit_box">
+			<h2 class="zq_h mb20">债权转让基本信息</h2>
+		<!--start:债权信息区-->
+			<div class="zq_info_mod">
+				<dl class="zq_item clearfix">
+					<dt>编号：</dt>
+					<dd>${debt_transfer?.no}</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>债权转让标题：</dt>
+					<dd>
+						<input class="dd_inp" type="text" value="${debt_transfer?.title}"  disabled="disabled"/>
+					</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>债权人：</dt>
+					<dd>${debt_transfer?.name}</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>债权人真实姓名：</dt>
+					<dd>${debt_transfer?.reality_name}</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>债权人证件号：</dt>
+					<dd>${debt_transfer?.id_number}</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>转让期限：</dt>
+					<dd>${debt_transfer?.period}[天]</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>起投金额：</dt>
+					<dd>
+						<input class="dd_inp" type="text" value="${debt_transfer?.min_invest_amount}元" disabled="disabled"/>
+					</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>转让费用：</dt>
+					<dd>${debt_transfer?.transferFee}元（包括：本金转让费用${debt_transfer?.transfer_rate}元，红包收回${debt_transfer?.red_amount}元，加息收益收回${debt_transfer?.increase_rate}元）</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>募集截止：</dt>
+					<dd>${debt_transfer?.deadline}</dd>
+				</dl>
+			</div>
+			<!--end:债权信息区-->
+			<h2 class="zq_h mt5 mb20">关联标的信息</h2>
+			<!--start:债权信息区-->
+			<div class="zq_info_mod">
+				<dl class="zq_item clearfix">
+					<dt>标的名称：</dt>
+					<dd>${debt_transfer?.bid.title}</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>借款金额：</dt>
+					<dd>${debt_transfer?.bid.amount?.format("###,##0.00")}</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>借款期限：</dt>
+					<dd>${debt_transfer?.bid.period}[${debt_transfer?.bid.periodUnitName}]</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>年利率：</dt>
+					<dd>${debt_transfer?.bid.apr}%</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>借款人：</dt>
+					<dd>${debt_transfer?.bid.userName}</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>借款人真实姓名：</dt>
+					<dd>${debt_transfer?.bid.reality_name}</dd>
+				</dl>
+				<div class="zq_btn1">
+					<a href="@{supervisor.bidManager.BidPlatformAction.loanSucceedDetail(debt_transfer?.bid_id, 4, 6)}">其它详情</a>
+				</div>
+			</div>
+			<!--end:债权信息区-->
+			<!--start:审核信息区-->
+		<ul class="audit_tickling">
+				<li><span>初审人员：${debt_transfer?.audit_admin_name}</span><span>真实姓名：${debt_transfer?.audit_admin_real_name}</span><span>审核时间：${debt_transfer?.audit_time}</span></li>
+				<li><span>复审人员：${debt_transfer?.recheck_admin_name}</span><span>真实姓名：${debt_transfer?.recheck_admin_real_name}</span><span>审核时间：${debt_transfer?.recheck_time}</span></li>
+			</ul>
+			<!--end:审核信息区-->
+			<h2 class="zq_h xsb_yn">
+				是否标记为【新手标】： <label class="mr10" for="xs_y" >#{if
+					debt_transfer.is_only_new_user== 'true'}是 #{/if}</label> <label for="xs_n">#{if debt_transfer.is_only_new_user== 'false'}否 #{/if}</label>
+			</h2>
+			<h2 class="zq_h mt30">
+				转让进度<span class="ml10">(${debt_transfer.has_invested_amount}/${debt_transfer.debtAmount})</span>
+			</h2>
+			<!--start:转让进度区-->
+			<div class="clearfix">
+				<div class="zq_schedule fl">
+					<em style="width: ${debt_transfer.loan_schedule}%;"></em>
+				</div>
+				<p class="schedule_txt fl">${debt_transfer.loan_schedule}%</p>
+			</div>
+			<!--end:转让进度区-->
+			<h2 class="zq_h">投资记录</h2>
+			<!--start:投资记录表-->
+			<table class="invest_tab mt30">
+				<thead class="tz_th">
+					<tr>
+						<th>序号</th>
+						<th>投资人</th>
+						<th>投资金额</th>
+						<th>投资时间</th>
+					</tr>
+				</thead>
+				<tbody class="tz_tb">
+				#{list debt_transfer.debtInvests, as:'invest'}
+					<tr>
+						<td><div class="txtEllipsis" title="1">${invest_index}</div></td>
+						<td><div class="txtEllipsis" title="1">${invest.name}</div></td>
+						<td><div class="txtEllipsis" title="1">${invest.amount}</div></td>
+						<td><div class="txtEllipsis" title="1">${invest.investTime}</div></td>
+					</tr>
+					#{/list}
+				</tbody>
+			</table>
+			<!--end:投资记录表-->
+
+			<!--start:公用按钮区2-->
+			<div class="zq_btn2">
+				<a href="javascript:void(0);" onclick="transferingToNotThrough();">撤标</a> <a href="@{supervisor.bidManager.DebtTransferNewAction.debtIsTransferNew()}">返回</a>
+			</div>
+			<!--end:公用按钮区2-->
+		</div>
+	</div>
+</div>
+<input type="hidden" name="sign" id="sign" value="${debt_transfer?.debtTransferId}" />
+<script>
+
+
+	/*撤标 */
+	function transferingToNotThrough() {
+		$.ajax({
+			url : "@{transferingToNotThrough()}",
+			type : "POST",
+			data : {
+				"sign" : $('#sign').val(),
+				"reason" : ""
+			},
+			success : function(error) {
+				if (error.code == -1) {
+					alert(error.msg);
+					return;
+				} else {
+					//alert("撤标成功");
+					window.location.href = "@{debtIsTransferNew}";
+				}
+			},
+			error : function() {
+				alert("对不起，系统异常!");
+			}
+		});
+	}
+
+	$(function() {
+		/* 高亮显示 */
+		showHighLight(3, 3, 12);
+	})
+</script>

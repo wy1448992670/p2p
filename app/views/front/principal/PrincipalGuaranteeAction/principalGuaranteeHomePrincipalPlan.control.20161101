@@ -1,0 +1,12 @@
+	<div class="xf_zjbz_home_top">
+			<h3 class="xf_mem_accout_title">《 ${types?.get(0)?.name}》</h3>
+			<div class="xf_zjbz_home_top_l">
+				${principal?.content}
+			</div>
+			<div class="xf_zjbz_home_top_r">
+				本站风险保障金累计：${currTotal?.balance?.format('###,##0.00')}元<br/>
+				当日支出：${currTotal?.expense?.format('###,##0.00')}元<br />
+				当日收入：${currTotal?.income?.format('###,##0.00')}元
+			</div>
+			<div class="clear"></div>
+		</div>

@@ -1,0 +1,51 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'亿亿公益' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist"> 
+    #{include 'supervisor/publicBenefit/left.control'/}
+   <div class="xn_c_content" style="width: 1580px;">
+    <div class="xf_content_add">
+    <div class="xfht_t_j_y_2">
+    <!--右上-->
+    <div class="xf_ht_obu_fklm">亿亿公益活动规则设置</div>
+    
+    <div class="xf_ht_news_content">
+    <div class="xf_ht_news_content_t" style="margin:60px;padding-bottom:100px;">
+    #{form @benefitRateEdit(), id:'saveSubmit'}
+    <input type="hidden" name="edit" value="1"/>
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_news_content_t_t" style="margin:auto;">
+        <tbody><tr>
+          <td width="220" align="right" valign="middle" style="padding-right:5px;">捐款比例：</td>
+          <td>
+            <input class="xfht_zr_input" type="text" style="width:80px;" name="publicBenefitRate" value="${backstageSet?.public_benefit_rate}"> %
+          </td>
+        </tr>
+        <tr>
+          <td width="220" align="right" valign="middle" style="padding-right:5px;"></td>
+          <td>
+            注：用户名义的捐款金额 = 用户投资收益 * 捐款比例 <br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;平台名义的捐款 = 用户名义的捐款金额
+          </td>
+        </tr>
+        <tr>
+          <td width="220" align="right" valign="middle" style="padding-right:5px;"></td>
+          <td>
+            <input class="xf_ht_tcc_button_ok" type="submit" value="提交发布" style="text-align:center">
+          </td>
+        </tr>
+      </tbody></table>
+      #{/form}
+    </div>
+   
+    </div>
+    </div>
+    </div>
+  </div>
+</div>
+</div>
+<script type="text/javascript">
+if(${editSuccess} == 1){
+	alert("保存成功");
+	location.href = "/supervisor/publicBenefit/UserDonate/benefitRateEdit?edit=0";
+}
+</script>

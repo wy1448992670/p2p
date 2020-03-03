@@ -1,0 +1,54 @@
+<div class="xf_ht_ttc" id="xf_ht_jr_obu_width" style="display:none;">
+  <div class="xf_ht_jr_obu_width">
+    <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form" width="100%">
+      <tr>
+        <td  align="right" width="112">发信人：</td>
+        <td>
+          ${msg.senderUserName}
+        </td>
+      </tr>
+      <tr>
+        <td  align="right" width="112">发信时间：</td>
+        <td>
+          ${msg.time?.format("yyyy-MM-dd HH:mm:ss")}
+        </td>
+      </tr>
+      <tr>
+        <td  align="right" width="112">标题：</td>
+        <td>
+          ${msg.title}
+        </td>
+      </tr>
+      <tr>
+        <td  align="right" width="112">内容：</td>
+        <td>
+          ${msg.content}
+        </td>
+      </tr>
+      <tr>
+	    <td  align="right" width="112">状态：</td>
+		<td><a href="javascript:void(0)" class="xfht_lan">已回复</a></td>
+	  </tr>
+	  <tr>
+	    <td  align="right" width="112">回复：</td>
+		<td>${replyMsg.content}</td>
+	  </tr>
+	  <tr>
+	    <td  align="right" width="112">回复人：</td>
+		<td>${replyMsg.senderSupervisorName}</td>
+	  </tr>
+	  <tr>
+	    <td  align="right" width="112"></td>
+		<td></td>
+	  </tr>
+    </table>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function() {
+    //关闭
+    $(".xf_ht_jr_obu_r").click(function() {
+      layer.closeAll();
+    });
+  });
+</script>

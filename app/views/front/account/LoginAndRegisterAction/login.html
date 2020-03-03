@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+%{
+		business.User currUser = business.User.currUser();
+		business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+		String platUrl = constants.Constants.BASE_URL;
+		java.util.Map<String,java.util.List<business.BottomLinks>> bottomLinks = business.BottomLinks.currentBottomlinks();
+		java.lang.String type1Name = business.NewsType.queryName(1);
+		java.lang.String type2Name = business.NewsType.queryName(2);
+		java.lang.String type4Name = business.NewsType.queryName(4);
+		boolean ipsEnable = constants.Constants.IPS_ENABLE;
+		boolean debtUse = constants.Constants.DEBT_USE;
+	}%
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="/public/stylesheets/newlogin/media.css" />
+	 <style>
+	</style>
+	</head>
+	<body>
+		<div class="top">
+			<div class="top_skip">
+
+				<div class="slogan">
+					<!-- 安心托付，智慧出借，</br>您的财富管家！ -->
+				</div>
+				<ul>
+					<li><a href="/">返回首页</a></li>
+					<li><a href="@{front.home.HomeAction.restAboutUs(16)}">关于我们</a></li>
+					<li><a href="/front/help/index?typeId=13">帮助中心</a></li>
+				</ul>
+				
+			</div>
+			
+		</div>
+		<div class="main" id="main">
+			#{form @front.account.loginAndRegisterAction.logining(), id:'submit'}
+			<input type="hidden" name="financeType" value="1"/>
+			<div class="register" id="register">
+				<input class="tel" id="tel" type="text" placeholder="请输入手机号码" name="name"/>
+				<input class="pw" id="pw" type="password" placeholder="请输入密码" name="password"/>
+				<p class="yzm_all">
+					<input type="hidden" name="randomID" id="randomID" />
+					<input class="yzm" type="text" placeholder="请输入验证码" name="code"/>
+					<img src="" id="img" alt="" onclick="change()" class="pic_yzm">
+				</p>
+				<p class="dp_all"><img class="dp" src="/public/images/newlogin/icon.png" alt="" /><span class="con">您的信息将通过128位SGC加密保护数据传输安全</span></p>
+				<input type="button" class="login" id="login" value="登 录"></button>
+
+			</div>
+			#{/form}
+		</div>
+		<p class="end">版权所有&nbsp;&nbsp;沪ICP备15054793号&nbsp;&nbsp;网贷有风险，决策需谨慎</p>
+	</body>
+	<script type="text/javascript" src="/public/javascripts/jquery-1.11.1.js" ></script>
+	<script type="text/javascript">
+		$(function(){
+		    var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+			$.post(setCode({}),function(data){
+				var arr=eval(data);
+				var img = arr.img;
+				$("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img);	
+				$("#randomID").val(img);
+			});
+			 if('${flash.error}' !='') {
+			      alert('${flash?.error}');
+		      if('${flash?.emailUrl}' !='') {
+		        window.open('${flash?.emailUrl}');
+		      }
+		    }
+		});
+</script>
+	<script>
+				var yz=document.getElementById("login"); 
+				yz.onclick=function(){
+					var reg1=/^[0-9]{11}$/;
+					var reg2=/^[A-Z][a-z][0-9]{6,20}$/;
+					if(!reg1.test($("#tel").val())){
+						alert("请输入11位的手机号码");
+						return;
+					}
+					if(!$.trim(pw.value)){
+						alert("请输入密码");
+						return false;
+					}
+					if(!$.trim($('.yzm').val())){
+						alert("请输入验证码");
+						return false;
+					}
+				    /*if(!reg2.test(pw.value)){
+						alert("请输入6-20位的由数字和字母组成的密码");
+						return;
+					}*/
+					$("#submit").submit();
+				}
+		        $(function(){
+		        	var he=$("#main").height();
+//		        	alert($("#main").height())
+//					alert((he-353)/2);
+					var he=(he-430)/2;
+		        	$("#register").css("position","absolute").css("top",he);
+
+		        	 if('${currUser?.name}' == '' && '${loginOrRegister}' == '') {
+	        	      var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+	        	      $.post(setCode({}),function(data){
+	        	        var arr=eval(data);
+	        	        var img = arr.img;
+	        	        $("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img)	
+	        			$("#randomID").val(img);
+	        		  });
+	        		}
+		        })
+		        
+		function change(){
+		    var setCode = #{jsAction @front.account.LoginAndRegisterAction.setCode()/}
+			$.post(setCode({}),function(data){
+			  var arr=eval(data);
+			  var img = arr.img;
+			  $("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img);
+			  $("#randomID").val(img);	
+			});
+		  };
+		
+	</script>
+</html>

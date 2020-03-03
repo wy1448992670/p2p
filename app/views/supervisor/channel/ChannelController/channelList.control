@@ -1,0 +1,291 @@
+<style>
+	#details table tr td{
+    padding:5px 10px ;
+  }
+  #add_rates table tr td{
+    padding:5px 10px ;
+  }
+  ._btnstyle{
+    background:#169BD5;
+    color:white;
+    height:40px;
+    width:130px;
+    border-radius:5px;
+    border:0;
+  }
+  .alignRight{
+	text-align:right;
+  }
+</style>
+
+<div id="add_rates" style="display:none;width:665px;height:530px;">
+	<div style="height:360px;border:1px solid #E4E4E4;margin-top:40px;">
+		<form id="ratesform">
+		  <div style="padding-left:20px;font-size:18px;line-height:40px;height:40px;background:#E4E4E4">设置</div>
+		  <table width="100%" style="margin-top:20px;">
+			  <tr><td class="alignRight">渠道号</td>
+				<td><input style="width:415px" type="text" placeholder="请输入渠道号" class="isdisAbled search_w num isNull" name="num" ></td>
+			  </tr>
+			  <tr><td class="alignRight">渠道名称</td>
+				<td><input style="width:415px" type="text" placeholder="请输入渠道名称" class="search_w u_rate name1 isNull" name="name" ></td>
+			  </tr>
+			  <tr><td width="130" class="alignRight">渠道二级名称</td>
+				<td><input style="width:415px" type="text" placeholder="请输入渠道二级名称" class="search_time subname isNull" name="subname" style="cursor:pointer">
+				</td>
+			  </tr>
+			  <tr>
+				<td class="alignRight">渠道类型</td>
+				<td><input style="width:415px" type="text" placeholder="请输入渠道类型" class="search_time type isNull" name="type" style="cursor:pointer"></td>
+			  </tr>
+		  </table>
+		  </form>
+		  <div style="margin:50px 0 0 70px;">
+			<input onclick="addOrUpdate(1)" class="_btnstyle" value="确认" type="button" />
+			<input style="margin-left:40px;" onclick="cancel()" class="_btnstyle" value="取消" type="button" />
+		 </div>
+</div>
+</div>
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    <div class="xf_ht_search">
+    	<!-- 保存更新还是添加标识 -->
+  	<input type="hidden" id="isUpdateFlag" />
+  	<input type="hidden" id="listid" />
+      <input onclick="show_rates(1)" type="button" value="添加" class="xf_ht_search_xl _btnstyle" style="height:30px;width:80px;"/>
+
+    </div>
+	<form action="@{supervisor.channel.ChannelController.channelList}" id="fundraiseingList" method="GET">
+	<input type="hidden" id="currPage" name="currPage"/>
+  	  <input type="hidden" id="pageSize" name="pageSize"/>
+  	  <input type="hidden" id="orderIndex" name="orderIndex"/>
+  	  <input type="hidden" id="orderStatus" name="orderStatus"/>
+    <div class="xf_ht_search_inon">
+      <div class="xf_ht_search_r">
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">状态</span>
+          <select class="xf_membill_selectAge" name="state">
+            <option class="stateAll"  value="1" #{if state==1} selected="selected"#{/if}>正常</option>
+  	        <option value="2" #{if state==2} selected="selected"#{/if}>关闭</option>
+			<option value="0" #{if state==0} selected="selected"#{/if}>全部</option>
+          </select>
+        </div>
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">渠道类型</span>
+  	      <input type="text" placeholder="请输入渠道类型" class="search_w" name="type" value="${type}" >
+  	    </div>
+		 <div class="xf_ht_search_xl">
+          <span class="search_timesp">渠道号</span>
+  	      <input type="text" placeholder="请输入渠道号" class="search_w" name="num" value="${num}" >
+  	    </div>
+		 <div class="xf_ht_search_xl">
+          <span class="search_timesp">渠道名称</span>
+  	      <input type="text" placeholder="请输入渠道名称" class="search_w" name="name" value="${name}" >
+  	    </div>
+		 <div class="xf_ht_search_xl">
+          <span class="search_timesp">渠道二级名称</span>
+  	      <input type="text" placeholder="请输入" class="search_w" name="subname" value="${subname}" >
+  	    </div>
+		
+	   <div class="xf_ht_search_xl">
+		  <span class="search_timesp">添加时间</span>
+		  <input type="text" value="${startTime}" name="startTime" onclick="laydate()" class="search_time" style="cursor:pointer">
+		  <span>-</span>
+		  <input type="text" value="${stopTime}" class="search_time"  name="stopTime" id="stopTime" onclick="laydate()"  style="cursor:pointer">
+	    </div>
+	    <div class="xf_ht_search_xl">
+		  <input type="submit" class="search_button" value="搜索">
+	    </div>
+      </div>
+    </div>
+    </form>
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}编号#{/th}
+		  #{th}渠道类型#{/th}
+          #{th}渠道号#{/th}
+          #{th}渠道名称#{/th}
+          #{th}渠道二级名称#{/th}
+          #{th}添加时间#{/th}
+          #{th}状态#{/th}
+          #{th}操作#{/th}
+        #{/tr}
+		#{list pageBean?.page}
+			#{tr tr_index:_index}
+			  #{td}${(pageBean?.currPage - 1)*pageBean?.pageSize + _index}#{/td}
+			  #{td}${_?.type}#{/td}
+			  #{td}${_?.num}#{/td}
+			  #{td}${_?.name}#{/td}
+			  #{td}${_?.subname}#{/td}
+			  #{td class:'v_name'}${_?.create_time?.format('yyyy-MM-dd HH:mm:ss')}#{/td}
+			  #{td}${_?.statename}#{/td}
+			  #{td}
+			    #{if _?.state==1}
+			       <a class="xf_ta_onclick" onclick="stateChange('${_?.id}',2)">关闭</a>
+				#{/if} 
+				#{if _?.state==2||_?.state==0}
+			        <a class="xf_ta_onclick" onclick="stateChange('${_?.id}',1)">开启</a>
+				#{/if} 
+				
+				 <a class="xf_ta_onclick" onclick="show_rates(0,'${_?.id}',this)">修改</a>
+			   #{/td}
+			   #{/tr}
+			   #{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      <div class="page_warp">
+        #{page currPage:pageBean.currPage,totalCount:pageBean.totalCount,pageSize:pageBean.pageSize,theme:2,style:4/}
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+
+/* 条件搜素查询 */
+function showPage(currPage, pageSize){
+
+     $("#currPage").val(currPage);
+     $("#pageSize").val(pageSize);
+     $("#fundraiseingList").submit();
+}
+
+/* 排序搜索 */
+function orderSearch(order){
+	var orderStatus = "${pageBean?.conditions?.orderStatus}";
+	var orderIndex = "${pageBean?.conditions?.orderIndex}";
+
+	if(orderStatus == '' || '1' == orderStatus || order != orderIndex){
+		$("#orderStatus").val(0);
+	}else{
+		$("#orderStatus").val(1);
+	}
+
+	$("#orderIndex").val(order);
+	$("#fundraiseingList").submit();
+}
+
+
+/* 添加加息或编辑1.添加0.编辑 */
+function show_rates(i,id,_this) {
+	  $('#isUpdateFlag').val(i);
+	  $('#listid').val(id);
+	  var title = '添加渠道';
+	  var thisVal = $(_this).closest('tr').find('td');
+	  // console.log(id);
+	  // i=1 清空表单
+	  if(i){
+	    // $('.addSelect').attr('disabled','');
+	    $('#ratesform')[0].reset();
+		$('.isdisAbled').removeAttr('disabled');
+	  }else{
+	  	// 赋值
+		$('.isdisAbled').attr('disabled','disabled');
+	    var type = thisVal.eq(1).text();
+	    var num = thisVal.eq(2).text();
+	  	var name1 = thisVal.eq(3).text();
+	  	var subname = thisVal.eq(4).text();
+	  	var u_name = thisVal.eq(5).text();
+	  	
+	  	
+		$('.subname').val(subname);
+	  	$('.name1').val(name1);
+		$('.num').val(num);
+		
+	  	$('.type').val(type);
+		title = '修改渠道';
+	 
+	  }
+	  $.layer({
+	        type: 1,
+	        area: ['888px', 'auto'],
+	        title: title,
+	        page: {dom : '#add_rates'}
+	  });
+}
+// 添加
+function addOrUpdate(i){
+	var ii = 0;
+	// 为空提示
+	$('.isNull').each(function(i,e){
+		if(!$.trim($(e).val())){
+			ii+=1;
+		}
+	});
+	if(ii){
+		layer.alert('请填写后提交');
+		return false;
+	}
+  var url = '';
+  var flag = $('#isUpdateFlag').val();
+ 
+  var args = $('#ratesform').serialize();
+  console.log(args);
+  
+  // 添加
+  if(parseInt(flag)){
+	url = '@{supervisor.channel.ChannelController.addChannel}?';
+  }else{
+  	var id = $('#listid').val();
+  	
+   // 编辑接口
+	url = '@{supervisor.channel.ChannelController.editChannel}?id='+id+'&';
+  }
+  console.log(url+args);
+
+  $.post(url+args,function(res){
+  console.log(res);
+    if(!res.error.code){
+      layer.closeAll();
+      window.location.reload();
+    }else{
+      layer.alert(res.error.msg);
+    }
+  });
+}
+
+// 取消
+function cancel(){
+	layer.closeAll();
+}
+// 审核弹框
+function examine(id,t,isFirst){
+   $('.isFirst').val(isFirst);
+   var v_name = $(t).parent().prev().prev().text();
+   $('.firstId').val(id);
+   $('.firstId').next().find('span').text(v_name);
+   $.layer({
+        type: 1,
+        area: ['800px', 'auto'],
+        title: '审核意见',
+        page: {dom : '#examine'}
+   });
+}
+
+
+// 关闭
+function stateChange(id,state){
+	var str= '';
+	if(state==2){
+		str = '是否确认关闭？';
+	}if(state==1){
+		str = '是否确认开启？';
+	}
+
+	layer.confirm(str, function(index){
+	
+		 $.post('@{supervisor.channel.ChannelController.updateChannelState}',{id: id,state: state},function(res){
+			console.log(res);
+		    if(!res.error.code){
+			   window.location.reload();
+		    }else{
+		      layer.alert(res.error.msg);
+		    } 
+  	  });
+	 	layer.close(index);
+	});
+}
+</script>

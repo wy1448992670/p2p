@@ -1,0 +1,49 @@
+<!-- 邀请码详情弹窗 -->
+<div class="xf_ht_jr_obu_width">
+  <div class="xf_ht_damem_hy_box">
+    <div class="xf_ht_damem_hy_bott xf_ht_damem_hy_bott6">
+      			${invite?.invite_code}
+    </div>
+    <div class="xf_ht_damem_hy_bott xf_ht_damem_hy_bott6">
+      <div class="xf_ht_damem_hy_bott_ta3">
+        <table width="100%" cellspacing="0" cellpadding="0" border="0" class="xf_member_jbox">
+          <tr>
+            <td valign="middle" align="center"><span class="xf_td_title">获得时间：</span>
+            ${invite?.time?.format('yyyy-MM-dd')}
+            </td>
+            <td valign="middle" align="center"><span class="xf_td_title">状态：</span>
+           		#{if invite.status == 1} 未使用 #{/if}
+				#{if invite.status == 2} 已使用 #{/if} 
+				#{if invite.status == 3} 已过期 #{/if}
+            </td>
+          </tr>
+          <tr>
+            <td valign="middle" align="center"><span class="xf_td_title">来源：</span>
+            	#{if invite.type == 1} 理财 #{/if}
+				#{if invite.type == 2} 赠送 #{/if}
+            </td>
+            <td valign="middle" align="center"><span class="xf_td_title">到期时间：</span>
+            	#{if invite.effective_time == 0} 永久 #{/if}
+            	#{if invite.effective_time != 0} 
+	            	${invite?.activeDate?.format('yyyy-MM-dd')}
+            	#{/if}
+            	
+            </td>
+          </tr>
+          <tr>
+            <td valign="middle" align="center"><span class="xf_td_title">邀请人：</span>${invite?.user_name}</td>
+            <td valign="middle" align="center"><span class="xf_td_title">受邀人：</span>${invite?.invited_user_name}</td>
+          </tr>
+          <tr>
+            <td valign="middle" align="center"><span class="xf_td_title">注册时间：</span>
+          	    ${invite?.invited_register_time?.format('yyyy-MM-dd')}
+            </td>
+            <td valign="middle" align="center"><span class="xf_td_title">充值金额：</span>
+            	${invite.invitedUserInvestMoney?.format('###,##0.00')}
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

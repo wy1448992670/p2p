@@ -1,0 +1,127 @@
+<div class="xn_c_ban_jox xn_c_ban_jox_qxsz">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_ht_damem_hy_box">
+      <div class="xf_ht_jbox_table">
+        <table class="xf_htgl_jg_tableone_table" cellspacing="0" cellpadding="0" border="0">
+          <tr>
+            <td>权限组：</td>
+            <td><input id="name" type="text"value="${group?.name}" class="xfht_zr_input xfht_zr_bjqxz_w"/></td>
+          </tr>
+          <tr>
+            <td>权限组描述：</td>
+            <td><input id="description" value="${group?.description}" class="xfht_zr_input xfht_zr_bjqxz_w" type="text"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="xf_ht_damem_hy_bott xf_ht_damem_hy_bott6">
+        <div class="xf_ht_damem_hy_bott_t clr">
+          <div class="xf_ht_damem_hy_bott_l">模块选择</div>
+        </div>
+        <div class="xf_ht_damem_hy_bott_ta3">
+          <table width="100%" cellspacing="0" cellpadding="0" border="0" class="xf_mem_qx_jbox">
+            #{list rightTypes, as:'rightType'}
+            #{if rightType_index % 4 == 1}
+            <tr>
+              <td valign="middle" align="left"><input id="${rightType?.id}" type="checkbox" value="${rightType?.id}" class="xf_input_raio">
+                <label for="${rightType?.id}">${rightType?.name}</label>
+              </td>
+              #{/if} 
+              #{elseif rightType_index % 4 == 0 || rightType_index == rightTypes.size()}
+              <td valign="middle" align="left"><input id="${rightType?.id}" type="checkbox" value="${rightType?.id}" class="xf_input_raio">
+                <label for="${rightType?.id}">${rightType?.name}</label>
+              </td>
+            </tr>
+              #{/elseif} 
+              #{else}
+              <td valign="middle" align="left"><input id="${rightType?.id}" type="checkbox" value="${rightType?.id}" class="xf_input_raio">
+                <label for="${rightType?.id}">${rightType?.name}</label>
+              </td>
+              #{/else} 
+              #{/list}
+          </table>
+        </div>
+      </div>
+      <div class="jbox_tan_ondiv jbox_tan_width4">
+        <input class="jbox_ok" type="button" onclick="editRightGroup()" value="确 定">
+        <input class="jbox_on" type="button" value="取 消">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  $(function() {
+    //关闭
+    $(".xf_ht_jr_obu_r").click(function() {
+      $("#xf_ht_fkzh_ttc").hide();
+    });
+    
+    init();
+
+    //取消
+    $(".jbox_on").click(function() {
+      layer.closeAll();
+    });
+  });
+
+  function init() {
+    var modules = '${group?.right_modules}'.split(',');
+
+    $("#xf_ht_fkzh_ttc :checkbox").each(function() {
+      if (modules.inArray($(this).val())) {
+        $(this).attr("checked","checked");
+      }
+    });
+  }
+
+  //编辑权限组(确定)
+  function editRightGroup() {
+    var name = $("#name").val();
+    
+    if (name == "") {
+      alert("权限组名称不能为空!");
+      return;
+    }
+
+    var description = $("#description").val();
+    
+    if (description == "") {
+      alert("权限组描述不能为空!");
+      return;
+    }
+
+    var arr = new Array(); 
+    
+    $("#xf_ht_fkzh_ttc :checkbox:checked").each(function(){ 
+      arr.push($(this).val()); 
+    }); 
+    
+    var ids = arr.join(',');
+    
+    $.ajax({
+      url : "@{editRightGroup()}",
+      type : "POST",
+      data : {
+        "groupId" : '${group?.id}',
+        "name" : name,
+        "description" : description,
+        "rightModules" : ids
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+
+          return;
+        }
+
+        alert(data.msg);
+        location.reload();
+        //$("#xf_ht_fkzh_ttc").hide();
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+</script>

@@ -1,0 +1,61 @@
+<script type="text/javascript">
+<!--
+	fullbid(1);
+
+	function fullbid(nowPage){
+		var listAction = #{jsAction @front.bid.bidAction.fullBid(':nowPage') /};
+		$.get(listAction({nowPage:nowPage}), function(data) {
+			if(data == "")
+				$("#showFull").hide();
+			else
+				$("#content").html(data);
+		});
+	}
+//-->
+</script>
+*{
+<div class="xf_c_idx_4_news" id="FontScroll">
+	<ul>
+		#{list bids}
+		<li>
+			<a href="@{front.invest.investAction.invest(_?.id)}" target="_blank">
+				<span class="xf_c_idx_4_mebersNews">最新投资资讯：</span>
+				会员  ${_?.userName?.asterisk()},${_?.time?.format('yyyy-MM-dd HH:mm:ss')}发布了借款金额￥${_?.amount},年息${_?.apr}%借款中...
+			</a>
+		</li>
+		#{/list}
+	</ul>
+</div>
+}*
+
+
+
+
+<div class="xf_c_idx_10_zxmbWrap" id="showFull">
+	
+	<div class="xf_c_idx_10_header">
+		<span class="xf_c_idx_10_title">最新满标</span>
+		
+		<div class="xf_c_idx_4_news xf_c_two_news" id="FontScroll2">
+			<ul>
+				#{list maps}
+				<li>
+				<a href="@{front.invest.investAction.invest(_?.id)}" target="_blank">
+				<span class="xf_c_idx_4_mebersNews">最新投资资讯：</span>
+				<span class="xf_c_idx_4_mebersNews1">会员  ${_?.userName?.asterisk()}借出了金额￥${_?.amount},成功投资投标${_?.count}次,年息${_?.apr}%...</span>
+				</a>
+				</li>
+				#{/list}
+			</ul>
+		</div>
+		
+	</div>
+	<div class="xf_c_idx_10_zxmbContent" id="content">
+	
+		
+	
+		<!-- 最新满标分页查询页面 -->
+		
+	</div>
+
+</div>

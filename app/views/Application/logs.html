@@ -1,0 +1,32 @@
+#{extends 'common/frontMain.html' /} 
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{set title:currBackstageSet.seoTitle+'|日志' /}
+<br/>
+<div class="s_time">
+  <h1 class="s_timeico">
+    <p></p>
+  </h1>
+  #{list items:page.page,as:'log'}
+  <dl class="s_timemain">
+    <dt>${log?.log_title}</dt>
+    <dd>
+      <div class="s_addcont">
+        <span class="s_sanjiao"></span>
+        <ul>
+          ${log?.log_content.raw()}
+		  #{if log?.log_upgrade_packs}
+		  <li>升级包下载地址：
+		    <ul>
+			  <li><a href="${log?.log_upgrade_packs}">下载升级包</a></li>
+			</ul>
+		  </li>
+		  #{/if}
+		</ul>
+       </div>
+	</dd>
+  </dl>
+  #{/list}
+</div>		
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_log.js'}"></script>

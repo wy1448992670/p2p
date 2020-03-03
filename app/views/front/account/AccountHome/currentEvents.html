@@ -1,0 +1,17 @@
+<div class="xf_memgzdr_new">
+	<ul class="xf_memgzdr_newulone">
+	
+		#{list items:page.page, as:'event'}
+		<li>
+			<a class="xf_memwgzdr_lista">${event?.time}</a> ${event?.descrption}
+			<a class="xf_memwgzdr_view_lidate" href="#">${event?.descrption}</aan>
+		</li>
+		#{/list}
+	</ul>
+	<!-- 分页器 -->
+	<div class="xf_wylc_page xf_memznx_page">
+		 #{page
+         funMethod:"currentEventsFetch",currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:2,style:2
+        /}
+	</div>
+</div>

@@ -1,0 +1,145 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/supervisor.html' /}
+#{set title:currBackstageSet.seoTitle +'| 数据统计 | 财务数据统计分析表 | 平台浮存金统计' /}
+<div class="xfht_t_j_k">
+	<!--左-->
+	<div class="xfht_t_j_k_left">
+		#{include "supervisor/dataStatistics/statisticLeft.html"/}
+	</div>
+	<!--右-->
+	<div class="xfht_t_j_k_rihgt">
+	<div class="xfht_t_q_y">
+	<div class="xfht_t_j_y_1"></div>
+	<div class="xfht_t_j_y_2">
+	<!--右上-->
+	<div class="xfht_t_j_y_kb">
+	<div class="xfht_t_j_y_n1"></div>
+	<div class="xfht_t_j_y_n2">
+	<!--上-->
+	<div class="xfht_t_j_y_s_y">
+	<div class="xfht_t_jk_zt1">
+		<select name="year" id="year" class="xfht_t_j_td_1">
+			<option value="0">全部</option>
+		</select>
+	</div>
+	<div class="xfht_t_jk_zt1">
+		<select name="month" id="month" class="xfht_t_j_td_1" onchange="check();">
+			<option value="0">全部</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">第一季度</option>
+			<option value="14">第二季度</option>
+			<option value="15">第三季度</option>
+			<option value="16">第四季度</option>
+		</select>
+	</div>
+	<div class="xfht_t_jk_zt1">
+		<select name="year" id="day" class="xfht_t_j_td_1"  >
+			<option value="0">全部</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20">20</option>
+			<option value="21">21</option>
+			<option value="22">22</option>
+			<option value="23">23</option>
+			<option value="24">24</option>
+			<option value="25">25</option>
+			<option value="26">26</option>
+			<option value="27">27</option>
+			<option value="28">28</option>
+			<option value="29">29</option>
+			<option value="30">30</option>
+			<option value="31">31</option>
+		</select>
+	</div>
+	 <div class="xfht_t_jk_zt2">
+     <div class="xfht_t_jk_zt_wz">时间范围：</div>
+     <div class="xfht_t_jk_zt_rj">
+           <input name="startDate" type="text" id="startDate" class="xfht_t_jk_zt_rj1" class="laydate-icon" onclick="laydate()"   style="cursor:pointer" value="${page?.conditions?.startDateStr}" />
+     </div>
+     <div class="xfht_t_j_zt_x">__</div>
+     <div class="xfht_t_jk_zt_rj">
+        <input name="endDate" type="text" id="endDate" class="xfht_t_jk_zt_rj1"  class="laydate-icon" onclick="laydate()"  style="cursor:pointer" value="${page?.conditions?.endDateStr}" />
+     </div>
+     </div>
+	<div class="xfht_t_jk_zt3">
+	<div class="xfht_t_jk_ss_wz">
+	     <input type="button" onclick="search();" value="搜 索" />
+	</div>
+	</div>
+	</div>
+	<!--下-->
+	<div class="xfht_t_j_y_x_y">
+	<div class="xfht_t_j_y_x_k">
+	<div class="xfht_t_j_y_x_wt">
+	<div id="div_0" class="xfht_t_y_x_wz">
+		<a href="javascript:order(0);">默认排序</a>
+	</div>
+	</div>
+	<div class="xfht_t_j_y_x_wt">
+	<div id="div_1" class="xfht_t_y_x_wz">
+		<a href="javascript:order(1);">时间</a>
+	</div>
+	</div>
+	<div class="xfht_t_j_y_x_wt">
+	<div id="div_2" class="xfht_t_y_x_wz">
+		<a href="javascript:order(2);">账户可用余额浮存</a>
+	</div>
+	</div>
+	<div class="xfht_t_j_y_x_wt">
+	<div id="div_3" class="xfht_t_y_x_wz">
+		<a href="javascript:order(3);">冻结资金浮存</a>
+	</div>
+	</div>
+	<div class="xfht_t_j_y_x_wt">
+	<div id="div_4" class="xfht_t_y_x_wz">
+		<a href="javascript:order(4);">浮存金总额</a>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	<div class="xfht_t_j_y_n3"></div>
+	</div>
+<div class="xfht_t_j_y_yx_k">
+	<div class="xfht_t_j_y_yx_nei">
+	<div class="xfht_t_table_center xfht_t_table_sjtjle">
+#{table columnNames:columnNames,fields:fields,data:users,tableStyle:"width=\"1300\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"",
+thStyle:"height=\"40\" align=\"center\" valign=\"middle\"",trStyle:"class=\"xfht_t_table_td_bj\"",tdStyle:"height=\"40\" align=\"center\" valign=\"middle\"" /}
+	</div>
+	</div>
+</div>
+</div>
+	<div class="xfht_t_j_y_3"></div>
+	</div>
+	</div>
+</div>

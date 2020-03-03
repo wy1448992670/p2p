@@ -1,0 +1,176 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    #{form @allInvest(), id:'submit'}
+    <input type="hidden" id="currPage" name="currPage"/>
+    <input type="hidden" id="pageSize" name="pageSize"/>
+    <input type="hidden" id="orderType" name="orderType" value="${page?.conditions?.orderType}"/>
+    <div class="xf_ht_search">
+      <div class="xf_ht_search_l">
+        <span id="div_0" onClick="conditonSearch()" class="xf_sea_isshow">默认排序 <a id="div_0_1">↑</a></span>
+      </div>
+    </div>
+    <div class="xf_ht_search_inon">
+      <div class="xf_ht_search_r">
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">投资人会员名：</span>
+          <input name="name" type="text" placeholder="会员名" class="search_w" id="name" value="${page.conditions?.name}" />
+        </div>
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">投资人推荐人：</span>
+          <input name="rname" type="text" placeholder="推荐人会员名" class="search_w" id="rname" value="${page.conditions?.rname}" />
+        </div>
+        
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">最后还款日期：</span>
+          <input name="receive_time_start" type="text" id="startDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${page?.conditions?.receive_time_start}" />
+          <span class="search_timesp">--</span>
+          <input name="receive_time_end" type="text" id="endDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${page?.conditions?.receive_time_end}" />
+        </div>
+		
+		<div class="xf_ht_search_xl">
+          <span class="search_timesp">实际还款日期：</span>
+          <input name="real_receive_time_start" type="text" id="startRealDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${page?.conditions?.real_receive_time_start}" />
+          <span class="search_timesp">--</span>
+          <input name="real_receive_time_end" type="text" id="endRealDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${page?.conditions?.real_receive_time_end}" />
+        </div>
+		        
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">状态：</span>
+          <select name="status" style="width:55px;">
+          	<option value="">全部</option>
+          	<option value=1 ${page.conditions?.status == "1" ? "selected" : ""}>已收款</option>
+          	<option value=0 ${page.conditions?.status == "0" ? "selected" : ""}>未收款</option>
+          </select>
+        </div>
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">借款会员名：</span>
+          <input name="bname" type="text" placeholder="会员名" class="search_w" id="bname" value="${page.conditions?.bname}" />
+        </div>
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">投资标的名称：</span>
+          <input name="title" type="text" placeholder="" class="search_w" id="title" value="${page.conditions?.title}" />
+        </div>
+        <div class="xf_ht_search_xl">
+          <input type="button" class="search_button" onclick="searchSubmit();" value="搜 索" />
+        </div>
+        <div class="xf_ht_search_xl">
+              <input type="hidden" name="isExport" id="isExport"/>	
+              <input type="button" class="search_button" onclick="searchSubmit(1);" onmouseout="$('#isExport').val(0);" value="下载数据" />
+        </div>
+      </div>
+    </div>
+    #{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table class:"xn_c_content_list",cellspacing:"0",cellpadding:"0",border:"0",tr_class_odd:"xn_tr_bj",width:""}
+        #{tr}
+          #{th}ID#{/th}
+          #{th}投资人#{/th}
+          #{th}投资人真实姓名#{/th}
+          #{th}投资人手机号#{/th}
+          #{th}推荐人#{/th}
+          #{th}推荐人手机#{/th}
+          #{th}本期应收金额#{/th}
+          #{th}最后还款日期#{/th}
+          #{th}实际还款日期#{/th}
+          #{th}状态#{/th}
+          #{th}账单期数#{/th}
+          #{th}投资标的名称#{/th}
+          #{th}借款人#{/th}
+          #{th}借款人真实姓名#{/th}
+        #{/tr}
+        #{list page?.page}
+        #{tr tr_index:_index}
+          #{td}${(page?.currPage - 1) * page?.pageSize + _index}#{/td}
+          #{td}${_?.name}#{/td}
+          #{td}${_?.reality_name}#{/td}
+          #{td}${_?.mobile}#{/td}
+          #{td}${_?.rname}#{/td}
+          #{td}${_?.rmobile} #{/td}
+          #{td}${_?.receive_corpus} #{/td}
+          #{td}${_?.receive_time} #{/td}
+          #{td}${_?.real_receive_time}#{/td}
+          #{td}${_?.status}#{/td}
+          #{td}${_?.periods}#{/td}
+          #{td}${_?.title}#{/td}
+          #{td}${_?.bname}#{/td}
+          #{td}${_?.b_reality_name}#{/td}
+        #{/tr}
+        #{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      <div class="page_warp">
+        #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4/}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+function conditonSearch(num){
+	$("#orderType").val(	$("#orderType").val() == 1 ? 0 : 1);
+	$("#submit").submit();
+}
+
+$(function(){  
+  /* 高亮显示 */
+  highLight(5);
+  //条件查询控制样式
+  var num= ${page.conditions?.orderType};
+  if(num==1){
+  	$("#div_0_1").html("↓");
+  }else{
+  	$("#div_0_1").html("↑");
+  }
+});
+
+function showPage(currPage, pageSize){
+  $("#currPage").val(currPage);
+  $("#pageSize").val(pageSize);
+  $("#submit").submit();
+}
+
+function searchSubmit(isExport){
+	$("#isExport").val(isExport);	
+  	$("#submit").submit();
+}
+
+
+
+Array.prototype.contains = function (obj) {  
+    var i = this.length;  
+    while (i--) {  
+        if (this[i] === obj) {  
+            return true;  
+        }  
+    }  
+    return false;  
+}  
+
+
+//checkbox选中
+checkedAll = function(chekedElementName, who){
+    var element = document.getElementsByName(chekedElementName);
+    if (element.length > 0) {
+        for (var i = 0; i < element.length; i++) {
+            element[i].checked = who.checked;
+        }
+    }
+};
+//是否选中
+isChecked = function(chekedElementName){
+    var flag = false;
+    var element = document.getElementsByName(chekedElementName);
+    if (element.length > 0) {
+        for (var i = 0; i < element.length; i++) {
+            if(element[i].checked){
+                flag = true;
+            }
+        }
+    }
+    return flag;
+};
+</script>

@@ -1,0 +1,150 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'理财情况统计' /}
+
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/dataStatistics/statisticLeft.html"/}
+    <div class="xn_c_content">
+      <div class="xf_ht_tablelist">
+        <!-- 搜索 -->
+        <div class="xf_ht_search">
+          <div class="xf_ht_search_l">
+            <span id="div_0" onClick="order(0);">默认排序 </span>
+            <span id="div_1" onClick="order(1);">月份 <a id="div_a_1">↑</a></span>
+            <span id="div_2" onClick="order(2);">理财投标总额 <a id="div_a_2">↑</a></span>
+            <span id="div_3" onClick="order(3);">新增理财会员数 <a id="div_a_3">↑</a></span>
+            <span id="div_4" onClick="order(4);">理财会员转化率 <a id="div_a_4">↑</a></span>
+          </div>
+        </div>
+        <div class="xf_ht_search_inon">
+          <div class="xf_ht_search_r">
+            <div class="xf_ht_search_xl">
+              <select id="year" name="year" class="xf_membill_selectAge">
+                <option value="0" #{if page.conditions?.year == 0} selected="selected" #{/if}>全部</option>
+                 #{list items:years,as:'year'}
+                 <option value="${year}" #{if page.conditions?.year == year} selected="selected" #{/if}>${year}</option>
+                 #{/list}
+              </select>
+            </div>
+            <div class="xf_ht_search_xl">
+              <select name="month" id="month" class="xf_membill_selectAge" onchange="check();">
+                <option value="0" #{if page.conditions?.month == 0}selected="selected"#{/if}>全部</option>
+                <option value="1" #{if page.conditions?.month == 1}selected="selected"#{/if}>1</option>
+                <option value="2" #{if page.conditions?.month == 2}selected="selected"#{/if}>2</option>
+                <option value="3" #{if page.conditions?.month == 3}selected="selected"#{/if}>3</option>
+                <option value="4" #{if page.conditions?.month == 4}selected="selected"#{/if}>4</option>
+                <option value="5" #{if page.conditions?.month == 5}selected="selected"#{/if}>5</option>
+                <option value="6" #{if page.conditions?.month == 6}selected="selected"#{/if}>6</option>
+                <option value="7" #{if page.conditions?.month == 7}selected="selected"#{/if}>7</option>
+                <option value="8" #{if page.conditions?.month == 8}selected="selected"#{/if}>8</option>
+                <option value="9" #{if page.conditions?.month == 9}selected="selected"#{/if}>9</option>
+                <option value="10" #{if page.conditions?.month == 10}selected="selected"#{/if}>10</option>
+                <option value="11" #{if page.conditions?.month == 11}selected="selected"#{/if}>11</option>
+                <option value="12" #{if page.conditions?.month == 12}selected="selected"#{/if}>12</option>
+                <option value="13" #{if page.conditions?.month == 13}selected="selected"#{/if}>第一季度</option>
+                <option value="14" #{if page.conditions?.month == 14}selected="selected"#{/if}>第二季度</option>
+                <option value="15" #{if page.conditions?.month == 15}selected="selected"#{/if}>第三季度</option>
+                <option value="16" #{if page.conditions?.month == 16}selected="selected"#{/if}>第四季度</option>
+              </select>
+            </div>
+            <div class="xf_ht_search_xl">
+              <input type="button" class="search_button" onclick="search(0);" value="搜 索" />
+            </div>
+            <div class="xf_ht_search_xl">
+              <input type="button" class="search_button" onclick="search(1);" value="下载数据" />
+            </div>
+          </div>
+        </div>
+        <!-- 列表内容 -->
+        <div class="xn_c_content_top">
+          #{table class:"xn_c_content_list",cellspacing:"0",cellpadding:"0",border:"0",tr_class_odd:"xn_tr_bj"}
+            #{tr}
+              #{th}序号#{/th}
+              #{th}年#{/th}
+              #{th}月#{/th}
+              #{th}累计理财投标总额#{/th}
+              #{th}本月新增理财总额#{/th}
+              #{th}累计理财会员数#{/th}
+              #{th}新增理财会员数#{/th}
+              #{th}人均理财金额#{/th}
+              #{th}人均账户余额#{/th}
+              #{th}理财会员转化率#{/th}
+             <!--  #{th}操作#{/th} -->
+            #{/tr}
+            #{list page?.page}
+            #{tr tr_index:_index}
+              #{td}${(page?.currPage - 1)*page?.pageSize + _index}#{/td}
+              #{td}${_?.year}#{/td}
+              #{td}${_?.month}#{/td}
+              #{td}${_?.invest_accoumt?.format('###,##0.00')}#{/td}
+              #{td}${_?.increase_invest_account?.format('###,##0.00')}#{/td}
+              #{td}${_?.invest_user_account}#{/td}
+              #{td}${_?.increase_invest_user_account}#{/td}
+              #{td}${_?.per_capita_invest_amount?.format("###,##0.00")}#{/td}
+              #{td}${_?.per_capita_balance?.format("###,##0.00")}#{/td}
+              #{td}${_?.invest_user_conversion}#{/td}
+             <!--  #{td}<a href="@{supervisor.dataStatistics.OperationStatisticsAction.investorsStatisticData(_?.id)}">数据对比分析</a>#{/td} -->
+            #{/tr}
+            #{/list}
+          #{/table}
+        </div>
+        <!-- 列表底部 -->
+        <div class="xn_c_content_bottom">
+          <div class="page_warp">
+            #{page currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:1,style:4}year=${page.conditions.year}&month=${page.conditions.month}&startDateStr=${page.conditions.startDateStr}&endDateStr=${page.conditions.endDateStr}&order=${page.conditions?.orderType}
+            #{/page}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+<script type="text/javascript">
+var g_orderType = 0;
+
+$(function() {
+  /* 高亮显示 */
+  showHighLight(2, 2, 8);
+  init();
+});
+  
+function init() {
+  /**
+  * 排序样式
+  */
+  g_orderType = ${page.conditions?.orderType};
+  var index = parseInt(g_orderType / 2);
+  $("#div_"+index).addClass("xf_sea_isshow");
+  
+  if (g_orderType%2 == 1) {
+    $("#div_a_"+index).html("↑");
+  } else {
+    $("#div_a_"+index).html("↓");
+  }
+}
+
+
+/**
+* 排序
+*/
+function order(index) {
+  var year = $("#year option:selected").val();
+  var month = $("#month option:selected").val();
+    
+  var _index = parseInt(g_orderType / 2);
+  var type = g_orderType % 2;
+  type = (index == _index && type == 1) ? 0 : 1;
+  g_orderType = index * 2 +  type;
+    
+  window.location.href = "@{supervisor.dataStatistics.OperationStatisticsAction.investorsStatistic()}?year=" + year + "&month=" + month+"&order=" + g_orderType+"&isExport=0";
+}
+
+function search(type){
+  var year = $("#year option:selected").val();
+  var month = $("#month option:selected").val();
+
+  window.location.href = "@{supervisor.dataStatistics.OperationStatisticsAction.investorsStatistic()}?year=" + year + "&month=" + month+"&order=" + g_orderType+"&isExport="+type;
+}  
+  
+</script>

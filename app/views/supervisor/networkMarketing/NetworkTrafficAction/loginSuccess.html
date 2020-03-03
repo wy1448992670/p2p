@@ -1,0 +1,14 @@
+<form name="loginForm" id="loginForm" action="https://cas.baidu.com/?action=login" method="post" target="frame_url">
+      <input type="hidden" name="appid" value="${appid}">
+      <input type="hidden" name="selfu" value="${selfu}">
+      <input type="hidden" name="fromu" value="${fromu}">
+      <input type="hidden" id="sid" name="sid" value="${sid}">
+      <input type="hidden" id="pwd" name="pwd" value="${pwd}">
+      <input type="hidden" id="entered_login" name="entered_login" value="${entered_login}">
+      <input type="hidden" id="entered_password" name="entered_password" value="${entered_password}">
+      <input type="hidden" id="entered_imagecode" name="entered_imagecode" value="${entered_imagecode}">
+</form>
+<iframe id="frame_url" name="frame_url" style="width: 100%;height: 100%;"></iframe>
+<script language="javascript">
+   document.getElementById("loginForm").submit();
+</script>

@@ -1,0 +1,22 @@
+#{extends 'wechat/common.html' /}
+
+<body>
+	<div class="s_main s_center">
+		<header class="s_header">
+			财富资讯
+			<a href="@{wechat.account.WechatAccountHome.accountInfo()}" class="icobg"></a>
+		</header>
+		<div class="s_cfdetail">
+			<h3>${news?.title}</h3>
+			<p class="s_cfdetail-data">
+				<span>${news?.time?.format("yyyy-MM-dd")}</span>
+				<span class="span1">阅读次数：${news?.read_count}</span>
+			</p>
+			<p class="s_cfdetail-cont">
+				${news?.content.raw()}
+			</p>
+		</div>
+	</div>
+</body>
+
+

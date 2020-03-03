@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta http-equiv="content-Type" content="text/html; charset=gbk">
+<title>Servlet AccountServlet</title>
+</head>
+<body>
+<form action="${args.req_url}" id="frm1" method="post">
+	 <input type="hidden" name="version" value="${args.version}"/>
+     <input type="hidden" name="oid_partner" value="${args.oid_partner}"/>
+     <input type="hidden" name="user_id" value="${args.user_id}"/>
+     <input type="hidden" name="sign_type" value="${args.sign_type}"/>
+     <input type="hidden" name="sign" value="${args.sign}"/>
+     <input type="hidden" name="busi_partner" value="${args.busi_partner}"/>
+     <input type="hidden" name="no_order" value="${args.no_order}"/>
+     <input type="hidden" name="dt_order" value="${args.dt_order}"/>
+     <input type="hidden" name="name_goods" value="${args.name_goods}"/>
+    <!--   <input type="hidden" name="info_order" value="${args.info_order}"/>-->
+     <input type="hidden" name="money_order" value="${args.money_order}"/>
+     <input type="hidden" name="notify_url" value="${args.notify_url}"/>
+     <input type="hidden" name="url_return" value="${args.url_return}"/>
+     <input type="hidden" name="userreq_ip" value="${args.userreq_ip}"/>
+     <!--  <input type="hidden" name="url_order" value="${args.url_order}"/>-->
+    <!--  <input type="hidden" name="valid_order" value="${args.valid_order}"/> -->
+     <input type="hidden" name="risk_item" value='${args.risk_item}'/>
+     <input type="hidden" name="timestamp" value="${args.timestamp}"/>
+     <input type="hidden" name="bank_code" value="${args.bank_code}"/>
+     <input type="hidden" name="pay_type" value="${args.pay_type}"/>
+     <!-- <input type="hidden" name="id_type" value="${args.id_type}"/>
+     <input type="hidden" name="id_no" value="${args.id_no}"/>
+     <input type="hidden" name="acct_name" value="${args.acct_name}"/>
+     <input type="hidden" name="bank_code" value="${args.bank_code}"/>
+     <input type="hidden" name="back_url" value="${args.back_url}"/>
+     <input type="hidden" name="card_no" value="${args.card_no}"/>
+     <input type="hidden" name="flag_modify" value="${args.flag_modify}"/> -->
+</form>
+<script language="javascript">
+document.getElementById("frm1").submit();
+</script>
+</body>
+</html>

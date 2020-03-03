@@ -1,0 +1,177 @@
+#{extends 'common/frontMain.html' /}
+#{set title:'我的关注的人用户详情' /}
+<div class="xf_mem_wgzdr_view">
+				<h3 class="xf_mem_accout_title">个人信息</h3>
+				<div class="xf_memwgzdr_view_t">
+					<div class="xf_memwgzdr_view_tl">
+						<div class="xf_wylc_content_img">
+							#{img src:"${user?.photo}",alt:""}#{/img}
+						</div>
+						<div class="xf_wylc_content_input">
+							<a class="xf_wylc_centent_zn">发送站内信</a>
+						</div>
+					</div>
+					<div class="xf_memwgzdr_view_tr">
+						<ul class="xf_memwgzdr_view_trul">
+							<li>
+								<span class="xf_memwgzdr_view_lititle">用户名：</span>
+								<span class="xf_memwgzdr_view_lititle2">${userInfo?.name}</span>
+								<span class="xf_memwgzdr_view_lititle">会员到期：</span>
+								<span class="xf_memwgzdr_view_lidate">${userInfo?.expiry_date?.format("yyyy-MM-dd HH:mm:ss")}</span>
+							</li>
+							<li>
+								<span class="xf_memwgzdr_view_lititle">注册时间：</span>
+								<span class="xf_memwgzdr_view_lititle2">${userInfo?.time}</span>
+								<span class="xf_memwgzdr_view_lititle">个人统计：</span>
+								<span class="xf_memwgzdr_view_lititle2"><span class="xf_mem_text_lv">${userInfo?.bid_count}</span>条借款记录，
+								<span class="xf_mem_text_lv">${userInfo?.invest_count}</span>条投标记录</span>
+							</li>
+							<li>
+								<span class="xf_memwgzdr_view_lititle">籍贯：</span>
+								<span class="xf_memwgzdr_view_lititle2">${userInfo?.provinceName}${userInfo?.cityName}</span>
+							</li>
+							<li>
+								<span class="xf_memwgzdr_view_lititle">最后登录：</span>
+								<span class="xf_memwgzdr_view_lititle2">${userInfo?.last_login_time?.format("yyyy-MM-dd HH:mm:ss")}</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="xf_memwgzdr_Tab" id="xf_wyjkview_xxk">
+				<ul class="xf_con_mem_r_tentul clr">
+					<li id="index_1" onClick="currentEvents()" class="xf_con_wyjk_r_liishot">最新动态</li>
+					<li id="index_2" onClick="attentionFetch()" >关注用户</li>
+					<li id="index_3" onClick="loanList()">借款列表</li>
+					<li id="index_4" onClick="investRecodes()">投资记录</li>
+				</ul>
+				<div class="xf_con_wyjk_tentultbody" id="currentEvents">
+				</div>
+				<div class="xf_con_wyjk_tentultbody" id="attetionUsers">
+				</div>
+				<div class="xf_con_wyjk_tentultbody" id="loanList">
+				</div>
+				<div class="xf_con_wyjk_tentultbody" id="records">
+				</div>
+			</div>
+<script type="text/javascript">
+   //最新动态
+   $(function(){
+       currentEventsFetch(1,2);
+      })
+      
+    function currentEvents(){
+       currentEventsFetch(1,2);
+    }
+   
+	function currentEventsFetch(currPage, pageSize){
+	   $.ajax({
+			url : "@{currentEvents()}",
+			type : "POST",
+			data : {
+				"currPage" : currPage,
+				"pageSize" : pageSize,
+				"sign" : '${userInfo?.sign}'
+			},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+
+					return;
+				}
+
+				$("#currentEvents").html(data);
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+
+    //异步加载关注的人
+   function attentionUsers(){
+       attentionFetch(1,2);
+	}
+	
+	function attentionFetch(currPage, pageSize){
+	   $.ajax({
+			url : "@{AttentionUsers()}",
+			type : "POST",
+			data : {
+				"currPage" : currPage,
+				"pageSize" : pageSize,
+				"sign" : '${userInfo?.sign}'
+			},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+
+					return;
+				}
+
+				$("#attetionUsers").html(data);
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+	
+	//异步加载借款列表
+	function loanList(){
+       loanListFetch(1,2);
+	}
+	
+	function loanListFetch(currPage, pageSize){
+	   $.ajax({
+			url : "@{loanList()}",
+			type : "POST",
+			data : {
+				"currPage" : currPage,
+				"pageSize" : pageSize,
+				"sign" : '${userInfo?.sign}'
+			},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+
+					return;
+				}
+
+				$("#loanList").html(data);
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+	
+	//异步加载投资记录
+	function investRecodes(){
+       investRecordsFetch(1,2);
+	}
+	
+	function investRecordsFetch(currPage, pageSize){
+	   $.ajax({
+			url : "@{investRecords()}",
+			type : "POST",
+			data : {
+				"currPage" : currPage,
+				"pageSize" : pageSize,
+				"sign" : '${userInfo?.sign}'
+			},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+
+					return;
+				}
+
+				$("#records").html(data);
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+</script>

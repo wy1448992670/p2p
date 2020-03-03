@@ -1,0 +1,81 @@
+<div class="xf_wyjkfb_4_window" id="xf_wyjkfb_4_window">
+	<div class="xf_wyjkfb_4_windowInner xf_wyjkfb_4_wInnertwo" style="#{if hasAuditCount == 0}height:auto#{/if}">
+		<div class="xf_wyjkfb_4_windowClose"></div>
+		<div class="xf_wyjkfb_4_windowColName">
+			发布成功 !
+			#{if constants.Constants.IPS_ENABLE && constants.Constants.TRUST_FUNDS_TYPE=="HX"}
+			<br/>
+			<div style="font-size: 14px; color: red;">
+			短信验证信息已发送至您${flash?.mobile}的手机上，请在30分钟内回复短信验证，
+			验证通过后此借款标才能进入平台审核，否则系统将会自动将此借款标置为失败的借款标！
+			</div>
+			#{/if}
+		</div>
+		<div class="xf_wyjkfb_4_windowCot">
+			<div class="xf_wyjkfb_4_windowCol">借款标编号：  <span class="xf_wyjkfb_4_windowNo" id="sno">${flash.no}</span></div>
+			<div class="xf_wyjkfb_4_windowCol">
+				<div class="xf_wyjkfb_4_windowTitle">借款标标题：</div>
+				<div class="xf_wyjkfb_4_windowText" id="xf_wyjkfb_4_windowText">
+					<p id="stitle">${flash.title}</p>
+				</div> 
+				<div class="clear"></div>
+			</div>
+			<div class="xf_wyjkfb_4_windowCol" >借款金额：<span class="xf_wyjkfb_4_windowNum" id="samount"></span>${flash.amount} 元</div>
+			<div class="xf_wyjkfb_4_windowCol" >借款标状态：<span class="xf_wyjkfb_4_windowNo" id="sstatus"></span></div>
+			#{if hasAuditCount > 0}
+			<div class="xf_wyjkfb_4_windowCol xf_wyjkfb_4_windowImport">完善资料：</div>
+			<div class="s_applyscroll">
+				<div class="xf_wyjkfb_4_windowCol">必需审核资料：</div>
+				<div class="xf_wyjkfb_4_windowCol xf_wyjkfb_4_windowProfile" id="srequiredAuditItem">
+					#{list product?.requiredAuditItem}
+						${_index} 、 ${_?.auditItem?.name} &nbsp&nbsp&nbsp&nbsp
+						#{if _index % 4 == 0}
+							<br/>
+						#{/if}
+					#{/list}
+				</div>
+				<div class="xf_wyjkfb_4_windowCol">可选审核资料：</div>
+				<div class="xf_wyjkfb_4_windowCol xf_wyjkfb_4_windowProfile" id="sselectAuditItem">
+					#{list product?.selectAuditItem}
+						${_index} 、 ${_?.auditItem?.name} &nbsp&nbsp&nbsp&nbsp
+						#{if _index % 3 == 0}
+							<br/>
+						#{/if}
+					#{/list}
+				</div>
+			</div>
+			<div class="xf_wyjkfb_4_windowCol xf_wyjkfb_4_windowBtn">
+				<div class="xf_wyjkfb_4_windowCancle1">
+						<a  onclick="window.location.href ='@{front.account.AccountHome.auditMaterialsIPS()}'" class="p_sy_tbtn curr" style="width:130px" >确定</a>
+				</div>	
+			</div>
+			#{/if}
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+<!--
+	$(function(){
+		$("#xf_wyjkfb_4_window").center().show();
+		
+		$(".xf_wyjkfb_4_windowClose,#xf_wyjkfb_4_windowCancle").click(function(){				
+			$("#xf_wyjkfb_4_window").hide(500);
+		});
+
+		var status = $("#sstatus");
+		if('${flash.status}' == 0) status.html("审核中...");
+		else if('${flash.status}' == 1) status.html("提前借款...");
+		else status.html("待验证...");
+		
+		%{
+		  boolean ipsEnable = constants.Constants.IPS_ENABLE;
+		  boolean isMag = constants.Constants.IS_MSG;
+		}%
+    	#{if ipsEnable && isMag}
+    	if (confirm("资金托管测试环境,请点击确定前去回复短信确认发标")) {
+			window.open("http://58.246.68.126:7082/IpsSmsTimer/index.jsp");
+		}
+    	#{/if}
+	})
+//-->
+</script>

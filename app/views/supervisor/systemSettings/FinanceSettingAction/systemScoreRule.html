@@ -1,0 +1,64 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'积分规则' /} 
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/systemSettings/common/leftBar.control"/}
+    <div class="xn_c_content">
+      <div class="xf_content_add">
+        <div class="xfht_t_j_y_2">
+          <!--右上-->
+          <div class="xf_ht_obu_fklm">系统积分规则设置</div>
+          <div class="xf_htgl_jgone xf_ht_fff_sz">
+            <h3 class="xf_htgl_jgtitle" >理财积分设置</h3>
+            <div class="xf_ht_gl_jgone_botton">
+            <table class="xf_ht_cwsz_zdsz_f_k" border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr>
+              <td width="20">&nbsp;</td>
+              <td align="left"> 1、每投标1元积：
+                <span class="xf_ht_cwsz_zdsz_f">
+                  <input id="moneyToSystemScore" value="${moneyToSystemScore}"onkeypress="return inputNum(event)" onpaste="return false" style="ime-mode:Disabled">分 
+                </span>             
+              </td>
+              </tr>
+            </table>
+            </div>
+          </div>
+          <div class="xf_htgl_jgsix_hyg">
+            <input class="xf_ht_tcc_button_ok" type="button" onclick="save();" value="确  定">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    /* 高亮显示 */
+	  showHighLight(2,2,9);
+  });
+  
+  function save() {
+    var moneyToSystemScore = $("#moneyToSystemScore").val();
+    
+    if ("" == moneyToSystemScore.trim()) {
+      alert("积分必须是数字");
+      
+      return;
+    }
+    
+    $.ajax({
+      url : "@{setSystemScoreRule()}",
+      type : "POST",
+      data : {
+        "moneyToSystemScore" : moneyToSystemScore
+      },
+      success : function(data) {
+        alert(data.msg);
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+</script>

@@ -1,0 +1,48 @@
+#{extends 'wechat/common.html' /} 
+#{set title:'我要借款' /}
+<div class="s_main s_center">
+	<header class="s_header">
+		我要借款
+		<a href="@{wechat.account.WechatAccountHome.accountInfo()}" class="icobg"></a>
+	</header>
+	<ul class="s_borrow">
+		#{list items:products}
+		<li>
+			<a href="@{wechat.service.bidAction.queryProductDetail(_?.id)}">
+				<i class="s_borrowpic">
+					#{img src:"${_?.smallImageFilename}",alt:"",width:"60",height:"50"}#{/img}
+				</i>
+				<dl>
+					<dt>
+					#{if _?.name.length() <= 8}
+								${_?.name}
+					#{/if}
+					#{else}
+						%{java.lang.String title = _?.name.substring(0,8) + "...";}%
+						${title}
+					#{/else}
+					</dt>
+					<dd>
+					#{if _?.fitCrowd.length() <= 10}
+								${_?.fitCrowd}
+					#{/if}
+					#{else}
+						%{java.lang.String title = _?.fitCrowd.substring(0,10) + "...";}%
+						${title}
+					#{/else}
+					</dd>
+				</dl>
+				<span class="s_borrowmore"></span>
+			</a>
+		</li>
+		#{/list}
+	</ul>
+</div>
+<script type="text/javascript">
+	$(function() {
+		var error = "${flash.error}";
+		if (error != '' && error != 'undefined') {
+			alert(error);
+		}
+	})
+</script>

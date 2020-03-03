@@ -1,0 +1,177 @@
+
+<script type="text/javascript" src="@{'/public/javascripts/rotate.js'}"></script>
+
+<div class="xf_ht_jr_obu_width" id="xf_ht_jr_obu_width">
+	<div class="xf_ht_jr_obu_title clr">
+		<div class="xf_ht_jr_obu_l">
+			风控科目详情
+		</div>
+		<div class="xf_ht_jr_obu_r">
+			&nbsp;
+		</div>
+	</div>
+	<div class="xf_ht_ptjkb_shok">
+		<div class="xf_ht_pthieght_ul">
+			<ul class="xf_ht_ptjkb_shok_ul">
+				<li>
+					用户名：${item?.userName?.asterisk()}
+				</li>
+				<li>
+					科目种类：${item?.auditItem?.name}
+				</li>
+				<li>
+					#{if item?.auditItem?.type == 1}
+					<div class="xf_ht_ptjkb_lilist_l">
+						素材：
+						*{<br/>
+						<input type="button" value="放大" onclick="imgToSize2(20)"/>
+						<input type="button" value="缩小" onclick="imgToSize2(-20)"/>
+						<input type="button" value="右翻转" onclick="$('#imageFileName').rotateRight();"/>
+						<input type="button" value="左翻转" onclick="$('#imageFileName').rotateLeft();"/>}*
+						<input type="button" value="还原" onclick="restore();" />
+						<input type="button" value="上一个" onclick="showLastItem();" id="lastItem"/>
+						<input type="button" value="下一个" onclick="showNextItem();" id="nextItem"/>
+					</div>
+					<div class="clear"></div>
+					<div class="xf_ht_ptjkb_lilist_img" id="showImag" style="text-align: center;">
+						
+					</div>
+					#{/if}
+					#{else}
+					科目资料：
+						<a href="@{Application.downloadFiles(item?.strItems, _?.type)}">下载</a>
+					#{/else}
+				</li>
+				<li>
+					是否可见：
+					#{if item?.isVisible}
+						可见
+					#{/if}
+					#{else}
+						不可见
+					#{/else}
+				</li>
+				<li>
+					审核状态：
+					${item?.strStatus}
+				</li>
+				<li style="border:0;">
+					审核意见：<br/>
+					<textarea rows="5" cols="70" disabled="disabled" class="xf_ht_textarea_tc">${item?.suggestion}</textarea>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+</div>
+
+<script type="text/javascript">
+<!--
+	var nowItem = 0;
+	var itemLen = 0;
+	var items = null;
+		
+	$(function(){
+		restore();
+		
+		$(".xf_ht_jr_obu_r").click(function(){
+		   $(this).parents(".xf_ht_ttc").hide();
+		 });
+
+		$(".xf_ht_tcc_button_on").click(function(){
+			  $(this).parents(".xf_ht_ttc").hide();
+		 });
+	});
+
+	/* 上一个资料 */
+	function showLastItem(){
+		nowItem--;
+		showImag((nowItem == 0? subItem(0) : items[nowItem]));
+		
+		$("#nextItem").removeAttr("disabled");
+		
+		if(nowItem <= 0){
+			$("#lastItem").attr("disabled","disabled");
+			nowItem = 0;
+			return;
+		}
+
+		$("#lastItem").removeAttr("disabled");
+	}
+
+	/* 下一个资料 */
+	function showNextItem(){
+		nowItem++;
+		showImag((nowItem == (itemLen-1)? subItem(nowItem) : items[nowItem]));
+
+		$("#lastItem").removeAttr("disabled");
+		
+		if(nowItem >= itemLen-1){
+			$("#nextItem").attr("disabled","disabled");
+			nowItem = itemLen-1;
+			return;
+		}
+		
+		$("#nextItem").removeAttr("disabled");
+	}
+
+	/* 截取多余的'[' 或者 ']' */
+	function subItem(index){
+		var img = items[index];
+		var len = img.length;
+
+		if(itemLen == 1){
+			img = img.substring(1, len);
+			return img.substring(0, img.length-1)
+		}
+		
+		if(index == 0)
+			img = img.substring(1, len);
+		else
+			img = img.substring(0, len-1);
+		
+		return img;
+	}
+	
+	/* 还原 */
+	function restore(){
+		nowItem = 0;
+		items = '${item?.items}'.trim().split(","); // 把Java集合转为js数组
+		itemLen = items.length;
+
+		$("#lastItem").attr("disabled","disabled");
+		if(itemLen <= 1){
+			$("#nextItem").attr("disabled","disabled");
+		}else{
+			$("#nextItem").removeAttr("disabled");
+		}
+		
+		showImag(subItem(nowItem));
+	}
+
+	function showImag(src){
+		var html = '<img src="'+src+'" id="imageFileName" title="${item?.auditItem?.name}" width="250" height="250">';
+		$("#showImag").html(html);
+	}
+
+	/* 放大缩小图片 */
+	function imgToSize2(size) {
+		var img = $("#imageFileName");
+		var oWidth=img.width(); //取得图片的实际宽度
+		var oHeight=img.height(); //取得图片的实际高度
+		var w = 0;
+		var h = 0;
+		if(oWidth > 380 || oHeight > 380){
+			w = 380;
+			h = 380;
+		}else{
+			w = oWidth + size;
+			if(w > 380 || w < 180) return;
+			h = oHeight + size/oWidth * oHeight;
+		}
+		img.width(w);
+		img.height(h);
+	}
+
+//-->
+</script>

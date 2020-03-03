@@ -1,0 +1,23 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'机构合作标详情' /} 
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include '/supervisor/bidManager/bidManagerLeft.control'/} 
+    #{include '/supervisor/bidManager/BidPlatformAction/loanSucceed.control'/}   
+  </div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		/* 高亮显示 */
+		showHighLight(2, 2, 9);
+	});
+
+	function upBid(){
+		window.location.href = "@{detail(bid?.upId, flag)}"; 
+	}
+	
+	function nextBid(){
+		window.location.href = "@{detail(bid?.nextId, flag)}"; 
+	}
+//-->
+</script>

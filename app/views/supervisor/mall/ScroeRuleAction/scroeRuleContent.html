@@ -1,0 +1,92 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    #{form @supervisor.mall.ScroeRuleAction.scroeRuleList(), id:'submit'}
+    <!-- 搜索 -->
+    <div class="xf_ht_search">
+      <div class="xf_ht_search_l">
+        <input type="hidden" id="orderType" name="orderType">
+        <input type="hidden" id="orderStatus" name="orderStatus"/>
+        <input type="hidden" id="currPage" name="currPage"/>
+        <input type="hidden" id="pageSize" name="pageSize"/>
+		<span id="div_0"><a id="tab_0" onClick="conditonSearch(0)">默认排序</a></span>
+      </div>
+     </div>
+     <div class="xf_ht_search_inon">
+       <div class="xf_ht_search_r">
+       	 <div class="xf_ht_search_xl">
+          	【投资】积分规则：每投资 <input name="scroeLine" type="text" class="search_w" disabled="disabled" style="width:50px" value="${scroeLine}" /> 元获取1个积分
+         </div>
+       </div>
+     </div>
+	#{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xn_c_content_list",tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}类型#{/th}
+          #{th}积分#{/th}
+          #{th}状态#{/th}
+		  #{th}添加时间#{/th}
+		  #{th}操作#{/th}
+        #{/tr}
+		#{list items:page.page, as:'content'}
+        #{tr tr_index:content_index}
+          #{td}${(page?.currPage-1)*page?.pageSize + content_index}#{/td}
+          #{td}
+          	#{if content?.type == 1}注册#{/if}
+          	#{if content?.type == 2}签到#{/if}
+          #{/td}
+          #{td}${content?.scroe}#{/td}
+          #{td}
+          	#{if content?.status == 1}开启中 #{/if}
+          	#{else}暂停中#{/else}	
+          #{/td}
+          #{td}${content?.time?.format('yyyy-MM-dd HH:mm:ss')}#{/td}
+          #{td}
+            <span><a class="xf_ta_onclick" href="@{supervisor.mall.ScroeRuleAction.editScroeRule(content?.id,2)}">编辑</a></span>
+            #{if content?.status == 1}<span><a class="xf_ta_onclick" href="@{supervisor.mall.ScroeRuleAction.stopScroeRule(content?.id,2)}">暂停</a></span>#{/if}
+            #{else}<span><a class="xf_ta_onclick" href="@{supervisor.mall.ScroeRuleAction.stopScroeRule(content?.id,1)}">启用</a></span>#{/else}
+          #{/td}
+        #{/tr}
+		#{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4}#{/page}
+      <div class="page_warp_l">
+        #{form @supervisor.mall.ScroeRuleAction.editScroeRule(0,1), id:'addSubmit'}
+          <input type="submit" value="新增积分规则" class="xf_htbutton"/>
+        #{/form}
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function() {
+	  var orderType = "${page?.conditions?.orderType}";
+	    $("#orderType").val(orderType);
+	    var orderStatus = "${page?.conditions?.orderStatus}";
+	    $("#orderStatus").val(orderStatus);
+	    var order = $("#div_" + orderType);
+		
+	    /* 初始为默认搜索 */
+		if(orderType == ''){
+			$("#div_0").attr("class", "xf_sea_isshow");
+		}else {
+		  order.attr("class", "xf_sea_isshow");
+		  if(orderStatus == 1){
+		     $("#sp"+orderType).html("↑");
+		  }else{
+		    $("#sp"+orderType).html("↓");
+		  }
+		}
+  })
+  
+  function showPage(currPage, pageSize){
+    $("#currPage").val(currPage);
+    $("#pageSize").val(pageSize);
+    $("#submit").submit();
+  }
+</script>

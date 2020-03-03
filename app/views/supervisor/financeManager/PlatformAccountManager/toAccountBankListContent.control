@@ -1,0 +1,121 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    #{form @toAccountBankList(), id:'submit'}
+    <input type="hidden" id="currPage" name="currPage"/>
+      <input type="hidden" id="pageSize" name="pageSize"/>
+    <div class="xf_ht_search_inon">
+    <div class="xf_ht_search_r">
+    
+	    <div class="xf_ht_search_xl">
+	     	  用户名：<input type="text" class="search_w" name="userName" value="${page?.conditions?.userName}">
+	    </div>
+	    <div class="xf_ht_search_xl">
+	     	 开户名：<input type="text" class="search_w" name="accountName" value="${page?.conditions?.accountName}">
+	    </div>
+	    <div class="xf_ht_search_xl">
+	     	  银行账号：<input type="text" style="width:180px;" class="search_w" name="accountNo" value="${page?.conditions?.accountNo}">
+	    </div>
+	    <div class="xf_ht_search_xl">
+	      <input type="submit" class="search_button" value="搜索">
+	    </div>
+    </div>
+    </div>
+    #{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+    #{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+    #{tr}
+      #{th}序号#{/th}
+      #{th}用户名#{/th}
+      #{th}开户名#{/th}
+      #{th}银行名称#{/th}
+      #{th}银行卡号#{/th}
+      #{th}是否验证#{/th}
+      #{th}验证时间#{/th}
+      #{th}支行名称#{/th}
+      #{th}支行所在的省#{/th}
+      #{th}支行所在的市#{/th}
+      #{th}操作#{/th}
+    #{/tr}
+    #{list page.page }
+    #{tr tr_index:_index}
+      #{td}${(page?.currPage - 1)*page?.pageSize + _index}#{/td}
+      #{td}${_?.userName}#{/td}
+      #{td}${_?.account_name}#{/td}
+      #{td}${_?.bank_name}#{/td}
+      #{td}${_?.account}#{/td}
+      #{td}
+        #{if _?.verified}
+          	已验证
+        #{/if}
+        #{else}
+          	 未验证
+        #{/else}
+      #{/td}
+      #{td}${_?.verify_time?.format('yyyy-MM-dd HH:mm:ss')}#{/td}
+      #{td}${_?.branch_bank_name}#{/td}
+      #{td}${_?.province}#{/td}
+      #{td}${_?.city}#{/td}
+      #{td}
+        <span>
+          <a href="javascript:void(0)" onClick="detail('${_?.id}')" class="xf_ta_onclick">编辑</a>
+        </span>
+      #{/td}
+    #{/tr}
+    #{/list}
+    #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4}#{/page}
+    </div>
+  </div>
+</div>
+
+
+<!-- 添加标的gonggao-弹出层 -->
+<div class="xn_c_ban_jox" id="xf_ht_tjgly_ttc" style="display:none;height:400px;overflow:auto;">
+</div>
+
+
+
+<script type="text/javascript">
+   
+  function showPage(currPage, pageSize){
+     $("#currPage").val(currPage);
+     $("#pageSize").val(pageSize);
+     $("#submit").submit();
+   }
+   
+  function searchs(){
+     $("#submit").submit();
+  }
+  
+  //编辑
+  function detail(id){
+     
+    $.ajax({
+	    url : "@{editAccountBankInfoInit(id)}",
+	    type : "POST",
+	    data : {
+	       accountId:id
+	    },
+	    success : function(data) {
+	       
+	      $("#xf_ht_tjgly_ttc").html(data);
+	      
+	      ps = $.layer({
+	        type: 1,
+	        area: ['610', 'auto'],
+	        title: '编辑用户银行账户信息',
+	        page: {dom : $("#xf_ht_tjgly_ttc")}
+	      });
+	    },
+	    error : function() {
+	      alert("对不起，出现错误!");
+	    }
+  	});
+  
+  }
+</script>

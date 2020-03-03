@@ -1,0 +1,64 @@
+<style>
+<!--
+	td{
+		text-align: center;
+	}	
+-->
+</style>
+
+<div class="xf_wyjkfb_4_windowInner xf_memjkzlshrz_window">
+	<div class="xf_jkzshrz_4_windowClose" onclick="closessubmititem();"></div>
+	<div class="xf_wyjkfb_4_windowColName">
+		上传资料
+	</div>
+	<div class="xf_wyjkfb_4_windowCot">
+		<div class="xf_wyjkfb_4_windowCol">
+			<div class="xf_memjkzlshrz_title">
+				资料名称：
+			</div>
+			<div class="xf_memjkzlshrz_4_windowText" id="itemName">
+			
+			</div>
+			<div class="clear"></div>
+			<div class="xf_memjkzlshrz_title">
+				资料描述 ：
+			</div>
+			<div class="xf_memjkzlshrz_4_windowText" id="description">
+				
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="xf_wyjkfb_4_windowCol">
+			<div class="xf_memjkzlshrz_title">
+				上传文件：
+			</div>
+			<div class="xf_memjkzlshrz_4_windowText">
+				<input type="file" id="file"  name="file"/>
+				<input class="xf_memjkzlshrz_4_button" type="button" onclick="uploadFile();" value="上传">
+				<input type="hidden" id="fileType" name="fileType"/>
+				<div class="xf_memjkzlshrz_table">
+					<table class="xf_membill_acc_viewcpms" width="450" id="itemList">
+						<tr id="itemTr-1">
+							<th>序号</th>
+							<th>资料类别</th>
+							<th>上传时间</th>
+							<th>大小</th>
+							<th>状态</th>
+							<th>预览</th>
+							*{<th>操作</th>}*
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="xf_wyjkfb_4_windowCol">
+			<div class="xf_memjkzlshrz_4_windowText">
+				<a class="xf_con_inputfbjk" id="xf_con_inputfbjk" onclick="createUserAuditItemSubmit();">确定</a>
+				<a class="xf_con_inputfbqux" id="xf_con_inputfbqux" onclick="closessubmititem();">取消</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+</div>
+

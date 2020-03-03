@@ -1,0 +1,148 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'注册软件正版信息' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+	#{include "supervisor/systemSettings/common/leftBar.control"/}
+
+	<div class="xn_c_content">
+			<div class="xf_content_add">
+				<div class="xfht_t_j_y_2">
+				  <!--右上-->
+				  <div class="xf_ht_obu_fklm">${backstageSet?.platformName}正版授权</div>
+				  <div class="xf_ht_jbzl_sz">
+					<div class="xf_htgl_jgone">
+					  <div class="xf_ht_gly_xtgu_t_tahez" style="padding-left:300px;">
+						<table class="xf_ht_gly_xtgu_t_table xf_ht_gly_xtgu_t_table2" border="0" cellspacing="0" cellpadding="0">
+						  <tr>
+							<td align="right">
+								公司名称：
+							</td>
+							<td>
+								<input class="xfht_zr_input xfht_zr_input_shoping" type="text" value="${backstageSet?.companyNameService}">
+							</td>
+						  </tr>
+						  <tr>
+							<td align="right">指定绑定域名：
+							</td>
+							<td>
+								<input class="xfht_zr_input xfht_zr_input_shoping" type="text" value="${backstageSet?.companyDomain}">
+							</td>
+						  </tr>
+						  <tr>
+							<td align="right">软件注册码：
+							</td>
+							<td>
+								<input class="xfht_zr_input xfht_zr_input_shoping" type="text" value="${backstageSet?.registerCode}">
+							</td>
+						  </tr>
+						  <tr>
+							<td align="right">软件版本号：
+								
+							</td>
+							<td>
+								<input class="xfht_zr_input" type="text" value="${backstageSet?.versionName}">
+							</td>
+						  </tr>
+						</table>
+					  </div>
+					</div> 
+				  </div>
+				  <div class="xf_htgl_jgsix_hyg">
+					<input class="xf_ht_tcc_button_ok" type="button" value="正版软件认证" id="xf_dfk_fkzh_tcc">
+				  </div>
+				</div>
+			</div>
+		</div>
+		
+		
+	</div>
+</div>
+
+<!-- 详情-弹出层 -->
+<div class="xf_ht_ttc" id="xf_ht_fkzh_ttc" style="top:-100px;display:none">
+	<div class="xf_ht_jr_obu_width xf_ht_jr_xitong_width">
+		<div class="xf_ht_jr_obu_title clr" Onclick="cancle()">
+			<div class="xf_ht_jr_obu_r">&nbsp;</div>
+		</div>
+		<div class="xf_ht_gly_xtgu_t xf_ht_gly_xtgu_t_height">
+		#{form @saveSoftwareLicens()}
+			<table class="xf_ht_gly_xtgu_t_table" border="0" cellspacing="0"
+				cellpadding="0">
+				<tr>
+					<td align="right" width="172">公司名称：</td>
+					<td><input class="xfht_zr_input xfht_zr_input_shoping" type="text" id="companyNameService" name="companyNameService" value="">
+					</td>
+				</tr>
+				<tr>
+					<td align="right">地区：</td>
+					<td>
+						#{select 'province', items:provinces, valueProperty:'id', labelProperty:'name', value:user?.provinceId, class:'xf_membill_selectAge', id:'province' /}
+						#{select 'city', items:cityList, valueProperty:'id', labelProperty:'name', value:user?.cityId, class:'xf_membill_selectAge', id:'city' /}
+					</td>
+				</tr>
+				<tr>
+					<td align="right">指定绑定域名：</td>
+					<td><input class="xfht_zr_input xfht_zr_input_shoping" type="text" id="companyDomain" name="companyDomain" value="">
+					</td>
+				</tr>
+				<tr>
+					<td align="right">正版软件注册码：</td>
+					<td><input class="xfht_zr_input xfht_zr_input_shoping" type="text" id="registerCode" name="registerCode" value="">
+					</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td><input class="xf_ht_tcc_button_ok" type="submit" value="确 定"> 
+						<input class="xf_ht_tcc_button_on" type="button" Onclick="cancle()" value="取 消"></td>
+				</tr>
+			</table>
+			#{/form}
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function() {
+		/* 高亮显示 */
+		showHighLight(7,7,18);
+		
+		//$("#xf_ht_fkzh_ttc").center();
+		$("#xf_dfk_fkzh_tcc").click(function() {
+			$.layer({
+      			type: 1,
+     			 area: ['600', 'auto'],
+      			title: '晓 风 安 全 网 贷 系 统 6.0  正版授权 （标准版）',
+      			page: {dom : '#xf_ht_fkzh_ttc'}
+    		});
+			//$("#xf_ht_fkzh_ttc").show();
+		});
+		$(".xf_ht_jr_obu_r").click(function() {
+			$(this).parents(".xf_ht_ttc").hide();
+		});
+		
+		$("#province").append("<option value='0' selected>--请选择--</option>");
+		$("#city").append("<option value='0' selected>--请选择--</option>");
+	});
+	
+	$("#province").change(function(){
+		
+		var selectVal = $(this).children('option:selected').val();
+		var jsAction = #{jsAction @Application.getCity(":provinceId")/}
+		$.post(jsAction({provinceId:selectVal}),function(data) {
+			var cityList = [];
+			for(var i = 0; i < data.length; i ++){
+				cityList.push("<option value='"+data[i].id+"'>"+data[i].name+"</option>");
+			}
+			$("#city").html(cityList);
+		});
+	});
+	
+	
+	function cancle() {
+		layer.closeAll();
+        //$("#xf_ht_fkzh_ttc").hide();
+	}
+	
+</script>
+
+

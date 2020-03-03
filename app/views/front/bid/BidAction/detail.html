@@ -1,0 +1,32 @@
+ %{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle + '|' + product?.name + '详情'/}
+<!-- 内容区域 start -->
+<div class="xf_con_box">
+	<div class="xf_con_wyjk_nav">
+		<span class="sf_con_wyjk_dq">我要借款</span>
+		${product?.name}
+		<span class="sf_con_wyjk_gtnav">&gt;</span>
+	</div>
+	<!-- 左边导航区域 -->
+	<div class="xf_con_wyjk_left">
+		#{include 'front/bid/BidAction/detailLeft.control'/}
+	</div>
+	<!-- 右侧内容区域 (详情数据)-->
+	<div class="xf_con_wyjk_right">
+		#{include 'front/bid/BidAction/detailData.control'/}
+	</div>
+	<!-- 右侧内容区域 (审计项目)-->
+	<div class="xf_con_wyjk_edfw clr">
+		#{include 'front/bid/BidAction/detailItem.control'/}
+	</div>
+	<!-- 清除浮动 -->
+	<div class="clear"></div>
+</div>
+#{if code == -3}
+	#{include 'front/bid/BidAction/addBaseInfo.html'/}
+#{/if}
+<!-- 内容区域 end -->
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_bid.js'}"></script>

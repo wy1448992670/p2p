@@ -1,0 +1,141 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'审核科目库统计' /}
+
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/dataStatistics/statisticLeft.html"/}
+    <div class="xn_c_content">
+      <div class="xf_ht_tablelist">
+        <!-- 搜索 -->
+        <div class="xf_ht_search">
+          <div class="xf_ht_search_l">
+            <span id="div_0" onClick="order(0);">默认排序</span>
+            <span id="div_1" onClick="order(1);">风控有效性排名 <a id="div_a_1">↑</a></span>
+            <span id="div_3" onClick="order(3);">关联逾期标 <a id="div_a_3">↑</a></span>
+            <span id="div_4" onClick="order(4);">关联坏账标 <a id="div_a_4">↑</a></span>
+          </div>
+        </div>
+        <div class="xf_ht_search_inon">
+          <div class="xf_ht_search_r">
+            
+            <div class="xf_ht_search_xl">
+              <select name="keywordType" id="keywordType" class="xfht_t_j_td_1">
+                <option value="0">全部</option>
+                <option value="1" ${page?.conditions?.keywordType==1?"selected='selected'":""}>科目编号</option>
+                <option value="2" ${page?.conditions?.keywordType==2?"selected='selected'":""}>审核科目</option>
+              </select>
+            </div>
+            <div class="xf_ht_search_xl">
+              <input type="text" class="search_w" id="keyword" value="${page?.conditions?.keyword}" placeholder="请输入关键字" />
+            </div>
+            <div class="xf_ht_search_xl">
+              <input type="button" class="search_button" onclick="search(0);" value="搜 索" />
+            </div>
+            <div class="xf_ht_search_xl">
+              <input type="button" class="search_button" onclick="search(1);" value="下载数据" />
+            </div>
+          </div>
+        </div>
+        <!-- 列表内容 -->
+        <div class="xn_c_content_top">
+          #{table class:"xn_c_content_list",cellspacing:"0",cellpadding:"0",border:"0",tr_class_odd:"xn_tr_bj"}
+            #{tr}
+              #{th}序号#{/th}
+              #{th}科目编号#{/th}
+              #{th}审核科目#{/th}
+              #{th}信用积分#{/th}
+              #{th}审核费用#{/th}
+              #{th}提交会员数#{/th}
+              #{th}审核通过数#{/th}
+              #{th}通过占比#{/th}
+              #{th}关联借款标类型数量#{/th}
+              #{th}关联逾期借款标数量#{/th}
+              #{th}关联坏账借款标数量#{/th}
+              #{th}风控有效性排名#{/th}
+            #{/tr}
+            #{list page?.page}
+            #{tr tr_index:_index}
+              #{td}${(page?.currPage - 1)*page?.pageSize + _index}#{/td}
+              #{td}${_?.no}#{/td}
+              #{td}${_?.name}#{/td}
+              #{td}${_?.credit_score}#{/td}
+              #{td}${_?.audit_fee}#{/td}
+              #{td}${_?.submit_user_num}#{/td}
+              #{td}${_?.audit_pass_num}#{/td}
+              #{td}${_?.pass_per}#{/td}
+              #{td}${_?.relate_product_num}#{/td}
+              #{td}${_?.relate_overdue_bid_num}#{/td}
+              #{td}${_?.relate_bad_bid_num}#{/td}
+              #{td}${_?.risk_control_ranking}#{/td}
+            #{/tr}
+            #{/list}
+          #{/table}
+        </div>
+        <!-- 列表底部 -->
+        <div class="xn_c_content_bottom">
+          <div class="page_warp">
+            #{page currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:1,style:4}year=${page.conditions.year}&month=${page.conditions.month}&startDateStr=${page.conditions.startDateStr}&endDateStr=${page.conditions.endDateStr}&orderType=${page.conditions?.orderType}&keywordType=${page.conditions.keywordType}&keyword=${page.conditions.keyword}
+            #{/page}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+var g_orderType = 0;
+
+$(function() {
+  /* 高亮显示 */
+  showHighLight(2, 2, 11);
+  init();
+});
+  
+function init() {
+  /**
+  * 排序样式
+  */
+  g_orderType = ${page.conditions?.orderType};
+  var index = parseInt(g_orderType / 2);
+  $("#div_"+index).addClass("xf_sea_isshow");
+  
+  if (g_orderType%2 == 1) {
+    $("#div_a_"+index).html("↑");
+  } else {
+    $("#div_a_"+index).html("↓");
+  }
+}
+
+  
+/**
+* 搜索
+*/
+function search(type) {
+  var keywordType = $("#keywordType option:selected").val();
+  var keyword = encodeURIComponent($("#keyword").val());
+  var year = $("#year option:selected").val();
+  var month = $("#month option:selected").val();
+    
+  window.location.href = "@{supervisor.dataStatistics.OperationStatisticsAction.auditItemsStatistic()}?keywordType="
+  + keywordType + "&keyword=" + keyword + "&orderType=" + g_orderType + "&year=" + year + "&month=" + month+"&isExport="+type;
+}
+  
+/**
+* 排序
+*/
+function order(index) {
+  var keywordType = $("#keywordType option:selected").val();
+  var keyword = encodeURIComponent($("#keyword").val());
+  var year = $("#year option:selected").val();
+  var month = $("#month option:selected").val();
+    
+  var _index = parseInt(g_orderType / 2);
+  var type = g_orderType % 2;
+  type = (index == _index && type == 1) ? 0 : 1;
+  g_orderType = index * 2 +  type;
+    
+  window.location.href = "@{supervisor.dataStatistics.OperationStatisticsAction.auditItemsStatistic()}?keywordType=" 
+  + keywordType + "&keyword=" + keyword + "&orderType=" + g_orderType + "&year=" + year + "&month=" + month;
+}
+</script>

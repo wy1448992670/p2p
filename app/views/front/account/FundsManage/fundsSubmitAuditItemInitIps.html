@@ -1,0 +1,234 @@
+<div id="xf_wyjkfb_4_window">
+<div class="xf_wyjkfb_4_windowInner xf_memjkzlshrz_window">
+	<div class="xf_jkzshrz_4_windowClose" onclick="closessubmititem();"></div>
+	<div class="xf_wyjkfb_4_windowColName">
+		上传资料
+	</div>
+	<div class="xf_wyjkfb_4_windowCot">
+		<div class="xf_wyjkfb_4_windowCol">
+			<div class="xf_memjkzlshrz_title">
+				资料名称：
+			</div>
+			<div class="xf_memjkzlshrz_4_windowText" id="itemName">
+			
+			</div>
+			<div class="clear"></div>
+			<div class="xf_memjkzlshrz_title">
+				资料描述 ：
+			</div>
+			<div class="xf_memjkzlshrz_4_windowText" id="description">
+				
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="xf_wyjkfb_4_windowCol">
+			<div class="xf_memjkzlshrz_title">
+				上传文件：
+			</div>
+			<div class="xf_memjkzlshrz_4_windowText">
+				<input type="file" id="item_file"  name="file"/>
+				<input class="xf_memjkzlshrz_4_button" type="button" onclick="uploadFileOfItem();" value="上传">
+				<input type="hidden" id="item_fileType" name="item_fileType"/>
+				<div class="xf_memjkzlshrz_table">
+					<table class="xf_membill_acc_viewcpms" width="450" id="itemList">
+						<tr id="auditItemTr-1">
+							<th>序号</th>
+							<th>资料类别</th>
+							<th>上传时间</th>
+							<th>大小</th>
+							<th>状态</th>
+							<th>预览</th>
+							*{<th>操作</th>}*
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="xf_wyjkfb_4_windowCol">
+			<div class="xf_memjkzlshrz_4_windowText">
+				<a class="xf_con_inputfbjk" id="item_xf_con_inputfbjk" onclick="createUserAuditItemSubmit();">确定</a>
+				<a class="xf_con_inputfbqux" id="item_xf_con_inputfbqux" onclick="closessubmititem();">取消</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+</div>
+</div>
+<script type="text/javascript">
+	var itemIndex = 0;
+	var items = null;
+	var key1 = 0;
+	var key2 = 0;
+	var key3 = 0;
+	
+	$(function(){
+	   var code = "${flash.code}";
+	   if (code == "-4") {
+		 showRechargeWin();
+	   }
+    });
+    
+	/* 条件搜素查询 */
+	function showPage(currPage, pageSize){
+	     $("#currPage").val(currPage);
+	     $("#pageSize").val(pageSize);
+	     $("#auditMaterials").submit();
+	}
+	
+	function closessubmititem(){
+		$("#xf_wyjkfb_4_window").hide(300);
+	}
+
+	function submititemIps(sign, signItemId, itemName, description, fileType){
+		itemIndex = 0;
+		items = new Array();
+		$("#itemList tr").eq(0).nextAll().remove();
+		 
+		key1 = sign;
+		key2 = signItemId;
+
+		$("#itemName").html(itemName);
+		$("#description").html(description);
+		$("#item_fileType").val(fileType);
+		
+	    showDiv($("#xf_wyjkfb_4_window"));
+	}
+	
+	/**
+      * 上传文件
+     */
+	function uploadFileOfItem() {
+		if($("#item_file").val() == "") {
+			alert("请选择上传的图片");
+			return;
+		}
+		
+		if(itemIndex > 4){
+			alert("您上传累了,提交之后再上传吧!");
+			return;
+		}
+			
+		var d = new Date();
+		var date = d.getFullYear() + "-" + appendZero(d.getMonth() + 1) + "-" + appendZero(d.getDate()); 
+
+		var type = $("#item_fileType").val();
+		
+		$.ajaxFileUpload({
+			url : "@{FileUpload.uploadFile()}",
+			secureuri : false,
+			fileElementId : 'item_file',
+			dataType : 'text',
+			data: { 
+            "type": type
+        },
+			success : function(data) {
+				data = $.evalJSON(data);
+				if (data.code < 0) {
+					alert(data.msg);
+	
+					return;
+				}
+
+				var td = type==1 ? '<img src="'+data.fileName+'" width="35" height="35" />' : '---';
+				var html = '<tr id="auditItemTr'+itemIndex+'">'+
+				   	'<td>'+(itemIndex+1)+'</td>'+
+				   	'<td>'+data.fileType+'</td>'+
+				   	'<td>'+date+'</td>'+
+				   	'<td>'+data.size+'k'+'</td>'+
+				   	'<td>成功</td>'+
+				   	'<td>'+td+'</td>'+
+				   	'</tr>';
+				   	
+				$("#auditItemTr"+(itemIndex-1)).after(html);
+				
+				items[itemIndex] = data.fileName;
+				itemIndex++;
+			},
+			error : function(data, status, e) {
+				$("#auditItemTr"+(itemIndex-1)).after(html);
+
+				//$("#showimg" + itemIndex).attr("src", path);
+				$("#size"+itemIndex).html('---');
+				$("#type"+itemIndex).html('---');
+				
+				$("#status"+itemIndex).html('失败');
+				itemIndex++;
+			}
+		});
+	}
+
+	//补0函数
+	function appendZero(s){return ("00"+ s).substr((s+"").length);}  
+
+	 /* 提交 */
+   	function createUserAuditItemSubmit(){
+   		var len = items.length;
+   		if(len <=0){
+   			alert('请先上传资料!');
+   			return;
+   		}
+   		
+   		var str = '您上传了'+itemIndex+'项资料，其中'+len+'项成功，'+(itemIndex-len)+'项失败。如果有暴力、色情、国家机密将会追究相关法律责任，确定提交?';
+
+   		if(!confirm(str)){
+   			return;
+   		}	
+
+   		var action = #{jsAction @front.account.AccountHome.createUserAuditItemIPS(':sign',':signItemId',':items', ':size') /};
+   		$.post(action({sign:key1, signItemId:key2, items:items, size:key3}), function(data) {
+   			if("" != data.msg){
+   				alert(data.msg);
+   				return;
+   			}
+
+   			$("#s1"+key1).html("已提交");
+   			$("#s2"+key1).html(data.status == 4 ? "上传未付款" : "审核中");
+   			
+   			$("#xf_wyjkfb_4_window").hide(300);
+   		});
+   	}
+
+    function createUserAuditItem() {
+        var loanImage = $("#image").attr("src");
+        $("#filename").val(loanImage);
+        
+        var userAuditItem = #{jsAction @front.account.FundsManage.userAuditItem(':overBorrowId', ':useritemId', ':auditItemId', ':filename')/}
+		$.post(userAuditItem({overBorrowId:$("#overId").val(), useritemId:$("#useritemId").val(), auditItemId:$("#auditItemId").val(), filename:$("#filename").val()}),function(data){
+			var arr=eval(data);
+			
+			if(arr.error.code < 0){
+			    alert(arr.error.msg);
+			    return;
+			}
+			
+			alert(arr.error.msg);
+			viewOverBorrowss($("#overId").val());
+			$("#xf_wyjkfb_4_window").hide();
+		});
+	}
+	
+	function viewOverBorrowss(id) {
+		$.ajax({
+			url : "@{front.account.FundsManage.viewOverBorrow()}",
+			type : "POST",
+			data : {
+			    "overBorrowId" : id
+			},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+
+					return;
+				}
+				
+				var ttc = $("#position");
+				ttc.html(data);
+				showDiv(ttc);
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+</script>

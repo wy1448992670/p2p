@@ -1,0 +1,145 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'已回复站内信' /}
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  <!--左-->
+  #{include "supervisor/webContentManager/common/leftBar.control"/}
+  <!--右-->
+  <div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    <div class="xf_ht_search_inon">
+       #{form @supervisor.webContentManager.Message.repliedMessages(), id:'repliedMessagesList'}
+       <input type="hidden" id="currPage" name="currPage"/>
+	   <input type="hidden" id="pageSize" name="pageSize"/>
+       <div class="xf_ht_search_r">
+         <div class="xf_ht_search_xl">
+           <select id="type" class="xf_membill_selectAge" name="type">
+		     <option value="0">-请选择-</option>
+			 <option value="1" #{if pageBean.conditions.type==1} selected="selected"#{/if}>标题</option>
+			 <option value="2" #{if pageBean.conditions.type==2} selected="selected"#{/if}>发信人</option>
+		   </select>
+         </div>
+         <div class="xf_ht_search_xl">
+           <input name="keyword" id="keyword" type="text" class="search_w" placeholder="请输入关键词" value="${pageBean.conditions.keyword}"/>
+         </div>
+         <div class="xf_ht_search_xl">
+           <input type="submit" class="search_button" value="搜索">
+         </div>
+       </div>
+       #{/form}
+     </div>
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xn_c_content_list",tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}标  题#{/th}
+          #{th}发信时间#{/th}
+          #{th}发信人#{/th}
+          #{th}回复时间#{/th}
+          #{th}状态#{/th}
+		  #{th}操作#{/th}
+        #{/tr}
+		#{list pageBean.page, as:'msg'}
+        #{tr tr_index:msg_index}
+          #{td}${(pageBean?.currPage - 1)*pageBean?.pageSize + msg_index}#{/td}
+          #{td}${msg?.title}#{/td}
+          #{td}${msg?.time?.format("yyyy-MM-dd HH:mm:ss")}#{/td}
+          #{td}${msg?.sender_name}#{/td}
+          #{td}${msg?.reply_time?.format("yyyy-MM-dd HH:mm:ss")}#{/td}
+		  #{td}${msg?.status}#{/td}
+          #{td}
+            <span class="xf_ta_onclick" onClick="showDetailPage(${msg.id})">详情</span>
+            <span class="xf_ta_onclick" onClick="deleteMessage(${msg.id})">删除</span>
+          #{/td}
+        #{/tr}
+		#{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      #{page currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:4}
+	    keyword=${pageBean.conditions.keyword}&type=${pageBean.conditions.type}
+	  #{/page}
+    </div>
+    </div>
+    </div>
+  </div>
+</div>
+<!-- 详情-弹出层 -->
+<div class="xf_ht_ttc" id="xf_ht_fkzh_ttc">
+</div>
+<script type="text/javascript">
+  function showPage(currPage, pageSize){
+    $("#currPage").val(currPage);
+    $("#pageSize").val(pageSize);
+    $("#repliedMessagesList").submit();
+  }
+  //删除
+  function deleteMessage(id){
+    if (!confirm("确认要删除？")) {
+      return;
+    }
+		
+    $.ajax({
+      url : "@{deleteInboxMsg()}",
+      type : "POST",
+      data : {
+        "id" : id,
+        "deleteType" : 1
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+        }
+        location.reload();
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+
+  //显示详情弹出层
+  function showDetailPage(id) {
+    $.ajax({
+      url : "@{repliedMessageDetail()}",
+      type : "POST",
+      data : {
+        "id" : id
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+
+          return;
+        }
+
+        var ttc = $("#xf_ht_fkzh_ttc");
+        ttc.html(data);
+        $.layer({
+          type: 1,
+          area: ['600', 'auto'],
+          title: '已回复站内信详情',
+          page: {dom : '#xf_ht_jr_obu_width'}
+        });
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+
+  function search() {
+    window.location.href = "repliedMessages?keyword=" + encodeURIComponent($("#keyword").val()) + "&type=" + $("#type").val();
+  }
+</script>
+
+<script type="text/javascript">
+$(function(){
+	//高亮显示
+	showHighLight(3,3,9);
+})
+</script>

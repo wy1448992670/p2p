@@ -1,0 +1,83 @@
+#{extends 'payment/PaymentBaseAction/checkMain.html' /}
+#{set title:'手机认证' /}
+  
+<div class="p_zctancbg" style="display: block"></div>
+<div class="p_zctanc4" style="display: block">
+  <div class="p_zctcbox">
+    <div class="p_zctctextimg"><img src="@{'public/images/p_zc003.png'}"></div>
+    #{form @payment.PaymentBaseAction.doCheckMobile(), id:'form'}
+    <div class="p_zctctextword">
+      <table>
+        <tr height="50"><th width="292">手机号码：</th><td><input id="mobile" name="mobile" type="text" value="${flash?.mobile}">
+        #{if flash.error}
+		        <span class="p_zctctishi" style="color:red">${flash?.error}</span>
+		      #{/if}
+        </td></tr>
+        <tr height="50"><th>验证码：</th><td>
+        <input name="code" type="text" 
+        	#{if !constants.Constants.CHECK_MSG_CODE}
+				value="1234" title="演示站点任意输入"
+			#{/if}
+			#{else}
+				value="${flash?.code}"
+			#{/else}
+        ><a id="sendCode" onclick="sendCode();">&nbsp;&nbsp;获取验证码</a>
+        	 
+        </td>
+        </tr>
+      </table>
+      <p><span class="p_zctctishi">您在${companyName}的充值提现等重要操作，都需要通过手机动态验证码！请填写您真实的手机号码，完成手机验证。</span></p>
+     
+      <p><a href="#" onclick="submit();" class="p_zctcnext4">下一步</a></p>
+    </div>
+    #{/form}
+    <div class="p_zctcbottom">
+      <p>请注意以下事项</p>
+      <p>1、根据省份、城市、地区不同，一般会在5秒到5分钟内收到验证码。</p>
+      <p>2、如果您的验证过程中，出现任何问题，请致电${phone}，或咨询客服QQ：${qq1} &nbsp;| &nbsp;${qq2}。</p>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+var remain = 60;
+
+$(function(){
+  var isSending = "${flash?.isSending}";
+
+  if (!isSending) {
+    return;
+  }
+
+  $("#sendCode").attr("onclick", "void(0);");
+  $("#sendCode").attr("style", "cursor: default");
+  countdown();
+})
+
+function countdown() {
+  if (remain == 0) {
+    $("#sendCode").html("&nbsp;&nbsp;" + "获取验证码");
+    $("#sendCode").attr("onclick", "sendCode();");
+    $("#sendCode").attr("style", "cursor:pointer");
+
+    return;
+  }
+
+  $("#sendCode").html("&nbsp;&nbsp;" + remain-- + "秒后重新发送");
+  setTimeout("countdown()",1000);
+}
+
+function sendCode() {
+  var mobile = $("#mobile").val();
+  if(mobile == "") {
+    alert("请输入手机号码后，再获取验证码");
+    return;
+  }
+
+  window.location.href="@{payment.PaymentBaseAction.sendCode}?mobile="+mobile;
+}
+
+function submit() {
+  $("#form").submit();
+}
+</script>

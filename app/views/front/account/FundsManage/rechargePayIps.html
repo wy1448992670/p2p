@@ -1,0 +1,73 @@
+#{extends 'common/frontMain.html' /} #{set title:'充值' /}
+
+%{
+	String version = business.BackstageSet.getCurrentBackstageSet().entrustVersion;
+}%
+
+<!-- 内容区域 start -->
+<div class="xf_con_box">
+	<div class="xf_con_mem_nav"></div>
+	<!-- 左边导航区域 -->
+	#{include "front/account/AccountHome/homeLeft.control"/}
+	<!-- 右侧内容区域 -->
+	#{form @submitRecharge(), id:'paySubmit'}
+	<input type="hidden" name="uuidRepeat" value="${flash?.success}">
+	<div class="xf_mem_Account xf_mem_shzdjkb_box">
+		<h3 class="xf_mem_accout_title">充值</h3>
+		<!-- 充值 -->
+		<div class="xf_mem_accout_content" style="height: 160px;">
+			<table border="0" cellpadding="0" cellspacing="0" width="738" class="xf_mem_zjgl_cz">
+				<tr>
+					<td align="right">真实姓名：</td>
+					<td>${user?.realityName}</td>
+				</tr>
+				<tr>
+					<td align="right">账&nbsp;&nbsp;&nbsp;&nbsp;号：</td>
+					<td>${user?.name}</td>
+				</tr>
+				<tr>
+					<td align="right">支付金额：</td>
+					<td>${fee}元</td>
+					<input type="hidden" name="money" value="${fee}">
+				</tr>
+				#{if version == "1.0"}
+				<tr>
+					<td align="right">请选择充值银行： </td>
+					<td>
+						<select name="bankCode" class="xf_membill_selectAge" id="bankCode">
+							<option value="0">-请选择-</option>
+							#{list bankList}
+							<option value="${_?.code}">${_?.name}</option>
+							#{/list}
+						</select>
+					</td>
+				</tr>
+				#{/if}
+			</table>
+		</div>
+		<div class="xf_mem_zjgl_input_atijiao">
+			<a href="#" onclick="recharge();" class="xf_con_inputfbjk">确定充值</a>
+		</div>
+	</div>
+	#{/form}
+	<!-- 清除浮动 -->
+	<div class="clear"></div>
+</div>
+<!-- 内容区域 end -->
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript">
+	$(function(){
+		/* 高亮显示 */
+		showHighLightFront(27);
+		showHighLightFront2(7, 5);
+	});
+
+  function recharge(){
+    if('${version}' == "1.0" && $("#bankCode").val() == '0'){
+       alert("请选择充值银行");
+       return;
+    }
+    
+    $("#paySubmit").submit();
+  }
+</script>

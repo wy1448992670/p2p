@@ -1,0 +1,97 @@
+<div class="xf_ht_jr_obu_width xf_ht_xtsz_yun">
+  <div class="xf_ht_xtsz_aqwt xf_ht_xtsz_aqwt2">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0"
+      class="xf_con_mem_r_b_table">
+      <tr>
+        <th width="60">选择</th>
+        <th width="60">序号</th>
+        <th width="80">用户组</th>
+        <th>描述</th>
+      </tr>
+      #{list pageBean?.page}
+      <tr>
+        <td><input type="radio" name="group" value="${_?.id}" attr_text="${_?.name}"/></td>
+        <td>${_index}</td>
+        <td>${_?.name}</td>
+        <td>${_?.description}</td>
+      </tr>
+      #{/list}
+    </table>
+    
+    <!-- 分页器 -->
+    <div class="xf_wylc_page xf_zqzr_view_page1 xf_znx_view_page1">
+      #{page funMethod:"selectGroupsOfSupervisorInit",currPage:pageBean.currPage,pageSize:pageBean.pageSize,
+      totalCount:pageBean.totalCount,theme:2,style:4 /}
+    </div>    
+
+    <div class="xf_ht_tcc_button_box xf_ht_tcc_button_box_ok">
+      <input class="xf_ht_tcc_button_ok" type="button" onclick="submit();" value="确  定">
+      *{不需要了
+        <input class="xf_ht_tcc_button_on" type="button" value="取  消">}*
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  
+  $(function() {
+    //关闭
+    $(".xf_ht_jr_obu_r").click(function() {
+      g_selectedIds = clone(g_groupIds);
+      $("#xf_ht_szqxz_ttc").hide();
+    });
+
+    init();
+
+    //取消
+    $(".xf_ht_tcc_button_on").click(function() {
+      g_selectedIds = clone(g_groupIds);
+      parent.layer.close(layer.index);
+    });
+    
+ 	 //单选框被点击
+    $("#xf_ht_szqxz_ttc :radio").click(function() {
+      var id = $(this).val();
+      var isSelected = this.checked;
+
+      if (isSelected) {
+        g_selectedIds = id;
+       	$('.roleName').text($(this).attr('attr_text'));
+      }
+    });
+    
+    //复选框被点击
+    $("#xf_ht_szqxz_ttc :checkbox").click(function() {
+      var id = $(this).val();
+      //var name = $(this).attr("name");
+      var isSelected = this.checked;
+
+      if (isSelected) {
+        g_selectedIds.push(id);
+      } else {
+        g_selectedIds.removeObject(id);
+      }
+    });
+  });
+
+  //初始化
+  function init() {
+	  $('#xf_ht_szqxz_ttc :radio[value="'+ g_selectedIds +'"]').attr('checked','checked');
+  }
+  
+  //确定
+  function submit() {
+    groupsDidSelect(g_selectedIds);
+    //alert("p2p---BBBB---:"+p2p);
+    //var index = parent.layer.getFrameIndex(window.name);
+    //for(var i = ps+1; i<=p2p;i++) {
+    //	layer.close(p2p);
+    //}
+    
+    //layer.closeAll();
+    //parent.layer.close(layer.index);
+    layer.close(p2p);
+    //$("#xf_ht_szqxz_ttc").hide();
+  }
+  
+</script>

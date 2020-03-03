@@ -1,0 +1,439 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'超额借款审核明细' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include '/supervisor/bidManager/bidManagerLeft.control'/}
+      <div class="xn_c_content">
+        <div class="xf_content_add">
+          <div class="xfht_t_j_y_2">
+            <!--右上-->
+            <div class="xf_ht_obu_fklm">
+              #{if preOverBorrowId != -1}
+		        <input type="button" value="下一个(${preOverBorrowCount})" onclick="pre();" class="xf_ht_jkbgl_sh_view">
+		      #{/if}
+		      #{if nextOverBorrowId != -1}
+		        <input type="button" value="上一个(${laterOverBorrowCount})" onclick="next();" class="xf_ht_jkbgl_sh_view">
+			  #{/if}
+		        <input type="button" value="返回" onclick="back();" class="xf_ht_jkbgl_sh_view">
+             </div>
+             <!-- 审核详情 -->
+             <div class="xfht_t_j_y_2">
+               <!-- 详情上 -->
+               <div class="xf_ht_dfk_view">
+                 <div class="xf_ht_dfk_view_l">
+                    <div class="xf_sh_title_warp">
+                      <h3 class="xf_sh_title">借款人基本资料</h3>
+                    </div>
+                    <div class="xf_sh_table_viewmx xf_sh_table_viewmx2">
+                      <div class="xf_sh_table_viewmx_l">
+                         #{table width:"100%", border:"0", cellspacing:"0", cellpadding:"0", class:"xf_sh_jd_l"}
+                           #{tr}
+                             #{td}真实姓名：#{/td}
+                             #{td}${user?.realityName}#{/td}
+                           #{/tr}
+                           #{tr}
+                             #{td}年龄：#{/td}
+                             #{td}#{if user?.age < 1}暂无#{/if}#{else}${user?.age}#{/else}#{/td}
+                           #{/tr}
+                           #{tr}
+                             #{td}身份证号码：#{/td}
+                             #{td}${user?.idNumber}#{/td}
+                           #{/tr}
+                           #{tr}
+                             #{td}婚姻状况：#{/td}
+                             #{td}${user?.maritalName}#{/td}
+                           #{/tr}
+                           #{tr}
+                             #{td}购车情况：#{/td}
+                             #{td}${user?.carName}#{/td}
+                           #{/tr}
+                         #{/table}
+                        </div>
+                        <div class="xf_sh_table_viewmx_r">
+                          #{table width:"100%", border:"0", cellspacing:"0", cellpadding:"0", class:"xf_sh_jd_l"}
+                            #{tr}
+                              #{td}性别：#{/td}
+                              #{td}${user?.sex}#{/td}
+                            #{/tr} 
+                            #{tr}
+                              #{td}文化程度：#{/td}
+                              #{td}${user?.educationName}#{/td}
+                            #{/tr}
+                           #{tr}
+                             #{td}户口所在地：#{/td}
+                             #{td}${user?.provinceName}/${user?.cityName}#{/td}
+                           #{/tr}
+                           #{tr}
+                             #{td}购房情况：#{/td}
+                             #{td}${user?.houseName}#{/td}
+                           #{/tr}
+                         #{/table}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="xf_ht_dfk_view_r">
+                      <div class="xf_ht_mem_img">
+                        #{img src:"${user?.photo}",alt:"", title:"会员头像"}#{/img}
+                      </div>
+                      <div class="xf_ht_mem_input clr">
+                        <input style="width: 170px;" onclick="showMessageWindow();" class="xf_ht_mem_input_button" type="button" value="发送站内信">
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 信用记录 -->
+                  <div class="xf_ht_cejk_xyjl">
+                    <div class="xf_ht_cejk_xyjl_top">信用记录</div>
+                    <div class="xf_ht_cejk_xyjl_bottom">
+                      <ul>
+                        <li>信用等级：
+                          <span class="xf_ht_cejk_xyjl_A" style="position: relative; top:15px;">#{img src:"${user?.myCredit?.imageFilename}",alt:"",width:"30px",height:"30px"}#{/img}</span>
+                        </li>
+                        <li>信用积分：
+                          <span class="xf_ht_cejk_xyjl_red">${user?.creditScore}</span> 分
+                        </li>
+                        <li>借贷记录：
+                        	<span class="xf_ht_cejk_xyjl_red">${creditRecord?.successBidCount}</span>次成功，
+                          <span class="xf_ht_cejk_xyjl_lv">${creditRecord?.flowBids}</span></span>次流标
+                        </li>
+                        <li>还款记录：
+                          <span class="xf_ht_cejk_xyjl_lv">${creditRecord?.normalRepaymentCount}</span>次正常，
+                          <span class="xf_ht_cejk_xyjl_red">${creditRecord?.overdueRepaymentCount}</span>次逾期已还。
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <!-- 详情中 -->
+                  <div class="xf_con_mem_r_content" id="xf_wyjkview_xxk">
+                    <ul class="xf_con_mem_r_tentul clr">
+                      <li class="xf_con_wyjk_r_liishot">超额借款申请</li>
+                      <li>历史申请记录</li>
+                    </ul>
+                   <div class="xf_ht_Tab xf_ht_Tab_border">
+                      <div class="xf_ht_tab_view">
+                        #{table width:"100%", border:"0", cellspacing:"0", cellpadding:"0", class:"xf_con_mem_r_b_table"}
+                          #{tr}
+                            #{th}序号#{/th}
+                            #{th}标准信用额度#{/th}
+                            #{th}申请信用额度#{/th}
+                            #{th}通过额度#{/th}
+                            #{th}申请时间#{/th}
+                            #{th}审核结果#{/th}
+                          #{/tr}
+                          #{if auditingOverBorrow != null}
+                          #{tr}
+                            #{td}1#{/td}
+                            #{td}${auditingOverBorrow?.credit_line}#{/td}
+                            #{td}${auditingOverBorrow?.amount?.format("###,##0.00")}#{/td}
+                            #{td}${auditingOverBorrow?.pass_amount?.format("###,##0.00")}#{/td}
+                            #{td}${auditingOverBorrow?.time?.format("yyyy-MM-dd")}#{/td}
+                            #{td}${auditingOverBorrow?.status}#{/td}
+                          #{/tr}
+                          #{/if}
+                        #{/table}
+                     </div>
+                   </div>
+                   <div class="xf_ht_Tab xf_ht_Tab_border">
+                     <div class="xf_ht_tab_view">
+                        #{table width:"100%", border:"0", cellspacing:"0", cellpadding:"0", class:"xf_con_mem_r_b_table"}
+                          #{tr}
+                            #{th}序号#{/th}
+                            #{th}标准信用额度#{/th}
+                            #{th}超额申请额度#{/th}
+                            #{th}通过额度#{/th}
+                            #{th}申请时间#{/th}
+                            #{th}审核结果#{/th}
+                          #{/tr}
+                          #{list historyOverBorrows}
+                          #{tr}
+                             #{td}${_index}#{/td}
+                             #{td}${_?.credit_line}#{/td}
+                             #{td}${_?.amount?.format("###,##0.00")}#{/td}
+                             #{td}${_?.pass_amount?.format("###,##0.00")}#{/td}
+                             #{td}${_?.time?.format("yyyy-MM-dd")}#{/td}
+                             #{td}${_?.status}#{/td}
+                          #{/tr}
+						  #{/list}
+                        #{/table}
+                     </div>
+                   </div>
+                 </div>
+                 <!-- 详情下 -->
+                 <div class="xf_con_mem_r_bottom" id="xf_con_mem_r_Tab">
+                    #{table width:"100%", border:"0", cellspacing:"0", cellpadding:"0", class:"xf_con_mem_r_b_table"}
+                      #{tr}
+                        #{th colspan:"8", class:"xf_mem_r_b_title_th"}
+                          <div class="xf_mem_r_b_title"> 风控审核管理<b class="xf_mem_r_b_title_x"></b></div>
+                        #{/th}
+                      #{/tr}
+                      #{tr}
+                         #{th}序号#{/th}
+                         #{th}科目#{/th}
+                         #{th}状态#{/th}
+                         #{th}提交时间#{/th}
+                         #{th}审核时间#{/th}
+                         #{th}操作#{/th}
+                      #{/tr}
+                      #{list items}
+                      #{tr}
+                        #{td}${_index}#{/td}
+                        #{td}${_?.name}#{/td}
+                        #{td}
+                          #{if _?.status == 0}未提交#{/if}
+                          #{elseif _?.status == 1}审核中#{/elseif}
+                          #{elseif _?.status == 2}已通过审核#{/elseif}
+                          #{elseif _?.status == 3}过期失效#{/elseif}
+                          #{else}未通过审核#{/else}
+                        #{/td}
+                        #{td}${_?.submit_time?.format("yyyy-MM-dd HH:mm")}#{/td}
+                        #{td}${_?.audit_time?.format("yyyy-MM-dd HH:mm")}#{/td}
+                        #{td}
+                          #{if _?.status == 1}
+						    <a style="cursor: pointer;" class="xf_ta_onclick" onclick="showaudititem('${_?.mark}', '${_?.signUserId}');">审核</a>
+						  #{/if}
+						  #{elseif _?.status == 0}
+							 ---
+						  #{/elseif}
+						  #{else}
+							<a style="cursor: pointer;" class="xf_ta_onclick" onclick="showitem('${_?.mark}', '${_?.signUserId}');">查看</a>
+						  #{/else}
+						  #{if _?.status == 0}
+							---
+						  #{/if}
+						  #{else}
+							 <a style="cursor: pointer;" class="xf_ta_onclick" href="@{Application.downloadFiles(_?.images, _?.type)}">下载</a>
+						  #{/else}
+                        #{/td}
+                      #{/tr}
+    				  #{/list}
+                    #{/table}
+                 </div>
+                 <div class="xf_con_mem_r_bottomtwo">
+                    #{table width:"100%", border:"0", cellspacing:"0", cellpadding:"0", class:"xf_ht_memcz_table"}
+                      #{tr}
+                        #{td width:"78", align:"right"}<span class="xf_s_sz">通过额度：</span>#{/td}
+                        #{td}
+                          #{if auditingOverBorrow?.status?.equals("审核中")}    
+                             <input id="passAmount" class="xfht_zr_input" type="text" value="${suggestPassAmount}" onkeyup="value=value.replace(/[^\d]/g,'')" onchange="value=value.replace(/[^\d]/g,'')">元 
+                          #{/if}
+                          #{else}
+                             <input id="passAmount" class="xfht_zr_input" type="text" value="${auditingOverBorrow?.pass_amount?.format('###,##0.00')}" #{if !auditingOverBorrow?.status?.equals("审核中")}readonly="readonly"#{/if}>元 
+                          #{/else}
+                          <span class="xf_ht_zrinput_red">注：当前用户提交的审核科目只通过${passedAuditItemsCount}项，建议通过额度为${suggestPassAmount}元</span>
+                        #{/td}
+                      #{/tr}
+                      #{tr}
+                        #{td width:"78", align:"right"}<span class="xf_s_sz">申请原因：</span>#{/td}
+                        #{td}
+                          <textarea class="xf_ht_jr_obttd_textarea xf_ht_jr_shmx_textarea" style="max-width:800px;" readonly="readonly">${auditingOverBorrow?.reason}</textarea>
+                        #{/td}
+                      #{/tr}
+                      #{tr}
+                        #{td align:"right"}<span class="xf_s_sz">审核状态：</span>#{/td}
+                        #{td}
+                        #{if auditingOverBorrow?.status?.equals(over_loan_no_through)}
+                          <input class="xf_ht_radio" value="1" name="xf_ht_radio" type="radio" #{if !auditingOverBorrow?.status?.equals("审核中")}disabled#{/if}>
+						  <span class="xf_ht_jr_obttd_span">通过</span>
+						  <input class="xf_ht_radio xf_ht_radio2" value="2" checked="checked" name="xf_ht_radio" type="radio" #{if !auditingOverBorrow?.status?.equals("审核中")}disabled#{/if}>
+						  <span class="xf_ht_jr_obttd_span">不通过</span>
+                        #{/if}
+                        #{else}
+                          <input class="xf_ht_radio" value="1" checked="checked" name="xf_ht_radio" type="radio" #{if !auditingOverBorrow?.status?.equals("审核中")}disabled#{/if}>
+						  <span class="xf_ht_jr_obttd_span">通过</span>
+						  <input class="xf_ht_radio xf_ht_radio2" value="2" name="xf_ht_radio" type="radio" #{if !auditingOverBorrow?.status?.equals("审核中")}disabled#{/if}>
+						  <span class="xf_ht_jr_obttd_span">不通过</span>
+                        #{/else}
+                        #{/td}
+                      #{/tr}
+                      #{tr}
+                        #{td align:"right"}<span class="xf_s_sz">审核意见：</span>#{/td}
+                        #{td}
+                          <textarea onKeyDown="LimitTextArea(this)" onKeyUp="LimitTextArea(this)" onkeypress="LimitTextArea(this)" id="auditOpinion" #{if !auditingOverBorrow?.status?.equals("审核中")}readonly="readonly"#{/if} class="xf_ht_jr_obttd_textarea xf_ht_jr_shmx_textarea" style="max-width:800px;">${auditingOverBorrow?.audit_opinion}</textarea>
+                        #{/td}
+                      #{/tr}
+                      #{if auditingOverBorrow?.status?.equals("审核中")}
+                      #{tr}
+                        #{td}#{/td}
+                        #{td class:"xf_ht_shmx_button"}
+                          <input class="xf_ht_tcc_button_ok" type="button" onclick="audit();" value='确  定'>
+                        #{/td}
+                      #{/tr}
+                      #{/if}
+                    #{/table}
+                 </div>
+                 <div class="xf_jkb_btowarp">
+                 <div class="xf_jkb_bto">
+                   #{if preOverBorrowId != -1}
+    				  <input type="button" value="上一个(${preOverBorrowCount})" onclick="pre();" class="xf_ht_jkbgl_sh_view">
+                   #{/if}
+                   #{elseif nextOverBorrowId != -1}
+                     <input type="button" value="下一个(${laterOverBorrowCount})" onclick="next();" class="xf_ht_jkbgl_sh_view">
+	               #{/elseif}
+                     <input type="button" value="返回" onclick="back();" class="xf_ht_jkbgl_sh_view">
+                </div>
+              </div>
+            </div>
+         </div>
+       </div>
+     </div>
+   </div>
+</div>
+#{include '/supervisor/bidManager/OverBorrowAction/sendMessages.control'/}
+<!-- 查看资料弹出层 -->
+<div id="showitem" class="xn_c_ban_jox xn_c_ban_jox_ptsh" style="height: 400px; overflow: auto; display: none;">
+</div>
+<!-- 审核资料弹出层 -->
+<div id="audititem" class="xn_c_ban_jox xn_c_ban_jox_ptsh" style="height: 400px; overflow: auto; display: none;">
+</div>
+<script type="text/javascript">
+	var g_over_borrow_id = -1;
+	
+	$(function() {
+		/* 高亮显示 */
+		showHighLight(5, 5, 17);
+		g_over_borrow_id = '${params.get("id")}';
+	});
+	
+	function LimitTextArea(field){
+	    maxlimit=100;
+	    if (field.value.length > maxlimit)
+	     field.value = field.value.substring(0, maxlimit);
+      
+   }
+	
+	function back() {
+		window.location.href = "overBorrows";
+	}
+	
+	function pre() {
+		window.location.href = "overBorrowDetails?id=" + '${preOverBorrowId}';
+	}
+	
+	function next() {
+		window.location.href = "overBorrowDetails?id=" + '${nextOverBorrowId}';
+	}
+	
+	function showMessageWindow() {
+		$("#messageWindow").show();
+		$.layer({
+		  type: 1,
+		  area: ['608', 'auto'],
+		  title: '审核资料',
+		  page: {dom : '#messageWindow'}
+		});
+	}
+	
+	function sendMessage() {
+		var content = $("#msgContent").val();
+		var len = content.length;
+		
+		if (len > 1000) {
+			//layer.msg("超出字数范围!", 1, 5);
+			alert("超出字数范围!");
+			
+			return;
+		}
+	
+		if (content == '') {
+			//layer.msg("内容不能为空!", 1, 5);
+			alert("内容不能为空!");
+			
+			return;
+		}
+		
+		var receiverName = '${user?.name}';
+		
+		$.ajax({
+			url : "@{sendMessage()}",
+			type : "POST",
+			data : {
+				"receiverName" : receiverName,
+				"content" : content
+			},
+			success : function(error) {
+				if (error.code < 0) {
+					//layer.msg(error.msg, 1, 5);
+					alert(error.msg);
+					
+					return;
+				} 
+
+				layer.closeAll();
+			},
+			error : function() {
+				//layer.msg("对不起，出现错误!", 1, 5);
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+	
+	/* 查看弹出层 */
+	function showitem(mark, signUserId){
+		var listAction = #{jsAction @supervisor.bidManager.UserAuditItemAction.showitem(':mark',':signUserId') /};
+		$.post(listAction({mark:mark, signUserId:signUserId}), function(data) {
+			$("#showitem").html(data);
+	        $.layer({
+	          type: 1,
+	          area: ['608', 'auto'],
+	          title: '查看资料',
+	          page: {dom : '#showitem'}
+	        });
+		});	
+	}
+
+	/* 审核弹出层 */
+	function showaudititem(mark, signUserId){
+		var listAction = #{jsAction @supervisor.bidManager.UserAuditItemAction.audititem(':mark',':signUserId') /};
+		$.post(listAction({mark:mark, signUserId:signUserId}), function(data) {
+			$("#audititem").html(data);
+	        $.layer({
+	          type: 1,
+	          area: ['608', 'auto'],
+	          title: '审核资料',
+	          page: {dom : '#audititem'}
+	        });
+		});
+	}
+	
+	function audit() {
+		var overBorrowId = g_over_borrow_id;
+		var status = $('input:radio[name="xf_ht_radio"]:checked').val();
+		var passAmount = $("#passAmount").val();
+		
+		if (passAmount.isBlank()) {
+			alert("请输入通过额度");
+			
+			return;
+		}
+		
+		var auditOpinion = $("#auditOpinion").val();
+		
+		if (auditOpinion.isBlank()) {
+			//layer.msg("请输入审核意见!", 1, 5);
+			alert("请输入审核意见!");
+			
+			return;
+		}
+		
+		$.ajax({
+			url : "@{audit()}",
+			type : "POST",
+			data : {
+				"overBorrowId" : overBorrowId,
+				"status" : status,
+				"passAmount" : passAmount,
+				"auditOpinion" : auditOpinion
+			},
+			success : function(data) {
+				//layer.msg(data.msg, 1, 4);
+				alert(data.msg);
+				
+				if (data.code >= 0) {
+					back();
+				}
+			},
+			error : function() {
+				ayer.msg("对不起，出现错误!", 1, 5);
+			}
+		});
+	}
+</script>

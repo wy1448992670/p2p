@@ -1,0 +1,212 @@
+#{extends 'wechat/common.html' /}
+
+<body>
+  #{form @wechat.account.WechatAccountHome.myLoanBids(), id:'submit'}
+  <input type="hidden" name="condition" id="condition" value="${condition}">
+  <input type="hidden" name="condition" id="condition" value="${condition}">
+	<div class="s_main s_center">
+		<header class="s_header">
+			我的借款标
+			<a href="@{wechat.account.WechatAccountHome.accountInfo()}" class="icobg"></a>
+		</header>
+		<div class="s_search s_searchshort">
+			<input type="text" placeholder="借款标题/借款编号" name="keyWord" id="keyWord" value="${keyword}" />
+			<label><i class="icobg" onclick="optionCheck()"></i></label>
+			<div class="s_borrowstate">
+        <h4><span>待放款</span><i>▽</i></h4>
+				<ul>
+					<li onclick="optionCheck(0)">审核中</li>
+					<li onclick="optionCheck(1)">借款中 </li>
+					<li onclick="optionCheck(3)">还款中</li>
+					<li onclick="optionCheck(4)">已完成</li>
+					<li onclick="optionCheck(5)">失败的</li>
+				</ul>
+			</div>
+		</div>
+		<div id="wrapper">
+		  <div id="scroller">
+		   <div id="main">
+				#{list pageBean?.page}
+					<div class="s_lcprotab">
+						<a href="@{wechat.account.WechatAccountHome.myLoanBidDetails(_?.sign)}">
+							<h3>#{img src:"${_?.small_image_filename}",width:"20",height:"20"}#{/img}${_?.title}</h3>
+							<ul class="s_lcprodatas">
+								<li>借款编号：${_?.bid_no}</li>
+								<li>借款金额：￥${_?.amount?.format('###,##0.00')}</li>
+								<li>
+									借款期限：${_?.period}
+									  #{if _?.period_unit == -1}
+									         年
+									  #{/if}
+									  #{elseif period_unit == 0}
+									        个月
+									  #{/elseif}
+									  #{else}
+									        天
+									  #{/else}
+								</li>
+								<li>本息合计：￥${_?.capital_interest_sum?.format('###,##0.00')}</li>
+								<li>年 利 率：${_?.apr}%</li>
+							</ul>
+						</a>
+					</div>
+			  #{/list}
+		  </div>
+			<div id="pullUp">
+	    		<div></div>
+	   </div>
+	 </div>
+ </div>
+	</div>
+	#{/form}
+</body>
+
+<script type="text/javascript">
+function optionCheck(num){
+	$("#condition").val(num);
+	$("#submit").submit();
+}
+
+</script>
+
+<script type="text/javascript">
+var currPage = 1;
+var myScroll, pullUpEl, pullUpOffset;
+
+function pullUpAction() {
+	setTimeout(function () {
+		currPage = currPage + 1;
+		var condition = $("#condition").val();
+		var keyWord = $("#keyWord").val();
+		$.ajax({
+			url: "@{wechat.account.WechatAccountHome.myLoanBids()}",
+			type: "POST",
+			dataType: "json",
+			data: {
+				"currPage": currPage,
+				"condition": condition,
+				"keyWord": keyWord,
+				"mark": 2
+			},
+			success: function (data) {
+					var arr = eval(data);
+					var list = arr.page.page;
+					if (list.length == 0) {
+						$("#pullUp").children("div").removeClass("s_onloading").addClass("s_nodata").html("没有更多了").animate({opacity:'0'},3000);
+						
+					} else {
+						for (var i = 0; i < list.length; i++) {
+							var title = list[i].title;
+							var sign = list[i].sign;
+							var url = list[i].small_image_filename;
+							var unit = list[i].period_unit;
+							var period = list[i].period;
+							var amount = amountFormat(list[i].amount);
+							var capitalInterestSum = amountFormat(list[i].capital_interest_sum);
+							var apr = list[i].apr;
+							var bidNo = list[i].bid_no;
+							var periodUnit = " 天";
+
+							if(unit == 1){
+							  periodUnit = "年";
+							  }
+
+							if(unit == 0){
+								  periodUnit = "个月";
+								  }
+							
+							$("#main").append("<div class='s_lcprotab'>"+
+									"<a href=@{wechat.account.WechatAccountHome.myLoanBidDetails()}?sign="+sign+">"+
+									"<h3><img class=protype src="+url+" alt='' />"+title+"</h3>"+
+									"<ul class='s_lcprodatas'>"+
+										"<li>借款编号："+bidNo+"</li>"+
+										"<li>借款金额：￥"+amount+"</li>"+
+										"<li>借款期限："+period+""+periodUnit+"</li>"+
+										"<li>本息合计：￥"+capitalInterestSum+"</li>"+
+										"<li>年 利 率："+apr+"%</li></ul></a></div>");
+								}
+						myScroll.refresh();
+					}
+				},
+				error: function () {
+				}
+		});
+		//myScroll.refresh(); // 数据加载完成后，调用界面更新方法 Remember to refresh when contents are loaded (ie: on ajax completion)
+	}, 1000); // <-- Simulate network congestion, remove setTimeout from production!
+}
+
+function loaded() {
+	pullUpEl = document.getElementById('pullUp');
+	pullUpOffset = pullUpEl.offsetHeight;
+
+	myScroll = new iScroll('wrapper', {
+		scrollbarClass: '',
+		/* 重要样式  myScrollbar*/
+		useTransition: false,
+		/* 此属性不知用意，本人从true改为false */
+		//topOffset: pullDownOffset,
+		onRefresh: function () {
+				if (pullUpEl.className.match('loading')) {
+					pullUpEl.className = '';
+					var $s = $(pullUpEl);
+					$s.children("div").removeClass("s_onloading");
+				}
+			},
+			onScrollMove: function () {
+				if (this.y < (this.maxScrollY - 5) && !pullUpEl.className.match('flip')) {
+					pullUpEl.className = 'flip';
+					this.maxScrollY = this.maxScrollY;
+				} else if (this.y > (this.maxScrollY + 5) && pullUpEl.className.match('flip')) {
+					pullUpEl.className = '';
+					this.maxScrollY = pullUpOffset;
+					//this.maxScrollY = this.maxScrollY;
+				}
+			},
+			onScrollEnd: function () {
+				if (pullUpEl.className.match('flip')) {
+					pullUpEl.className = 'loading';
+					var $s = $(pullUpEl);
+					$s.children("div").html("").addClass("s_onloading");
+					pullUpAction(); // Execute custom function (ajax call?)
+				}
+			}
+	});
+
+	setTimeout(function () {
+		document.getElementById('wrapper').style.left = '0';
+	}, 800);
+}
+
+//初始化绑定iScroll控件 
+document.addEventListener('touchmove', function (e) {
+	e.preventDefault();
+}, false);
+document.addEventListener('DOMContentLoaded', loaded, false);
+
+</script>
+<style type="text/css" media="all">
+#wrapper {
+	position:absolute; z-index:1;
+	top:110px; bottom:10px; left:0;
+	width:100%;
+/* 	background:#555; */
+	overflow:auto;
+}
+
+#scroller {
+	position:relative;
+/*	-webkit-touch-callout:none;*/
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+
+	float:left;
+	width:100%;
+	padding:0;
+}
+
+#pullUp {
+	 height: 80px;
+}
+
+</style>
+
+

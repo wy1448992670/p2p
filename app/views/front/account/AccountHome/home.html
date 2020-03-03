@@ -1,0 +1,187 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+	boolean ipsEnable = constants.Constants.IPS_ENABLE;
+}%
+ 
+#{extends 'common/frontMain.html' /}
+ 
+
+#{set title:currBackstageSet.seoTitle +' | 我的账户 | 我的账户首页' /}
+<!-- 内容区域 start -->
+<div class="p_bgf1_box pb30 pt30">
+    <div class="p_main clr">
+        <!-- 左边导航区域 -->
+		#{include "front/account/AccountHome/homeLeft.control"/}
+        <div class="p_right_wordbox">
+            <div class="p_zh_rtword">
+                <h4 class="p_hp_title clr"><strong>账户总览</strong></h4>
+                <div class="p_zh_rtbox01 clr">
+                	<!-- 用户头像 -->
+                    #{include "front/account/AccountHome/homePhoto.control"/}
+                    <!-- 用户的基本 信息-->
+                    #{include "front/account/AccountHome/homeInfo.control"/}
+                    <div class="p_0107box">
+                    	<a class="p_btn1" href="@{front.account.FundsManage.withdrawal()}">提现</a>
+                    </div>
+                </div>
+                <!-- 温馨提示 -->
+                #{if user != null && user.financeType == 1}
+					#{include "front/account/AccountHome/homePoint.control"/}
+				#{/if}
+				<!-- 快捷操作 -->
+                #{include "front/account/AccountHome/homeView.control"/}
+               <!-- 转让和借款标详情 -->
+				<!--  #{include "front/account/AccountHome/homeRecommendation.control"/}-->
+				#{if user != null && user.financeType == 1}
+				<div class="p_zh_xxkbox mb25">
+			        <ul class="p_zh_xxkul">
+			            <li  >优质借款标推荐</li>
+			        </ul>
+				</div>
+                <div class="p_zh_tabox">
+                    <div class="p_sy_prolist">
+                        <table class="p_sy_table" width="100%">
+                            <tr height="44">
+                            <td width="150">项目名称</td>
+                                <td width="130">合同约定年化利率</td>
+                                <td width="134">金额（元）</td>
+                                <td width="99">期限</td>
+                                <td width="110">进度</td>
+                                <td>状态</td>
+                            </tr>
+                            #{if qualityBids?.size()!=0}
+	    					#{list items:qualityBids,as:'qualityBids'}
+	    					  <tr height="76">
+                                <td><span class="co333">${qualityBids?.title}</span></td>
+                                <td><span class="cozhuse">${qualityBids?.apr}%</span></td>
+                                <td><span class="co333">￥${qualityBids?.amount?.format('###,##0.00')}</span></td>
+                                <td><span class="co333">
+                                  #{if qualityBids.period_unit == -1}
+                                   	${qualityBids?.period}  年
+                                  #{/if}
+                                  #{elseif qualityBids.period_unit == 0}
+                                   	${qualityBids?.period}  月
+                                  #{/elseif}
+                                  #{elseif qualityBids.period_unit == 1}
+                                    ${qualityBids?.period}  天
+                                  #{/elseif}
+                                </span></td>
+                                <td><span class="probar50" probar="${qualityBids?.loan_schedule}">${qualityBids?.loan_schedule}%</span></td>
+                                <td><a href="@{front.invest.investAction.invest(qualityBids?.id)}" target="_self"  class="p_sy_tbtn">立即投标</a></td>
+                            	</tr>
+	    					#{/list}
+	    					#{/if}
+                           
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="p_zh_tabox none">
+                    <div class="p_sy_prolist">
+                        <table class="p_sy_table" width="100%">
+                            <tr height="44">
+                            <td width="150">项目名称</td>
+                                <td width="130">合同约定年化利率</td>
+                                <td width="">待收本金（元）</td>
+                                <td width="">目前拍价（元）</td>
+                                <td width="140">剩余时间</td>
+                                <td>状态</td>
+                            </tr>
+                            #{if qualityDebts?.size()!=0}
+                            #{list items:qualityDebts, as:'debt'}
+                               <tr height="76">
+                                <td><span class="fl">${debt?.title}</span></td>
+                                <td><span class="cozhuse">${debt?.apr}%</span></td>
+                                <td><span class="co333">￥#{format money:debt?.debt_amount}#{/format}</span></td>
+                                <td><span class="co333">￥
+                                #{if debt?.max_price != null}
+									#{format money:debt?.max_price}#{/format}
+								#{/if}
+								#{else}
+									0
+								#{/else}
+                                </span></td>
+                                <td>
+                                	<!--剩余时间需要js控制动态效果  -->
+                                	<input id="hiddenTime${debt_index}" type="hidden" value="${debt?.end_time?.format('yyyy/MM/dd HH:mm:ss')}"></input>
+                                 	<span class="cozhuse" id="day${debt_index}"></span><span class="co333">天</span><span class="cozhuse" id="hours${debt_index}"></span><span class="co333">小时</span><span class="cozhuse" id="minutes${debt_index}"></span><span class="co333">分</span><span class="cozhuse" id="seconds${debt_index}"></span><span class="co333">秒</span>
+                                 </td>
+                                <td><a href="@{front.debt.debtAction.debtDetails(debt.id)}" target="_self" class="p_sy_tbtn">立即竞拍</a></td>
+                            	</tr>
+                            #{/list}
+                            #{/if}
+                        </table>
+                    </div>
+                </div>
+                <!-- 借款小助手 -->
+					#{include "front/account/AccountHome/homeAssistant.control"/}
+				#{/if}
+				 
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 内容区域 end -->     
+<!-- vip弹出层  -->     
+#{include "front/account/AccountHome/homeVipApply.control"/}
+#{include "front/account/AccountHome/homeVipContent.control"/}
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript">
+$(function(){
+
+    //$("#child0").addClass("cozhuse");
+    
+   // $("#lab_1").trigger("click");
+    
+    showTime();
+    
+});
+
+
+
+function showTime(){
+	var listsize = ${qualityDebts.size};
+    
+	 for(var i = 1; i <= listsize; i++){
+		var time = $("#hiddenTime"+i).val();
+		date = new Date(time);
+		var tt = date.getTime();
+		var now = new Date().getTime();
+		var cha = tt-now;
+		var SysSecond=parseInt(cha);
+	  
+	    if (SysSecond > 0) { 
+  	        int_day=Math.floor(SysSecond/86400000);
+           SysSecond-=int_day*86400000;
+           int_hour=Math.floor(SysSecond/3600000);
+           SysSecond-=int_hour*3600000;
+           int_minute=Math.floor(SysSecond/60000);
+           SysSecond-=int_minute*60000;
+           int_second=Math.floor(SysSecond/1000);
+           
+           if(int_hour<10){
+            	 int_hour="0"+int_hour;
+			 }
+			 
+           if(int_minute<10){
+          		int_minute="0"+int_minute;
+		     }
+		     
+      		if (int_second<10){
+           	int_second="0"+int_second;
+           }
+            
+ 			$("#day"+i).html(int_day);
+ 			$("#hours"+i).html(int_hour);
+ 			$("#minutes"+i).html(int_minute);
+ 			$("#seconds"+i).html(int_second);
+ 		}else{
+	        $("#day"+i).html("00");
+		    $("#hour"+i).html("00");
+		    $("#minutes"+i).html("00");
+		    $("#seconds"+i).html("00");
+       }
+	   }
+	    setTimeout('showTime()',1000);
+	 }
+</script>

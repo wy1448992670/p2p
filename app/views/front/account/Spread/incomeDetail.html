@@ -1,0 +1,107 @@
+		<div class="xf_zqzr_znx_window" id="xf_mem_zchkjf_window">
+			<div class="xf_wyjkwszl_4_windowInner xf_hmd_wdxydj_window">
+				<div class="xf_wyjkfb_4_windowClose" id="close"></div>
+				<div class="xf_wyjkfb_4_windowColName">
+					有效CPS会员明细
+				</div>
+        		<!-- 搜索区域 -->
+				<ul class="xf_memzjgl_wdxydji clr">
+				    <li class="xf_membill_searchLi">
+					有效会员名
+					</li>
+					<li class="xf_membill_searchLi">
+						<input type="text" id="key" name="key" value="${page.conditions.key}" id="xf_membill_shurk_yhm" class="xf_membill_shurk_yhm">
+					</li>
+					<li>
+						<input type="button" onClick="detailSerach('1','10')" value="搜 索" class="xf_membill_button_yhm xf_membill_button_yhm2">
+					</li>
+				</ul>
+				<!-- 搜索结果 -->
+				<div class="xf_mem_xydj_search">
+					<table border="0" cellpadding="0" cellspacing="0" width="565" class="xf_mem_xydj_viewcpms">
+						<tbody>
+							<tr>
+							<th align="center" width="42">序号</th>
+						  	<th width="77">会员名</th>
+						  	<th align="center" width="197">注册时间</th>
+						  	<th width="48">借款交易额</th>
+						  	<th width="148">投资交易额</th>
+						  	<th width="148">是否有效会员</th>
+						  	<th width="148">CPS奖金</th>
+							</tr>
+							#{list items:page.page,as:'income'}
+							<tr>
+								<td>${income_index}</td>
+					            <td>${income?.name}</td>
+					            <td>${income?.time?.format('yyyy-MM-dd HH:mm:ss')}</td>
+					            <td>${income?.bid_amount?.format("###,##0.00")}</td>
+					            <td>${income?.invest_amount?.format("###,##0.00")}</td>
+					            <td>#{if income?.is_active } 是 #{/if} #{else} 否 #{/else}</td>
+					            <td>${income?.cps_award?.format("###,##0.00")}</td>
+							</tr>
+							#{/list}
+						</tbody>
+					</table>
+				</div>
+				<!-- 分页器 -->
+				<div class="xf_wylc_page xf_memxydj_view">
+				 #{page
+		           pageTitle:"有效CPS会员明细",
+		           funMethod:"incomeDetails",
+		           currPage:page.currPage,
+		           pageSize:page.pageSize,
+		           totalCount:page.totalCount,
+		           theme:2,
+		           style:2
+		         /}
+				</div>
+				<div class="xf_xydj_a_bq xf_xydj_a_bq2">
+					<a href="#" class="xf_con_inputfbjk" id="close1">关 闭</a>
+				</div>
+			</div>
+		</div>
+  
+  
+  
+<script type="text/javascript">
+	$(function(){
+	   showDiv($("#xf_mem_zchkjf_window"));
+      
+       $("#close1").click(function(){
+          $("#xf_mem_zchkjf_window").hide();
+       })
+
+       $("#close").click(function(){
+    	   $("#xf_mem_zchkjf_window").hide();
+	   });
+	})
+     
+      function detailSerach(currPage,pageSize){
+          incomeDetails(currPage,pageSize);
+      }
+      
+      function incomeDetails(currPagev, pageSizev){
+	      $.ajax({
+				url : "@{incomeDetail()}",
+				type : "POST",
+				data : {
+				key : $("#key").val(),
+				year : ${year},
+				month : ${month},
+				currPage: currPagev,
+				pageSize: pageSizev
+				},
+				success : function(data) {
+					if (data.code < 0) {
+						alert(data.msg);
+						return;
+					}
+				    $("#showincomeDetail").html(data);
+				},
+				error : function() {
+					alert(data.msg);
+				}
+		});
+	}
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>

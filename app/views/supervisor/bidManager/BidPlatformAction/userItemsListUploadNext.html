@@ -1,0 +1,74 @@
+<style>
+<!--
+	.xf_membill_acc_viewcpms2 td{
+		text-align: center;
+	}	
+
+-->
+</style>
+<div class="xf_wyjkfb_4_windowInner xf_memjkzlshrz_window">
+	<div class="xf_jkzshrz_4_windowClose" onclick="closessubmititems();"></div>
+	<div class="xf_wyjkfb_4_windowColName">
+		上传资料
+	</div>
+	<div class="xf_wyjkfb_4_windowCot">
+		<div class="xf_wyjkfb_4_windowCol">
+			<div class="xf_memjkzlshrz_title">
+				资料名称：
+			</div>
+			<div class="xf_memjkzlshrz_4_windowText" id="itemNames">
+			
+			</div>
+			
+			<div class="clear"></div>
+			<div class="xf_memjkzlshrz_title">
+				文件类型：
+			</div>
+			<div class="xf_memjkzlshrz_4_windowText" id="fileTypeShows">
+			
+			</div>
+			
+			<div class="clear"></div>
+			<div class="xf_memjkzlshrz_title">
+				资料描述 ：
+			</div>
+			<div class="xf_memjkzlshrz_4_windowText" id="descriptions">
+				
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="xf_wyjkfb_4_windowCol">
+			<div class="xf_memjkzlshrz_title">
+				上传文件：
+			</div>
+			<div class="xf_memjkzlshrz_4_windowText">
+				<div class="xf_accout_cont_imgbj" style="position: relative;padding:0 0 0 0">
+					<input type='button' style="margin-left:0px;" class='upload_btn' value='上传图片' /> 
+					<input type="file" style="left:13px; top:2px;" class="upload_file" id="files" name="file" onchange="uploadFiles();" />
+				</div>
+				<input type="hidden" id="fileTypes" name="fileType"/>
+				<div class="xf_memjkzlshrz_table">
+					<table class="xf_membill_acc_viewcpms2" width="450" id="itemList">
+						<tr id="itemTrs-1">
+							<th>序号</th>
+							<th>资料类别</th>
+							<th>上传时间</th>
+							<th>大小</th>
+							<th>状态</th>
+							<th>预览</th>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="xf_wyjkfb_4_windowCol">
+			<div class="xf_memjkzlshrz_4_windowText" style="margin-left:86px">
+				<a class="xf_con_inputfbjk" id="xf_con_inputfbjk" onclick="createUserAuditItemSubmits();">确定</a>
+				<a class="xf_con_inputfbqux" id="xf_con_inputfbqux" onclick="closessubmititems();">取消</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+</div>
+

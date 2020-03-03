@@ -1,0 +1,322 @@
+#{extends 'wechat/common.html' /} #{set title:'债权转让' /}
+<link rel="stylesheet" type="text/css" href="/public/stylesheets/wechat/scrollbar.css">
+<div class="s_main s_center">
+	<header class="s_header">
+		债权转让 <a href="@{wechat.account.WechatAccountHome.accountInfo}" class="icobg"></a>
+	</header>
+	<!-- 搜索和排序 -->
+	#{include 'wechat/service/TransferAction/sortTransfers.html' /}
+	<div id="wrapper">
+		<div id="scroller">
+			<div id="main">
+			#{if pageBean?.page.size != 0}
+				#{list items:pageBean?.page, as:'debt'}
+				<ul class="s_lcpro">
+				<li onclick="window.location.href='@{wechat.service.transferAction.queryTransferDetail(debt?.id,debt?.small_image_filename)}'">
+					<h3>
+							#{if debt?.title?.length() <= 20}
+								${debt?.title}
+							#{/if}
+							#{else}
+								%{java.lang.String title = debt?.title?.substring(0,20) + "...";}%
+								${title}
+							#{/else}
+					</h3>
+					<div class="s_promain clearfix">
+						<ul class="s_promainl s_promainl1">
+							<li>待收本金：￥${debt?.debt_amount?.format('###,##0.00')}</li>
+							<li>拍卖底价：￥${debt?.transfer_price?.format('###,##0.00')}</li>
+							<li>目前拍价：￥ #{if debt?.max_price != null}
+								${debt?.max_price?.format('###,##0.00')} #{/if} #{else} 0 #{/else}
+							</li>
+							<li>还款日期：${debt?.repayment_time?.format('yyyy-MM-dd')}</li>
+						</ul>
+						<div class="s_promainr s_promainr1">
+							<dl>
+								#{if debt?.status == 1 || debt?.status == 2 || debt?.status == 4}
+								<input id="hiddenTime${debt_index}" type="hidden"
+									value="${debt?.end_time?.format('yyyy/MM/dd HH:mm:ss')}"></input>
+								<dt>剩余时间</dt>
+								<dd>
+									<span id="day${debt_index}"></span>天<span id="hours${debt_index}"></span>小时<span
+										id="minutes${debt_index}"></span>分<span
+										id="seconds${debt_index}"></span>秒
+								</dd>
+								#{/if} #{else}
+								<dt>剩余时间</dt>
+								<dd>已结束</dd>
+								#{/else}
+							</dl>
+							<a
+								href="@{wechat.service.transferAction.queryTransferDetail(debt?.id,debt?.small_image_filename)}"
+								class="jpbtn"> #{if debt?.status == 1} 竞拍中 #{/if} #{elseif
+								debt?.status == 2} 等待认购 #{/elseif} #{elseif debt?.status == 3} 已成功
+								#{/elseif} #{elseif debt?.status == 4} 等待确认 #{/elseif} </a>
+						</div>
+					</div>
+				</li> 
+				</ul>
+				#{/list}
+			#{/if}
+			</div>
+			<div id="pullUp">
+	    		<div></div>
+	   		</div>
+		</div>
+	</div>
+			
+</div>
+<script type="text/javascript">
+var currPage = 1;
+var nowAjax;
+var myScroll,
+	pullUpEl, pullUpOffset;
+
+function pullUpAction() {
+	setTimeout(function () {
+		currPage = currPage + 1;
+		var orderType = $("#orderType").val();
+		var keywords = $("#keywords").val();
+		$.ajax({
+			url: "@{wechat.service.TransferAction.queryAllTransfersAjax()}",
+			type: "POST",
+			data: {
+				"currPage": currPage,
+				"orderType": orderType,
+				"keywords": keywords
+			},
+			success: function (data) {
+					var arr = eval(data);
+					if (arr.error.code < 0) {
+						alert(arr.error.msg);
+					} else {
+						var list = arr.pageBean.page;
+						var listMap = arr.listMap;
+						var pageSize = arr.pageBean.pageSize;
+						if (list.length == 0) {
+							$("#pullUp").children("div").removeClass("s_onloading").addClass("s_nodata").html("没有更多了").animate({opacity:'0'},3000);
+						} else {
+							for (var i = 0; i < list.length; i++) {
+								var href = "@{wechat.service.transferAction.queryTransferDetail()}?debtId="+list[i].id+"&small_image_filename="+list[i].small_image_filename;
+								var title = list[i].title;
+								if (title.length >= 20) {
+									title = title.substring(0,20) + "...";
+								}
+								var status =  list[i].status;
+								var end_time;
+								
+								if (status == 1 || status == 2 || status == 4) {
+									end_time = "<dl><input id='hiddenTime"+(i+1+(currPage - 1)*pageSize)+"' type='hidden'"
+										+ "value="+listMap[i].end_time+"></input>"
+										+ "<dt>剩余时间</dt>"
+										+ "<dd>"
+ 										+ "<span id='day"+(i+1+(currPage - 1)*pageSize)+"'></span>天<span id='hours"+(i+1+(currPage - 1)*pageSize)+"'></span>小时<span"
+										+ " id='minutes"+(i+1+(currPage - 1)*pageSize)+"'></span>分<span"
+										+ " id='seconds"+(i+1+(currPage - 1)*pageSize)+"'></span>秒"
+										+ "</dd></dl>";
+								} else {
+									end_time = "<dl><dt>剩余时间</dt>"
+									+ "<dd>已结束</dd></dl>";
+								}
+								var statusStr;
+								if (status == 1) {
+									statusStr = "竞拍中";
+								} else if (status == 2) {
+									statusStr = "等待认购";
+								} else if (status == 3) {
+									statusStr = "已成功";
+								} else if (status == 4) {
+									statusStr = "等待确认";
+								}
+								$("#main").append("<ul class='s_lcpro'><li onclick=window.location.href='"+href+"'><h3>"+title+"</h3>"
+ 								+ "<div class='s_promain clearfix'><ul class='s_promainl s_promainl1'><li>待收本金：￥"+amountFormat(list[i].debt_amount)+"</li><li>拍卖底价：￥"+amountFormat(list[i].transfer_price)+"</li><li>目前拍价：￥"+amountFormat(list[i].max_price)+"</li><li>还款日期："+listMap[i].repayment_time+"</li></ul>"
+ 								+ "<div class='s_promainr s_promainr1'>"+end_time+"<a class='jpbtn' href='"+href+"'>"+statusStr+"</a></div></div></li></ul>");
+
+							}
+							myScroll.refresh();
+							nowAjax = ${new java.util.Date().getTime()};
+							showTimeAjax(arr.pageBean.pageSize, arr.pageBean.page.length, currPage);
+						}
+					}
+				},
+				error: function () {
+					//alert("对不起，出现错误!");
+				}
+		});
+		//============================================
+		//myScroll.refresh(); // 数据加载完成后，调用界面更新方法 Remember to refresh when contents are loaded (ie: on ajax completion)
+	}, 1000); // <-- Simulate network congestion, remove setTimeout from production!
+}
+
+function loaded() {
+	pullUpEl = document.getElementById('pullUp');
+	pullUpOffset = pullUpEl.offsetHeight;
+
+	myScroll = new iScroll('wrapper', {
+		scrollbarClass: '',
+		/* 重要样式  myScrollbar*/
+		useTransition: false,
+		/* 此属性不知用意，本人从true改为false */
+		//topOffset: pullDownOffset,
+		onRefresh: function () {
+				if (pullUpEl.className.match('loading')) {
+					pullUpEl.className = '';
+					var $s = $(pullUpEl);
+					$s.children("div").removeClass("s_onloading");
+				}
+			},
+			onScrollMove: function () {
+				if (this.y < (this.maxScrollY - 5) && !pullUpEl.className.match('flip')) {
+					pullUpEl.className = 'flip';
+					this.maxScrollY = this.maxScrollY;
+				} else if (this.y > (this.maxScrollY + 5) && pullUpEl.className.match('flip')) {
+					pullUpEl.className = '';
+					this.maxScrollY = pullUpOffset;
+					//this.maxScrollY = this.maxScrollY;
+				}
+			},
+			onScrollEnd: function () {
+				if (pullUpEl.className.match('flip')) {
+					pullUpEl.className = 'loading';
+					var $s = $(pullUpEl);
+					$s.children("div").html("").addClass("s_onloading");
+					pullUpAction(); // Execute custom function (ajax call?)
+				}
+			}
+	});
+
+	setTimeout(function () {
+		document.getElementById('wrapper').style.left = '0';
+	}, 800);
+}
+
+//初始化绑定iScroll控件 
+document.addEventListener('touchmove', function (e) {
+	e.preventDefault();
+}, false);
+document.addEventListener('DOMContentLoaded', loaded, false);
+	var now = ${new java.util.Date().getTime()};
+	showTime();
+	function showTime() {
+		var listsize;
+		listsize = ${pageBean?.page.size};
+		for (var i = 1; i <= listsize; i++) {
+			var time = $("#hiddenTime" + i).val();
+			if (typeof (time) == 'undefined' || time == null || time == "")
+				continue;
+
+			var date = new Date(time);
+			var tt = date.getTime();
+
+			var cha = tt - now;
+			var SysSecond = parseInt(cha);
+
+			if (SysSecond > 0) {
+				int_day = Math.floor(SysSecond / 86400000);
+				SysSecond -= int_day * 86400000;
+				int_hour = Math.floor(SysSecond / 3600000);
+				SysSecond -= int_hour * 3600000;
+				int_minute = Math.floor(SysSecond / 60000);
+				SysSecond -= int_minute * 60000;
+				int_second = Math.floor(SysSecond / 1000);
+
+				if (int_hour < 10) {
+					int_hour = "0" + int_hour;
+				}
+
+				if (int_minute < 10) {
+					int_minute = "0" + int_minute;
+				}
+
+				if (int_second < 10) {
+					int_second = "0" + int_second;
+				}
+
+				$("#day" + i).html(int_day);
+				$("#hours" + i).html(int_hour);
+				$("#minutes" + i).html(int_minute);
+				$("#seconds" + i).html(int_second);
+			} else {
+				$("#day" + i).html("00");
+				$("#hour" + i).html("00");
+				$("#minutes" + i).html("00");
+				$("#seconds" + i).html("00");
+			}
+		}
+		
+		setTimeout("showTime()", 1000);
+		now = now + 1000;
+	}
+
+	function showTimeAjax(pageSize, length, currPage) {
+		for (var i = 1; i <= length; i++) {
+			var index = (i+(currPage - 1)*pageSize);
+			var time = $("#hiddenTime" + index).val();
+			if (typeof (time) == 'undefined' || time == null || time == "")
+				continue;
+
+			//var date = new Date();
+			//var tt = date.getTime();
+			var cha = time - nowAjax;
+			var SysSecond = parseInt(cha);
+
+			if (SysSecond > 0) {
+				int_day = Math.floor(SysSecond / 86400000);
+				SysSecond -= int_day * 86400000;
+				int_hour = Math.floor(SysSecond / 3600000);
+				SysSecond -= int_hour * 3600000;
+				int_minute = Math.floor(SysSecond / 60000);
+				SysSecond -= int_minute * 60000;
+				int_second = Math.floor(SysSecond / 1000);
+
+				if (int_hour < 10) {
+					int_hour = "0" + int_hour;
+				}
+
+				if (int_minute < 10) {
+					int_minute = "0" + int_minute;
+				}
+
+				if (int_second < 10) {
+					int_second = "0" + int_second;
+				}
+
+				$("#day" + index).html(int_day);
+				$("#hours" + index).html(int_hour);
+				$("#minutes" + index).html(int_minute);
+				$("#seconds" + index).html(int_second);
+			} else {
+				$("#day" + index).html("00");
+				$("#hour" + index).html("00");
+				$("#minutes" + index).html("00");
+				$("#seconds" + index).html("00");
+			}
+		}
+		setTimeout("showTimeAjax("+pageSize+","+length+","+currPage+")", 1000);
+		nowAjax = nowAjax + 1000;
+	}
+</script>
+<style>
+#wrapper {
+	position:absolute; z-index:1;
+	top:170px; bottom:10px; left:0;
+	width:100%;
+/* 	background:#555; */
+	background:white;
+	overflow:auto;
+}
+
+#scroller {
+	position:relative;
+/*	-webkit-touch-callout:none;*/
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+
+	float:left;
+	width:100%;
+	padding:0;
+}
+
+#pullUp {
+	 height: 90px;
+}
+</style>

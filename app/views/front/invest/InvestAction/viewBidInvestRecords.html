@@ -1,0 +1,78 @@
+                      <table border="0" cellpadding="0" cellspacing="0" width="100%" class="xf_wylc_tb_viewcpms">
+		                    <tbody>
+		                        <tr>
+		                            <th>序号</th>
+		                            <th>出借人</th>
+		                            <th>投标金额</th>
+		                            <th>投标时间</th>
+		                            <th>投标状态</th>
+		                            <th>提问情况</th>
+		                        </tr>
+		                        	#{list items:pageBean?.page , as: 'records'}
+		                        <tr>
+		                            <td>${records_index}</td>
+		                            <td>${records?.name?.asterisk()}</td>
+		                            <td>${records?.invest_amount}</td>
+		                            <td>${records?.time?.format('yyyy-MM-dd')}</td>
+		                            <td>
+		                            #{if records?.transfer_status == 0}
+											正常
+											#{/if}
+											#{if records?.transfer_status == -1}
+											已转让出
+											#{/if}
+											#{if records?.transfer_status == 1}
+											转让中
+									#{/if}
+		                            </td>
+		                            <td>问<span class="xf_wylc_view_tblist">（${records?.question_count}）</span>答<span class="xf_wylc_view_tblist">（${records?.answer_count}）</span></td>
+		                        </tr>
+		                        	
+		                        	#{/list}
+		                    </tbody>
+               		</table>
+	                <!-- 分页器 -->
+	                <div class="xf_wylc_page xf_zqzr_view_page1">
+	                    #{page funMethod:"showBidRecords",currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:2 /}
+	                </div>
+                
+	
+	                    	<!--  <table border="0" cellpadding="0" cellspacing="0" width="958" class="xf_wylc_tb_viewcpms">
+							<tbody>
+								<tr>
+									<th>序号</th>
+									<th>出借人</th>
+									<th>投标金额</th>
+									<th>投标时间</th>
+									<th>投标状态</th>
+									<th>提问情况</th>
+								</tr>
+							#{list items:pageBean?.page , as: 'records'}	
+								<tr>
+									<td>${records_index}</td>
+									<td>${records?.name?.asterisk()}</td>
+									<td>${records?.invest_amount}元</td>
+									<td>${records?.time?.format('yyyy-MM-dd')}</td>
+									<td>
+									#{if records?.transfer_status == 0}
+									正常
+									#{/if}
+									#{if records?.transfer_status == -1}
+									已转让出
+									#{/if}
+									#{if records?.transfer_status == 1}
+									转让中
+									#{/if}
+									
+									</td>
+									<td>问<span class="xf_wylc_view_tblist">（${records?.question_count}）</span>答<span class="xf_wylc_view_tblist">（${records?.answer_count}）</span></td>
+								</tr>
+							   #{/list}
+							</tbody>
+						</table>
+						
+						<div class="xf_wylc_page xf_zqzr_view_page1">
+						#{page funMethod:"showBidRecords",currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:2 /}
+						</div>-->
+	
+	

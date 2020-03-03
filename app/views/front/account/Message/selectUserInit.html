@@ -1,0 +1,56 @@
+<div class="xf_wyjkwszl_4_windowInner xf_znx_xzyh_windowInner">
+	<div class="xf_wyjkfb_4_windowClose"></div>
+	<div class="xf_wyjkfb_4_windowColName">
+		<div class="xf_znx_xzyh_rleft">选择用户</div>
+		<!-- 分页器 -->
+		<div class="xf_wylc_page xf_zqzr_view_page1 xf_znx_view_page1">
+		#{page funMethod:"selectUserInit",currPage:pageBean?.currPage,pageSize:pageBean?.pageSize,totalCount:pageBean?.totalCount,theme:2,style:2/}
+		</div>
+	</div>
+	<div class="xf_mem_znx_windowCot">
+		<ul class="xf_mem_znx_teot clr">
+			#{list pageBean?.page}
+			<li>
+				<input type="radio" name="user" value="${_?.name}" class="xf_mem_znx_radio">
+				<div class="xf_mem_znx_img clr">
+					<div class="xf_mem_znx_l">
+						#{img src:"${_?.photo}",alt:"",width:"63",height:"58"}#{/img}
+					</div>
+					<div class="xf_mem_znx_r">${_?.name}<br/>
+					(${_?.note_name})
+					</div>
+				</div>
+			</li>
+			#{/list}
+		</ul>
+	</div>
+	<div class="xf_con_inputfbjk_zxn">
+		<a class="xf_con_inputfbjk" onclick="submit();">确定</a> 
+		<a class="xf_con_inputfbqux">取消</a>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function(){
+		$(".xf_wyjkfb_4_windowClose").click(function() {
+			$("#xf_znx_xzyh_window").hide();
+		});
+		
+		$(".xf_con_inputfbqux").click(function() {
+			$("#xf_znx_xzyh_window").hide();
+		});
+	});
+	
+	function submit() {
+		var userName = $("#xf_znx_xzyh_window :radio:checked").val();
+		
+		if (typeof(userName) == "undefined") {
+			alert("请选择用户");
+			
+			return;
+		}
+		
+		userDidSelect(userName);
+		$("#xf_znx_xzyh_window").hide();
+	}
+</script>

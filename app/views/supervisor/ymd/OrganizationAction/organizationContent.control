@@ -1,0 +1,80 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    #{form @organizationList(), id:'organizationList'}
+    <input type="hidden" id="currPage" name="currPage"/>
+	<input type="hidden" id="pageSize" name="pageSize"/>
+    <div class="xf_ht_search_inon">
+      <div class="xf_ht_search_r" style="width:100%;">
+	    <div class="xf_ht_search_xl">商户名称:
+	      <input type="text" class="search_w" name="org_name" id="org_name" value="${org_name}">
+	    </div>
+	    <div class="xf_ht_search_xl">姓名:
+	      <input type="text" class="search_w" name="contacts_name" id="contacts_name" value="${contacts_name}">
+	    </div>
+	    <div class="xf_ht_search_xl">联系电话:
+	      <input type="text" class="search_w" name="contacts_phone" id="contacts_phone" value="${contacts_phone}">
+	    </div>
+	    <div class="xf_ht_search_xl">
+		  <input type="submit" class="search_button" value="搜索">
+	    </div>
+      </div>
+      	<div class="page_warp_l">
+        	<input style="margin-top:10px;" class="search_button" type="button" value="添加" onClick="window.location.href='@{organizationDetail()}'"}/>
+      	</div>
+    </div>
+    #{/form}
+   
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+     
+      #{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+		  #{th}商户名称#{/th}
+		  #{th}联系人姓名#{/th}
+		  #{th}联系人电话#{/th}
+		  #{th}对应BD#{/th}
+		  #{th}状态#{/th}
+		  #{th}操作#{/th}
+        #{/tr}
+        #{list page?.page}
+		#{tr tr_index:_index}
+		  #{td}${(page?.currPage - 1)*page?.pageSize + _index}#{/td}
+		  #{td}${_?.org_name}#{/td}
+		  #{td}${_?.contacts_name}#{/td}
+		  #{td}${_?.contacts_phone}#{/td}
+		  #{td}${_?.bd_name}#{/td}
+		  #{td}
+		    #{if _?.is_use}正常#{/if}
+		    #{else}暂停#{/else}
+		  #{/td}
+		  #{td}
+		  	<a class="xf_ta_onclick" href="@{organizationDetail(_?.id)}" >详情</a>
+          	#{if _?.is_use}<a class="xf_ta_onclick" href="@{notEnableOrganization(_?.id)}">暂停</a>#{/if}
+			#{else}<a class="xf_ta_onclick" href="@{enableOrganization(_?.id)}">启用</a>#{/else}
+		  #{/td}
+	    #{/tr}
+	    #{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+  	<div class="page_warp">
+        #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4/}
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+	/* 条件搜素查询 */
+	function showPage(currPage, pageSize){
+         $("#currPage").val(currPage);
+         $("#pageSize").val(pageSize);
+         $("#organizationList").submit();
+    }
+	
+	$(function(){
+	    /* 高亮显示 */
+		showHighLight(4,4,7);
+	})
+	
+</script>

@@ -1,0 +1,28 @@
+#{extends 'common/frontMenu.html' /} 
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{set title:'投资理财顾问,投资理财技巧,投资理财入门,在线投资理财' /}
+#{set keywords:'5万元投资项目,投资理财收益,投资理财,短期网上理财'/}
+#{set description:'中亿云是一家为有理财需求的用户提供在线投资理财的服务,并且为用户提供投资理财技巧,入门,投资理财的顾问等'/}
+#{include "front/principal/PrincipalGuaranteeAction/principalGuaranteeHomephoto.control"/}
+<!--什么是《 本金保障计划 》？-->
+#{include "front/principal/PrincipalGuaranteeAction/principalGuaranteeHomePrincipalPlan.control"/}
+<!--本金保障规则-->
+#{include "front/principal/PrincipalGuaranteeAction/principalGuaranteeHomerule.control"/}
+<!--赔付流程-->
+#{include "front/principal/PrincipalGuaranteeAction/principalGuaranteeHomepPayoutProcess.control"/}
+<!--投资攻略三部曲-->
+#{include "front/principal/PrincipalGuaranteeAction/principalGuaranteeHomeInvestmentStrategy.control"/}
+<!--本金保障常见问题-->
+#{include "front/principal/PrincipalGuaranteeAction/principalGuaranteeHomeCommonQuestions.control"/}
+<!-- 财富理财说明 -->
+<div class="xf_wylc_wylcExp">
+	#{include "common/WealthToolbox.control"/}
+		
+	#{include "common/CreditRatingIcons.control"/}
+	
+	#{include "common/BorrowingIcons.control"/}
+	<div class="clear"></div>
+</div>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_about_us.js'}"></script>

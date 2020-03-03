@@ -1,0 +1,106 @@
+<div class="xn_c_ban_jox xn_c_ban_jox_fdx" id="xf_ht_memznx_ttc" style="display:none;">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xn_c_ban_fdxwarp">
+      <table class="xf_ht_jr_obu_form" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="60" align="right">发给：</td>
+          <td>
+            <span id="sendName"></span>
+            <input type="hidden" id="userId">
+          </td>
+        </tr>
+        <tr>
+          <td width="60" align="right">标题：</td>
+          <td>
+            <input type="text" name="title" id="title" class="xfht_zr_input" class="xfht_zr_input"/>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top" align="right">内容：</td>
+          <td>
+            <textarea id="sendContent" oninput="LimitReseaon(this)" onkeyup="LimitReseaon(this)" class="xf_ht_baidu_wkttcc_text xf_ht_baidu_wkttcc_text6"  style="max-width:300px; max-height:150px;"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <input type="button" value="发 送" onclick="send()" class="jbox_ok">
+            
+            <span class="xf_con_zqzr_znx" style="display:inline-block; margin-top:5px;">您还可以输入<span class="xf_con_zqzr_znxsz" id="limitcontent">1000</span>字</span>
+          </td>
+        </tr>
+      </table>  
+    </div>
+  </div>
+</div>
+  
+<script type="text/javascript">
+
+function send(){
+  var lens = $("#sendContent").val().length;
+  if(lens > 1000){
+    alert("超出字数范围");
+    return;
+  }
+  
+  if($("#title").val() == ''){
+  	alert("标题不能为空");
+  	return;
+  }
+      
+  if($("#sendContent").val() == ''){
+    alert("内容不能为空");
+    return;
+  }
+  
+
+       
+  var stationLetter = "";
+         
+  switch (g_users_type) {
+  case "all_users":
+    stationLetter = #{jsAction @supervisor.userManager.AllUser.stationLetter(':sign', ':content', ':title')/};
+    break;
+  case "complex_users":
+    stationLetter = #{jsAction @supervisor.userManager.ComplexUser.stationLetter(':sign', ':content', ':title')/};
+    break;
+  case "cps_users":
+    stationLetter = #{jsAction @supervisor.userManager.CPSUser.stationLetter(':sign', ':content', ':title')/};
+    break;
+  case "invest_users":
+    stationLetter = #{jsAction @supervisor.userManager.InvestUser.stationLetter(':sign', ':content', ':title')/};
+    break;
+  case "loan_users":
+    stationLetter = #{jsAction @supervisor.userManager.LoanUser.stationLetter(':sign', ':content', ':title')/};
+    break;
+  case "reported_users":
+    stationLetter = #{jsAction @supervisor.userManager.ReportedUser.stationLetter(':sign', ':content', ':title')/};
+    break;
+  case "vip_users":
+    stationLetter = #{jsAction @supervisor.userManager.VIPUser.stationLetter(':sign', ':content', ':title')/};
+    break;
+  default:
+    break;
+  }
+          
+  $.post(stationLetter({sign:$("#userId").val(), content:encodeURI($("#sendContent").val()), title:encodeURI($("#title").val())}),function(data){
+    var arr=eval(data);
+    if(arr.error.code < 0){
+      $("#title").val("");
+      alert(arr.error.msg);
+      layer.closeAll();
+      return;
+    }
+    $("#title").val("");
+    alert(arr.error.msg);
+    layer.closeAll();
+  });
+} 
+        
+function LimitReseaon(obj){
+	 if (obj.value.length > 1000){
+    	obj.value = obj.value.substring(0, 1000);
+     }
+     $("#limitcontent").html(1000 - obj.value.length);
+}
+</script>

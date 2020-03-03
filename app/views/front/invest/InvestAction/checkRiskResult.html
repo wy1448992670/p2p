@@ -1,0 +1,77 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle +' | '+'风险评测结果'/}
+
+<!--start:评测结果-->
+<div class="risk_cp_box">
+    <h2>风险测评</h2>
+    <div class="cp_result_box">
+        <p class="result_hint">感谢您完成风险测评，请进行出借。</p>
+        <p class="result_txt">出借者类型：${risk_result}</p>
+        <em class="tz_hint">&nbsp;&nbsp;网贷有风险，决策需谨慎。</em>
+        <a href="/front/invest/investHome" class="result_btn">返回</a>
+    </div>
+</div>
+<!--end:评测结果-->
+
+	
+<!-- *{登录弹框层}* -->	
+#{include 'front/invest/InvestAction/login.control'/}		
+	
+ *{激活弹框层}* 
+#{include 'front/invest/InvestAction/activeEmail.control'/}	
+
+<script type="text/javascript">
+//提交判断是否全选
+$(function(){
+    $("#rubricBtn").click(function(){
+        var fullB = true,
+            cpLetter = [],//选项值数组
+            iLetter = '',
+            cpScore = 0,//测评分数
+            cpGrade = '';//测评等级
+
+        $.each($(".rubric_option"),function(i,item){
+            if(!$(this).find("input:checked").size()){
+                alert("您的题目还没做完！");
+                fullB = false;
+                return false;
+            }
+
+            var iScore = $(this).find('input:checked').val();
+
+                iLetter = $.trim($(this).find('input:checked').parent('label').text()).substring(0,1);
+
+            cpScore += Number(iScore);
+
+            cpLetter.push(iLetter);
+
+        });
+
+//        题目全部选择
+        if(fullB){
+            cpScore = Number(cpScore);
+
+            if(0 <= cpScore && cpScore <= 3){
+                cpGrade = '安全型';
+            }else if(4 <= cpScore && cpScore <= 24){
+                cpGrade = '保守型';
+            }else if(25 <= cpScore && cpScore <= 44){
+                cpGrade = '稳健型';
+            }else if(45 <= cpScore && cpScore <= 62){
+                cpGrade = '积极型';
+            }else if(63 <= cpScore && cpScore <= 70){
+                cpGrade = '进取型';
+            }
+
+            alert('测评分数为：' + cpScore +' ; 测评等级：' + cpGrade + ' ; 选项值数组：' + cpLetter);
+            location.href = "/front/invest/risk-result";
+        }
+
+    })
+})
+
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_invest.js'}"></script>

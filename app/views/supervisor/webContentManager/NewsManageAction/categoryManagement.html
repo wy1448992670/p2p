@@ -1,0 +1,20 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'广告条管理' /}
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  #{include "supervisor/webContentManager/common/leftBar.control"/}
+  <!-- 内容区 --> 
+  #{include "supervisor/webContentManager/NewsManageAction/categoryManagementContent.html"/}
+  </div>
+</div>
+#{include "supervisor/webContentManager/NewsManageAction/categoryManagementEdit.control"/}
+#{include "supervisor/webContentManager/NewsManageAction/categoryManagementAdd.control"/}
+#{include "supervisor/webContentManager/NewsManageAction/categoryManagementChildEdit.control"/}
+#{include "supervisor/webContentManager/NewsManageAction/categoryManagementParentAdd.control"/}
+<script type="text/javascript">
+$(function(){
+	//高亮显示
+	showHighLight(1,1,2);
+})
+</script>

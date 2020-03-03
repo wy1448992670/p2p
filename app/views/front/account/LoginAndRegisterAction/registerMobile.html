@@ -1,0 +1,474 @@
+ #{extends 'common/frontMain.html' /}
+ %{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}% 
+ #{set title:currBackstageSet.seoTitle + '--注册' /}
+ 
+<div class="p_zc_mainbox">
+    <div class="p_main p_zc_main clr">
+        <div class="p_zc_wordbox">
+           <h4>免费注册</h4>
+            <table class="p_zc_table">
+                <tr height="53">
+                   <th>用户名：</th>
+                   <td>
+                        <div class="p_zc_inbox01">
+                            <i class="p_zc_icon01"></i>
+                            <input type="text" class="p_zc_inp01 p_pass" />
+                            <label class="p_zc_tips">请输入用户名</label>
+                        </div>
+                   </td>
+                </tr>
+                <tr height="53">
+                   <th>邮&nbsp;&nbsp;箱：</th>
+                   <td>
+                        <div class="p_zc_inbox01">
+                            <i class="p_zc_icon02"></i>
+                            <input type="text" class="p_zc_inp01 p_pass" />
+                            <label class="p_zc_tips">请输入您常用的邮箱地址</label>
+                        </div>
+                   </td>
+                </tr>
+                <tr height="53">
+                   <th>密&nbsp;&nbsp;码：</th>
+                   <td>
+                        <div class="p_zc_inbox01">
+                            <i class="p_zc_icon03"></i>
+                            <input type="password" class="p_zc_inp01 p_pass" />
+                            <label class="p_zc_tips">请输入密码</label>
+                        </div>
+                   </td>
+                </tr>
+                <tr height="53">
+                   <th>确认密码：</th>
+                   <td>
+                        <div class="p_zc_inbox01">
+                            <i class="p_zc_icon03"></i>
+                            <input type="password" class="p_zc_inp01 p_pass" />
+                            <label class="p_zc_tips">请再次输入密码</label>
+                        </div>
+                   </td>
+                </tr>
+                <tr height="53">
+                   <th>邀请码：</th>
+                   <td>
+                        <div class="p_zc_inbox01">
+                            <i class="p_zc_icon04"></i>
+                            <input type="text" class="p_zc_inp01 p_pass" />
+                            <label class="p_zc_tips">请填写邀请码</label>
+                        </div>
+                   </td>
+                </tr>
+                <tr height="53">
+                   <th>验证码：</th>
+                   <td>
+                        <div class="p_zc_inbox02">
+                            <i class="p_zc_icon05"></i>
+                            <input type="text" class="p_zc_inp02 p_pass" />
+                            <label class="p_zc_tips">请输入验证码</label>
+                        </div>
+                        <a href="#" title="" class="p_zc_yanzm"><img src="images/p_yanzm.png" id="img" alt="" width="78" height="36" /></a>
+                        <a href="#" title="" class="p_zc_ychange p_un">换一张</a>
+                   </td>
+                </tr>
+                <tr height="46">
+                    <th>&nbsp;</th>
+                    <td>
+                        <input type="checkbox" class="p_zc_in03" />
+                        <span class="p_zc_woyi f12">我已阅读并同意 </span>
+                        <a href="#" title="" class="p_zc_xieyi f12">《晓风网贷系统用户注册协议》</a>
+                    </td>
+                </tr>
+                <tr height="55">
+                    <th>&nbsp;</th>
+                    <td><a href="#" title="" class="p_zc_btn p_op">马上注册</a></td>
+                </tr>
+                <tr height="32">
+                    <th>&nbsp;</th>
+                    <td>
+                        <div class="p_pl185">
+                            <span class="f12">已有账号？</span><a href="登录.html" title="" class="p_zc_dla p_un">立即登录</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div> 
+</div>
+#{include "front/account/LoginAndRegisterAction/register.control"/}
+<script type="text/javascript">
+	$(function(){
+	
+	    var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+			$.post(setCode({}),function(data){
+				var arr=eval(data);
+				var img = arr.img;
+				$("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img);	
+				$("#randomID").val(img);
+		});
+		$(".xf_wyjkfb_4_windowClose").click(function(){
+			$(this).parents(".xf_zqzr_znx_window").hide(300);
+		});
+		
+		
+	});
+	
+	function showProtocol() {
+	
+		showDiv($("#xf_mem_zc_xytc"));
+	}
+	
+	function change(){
+		var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+		$.post(setCode({}),function(data){
+		var arr=eval(data);
+		var img = arr.img;
+		$("#randomID").val(img);
+		$("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img)	
+		});
+	}
+		
+	   var bName = 0;
+	   var bEmail = 0;
+       var bRecommendedName = 0;
+       var bRecommendedNameMsg = "";
+		
+       $(document).ready(function(){
+		   $("form :input").blur(function(){ 
+		   
+		   if($(this).attr("id") == "userName"){
+		   
+		     if(this.value==""){
+		           $("#s_userName").removeClass("xf_register_intext");
+		           $("#s_userName").removeClass("xf_register_intext3");
+				   $("#s_userName").addClass("xf_register_intext1");
+		           $("#s_userName").html("请填写用户名");
+		     }else if(this.value.length < 3){ 
+		           $("#s_userName").removeClass("xf_register_intext");
+		           $("#s_userName").removeClass("xf_register_intext3");
+				   $("#s_userName").addClass("xf_register_intext1");
+		           $("#s_userName").html("用户名长度过短");
+		     }else if(this.value.length > 10){
+		           $("#s_userName").removeClass("xf_register_intext");
+		           $("#s_userName").removeClass("xf_register_intext3");
+				   $("#s_userName").addClass("xf_register_intext1");
+		           $("#s_userName").html("用户名长度过长");
+		     }else if(!/^[\u4E00-\u9FA5A-Za-z0-9_]+$/.test(this.value)){
+		           $("#s_userName").removeClass("xf_register_intext");
+		           $("#s_userName").removeClass("xf_register_intext3");
+				   $("#s_userName").addClass("xf_register_intext1");
+		           $("#s_userName").html("用户名含有敏感字符");
+		     }else{
+		          var name = this.value;
+		          var hasNameExist = #{jsAction @front.account.loginAndRegisterAction.hasNameExist(':name')/}
+				  $.post(hasNameExist({name:encodeURI(name)}),function(data){
+					
+				  var arr=eval(data);
+				  
+				  if(arr.error.code < 0){
+				  	   bName = -1;
+				  	   $("#s_userName").removeClass("xf_register_intext");
+			           $("#s_userName").removeClass("xf_register_intext3");
+					   $("#s_userName").addClass("xf_register_intext1");
+			           $("#s_userName").html(arr.error.msg);
+				    }else{
+				       bName = 0;
+				       $("#s_userName").removeClass("xf_register_intext1");
+				       $("#s_userName").removeClass("xf_register_intext");
+				       $("#s_userName").addClass("xf_register_intext3");
+					   $("#s_userName").html("&nbsp;");
+				    }
+		          });
+		         }
+		         
+		     }
+		   
+		    if($(this).attr("id")=="recommendName"){
+		       var name = this.value;
+		       if(name == null || name.trim() == '' ){
+		          $("#s_recommended").html("");
+		          return;
+		       }
+	            var hasNameExist = #{jsAction @front.account.loginAndRegisterAction.checkRecommendName(':name')/}
+				  $.post(hasNameExist({name:encodeURI(name)}),function(data){
+				  if(data.code == -2){
+				       bRecommendedName = 0;
+				       $("#s_recommended").removeClass("xf_register_intext1");
+				       $("#s_recommended").removeClass("xf_register_intext");
+				       $("#s_recommended").addClass("xf_register_intext3");
+					   $("#s_recommended").html("&nbsp;");
+				    }else if(data.code == 0){
+				        bRecommendedName = -1;
+				        bRecommendedNameMsg = "该推荐人不存在";
+				  	   $("#s_recommended").removeClass("xf_register_intext");
+			           $("#s_recommended").removeClass("xf_register_intext3");
+					   $("#s_recommended").addClass("xf_register_intext1");
+			           $("#s_recommended").html(bRecommendedNameMsg)
+				    }else{
+				        bRecommendedName = -2;
+				        bRecommendedNameMsg = data.msg;
+				  	   $("#s_recommended").removeClass("xf_register_intext");
+			           $("#s_recommended").removeClass("xf_register_intext3");
+					   $("#s_recommended").addClass("xf_register_intext1");
+			           $("#s_recommended").html(bRecommendedNameMsg);
+				    }
+		          });
+		    }
+		   
+		   if($(this).attr("id") == "password"){
+		 
+		     if(this.value == ""){
+		          $("#s_password").removeClass("xf_register_intext");
+		          $("#s_password").removeClass("xf_register_intext3");
+				  $("#s_password").addClass("xf_register_intext1");
+		          $("#s_password").html("请设置密码");  
+		     }else if(this.value.length < 6){
+		          $("#s_password").removeClass("xf_register_intext");
+		          $("#s_password").removeClass("xf_register_intext3");
+				  $("#s_password").addClass("xf_register_intext1");
+		          $("#s_password").html("密码长度过短"); 
+		     }else if(this.value.length >20){
+		          $("#s_password").removeClass("xf_register_intext");
+		          $("#s_password").removeClass("xf_register_intext3");
+				  $("#s_password").addClass("xf_register_intext1");
+		          $("#s_password").html("密码长度过长"); 
+		     }else if(!/^([^\s'‘’]{6,20})$/.test(this.value)){
+		          $("#s_password").removeClass("xf_register_intext");
+		          $("#s_password").removeClass("xf_register_intext3");
+				  $("#s_password").addClass("xf_register_intext1");
+		     	  $("#s_password").html("密码中含有敏感字符");
+		     }
+		     else{
+		           $("#s_password").removeClass("xf_register_intext1");
+		           $("#s_password").removeClass("xf_register_intext");
+				   $("#s_password").addClass("xf_register_intext3");
+		           $("#s_password").html("&nbsp;"); 
+		     }
+		   }
+		   
+		   if($(this).attr("id") == "mobile"){
+			   
+			     if(this.value == ""){
+			          $("#s_mobile").removeClass("xf_register_intext");
+			          $("#s_mobile").removeClass("xf_register_intext3");
+					  $("#s_mobile").addClass("xf_register_intext1");
+			          $("#s_mobile").html("请输入手机号码");  
+			     }else{
+			    	 $.ajax({
+			    		  url : "@{front.account.LoginAndRegisterAction.hasMobileExists()}",
+			    		  type : "POST",
+			    		  data : {
+			    			  "mobile" : this.value
+			    		  },
+			    		  dataType:'json',
+			    		  success : function(data) {
+			    			  if(data.code < 0){
+			    				  $("#s_mobile").removeClass("xf_register_intext");
+						          $("#s_mobile").removeClass("xf_register_intext3");
+								  $("#s_mobile").addClass("xf_register_intext1");
+						          $("#s_mobile").html(data.msg);  
+			    			  }else{
+			    					$("#s_mobile").removeClass("xf_register_intext1");
+			   		           		$("#s_mobile").removeClass("xf_register_intext");
+			   				    	$("#s_mobile").addClass("xf_register_intext3");
+			    					$("#s_mobile").html('&nbsp;');  
+			    			  }
+			    			},
+			    		 });
+			     } 
+			   }
+
+	   });	 
+	 });
+		 
+     function register(){
+    	 
+    	 var mobile = $.trim($("#mobile").val());
+		 
+         if(mobile == ""){
+        	 $("#s_mobile").removeClass("xf_register_intext");
+	         $("#s_mobile").removeClass("xf_register_intext3");
+			 $("#s_mobile").addClass("xf_register_intext1");
+	         $("#s_mobile").html("请输入手机号码");
+          	return;
+         }else if(!(mobile).isMobileNum()){
+        	 $("#s_mobile").removeClass("xf_register_intext");
+	         $("#s_mobile").removeClass("xf_register_intext3");
+			 $("#s_mobile").addClass("xf_register_intext1");
+	         $("#s_mobile").html("手机号格式有误");
+          	return;
+         }
+    	 
+     	 var username = $.trim($("#userName").val());
+     	 
+	     if(username =='' ||　username == "建议不用真实姓名作为用户名"){
+        	 $("#s_userName").removeClass("xf_register_intext");
+	         $("#s_userName").removeClass("xf_register_intext3");
+			 $("#s_userName").addClass("xf_register_intext1");
+	         $("#s_userName").html("请填写用户名");
+	          return;
+	     }else if(username.length < 3){
+	    	 $("#s_userName").removeClass("xf_register_intext");
+	         $("#s_userName").removeClass("xf_register_intext3");
+			 $("#s_userName").addClass("xf_register_intext1");
+	         $("#s_userName").html("用户名长度过短");
+	          return;
+	     }else if(username.length > 10){
+	    	 $("#s_userName").removeClass("xf_register_intext");
+	         $("#s_userName").removeClass("xf_register_intext3");
+			 $("#s_userName").addClass("xf_register_intext1");
+	         $("#s_userName").html("用户名长度过长");
+	          return;
+	     }else if(!/^[\u4E00-\u9FA5A-Za-z0-9_]+$/.test(username)){
+	    	 $("#s_userName").removeClass("xf_register_intext");
+	         $("#s_userName").removeClass("xf_register_intext3");
+			 $("#s_userName").addClass("xf_register_intext1");
+	         $("#s_userName").html("用户名含有敏感字符");
+	          return;
+	     }
+	   
+	     var password = $("#password").val();
+		   
+	      if(password == ""){
+	    	  $("#s_password").removeClass("xf_register_intext");
+		      $("#s_password").removeClass("xf_register_intext3");
+			  $("#s_password").addClass("xf_register_intext1");
+		      $("#s_password").html("请设置您的密码");
+	          return; 
+	      }else if(password.length < 6){
+	    	  $("#s_password").removeClass("xf_register_intext");
+		      $("#s_password").removeClass("xf_register_intext3");
+			  $("#s_password").addClass("xf_register_intext1");
+		      $("#s_password").html("密码长度为6-20个字符");
+	         return;
+	      }else if(password.length >20){
+	    	  $("#s_password").removeClass("xf_register_intext");
+		      $("#s_password").removeClass("xf_register_intext3");
+			  $("#s_password").addClass("xf_register_intext1");
+		      $("#s_password").html("密码长度为6-20个字符");
+	          return;
+	      }else if(!/^([^\s'‘’]{6,20})$/.test(password)){
+	    	  $("#s_password").removeClass("xf_register_intext");
+		      $("#s_password").removeClass("xf_register_intext3");
+			  $("#s_password").addClass("xf_register_intext1");
+		      $("#s_password").html("密码由6-20位字符组成（不含'）");
+	     	  return;
+	      }
+		    
+      if($("#code").val() == '') {
+    	   $("#s_code").removeClass("xf_register_intext");
+	       $("#s_code").removeClass("xf_register_intext3");
+		   $("#s_code").addClass("xf_register_intext1");
+	       $("#s_code").html("请输入验证码");
+    		  return;
+       }else{
+	    	$("#s_code").removeClass("xf_register_intext1");
+	    	$("#s_code").html("");
+       }
+       var smsCode = $("#smsCode").val();
+
+       if(smsCode == ""){
+    	   $("#s_smsCode").removeClass("xf_register_intext");
+	       $("#s_smsCode").removeClass("xf_register_intext3");
+		   $("#s_smsCode").addClass("xf_register_intext1");
+	       $("#s_smsCode").html("请填写短信校验码");
+          return;
+       }
+       
+       var recommendName = $("#recommendName").val();
+       
+       if(recommendName != null && recommendName.trim() !="" && bRecommendedName < 0){
+	    	$("#s_recommended").removeClass("xf_register_intext");
+	        $("#s_recommended").removeClass("xf_register_intext3");
+			$("#s_recommended").addClass("xf_register_intext1");
+	        $("#s_recommended").html(bRecommendedNameMsg); 
+		      return;
+	  }
+       
+	  var verifyMobile = #{jsAction @verifySmsCodeForReg(':mobile',':smsCode')/}
+	  $.post(verifyMobile({mobile:$("#mobile").val().trim(),smsCode:$("#smsCode").val()}),function(data){
+		  if(data.code < 0){
+	    	 $("#s_smsCode").removeClass("xf_register_intext");
+		     $("#s_smsCode").removeClass("xf_register_intext3");
+			 $("#s_smsCode").addClass("xf_register_intext1");
+	   		 $("#s_smsCode").html(data.msg);
+		  }else{
+	    	 $("#s_smsCode").removeClass("xf_register_intext1");
+			 $("#s_smsCode").addClass("xf_register_intext");
+			 $("#s_smsCode").addClass("xf_register_intext3");
+	   		 $("#s_smsCode").html('');
+	    	 $("#submit").submit();
+		  }
+	  },'json');
+   }
+
+
+var remain = 60;
+
+function countDown() {
+  if (remain == 0) {
+    remain = 60;
+    $("#sendSmsCode").html("点击发送");
+    $("#sendSmsCode").attr("onclick", "sendCode();");
+    $("#sendSmsCode").attr("style", "cursor:pointer");
+
+    return;
+  }
+
+  $("#sendSmsCode").html("" + remain-- + "秒后重发");
+  setTimeout("countDown()",1000);
+}
+
+function sendCode(){
+	var mobile = $("#mobile").val().trim();
+	var code = '';
+	var randomId = '';
+	
+	if(mobile == ""){
+   	 $("#s_mobile").removeClass("xf_register_intext");
+        $("#s_mobile").removeClass("xf_register_intext3");
+		 $("#s_mobile").addClass("xf_register_intext1");
+        $("#s_mobile").html("请输入手机号码");
+     	return;
+    }else if(!(mobile).isMobileNum()){
+   	 $("#s_mobile").removeClass("xf_register_intext");
+        $("#s_mobile").removeClass("xf_register_intext3");
+		 $("#s_mobile").addClass("xf_register_intext1");
+        $("#s_mobile").html("手机号格式有误");
+     	return;
+    }
+	 
+	
+	code = $("#code").val().trim();
+	randomID = $("#randomID").val().trim();
+	
+	if(code == '') {
+ 	   	$("#s_code").removeClass("xf_register_intext");
+	       $("#s_code").removeClass("xf_register_intext3");
+		   $("#s_code").addClass("xf_register_intext1");
+	       $("#s_code").html("请输入验证码");
+ 		  return;
+    }
+	
+    var verifyMobile = #{jsAction @verifyMobileForReg(':mobile',':code',':randomID')/}
+	$.post(verifyMobile({mobile:mobile,code:code,randomID:randomID}),function(data){
+	    if(data.code < 0){
+		    $("#s_code").removeClass("xf_register_intext3");
+			$("#s_code").addClass("xf_register_intext1");
+	    	$("#s_code").html(data.msg);
+	    	change();
+	    }else{
+	    	$("#s_code").removeClass("xf_register_intext1");
+	    	$("#s_code").html("");
+			countDown();
+			$("#sendSmsCode").attr("onclick", "void(0);");
+			$("#sendSmsCode").attr("style", "cursor: default");
+		}
+	},'json');
+}
+
+function focusError(){
+	$(".xf_register_intext1").first().parent().find('input').first().focus();
+}
+
+</script>

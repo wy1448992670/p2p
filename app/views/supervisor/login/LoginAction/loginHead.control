@@ -1,0 +1,13 @@
+ %{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+<div class="xfht_logobj">
+  <div class="xf_logo">
+		<div class="xf_logol">
+			#{img src:"${currBackstageSet?.supervisorPlatformLog}", alt:"LOGO", title:"${currBackstageSet?.companyName}",width:360,height:85}#{/img}
+		</div>
+	    <div class="xf_logor">
+	    	<p>运营单位：${currBackstageSet?.companyName}</p>
+	    </div>
+	</div>
+</div>

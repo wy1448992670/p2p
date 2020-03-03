@@ -1,0 +1,100 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'红包详细列表' /}
+<div class="xn_c_contentwarp">
+	<div class="xn_c_contentlist">
+	#{include '/supervisor/financeManager/common/financeManageLeft.control'/}
+  		<div class="xn_c_content">
+ 			<div class="xf_ht_tablelist">
+	   			 <!-- 列表内容 -->
+	   			 #{form @showListByType(), id:'showForm'}
+	   				<input type="hidden" id="currPage" name="currPage" value="${pageBean.currPage}"/>
+		        	<input type="hidden" id="pageSize" name="pageSize" value="${pageBean.pageSize}"/>
+		        	<input type="hidden" id="type"     name="type" value="${type}"/>
+		        	#{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+			        #{tr}
+			          #{th}序号#{/th}
+			          #{th}类型#{/th}
+			          #{th}红包名称#{/th}
+			          #{th}发放时间#{/th}
+			          #{th}会员名称#{/th}
+			          #{th}状态#{/th}
+			          #{th}有效期#{/th}
+			          #{th}金额#{/th}
+			        #{/tr}
+			        #{list pageBean?.page}
+			        	 #{tr tr_index:_index}
+			        	 	#{td}${_index}#{/td}
+			        	 	#{td}
+								#{if _?.type == '1'}
+				        	 		注册
+				        	 	#{/if}
+				        	 	#{elseif _?.type == '2'}
+				        	 		充值
+				        	 	#{/elseif}
+				        	 	#{elseif _?.type == '3'}
+				        	 		投资
+				        	 	#{/elseif}
+				        	 	#{elseif _?.type == '4'}
+				        	 		积分
+				        	 	#{/elseif}
+				        	 	#{else}
+				        	 		手动
+				        	 	#{/else}
+							#{/td}
+			        	 	#{td}${_?.name}#{/td}
+			        	 	#{td}${_?.time.format('yyyy-MM-dd HH:mm:ss')}#{/td}
+			        	 	#{td}${_?.user_name}#{/td}
+			        	 	#{td}
+								#{if _?.status == -1}
+				        	 		已过期
+				        	 	#{/if}
+				        	 	#{if _?.status == 0}
+				        	 		未使用
+				        	 	#{/if}
+				        	 	#{if _?.status == 1}
+				        	 		已使用
+				        	 	#{/if}
+							#{/td}
+			        	 	#{td}${_?.validity_time}
+				        	 	#{if _?.validate_unit == -1}
+				        	 		年
+				        	 	#{/if}
+				        	 	#{if _?.validate_unit == 0}
+				        	 		个月
+				        	 	#{/if}
+				        	 	#{if _?.validate_unit == 1}
+				        	 		天
+				        	 	#{/if}
+			        	 	#{/td}
+			        	 	#{td}${_?.money?.format('###,##0.00')}#{/td}
+			        	 #{/tr}
+			        #{/list}
+			      #{/table}
+	    		 #{/form}
+    		
+    		
+			    <!-- 列表底部 -->
+				<div class="xn_c_content_bottom">
+					<div class="page_warp">
+						#{page currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:4}
+							type=${type}
+						#{/page}
+					</div>
+				</div>
+  		</div>
+	</div>
+  </div>
+ <script type="text/javascript" src="@{'/public/javascripts/tab/tab_mg_bill.js'}"></script>
+ <script>
+ $(function(){
+	//高亮显示
+	showHighLight(1,8,82);
+ })
+ 
+   function showPage(currPage, pageSize){
+         $("#currPage").val(currPage);
+         $("#pageSize").val(pageSize);
+         $("#pageSize").val(pageSize);
+         $("#showForm").submit();
+    }
+ </script>

@@ -1,0 +1,52 @@
+%{
+	boolean debtUse = constants.Constants.DEBT_USE;
+}%
+<!-- 记录标的详情(ID和上一个下一个标示) -->
+<input name="bidId" id="bidId" type="hidden" value="${bid?.id}"/> 
+<input name="upNextFlag" id="upNextFlag" type="hidden" value="${bid?.upNextFlag}"/>
+<input name="overBorrowId" id="overBorrowId" type="hidden" value="${auditingOverBorrow?.id}"/>
+<div class="xn_c_content_left">
+  <div class="xn_c_content_leftul">
+    <ul>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_1"></div>系统设置
+        </div>
+        <div class="xn_c_li_head_two" id="hi_1">
+          <a id="mg_1" class="xn_c_li_head_twoli" href="@{supervisor.ymd.SettingAction.setRisk()}">打分机制设置</a>
+          <a id="mg_2" class="xn_c_li_head_twoli" href="@{supervisor.ymd.SettingAction.basicallyInfo()}">亿美贷审核基本信息设置</a>
+        </div>
+      </li>
+	  <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_2"></div>会员管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_2">
+          <a id="mg_3" class="xn_c_li_head_twoli" href="@{supervisor.ymd.UserManageAction.borrowerInfoList()}">亿美贷授信列表</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_3"></div>信贷管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_3">
+          <a id="mg_4" class="xn_c_li_head_twoli" href="@{supervisor.ymd.CreditManageAction.creditApplyList()}">额度申请列表</a>
+          <a id="mg_5" class="xn_c_li_head_twoli" href="@{supervisor.ymd.CreditManageAction.increaseCreditApplyList()}">提额申请</a>
+		  <a id="mg_6" class="xn_c_li_head_twoli" href="@{supervisor.ymd.CreditManageAction.YMDBorrowApplyList()}">使用额度审核</a>
+        </div>
+      </li>
+	  <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_4"></div> 机构管理（医院）
+        </div>
+        <div class="xn_c_li_head_two" id="hi_4">
+          <a id="mg_7" class="xn_c_li_head_twoli" href="@{supervisor.ymd.OrganizationAction.organizationList()}">机构列表</a>
+        </div>
+      </li>
+     </ul>
+   </div>
+   <div class="xn_c_con_leftbutton">
+     <div class="xn_c_con_enimg">导航点击</div>
+   </div>
+</div>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_risk_bid.js'}"></script>

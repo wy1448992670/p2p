@@ -1,0 +1,59 @@
+%{
+	boolean debtUse = constants.Constants.DEBT_USE;
+}%
+<!-- 记录标的详情(ID和上一个下一个标示) -->
+<input name="bidId" id="bidId" type="hidden" value="${bid?.id}"/>
+<input name="upNextFlag" id="upNextFlag" type="hidden" value="${bid?.upNextFlag}"/>
+<input name="overBorrowId" id="overBorrowId" type="hidden" value="${auditingOverBorrow?.id}"/>
+<div class="xn_c_content_left">
+  <div class="xn_c_content_leftul">
+    <ul>
+		<li>
+			<div class="xn_c_li_head_one">
+				<div class="xn_c_li_bg" id="lab_1"></div>加息设置
+			</div>
+			<div class="xn_c_li_head_two" id="hi_1">
+				<a id="mg_1" class="xn_c_li_head_twoli" href="@{supervisor.activity.IncreaseRate.activityList()}?state=-10">加息审核</a>
+				<a id="mg_2" class="xn_c_li_head_twoli" href="@{supervisor.activity.IncreaseRate.increaseTotalList()}?state=-10">加息汇总</a>
+				<a id="mg_3" class="xn_c_li_head_twoli" href="@{supervisor.activity.IncreaseRate.increaseDetailList()}">加息明细</a>
+			</div>
+		</li>
+		   <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_8"></div>红包管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_8">
+          <a id="mg_81" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.RedPackageAction.redTypeList(1)}">自动类红包</a>
+          <a id="mg_84" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.RedPackageHistoryAction.manualRed(1)}">手动类红包</a>
+          <a id="mg_82" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.RedPackageHistoryAction.showList(1)}">红包统计</a>
+          <a id="mg_83" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.RedPackageHistoryAction.redRules()}">红包规则设置</a>
+        </div>
+      </li>
+             <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_10"></div>加息券管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_10">
+          <a id="mg_101" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.RedPackageAction.redTypeList(2)}">自动类加息券</a>
+          <a id="mg_102" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.RedPackageHistoryAction.manualRed(2)}">手动类加息券</a>
+          <a id="mg_103" class="xn_c_li_head_twoli" href="@{supervisor.systemSettings.RedPackageHistoryAction.showList(2)}">加息券统计</a>
+        </div>
+      </li>
+      
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_9"></div>加息统计
+        </div>
+        <div class="xn_c_li_head_two" id="hi_9">
+          <a id="mg_91" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.IncreaseManager.increaseSum()}">加息汇总</a>
+          <a id="mg_92" class="xn_c_li_head_twoli" href="@{supervisor.financeManager.IncreaseManager.increaseDetail()}">加息明细</a>
+        </div>
+      </li>
+	  
+     </ul>
+   </div>
+   <div class="xn_c_con_leftbutton">
+     <div class="xn_c_con_enimg">导航点击</div>
+   </div>
+</div>
+<script type="text/javascript" src="/public/javascripts/tab/tab_mg_active.js"></script>

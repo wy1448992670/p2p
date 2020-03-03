@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>亿美贷</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+    <meta name="keywords" content="亿美贷" />
+    <meta name="description" content="亿美贷">
+    <meta name="author" content="亿美贷" />
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <!--rem start-->
+    <script type="text/javascript">
+        new function () {
+            var _self = this;
+            _self.width = 750; //设置默认最大宽度
+            _self.fontSize = 100; //默认字体大小
+            _self.widthProportion = function () {
+                var p = (document.body && document.body.clientWidth || document.getElementsByTagName("html")[0].offsetWidth) /
+                    _self.width;
+                return p > 1 ? 1 : p;
+            };
+            _self.changePage = function () {
+                document.getElementsByTagName("html")[0].setAttribute("style", "font-size:" + _self.widthProportion() *
+                    _self.fontSize + "px !important");
+            }
+            _self.changePage();
+            window.addEventListener('resize', function () {
+                _self.changePage();
+            }, false);
+        };
+    </script>
+    <!--rem end-->
+	<style>
+		body{
+			margin: 0;
+			background: #b391ff;
+		}
+		.img-box{
+			padding-bottom: 100%;
+			background: #fce4fa;
+		}
+		.img-box img{
+			position:absolute;
+			top:.88rem;
+			left:0;
+			right:0;
+			width:100%;
+			margin:auto;
+		}
+	</style>
+</head>
+
+<body>
+  
+  <div class="img-box" style="background: #b391ff;">
+		<img src="./bg.png" style="background: #fce4fa;top: 0px;max-width: 650px;">
+	<div style="height: .3rem;width: 100%; position: absolute; top: 9.5rem; background: #b391ff;"></div>
+<div><a href="#" style="position: absolute;font-size: .36rem;color: #E9E5FF;top: 9.69rem;width: 100%;text-align: center;">一键读懂亿美贷分期&gt;&gt;</a></div></div>
+</body>
+</html>

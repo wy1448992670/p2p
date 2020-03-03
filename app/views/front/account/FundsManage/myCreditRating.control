@@ -1,0 +1,41 @@
+<div class="xf_mem_Account">
+		<h3 class="xf_mem_accout_title">我的信用等级</h3>
+		<div class="xf_mem_accout_cont clr">
+			<div class="xf_mem_accout_xydj_r">
+				<table border="0" cellpadding="0" cellspacing="0" width="100%"
+					class="xf_mem_acc_viewcpms">
+					<!--<tr>
+						<td align="left" valign="middle" colspan="2">尊敬的会员：<span
+							class="xf_wdxydj_midd">${user?.name}</span>
+						</td>
+					</tr>
+					-->
+					<tr>
+						<td align="left" valign="middle" width="201">
+							<span class="xf_mem_l_memhyxy">信用等级：</span>
+							<span class="xf_mem_l_memhyA xf_mem_l_memhyxy">
+								#{img src:"${user?.myCredit?.imageFilename}",alt:"",width:"25px",height:"25px"}#{/img}
+							</span>
+						</td>
+						<td>信用积分：<span class="xf_mem_l_memhyA xf_mem_l_memhyred">${user?.userScore?.credit_score}</span>
+							分</td>
+							<td align="left" valign="middle" colspan="2">当前信用额度：<span
+							class="xf_mem_l_xydj_lv">${user?.balanceDetail?.credit_line?.format("###,##0.00")}</span>
+						</td>
+					</tr>
+					<!--<tr>
+						<td align="left" valign="middle" colspan="2">当前信用额度：<span
+							class="xf_mem_l_xydj_lv">${user?.balanceDetail?.credit_line?.format("###,##0.00")}</span> [ 标准信用额度：<span
+							class="xf_mem_l_xydj_lv">${user?.lastCreditLine?.format("###,##0.00")}</span>，申请的信用额度：<span
+							class="xf_mem_l_xydj_lv">${(user?.balanceDetail?.credit_line - user?.lastCreditLine)?.format("###,##0.00")}</span> ] 
+							<input class="xf_zjgl_tx_inputsq xf_zjgl_tx_inputxydj" type="button" onclick="applyForOverBorrowInit();" value="提高信用额度">
+							
+						</td>
+					</tr>
+					-->
+
+				</table>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>

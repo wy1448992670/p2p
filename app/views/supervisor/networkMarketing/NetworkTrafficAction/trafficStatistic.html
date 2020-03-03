@@ -1,0 +1,52 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'流量统计分析' /}
+<!--  
+<style type="text/css">
+#SubmitBtn, #SubmitUC {
+color: white;
+margin-left: 20px;
+width: 154px;
+line-height: 25px;
+height: 25px;
+padding: 0 4px;
+color: white;
+font-weight: bold;
+border-top: 1px #E8EBF5 solid;
+border-left: 1px #E8EBF5 solid;
+border-right: 1px #2E4377 solid;
+border-bottom: 1px #2E4377 solid;
+}
+.btn-normal {
+cursor: pointer;
+background-color: #416890;
+}
+</style>
+-->
+<div class="xfht_t_j_k"> 
+<!--左-->
+#{include "supervisor/networkMarketing/CPSSpreadAction/networkMarketingLeft.control"/}
+  <div class="xn_c_content">
+    <div class="xf_content_add">
+      <div class="xfht_t_j_y_2">
+        <!-- 未开通弹出 -->
+        <div class="xf_ht_baidu_wkt_tcc xf_ht_baidu_wkt_tcc2">
+          1. 此流量统计分析是与第三方<百度流量统计>合作的<br><br>
+          2. 若需要查看到该流量统计分析，需注册成为百度流量统计会员<br><br>
+          3. 如遇困难，可咨询我们的客服<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;客服电话：4006-974-975&nbsp;&nbsp;     0755-2955 6666    <br>    
+          &nbsp;&nbsp;&nbsp;&nbsp;客服邮箱：kf@eims.com.cn
+        </div>
+        <div class="xf_ht_wkt_button_an">
+          <a href="https://cas.baidu.com/?appid=1" target="_blank" id="SubmitBtn" class="xf_ht_baidu_button_ok">已有百度流量统计账号</a>
+          <a href="http://tongji.baidu.com/web/register" id="SubmitUC" class="xf_ht_baidu_button_on" target="_blank">没有百度流量统计账号</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <script>
+$(function(){
+	 /* 高亮显示 */
+	showHighLight(2,2,4);
+})
+  </script>

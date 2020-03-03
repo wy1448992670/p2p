@@ -1,0 +1,82 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'编辑积分规则' /}
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  #{include "supervisor/networkMarketing/CPSSpreadAction/networkMarketingLeft.control"/}
+  
+  <script type="text/javascript" src="@{'public/javascripts/kindeditor-4.1.7/kindeditor.js'}"></script>
+  <link rel="stylesheet" src="@{'public/javascripts/kindeditor-4.1.7/themes/default/default.css'}" />
+  <script charset="utf-8" src="@{'public/javascripts/kindeditor-4.1.7/kindeditor-min.js'}"></script>
+  <script charset="utf-8" src="@{'public/javascripts/kindeditor-4.1.7/lang/zh_CN.js'}"></script>
+  #{form @supervisor.mall.ScroeRuleAction.saveScroeRule() ,method:'POST',id:'submitedit'}
+  <div class="xn_c_content">
+    <div class="xf_content_add">
+    <div class="xfht_t_j_y_2">
+    <!--右上-->
+    <div class="xf_ht_obu_fklm">#{if flag == 1}新增#{/if}#{else}编辑#{/else}积分兑换规则</div>
+    <!-- 借款标基本信息 -->
+    <div class="xf_ht_news_content">
+    <div class="xf_ht_news_content_t">
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_news_content_t_t">
+        <tr>
+          <td width="200" align="right" valign="middle" style="padding-right:5px;">类型：</td>
+          <td>
+            <select name="type" class="xf_membill_selectAge" id="edittype">
+           		<option value="0" selected="selected">请选择</option>
+           		<option value="1" #{if rule?.type == 1} selected="selected" #{/if}>注册</option>
+           		<option value="2" #{if rule?.type == 2} selected="selected" #{/if}>签到</option>
+            </select>
+            <input type="hidden" name="id" value="${rule?.id}">
+          </td>
+        </tr>
+        <tr>
+          <td width="200" align="right" valign="middle" style="padding-right:5px;">赠送积分：</td>
+          <td>
+            <input class="xfht_zr_input" type="text" style="width:200px;" name="scroe" value="${rule?.scroe}" id="editscroe" maxlength="30">
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="xf_ht_news_content_button" colspan="4">
+      <input class="xf_ht_tcc_button_ok" type="button" value="确定" onClick="contentEdit()">
+    </div>
+    </div>
+    </div>
+    </div>
+  </div>
+  #{/form}
+  </div>
+</div>
+<script type="text/javascript">
+  $(function() {
+    showHighLight(7,7,17);
+  })
+
+  function contentEdit(){
+    var splits, lenth;
+         
+    var type = $("#edittype").val();
+    var scroe = $("#editscroe").val();
+    
+    // 验空
+    if(type == "" || type == null || type == 0){
+      alert("对不起！类型不能为空!");
+      return ;
+    }
+    if(scroe == "" || scroe == null){
+      alert("对不起！积分不能为空!");
+      return ;
+    }
+    
+    // 数字校验
+    var patrn=/^([1-9]\d*|0)(\.\d*[1-9])?$/;
+    var flag = patrn.exec(scroe);
+    if(!flag){
+    	alert("兑换积分必须为数字");
+    	return;
+    }
+    
+    $("#submitedit").submit();
+  } 
+</script>

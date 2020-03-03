@@ -1,0 +1,160 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} #{set title:currBackstageSet.seoTitle +' | 我的账户 | 站内信 | 借款提问' /}
+
+<!-- 内容区域 start -->
+<div class="xf_con_box">
+	<div class="xf_con_mem_nav"></div>
+	<!-- 左边导航区域 -->
+	#{include "front/account/AccountHome/homeLeft.control"/}
+
+	<!-- 右侧内容区域 -->
+	<!-- 我的站内信 -->
+	<div class="xf_con_mem_r_content" id="mymessages">
+		<div id="msglist" class="xf_con_wyjk_tentultbody">
+			#{form @bidQuestions(), id:'bidQuestions'}
+			<div class="xf_mem_Account">
+			<h3 class="xf_mem_accout_title">借款提问</h3>
+			<!-- 搜索区域 -->
+			<ul class="xf_membill_search clr">
+				<li class="xf_membill_searchLi"><span class="xf_membill_segjc">借款标题：</span>
+					<input type="text" value="${pageBean?.conditions?.title}" title="请输入借款标题" 
+					id="title" name="title" class="xf_membill_shurk_yhm" />
+				</li>
+				<li><span class="xf_membill_segjc xf_membill_segjc2">是否回答：</span> <select
+					name="isAnswer" class="xf_membill_selectAge"
+					id="isAnswer">
+						<option value="0">-全部-</option>
+						<option value="1" #{if pageBean?.conditions?.isAnswer==1}selected="selected"#{/if}>已回答</option>
+						<option value="2" #{if pageBean?.conditions?.isAnswer==2}selected="selected"#{/if}>未回答</option>
+				</select></li>
+				<li>
+					<input type="submit" value="搜 索"
+						class="xf_membill_button_yhm xf_membill_button_yhm2"/>
+				</li>
+			</ul>
+			#{/form}
+		
+			<table border="0" cellpadding="0" cellspacing="0" width="739"
+				class="xf_mem_znx_viewcpms">
+				<tr>
+					<th><input type="checkbox" name="check_all" onclick="checkAll()" value="-1"/></th>
+					<th>序号</th>
+					<th>提问人</th>
+					<th>借款标题</th>
+					<th>提问时间</th>
+					<th>是否回答</th>
+					<th>操作</th>
+				</tr>
+		
+				#{list pageBean?.page}
+				<tr #{if !_?.isAnswer}class="xf_mem_znx_wdtr"#{/if}>
+					<td>
+						<input name="check_box" type="checkbox" class="xf_mem_znx_wdtr_checkbox" value="${_?.id}"/>
+					</td>
+					<td>${_index}</td>
+					<td>${_?.name}</td>
+					<td>${_?.title}</td>
+					<td>${_?.time?.format("yyyy-MM-dd")}</td>
+					<td>
+						<span class="xf_mem_znx_wd">
+							#{if _?.isAnswer}
+								已回答
+							#{/if}
+							#{else}
+								未回答
+							#{/else}
+						</span>
+					</td>
+					<td>
+						<span style="cursor: pointer;" onclick="bidQuestionDetail(${_?.id});">查看</span>
+					</td>
+				</tr>
+				#{/list}
+		
+			</table>
+		
+			<div class="xf_mem_znx_cc">
+				<span class="xf_accout_cont_imginput" onclick="deleteBidQuestion()">删除</span>
+			</div>
+		
+			<!-- 分页器 -->
+			<div class="xf_wylc_page xf_zqzr_view_page1 xf_znx_view_page1">
+				#{page currPage:pageBean?.currPage,pageSize:pageBean?.pageSize,totalCount:pageBean?.totalCount,theme:2,style:2}#{/page}
+			</div>
+		</div>
+		</div>
+		<div id="detail" class="xf_con_wyjk_tentultbody"></div>
+
+	</div>
+	<!-- 清除浮动 -->
+	<div class="clear"></div>
+</div>
+<!-- 内容区域 end -->
+
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript">
+ 
+	$(function(){
+		
+		count();
+	});
+	$(function() {
+		/* 高亮显示 */
+		showHighLightFront(6);
+		showHighLightFront2(7, 2);
+	});
+
+	function showPage() {
+		$("#title").val(title);
+		$("#isAnswer").val(isAnswer);
+	}
+	
+	/* 详情 */
+	function bidQuestionDetail(id) {
+		var listAction = #{jsAction @bidQuestionDetail(':id') /};
+		$.post(listAction({id:id}), function(data) {
+			$("#msglist").hide();
+			$("#detail").html(data).show();
+		});	
+	}
+
+	/* 删除 */
+	function deleteBidQuestion() {
+		
+		var arr = new Array();
+
+		$('input:checkbox[name=check_box]:checked').each(function() {
+			arr.push($(this).val());
+		});
+		
+		var ids = arr.join(",");
+		
+		if (ids == "") {
+			alert("请选择要删除的信息!");
+			return;
+		}
+		
+		if (!confirm("确认要删除？")) {
+            return;
+        }
+		
+		$.ajax({
+			url : "@{deleteBidQuestion()}",
+			type : "POST",
+			data : {
+				"ids" : ids
+			},
+			success : function(data) {
+				if(data != '')
+					alert(data);
+				
+				location.reload();				
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+</script>

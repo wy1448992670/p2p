@@ -1,0 +1,225 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- <title>#{get 'title' /}</title> -->
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/jquery.json-2.4.min.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/commonToShowForum.js'}"></script>
+<script type="text/javascript" src="/public/javascripts/TouchSlide.1.1.js"></script>
+<link rel="stylesheet" type="text/css" href="/public/stylesheets/shzt.css" />
+<script type="text/javascript" src="/public/javascripts/wechat/iscroll.js"></script>
+<script type="text/javascript" src="/public/javascripts/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="/public/javascripts/shzt.js"></script>
+
+</head>
+
+<body>
+
+<!-- main -->
+<div class="p-xtmain">
+    <div class="flex p-kbtop">
+        <a class="p-topmainbx" onclick="everyScoreSign('${userId}')">
+            <i class="bgico ico2"></i><br>
+            <span >每日签到</span>
+        </a>
+        <div class="flex-1 p-yykbtword">亿友们最追捧的签到有专属空间啦，麻麻再也不用担心我们找不到签到帖啦~</div>
+    </div>
+    <div class="p-xtabox">
+    	<div class="t44rem" id="wrapper" style="bottom: .5rem">
+    	<div class="p-038box">
+    <ul class="p-sqlistul" id="main">
+    
+    	#{list items:page.page,as:'t'}
+        <li onclick="window.location.href='/app/myPostsInfo?id='+${t.id}+'&userId=${userId}&showType=1'">
+            <h5>【${t?.title}】 &nbsp;&nbsp;&nbsp;#{if t.content.length() > 10}${t.content.substring(0,10)}...#{/if}#{else}${t.content}#{/else}#{if t.show_image == 1}<img src="/public/images/p-sqguan.png" alt=""> #{/if}</h5>
+            <div class="p-sqlaiy flex">
+                <div class="flex-1">${t?.show_time?.format('yyyy-MM-dd')}&nbsp;&nbsp;&nbsp;${t?.name}</div>
+                <div class="">
+                    <span class="p-sqhuif"><i class="bgico"></i>${t?.answers_count}</span>
+                    <span class="p-sqliul"><i class="bgico"></i>${t?.read_count}</span>
+                </div>
+               	 
+            </div>
+        </li>
+       #{/list}
+      
+    </ul>
+    <div id="pullUp">
+		    	#{if page.page.size() > 0}<span class="pullUpIcon" id="pullUpIcons"></span><span class="pullUpLabel" id="pullShowT">上拉加载更多...</span>#{/if}
+		   	</div>
+		   	</div></div></div>
+</div>
+<div class="p-xtbotcon opcity0" >
+        <div>
+            <a class="p-xtfatie" href="#">发&nbsp;&nbsp;帖</a>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+	var u = navigator.userAgent;
+	var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+	
+	function everyScoreSign(userId){
+		
+		if(userId == ""){
+			if(confirm("您还没有登入！")){
+				if(isAndroid){
+					window.control.login();
+				}else{
+					login();
+				}
+			}
+		}else{
+			$.ajax({
+				url:"@{front.mall.MallAction.sign()}",
+				type:"POST",
+				dataType: "json",
+				data:{user_id:userId},
+				success:function(date){
+					
+					if(date.error.code == -100){
+						alert(date.error.msg);
+						window.location.href="/app/mallGoodsInfo?user_id="+userId+"&score=0";
+					}else if(date.error.code < 0){
+						alert(date.error.msg);
+					}else{
+						window.location.href="/app/mallGoodsInfo?user_id="+userId+"&score=1";
+					}
+				}
+				
+			});
+		}
+		
+		
+	}
+
+	var myScroll,
+	pullUpEl, pullUpOffset,
+	generatedCount = 0;
+	
+	
+	function loaded() {
+		pullUpEl = document.getElementById('pullUp');
+		pullUpOffset = pullUpEl.offsetHeight;
+		myScroll = new iScroll('wrapper', {
+		    useTransition: false,
+		    onRefresh: function () {
+		        if (pullUpEl.className.match('loading')) {
+		            pullUpEl.className = '';
+		            pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉加载更多...';
+		        }
+		    },
+		    onScrollMove: function () {
+		        if (this.y < (this.maxScrollY - 5) && !pullUpEl.className.match('flip')) {
+		            pullUpEl.className = 'flip';
+		            pullUpEl.querySelector('.pullUpLabel').innerHTML = '松开加载...';
+		            this.maxScrollY = this.maxScrollY;
+		        } else if (this.y > (this.maxScrollY + 5) && pullUpEl.className.match('flip')) {
+		            pullUpEl.className = '';
+		            pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉加载更多...';
+		            this.maxScrollY = pullUpOffset;
+		        }
+		    },
+		    onScrollEnd: function () {
+		        if (pullUpEl.className.match('flip')) {
+		            pullUpEl.className = 'loading';
+		            pullUpEl.querySelector('.pullUpLabel').innerHTML = '加载中...';
+		            pullUpAction(); // Execute custom function (ajax call?)
+		        }
+		    }
+		});
+		setTimeout(function () { document.getElementById('wrapper').style.left = '0'; }, 800);
+		
+		
+		
+		
+	}
+	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+	document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+	
+	var currPage = 1;
+	var getUserId = '${userId}';
+	function pullUpAction () {
+	setTimeout(function () {    // <-- Simulate network congestion, remove setTimeout from production!
+		currPage = currPage + 1;
+	
+		$.ajax({
+			url: "@{app.AppController.everyDaySign()}",
+			type: "POST",
+			dataType: "json",
+			data: {
+				"currPage": currPage,
+				
+				"Mark": 2
+			},
+			success: function (data) {
+				
+					var arr = eval(data);
+					
+					var list = arr.page.page;
+					
+					if (list.length == 0) {
+						$("#pullUp").removeClass("loading").animate({opacity:'0'},3000);
+						$("#pullShowT").html("没有更多了");
+						$("#pullUpIcons").removeClass("pullUpIcon");
+					} else {
+						
+						for (var i = 0; i < list.length; i++) {
+						
+						
+						
+							var milliseconds = list[i].show_time.time;  //取出json里面的时间，为Object类型，在此转化为毫秒数
+							
+							var date = new Date();
+							
+							date.setTime(milliseconds);
+							
+							var time2 = date.format("yyyy-MM-dd");
+							
+							var addHtml = "";
+							
+							var hrefs="/app/myPostsInfo?id="+list[i].id+"&userId="+getUserId+"&showType=1";
+							var imageShow = "";
+							if(list[i].show_image == 1){
+								imageShow = "<img src='/public/images/p-sqguan.png' alt='' >";
+							}
+							
+							var contentShow ="";
+							if(list[i].content.length > 10){
+								contentShow = list[i].content.substring(0,10)+"...";
+							}else{
+								contentShow = list[i].content;
+							}
+							
+							
+							$("#main").append("<li onclick=window.location.href='"+hrefs+"'>"+
+									"<h5>【"+list[i].title+"】&nbsp;&nbsp;&nbsp;"+contentShow+imageShow+"</h5>"+
+									"<div class='p-sqlaiy flex'>"+
+									"<div class='flex-1'>"+time2+"&nbsp;&nbsp;&nbsp;"+list[i].name+"</div>"+
+									"<div class=''>"+
+									"<span class='p-sqhuif'><i class='bgico'></i>"+list[i].answers_count+"</span>"+
+									"<span class='p-sqhuif'><i class='bgico'></i>"+list[i].read_count+"</span>"+
+									
+							"</div></div></li>");
+								}
+						myScroll.refresh();
+					}
+					
+				},
+				error: function () {
+				}
+		});
+		
+	}, 300);    // <-- Simulate network congestion, remove setTimeout from production!
+	}
+	
+
+</script>
+</html>

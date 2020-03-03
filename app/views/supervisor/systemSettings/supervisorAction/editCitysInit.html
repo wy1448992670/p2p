@@ -1,0 +1,139 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>#{get 'title' /}</title>
+  <meta name="keywords" content="${currBackstageSet?.seoKeywords}" />
+  <meta name="description" content="${currBackstageSet?.seoDescription}" />
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+  <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.ico'}" />
+  <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/xfback.css'}" />
+  <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/temp.css'}" />
+  <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
+  <script type="text/javascript" src="@{'/public/javascripts/index.js'}"></script>
+  <script type="text/javascript" src="@{'/public/javascripts/jquery.json-2.4.min.js'}"></script>
+  <script charset="utf-8" src="@{'public/javascripts/ajaxfileupload.js'}"></script>
+  <script type="text/javascript" src="@{'/public/javascripts/common.js'}"></script>
+  <script src="@{'/public/javascripts/laydate/laydate.js'}"></script>    
+</head>
+<body>
+<div class="xn_c_ban_jox xn_c_ban_jox_hk" >
+<div class="xf_ht_jr_obu_width">
+<div class="xf_ht_jr_obu_width">
+	<table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form xf_ht_jr_obu_formsz">
+		<tr>
+			<td> 管理员账号：   <span class="xf_ht_fk_span">${supervisor?.name}</span></td>
+		 
+			<td >管理员姓名： <span class="xf_ht_fk_span">${supervisor?.reality_name}</span>&nbsp;&nbsp; &nbsp;&nbsp;</td>
+		 
+			<td>手机号： <span class="xf_ht_fk_span">${supervisor?.mobile1}</span></td>
+			
+		</tr>
+		<tr>
+			<td align="right" valign="middle" class="xf_ht_jr_obttd_l">
+				<span>省：</span> 
+				<select id="province" name="province"  width:"100px">
+					 
+				</select>
+			</td>
+			<td align="right" valign="middle" class="xf_ht_jr_obttd_l">
+				&nbsp;&nbsp; <span>市：</span>
+				<select id="city" name="city" width:"100px">
+				 	<option value="">全部</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td class="xf_ht_tcc_button">
+			  <input class="jbox_ok" type="button" value="确  定" onclick="addCitys();"/>
+			</td>
+			<td>
+				<input class="jbox_on" type="button" value="取  消" onclick="history.go(-1)" />
+			</td>
+			
+    	</tr>
+	</table>
+</div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript">
+	 $(function(){
+		 //加载省的数据
+		 loadProvince();
+		 //省市联动
+		 $("#province").change(function(){
+		     // 先清空市
+		     $("#city").empty();
+		     // 实际的应用中，这里的option一般都是用循环生成多个了
+		     var province_id = $("#province").find("option:selected").val();
+		     loadCity(province_id); 
+		});
+	})
+	//加载省份
+	function loadProvince(){
+		 $.ajax({
+		      url : "@{supervisor.systemSettings.supervisorAction.getProvinceList()}",
+		      type : "POST", 
+		      data : { },
+		      success : function(data) {
+				if (data.code < 0) {
+		          alert(data.msg);
+		          return;
+		        }
+				$("#province").prepend("<option value=''>请选择</option>");//添加第一个option值
+				$.each(data, function(n,value) { 
+					 $("#province").append("<option value="+value.province_id+">"+value.province+"</option>");
+				});
+		      },
+		      error : function() {
+		        alert("对不起，出现错误!");
+		      }
+		});
+	}
+	//加载市
+	function loadCity(provinceId){
+		 $.ajax({
+		      url : "@{supervisor.systemSettings.supervisorAction.getCityList()}",
+		      type : "POST", 
+		      data : {"province_id":provinceId},
+		      success : function(data) {
+				if (data.code < 0) {
+		          alert(data.msg);
+		          return;
+		        }
+				$("#city").prepend("<option value=''>全部</option>");//添加第一个option值
+				$.each(data, function(n,value) {
+					 $("#city").append("<option value="+value.city_id+">"+value.city+"</option>");
+				});
+		      },
+		      error : function() {
+		        alert("对不起，出现错误!");
+		      }
+		});
+	}
+	
+	
+	function addCitys(){
+		var cityId = $("#city").val();
+		var provinceId = $("#province").val();
+		var province = $("#province").find("option:selected").text();
+		var city = $("#city").find("option:selected").text();
+		$.ajax({
+		      url : "@{supervisor.systemSettings.supervisorAction.addCitys()}",
+		      type : "POST", 
+		      data : {"sign":'${supervisor?.sign}', "province_id":provinceId, "city_id":cityId, "province":province, "city":city},
+		      success : function(data) {
+				if (data.code < 0) {
+		        	alert(data.msg);
+		        	return;
+		        }
+				window.location.href= "@{supervisor.systemSettings.supervisorAction.supervisorCitysList}?sign=" + '${supervisor?.sign}';
+		      },
+		      error : function() {
+		        alert("对不起，出现错误!");
+		      }
+		});
+	} 
+</script>
+</html>

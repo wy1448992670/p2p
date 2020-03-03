@@ -1,0 +1,184 @@
+<style>
+	
+	.remove {
+		-webkit-transform: translateY(-800%) !important;
+		-moz-transform: translateY(-800%) !important;
+		-ms-transform: translateY(-800%) !important;
+		transform: translateY(-800%) !important;
+		transition: all .8s ease-in-out;
+	}
+	#tmp{
+		display:none;
+	}
+</style>
+<div class="xf_ht_tab_view">
+  #{table class:"xf_con_view_table", cellspacing:"0", cellpadding:"0", border:"0", width:"100%"}
+    #{tr}
+      #{td class:"xf_pcir_ltitle"}注册资料#{/td}
+      #{td align:"left"}
+        #{table class:"xf_view_table_lm", cellspacing:"0", cellpadding:"0", border:"0", width:"100%"}
+          #{tr}
+            #{td width:"262"}<span class="xfht_view_table_s">用户名：</span>${bid?.user?.name}#{/td}
+            #{td width:"210"}<span class="xfht_view_table_s">注册时间：</span>${bid?.user?.time?.format('yyyy-MM-dd')}#{/td}
+          #{/tr}
+          #{tr}
+            #{td}
+              <span class="xfht_view_table_s">注册邮箱：</span>
+              ${bid?.user?.email}
+	          #{if bid?.user?.isEmailVerified}
+	          	[已校验]
+	          #{/if}
+	          #{else}
+	          	[未校验]
+	          #{/else}
+            #{/td}
+            #{td}
+              <span class="xfht_view_table_s">手机号码：</span>
+              ${bid?.user?.mobile}
+	           #{if bid?.user?.isMobileVerified}
+	              [已校验]
+	           #{/if}
+	           #{else}
+	          	  [未校验]
+	           #{/else}
+            #{/td}
+          #{/tr}
+        #{/table}
+      #{/td}
+    #{/tr}
+    #{tr}
+      #{table class:"xf_con_view_table", cellspacing:"0", cellpadding:"0", border:"0", width:"100%"}
+        #{tr}
+          #{td class:"xf_pcir_ltitle"}借款人<br />基本资料#{/td}
+          #{td align:"left"}
+            #{table class:"xf_view_table_lm", cellspacing:"0", cellpadding:"0", border:"0", width:"100%"}
+              #{tr}
+                #{td width:"262"}<span class="xfht_view_table_s">#{if bid?.user?.user_type==1}真实姓名：#{/if}#{if bid?.user?.user_type!=1&&bid?.user?.user_type!=0}企业名称：#{/if}</span>${bid?.user?.realityName}#{/td}
+                #{td width:"210"}<span class="xfht_view_table_s">性别：</span>${bid?.user?.sex}#{/td}
+                #{td}<span class="xfht_view_table_s">年龄：</span>${bid?.user?.age}#{/td}
+               #{/tr}
+               #{tr}
+                #{td}<span class="xfht_view_table_s">#{if bid?.user?.user_type==1}身份证号：#{/if}#{if bid?.user?.user_type!=1&&bid?.user?.user_type!=0}社会信用代码：#{/if}</span>${bid?.user?.idNumber}#{/td}
+                #{td}<span class="xfht_view_table_s">户口所在地：</span>${bid?.user?.provinceName}${bid?.user?.cityName}#{/td}
+                #{td}<span class="xfht_view_table_s">文化程度：</span>${bid?.user?.educationName}#{/td}
+               #{/tr}
+               #{tr}
+                #{td}<span class="xfht_view_table_s">婚姻情况：</span>${bid?.user?.maritalName}#{/td}	
+                #{td}<span class="xfht_view_table_s">购房情况：</span>${bid?.user?.houseName}#{/td}
+                #{td}<span class="xfht_view_table_s">购车情况：</span>${bid?.user?.carName}#{/td}
+               #{/tr}
+               #{tr}
+                #{td }<span class="xfht_view_table_s">借款用途：</span>${bid?.purpose?.name}#{/td}
+                #{td }<span class="xfht_view_table_s"  >平台历史逾期次数：</span><span style="color: red">${bid?.user?.overdueCnt}</span>次#{/td}
+                #{td }<span class="xfht_view_table_s"   >平台历史逾期金额：</span><span style="color: red">${bid?.user?.overdueAmount}</span>元#{/td}
+                #{td }<span class="xfht_view_table_s"   >平台当前逾期金额：</span><span style="color: red">${bid?.user?.currentOverdueAmount}</span>元#{/td}
+                #{td }<span class="xfht_view_table_s"   >近半年征信报告状况：</span>${bid?.user?.creditReport}#{/td}
+               
+               #{/tr}
+               #{tr}
+                #{td }<span class="xfht_view_table_s">涉诉情况：</span>${bid?.user?.lawSuit}#{/td}
+                #{td }<span class="xfht_view_table_s">借款人所在地：</span>${bid?.user?.tUser_city?.province}${bid?.user?.tUser_city?.city}#{/td}
+                #{td }<span class="xfht_view_table_s">授信金额:  </span>${bid?.creditAmount ? bid?.creditAmount : bid?.user?.creditAmount}元#{/td}
+               #{/tr}                          
+            #{/table}
+          #{/td}
+        #{/tr}
+        
+        
+        
+             #{tr}
+          #{td class:"xf_pcir_ltitle"}借款标<br />其它信息#{/td}
+          #{td align:"left"}
+            #{table class:"xf_view_table_lm", cellspacing:"0", cellpadding:"0", border:"0", width:"100%"}
+              #{tr}
+                #{td width:"262"}<span class="xfht_view_table_s">标类型：</span>${bid?.tag}#{/td}
+                #{td width:"210"}<span class="xfht_view_table_s">是否加息：</span>#{if bid?.isIncreaseRate==false}否#{/if}#{if bid?.isIncreaseRate==true}是#{/if}#{/td}
+               #{/tr}
+               #{tr}
+                #{td}<span class="xfht_view_table_s">还款来源：</span>${bid?.repayment_source}#{/td}
+                #{td}<span class="xfht_view_table_s">加息年化利率：</span>${bid?.increaseRate}%#{/td}
+               #{/tr}
+               #{tr}
+                #{td}<span class="xfht_view_table_s">相关费用：</span>${bid?.related_costs}#{/td}
+                #{td}<span class="xfht_view_table_s">加息名称：</span>${bid?.increaseRateName}#{/td}
+               #{/tr}
+               #{tr}
+                #{td }<span class="xfht_view_table_s">是否标记为新手标：</span>#{if bid?.isOnlyNewUser==false}否#{/if}#{if bid?.isOnlyNewUser==true}是#{/if}#{/td}
+                #{td }<span class="xfht_view_table_s">标的风险评定数：</span>${bid?.bidRiskName}#{/td}
+               #{/tr} 
+            #{/table}
+          #{/td}
+        #{/tr}
+        
+             #{tr}
+          #{td class:"xf_pcir_ltitle"}项目简介息#{/td}
+          #{td align:"left"}
+            #{table class:"xf_view_table_lm", cellspacing:"0", cellpadding:"0", border:"0", width:"100%"}
+              #{tr}
+                #{td }${bid?.description}#{/td}
+               #{/tr} 
+            #{/table}
+          #{/td}
+        #{/tr}
+        
+             #{tr}
+          #{td class:"xf_pcir_ltitle"}保障措施#{/td}
+          #{td align:"left"}
+            #{table class:"xf_view_table_lm", cellspacing:"0", cellpadding:"0", border:"0", width:"100%"}
+              #{tr}
+                #{td }${bid?.auditSuggest}#{/td}
+               #{/tr} 
+            #{/table}
+          #{/td}
+        #{/tr}
+        
+          #{tr}
+          #{td class:"xf_pcir_ltitle"}原债方资料#{/td}
+          #{td align:"left"}
+            #{table class:"xf_view_table_lm", cellspacing:"0", cellpadding:"0", border:"0", width:"100%"}
+              #{tr}
+                #{td }
+                #{list bidImagesList,as:'bidImages'}
+                <div style="width:20%;float:left;text-align:center;">
+                	<img class="LookImg" style="cursor:pointer;width:160px;height:160px" src="${bidImages.bid_image_url}">
+                	<div>${bidImages.title}</div>
+                </div>
+                #{/list}
+               #{/td}
+               #{/tr} 
+            #{/table}
+          #{/td}
+        #{/tr}
+      
+      #{/table}
+    #{/tr}
+  #{/table}
+</div>
+	
+<script>
+	$(document).ready(function(){
+	//菜单标识
+    showHighLight(1, 1, 2); 
+	
+		$("body").before('<div id="tmp" style="position:fixed;height:100%;width:100%;background:black;opacity:.8"></div>'
+		+'<div style="position:relative">'
+			+'<div id="imgs" style="height:100%;top:10%;cursor:pointer;position:fixed;width:100%;text-align:center;transform:translateY(-800%)">'
+				+'<img style="width:30%" class="big" src=""/>'
+			+'</div>'
+		+'</div>');
+		
+		$(".LookImg").click(function(){
+				
+				$('#tmp').fadeIn();
+				$('.big').prop('src',$(this).prop('src'));
+				$("#imgs").removeAttr("class");
+				$("#imgs").css({'transform':'translateY(0)','transition':'all .8s ease-in-out'});
+		});
+		
+			$('#imgs').click(function(){
+					
+					$("#imgs").addClass("remove");
+					$('#tmp').fadeOut();
+			})
+	})
+</script>

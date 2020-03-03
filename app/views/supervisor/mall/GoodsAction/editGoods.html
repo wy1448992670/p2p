@@ -1,0 +1,172 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'编辑商品' /}
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  #{include "supervisor/networkMarketing/CPSSpreadAction/networkMarketingLeft.control"/}
+  
+  <script type="text/javascript" src="@{'public/javascripts/kindeditor-4.1.7/kindeditor.js'}"></script>
+  <link rel="stylesheet" src="@{'public/javascripts/kindeditor-4.1.7/themes/default/default.css'}" />
+  <script charset="utf-8" src="@{'public/javascripts/kindeditor-4.1.7/kindeditor-min.js'}"></script>
+  <script charset="utf-8" src="@{'public/javascripts/kindeditor-4.1.7/lang/zh_CN.js'}"></script>
+  <script   type="text/javascript">  
+    var editor;
+    KindEditor.ready(function(K) {
+      editor = K.create('#TextArea3', {
+           cssPath :"@{'public/javascripts/kindeditor-4.1.7/plugins/code/prettify.css'}",
+           uploadJson : '@{FileUpload.uploadImage2()}',
+        allowFileManager : true,
+        allowUpload: true
+      });
+    });
+  </script>
+  #{form @supervisor.mall.GoodsAction.saveGoods() ,method:'POST',id:'submitedit'}
+  <div class="xn_c_content">
+    <div class="xf_content_add">
+    <div class="xfht_t_j_y_2">
+    <!--右上-->
+    <div class="xf_ht_obu_fklm">#{if flag == 1}新增#{/if}#{else}编辑#{/else}商品</div>
+    <!-- 借款标基本信息 -->
+    <div class="xf_ht_news_content">
+    <div class="xf_ht_news_content_t">
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_news_content_t_t">
+        <tr>
+          <td width="200" align="right" valign="middle" style="padding-right:5px;">商品名称：</td>
+          <td>
+            <input class="xfht_zr_input" type="text" style="width:600px;" name="name" value="${goods?.name}" id="editname" maxlength="30">
+            <input type="hidden" name="id" value="${goods?.id}">
+          </td>
+        </tr>
+        *{<tr>
+          <td width="200" align="right" valign="middle" style="padding-right:5px;">礼品总数：</td>
+          <td>
+            <input class="xfht_zr_input" type="text" style="width:600px;" name="total" value="${goods?.total}" id="edittotal" maxlength="30">
+          </td>
+        </tr>
+        <tr>
+          <td width="200" align="right" valign="middle" style="padding-right:5px;">最大可兑换数：</td>
+          <td>
+            <input class="xfht_zr_input" type="text" style="width:600px;" name="max_exchange_count" value="${goods?.max_exchange_count}" id="editmax" maxlength="30">
+          </td>
+        </tr>}*
+        <tr>
+          <td width="200" align="right" valign="middle" style="padding-right:5px;">商品总数：</td>
+          <td>
+            <input class="xfht_zr_input" type="text" style="width:600px;" name="max_exchange_count" value="${goods?.max_exchange_count}" id="editmax" maxlength="30">
+          </td>
+        </tr>
+        <tr>
+          <td width="200" align="right" valign="middle" style="padding-right:5px;">兑换积分：</td>
+          <td>
+            <input class="xfht_zr_input" type="text" style="width:600px;" name="exchange_scroe" value="${goods?.exchange_scroe}" id="editscroe" maxlength="30">
+          </td>
+        </tr>
+        <tr>
+          <td width="200" align="right" valign="middle" style="padding-right:5px;">商品图片：</td>
+          <td>
+          	<span style="position: relative; vertical-align:middle;">&nbsp;&nbsp;
+	            <input class='upload_btn' type="button" value="上传图片" style="display:inline-block; *margin-top:-28px !important;"> &nbsp;&nbsp;
+	            <input type="file" class="upload_file" name="imgFile" id="imgFile" style="left:-70px;*top:4px !important; *left:10px !important!" onchange="uploadImageType('imgFile','image');" />
+          		推荐的图片尺寸（144*116）
+          	</span>
+          	<div>
+          	#{img src:"${goods?.pic_path}",id:"image",name:"image",alt:"",width:"100"}#{/img}
+          	</div>
+          	<span style="color:#999;" id="imageResolution"></span>
+          	<input type="hidden" name="filename" id="filename" />
+          </td>
+        </tr>
+        <tr>
+          <td width="200" align="right" valign="top" style="padding-right:5px;">商品介绍：</td>
+          <td>
+            <div class="xf_ht_news_conr">
+              <textarea class="xf_ht_jr_obttd_textarea" id="TextArea3">${goods?.introduction}</textarea>
+            </div>
+            <input type="hidden" id="introduction" name="introduction"/>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="xf_ht_news_content_button" colspan="4">
+      <input class="xf_ht_tcc_button_ok" type="button" value="确定" onClick="contentEdit()">
+    </div>
+    </div>
+    </div>
+    </div>
+  </div>
+  #{/form}
+  </div>
+</div>
+<script type="text/javascript">
+  $(function() {
+    showHighLight(7,7,15);
+  })
+
+  function contentEdit(){
+    var splits, lenth;
+         
+    var name = $("#editname").val();
+   /*  var total = $("#edittotal").val(); */
+    var max_exchange_count = $("#editmax").val();
+    var scroe = $("#editscroe").val();
+    var content = editor.html();
+    content = replaceAllHTML(content);
+    
+    // 验空
+    if(name == "" || name == null){
+      alert("对不起！商品名称不能为空!");
+      return ;
+    }
+    /* if(total == "" || total == null){
+      alert("对不起！商品总数不能为空!");
+      return ;
+    } */
+    if(max_exchange_count == "" || max_exchange_count == null){
+      alert("对不起！总数不能为空!");
+      return ;
+    }
+    if(scroe == "" || scroe == null){
+      alert("对不起！兑换积分不能为空!");
+      return ;
+    }
+    if(content == "" || content == null){
+      alert("对不起！商品介绍不能为空!");
+      return;
+    }
+    
+    // 数字校验
+    var patrn=/^([1-9]\d*|0)(\.\d*[1-9])?$/;
+    /* var flag = patrn.exec(total);
+    if(!flag){
+    	alert("商品总数必须为数字");
+    	return;
+    } */
+    var flag = patrn.exec(max_exchange_count);
+    if(!flag){
+    	alert("商品总数必须为数字");
+    	return;
+    }
+    flag = patrn.exec(scroe);
+    if(!flag){
+    	alert("兑换积分必须为数字");
+    	return;
+    }
+    // 内容校验
+    if(content.length > 16777215){//MEDIUMTEXT最大长度为16,777,215
+    	alert("对不起，商品介绍字数不能超过16777215个字符");
+    	return ;
+  	}
+    
+    $("#introduction").val(encodeURIComponent(content));
+    
+    $("#filename").val($("#image").attr("src"));  
+    var filename = $("#filename").val();
+    
+    if(typeof(filename) == 'undefined' || '' == filename || filename.indexOf("/public/images/default.png") != -1){
+      alert("对不起！请选择上传商品图片！");
+      return;
+    }
+    
+    $("#submitedit").submit();
+  } 
+</script>

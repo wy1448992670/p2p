@@ -1,0 +1,47 @@
+<div class="xf_zqzr_znx_window" id="xf_mem_zc_xytc" style="z-index: 9000;">
+	<div class="xf_wyjkwszl_4_windowInner xf_vip_tcc_window">
+		<div class="xf_wyjkfb_4_windowClose"></div>
+		<div class="xf_wyjkfb_4_windowColName">
+			会员服务条款
+		</div>
+		<div class="xf_mem_viptc_sebox">
+			<div class="xf_mem_viptc_se" id="showVipAgreement">
+			</div>
+		</div>
+	</div>
+</div>
+  
+<div class="xf_c_wyjk_2_jkcpLjsq" id="rechargeWin" style="display: none;z-index:999999">
+	<div class="s_boxbg"></div>
+	<div class="s_nomoney">
+		<span class="s_closebtn" onclick='$("#rechargeWin").hide();'>×</span>
+		<p class="sure-message">亲，您的平台账户余额不足，<br/>请及时充值。</p>
+		<a href="@{front.account.FundsManage.rechargePay()}" target="_blank" class="s_confirmbtns btn-sure">确定</a>
+		<a href="#" onclick='$("#rechargeWin").hide();' class="s_confirmbtns btn-cancel">取消</a>
+	</div>						
+</div>
+
+<script type="text/javascript">
+	function showProtocolF() {
+		$.ajax({
+			url : "@{Application.vipAgreement()}",
+			type : "POST",
+			data : {
+			},
+			success : function(data) {
+				$("#showVipAgreement").html(data);
+			},
+			
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	
+		
+		showDiv($("#xf_mem_zc_xytc"));
+	}
+	
+	function showRechargeWin() {
+		showDiv($("#rechargeWin"));
+	}
+</script>

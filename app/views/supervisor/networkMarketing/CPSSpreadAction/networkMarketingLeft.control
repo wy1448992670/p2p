@@ -1,0 +1,88 @@
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    <div class="xn_c_content_left">
+       <div class="xn_c_content_leftul">
+          <ul>
+             <li>
+                <div class="xn_c_li_head_one">
+                <!-- 展开样式：xn_c_li_bg_jian -->
+                <div class="xn_c_li_bg" id="lab_1"></div>CPS推广管理
+                </div>
+                   <div class="xn_c_li_head_two" id="hi_1">
+                   <!-- 当前样式：xn_c_li_head_ishow -->
+                     <a id="mg_1" class="xn_c_li_head_twoli" href="@{supervisor.networkMarketing.CPSSpreadAction.CPSAll()}">推广会员列表</a>
+                     <a id="mg_2" class="xn_c_li_head_twoli" href="@{supervisor.networkMarketing.CPSSpreadAction.CPSRebateStatistic()}">佣金发放统计表</a>
+					 <a id="mg_3" class="xn_c_li_head_twoli" href="@{supervisor.networkMarketing.CPSSpreadAction.CPSSpreadRule()}">推广规则设置</a>
+					 <a id="mg_4" class="xn_c_li_head_twoli" href="/supervisor/CPSSpreadAction/cpsBlacklist">推广黑名单</a>
+                   </div>
+             </li>
+             <li>
+             	<div class="xn_c_li_head_one">
+                   <div class="xn_c_li_bg" id="lab_3"></div>财富圈管理
+                </div>
+                <div class="xn_c_li_head_two" id="hi_3">
+                  <a id="mg_6" class="xn_c_li_head_twoli"  href="@{supervisor.networkMarketing.WealthCircleAction.inviteCodeInfoList()}">财富圈邀请码</a>
+                  <a id="mg_7" class="xn_c_li_head_twoli" href="@{supervisor.networkMarketing.WealthCircleAction.invitationStatistic()}">财富圈统计</a>
+                  <a id="mg_8" class="xn_c_li_head_twoli" href="@{supervisor.networkMarketing.WealthCircleAction.invitationCodeSetting()}">邀请规则设置</a>
+                </div>
+             </li>
+             <li>
+               	<div class="xn_c_li_head_one">
+                   <div class="xn_c_li_bg" id="lab_7"></div>积分商城
+                </div>
+                <div class="xn_c_li_head_two" id="hi_7">
+                  <a id="mg_15" class="xn_c_li_head_twoli"  href="@{supervisor.mall.GoodsAction.goodsList()}">兑换商品</a>
+                  <a id="mg_16" class="xn_c_li_head_twoli"  href="@{supervisor.mall.ScroeRecordAction.scroeRecordList()}">兑换记录</a>
+                  <a id="mg_17" style="display:none;" class="xn_c_li_head_twoli"  href="@{supervisor.mall.ScroeRuleAction.scroeRuleList()}">积分规则设置</a>
+                  <a id="mg_18" class="xn_c_li_head_twoli"  href="@{supervisor.mall.ScroeRuleAction.addScroeRule()}">添加规则设置</a>
+                </div>
+             </li>
+             
+              <li>
+               	<div class="xn_c_li_head_one">
+                   <div class="xn_c_li_bg" id="lab_8"></div>积分管理
+                </div>
+                <div class="xn_c_li_head_two" id="hi_8">
+                  <a id="mg_19" class="xn_c_li_head_twoli"  href="@{supervisor.scoreManager.ScoreAction.showRule()}">规则设置</a>
+                  <a id="mg_20" class="xn_c_li_head_twoli"  href="@{supervisor.scoreManager.ScoreAction.addScore()}">手动添加</a>
+                  <a id="mg_21" class="xn_c_li_head_twoli"  href="@{supervisor.scoreManager.ScoreAction.scoreList()}">积分统计</a>
+                </div>
+             </li>
+             
+             <li>
+                <div class="xn_c_li_head_one">
+                   <div class="xn_c_li_bg" id="lab_2"></div>网站流量统计分析
+                </div>
+                <div class="xn_c_li_head_two" id="hi_2">
+                  <a id="mg_4" class="xn_c_li_head_twoli"  href="@{supervisor.networkMarketing.NetworkTrafficAction.trafficStatistic()}">流量统计分析</a>
+                  <a id="mg_5" class="xn_c_li_head_twoli" href="@{supervisor.networkMarketing.NetworkTrafficAction.editNetworkTraffic()}">编辑流量统计代码</a>
+                </div>
+             </li>
+             <li>
+               <div class="xn_c_li_head_one">
+                 <a class="xn_c_li_head_a" onClick="change(1)" href="@{supervisor.networkMarketing.SEOSettingAction.SEOSite()}">SEO设置</a>
+               </div>
+             </li>
+             <li>
+               <div class="xn_c_li_head_one">
+                 <a class="xn_c_li_head_a"  href="@{supervisor.networkMarketing.CPSSpreadAction.bidPublish()}">发标公告</a>
+               </div>
+             </li>
+			 <li>
+                <div class="xn_c_li_head_one">
+                   <div class="xn_c_li_bg" id="lab_9"></div>渠道管理
+                </div>
+                <div class="xn_c_li_head_two" id="hi_9">
+                  <a id="mg_22" class="xn_c_li_head_twoli"  href="@{supervisor.channel.ChannelController.channelList()}">渠道包列表</a>
+                  <a id="mg_23" class="xn_c_li_head_twoli" href="@{supervisor.channel.ChannelController.channelTotalList()}">渠道汇总</a>
+				  <a id="mg_24" class="xn_c_li_head_twoli"  href="@{supervisor.channel.ChannelController.channelUserList()}">会员注册列表</a>
+                  <a id="mg_25" class="xn_c_li_head_twoli" href="@{supervisor.channel.ChannelController.channelUserInvestList()}">会员投资列表</a>
+                </div>
+             </li>
+          </ul>
+       </div>
+         <div class="xn_c_con_leftbutton">
+            <div class="xn_c_con_enimg">导航点击</div>
+         </div>
+    </div>
+ <script type="text/javascript" src="@{'/public/javascripts/tab/tab_mg_seo.js'}"></script>

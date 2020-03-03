@@ -1,0 +1,161 @@
+#{extends 'wechat/common.html' /}
+
+<body>
+	<div class="s_main s_center">
+		<header class="s_header">
+		  <a onclick="javascript:history.go(-1)" class="s_goback"></a>
+			${debt?.bid_no}号借款标
+			<a href="@{wechat.account.WechatAccountHome.accountInfo()}" class="icobg"></a>
+		</header>
+		#{form @wechat.account.WechatAccountHome.firstDealDebt(), id:'submitDebt'}
+		<input type="hidden" name="sign" id="sign">
+		#{/form}
+		<div class="s_zrtop">
+			竞拍剩余时间：<span class="blue"><span id="day"></span><span class="font_onetwo">天</span><span id="hour">
+			</span><span class="font_onetwo">小时</span><span id="minutes"></span><span class="font_onetwo">分</span>
+			<span id="seconds"></span><span class="font_onetwo">秒</span></span><br/>
+			目前最高竞价：<span class="blue">${debtBussiness?.maxOfferPrice?.format("###,##0.00")}</span>元<br/>
+			#{if debt?.status != 4}
+				#{if debt?.type != 1}
+				<input type="button" onclick="debtSubmit('${debt?.sign}')" value="成交"/>
+				#{/if}
+			#{/if}
+			#{else}
+			<p class="s_centerbtn">
+				<input type="button" value="此债权已经初步成交，等待对方确认成交" class="s_longbtn"/>
+			</p>
+			#{/else}
+			
+		</div>
+	
+		<div class="s_biaodetail">
+			<h3>债权转让详情<i class="arrow" onclick="debtDetail()"></i></h3>
+			<div class="s_biaodetaimain" id="debtDiv">
+				<ul>
+					<li>转让标题：${debtBussiness?.title}</li>
+					<li>待收本息合计：<span class="blue">￥${debt?.receiving_amount?.format("###,##0.00")}</span></li>
+					<li>转让底价：<span class="blue">￥${debtBussiness?.transferPrice?.format("###,##0.00")}</span></li>
+					<li>转让截止时间：<span class="blue">${debtBussiness?.endTime?.format('yyyy/MM/dd HH:mm:ss')}</span></li>
+				</ul>
+				<br/>
+				<div class="s_zrtell" limit="60">
+					<span>转让说明：</span>
+					<span>${debtBussiness?.transerReason}</span>
+				</div>
+			</div>
+		</div>
+		<div class="s_biaodetail">
+			<h3>转让的借款标详情<i class="arrow" onclick="bidDetail()"></i></h3>
+			<div class="s_biaodetaimain" id="bidDiv">
+				<ul>
+					<li>借款标编号：${debt?.bid_no}</li>
+					<li>借款人：${debt?.name}</li>
+					<li>借款标类型：<i class="biaotype type-xin">#{img src:"${imageUrl}",alt:"",width:"20",height:"20"}#{/img}</i></li>
+					<li>转让截止时间：<span class="blue">${debtBussiness?.endTime?.format('yyyy/MM/dd HH:mm:ss')}</span></li>
+					<li class="s_zrtell s_zrtell1">
+						<span>借款标标题：</span>
+						<span>${debt?.title}</span>
+					</li>
+					<li>借款金额：<span class="blue">￥${debt?.amount?.format("###,##0.00")}</span></li>
+					<li>投标本金：<span class="blue">￥${investAmount?.format("###,##0.00")}</span></li>
+					<li>年 利 率：<span class="blue">${debt?.apr}%</span></li>
+					<li>本息合计应收金额：<span class="blue">￥${debt?.receiving_amount?.format("###,##0.00")}</span></li>
+					<li>已收本息合计：<span class="blue">￥
+					#{if debt?.has_received_amount == '' || debt?.has_received_amount == null}
+					  0
+					#{/if}
+					#{else}
+					  ${debt?.has_received_amount?.format("###,##0.00")}
+					#{/else}
+					</span></li>
+					<li>待收本金：<span class="blue">￥
+					#{if debt?.remain_received_corpus == '' || debt?.remain_received_corpus == null}
+					  0
+					#{/if}
+					#{else}
+					  ${debt?.remain_received_corpus?.format("###,##0.00")}
+					#{/else}
+					</span></li>
+					<li>剩余应收本息合计：<span class="blue">￥
+					#{if debt?.remain_received_amount == '' || debt?.remain_received_amount == null}
+					  0
+					#{/if}
+					#{else}
+					  ${debt?.remain_received_amount?.format("###,##0.00")}
+					#{/else}
+					</span></li>
+					<li>还款日期：${debtBussiness?.invest?.bid?.recentRepayTime?.format('yyyy-MM-dd')}</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript">
+if('${flash?.error}' != ''){
+  alert('${flash?.error}');   
+}
+
+showTime();
+
+$(function(){
+	$("#s_zrtell").limit();
+})
+
+function showTime(){
+  var endTime =" ${debtBussiness?.endTime?.format('yyyy/MM/dd HH:mm:ss')}";
+	var date = new Date(endTime);
+	var tt = date.getTime();
+	var now = new Date().getTime();
+	var cha = tt-now;
+	var SysSecond=parseInt(cha);
+				 
+	if (SysSecond > 0) { 
+   	 int_day=Math.floor(SysSecond/86400000);
+     SysSecond-=int_day*86400000;
+     int_hour=Math.floor(SysSecond/3600000);
+     SysSecond-=int_hour*3600000;
+     int_minute=Math.floor(SysSecond/60000);
+     SysSecond-=int_minute*60000;
+     int_second=Math.floor(SysSecond/1000);
+            
+     if(int_hour<10){
+        int_hour="0"+int_hour;
+			  }
+			 
+     if(int_minute<10){
+        int_minute="0"+int_minute;
+		    }
+		     
+     if (int_second<10){
+         int_second="0"+int_second;
+        }
+             
+     $("#day").html(int_day);
+     $("#hour").html(int_hour);
+  	 $("#minutes").html(int_minute);
+  	 $("#seconds").html(int_second);
+  		       
+   }else{
+  	 $("#day").html("00");
+  	 $("#hour").html("00");
+  	 $("#minutes").html("00");
+  	 $("#seconds").html("00");
+  }
+
+	 setTimeout('showTime()',1000); 
+}
+
+function debtSubmit(sign){
+  $("#sign").val(sign);
+  $("#submitDebt").submit();
+}
+
+function bidDetail(){
+  $("#bidDiv").show();
+}
+
+function debtDetail(){
+	  $("#debtDiv").show();
+	}
+</script>

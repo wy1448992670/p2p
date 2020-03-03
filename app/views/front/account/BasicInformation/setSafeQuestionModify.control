@@ -1,0 +1,24 @@
+		<div class="xf_zqzr_znx_window" id="xf_mem_szansj_tc">
+			<div class="xf_wyjkwszl_4_windowInner xf_mem_aqwtsz_tc">
+				<div class="xf_wyjkfb_4_windowClose"></div>
+				<div class="xf_wyjkfb_4_windowColName">
+					重置安全问题
+				</div>
+				<div class="xf_wyjkfb_aqwt_two">
+					尊敬的用户，安全问题是您账户的重要安全保障，如果遗忘，请通过以下方法重置！
+				</div>
+				<div class="xf_wyjkfb_aqwt_three">
+					<div class="xf_wyjkfb_title_jk">点击下面按钮，系统将向您的安全邮箱发送安全问题重置邮件。</div>
+					<a class="xf_con_inputfbjk" id="modify">通过邮箱重置</a>
+					<input type="hidden" id="emailUrl">
+				</div>
+			</div>
+		</div>
+<script type="text/javascript">
+    $(function(){
+         $("#modify").click(function(){
+              window.open($("#emailUrl").val());
+              $("#xf_mem_szansj_tc").hide();
+         });
+    });
+</script>		

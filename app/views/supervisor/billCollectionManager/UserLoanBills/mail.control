@@ -1,0 +1,57 @@
+<div class="xn_c_ban_jox xn_c_ban_jox_fdx" id="xf_ht_mememail_mail" style="display:none;">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xn_c_ban_fdxwarp">
+      <table class="xf_ht_jr_obu_form" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="60" align="right">发给：</td>
+          <td>
+            <span id="mailName" ></span>
+            <input type="hidden" id="sendToMailId"/>
+            <input type="hidden" id="mailBillId"/>
+          </td>
+        </tr>
+        <tr>
+          <td width="60" align="right">标题：</td>
+          <td>
+            <input type="text" id="mailTitle" width="300" hight="40" class="xfht_zr_input">
+          </td>
+        </tr>
+        <tr>
+          <td valign="top" align="right">内容：</td>
+          <td>
+            <textarea id="mailContent" class="xf_ht_baidu_wkttcc_text xf_ht_baidu_wkttcc_text6"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <input type="button" value="发 送" onclick="emailSend()" class="jbox_ok">
+          </td>
+        </tr>
+      </table>  
+    </div>
+  </div>
+</div>
+  
+<script type="text/javascript">
+function emailSend(){
+  var updateBillCollectionByEmail = #{jsAction @updateBillCollectionByEmail(':userIdStr',':typeStr'
+  ,':billIdStr',':title',':content')/}
+  $.post(updateBillCollectionByEmail({userIdStr:$("#sendToMailId").val(),typeStr:'2'
+  ,billIdStr:$("#mailBillId").val(),title:encodeURI($("#mailTitle").val()),content:encodeURI($("#mailContent").val())}),function(data){
+    var arr=eval(data);
+      
+    if(arr.error.code < 0){
+      alert(arr.error.msg);
+      return;
+    }
+      
+    alert("邮件发送成功");
+    location.reload();
+  });
+}  
+        
+function mailClose(){
+  $("#xf_ht_mememail_mail").hide();
+}   
+</script>

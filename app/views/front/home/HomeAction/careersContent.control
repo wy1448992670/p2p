@@ -1,0 +1,54 @@
+			<!-- 右侧内容区域 -->
+				<div class="xf_about_box">
+					<div class="xf_about_gltd">
+						<ul class="xf_about_gltdul xf_about_gltdul2">
+						  	<li>
+						  		<h2 class="xf_about_gltd_rht">高级Java开发工程师</h2>
+						  		<h3 class="xf_about_gltd_rh3">岗位职责</h3>
+						  		<div class="xf_about_gltd_rcon">
+						  			负责系统架构设计和优化，以及性能调优；<br />
+						  			参与核心模块的编码开发；<br />
+						  			指导软件工程师的工作；<br />
+						  			了解互联网的技术发展、评估外部技术与解决方案；<br />
+						  			提升团队的技术分析，设计和编码能力。<br />
+						  		</div>
+						  		<h3 class="xf_about_gltd_rh3">任职要求</h3>
+						  		<div class="xf_about_gltd_rcon">
+						  			负责系统架构设计和优化，以及性能调优；<br />
+						  			参与核心模块的编码开发；<br />
+						  			指导软件工程师的工作；<br />
+						  			了解互联网的技术发展、评估外部技术与解决方案；<br />
+						  			提升团队的技术分析，设计和编码能力。<br />
+						  		</div>
+						  	</li>
+						  	<li>
+						  		<h2 class="xf_about_gltd_rht">高级Java开发工程师</h2>
+						  		<h3 class="xf_about_gltd_rh3">岗位职责</h3>
+						  		<div class="xf_about_gltd_rcon">
+						  			负责系统架构设计和优化，以及性能调优；<br />
+						  			参与核心模块的编码开发；<br />
+						  			指导软件工程师的工作；<br />
+						  			了解互联网的技术发展、评估外部技术与解决方案；<br />
+						  			提升团队的技术分析，设计和编码能力。<br />
+						  		</div>
+						  		<h3 class="xf_about_gltd_rh3">任职要求</h3>
+						  		<div class="xf_about_gltd_rcon">
+						  			负责系统架构设计和优化，以及性能调优；<br />
+						  			参与核心模块的编码开发；<br />
+						  			指导软件工程师的工作；<br />
+						  			了解互联网的技术发展、评估外部技术与解决方案；<br />
+						  			提升团队的技术分析，设计和编码能力。<br />
+						  		</div>
+						  	</li>
+						</ul>
+					</div>
+				</div>
+				<!-- 清除浮动 -->
+				<div class="clear"></div>
+				
+				
+			<script>
+				$(function(){
+						$("#careers").addClass("xf_con_wyjk_leftliisshow");
+				})
+			</script>	

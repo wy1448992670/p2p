@@ -1,0 +1,203 @@
+%{
+	boolean ips_enable = constants.Constants.IPS_ENABLE;
+}%
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    #{form @rechargeRecord(), id:'submit'}
+    <input type="hidden" id="currPage" name="currPage"/>
+    <input type="hidden" id="pageSize" name="pageSize"/>
+    <div class="xf_ht_search_inon">
+    <div class="xf_ht_search_r">
+    <div class="xf_ht_search_xl">
+      <select name="type" class="xf_membill_selectAge">
+         <option value="-1" #{if page?.conditions?.type == -1} selected="selected" #{/if}>全部</option>
+         #{if ips_enable}
+	         <option value="2" #{if page?.conditions?.type == 1} selected="selected" #{/if} >账户直充</option>
+	         <option value="3" #{if page?.conditions?.type == 2} selected="selected" #{/if}>闪电快充</option>
+         #{/if}
+         #{else}
+	         <option value="2" #{if page?.conditions?.type == 1} selected="selected" #{/if}>在线充值</option>
+	         <option value="3" #{if page?.conditions?.type == 2} selected="selected" #{/if} >手工充值</option>
+         #{/else}
+      </select>
+    </div>
+    <div class="xf_ht_search_xl">
+      <select name="status" class="xfht_t_j_td_1">
+            <option value="-1" #{if page?.conditions?.status == -1} selected="selected" #{/if}>全部</option>
+            <option value="1" #{if page?.conditions?.status == 0} selected="selected" #{/if}>失败</option>
+            <option value="2" #{if page?.conditions?.status == 1} selected="selected" #{/if}>成功</option>
+          </select>
+    </div>
+    <div class="xf_ht_search_xl">
+      <span class="search_timesp">时间范围：</span>
+      <input type="text" class="search_time" name="startDate" id="startDate" onclick="laydate()" class="laydate-icon" style="cursor:pointer" value="${page?.conditions?.startDate}"> 
+      <span class="search_timesp">--</span>
+      <input type="text" class="search_time" name="endDate" id="endDate" onclick="laydate()" class="laydate-icon" style="cursor:pointer" value="${page?.conditions?.endDate}">
+    </div>
+    <div class="xf_ht_search_xl">
+      <input type="text" class="search_w" name="name" placeholder="用户名/手机号码/邮箱" value="${page?.conditions?.name}">
+    </div>
+    <div class="xf_ht_search_xl">
+      <input type="hidden" name="isExport" value="0" id="isExport">
+	  <input type="submit" class="search_button" onclick="search();" value="搜索">
+	  <input type="submit" class="search_button" onmouseout="clearIsExport();" onclick="download();" value="下载数据">
+    </div>
+    </div>
+    </div>
+    #{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+    #{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+    #{tr}
+      #{th}序号#{/th}
+      #{th}用户名#{/th}
+      #{th}时间#{/th}
+      #{th}充值类型#{/th}
+      #{th}支付网关名称#{/th}
+      #{th}银行卡号#{/th}
+      #{th}支付号#{/th}
+      #{th}充值金额#{/th}
+      #{th}状态#{/th}
+      #{th}完成时间#{/th}
+      #{th}操作#{/th}
+    #{/tr}
+    #{list page?.page}
+    #{tr}
+      #{td}${(page?.currPage - 1)*page?.pageSize + _index}#{/td}
+      #{td}${_?.name}#{/td}
+      #{td}${_?.time?.format('yyyy-MM-dd HH:mm:ss')}#{/td}
+      #{td}
+        #{if ips_enable && _?.type == 1}
+        	账户直充
+        #{/if}
+        #{if ips_enable && _?.type == 2}
+        	闪电快充
+        #{/if}
+        #{if !ips_enable && _?.type == 1}
+        	在线充值
+        #{/if}
+        #{if !ips_enable && _?.type == 2}
+        	手工充值
+        #{/if}
+      #{/td}
+      #{td}
+        #{if _?.payment_gateway_id == 0}
+	        #{if constants.Constants.TRUST_FUNDS_TYPE == constants.Constants.TRUST_FUNDS_HX}
+	        	环讯托管
+	        #{/if}
+	        #{if constants.Constants.TRUST_FUNDS_TYPE == constants.Constants.TRUST_FUNDS_HF}
+	        	汇付托管
+	        #{/if}
+	        #{if constants.Constants.TRUST_FUNDS_TYPE == constants.Constants.TRUST_FUNDS_FY}
+	        	富友托管
+	        #{/if}
+        #{/if}
+        #{if _?.payment_gateway_id == 1}
+        	国付宝支付
+        #{/if}
+        #{if _?.payment_gateway_id == 2}
+        	环讯支付
+        #{/if}
+        #{if _?.payment_gateway_id == 3}
+        	连连支付
+        #{/if}
+         #{if _?.payment_gateway_id == 4}
+        	宝付支付
+        #{/if}
+      #{/td}
+      #{td}${_?.bank_card_no}#{/td}
+      #{td}${_?.pay_number}#{/td}
+      #{td}${_?.amount?.format("###,##0.00")}#{/td}
+      #{td}
+        #{if _?.is_completed}
+        	成功
+        #{/if}
+        #{else}
+         	失败
+        #{/else}
+      #{/td}
+      #{td}${_?.completed_time?.format('yyyy-MM-dd HH:mm:ss')}#{/td}
+      #{td}
+        #{if !_?.is_completed}
+            #{if _?.payment_gateway_id == 1}
+        	  <a class="xf_ta_onclick" href="@{supervisor.financeManager.PlatformAccountManager.offSingleDeal(_?.pay_number)}" target="_blank">补单</a>
+            #{/if}
+            <!-- 闪电快充 -->
+            #{if ips_enable && _?.type == 2}
+        	  <a class="xf_ta_onclick" href="javascript:transfer('${_?.pay_number}')" onclick="return confirm('涉及资金交易，请您再次确认!');">转账</a>
+       		#{/if}
+        #{/if}
+        #{else}---#{/else}
+      #{/td}
+    #{/tr}
+    #{/list}
+    #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+        #{page currPage:page?.currPage,totalCount:page?.totalCount,pageSize:page?.pageSize,theme:2,style:4}#{/page}
+    <div>成功充值合计：${countAmount}元</div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript"> 
+
+/* 搜索 */
+	function search(){
+	  $("#isExport").val(0);
+	  $("#submit").submit();
+	}
+	
+	/* 下载数据 */
+	function download(){
+	  $("#isExport").val(1);
+	  $("#submit").submit();
+	}
+	
+	/* 清除下载数据 */
+	function clearIsExport(){
+	  $('#isExport').val(0);
+	}
+
+
+  $(function(){
+  	 showHighLight(4,4,25);
+  });
+  
+  function showPage(currPage, pageSize){
+     $("#currPage").val(currPage);
+     $("#pageSize").val(pageSize);
+     $("#submit").submit();
+   }
+   
+   function transfer(agentOrderNo){
+   	  var type = 0;
+   	  var status = 0;
+   	  var name = "${page?.conditions?.name}";
+   	  var startDate = "${page?.conditions?.startDate}";
+   	  var endDate = "${page?.conditions?.endDate}";
+   	  var currPage = "${page?.currPage}";
+   	  
+   	  if("${page?.conditions?.type}" != ""){
+   	      type = parseInt("${page?.conditions?.type}") + 1;
+   	  }
+   	  
+   	  if("${page?.conditions?.status}" != ""){
+   	      status = parseInt("${page?.conditions?.status}") + 1;
+   	  }
+ 
+      window.location.href = "@{supervisor.financeManager.PlatformAccountManager.reTransfer()}" +
+      		"?agentOrderNo=" + agentOrderNo +
+      		"&type=" + type +
+      		"&status=" + status +
+      		"&name=" + name +
+      		"&startDate=" + startDate +
+      		"&endDate=" + endDate +
+      		"&currPage=" + currPage ;
+
+   }
+   
+   
+</script>

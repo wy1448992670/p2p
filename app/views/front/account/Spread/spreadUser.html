@@ -1,0 +1,28 @@
+#{extends 'common/frontMain.html' /}
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{set title:currBackstageSet.seoTitle+' | 我的账户 | CPS推广  | 我成功推广的会员' /}
+
+<!-- 内容区域 start -->
+	<div class="xf_con_box">
+		<div class="xf_con_mem_nav"></div>
+		<!-- 左边导航区域 -->
+		#{include "front/account/AccountHome/homeLeft.control"/}
+		<!-- 右侧内容区域 -->
+		#{include "front/account/Spread/spreadUserConten.control"/}
+		<!-- 清除浮动 -->
+		<div class="clear"></div>
+	</div>
+<!-- 内容区域 end -->
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript">
+
+
+    $(function(){
+		/* 高亮显示 */
+		showHighLightFront(36);
+		showHighLightFront2(7, 7);
+    	
+    });
+</script>

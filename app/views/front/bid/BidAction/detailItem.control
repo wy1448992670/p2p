@@ -1,0 +1,28 @@
+
+
+<div class="xf_con_wyjk_edfw_o left">
+	<span>额度范围：</span>
+	<span class="font_onetwo">${product?.minAmount}-${product?.maxAmount}元</span>
+</div>
+	
+
+<div class="xf_con_wyjk_edfw_t left">
+	<span>必审资料：</span>
+</div>
+	
+<div class="xf_con_wyjk_edfw_s font_onetwo left" id="xf_con_wyjk_edfw_s">
+		#{list product?.requiredAuditItem}
+			<span class="xf_view_bszl" id="zlkd">${_?.auditItem?.name}</span>
+		#{/list}
+</div>
+
+<div class="xf_con_wyjk_edfw_w left">
+	<a href="@{applyNow(product?.id, 0, 2)}" class="xf_con_inputfbjk" target="_self">发布此借款</a>
+</div>
+
+<script>
+	$(function(){
+		$("#xf_con_wyjk_edfw_s").addClass("xf_con_wyjk_edfw_stwo");
+	});
+</script>
+

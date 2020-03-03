@@ -1,0 +1,31 @@
+#{extends 'payment/PaymentBaseAction/checkMain.html' /}
+#{set title:'邮箱认证' /}
+  
+<div class="p_zctancbg" style="display: block"></div>
+<div class="p_zctanc1" style="display: block">
+  <div class="p_zctcbox">
+    <div class="p_zctctextimg"><img src="@{'public/images/p_zc001.png'}"></div>
+    <div class="p_zctctextword">
+    #{form @payment.PaymentBaseAction.sendActiveEmail(), id:'form'}
+      <p>&nbsp;</p>
+      <p>邮箱：<input type="text" name="email" id="email"/><span id="showTips" style="color: red;padding-left: 5px;">${flash.error}</span></p>
+      <p><a class="p_zctcnext1" onclick="doCheckEmailSet()" style="margin-left: 40px;">发送邮箱激活链接</a></p>
+      #{/form}
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+	function doCheckEmailSet(){
+		var email = $("#email").val();
+		if("" == email || undefined == email){
+			$("#showTips").html("请输入邮箱！");
+			return ;
+		}
+		if(!email.isEmail()){
+			$("#showTips").html("邮箱格式有误！");
+			return ;
+		}
+		$("#form").submit();
+	}
+</script>

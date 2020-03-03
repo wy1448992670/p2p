@@ -1,0 +1,201 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'加息明细列表' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include '/supervisor/activity/OperatingActivitiesLeft.control'/}
+      <div class="xn_c_content">
+	  <div class="xf_ht_tablelist">
+		<!-- 搜索 -->
+		#{form @increaseDetail(), id:'submit'}
+		<div class="xf_ht_search">
+		  <input type="hidden" id="currPage" name="currPageStr"/>
+          <input type="hidden" id="pageSize" name="pageSizeStr"/>
+		  <div class="xf_ht_search_l">
+			<input type="hidden" id="orderType" name="orderType" value="${page.conditions?.orderType}"/>
+			<span id="div_0"><a id="tab_0" onClick="conditonSearch(0)">默认排序<a id="sp0"></a></a></span>
+			<span id="div_1"><a id="tab_1" onClick="conditonSearch(1)">应付加息日期<a id="sp1">↑</a></a></span>
+		  </div>
+		</div>
+		<div class="xf_ht_search_inon">
+		  <div class="xf_ht_search_r" style="width: 100%;">
+			<div class="xf_ht_search_xl">
+				标的名称/借款人真实姓名：
+				<input type="text" class="search_w" id="key" name="keyword" value="${page.conditions?.keyword}">
+			</div>
+			
+			<div class="xf_ht_search_xl">
+				应付加息日期：
+			  <input type="text" class="search_time" name="start" id="start" value="${page.conditions?.start}" onclick="laydate()" class="laydate-icon" style="cursor:pointer">
+			  <span class="search_timesp">--</span>
+			  <input type="text" class="search_time" name="end" id="end" value="${page.conditions?.end}" onclick="laydate()" class="laydate-icon" style="cursor:pointer">  
+		    </div>
+		    
+			
+			<div class="xf_ht_search_xl">
+				账单状态：
+			  <select id="select" name="status" class="xf_membill_selectAge">
+				<option value="0" #{if page.conditions.status == 0} selected="selected" #{/if}>全部</option>
+				<option value="1" #{elseif page.conditions.status == 1} selected="selected" #{/elseif}>已付</option>
+				<option value="2" #{elseif page.conditions.status == 2} selected="selected" #{/elseif}>待付</option>
+			  </select>
+			</div>
+			
+			<div class="xf_ht_search_xl">
+				是否逾期：
+			  <select id="select" name="overdue" class="xf_membill_selectAge">
+				<option value="0" #{if page.conditions.overdue == 0} selected="selected" #{/if}>全部</option>
+				<option value="1" #{elseif page.conditions.overdue == 1} selected="selected" #{/elseif}>是</option>
+				<option value="2" #{elseif page.conditions.overdue == 2} selected="selected" #{/elseif}>否</option>
+			  </select>
+			</div>
+			
+			
+		  </div>
+		  <div >
+			<div class="xf_ht_search_xl" style="margin-top:10px;">
+				实际支付时间：
+			  <input type="text" class="search_time" name="realReceiveTimeStart" value="${page.conditions?.realReceiveTimeStart}" onclick="laydate()" class="laydate-icon" style="cursor:pointer">
+			  <span class="search_timesp">--</span>
+			  <input type="text" class="search_time" name="realReceiveTimeEnd" value="${page.conditions?.realReceiveTimeEnd}" onclick="laydate()" class="laydate-icon" style="cursor:pointer">
+		    </div>
+			<div class="xf_ht_search_xl" style="margin-top:10px;">
+				<input type="hidden" name="isExport" value="0" id="isExport">
+				<input type="submit" class="search_button" value="搜索">
+				<input type="submit" class="search_button" onmouseout="clearIsExport();" onclick="download();" value="下载数据">
+			</div>
+		  </div>
+		</div>
+		#{/form}
+		<!-- 列表内容 -->
+		<div class="xn_c_content_top">
+		  #{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+			#{tr}
+			  #{th}序号#{/th}
+			  #{th}加息账单编号#{/th}
+			  #{th}关联投资账单编号#{/th}
+			  #{th}投资人#{/th}
+			  #{th}账单期数#{/th}
+			  #{th}应付加息金额#{/th}
+			  #{th}标的名称#{/th}
+			  #{th}关联借款标编号#{/th}
+			  #{th}借款人真实姓名#{/th}
+			  #{th}应付加息时间#{/th}
+			  #{th}实际支付时间#{/th}
+			  #{th}是否逾期#{/th}
+			  #{th}账单状态#{/th}
+			  #{th}备注#{/th}
+			#{/tr}
+			#{list items:page.page, as:'inc'}
+			#{tr tr_index:_index}
+			  #{td}${(page?.currPage - 1)*page?.pageSize + inc_index}#{/td}
+			  #{td}${inc?.jxNo}#{/td}
+			  #{td}${inc?.investNo}#{/td}
+			  #{td}${inc?.investName}#{/td}
+			  #{td}${inc?.periods}#{/td}
+			  #{td}${inc?.receiveIncreaseInterest.format("###,##0.00")}#{/td}
+		  	  #{td}${inc?.title}#{/td}
+		  	  #{td}${inc?.bidNo}#{/td}
+			  #{td}${inc?.realityName}#{/td}
+			  #{td}${inc?.receiveTime?.format('yyyy-MM-dd')}#{/td}
+			  #{td}${inc?.realReceiveTime?.format('yyyy-MM-dd')}#{/td}
+			  #{td}${inc?.overdueValue}#{/td}
+			  #{td}${inc?.statusValue}#{/td}
+			  #{td}${inc?.remark}#{/td}
+			#{/tr}
+			#{/list}
+		  #{/table}
+		</div>
+		<!-- 列表底部 -->
+		<div class="xn_c_content_bottom">
+		应付加息金额合计：${page?.conditions?.sumAmount?.format("###,##0.00")}
+		  <div class="page_warp">
+			#{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4}#{/page}
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </div>
+</div>
+<div id="show"></div>
+<script type="text/javascript">
+$(function(){
+	  var mydate = new Date();
+	  var now = mydate.getFullYear();
+	  var before = now -5;
+	  var html = "";
+	  
+	  for(var  c = now ;c >= before;c--){
+		   html += '<option ';
+
+		   if('${page?.conditions?.year}' == c)
+			   html += 'selected="selected"';
+
+		   html += ' value="'+c+'">'+c+'</option>';
+	  }
+
+	  $("#year").append(html);
+	});
+
+function conditonSearch(num){
+	  var orderType= ${page.conditions?.orderType};
+	  if(orderType == 0){
+	    $("#orderType").val(num);
+	    $("#submit").submit();
+	    return;
+	  }
+	  var sum = orderType/2;
+	  if(sum.toString().indexOf('.') == -1){
+	    var sum2 = orderType - 1;
+	    $("#orderType").val(num);
+	    $("#submit").submit();
+	    return;
+	  }else{
+	    if(orderType == num){
+	      $("#orderType").val(num + 1);
+	      $("#submit").submit();
+	      return;
+	    }else{
+	      $("#orderType").val(num);
+	      $("#submit").submit();
+	      return;
+	    }
+	  }
+	}
+/* 下载数据 */
+function download(){
+  $("#isExport").val(1);
+  $("#showForm").submit();
+}
+
+/* 清除下载数据 */
+function clearIsExport(){
+  $('#isExport').val(0);
+}
+
+  $(function(){	
+    /* 高亮显示 */
+	showHighLight(9,9,92);
+	//条件查询控制样式
+	var num= ${page.conditions?.orderType};
+    if(num == 0){
+      $("#div_0").addClass("xf_sea_isshow");
+      
+      return;
+    }
+    var sum = num/2;
+    if(sum.toString().indexOf('.') == -1){
+      var sum2 = num -1;
+      $("#div_"+sum2).addClass("xf_sea_isshow");
+      $("#sp"+sum2).html("↓");
+      
+      return;
+    }
+    $("#div_"+num).addClass("xf_sea_isshow");
+  });
+  
+  function showPage(currPage, pageSize){
+    $("#currPage").val(currPage);
+    $("#pageSize").val(pageSize);
+    $("#submit").submit();
+  }
+</script>

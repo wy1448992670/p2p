@@ -1,0 +1,108 @@
+		<!-- -正常还款积分明细 -->
+		<div class="xf_zqzr_znx_window" id="xf_mem_zchkjf_window">
+			<div class="xf_wyjkwszl_4_windowInner xf_hmd_wdxydj_window">
+				<div class="xf_wyjkfb_4_windowClose" id="close"></div>
+				<div class="xf_wyjkfb_4_windowColName">
+					审核资料积分明细
+				</div>
+        		<!-- 搜索区域 -->
+				<ul class="xf_memzjgl_wdxydji clr">
+					<li class="xf_membill_searchLi">
+						<input type="text" id="auditKeyScore" value="${page?.conditions?.key}" class="xf_membill_shurk_yhm">
+					</li>
+					<li>
+						<input type="button" id="suditSerach" value="搜 索" class="xf_membill_button_yhm xf_membill_button_yhm2">
+					</li>
+				</ul>
+				<!-- 搜索结果 -->
+				<div class="xf_mem_xydj_search">
+					<table border="0" cellpadding="0" cellspacing="0" width="565" class="xf_mem_xydj_viewcpms">
+						<tbody>
+							<tr>
+								<th align="center" width="42">序号</th>
+							  	<th width="77">审核科目</th>
+							  	<th align="center" width="197">审核观点</th>
+							  	<th width="48">审核得分</th>
+							  	<th width="148">审核时间</th>
+							</tr>
+							#{if page.page.size() != 0}
+							#{list items:page.page,as:'loan'}
+							<tr>
+								<td align="center">${loan_index}</td>
+								<td align="left">
+									#{if loan?.audit_item_name == null}
+										---
+									#{/if}
+									#{else}
+										${loan?.audit_item_name}
+									#{/else}
+								</td>
+								<td align="center">
+									#{if loan?.suggestion == null}
+										---
+									#{/if}
+									#{else}
+										${loan?.suggestion}
+									#{/else}
+								</td>
+								<td align="center">${loan?.score}</td>
+								<td align="center">
+									#{if loan?.audit_time == null}
+										---
+									#{/if}
+									#{else}
+										${loan?.audit_time?.format('yyyy-MM-dd')}
+									#{/else}  
+								</td>
+							</tr>
+							#{/list}
+							#{/if}
+						</tbody>
+					</table>
+				</div>
+				<!-- 分页器 -->
+				<div class="xf_wylc_page xf_memxydj_view">
+			    #{page pageTitle:"审核资料积分明细", funMethod:"showPageScore",currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:2,style:2 /}
+				</div>
+				<div class="xf_xydj_a_bq xf_xydj_a_bq2">
+					<a href="#" class="xf_con_inputfbjk" id="close1">关 闭</a>
+				</div>
+			</div>
+		</div>
+<script type="text/javascript">
+      $(function(){
+         showDiv($("#xf_mem_zchkjf_window"));
+     })
+     
+     $("#close").click(function(){
+         $("#xf_mem_zchkjf_window").hide();
+     
+     })
+     
+     $("#close1").click(function(){
+         $("#xf_mem_zchkjf_window").hide();
+     
+     })
+     
+     $("#suditSerach").click(function(){
+          showPageScore('1');
+     })
+     
+     function showPageScore(currPage){
+         var values = $("#auditKeyScore").val();
+         $.ajax({
+			url : "@{creditDetailAuditItem()}",
+			type : "POST",
+			data : {
+			   "currPage" : currPage,
+			   "key"  : values
+			},
+			success : function(data) {
+			    $("#very").html(data);
+			},
+			error : function() {
+				alert("对不起，查询数据出现错误");
+			}
+		});
+     }
+</script>

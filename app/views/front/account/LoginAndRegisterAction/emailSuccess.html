@@ -1,0 +1,28 @@
+#{extends 'common/frontMain.html' /}
+#{set title:'通过邮箱找回用户名' /}
+<div class="xf_login_centent clr">
+			<div class="xf_register_email">
+				<div class="xf_con_wyjk_tentultbody" id="emailDiv">
+					<ul class="xf_login_inputsrul xf_login_inputsrul_zhyhm">
+						<li>
+							<div class="xf_login_inputsrul_r">
+							<input class="xf_login_yzm" type="button" onClick="goEmail()" value="前往邮箱查看">
+							&nbsp;&nbsp;&nbsp;
+							<input class="xf_login_yzm" type="button" onClick="goLogin()" value="立即登录">
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- 底部阴影 -->
+<div class="xf_login_kjyy"></div>
+<script type="text/javascript">
+    function goEmail(){
+        window.open('${emailUrl}');
+    }
+    
+    function goLogin(){
+        window.location.href = "@{login()}";
+    }
+</script>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta http-equiv="content-Type" content="text/html; charset=gbk">
+<title>Servlet AccountServlet</title>
+</head>
+<body>
+<form action="${args.url}" id="frm1" method="post">
+ <input type="hidden" name="charset" value="${args.charset}" />
+ <input type="hidden" name="version" value="${args.version}">
+      <input type="hidden" name="language" value="${args.language}">
+      <input type="hidden" name="signType" value="${args.signType}">
+      <input type="hidden" name="tranCode" value="${args.tranCode}">
+      <input type="hidden" name="merchantID" value="${args.merchantID}">
+      <input type="hidden" name="merOrderNum" value="${args.merOrderNum}">
+      <input type="hidden" name="tranAmt" value="${args.tranAmt}">
+      <input type="hidden" name="feeAmt" value="${args.feeAmt}">
+      <input type="hidden" name="currencyType" value="${args.currencyType}">
+      <input type="hidden" name="frontMerUrl" value="${args.frontMerUrl}">
+      <input type="hidden" name="backgroundMerUrl" value="${args.backgroundMerUrl}">
+      <input type="hidden" name="tranDateTime" value="${args.tranDateTime}">
+      <input type="hidden" name="virCardNoIn" value="${args.virCardNoIn}">
+      <input type="hidden" name="tranIP" value="${args.tranIP}">
+      <input type="hidden" name="isRepeatSubmit" value="${args.isRepeatSubmit}">
+      <input type="hidden" name="goodsName" value="${args.goodsName}" >
+      
+      <input type="hidden" name="goodsDetail" value="${args.goodsDetail}">
+      <input type="hidden" name="buyerName" value="${args.buyerName}">
+      <input type="hidden" name="buyerContact" value="${args.buyerContact}">
+      <input type="hidden" name="merRemark1" value="${args.merRemark1}">
+      <input type="hidden" name="merRemark2" value="${args.merRemark2}">
+      <input type="hidden" name="bankCode" value="${args.bankCode}">
+      <input type="hidden" name="userType" value="${args.userType}">
+      <input type="hidden" name="VerficationCode" value="${args.VerficationCode}" >
+      
+      <input type="hidden" name="gopayServerTime" value="${args.gopayServerTime}">
+      <input type="hidden" name="signValue" value="${args.signValue}">
+</form>
+<script language="javascript">
+document.getElementById("frm1").submit();
+</script>
+</body>
+</html>

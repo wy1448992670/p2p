@@ -1,0 +1,22 @@
+ <div class="xf_memgzdr_new2">
+	<div class="xf_memgzdr_newutwl_jq">
+		<ul class="xf_memgzdr_newultwo">
+		#{list items:page.page,as:'attentionUser'}
+			<li>
+				<div class="xf_memgzyh_img">
+					<a href="#">
+					#{img src:"${attentionUser.attention_user_photo}",alt:"头像",width:"122",height:"122"}#{/img}
+					</a>
+				</div>
+				<div class="xf_memgzyh_name">
+					<a href="@{front.account.AccountHome.userDetail('attentionUser?.signAttentionUserId')}">${attentionUser?.attention_user_name}</a>
+				</div>
+			</li>
+		#{/list}
+		</ul>
+		<!-- 分页器 -->
+		<div class="xf_wylc_page xf_memznx_page">
+			#{page pageTitle:"关注用户",funMethod:"attentionFetch",currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:2,style:2 /}
+		</div>
+	</div>
+</div>

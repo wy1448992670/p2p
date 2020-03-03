@@ -1,0 +1,160 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'亿亿公益' /}
+
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist"> 
+    #{include 'supervisor/publicBenefit/left.control'/}
+    <script type="text/javascript" src="@{'public/javascripts/kindeditor-4.1.7/kindeditor.js'}"></script>
+  <link rel="stylesheet" src="@{'public/javascripts/kindeditor-4.1.7/themes/default/default.css'}" />
+  <script charset="utf-8" src="@{'public/javascripts/kindeditor-4.1.7/kindeditor-min.js'}"></script>
+  <script charset="utf-8" src="@{'public/javascripts/kindeditor-4.1.7/lang/zh_CN.js'}"></script>
+  <script   type="text/javascript">  
+    var editor;
+    KindEditor.ready(function(K) {
+      editor = K.create('#TextArea3', {
+         cssPath :"@{'public/javascripts/kindeditor-4.1.7/plugins/code/prettify.css'}",
+         uploadJson : '@{FileUpload.uploadImage2()}',
+      allowFileManager : true,
+      allowUpload: true
+      });
+    });
+  </script>
+    <!--右-->
+  	#{form @benefitEdit(),method:'POST',id:'submitadd'}
+  	<input type="hidden" name="edit" value="1"/>
+  	<input type="hidden" name="benefit.id" value="${benefit?.id}"/>
+  	<input type="hidden" name="benefit.ins_dt" value="${benefit?.ins_dt}"/>
+  	<input type="hidden" name="benefit.donate_users" value="${benefit?.donate_users}"/>
+  	<input type="hidden" name="benefit.actual_donate" value="${benefit?.actual_donate}"/>
+  	<input type="hidden" name="benefit.content" id="content" value="${benefit?.content}"/>
+  <div class="xn_c_content" style="width: 1084px;">
+    <div class="xf_content_add">
+    <div class="xfht_t_j_y_2">
+    <!--右上-->
+    <div class="xf_ht_obu_fklm">创建公益项目</div>
+    
+    <h3 class="xf_htgl_jgtitle">基本信息</h3>
+    <div class="xf_ht_news_content">
+    <div class="xf_ht_news_content_t">
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_news_content_t_t">
+        <tr>
+          <td width="120" align="right" valign="middle" style="padding-right:5px;">公益名称：</td>
+          <td>
+            <input class="xfht_zr_input" type="text" style="width:600px;" name="benefit.name" id="name" maxlength="30" value="${benefit?.name}">
+          </td>
+        </tr>
+        <tr>
+          <td width="120" align="right" valign="middle" style="padding-right:5px;">项目时间：</td>
+          <td>
+          #{if benefit?.start_dt != null}
+            <input class="xfht_zr_input" type="text" style="width:160px;" name="benefit.start_dt" id="start_dt" class="laydate-icon" onclick="laydate()" style="cursor:pointer"  value="${benefit?.start_dt.format('yyyy-MM-dd')}">
+           #{/if}
+           #{else}
+            <input class="xfht_zr_input" type="text" style="width:160px;" name="benefit.start_dt" id="start_dt" class="laydate-icon" onclick="laydate()" style="cursor:pointer"  value="">
+           #{/else}
+          </td>
+        </tr>
+        <tr>
+          <td width="120" align="right" valign="middle" style="padding-right:5px;">计划捐款：</td>
+          <td>
+            <input class="xfht_zr_input" type="text" style="width:60px;" name="benefit.plan_donate" id="plan_donate" style="cursor:pointer"  value="${benefit?.plan_donate}"> 元
+          </td>
+        </tr>
+        #{if benefit !=null && benefit.id > 0}
+        <tr>
+          <td width="120" align="right" valign="middle" style="padding-right:5px;">实际捐款：</td>
+          <td>
+            <input class="xfht_zr_input" type="text" style="width:60px;" name="benefit.actual_donate" id="actual_donate" style="cursor:pointer" value="${benefit.actual_donate}" disabled="disabled"> 元
+          </td>
+        </tr>
+        #{/if}
+      </table>
+    </div>
+    
+    
+    <h3 class="xf_htgl_jgtitle" style="margin-top:50px;">宣传信息</h3>
+    <div class="xf_ht_news_content">
+    <div class="xf_ht_news_content_t">
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_news_content_t_t">
+        <tr>
+          <td width="120" align="right" valign="middle" style="padding-right:5px;">摘要：</td>
+          <td>
+            <input class="xfht_zr_input" type="text" style="width:600px;" name="benefit.descr" id="descr" maxlength="255"  value="${benefit?.descr}">
+          </td>
+        </tr>
+        <tr>
+          <td width="120" align="right" valign="middle" style="padding-right:5px;">摘要图片：</td>
+          <td>
+            <input type="hidden" name="benefit.cover" id="cover" value="${benefit?.cover}"/>
+            <img src="${benefit?.cover}" id="loanImage" alt="头像" width="110px" height="110px" onerror="this.src='/public/images/default.png'">
+            <a href="javascript:$('#cover').val();$('#loanImage').attr('src','');" title="删除图片">X</a>
+			  <div>
+			    <input type="file" id="imgFile" name="imgFile"/>
+			    <input type="button" onclick="uploadImage('imgFile','loanImage');" value="上传">
+			  </div>
+          </td>
+        </tr>
+        <tr>
+          <td width="120" align="right" valign="top" style="padding-right:5px;">正文：</td>
+          <td>
+            <div class="xf_ht_news_conr">
+              <textarea class="xf_ht_jr_obttd_textarea" id="TextArea3">${benefit?.content}</textarea>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+   
+    <div class="xf_ht_news_content_button" colspan="4">
+      <input class="xf_ht_tcc_button_ok" type="button" value="确定" onclick="contentAdd();"/>
+    </div>
+    </div>
+    </div>
+    </div>
+  </div>
+  #{/form}
+  </div>
+</div>
+<script type="text/javascript">
+if(${editSuccess} == 1){
+	alert("保存成功");
+	location.href = "/supervisor/publicBenefit/UserDonate/benefitEdit?benefit.id="+'${benefit?.id}';
+}
+function contentAdd(){
+	$("#cover").val($("#loanImage").attr("src"));
+	var content = editor.html();
+	  content = replaceAllHTML(content);
+	$("#content").val(encodeURIComponent(content));
+	
+	if($("#name").val() == ""){
+		alert("公益名称不能为空");
+		return;
+	}
+	if($("#start_dt").val() == ""){
+		alert("项目时间不能为空");
+		return;
+	}
+	if($("#plan_donate").val() == ""){
+		alert("计划捐款不能为空");
+		return;
+	}
+	if($("#plan_donate").val() <= 0){
+		alert("计划捐款必须大于0");
+		return;
+	}
+	if($("#descr").val() == ""){
+		alert("摘要不能为空");
+		return;
+	}
+	if($("#cover").val() == ""){
+		alert("图片不能为空");
+		return;
+	}
+	if($("#content").val() == ""){
+		alert("正文不能为空");
+		return;
+	}
+	
+	$("#submitadd").submit();
+}
+</script>

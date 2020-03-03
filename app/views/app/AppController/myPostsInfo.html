@@ -1,0 +1,286 @@
+#{extends 'wechat/service/appCommon.html' /}
+
+<body>
+
+<!-- main -->
+<div class="wrapper03" id="wrapper" style="background-color: #fff">
+ <div id="scroller"><div >
+    <div class="p-tztop" >
+        <h5>${t?.title}</h5>
+        <div class="p-tzmintt">
+            <span onclick="everyScoreSign('${userId}')">每日签到</span>
+            <span class="p-sqhuif"><i class="bgico"></i>${t?.answers_count}</span>
+            <span class="p-sqliul"><i class="bgico"></i>${t?.read_count}</span>
+        </div>
+    </div>
+    <div class="p-tzword">
+        <div class="p-tzauthor flex">
+            <div class="flex-1"><em>楼主</em> <span>${t?.name}</span></div>
+            <div>${t?.add_time?.format('yyyy-MM-dd HH:mm:ss')}&nbsp;&nbsp;</div>
+        </div>
+        <p>${t?.content}</p>
+    </div>
+    
+    <ul class="p-tzpingl">
+    	<div id="main">
+        #{list items:page.page,as:'postsList'}
+	        <li>
+	            <div class="flex p-tzname">
+	                <div class="flex-1 p-tztime"> #{if postsList?.toAnswerUser == null} ${postsList?.forumName}  #{/if}#{else}${postsList?.forumName} 回复 ${postsList?.toAnswerUser} #{/else}<span>${postsList?.timeBetween}</span></div>
+	                <div class="floor">${page?.totalCount - (postsList_index - 1)}楼</div>
+	            </div>
+	            <div class="p-tzhfword">${postsList?.content}</div>
+	            <div class="p-tzhuifu">#{if postsList?.answersShow}<a  onclick="userAnswesFunction('${postsList.signUserId}','${postsList.userName}')">回复</a>#{/if}</div>
+	        </li>
+        #{/list}
+        </div>
+    </ul>
+    </div>
+    <div id="pullUp">
+    	#{if page.page.size() > 0}<span class="pullUpIcon" id="pullUpIcons"></span><span class="pullUpLabel" id="pullShowT">上拉加载更多...</span>#{/if}
+   	</div>
+   	</div></div>
+
+    <div class="p-tzcaozuo">
+        <div class="p-zqcaoz flex">
+       
+	        #{if type}
+	        	<a class="p-botshouc #{if collection} cur #{/if}" id="collection"  onclick="eidtCollection('${collection}')">
+	                <i class="bgico" style="margin-top: 20px;"></i>
+	            </a>
+	        #{/if}
+	        #{else}
+	            <a class="p-botdele" href="javascript:void(0)"  onclick="delectPosts()">
+	                <i class="bgico" style="margin-top: 20px;"></i>
+	            </a>
+	        #{/else}
+	            <a class="p-botfatie flex-1"  onclick="answesFnction()">回复帖子</a>
+	     
+        </div>
+    </div>
+
+
+<!-- 回复弹窗 -->
+<div class="p-tzhuifutc none">
+	<form action="@{app.AppController.submitAnswers()}" id="submit">
+	<input type="hidden" value="${userId}" name="userId" />
+	<input type="hidden" value="${id}" name="id" />
+	<input type="hidden" value="" name="answersUser" id="answersUser"/>
+	<input type="hidden" value="" name="answersUserId" id="answersUserId"/>
+	    <div class="p-tzhfwrite">
+	        <textarea name="textContent"></textarea>
+	        <div class="p-tzwritebtn"><a href="javascript:void(0)" onclick="submitTo()">回&nbsp;&nbsp;复</a></div>
+	    </div>
+    </form>
+</div>
+</body>
+<script type="text/javascript">
+	$(function(){
+		
+		window.onpopstate = function (e) {
+            //点击浏览器的前进后退按钮处理
+            if (e.state) {
+                document.title = e.state.title;
+                $.ajax({
+                    type: "get",
+                    url: e.state.url,
+                    success: function (data) {
+                        $("#page").html(data)
+                    },
+                    error: function (data) {
+
+                    }
+                })
+            }
+        }
+		
+		if('${flash.error}' !='') {
+		  alert('${flash?.error}');
+		}
+	});
+	
+	function everyScoreSign(userId){
+	
+		$.ajax({
+			url:"@{front.mall.MallAction.sign()}",
+			type:"POST",
+			dataType: "json",
+			data:{user_id:userId},
+			success:function(date){
+				if(date.error.code == -100){
+					alert(date.error.msg);
+					window.location.href="/app/mallGoodsInfo?user_id="+userId+"&score=0";
+				}else if(date.error.code < 0){
+					alert(date.error.msg);
+				}else{
+					window.location.href="/app/mallGoodsInfo?user_id="+userId+"&score=1";
+				}
+			}
+			
+		});
+	}
+
+	var myScroll,
+	pullUpEl, pullUpOffset,
+	generatedCount = 0;
+	
+	var currPage = 1;
+	var getUserId = '${userId}';
+	
+	var countPage = ${page?.totalCount};
+	
+	var showCurrPage = 1;
+	
+	var ids = '${ids}';
+	
+	
+	function pullUpAction () {
+	setTimeout(function () {    // <-- Simulate network congestion, remove setTimeout from production!
+		currPage = currPage + 1;
+		
+		$.ajax({
+			url: "@{app.AppController.myPostsInfo()}",
+			type: "POST",
+			dataType: "json",
+			data: {
+				"currPage": currPage,
+				"userId":getUserId,
+				"id":ids,
+				"Mark": 2
+			},
+			success: function (data) {
+				
+					var arr = eval(data);
+					
+					var list = arr.page.page;
+					
+					if (list.length == 0) {
+						$("#pullUp").removeClass("loading").animate({opacity:'0'},3000);
+						$("#pullShowT").html("没有更多了");
+						$("#pullUpIcons").removeClass("pullUpIcon");
+					} else {
+						
+						var pageSize = arr.page.pageSize;
+						var showPageSize = pageSize*showCurrPage;
+						
+						for (var i = 0; i < list.length; i++) {
+							var countl = countPage - showPageSize - i;
+							var showS = "";
+							if(list[i].toAnswerUser == null || list[i].toAnswerUser == ""){
+								showS = list[i].forumName;
+							}else{
+								showS = list[i].forumName +"回复"+list[i].toAnswerUser;
+							}
+							
+							
+							$("#main").append("<li>"+
+									"<div class='flex p-tzname'>"+
+									"<div class='flex-1 p-tztime'>"+showS+"<span>"+list[i].timeBetween+"</span></div>"+
+									"<div class='floor'>"+countl+"楼</div></div>"+
+									"<div class='p-tzhfword'>"+list[i].content+"</div>"+
+									"<div class='p-tzhuifu'><a href='javascript:void(0)' onclick=userAnswesFunction('"+list[i].user_id+"','"+list[i].userName+"')>回复</a></div></li>"
+									
+									);
+							
+								}
+						showCurrPage++;
+						myScroll.refresh();
+					}
+					
+				},
+				error: function () {
+				}
+				
+		});
+		
+		
+	}, 300);    // <-- Simulate network congestion, remove setTimeout from production!
+	}
+
+	var con = 0;
+	
+	var u = navigator.userAgent;
+	var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+	
+	function eidtCollection(type){
+		if('${userId}' == ''){
+			if(confirm("您还没有登入！")){
+				if(isAndroid){
+					window.control.login();
+				}else{
+					login();
+				}
+			}
+		}else{
+			$.ajax({
+				url:"@{app.AppController.eidtCollection()}",
+				type:"POST",
+				data:{postsIdStr:'${id}',userIdStr:'${userId}'},
+				success:function(data){
+					
+			        alert(data.error);
+			      	
+				}
+			});
+		}
+	}
+	
+	
+	
+	function answesFnction(){
+		
+			$("#answersUser").val("");
+			$("#answersUserId").val("");
+		
+	}
+	
+	function userAnswesFunction(userId,userName){
+		if('${userId}' == ''){
+			if(confirm("您还没有登入！")){
+				if(isAndroid){
+					window.control.login();
+				}else{
+					login();
+				}
+			}
+		}else{
+			$(".p-tzhuifutc").css("display","block");
+			$("#answersUser").val(userName);
+			$("#answersUserId").val(userId);
+		}
+		
+	}
+	
+	function submitTo(){
+		if('${userId}' == ''){
+			if(confirm("您还没有登入！")){
+				if(isAndroid){
+					window.control.login();
+				}else{
+					login();
+				}
+			}
+		}else{
+			$("#submit").submit();
+		}
+	}
+	
+	function delectPosts(){
+		if('${userId}' == ''){
+			if(confirm("您还没有登入！")){
+				if(isAndroid){
+					window.control.login();
+				}else{
+					login();
+				}
+			}
+		}else{
+			if(confirm("确定要删除吗？")){
+				window.location.href="/app/appDeletePosts?id=${id}&userId=${userId}";
+			}
+		}
+		
+	}
+	
+	
+</script>

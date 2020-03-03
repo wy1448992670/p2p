@@ -1,0 +1,163 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle + ' | 我的账户   | 投资子账户  | 待放款的投资标'/}
+<!-- 内容区域 start -->
+	<div class="xf_con_box">
+		<div class="xf_con_mem_nav"></div>
+		<!-- 左边导航区域 -->
+		#{include "front/account/AccountHome/homeLeft.control"/}
+		<!-- 右侧内容区域 -->
+		<div class="xf_mem_Account xf_mem_shzdjkb_box" id="bids">
+			
+					<h3 class="xf_mem_accout_title">待放款的出借标</h3>
+					<!-- 搜索区域 -->
+					 #{form @front.account.InvestAccount.readyReleaseBid(),id:'readyReleaseBid'}
+					 <input type="hidden" id="currPage" name="currPage"/>
+         			<input type="hidden" id="pageSize" name="pageSize"/>
+					<ul class="xf_membill_search clr">
+						<li>
+							<select name="type" class="xf_membill_selectAge"  id="type">   
+						       <option value="0"
+						       #{if page?.conditions?.type == 0}
+				                  selected="selected"
+				                  #{/if}>全部</option>   
+						       <option value="1"
+						       #{if page?.conditions?.type == 1}
+			                  selected="selected"
+			                  #{/if}>标题</option>   
+						       <option value="2"
+						       #{if page?.conditions?.type == 2}
+				                  selected="selected"
+				                  #{/if}>编号</option>   
+							</select>
+						</li>
+						<li class="xf_membill_searchLi">
+							<input type="text"  id="paramter" class="xf_membill_shurk_yhm" value="${page?.conditions?.keyWords}" name="paramter">
+							<input type="button" value="搜 索" class="xf_membill_button_yhm" onclick="find();">
+						</li>
+					</ul>
+					#{/form}
+					<!-- 搜索结果 -->
+					<div class="xf_membill_search_jg xf_membill_search_table">
+						<div class="xf_membill_search_jgleft">
+							<ul>
+								<li class="xf_membill_search_th">序号</li>
+								#{list items:page.page,as:'bid'}
+								
+								<li class="xf_membill_search_td">${bid_index}</li>
+								#{/list}
+							</ul>
+						</div>
+						<div class="xf_membill_search_jgcenter">
+							<table border="0" cellpadding="0" cellspacing="0" width="830" class="xf_membill_acc_viewcpms">
+								<tbody>
+									<tr>
+									  	<th width="74" height="45">借款标编号</th>
+									  	<th align="left" width="108">借款标标题</th>
+									  	<th>借款标类型</th>
+									  	<th>借款人</th>
+									  	<th>借款金额</th>
+									  	<th>合同约定年化利率</th>
+									  	<th>出借本金</th>
+									  	*{<th>本息合计</th>}*
+									  	<th>资料审核</th>
+									  	<th>满标进度</th>
+									  	<th>状态</th>
+									</tr>
+							#{list items:page.page,as:'bid'}
+									<tr>
+										<td align="center">${bid?.no}</td>
+										<td align="center"><span class="membill_list_limit" limit="24">${bid?.title}</span></td>
+										<td align="center">${bid?.product_name}</td>
+										<td align="center">${bid?.name}</td>
+										<td align="center">￥${bid?.bid_amount?.format('###,##0.00')}</td>
+										<td align="center">${bid?.apr}%
+										  #{if bid?.increaseRate}<span>+${bid?.increaseRate}%</span>#{/if}
+										  #{if bid?.rate2}<span>+${bid?.rate2}%</span>#{/if}
+										</td>
+										<td align="center">￥${bid?.invest_amount?.format('###,##0.00')}</td>
+										*{<td align="center">￥${bid?.receiving_amount?.format('###,##0.00')}</td>}*
+										<td align="center" >${bid?.product_item_count}/${bid?.user_item_count}</td>
+										<td align="center" >${bid?.loan_schedule}%</td>
+										<td align="center">待放款</td>
+									</tr>
+								#{/list}
+									<tr>
+										<td align="center"><span class="membill_list_lv2">合计</span></td>
+										<td align="left"></td>
+										<td align="center"></td>
+										<td align="center"></td>
+										<td align="center"><span class="membill_list_lv3" id="bidAmount"></span></td>
+										<td align="center"></td>
+										<td align="center"><span class="membill_list_lv3" id ="investAmount"></span></td>
+										
+										*{<td align="center"><span class="membill_list_lv3" id ="receiveAmount"></span></td>}*
+										<td align="center"></td>
+										<td align="center"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="xf_membill_search_jgright">
+							<ul>
+								<li class="xf_membill_search_th">操作项</li>
+								#{list items:page.page,as:'bid'}
+								<li class="xf_membill_search_td">
+									<a href="@{front.invest.investAction.invest(bid?.bid_id)}" class="xf_membill_cza" target="_self">详情</a>
+									
+								</li>
+								#{/list}
+							</ul>
+						</div>
+						<!-- 清除浮动 -->
+						<div class="clear"></div>
+					</div>
+					<!-- 分页器 -->
+					<div class="xf_wylc_page xf_membill_view_page1">
+						#{page currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:2 ,style:2/}
+					</div>
+					
+				
+		</div>
+		
+		<!-- 清除浮动 -->
+		<div class="clear"></div>
+	</div>
+<!-- 内容区域 end -->
+
+
+<script>
+      	$(function(){
+      		/* 高亮显示 */
+			showHighLightFront(40);
+			showHighLightFront2(7, 4);
+
+     	})
+     	
+     	//合计
+		var bidAmount = 0;//借款金额
+		var investAmount = 0;//投标金额
+		// var receiveAmount = 0;//本息合计
+		 #{list items:page.page,as:'invest'}
+		 bidAmount += ${invest?.bid_amount};
+		 investAmount += ${invest?.invest_amount};
+		 *{receiveAmount += ${invest?.receiving_amount};}*
+		#{/list}
+		
+		$("#investAmount").html('￥'+investAmount.toFixed(2));
+		$("#bidAmount").html('￥'+bidAmount.toFixed(2));
+		// $("#receiveAmount").html('￥'+receiveAmount.toFixed(2));
+		
+      
+     function find(){
+    	$("#readyReleaseBid").submit();
+   }
+     function showPage(currPage, pageSize){
+    	    $("#currPage").val(currPage);
+    	    $("#pageSize").val(pageSize);
+    	    $("#readyReleaseBid").submit();
+    	 }
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>

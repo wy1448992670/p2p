@@ -1,0 +1,264 @@
+<div class="xf_wyjkwszl_4_windowInner" id="addBase_box" style="z-index: 10000;display:${hideAddBaseInfoWin}">
+	<div class="xf_wyjkfb_4_windowClose" onclick="closeAddBaseInfo();"></div>
+	<div class="xf_wyjkfb_4_windowColName">
+		完善资料
+	</div>
+	<div class="xf_wyjkws_4_windowCot p_x31304">
+		#{form @front.bid.bidAction.saveInformation(), method:'POST', id:'saveInformationsay'}
+		<input type="hidden" name="bidId" value="${bid?.id}">
+		<table border="0" cellpadding="0" cellspacing="0" width="590" class="xf_memjbzl_table">
+			<tr>
+			<td width="302">
+				<span class="xf_jbzl_stitle"><label class="xf_jbzl_stitle_red">*</label>真实姓名：</span>
+				#{if null != user?.idNumber && user?.idNumber != ""}
+					<input type="text" name="realityName" id="realityName" value="${user?.realityName}" class="xf_jbzl_input" readonly="readonly">
+				#{/if}
+				#{else}
+					<input type="text" name="realityName" id="realityName" value="${flash?.realityName}" class="xf_jbzl_input">
+				#{/else}
+			</td>
+			<td>
+				<span class="xf_jbzl_stitle"><label class="xf_jbzl_stitle_red">*</label>性别：</span>
+				<select name="sex" id="sex" class="xf_jbzl_selectAge">   
+				   #{if flash?.sex == '1'}
+				   <option value="0" >--请选择--</option> 	
+			       <option value="1" selected>男</option> 
+			       <option value="2" >女</option>
+			      #{/if}
+			      #{elseif flash?.sex == '2'}
+			      <option value="0" >--请选择--</option> 	
+			      <option value="1">男</option> 
+			       <option value="2" selected>女</option>
+			       #{/elseif}
+			        #{elseif flash?.sex == '3'}
+			        <option value="0" >--请选择--</option> 	
+			      <option value="1">男</option> 
+			       <option value="2">女</option>
+			        #{/elseif}
+			       #{else}
+			       <option value="0" selected>--请选择--</option> 	
+			      <option value="1">男</option> 
+			       <option value="2">女</option>
+			       #{/else}
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<span class="xf_jbzl_stitle"><label class="xf_jbzl_stitle_red">*</label>年龄：</span>
+				<input class="xf_jbzl_input" name="age" id="age" value="${flash?.age}" oninput="this.value=this.value.replace(/\D/g,'')" >
+			</td>
+			#{if null != user?.idNumber && user?.idNumber != ""}
+			<td>
+				<span class="xf_jbzl_stitle"><label class="xf_jbzl_stitle_red">*</label><label>身份证号码：</label></span>
+				<input class="xf_jbzl_input" id="idNumber" name="idNumber" size="10" value="${user?.idNumber}" readonly="readonly">
+			</td>
+			#{/if}
+			#{else}
+			<td>
+				<span class="xf_jbzl_stitle"><label class="xf_jbzl_stitle_red">*</label><label>身份证号码：</label></span>
+				<input class="xf_jbzl_input" id="idNumber" name="idNumber" size="10" oninput="checkidNum(this)"  value="${flash?.idNumber}">
+			</td>
+			#{/else}
+		</tr>
+		<tr>
+			<td>
+				<span class="xf_jbzl_stitle"><label class="xf_jbzl_stitle_red">*</label>文化程度：</span>
+				#{select 'education', items:educations, valueProperty:'id', labelProperty:'name', value:flash?.education, class:'xf_jbzl_selectAge_2', id:'education' /}
+				
+			</td>
+			<td>
+				<span class="xf_jbzl_stitle"><label class="xf_jbzl_stitle_red">*</label>户口所在地：</span>
+				#{select 'province', items:provinces, valueProperty:'id', labelProperty:'name', value:flash?.province, class:'xf_jbzl_selectAge', id:'province' /}
+				#{select 'city', items:cityList, valueProperty:'id', labelProperty:'name', value:flash?.city, class:'xf_jbzl_selectAge', id:'city' /}
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<span class="xf_jbzl_stitle"><label class="xf_jbzl_stitle_red">*</label>购车情况：</span>
+				#{select 'car', items:cars, valueProperty:'id', labelProperty:'name', value:flash?.car, class:'xf_jbzl_selectAge_2', id:'car' /}
+			</td>
+			<td>
+				<span class="xf_jbzl_stitle"><label class="xf_jbzl_stitle_red">*</label>婚姻情况：</span>
+				#{select 'marital', items:maritals, valueProperty:'id', labelProperty:'name', value:flash?.marital, class:'xf_jbzl_selectAge_2', id:'marital' /}
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<span class="xf_jbzl_stitle"><label class="xf_jbzl_stitle_red">*</label>购房情况：</span>
+				#{select 'house', items:houses, valueProperty:'id', labelProperty:'name', value:flash?.house, class:'xf_jbzl_selectAge_2', id:'house' /}
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+				<input type="hidden" value="${productId}" name="productId"/>
+				<input type="hidden" value="${status}" name="status"/>
+				<a class="xf_con_inputfbjk" onclick="save();">提交</a>
+			</td>
+		</tr>
+		</table>
+		#{/form}
+	</div>
+</div>
+
+<script type="text/javascript" src="@{'/public/javascripts/common.js'}"></script>
+<script >
+
+var orgin ;
+
+$(function() {
+			var idNumber = "${business.User.currUser()?.idNumber}";
+			var realityName = "${business.User.currUser()?.realityName}";
+			
+			if ("" != idNumber) {
+				$("#idNumber").val(idNumber);
+				$("#idNumber").attr("readonly","readonly");
+			}
+			
+			if ("" != realityName) {
+				$("#realityName").val(realityName);
+				$("#realityName").attr("readonly","readonly");
+			}
+			
+			$("#addBase_box").center();
+		
+			if('${flash?.city}'==0) {
+			$("#province").append("<option value='0' selected>--请选择--</option>");
+			$("#city").append("<option value='0' selected>--请选择--</option>");
+			
+			}
+			
+			if('${flash?.education}'==0) {
+				$("#education").append("<option value='0' selected>--请选择--</option>");
+			}
+			
+			if('${flash?.marital}'==0) {
+				$("#marital").append("<option value='0' selected>--请选择--</option>");
+			}
+			
+			if('${flash?.car}'==0) {
+				$("#car").append("<option value='0' selected>--请选择--</option>");
+			}
+			
+			if('${flash?.house}'==0) {
+				$("#house").append("<option value='0' selected>--请选择--</option>");
+			}
+			
+			orgin = $("#idNumber").val();
+		
+	})
+$("#province").change(function(){
+		var selectVal = $(this).children('option:selected').val();
+		var jsAction = #{jsAction @Application.getCity(":provinceId")/}
+		$.post(jsAction({provinceId:selectVal}),function(data) {
+			var cityList = [];
+			for(var i = 0; i < data.length; i ++){
+				cityList.push("<option value='"+data[i].id+"'>"+data[i].name+"</option>");
+			}
+			$("#city").html(cityList);
+		});
+	});
+	
+function refreshCaptcha() {
+    $.ajax({
+	  url : "@{Application.randomID()}",
+	  type : "POST",
+	  data : {
+	  },
+	  success : function(randomID) {
+	    $("#captchaImage").attr("src","@{Application.captcha()}?id="+randomID);
+		  $("#randomID").val(randomID);
+		},
+	  error : function() {
+	    alert("对不起，出现错误!");
+	  }
+	 });
+  }
+
+	function save() {
+	    if($("#realityName").val().trim() == ''){
+	       alert("真实姓名不能为空");
+	       return;
+	    }
+	    
+	    if($("#age").val().trim() == ''){
+	       alert("年龄不能为空");
+	       return;
+	    }
+	    
+	    if($("#sex").val().trim() == '0'){
+		       alert("请选择性别");
+		       return;
+		}
+	    
+	    if($("#age").val().trim().match(/^[0-9]*[1-9][0-9]*$/) == null){
+	    	alert("年龄只能输入正整数");
+	    	return;
+	    }
+	    
+	    if($("#province").val() == 0) {
+	       alert("请选择户口所在地");
+	       return;
+	    }
+	    
+	    if($("#education").val() == 0) {
+	       alert("请选择文化程度");
+	       return;
+	    }
+	    
+	    if($("#marital").val() == 0) {
+	       alert("请选择婚姻状况");
+	       return;
+	    }
+	    
+	    if($("#car").val() == 0) {
+	       alert("请选择购车情况");
+	       return;
+	    }
+	    
+	    if($("#house").val() == 0) {
+	       alert("请选择购房情况");
+	       return;
+	    }
+	    
+	    if($("#idNumber").val().trim() == ''){
+	       alert("身份证号码不能为空");
+	       return;
+	    }
+	    var idNum = $("#idNumber").val().trim();
+	    if (!idNum.toUpperCase().match(/(^\d{15}$)|(^\d{17}([0-9]|X)$)/)){
+	    	alert("身份证号码格式不正确");	
+	    	return;
+	    }
+		    
+		$("#saveInformationsay").submit();
+	}
+
+	function closeAddBaseInfo(){
+		$("#name").removeAttr("disabled");
+		$("#name").removeAttr("readonly");
+		$("#password").removeAttr("disabled");
+		$("#password").removeAttr("readonly");
+		$("#code").removeAttr("disabled");
+		$("#code").removeAttr("disabled");
+		$("#addBase_box").hide();
+	}
+	
+	
+	function checkidNum(obj){
+		var current = obj.value;
+		if (current == null || current == "" || current == undefined){
+			return;
+		}
+		
+		if (current.toUpperCase().match(/(^\d{1,17}$)|(^\d{17}([0-9]|X)$)/)){
+			orgin = current;
+		}
+		else{
+			obj.value = orgin;
+		}
+		
+	}
+</script>
+

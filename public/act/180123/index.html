@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>亿亿理财</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<meta name="keywords" content="亿亿理财" />
+<meta name="description" content="亿亿理财">
+<meta name="author" content="亿亿理财" />
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<script src="fastclick/fastclick.js" charset="utf-8"></script>
+<link href="css/base.css" rel="stylesheet" type="text/css" />
+<link href="css/teacherDay.css" rel="stylesheet" type="text/css" />
+<!--rem start-->
+<script src="js/jquery.min.js"></script>
+<script type="text/javascript">
+    new function (){
+        var _self = this;
+        _self.width = 750;//设置默认最大宽度
+        _self.fontSize = 100;//默认字体大小
+        _self.widthProportion = function(){var p = (document.body&&document.body.clientWidth||document.getElementsByTagName("html")[0].offsetWidth)/_self.width;return p>1?1:p<0.5?0.5:p;};
+        _self.changePage = function(){
+            document.getElementsByTagName("html")[0].setAttribute("style","font-size:"+_self.widthProportion()*_self.fontSize+"px !important");
+        }
+        _self.changePage();
+        // console.log();
+        // window.addEventListener('resize',function(){_self.changePage();},false);
+        $(window).resize(function() {
+          _self.changePage();
+        });
+    };
+
+    //去除iphone 点击延迟
+    if ('addEventListener' in document) {
+         document.addEventListener('DOMContentLoaded', function() {
+          FastClick.attach(document.body);
+        }, false);
+      }
+
+
+
+</script>
+<!--rem end-->
+<style media="screen">
+  table.data  tr  td{
+    padding-top: .3rem;
+    text-align: center;
+    font-size:.24rem;
+    color: #666666;
+  }
+  table.data  tr  th{
+    padding-top: .3rem;
+    text-align: center;
+    font-weight:500;
+    font-size:.28rem;
+    color:#7758FB;
+  }
+  table.show tr td{
+    vertical-align: top;
+  }
+</style>
+</head>
+<body>
+  <div id="opt"></div>
+<div class="td_box">
+  <div style="position:relative;">
+    <img width="100%;" src="images/top.png" alt="模板01"/>
+    <img class="TopTime" src="images/right.png" style="width:.93rem;height:.68rem;position:absolute;top:.62rem;right:0" alt="模板02"/>
+  </div>
+
+  <div style="position:relative;top:-1rem;">
+    <div style="line-height:1.3rem;height:1.3rem;background:white;border-radius:.1rem;margin:0 .3rem;">
+      <span style="color:#9E8EFF;margin-left:.41rem;font-size:.32rem">总推荐佣金(元)</span>
+      <span class="totalNum" style="color:#7758FB;font-weight: 800;float:right;margin-right:.43rem;font-size:.4rem">0</span>
+    </div>
+
+    <div id='template1' style="margin:.57rem .34rem 0 .34rem;border-radius: .1rem;text-align: center;background:white;">
+      <div style="position:relative;bottom: .29rem;">
+        <img src="images/bottom.png" style="height:.65rem;width:4.45rem;">
+        <div style="color:white;;width:100%;text-align: center;position:absolute;top:.17rem;font-size:.32rem;">佣金明细</div>
+      </div>
+      <div  style="padding: .23rem">
+        <div style="background: #F6F1FF;border-radius:.08rem;padding-bottom:.3rem;">
+          <table id="userList" class="data" width="100%">
+            <tr>
+              <th>用户名</th>
+              <th>姓名</th>
+              <th>投资金额</th>
+              <th>收益</th>
+              <th>佣金</th>
+            </tr>
+          </table>
+          <div id="isLoading" style="margin-top:20px;font-size:.2rem;display:none;">
+            加载中…
+          </div>
+            <div id="isMore" style="margin-top:20px;display:none;font-size:.2rem;">
+              没有更多了
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div id='template2' style="display: none;margin:.57rem .34rem 0 .34rem;border-radius: .1rem;text-align: center;background:white;">
+      <div style="position:relative;bottom: .29rem;">
+        <img src="images/bottom.png" style="height:.65rem;width:4.45rem;">
+        <div style="color:white;;width:100%;text-align: center;position:absolute;top:.17rem;font-size:.32rem;">佣金明细</div>
+      </div>
+      <div  style="padding: .23rem">
+        <div style="background: #F6F1FF;border-radius:.08rem;padding-bottom:.3rem;">
+          <table class="data" width="100%">
+            <tr>
+              <th>用户名</th>
+              <th>姓名</th>
+              <th>投资金额</th>
+              <th>收益</th>
+              <th>佣金</th>
+            </tr>
+          </table>
+          <div style="text-align:center;color:#999999;margin:.5rem 0;font-size:.24rem;">
+            暂无记录
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="topBody" style="z-index:2;">
+         <div style="margin:.57rem .34rem 0 .34rem;border-radius: .1rem;text-align: center;background:white;">
+           <div style="position:relative;bottom: .29rem;">
+             <img src="images/bottom.png" style="height:.65rem;width:4.45rem;">
+             <div style="color:white;;width:100%;text-align: center;position:absolute;top:.17rem;font-size:.32rem;">活动规则</div>
+           </div>
+           <div  style="padding: 0 .2rem .45rem .2rem;text-align:left;font-size:.28rem;line-height:.48rem;">
+             <div style="background: #F6F1FF;border-radius:.08rem;padding:.4rem .3rem;font-size:.28rem;color:#7758FB;">
+
+               <!-- <div class="">
+                 1、<span class="cpsRelationStartDate"></span>以后推荐的用户享受邀请奖励;
+               </div>
+               <div class="">
+                 2、用户投资收益的<span class="rewardForRate"></span>%作为佣金奖励结算;
+               </div>
+               <div class="">
+                 3、发放规则：标的放款后佣金直接发放至账户可用余额。
+               </div> -->
+               <table class="show">
+                 <tr>
+                   <td>1、</td>
+                   <td>本次活动开始日期为<span class="cpsRelationStartDate"></span>;</td>
+                 </tr>
+                 <tr>
+                   <td>2、</td>
+
+                   <td>活动期间内，邀请好友注册并成功出借，邀请人将获得好友每笔出借金额预期年化收益的<span class="rewardForRate"></span>%作为邀请奖励，活动结束后此权益自动结束；</td>
+                 </tr>
+                 <tr>
+                   <td>3、</td>
+                   <td><span>邀请人数不限，出借金额不限，出借标的不限；</span></td>
+                 </tr>
+                 <tr>
+                   <td>4、</td>
+                   <td><span>奖励金额保留至小数点后两位，并按照四舍五入方式计算，随邀请人数和出借金额增加上不封顶；</span></td>
+                 </tr>
+                 <tr>
+                   <td>5、</td>
+                   <td><span>邀请奖励将在被邀请人出借标的满标后1个工作日内发放至邀请人平台账户；</span></td>
+                 </tr>
+                 <tr>
+                   <td>6、</td>
+                   <td><span>本次活动可与平台其他活动同时参与，被邀请人同理可参与邀请新人拿奖励；</span></td>
+                 </tr>
+                 <tr>
+                   <td>7、</td>
+                   <td><span>亿亿理财在法律允许范围内保留本次活动最终解释权。</span></td>
+                 </tr>
+               </table>
+             </div>
+           </div>
+		   <img style="z-index:3;" class="close" src="images/close.png" alt="模块5"/>
+         </div>
+         
+     </div>
+<script type="text/javascript">
+
+document.querySelector('.TopTime').onclick = function(){
+        document.getElementById('opt').style.display = 'block';
+        document.querySelector('.topBody').style.display = 'block';
+
+      }
+      //close
+      document.querySelector('.close').onclick = function(){
+         document.getElementById('opt').style.display = 'none';
+         document.querySelector('.topBody').style.display = 'none';
+      }
+var pageSize = 1;
+var uid = GetQueryString('id');//'E3BB77142662E6CF322E1090C18C4CCA9815B03EE6CAF4FC791BD3CA34D4CE7D08710e18';//
+  $(function(){
+    getUserList(pageSize,uid);
+    getActiveTime();
+  });
+
+  function getUserList(pageSize,uid){
+
+      $.ajax({
+              url: "/front/usercps/findUserCPSProfit?currPage="+pageSize+"&id="+uid,
+              type: "GET",
+              success: function (data) {
+                var res = JSON.parse(data);
+                console.log(res);
+                if(res.error==-1){
+                  $('.totalNum').text(res.page.conditions.sum_profit);
+                  if(!res.page.page.length&&pageSize>1){
+                    $('#isMore').show();
+                    $('#isLoading').hide();
+                     return false;
+                  }
+                  if(!res.totalNum){
+                    $('#template2').show();
+                    $('#template1').hide();
+                     return false;
+                  }
+                  $.each(res.page.page,function(i,e){
+                    $('#userList').append('<tr><td>'+e.name+'</td><td>'+e.reality_name+'</td><td>'+e.invest_corpus+'</td><td>'+e.invest_interest+'</td><td>'+e.cps_reward+'</td></tr>');
+                  });
+                }else{
+                  console.log(res.msg);
+                  $('#template2').show();
+                  $('#template1').hide();
+                  $('#isLoading').hide();
+                }
+
+            }
+      });
+  }
+  function getActiveTime(){
+    $.get("/front/usercps/activityRule",function(res){
+      var res = JSON.parse(res);
+      var cpsRelationStartDate = res.cpsRelationStartDate;
+      var rewardForRate = res.rewardForRate
+      $('.rewardForRate').text(rewardForRate);
+      $('.cpsRelationStartDate').text(cpsRelationStartDate);
+    });
+  }
+
+  $(window).scroll(function(){
+        // scroll at bottom
+        if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+            // load data
+            pageSize+=1;
+            getUserList(pageSize,uid);
+        }
+    });
+    function GetQueryString(name) {
+    　　　var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)","i");
+         var r = window.location.search.substr(1).match(reg);
+    　　　if (r!=null) return (r[2]);
+    　　　return null;
+    }
+</script>
+</body>
+</html>

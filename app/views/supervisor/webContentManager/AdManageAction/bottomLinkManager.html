@@ -1,0 +1,21 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'底部链接管理' /}
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  #{include "supervisor/webContentManager/common/leftBar.control"/} 
+  <!-- 内容区 -->
+  #{include "supervisor/webContentManager/AdManageAction/bottomLinkManagerContent.control"/}
+  </div>
+</div>
+<!-- -弹出层 -->
+#{include "supervisor/webContentManager/AdManageAction/bottomManagerEditor.control"/}
+<!-- 添加友情连接  -->
+#{include "supervisor/webContentManager/AdManageAction/bottomManagerAdd.control"/}
+
+<script type="text/javascript">
+$(function(){
+	//高亮显示
+	showHighLight(2,2,6);
+})
+</script>

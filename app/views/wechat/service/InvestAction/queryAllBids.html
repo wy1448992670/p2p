@@ -1,0 +1,196 @@
+#{extends 'wechat/common.html' /} 
+#{set title:'我要理财' /}
+<link rel="stylesheet" type="text/css" href="/public/stylesheets/wechat/scrollbar.css">
+<div class="s_main s_center">
+	<header class="s_header">
+		我要理财 <a href="@{wechat.account.WechatAccountHome.accountInfo}" class="icobg"></a>
+	</header>
+	<!-- 搜索条件 -->
+	#{include 'wechat/service/InvestAction/searchBids.html' /}
+	
+	<!-- 排序 -->
+	#{include 'wechat/service/InvestAction/sortBids.html' /}
+	
+	<!-- 搜索条件四个隐藏域，ajax用来保存值 ,其中orderType在sortBids页面，keywords在searchBids页面-->
+<!-- 	<input id="currPage" name="_currPage" type="hidden" value=""> -->
+<!-- 	<input id="pageSize" name="_pageSize" type="hidden" value=""> -->
+	<div id="wrapper">
+		<div id="scroller">
+		   <div id="main">
+		   #{if pageBean.page?.size != 0}
+			#{list items:pageBean.page, as:'bid'}
+			<ul class="s_lcpro">
+				<li onclick="window.location.href='@{wechat.service.InvestAction.queryBidDetail(bid?.id)}'">
+					<h3>
+						<i class="protype protype-jing"><img src="${bid?.small_image_filename}" width="20px" height="20px"></img></i>
+							#{if bid?.title?.length() <= 20}
+								${bid?.title}
+							#{/if}
+							#{else}
+								%{java.lang.String title = bid?.title?.substring(0,20) + "...";}%
+								${title}
+							#{/else}
+					</h3>
+					<div class="s_promain clearfix">
+						<ul class="s_promainl">
+							<li>借款金额：￥${bid?.amount?.format('###,##0.00')}</li>
+							<li>借款期限： #{if bid?.period_unit ==-1} ${bid?.period}年 #{/if}
+								#{elseif bid?.period_unit ==0} ${bid?.period}个月 #{/elseif}
+								#{elseif bid?.period_unit ==1} ${bid?.period}天 #{/elseif}</li>
+							<li>年 利 率：${bid?.apr}%</li>
+							<li>还款方式：${bid?.repay_name}</li>
+						</ul>
+						<div class="s_promainr">
+							<div class="s_probar">
+								<i></i>${bid?.loan_schedule}%
+							</div>
+							<a href="@{wechat.service.InvestAction.queryBidDetail(bid?.id)}">${bid?.strStatus}</a>
+						</div>
+					</div>
+				</li>
+			</ul>
+			#{/list}
+			#{/if}
+			#{else}
+				
+			#{/else}
+			</div>
+			<div id="pullUp">
+	    		<div></div>
+	   		</div>
+	   	</div>
+	   	</div>
+</div>
+
+
+<script type="text/javascript">
+	var currPage = 1;
+	var myScroll,
+	//pullDownEl, pullDownOffset,
+		pullUpEl, pullUpOffset;
+
+	function pullUpAction() {
+		setTimeout(function () {
+			currPage = currPage + 1;
+			var orderType = $("#orderType").val();
+			var keywords = $("#keywords").val();
+			$.ajax({
+				url: "@{wechat.service.InvestAction.queryAllBidsAjax()}",
+				type: "POST",
+				data: {
+					"currPage": currPage,
+					"orderType": orderType,
+					"keywords": keywords
+				},
+				success: function (data) {
+						var arr = eval(data);
+						if (arr.error.code < 0) {
+							alert(arr.error.msg);
+						} else {
+							var list = arr.pageBean.page;
+							if (list.length == 0) {
+								$("#pullUp").children("div").removeClass("s_onloading").addClass("s_nodata").html("没有更多了").animate({opacity:'0'},3000);
+								
+							} else {
+								for (var i = 0; i < list.length; i++) {
+									var url = "/wechat/investAction/queryBidDetail?bidId=" + list[i].id;
+									var period;
+									if (list[i].period_unit == -1) {
+										period = list[i].period + "年";
+									} else if (list[i].period_unit == 0) {
+										period = list[i].period + "月";
+									} else {
+										period = list[i].period + "日";
+									}
+									$("#main").append("<ul class='s_lcpro'><li onclick=window.location.href='"+url+"'>" + "<h3>" + "<i class='protype protype-jing'><img src='" + list[i].small_image_filename + "' width='20px' height='20px'></img></i>" + list[i].title + "</h3>" + "<div class='s_promain clearfix'>" + "<ul class='s_promainl'>" + "<li>借款金额：￥" + amountFormat(list[i].amount) + "</li>" + "<li>借款期限： " + period + "</li>" + "<li>年 利 率：" + list[i].apr+".0" + "%</li>" + "<li>还款方式：" + list[i].repay_name + "</li>" + "</ul>" + "<div class='s_promainr'>" + "<div class='s_probar'>" + "<i></i>" + list[i].loan_schedule + ".0%" + "</div>" + "<a href='" + url + "'>" + list[i].strStatus + "</a>" + "</div>" + "</div>" + "</li>" + "</ul>");
+								}
+								myScroll.refresh();
+							}
+							myScroll.refresh();
+						}
+					},
+					error: function () {
+						// alert("对不起，出现错误!");
+					}
+			});
+			//============================================
+			//myScroll.refresh(); // 数据加载完成后，调用界面更新方法 Remember to refresh when contents are loaded (ie: on ajax completion)
+		}, 1000); // <-- Simulate network congestion, remove setTimeout from production!
+	}
+
+	function loaded() {
+		pullUpEl = document.getElementById('pullUp');
+		pullUpOffset = pullUpEl.offsetHeight;
+		myScroll = new iScroll('wrapper', {
+			scrollbarClass: '',
+			/* 重要样式  myScrollbar*/
+			useTransition: false,
+			/* 此属性不知用意，本人从true改为false */
+			//topOffset: pullDownOffset,
+			onRefresh: function () {
+					if (pullUpEl.className.match('loading')) {
+						pullUpEl.className = '';
+						var $s = $(pullUpEl);
+						$s.children("div").removeClass("s_onloading");
+					}
+				},
+				onScrollMove: function () {
+					if (this.y < (this.maxScrollY - 5) && !pullUpEl.className.match('flip')) {
+						pullUpEl.className = 'flip';
+						this.maxScrollY = this.maxScrollY;
+					} else if (this.y > (this.maxScrollY + 5) && pullUpEl.className.match('flip')) {
+						pullUpEl.className = '';
+						this.maxScrollY = pullUpOffset;
+						//this.maxScrollY = this.maxScrollY;
+					}
+				},
+				onScrollEnd: function () {
+					if (pullUpEl.className.match('flip')) {
+						pullUpEl.className = 'loading';
+						var $s = $(pullUpEl);
+						$s.children("div").html("").addClass("s_onloading");
+						pullUpAction(); // Execute custom function (ajax call?)
+					}
+				}
+		});
+
+		setTimeout(function () {
+			document.getElementById('wrapper').style.left = '0';
+		}, 800);
+	}
+
+	//初始化绑定iScroll控件 
+	document.addEventListener('touchmove', function (e) {
+		e.preventDefault();
+	}, false);
+	document.addEventListener('DOMContentLoaded', loaded, false);
+	
+// 	
+</script>
+<style type="text/css" media="all">
+#wrapper {
+	position:absolute; z-index:1;
+	top:170px; bottom:10px; left:0;
+	width:100%;
+/* 	background:#555; */
+	background:white;
+	overflow:auto;
+}
+
+#scroller {
+	position:relative;
+/*	-webkit-touch-callout:none;*/
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+
+	float:left;
+	width:100%;
+	padding:0;
+}
+
+#pullUp {
+	 height: 80px;
+}
+
+
+
+</style>

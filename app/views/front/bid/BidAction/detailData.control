@@ -1,0 +1,265 @@
+
+<!-- 标题 -->
+<div class="xf_con_wyjk_r_title clr">
+	<div class="xf_con_wyjk_r_title_l">
+		<b>#{img src:"${product?.smallImageFilename}",alt:"",width:"20",height:"20"}#{/img}</b>
+		<span>${product?.name}</span>
+	</div>
+	<div class="xf_con_wyjk_r_title_r">
+		<a href="@{applyNow(product?.id, 0, 2)}" class="xf_con_inputfbjk" target="_self">发布此借款</a>
+	</div>
+</div>
+<!-- 内容描述 -->
+<div class="xf_wyjk_edu clr">
+	<div class="xf_wyjk_edu_l">
+		额度范围：
+	</div>
+	<div class="xf_wyjk_edu_r">
+		${product?.minAmount?.format("###,##0.00")}-${product?.maxAmount?.format("###,##0.00")}元
+	</div>
+</div>
+<div class="xf_wyjk_edu clr">
+	<div class="xf_wyjk_edu_l">
+		必审资料：
+	</div>
+	<div class="xf_wyjk_edu_r">
+			#{list product?.requiredAuditItem}
+				${_?.auditItem?.name}
+			#{/list}
+	</div>
+</div>
+<div class="xf_wyjk_edu clr">
+	<div class="xf_wyjk_edu_l">
+		选审资料：
+	</div>
+	<div class="xf_wyjk_edu_r">
+		<div class="xf_wyjk_edu_r">
+			#{list product.selectAuditItem}
+				${_?.auditItem?.name}
+			#{/list}
+	</div>
+	</div>
+</div>
+<div class="xf_wyjk_edu xf_wyjk_edu2 clr">
+	<div class="xf_wyjk_edu_l">
+		&nbsp;
+	</div>
+	<div class="xf_wyjk_edu_r">
+		<span class="xf_wyjk_cfts">[ 财富提示  ]：每多提交一份可选审核资料，可提高借款额度2000-5000元。</span>
+	</div>
+</div>
+
+<!-- 产品描述 -->
+<div class="xf_con_wyjk_r_content" id="xf_wyjkview_xxk">
+
+	<ul class="xf_con_wyjk_r_tentul clr">
+		<li class="xf_con_wyjk_r_liishot">产品描述</li>
+		<li>申请条件</li>
+		<li class="xf_con_wyjk_r_liNoborder">还款流程</li>
+		*{ 标签切换列表 }*
+		#{list product?.lables}
+			#{if _index > 3}
+				<li class="xf_con_wyjk_r_liNoborder">${_?.name}</li>
+			#{/if}
+		#{/list}
+	</ul>
+						
+	<div class="xf_con_wyjk_tentultbody">
+		<table border="0" cellpadding="0" cellspacing="0" width="740" class="xf_wyjk_viewcpms" style="table-layout: fixed;">
+			<tbody>
+				<tr>
+					<td align="center" valign="middle" class="xf_wyjk_taletitle" width="70">
+						产品特点
+					</td>
+					<td colspan="3" width="655">
+						${product?.characteristic}
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" class="xf_wyjk_taletitle">
+						适合人群
+					</td>
+					<td colspan="3">
+						${product?.fitCrowd}
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" class="xf_wyjk_taletitle" width="70">
+						额度范围
+					</td>
+					<td width="260">
+						${product?.minAmount?.format("###,##0.00")}-${product?.maxAmount?.format("###,##0.00")}元
+					</td>
+					<td align="center" class="xf_wyjk_taletitle" width="70">
+						贷款利率
+					</td>
+					<td width="340">
+						${product?.minInterestRate}%~${product?.maxInterestRate}% 
+						(即月利率:${product?.monthMinApr}%~${product?.monthMaxApr}%)
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" class="xf_wyjk_taletitle" >
+						贷款期限
+					</td>
+					<td style="word-wrap: break-word;">
+						<div class="xf_wyjk_time_nyr">
+							${product?.periodYear}(年)<br/>
+							#{list product?.periodMonthArray}
+								${_},
+							#{/list}(月)<br/>
+							#{list product?.periodDayArray}
+								${_},
+							#{/list}(日)
+						</div>
+					</td>
+					<td align="center" class="xf_wyjk_taletitle" >
+						投标时间
+					</td>
+					<td style="word-wrap: break-word;">
+						${product?.investPeriod}(日)
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" class="xf_wyjk_taletitle">
+						审核时间
+					</td>
+					<td>
+						满标后${product?.auditCycle}个工作日
+					</td>
+					<td align="center" class="xf_wyjk_taletitle">
+						还款方式
+					</td>
+					<td>
+						#{list product?.repaymentType}
+							${_?.name}
+						#{/list}
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" class="xf_wyjk_taletitle">
+						手 续 费
+					</td>
+					<td colspan="3">
+						借款期限${borrowFeeMonth?.format('0')}个月（含）以下，借款成功后，收取本金的${strfee}%；
+						<br/>
+						借款期限${borrowFeeMonth?.format('0')}个月以上，借款成功后，收取本金的${strfee}%以外，
+						<br/>
+						还另外收取超过月份乘本金的${borrowFeeRate}%（不成功不收取成交服务费）。
+					</td>
+				</tr>
+				*{ 基本信息字段 }*
+				#{list product?.lables}
+					#{if _index < 3}
+						#{list items : _?.fields, as : 'field'}
+							<tr>
+								<td align="center" valign="middle" class="xf_wyjk_taletitle">
+									${field?.name}
+								</td>
+								<td colspan="3">
+									${field?.content}
+								</td>
+							</tr>
+						#{/list}
+					#{/if}
+				#{/list}
+			</tbody>
+		</table>
+	</div>
+	
+	<div class="xf_con_wyjk_tentultbody">
+		<table border="0" cellpadding="0" cellspacing="0" width="740" class="xf_wyjk_viewcpms">
+			<tr>
+				<td align="center" valign="middle" class="xf_wyjk_taletitle" style="width: 20%">
+					申请人条件
+				</td>
+				<td>${product?.applicantCondition}</td>
+			</tr>
+			*{ 审核人条件字段 }*
+			#{list product?.lables[2]?.fields}
+				<tr>
+					<td align="center" valign="middle" class="xf_wyjk_taletitle" style="width: 20%">
+						${_?.name}
+					</td>
+					<td>
+						${_?.content}
+					</td>
+				</tr>
+			#{/list}
+		</table>
+	</div>
+	<div class="xf_con_wyjk_tentultbody">
+		<table border="0" cellpadding="0" cellspacing="0" width="740" class="xf_wyjk_viewcpms">
+			<tr>
+				<td align="center" class="xf_wyjk_taletitle">
+					电脑上还款：
+				</td>
+				<td>
+					1、登录我的账户
+				</td>
+				<td>
+					2、充值
+				</td>
+				<td>
+					3、查看借款账单
+				</td>
+				<td>
+					4、点击账单还款
+				</td>
+				<td>
+					5、系统扣款成功
+				</td>
+				<td>
+					6、成功还款
+				</td>
+			</tr>
+			<tr>
+				<td align="center" class="xf_wyjk_taletitle">
+					手机上还款：
+				</td>
+				<td>
+					1、安装APP
+				</td>
+				<td>
+					2、充值
+				</td>
+				<td>
+					3、查看借款账单
+				</td>
+				<td>
+					4、点击账单还款
+				</td>
+				<td>
+					5、系统扣款成功
+				</td>
+				<td>
+					6、成功还款
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	*{ 其它字段 }*
+	#{if product?.lables?.size > 3}
+		#{list product?.lables}
+			#{if _index > 3}
+				<div class="xf_con_wyjk_tentultbody">
+					<table border="0" cellpadding="0" cellspacing="0" width="740" class="xf_wyjk_viewcpms">
+						<tbody>
+								#{list items : _?.fields, as : 'field'}
+									<tr>
+										<td align="center" valign="middle" class="xf_wyjk_taletitle" style="width: 20%">
+											${field?.name}
+										</td>
+										<td>
+											${field?.content}
+										</td>
+									</tr>
+								#{/list}
+						</tbody>
+					</table>
+				</div>
+			#{/if}
+		#{/list}
+	#{/if}
+</div>

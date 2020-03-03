@@ -1,0 +1,154 @@
+<div class="xf_jkzshrz_4_window_hz">
+	<div class="xf_jkzshrz_4_windowClose" onclick="$('#xf_jkzshrz_4_window').hide(500);"></div>
+	<div class="xf_wyjkfb_4_windowColName">
+		查看详情
+	</div>
+	<!-- 超出高度展示滚动条 -->
+	<div class="xf_wyjkfb_4_windowUL_height">
+		<ul class="xf_wyjkfb_4_windowUL">
+			<li>
+				<div class="xf_wyjkfb_4_windowUL_l">
+					审核科目：
+				</div>
+				<div class="xf_wyjkfb_4_windowUL_r">
+					<input value="${item?.auditItem?.name}" disabled="disabled"/>
+				</div>
+			</li>
+			<li>
+				<div class="xf_wyjkfb_4_windowUL_l">
+					有效期状态：
+				</div>
+				<div class="xf_wyjkfb_4_windowUL_r">
+					#{if item?.status == 2}
+						<input value="有效" disabled="disabled"/>
+					#{/if}
+					#{elseif item?.status == 3}
+						<input value="失效" disabled="disabled"/>
+					#{/elseif}
+					#{else}
+						<input value="无效" disabled="disabled"/>
+					#{/else}
+					有效期： 
+					<input value="${item?.auditItem?.period}" disabled="disabled"/>月
+				</div>
+			</li>
+			<li>
+				<div class="xf_wyjkfb_4_windowUL_l">
+					信用积分：
+				</div>
+				<div class="xf_wyjkfb_4_windowUL_r">
+					<input value="${item?.auditItem?.creditScore}" disabled="disabled"/>
+				</div>
+			</li>
+			<li>
+				<div class="xf_wyjkfb_4_windowUL_l">
+					到期时间：
+				</div>
+				<div class="xf_wyjkfb_4_windowUL_r">
+					<input value="${item?.expireTime?.format('yyyy-MM-dd')}" disabled="disabled"/>
+					创建时间：
+					<input value="${item?.time?.format('yyyy-MM-dd')}" disabled="disabled"/>
+				</div>
+			</li>
+			<li>
+				<div class="xf_wyjkfb_4_windowUL_l">
+					提交时间：
+				</div>
+				<div class="xf_wyjkfb_4_windowUL_r">
+					<input value="${item?.submitTime?.format('yyyy-MM-dd')}" disabled="disabled"/>
+					审核时间：
+					<input value="${item?.auditTime?.format('yyyy-MM-dd')}" disabled="disabled"/>
+				</div>
+			</li>
+			<li>
+				<div class="xf_wyjkfb_4_windowUL_l">
+					审核周期：
+				</div>
+				<div class="xf_wyjkfb_4_windowUL_r">
+					<input value="${item?.auditItem?.auditCycle}个工作日"  disabled="disabled"/>
+					审核费用：
+					<input value="${item?.auditItem?.auditFee}元(RMB)"  disabled="disabled"/>
+				</div>
+			</li>
+			<li>
+				<div class="xf_wyjkfb_4_windowUL_l">
+					审核意见：
+				</div>
+				<div class="xf_wyjkfb_4_windowUL_r">
+					<textarea rows="5" cols="50" disabled="disabled">${item?.suggestion}</textarea>
+				</div>
+			</li>
+			<li>
+				<div class="xf_wyjkfb_4_windowUL_l">
+					关联借款标：
+				</div>
+				<div class="xf_wyjkfb_4_windowUL_r">
+					#{list item?.productNames}
+						#{img src:"${_}",alt:"",width:"20",height:"20"}#{/img}
+					#{/list}
+					
+				</div>
+			</li>
+			<li>
+				<div class="xf_wyjkfb_4_windowUL_l">
+					查看资料：
+				</div>
+				<div class="xf_wyjkfb_4_windowUL_r">
+					<table id="itemvalue" border="0" cellpadding="0" cellspacing="0" width="556" class="xf_membill_acc_viewcpms2">
+						<tbody>
+							<tr>
+								<th>序号</th>
+								<th align="left">名称</th>
+								<th align="left">格式</th>
+								<th align="center">上传时间</th>
+								<th align="center">状态</th>
+								<th align="center">预览</th>
+								<th align="center">操作</th>
+							</tr>
+							#{list items}
+								<tr>
+									<td>${_index}</td>
+									<td align="left">${_?.name}</td>
+									<td align="left">
+										#{if _?.type == 1}
+											图片文件
+										#{/if}
+										#{elseif _?.type == 2}
+											文本文件
+										#{/elseif}
+										#{elseif  _?.type == 3}
+											视频文件
+										#{/elseif}
+										#{elseif  _?.type == 4}
+											音频文件
+										#{/elseif}
+										#{else}
+											表格文件
+										#{/else}
+									</td>
+									<td align="center">${_?.time?.format("yyyy-MM-dd")}</td>
+									<td align="center">${_?.strStatus}</td>
+									<td align="center">
+										<img src="${_?.image_file_name}" width="35px" height="35px">
+									</td>
+									<td align="center">
+										#{if _?.status == 0}
+											未提交
+										#{/if}
+										#{else}
+										<a href="@{Application.downloadFiles(_?.images, _?.type)}">下载</a>
+										*{
+										| 
+										<a href="@{deleteAuditItem(_?.sign)}" onclick="return confirm('确定此操作?');">删除</a>
+										}*
+										#{/else}
+									</td>
+								</tr>
+							#{/list}
+						</tbody>
+					</table>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>

@@ -1,0 +1,9 @@
+#{extends 'common/frontMain.html' /}
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{set title:currBackstageSet?.platformName + '--该功能审核中...' /}
+<div class="xf_login_centent xf_login_fh" style="margin-top:50px;">
+  <h3 class="xf_login_hh">审核中...</h3>
+  <a href="@{front.home.HomeAction.home()}">返回首页</a>
+</div>

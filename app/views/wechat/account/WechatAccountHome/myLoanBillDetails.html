@@ -1,0 +1,91 @@
+#{extends 'wechat/common.html' /}
+
+<body>
+
+  <input type="hidden" name="amount" id="amount" value="${billDetail?.current_pay_amount}" />
+  <input type="hidden" name="billId" id="billId" value="${billDetail?.sign}" />
+	<div class="s_main s_center">
+		<header class="s_header">
+		  <a onclick="javascript:history.go(-1)" class="s_goback"></a>
+			本期账单详情
+		</header>
+		<div class="s_biaobox s_biaobox3">
+			<h3>借款标详细信息</h3>
+			<ul>
+				<li>账单编号：<span class="blue">${billDetail?.bill_number}</span></li>
+				<li>借款账单生成日期：<span class="blue">${billDetail?.produce_bill_time?.format('yyyy-MM-dd')}</span></li>
+				<li>本期账单应还金额：<span class="blue">￥${billDetail?.current_pay_amount}元</span></li>
+				<li>还款到期时间：<span class="blue">${billDetail?.repayment_time?.format('yyyy-MM-dd')}</span></li>
+				<li>还款方式：${billDetail?.repayment_type}</li>
+			</ul>
+		</div>
+		<div class="s_biaobox s_biaobox3">
+			<h3>借款标详细信息</h3>
+			<ul>
+				<li>借款标标题：${billDetail?.bid_title}</li>
+				<li>借款总额：<span class="blue">￥ ${billDetail?.loan_amount?.format('###,##0.00')}元</span></li>
+				<li>借款本息合计：<span class="blue">￥${billDetail?.loan_principal_interest?.format('###,##0.00')}元</span></li>
+				<li>借款期数：<span class="blue">${billDetail?.loan_periods}期</span></li>
+				<li>年利率：<span class="blue">${billDetail?.apr}%</span></li>
+				<li>已还期数：<span class="blue">${billDetail?.has_payed_periods}期</span></li>
+				<li>剩余期限：<span class="blue">${billDetail?.loan_periods - billDetail?.has_payed_periods}期</span></li>
+			</ul>
+		</div>
+		#{if billDetail.status == -1 || billDetail.status == -2}
+			#{if checkPeriod == 0}
+				<div class="s_biaobox s_biaobox3">
+					<ul>
+						<li>本期账单应还金额：<span class="blue">￥${billDetail?.current_pay_amount}元</span></li>
+						#{if !constants.Constants.IPS_ENABLE && isDealPassword}
+							#{if billDetail.status == -1 || billDetail.status == -2}
+								#{if user.payPassword == '' || user.payPassword == null}
+									<li><a href="@{wechat.account.WechatAccountHome.securitySet()}" class="s_errortips">请设置交易密码！</a></li>
+								#{/if}
+								#{else}
+								  <li>交易密码：<input type="password" class="jypw" name="payPassword" id="payPassword" /></li>
+								  <li>
+							      <input type="button" class="paybtn" value="确认还款" onclick="payment()" />
+						      </li>
+								#{/else}
+							#{/if}
+						#{/if}
+						#{else}
+						  <li>
+					      <input type="button" class="paybtn" value="确认还款" onclick="payment()" />
+				      </li>
+						#{/else}
+					</ul>
+				</div>
+			#{/if}
+		#{/if}
+	</div>
+
+</body>
+
+<script type="text/javascript">
+$(function(){
+  if('${flash.error}' != ''){
+	  alert('${flash.error}');
+	  }
+	
+})
+
+function payment(){
+	var setCode = #{jsAction @wechat.account.WechatAccountHome.submitRepayment(':payPassword', ':amount', ':billId')/}
+	$.post(setCode({payPassword:$("#payPassword").val(), amount:'${billDetail?.current_pay_amount}', billId:'${billDetail?.sign}'}),function(data){
+	   var arr = eval(data);
+	   if(arr.error.code < 0){
+		   
+		   alert(arr.error.msg);
+		   window.location.reload();
+		   return;
+		 }
+		 
+	   alert(arr.error.msg);
+	   window.location.href = "@{wechat.account.WechatAccountHome.myLoanBills()}" //返回上一级并刷新页面	
+	});
+}
+</script>
+
+
+

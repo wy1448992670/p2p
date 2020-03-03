@@ -1,0 +1,27 @@
+#{extends 'wechat/service/appCommonNext.html' /}
+
+
+
+<script type="text/javascript">
+	$(function(){
+		var u = navigator.userAgent;
+		var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+		  var url = ${url};
+		  if(url == 1){
+			  if(isAndroid){
+				  window.control.recharge();
+			  }else{
+				  recharge();
+			  }
+			  
+		  }else if(url == 2){
+			  if(isAndroid){
+				  window.control.home(); 
+			  }else{
+				  home();
+			  }
+			  
+		  }
+	      
+	})
+</script>

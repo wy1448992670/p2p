@@ -1,0 +1,17 @@
+#{extends 'common/frontMenu.html' /} 
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{set title:'低风险理财,无风险理财,投资理财项目' /}
+#{set keywords:'理财有几种方式,现在该如何理财,怎样在网上理财'/}
+#{set description:'亿亿理财为理财用户提供低风险,无风险的投资理财项目的平台'/}
+
+<!--内容区-->
+<div class="p_bgf1_box pb30 pt30">
+    <div class="p_main clr">
+       <!--侧边导航栏-->
+	  #{include "front/home/HomeAction/aboutUsLeft.html"/}
+      #{include "front/home/HomeAction/aboutUsContent.control"/}
+    </div>
+</div>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_about_us.js'}"></script>

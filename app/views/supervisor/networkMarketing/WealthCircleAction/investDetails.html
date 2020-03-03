@@ -1,0 +1,126 @@
+<div class="xf_meminvite_detail">
+	<div class="xf_ht_glylist_ss">
+		<ul class="xf_meminvite_search clr">
+			<li class="xf_meminvite_searchLi">
+				<input type="hidden" name="currPage" id="currPageDetail" value="${page?.currPage}"/>
+				<input type="hidden" name="currSize" id="currSizeDetail" value="${page?.pageSize}"/>
+				<input type="hidden" name="currPage" id="userId" value="${userId}"/>
+				<input type="hidden" name="currSize" id="invitedUserId" value="${invitedUserId}"/>
+				<div class="xf_ht_search_xl">
+			  		<span class="search_timesp">投资时间：</span>
+			 		<input type="text" class="search_time" name="beginTime" id="beginTimes" value="${page?.conditions?.beginTime}" onclick="laydate()" class="laydate-icon" style="cursor:pointer">
+			  		<span class="search_timesp">--</span>
+			  		<input type="text" class="search_time" name="endTime" id="endTimes" value="${page?.conditions?.endTime}" onclick="laydate()" class="laydate-icon" style="cursor:pointer">  
+		  		</div>
+			</li>
+			<li><input value="搜 索" class="search_button" onclick="inviteIncomeDetailsSearch();" type="button">&nbsp;&nbsp;&nbsp;
+			<input value="导出" class="search_button" onclick="download();" type="button"></li>
+		</ul>
+	</div>
+	<!-- 搜索结果 -->
+	<div class="xf_ht_glylist_two">
+		<table border="0" cellpadding="0" cellspacing="0" width="auto" class="xf_con_mem_r_b_table">
+			<tbody>
+				<tr>
+					<th align="center" width="55">
+						序号
+					</th>
+					<th align="center" width="190">
+						投资时间
+					</th>
+					<th align="center" width="190">
+						投资金额
+					</th>
+					<th align="center" width="190">
+						返佣金额
+					</th>
+				</tr>
+				#{list items:page.page,as:'inviteIncome'} 
+				<tr>
+					<td align="center">
+						${inviteIncome_index}
+					</td>
+					<td align="center">
+						${inviteIncome.invest_time?.format('yyyy-MM-dd')}
+					</td>
+					<td align="center">
+						${inviteIncome.invest_amount?.format("###,##0.00")}
+					</td>
+					<td align="center">
+						${inviteIncome?.invite_income?.format("###,##0.00")}
+					</td>
+				</tr>
+				#{/list}
+			</tbody>
+		</table>
+	</div>
+	<!-- 清除浮动 -->
+	<div class="clear"></div>
+	<div class="xf_ht_shmx_button xf_ht_jobx_page">
+		<div class="page_warp">
+	        #{page funMethod:"inviteIncomeDetailsPage",currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4/}
+	    </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+function download(){
+	var beginTime = $("#beginTimes").val();
+	var endTime = $("#endTimes").val();
+	var userId = $("#userId").val();
+	var invitedUserId = $("#invitedUserId").val();
+	  
+	window.location.href = "investDetails?currPageStr=0&pageSizeStr=0 &beginTime=" + beginTime  + "&endTime=" + endTime + "&userId=" + userId + "&invitedUserId=" + invitedUserId + "&isExport=1";
+
+	}
+
+function inviteIncomeDetailsSearch() {
+	var currPage = $("#currPageDetail").val();
+	var currSize = $("#currSizeDetail").val();
+	var beginTime = $("#beginTimes").val();
+	var endTime = $("#endTimes").val();
+	var userId = $("#userId").val();
+	var invitedUserId = $("#invitedUserId").val();
+	//var invitedUserSign = '${invitedUserSign}';
+	
+
+	$.ajax({
+	  url : "@{supervisor.networkMarketing.WealthCircleAction.investDetails()}",
+	  type : "GET",
+	  async : false,
+	  data : {
+	    "currPageStr" : currPage,
+	    "pageSizeStr" : currSize,
+	    "beginTime" : beginTime,
+	    "endTime" : endTime,
+	    "userId" : userId,
+	    "invitedUserId" : invitedUserId
+	  },
+	  success : function(data) {
+	    if (data.code < 0) {
+	      alert(data.msg);
+	      return;
+	    }
+	    $("#inviteIncomeDetails").html(data);
+	  },
+	  error : function() {
+	    alert(data.msg);
+	  }
+	});
+
+	 $.layer({
+	     type: 1,
+	     area: ['700', 'auto'],
+	     title: '返佣记录',
+	     page: {dom : '#inviteIncomeDetails'}
+      });
+}
+
+function inviteIncomeDetailsPage(currPage, currSize) {
+	$("#currPageDetail").val(currPage);
+	$("#currSizeDetail").val(currSize);
+	inviteIncomeDetailsSearch();
+}
+
+</script>

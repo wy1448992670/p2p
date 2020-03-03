@@ -1,0 +1,38 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle + ' | 我的账户   | 资金管理  | 充值'/}
+
+<!-- 内容区域 start -->
+<div class="xf_con_box">
+	<div class="xf_con_mem_nav"></div>
+	<!-- 左边导航区域 -->
+	#{include "front/account/AccountHome/homeLeft.control"/}
+	<!-- 右侧内容区域 -->
+	<div class="xf_mem_Account xf_mem_shzdjkb_box">
+					<h3 class="xf_mem_accout_title">充值>充值状态</h3>
+					<!--start:理财子账户充值状态-->
+				    <div class="sub_trade_state">
+				        <p class="state_txt" style="font-size:22px;padding: 30px 0;">${payResult.biz_resp_msg}</p>
+				        <!-- <a href="#" class="xf_con_inputfbjk">完成</a>  -->
+				    </div>
+				    <div class="sub_reminder">
+				        <h5>温馨提示：</h5>
+				        <p>1、平台禁止洗钱、虚假交易等行为，一经发现并确认，将终止该账户的使用；</p>
+				        <p>2、如充值金额没有及时到账，请联系在线客服或拨打客服热线：<em class="sub_tel">021-6438-0510</em></p>
+				    </div>
+				    <!--end:理财子账户充值状态-->
+				</div>
+				<!-- 清除浮动 -->
+				<div class="clear"></div>
+			</div>
+<!-- 内容区域 end -->
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript">
+$(function(){
+	/* 高亮显示 */
+	showHighLightFront(14);
+	showHighLightFront2(7, 4);
+})
+</script>

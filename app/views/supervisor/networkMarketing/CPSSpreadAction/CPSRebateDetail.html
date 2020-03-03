@@ -1,0 +1,73 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'GPS推广员佣金发放明细' /}
+ <div class="xfht_t_j_k"> 
+<!--左-->
+#{include "supervisor/networkMarketing/CPSSpreadAction/networkMarketingLeft.control"/}    
+<!--右-->
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+  <!-- 搜索 -->
+  #{form @CPSAll(), id:'submit'}
+  <input type="hidden" id="orderType" name="orderType"/>
+    <div class="xf_ht_search">
+      <div class="xf_ht_search_l">
+        <span id="div_0" onClick="conditonSearch(0)">默认排序</span>
+		<span id="div_1" onClick="conditonSearch(1)">注册时间 <a id="tab_1">↑</a></span>
+		<span id="div_3" onClick="conditonSearch(3)">推广会员数 <a id="tab_3">↑</a></span>
+		<span id="div_5" onClick="conditonSearch(5)">有效会员占比 <a id="tab_5">↑</a></span>
+		<span id="div_7" onClick="conditonSearch(7)">佣金总额 <a id="tab_7">↑</a></span>
+      </div>
+      <div class="xf_ht_search_r">
+        <div class="xf_ht_search_xl">
+          <input type="text" class="search_w" name="name" value="${page.conditions?.name}">
+        </div>
+        <div class="xf_ht_search_xl">
+          <input type="submit" class="search_button" value="搜索">
+        </div>
+      </div>
+    </div>
+  #{/form}
+	<!-- 列表内容 -->
+	<div class="xn_c_content_top">
+      #{table class:"xn_c_content_list",cellspacing:"0",cellpadding:"0",border:"0",tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}用户名#{/th}
+          #{th}注册时间#{/th}
+          #{th}信用等级#{/th}
+          #{th}注册时长(天)#{/th}
+          #{th}推广会员数#{/th}
+          #{th}其中充值会员数#{/th}
+          #{th}会员有效占比#{/th}
+          #{th}推广会员借款总额#{/th}
+          #{th}推广会员的理财总额#{/th}
+          #{th}佣金总额#{/th}
+          #{th}操作#{/th}
+        #{/tr}
+        #{list page?.page}
+        #{tr tr_index:_index}
+          #{td}${(page?.currPage - 1) * page?.pageSize + _index}#{/td}
+          #{td}${_?.name}#{/td}
+          #{td}${_?.time?.format('yyyy-MM-dd')}#{/td}
+          #{td}#{img src:"${_.creditLevel?.imageFilename}",alt:"",width:"30px",height:"30px"}#{/img}#{/td}
+          #{td}${_?.register_length}#{/td}
+          #{td}${_?.recommend_count}#{/td}
+          #{td}${_?.recharge_count}#{/td}
+          #{td}${_?.active_rate}#{/td}
+          #{td}${_?.bid_amount?.format("###,##0.00")}#{/td}
+          #{td}${_?.invest_amount?.format("###,##0.00")}#{/td}
+          #{td}${_?.commission_amount?.format("###,##0.00")}#{/td}
+          #{td}<span class="xf_ta_onclick" onClick="CPSDetail(${_?.id})">会员明细</span>#{/td}
+        #{/tr}
+        #{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+        <div class="page_warp">
+          #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:1,style:4/}
+        </div>
+    </div>
+  </div>
+</div>
+</div>

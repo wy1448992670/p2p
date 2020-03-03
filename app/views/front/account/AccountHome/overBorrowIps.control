@@ -1,0 +1,42 @@
+%{
+	business.User currUser = business.User.currUser();
+}%
+<!-- 后期补充-申请超额借款 -->
+<div class="xf_zqzr_znx_window" id="over_borrow_window">
+</div>
+<!-- 后期补充-申请超额借款审核资料 -->
+<div class="xf_ht_ttc" id="audit_items_window">
+</div>
+<!-- 后期补充-申请超额借款提交审核资料 -->
+<div class="xf_wyjkfb_4_window" id="submit_audit_item_window">
+</div>
+
+
+<script type="text/javascript">
+	/**
+	 * 显示申请超额借款页面
+	 */
+	function applyForOverBorrowInit() { 
+
+		$.ajax({
+			url : "@{front.account.AccountHome.applyForOverBorrowWin()}",
+			type : "POST",
+			data : {
+			},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+
+					return;
+				}
+				
+				var ttc = $("#over_borrow_window");
+				ttc.html(data);
+				showDiv(ttc);
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+</script>

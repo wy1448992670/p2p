@@ -1,0 +1,14 @@
+<!-- 后期补充-会员注册协议 -->
+<div class="xf_zqzr_znx_window" id="xf_mem_zc_xytc">
+	<div class="xf_wyjkwszl_4_windowInner xf_vip_tcc_window xf_register_window">
+		<div class="xf_wyjkfb_4_windowClose"></div>
+		<div class="xf_wyjkfb_4_windowColName">
+			用户注册协议
+		</div>
+		<div class="xf_mem_viptc_sebox">
+			<div class="xf_mem_viptc_se">
+				${content}
+			</div>
+		</div>
+	</div>
+</div>

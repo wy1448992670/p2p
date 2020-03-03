@@ -1,0 +1,146 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'短信黑名单' /} 
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  <!--左-->
+  #{include "supervisor/webContentManager/common/leftBar.control"/}
+  <!--右-->
+  <div class="xn_c_content">
+  #{form @supervisor.webContentManager.TemplateAction.smsBlacklistTemplates(), method:'POST', id:'smsBlacklistSubmit'}
+  <input type="hidden" name="currPage" id="currPage" value="${page.currPage}">
+  <input type="hidden" name="pageSize" id="pageSize" value="${page.pageSize}">
+  <!-- 搜索 -->
+  <div class="xf_ht_search_inon">
+    <div class="xf_ht_search_r">
+      <div class="xf_ht_search_xl">
+        <span>手机号：</span>
+        <input name="mobile" type="text" class="search_w" title="请输入手机号" value="${page.conditions.mobile}" placeholder="请输入手机号"/>
+      </div>
+      <div class="xf_ht_search_xl">
+        <input type="submit" class="search_button" value="搜索" >
+      </div>
+    </div>
+  </div>
+  #{/form}
+  <div class="xf_ht_tablelist">
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xn_c_content_list",tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th width:"100px;"}序号#{/th}
+          #{th}用户名#{/th}
+          #{th}真实姓名#{/th}
+          #{th}手机号#{/th}
+		  #{th width:"200px;"}操作#{/th}
+        #{/tr}
+		#{list page.page}
+        #{tr tr_index:_index}
+          #{td}${(page?.currPage - 1)*page?.pageSize + _index}#{/td}
+          #{td class:"smscontent"}${_?.name}#{/td}
+          #{td}${_?.reality_name}#{/td}
+          #{td}${_?.mobile}#{/td}
+          #{td}
+            <span class="xf_ta_onclick" onClick="remove(${_?.id},0);">删除</span>
+          #{/td}
+        #{/tr}
+		#{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+        #{page currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:2,style:4}#{/page}
+      	<button type="button" onclick="selectUsersInit(1,10)" class="search_button">添加</button>
+    </div>
+  </div>  
+  </div>
+  </div>
+</div>
+<!--选择会员-弹出层 -->
+<div id="xf_ht_xzhy_ttc"></div>
+<script type="text/javascript">
+$(function() {
+  /* 高亮显示 */
+  showHighLight(5,5,32);
+});
+
+//分页函数
+function showPage(currPage, pageSize){
+  $("#currPage").val(currPage);
+  $("#pageSize").val(pageSize);
+  $("#smsBlacklistSubmit").submit();
+}
+	
+//显示选择用户弹窗
+function selectUsersInit(currPage, pageSize) {
+  g_selectedNames = new Array();
+  $.ajax({
+    url : "@{supervisor.webContentManager.Message.selectUsersInit()}",
+    type : "POST",
+    data : {
+      "currPage" : currPage,
+      "pageSize" : pageSize,
+      "keyword" : $("#keyword").val(),
+      "beginTime":$("#beginTime").val(),
+      "endTime":$("#endTime").val(),
+      "orderType":$("#orderType").val(),
+      "radio":1
+    },
+    success : function(data) {
+      if (data.code < 0) {
+        alert(data.msg);
+
+        return;
+      }
+
+      var ttc = $("#xf_ht_xzhy_ttc");
+      ttc.html(data);
+      var index =$.layer({
+        type: 1,
+        area: ['1000px', '600px'],
+        title: '选择会员',
+        page: {dom : '#xf_ht_xzhy_ttc'}
+      });
+      if(index > 1){
+        index = index - 1;
+        $("#xubox_shade"+index).remove();
+      }
+      
+      $(".xselect").on("click", function(){
+    	  	remove($(this).attr("uid"), 1);
+      });
+    },
+    error : function() {
+      alert("对不起，出现错误!");
+    }
+  });
+}
+
+//加入黑名单
+function remove(id, isBlacklist){
+	var msg = isBlacklist == 1 ? "确定加入黑名单吗?" : "确定移除吗?";
+	if(!confirm(msg)){
+		return;
+	}
+	$.post("/supervisor/TemplateAction/addOrRemoveSmsBlacklist",
+	{"userId":id, "isBlacklist": isBlacklist}, 
+	function(result){
+		try{
+			if(isBlacklist == 0 && result == 1){
+				alert("移除成功")
+			}else if(isBlacklist == 1){
+				if(result == 1){
+					alert("添加成功")
+				}else{
+					alert("已添加")
+				}
+			}else{
+				alert("系统错误, 请稍候重试!");
+			}
+			$("#smsBlacklistSubmit").submit();
+		}catch(e){
+			alert("系统错误, 请稍候重试!");
+		}
+	});
+}
+</script>

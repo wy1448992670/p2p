@@ -1,0 +1,121 @@
+#{extends 'wechat/service/appCommon.html' /}
+
+<body>
+<!-- main -->
+<div class="p-xtmain">
+	<div class="wrapper03" id="wrapper">
+    <div id="scroller">
+    <ul class="flex p-xtxxkul" style="background-color: #fff">
+        <li class="flex-1" id="flex-11" onclick="window.location.href='/app/investmentIdea?userIdStr=${userId}'">最后回复</li>
+        <li class="flex-1 cur">最新发布</li>
+    </ul>
+   
+    <div class="p-xtabox ">
+        <ul class="p-sqlistul">
+        <div id="main">
+        	 #{list items:page.page,as:'t'}
+            <li onclick="window.location.href='/app/myPostsInfo?id='+${t.id}+'&userId=${userId}&showType=1'">
+                <h5>${t?.title} #{if t.show_image == 1}<img src="/public/images/p-sqguan.png" alt="">#{/if}&nbsp;&nbsp;&nbsp;#{if t.content.length() > 10}${t.content.substring(0,10)}...#{/if}#{else}${t.content}#{/else}</h5>
+                <div class="p-sqlaiy flex">
+                    <div class="flex-1">发布：${t?.show_time?.format('yyyy-MM-dd')}&nbsp;&nbsp;&nbsp;${t?.name}</div>
+                    <div class="">
+                        <span class="p-sqhuif"><i class="bgico"></i>${t?.answers_count}</span>
+                        <span class="p-sqliul"><i class="bgico"></i>${t?.read_count}</span>
+                    </div>
+                </div>
+            </li>
+           	#{/list}
+           	</div>
+        </ul>
+        <div id="pullUp">
+		    	#{if page.page.size() > 0}<span class="pullUpIcon" id="pullUpIcons"></span><span class="pullUpLabel" id="pullShowT">上拉加载更多...</span>#{/if}
+		   	</div>
+    </div>
+    <div class="p-xtbotcon" style="height: 0px">
+        <div>
+            <a class="p-xtfatie" href="/app/userPosts?userId=${userId}&postsType=7">发&nbsp;&nbsp;帖</a>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+	$(function(){
+		$("#flex-11").removeClass("cur");
+	});
+	
+	var myScroll,
+	pullUpEl, pullUpOffset,
+	generatedCount = 0;
+	
+	var currPage = 1;
+	var getUserId = '${userId}';
+	function pullUpAction () {
+	setTimeout(function () {    // <-- Simulate network congestion, remove setTimeout from production!
+		currPage = currPage + 1;
+	
+		$.ajax({
+			url: "@{app.AppController.investmentIdeaPosts()}",
+			type: "POST",
+			dataType: "json",
+			data: {
+				"currPage": currPage,
+				
+				"Mark": 2
+			},
+			success: function (data) {
+				
+					var arr = eval(data);
+					
+					var list = arr.page.page;
+					
+					if (list.length == 0) {
+						$("#pullUp").removeClass("loading").animate({opacity:'0'},3000);
+						$("#pullShowT").html("没有更多了");
+						$("#pullUpIcons").removeClass("pullUpIcon");
+					} else {
+						
+						for (var i = 0; i < list.length; i++) {
+						
+							var milliseconds = list[i].show_time.time;  //取出json里面的时间，为Object类型，在此转化为毫秒数
+							
+							var date = new Date();
+							
+							date.setTime(milliseconds);
+							
+							var time2 = date.format("yyyy-MM-dd");
+							
+							var hrefs="/app/myPostsInfo?id="+list[i].id+"&userId="+getUserId+"&showType=1";
+							var imageShow = "";
+							if(list[i].show_image == 1){
+								imageShow = "<img src='/public/images/p-sqguan.png' alt='' >";
+							}
+							
+							var contentShow ="";
+							if(list[i].content.length > 10){
+								contentShow = list[i].content.substring(0,10)+"...";
+							}else{
+								contentShow = list[i].content;
+							}
+							
+							
+							$("#main").append("<li onclick=window.location.href='"+hrefs+"'>"+
+									"<h5>"+list[i].title+imageShow+"&nbsp;&nbsp;&nbsp;"+contentShow+"</h5>"+
+									"<div class='p-sqlaiy flex'>"+
+									"<div class='flex-1'>发布："+time2+"&nbsp;&nbsp;&nbsp;"+list[i].name+"</div>"+
+									"<div class=''>"+
+									"<span class='p-sqhuif'><i class='bgico'></i>"+list[i].answers_count+"</span>"+
+									"<span class='p-sqhuif'><i class='bgico'></i>"+list[i].read_count+"</span>"+
+									
+							"</div></div></li>");
+								}
+						myScroll.refresh();
+					}
+					
+				},
+				error: function () {
+				}
+		});
+		
+	}, 300);    // <-- Simulate network congestion, remove setTimeout from production!
+	}
+</script>

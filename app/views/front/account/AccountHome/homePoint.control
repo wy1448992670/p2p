@@ -1,0 +1,20 @@
+<div class="p_zh_rtbox02">
+    <table width="100%">
+        <tbody>
+            <tr height="30">
+                <td width="82">温馨提示：</td>
+                <td><a href="@{front.account.Message.systemMsgs()}" target="_self" >未读站内信（${unReadMsgCount}）</a></td>
+                <td><a href="@{front.account.accountHome.myLoanBills()}" target="_self" >未处理借款账单（${warmPrompt?.untreatedBillsCount}）</a></td>
+                <td><a href="@{front.account.InvestAccount.investBills()}" target="_self" >未处理出借账单（${warmPrompt?.untreatedInvestBillsCount}）</a></td>
+                <td><a href="@{front.account.accountHome.auditingLoanBids()}" target="_self" >待审核借款标（${warmPrompt?.auditingCount}）</a></td>
+            </tr>
+            <tr height="30">
+                <td>&nbsp;</td>
+                <td><a href="@{front.account.accountHome.repaymentBids()}" target="_self">还款中借款标（${warmPrompt?.repaymentingCount}）</a></td>
+                <td><a href="@{front.account.InvestAccount.repayingInvestBid()}" target="_self" >收款中出借标（${warmPrompt?.receivableInvestBidsCount}）</a></td>
+                <td><a href="@{front.account.accountHome.myLoanBills()}" target="_self" >逾期借款账单（${warmPrompt?.overdueBillsCount}）</a></td>
+                <td><a href="@{front.account.AccountHome.auditMaterialsIPS()}" target="_self" >须上传的审核资料（${warmPrompt?.lackSuditItemCount}）</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

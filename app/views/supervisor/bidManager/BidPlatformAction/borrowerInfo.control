@@ -1,0 +1,454 @@
+<style>
+	.tdPadding tr td{
+		padding:15px 0;
+	}
+	.btnStyle{
+		background-color:#199ED8;
+		border-radius:5px;
+		border:0;
+		color:white;
+		height:25px;
+		width:60px;
+	}
+	.padleft30{
+		padding-left:30px;
+	}
+	.borderBot{
+		border-bottom: 1px dashed  #707070;
+	    padding-left: 30px;
+	    padding-bottom:15px;
+	    margin:15px 0;
+	}
+	.right{
+		float: right;
+	    position: relative;
+	    top: 13px;
+	    right: 10px;
+	    transform:rotateX(180deg);
+	}
+	.xf_htgl_jgtitle{
+		margin:0;
+	}
+	.contextPadding{
+		padding:0 60px 0 20px;
+		margin:20px 0;
+	}
+	.hiddenContext{
+		display:none;
+	}
+</style>
+<div class="xn_c_content" style="background:white">
+    <div style="padding-left:20px;background:#E1E1E1;height:53px;line-height:53px;font-size:19px;">
+  		风控规则设置（所有满分之和不得超过100）
+    </div>
+    <div class="contextPadding">
+	 		<h3 class="xf_htgl_jgtitle">
+	 			<div>
+		 			<span>第三方得分：</span>
+			 		<span class="right">
+		 				<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+		 			</span>
+	 			</div>
+	 		</h3>
+	<div class="hiddenContext">
+	  <div class="borderBot">满分：<input type="text"/>分</div>
+	 	<div class="padleft30">
+		 	<div style="font-weight:bold;">得分依据：</div>
+		 	<table width="100%" class="tdPadding">
+		 		<tr>
+		 			<td width="70">同盾得分：</td>
+		 			<td width="70">80分以上</td>
+		 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+		 			<td><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+		 			<td width="70">60分-79分</td>
+		 			
+		 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+		 			<td><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+		 			<td width="70">50分-59分</td>
+		 			<td><input style="width:130px;" type="text"/>分</td>
+		 		</tr>
+		 		<tr>
+		 			<td width="70"></td>
+		 			<td width="70">40分-49分</td>
+		 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+		 			<td><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+		 			<td width="70">30分-39分</td>
+		 			
+		 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+		 			<td><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+		 			<td width="70">20分-29分</td>
+		 			<td><input style="width:130px;" type="text"/>分</td>
+		 		</tr>
+		 		<tr>
+		 			<td style="text-align:right;padding-right:10px;" colspan="8">20分以下</td>
+		 			<td><input style="width:130px;" type="text"/>分</td>
+		 		</tr>
+		 		<tr>
+		 			<td width="70">智多分：</td>
+		 			<td width="70">0分-300分</td>
+		 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+		 			<td><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+		 			<td width="70">301分-500分</td>
+		 			
+		 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+		 			<td><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+		 			<td width="70">501分-600分</td>
+		 			<td><input style="width:130px;" type="text"/>分</td>
+		 		</tr>
+		 		<tr>
+		 			<td width="70"></td>
+		 			<td width="80">601分-850分</td>
+		 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+		 			<td><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+		 			<td width="80">851分-999分</td>
+		 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+		 			
+		 		</tr>
+		 	 </table>
+			 	<div>
+			 		<input class="btnStyle" type="button" value="修改" />
+			 		<input  style="margin-left:20px;" class="btnStyle" type="button" value="保存" />
+			 	</div>
+	  		</div>
+	     </div>
+	   </div> 
+   <div class="contextPadding">
+  			<h3 class="xf_htgl_jgtitle">
+	 			<div>
+		 			<span>失信人黑名单配置：</span>
+			 		<span class="right">
+		 				<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+		 			</span>
+	 			</div>
+	 		</h3>
+	<div class="hiddenContext">
+	  	<div class="borderBot">满分：<input type="text"/>分</div>
+	 	
+	 	<div class="padleft30">
+			 	<div style="font-weight:bold;">得分依据：</div>
+			 	<table width="100%" class="tdPadding">
+			 		<tr>
+			 			<td width="120">是否存在黑名单：</td>
+			 			<td width="70">在黑名单内</td>
+			 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+			 			<td width="70"><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+			 			<td width="100">不在黑名单内</td>
+			 			<td><input style="width:100px;" type="text"/>分</td>
+			 		</tr>
+			 		<tr>
+			 			<td width="120">不良行为等级：</td>
+			 			<td width="70">高</td>
+			 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+			 			<td width="70"><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+			 			<td width="100">中</td>
+			 			<td><input style="width:100px;" type="text"/>分</td>
+			 			<td width="100">低</td>
+			 			<td><input style="width:100px;" type="text"/>分</td>
+			 		</tr>
+			 	</table>
+			 	<div>
+			 		<input class="btnStyle" type="button" value="修改" />
+			 		<input style="margin-left:20px;" class="btnStyle" type="button" value="保存" />
+			 	</div>
+		 	 </div>
+	 	</div>  
+ 	</div>
+ 	
+  <div class="contextPadding">
+	  	<h3 class="xf_htgl_jgtitle">
+	 		<div>
+		 		<span>运营商配置：</span>
+			 	<span class="right">
+		 			<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+		 		</span>
+	 		</div>
+	 	</h3> 
+	 <div class="hiddenContext">
+	  	<div class="borderBot">满分：<input type="text"/>分</div>
+	 	<div class="padleft30">
+		 	<div style="font-weight:bold;">得分依据：</div>
+		 	<table width="100%" class="tdPadding">
+		 		<tr>
+		 			<td width="80">通讯录人数：</td>
+		 			<td width="70">0—50个</td>
+		 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+		 			<td><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+		 			<td width="70">51-100个</td>
+		 			
+		 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+		 			<td><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+		 			<td width="70">100个以上</td>
+		 			<td><input style="width:130px;" type="text"/>分</td>
+		 		</tr>
+		 		<tr>
+		 			<td width="70">号码归属地（与申报地匹配）</td>
+		 			<td width="70">是</td>
+		 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+		 			<td><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+		 			<td width="70">否</td>
+		 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+		 		</tr>
+		 		<tr>
+		 			<td width="70">入网时间:</td>
+		 			<td width="70">3个月以上</td>
+		 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+		 			<td><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+		 			<td width="70">3个月内</td>
+		 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+		 		</tr>
+		 		<tr>
+		 			<td width="70">常用联系人是否一致</td>
+		 			<td width="90">联系人1一致</td>
+		 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+		 			<td><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+		 			<td width="90">联系人1不一致</td>
+		 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+		 		</tr>
+		 		<tr>
+		 			<td width="70"></td>
+		 			<td width="90">联系人2一致</td>
+		 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+		 			<td><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+		 			<td width="90">联系人2不一致</td>
+		 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+		 		</tr>
+		 		<tr>
+		 			<td width="70">在网状态:</td>
+		 			<td width="70">正常</td>
+		 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+		 			<td><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+		 			<td width="70">其它</td>
+		 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+		 		</tr>
+		 		<tr>
+		 			<td width="70">姓名身份证号与手机号匹配情况</td>
+		 			<td width="70">正常</td>
+		 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+		 			<td><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+		 			<td width="70">其它</td>
+		 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+		 		</tr>
+		 	</table>
+		 	<div>
+		 		<input class="btnStyle" type="button" value="修改" />
+		 		<input class="btnStyle" type="button" value="保存" />
+		 	</div>
+	    </div>
+      </div>
+    </div>
+    
+    <div class="contextPadding">
+	 
+	  	<h3 class="xf_htgl_jgtitle">
+	 		<div>
+		 		<span>多头借贷：</span>
+			 	<span class="right">
+		 			<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+		 		</span>
+	 		</div>
+	 	</h3>
+	 	
+	 	<div class="hiddenContext">
+	  		<div class="borderBot">满分：<input type="text"/>分</div>
+	 
+		 	<div class="padleft30">
+			 	<div style="font-weight:bold;">得分依据：</div>
+			 	<table width="100%" class="tdPadding">
+			 		<tr>
+			 			<td width="80">借款机构数：</td>
+			 			<td width="70">8家以上</td>
+			 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+			 			<td width="70"><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+			 			<td width="70">7-8家</td>
+			 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+			 			<td><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+			 			<td width="70">4-6家</td>
+			 			<td><input style="width:130px;" type="text"/>分</td>
+			 			<td width="70"></td>
+			 			<td width="130"></td>
+			 		</tr>
+			 		<tr>
+			 			<td width="70"></td>
+			 			<td width="70">3家以下</td>
+			 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+			 			<td><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+			 		</tr>
+			 		<tr>
+			 			<td width="100">理财机构数：</td>
+			 			<td width="70">1-2家</td>
+			 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+			 			<td width="70"><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+			 			<td width="70">3-4家</td>
+			 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+			 			<td><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+			 			<td width="70">4家以上</td>
+			 			<td><input style="width:130px;" type="text"/>分</td>
+			 			<td width="70"></td>
+			 			<td width="130"></td>
+			 		</tr>
+			 		<tr>
+			 			<td width="70">借款金额</td>
+			 			<td width="70">3万以上</td>
+			 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+			 			<td width="70"><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+			 			<td width="70">3万-1.5万</td>
+			 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+			 			<td><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+			 			<td width="70">1.5万-1万</td>
+			 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+			 		</tr>
+			 		
+			 		<tr>
+			 			<td width="70"></td>
+			 			<td width="90">1万-0.5万</td>
+			 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+			 			<td width="70"><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+			 			<td width="90">0.5万以下</td>
+			 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+			 		</tr>
+			 	</table>
+			 	<div>
+			 		<input class="btnStyle" type="button" value="修改" />
+			 		<input class="btnStyle" type="button" value="保存" />
+			 	</div>
+		    </div>
+		  </div>
+    </div>
+    
+   <div class="contextPadding"> 
+	 	<h3 class="xf_htgl_jgtitle">
+	 		<div>
+		 		<span>逾期情况：</span>
+			 	<span class="right">
+		 			<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+		 		</span>
+	 		</div>
+	 	</h3>
+		 <div class="hiddenContext">	
+		 	<div class="borderBot">满分：<input type="text"/>分</div>
+		 	<div class="padleft30">
+			 	<div style="font-weight:bold;">得分依据：</div>
+				 	<table width="100%" class="tdPadding">
+				 		<tr>
+				 			<td width="90">逾期天数</td>
+				 			<td width="90">无逾期</td>
+				 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+				 			<td width="70"><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+				 			<td width="130">逾期180天以上</td>
+				 			<td width="130"><input style="width:100px;" type="text"/>分</td>
+				 			<td width="70"><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+				 			<td width="130">逾期90-180天</td>
+				 			<td ><input style="width:100px;" type="text"/>分</td>
+				 		</tr>
+				 		<tr>
+				 			<td width="50"></td>
+				 			<td width="70">逾期31-90天</td>
+				 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+				 			<td width="70"><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+				 			<td width="130">逾期30天以内</td>
+				 			<td width="130"><input style="width:100px;" type="text"/>分</td>
+				 		</tr>
+				 		<tr>
+				 			<td width="100">逾期金额：</td>
+				 			<td width="70">0.5万以上</td>
+				 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+				 			<td width="70"><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+				 			<td width="100">0.2-0.5万</td>
+				 			<td width="130"><input style="width:100px;" type="text"/>分</td>
+				 			<td width="70"><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+				 			<td width="100">0.1-0.2万</td>
+				 			<td ><input style="width:100px;" type="text"/>分</td>
+				 		</tr>
+				 		<tr>
+				 			<td width="100"></td>
+				 			<td width="70">0.1万以内</td>
+				 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+				 			<td width="70"><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+				 			<td width="100">无逾期</td>
+				 			<td width="130"><input style="width:100px;" type="text"/>分</td>
+				 		</tr>
+				 	</table>
+			 	<div>
+			 		<input class="btnStyle" type="button" value="修改" />
+			 		<input class="btnStyle" type="button" value="保存" />
+			 	</div>
+		  </div>
+		 </div> 
+    </div>
+    
+  	<div class="contextPadding"> 
+			 <h3 class="xf_htgl_jgtitle">
+		 		<div>
+			 		<span>居住地址匹配度：</span>
+				 	<span class="right">
+			 			<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+			 		</span>
+		 		</div>
+		 	</h3>
+		 <div class="hiddenContext">
+		 	<div class="borderBot">满分：<input type="text"/>分</div>
+		 	<div class="padleft30">
+				<div style="font-weight:bold;">得分依据：</div>
+				 	<table width="100%" class="tdPadding">
+				 		<tr>
+				 			<td width="70">匹配度：</td>
+				 			<td width="30">是</td>
+				 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+				 			<td width="70"><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+				 			<td width="30">否</td>
+				 			<td><input style="width:100px;" type="text"/>分</td>
+				 			
+				 		</tr>
+				 		
+				 	</table>
+				 	<div>
+				 		<input class="btnStyle" type="button" value="修改" />
+				 		<input class="btnStyle" type="button" value="保存" />
+				 	</div>
+				</div>
+	   		</div>
+   	</div>	
+   	
+   	<div class="contextPadding"> 	
+	  
+	 		<h3 class="xf_htgl_jgtitle">
+		 		<div>
+			 		<span>法院涉诉情况：</span>
+				 	<span class="right">
+			 			<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+			 		</span>
+		 		</div>
+		 	</h3>
+	<div class="hiddenContext"> 	
+	  	<div class="borderBot">满分：<input type="text"/>分</div>
+		 	<div class="padleft30">
+			 	<div style="font-weight:bold;">得分依据：</div>
+				 	<table width="100%" class="tdPadding">
+				 		<tr>
+				 			<td width="100">有无涉诉：</td>
+				 			<td width="70">有涉诉</td>
+				 			<td width="150"><input style="width:100px;" type="text"/>分</td>
+				 			<td width="70"><span style="border-right: 5px solid #C6C6C6;padding: 0 10px;"></span></td>
+				 			<td width="70">无涉诉</td>
+				 			<td ><input style="width:100px;" type="text"/>分</td>
+				 		</tr>
+				 	</table>
+			 	<div>
+			 		<input class="btnStyle" type="button" value="修改" />
+			 		<input class="btnStyle" type="button" value="保存" />
+			 	</div>
+		  	  </div>
+	  		</div>
+	  	</div>	
+	</div>
+<script type="text/javascript">
+
+$('.xf_htgl_jgtitle').click(function(){
+	$(this).next().toggle(100);
+})
+
+$(function(){
+	/* 高亮显示 */
+	showHighLight(1, 1, 1);
+});
+</script>

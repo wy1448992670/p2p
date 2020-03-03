@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+<head>
+  <title>#{get 'title' /}</title>
+  <meta name="keywords" content="${currBackstageSet?.seoKeywords}" />
+  <meta name="description" content="${currBackstageSet?.seoDescription}" />
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+  <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.ico'}" />
+  <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/xfback.css'}" />
+  <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/temp.css'}" />
+  <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
+  <script type="text/javascript" src="@{'/public/javascripts/index.js'}"></script>
+  <script type="text/javascript" src="@{'/public/javascripts/jquery.json-2.4.min.js'}"></script>
+  <script charset="utf-8" src="@{'public/javascripts/ajaxfileupload.js'}"></script>
+  <script type="text/javascript" src="@{'/public/javascripts/common.js'}"></script>
+  <script src="@{'/public/javascripts/laydate/laydate.js'}"></script>		
+</head>
+<body>
+<div class="xn_c_ban_jox xn_c_ban_jox_hk" style="margin: 0 auto">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_ht_jr_obu_l">${currBackstageSet?.platformName}借款客户账单
+      <span class="xf_ht_jr_obu_rw">${billDetail?.bid_id}号借款标第${billDetail?.current_period}期</span>
+    </div>
+    <div class="xf_ht_zd_tc">
+      <div class="xf_ht_zd_content">尊敬的${billDetail?.user_name}用户，您好！<br>
+                            感谢您使用${backSet.platformName}借款服务，我平台客服专线：${backSet?.platformTelephone} 竭诚为您服务！<br>
+                           本期借款账单还款日 ${billDetail?.repayment_time?.format('yyyy-MM-dd')}<br>
+
+                           重要提示：<br>
+                           尊敬的客户，为确保您应收账款准确，请您仔细阅读下面需理财款单明细栏目中各借款标信息。
+      </div>
+      <div class="xf_ht_zd_conlist">
+        <h3>本期账单明细</h3>
+        <table width="100%" class="xf_ht_zd_table1" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td>本期账单应还款：<span class="xf_ht_lv">${billDetail?.current_pay_amount?.format("###,##0.00")}元</span></td>
+          <td>本期账单应还本金：<span class="xf_ht_lv">${billDetail?.repayment_corpus?.format("###,##0.00")}元</span></td>
+          <td>本期账单应还利息：<span class="xf_ht_lv">${billDetail?.repayment_interest?.format("###,##0.00")}元</span></td>
+          <td>本期账单服务费：<span class="xf_ht_lv">${billDetail?.service_amount?.format("###,##0.00")}元</span></td>
+          <td>还款到期時間：<span class="xf_ht_red">${billDetail?.repayment_time?.format('yyyy-MM-dd')}</span></td>
+          <td>还款方式：<span class="xf_ht_lv">${billDetail?.repayment_type}</span></td>
+        </tr>
+        </table>
+      </div>
+      <div class="xf_ht_zd_conlist">
+        <h3>借款标详细情况：</h3>
+        <div class="xf_ht_zd_conlist2">
+        <table width="100%" class="xf_ht_zd_table2" cellspacing="0" cellpadding="0" border="0">
+          <tr>
+          <th colspan="3">
+            ${billDetail?.bid_title}
+          </th>
+          </tr>
+          <tr>
+          <td colspan="3">
+                                         借款总额：${billDetail?.loan_amount?.format("###,##0.00")}元
+          </td>
+          </tr>
+          <tr>
+          <td>借款本息合计：${billDetail?.loan_principal_interest?.format("###,##0.00")}元</td>
+          <td>借款期数：${billDetail?.loan_periods}期</td>
+          <td>年利率：${billDetail?.apr}%</td>
+          </tr>
+          <tr>
+          <td>本期还款：${billDetail?.current_pay_amount?.format("###,##0.00")}元</td>
+          <td>已还期数：${billDetail?.has_payed_periods}期</td>
+          <td>剩余期限：${billDetail?.loan_periods - billDetail?.has_payed_periods}期</td>
+          </tr>
+        </table>
+        </div>
+      </div>
+      <div class="xf_ht_zd_conlist xf_ht_zd_conlist3">
+        <h3>历史还款情况</h3>
+        #{table class:"xf_ht_zd_table3", cellspacing:"0", cellpadding:"0", border:"0", width:"100%"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}账单标题#{/th}
+          #{th}本期需还款金额#{/th}
+          #{th}是否逾期#{/th}
+          #{th}状态#{/th}
+          #{th}到期还款时间#{/th}
+          #{th}实际还款时间#{/th}
+        #{/tr}
+        #{if page.page.size() != 0}
+        #{list items:page.page, as:'bill'}
+        #{tr tr_index:_index}
+          #{td}${bill_index}#{/td}
+          #{td}${bill?.title}#{/td}
+          #{td}￥${bill?.current_pay_amount?.format("###,##0.00")}#{/td}
+          #{td}
+          #{if bill.overdue_mark == 0}
+                                        未逾期
+          #{/if}
+          #{else}
+                                        逾期
+          #{/else}         
+          #{/td}
+          #{td}
+          #{if bill.status == -1 || bill.status == -2 }
+                                       未还款
+          #{/if}
+          #{else}
+                                       已还款
+          #{/else}
+          #{/td}
+          #{td}${bill?.repayment_time?.format('yyyy-MM-dd')}#{/td}
+          #{td}#{if bill?.status == 0 || bill?.status == -3}${bill?.real_repayment_time?.format('yyyy-MM-dd')}#{/if}#{/td}
+        #{/tr}
+        #{/list}
+        #{/if}
+        #{/table}
+      </div>
+      <div class="xf_ht_shmx_button xf_ht_ssjt">
+        #{form @billDetail(), id:'loanBill'}
+        <input type="hidden" id="billId" name="billId" value="${billDetail?.sign}" />
+        <input type="hidden" name="currPage" id="currPage" />
+        #{/form}
+        #{page pageTitle:"借款账单还款情况", currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4 }#{/page}
+      </div>
+      <div class="xf_ht_hkjox_bootm">
+        <div class="xf_ht_hkjox_bootm_l">账单编号：${backSet?.loanBillNumber}${billDetail?.bid_id}</div>
+        <div class="xf_ht_hkjox_bootm_r">客服专线：${backSet?.platformTelephone}<br>
+        ${backSet.platformName}平台：${backSet?.companyEmail}<br>
+                                 借款账单生成日期：${billDetail?.produce_bill_time?.format('yyyy-MM-dd HH:mm:ss')}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">  
+	 
+     function showPage(currPage, pageSize){
+         $("#currPage").val(currPage);
+         $("#loanBill").submit();
+    }
+</script>

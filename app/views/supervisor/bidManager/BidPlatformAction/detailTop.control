@@ -1,0 +1,303 @@
+<!-- 详情上 -->
+<div class="xf_ht_dfk_view">
+  <div class="xf_ht_dfk_view_l">
+    <div class="xf_sh_title_warp">
+      <h3 class="xf_sh_title">${bid?.title}</h3>
+      <div class="xf_sh_order">编号：${bid?.no}</div>
+    </div>
+    <div class="xf_sh_jkje_warp">
+      <ul>
+        <li>
+          <div class="xf_sh_jkje_je">
+            <span class="xf_sh_jkje4">￥</span>
+            <span class="xf_sh_jkje_pirce">${bid?.hasInvestedAmount?.format("###,##0.00")}</span>
+            <span class="xf_sh_jkje4">元</span>
+          </div>
+          <div class="xf_sh_con1">已投金额</div>
+        </li>
+        <li>
+          <div class="xf_sh_jkje_je">
+            <span class="xf_sh_jkje4">￥</span>
+            <span class="xf_sh_jkje_pirce">${bid?.amount?.format("###,##0.00")}</span>
+            <span class="xf_sh_jkje4">元</span>
+          </div>
+          <div class="xf_sh_con2">借款总额</div>
+        </li>
+        <li>
+          <div class="xf_sh_jkje_je">
+            <span class="xf_sh_jkje_pirce">${bid?.apr}%</span>
+          </div>
+          <div class="xf_sh_con3">年利率</div>
+        </li>
+      </ul>
+    </div>
+    <div class="xf_sh_table_viewmx">
+      <div class="xf_sh_table_viewmx_l">
+        #{table width:"100%", border:"0", cellspacing:"0", cellpadding:"0", class:"xf_sh_jd_l"}
+          #{tr}
+            #{td width:"100", align:"right"}审核进度：#{/td}
+            #{td}
+              <div class="xf_jd_ds">
+                <div class="xf_jd_sj" id="showAuditScheduleTop"></div>
+              </div>
+            #{/td}
+          #{/tr}
+          #{tr}
+            #{td align:"right"}产品类型：#{/td}
+            #{td}
+              #{img src:"${bid?.product?.smallImageFilename}",alt:"",width:"20",height:"20"}#{/img}
+              #{if bid?.isAgency}
+			  	机构：[${bid?.agency?.name}]
+			  #{/if}
+            #{/td}
+          #{/tr}
+          #{tr}
+            #{td align:"right"}借款期限：#{/td}
+            #{td}${bid?.period}[${bid?.strPeriodUnit}]#{/td}
+          #{/tr}
+          #{tr}
+            #{td align:"right"}还款方式：#{/td}
+            #{td}${bid?.repayment?.name}#{/td}
+          #{/tr}
+          
+          #{tr}
+            #{td align:"right"}是否加息：#{/td}
+            #{td}
+            	#{if bid?.isIncreaseRate}
+					是
+				#{/if}
+				#{if !bid?.isIncreaseRate}
+					否
+				#{/if}
+            #{/td}
+          #{/tr}
+          #{if bid?.isIncreaseRate}
+	          #{tr}
+	            #{td align:"right"}加息年化利率：#{/td}
+	            #{td}${bid?.increaseRate}#{/td}
+	          #{/tr}
+	          #{tr}
+	            #{td align:"right"}加息名称：#{/td}
+	            #{td}${bid?.increaseRateName}#{/td}
+	          #{/tr}
+          #{/if}
+        #{/table}
+      </div>
+      <div class="xf_sh_table_viewmx_r">
+        #{table width:"100%", border:"0", cellspacing:"0", cellpadding:"0", class:"xf_sh_jd_l"}
+          #{tr}
+            #{td width:"70", align:"right"}借款进度：#{/td}
+            #{td}
+              <div class="xf_jd_ds">
+                <div class="xf_jd_sj" style="width:${bid?.loanSchedule}px">${bid?.loanSchedule?.format("###0.0")}%</div>
+              </div>
+            #{/td}
+          #{/tr}
+          #{tr}
+            #{td align:"right"}投标人数：#{/td}
+            #{td}<span class="xf_sh_hspan">${bid?.investCount}</span>#{/td}
+          #{/tr}
+          #{tr}
+            #{td align:"right"}浏览量：#{/td}
+            #{td}<span class="xf_sh_hspan">${bid?.readCount}次</span>#{/td}
+          #{/tr}
+          #{tr}
+            #{td align:"right"}还需金额：#{/td}
+            #{td}<span class="xf_sh_jkje4">￥</span>${(bid?.amount - bid?.hasInvestedAmount)?.format('###,##0.00')}元#{/td}
+          #{/tr}
+        #{/table}
+      </div>
+    </div>
+  </div>
+  <div class="xf_ht_dfk_view_r">
+    <div class="xf_ht_mem_img">
+     #{img src:"${bid?.user?.photo}",alt:"",title:"会员头像"}#{/img}
+    </div>
+    <div class="xf_ht_mem_input clr">
+      <input class="xf_ht_mem_input_button" type="button" value="发送站内信" 
+       style="width: 180px;" onClick="showSendMessages();">
+    </div>
+    <div class="xf_ht_mem_jsxs">
+       #{table width:"100%", border:"0", cellspacing:"0", cellpadding:"0", class:"xf_sh_jd_l2"}
+         #{tr}
+           #{td width:"70", align:"left"}会员名称：#{/td}
+           #{td}${bid?.user?.name}#{/td}
+         #{/tr}
+         #{tr}
+           #{td align:"left"}信用等级：#{/td}
+           #{td}#{img src:"${bid?.user?.myCredit?.imageFilename}",alt:"",width:"25",height:"25"}#{/img}#{/td}
+         #{/tr}
+         #{tr}
+           #{td align:"left"}信用积分：#{/td}
+           #{td}${bid?.user?.creditScore}#{/td}
+         #{/tr}
+         #{tr}
+           #{td align:"left"}信贷记录：#{/td}
+           #{td}成功：${bid?.user?.successLoanCount} 流标：${bid?.user?.flowBids}#{/td}
+         #{/tr}
+         #{tr}
+           #{td align:"left"}还款记录：#{/td}
+           #{td}正常：${bid?.user?.normalRepaymentCount} 逾期：${bid?.user?.overdueRepaymentCount}#{/td}
+         #{/tr}
+       #{/table}
+    </div>
+  </div>
+</div>
+<!-- 详情中 -->
+<div class="xf_con_mem_r_content" id="xf_wyjkview_xxk">
+  <ul class="xf_con_mem_r_tentul clr">
+    <li class="xf_con_wyjk_r_liishot">借款详情</li>
+    <li>借款人详情</li>
+    <li onclick="historyDetail('${bid?.user?.time}');">历史交易详情</li>
+    <li id="bidRecord">投标记录</li>
+ <!--   <li id="bidQuestion">提问记录</li>
+    <li id="reportRecord">举报记录</li>-->
+  </ul>
+  <div class="xf_ht_Tab xf_ht_Tab_border">
+    #{include '/supervisor/bidManager/BidPlatformAction/basicDetail.control'/}
+  </div>
+  <div class="xf_ht_Tab xf_ht_Tab_border">
+    #{include '/supervisor/bidManager/BidPlatformAction/userDetail.control'/}
+  </div>
+  <div class="xf_ht_Tab xf_ht_Tab_border" id="showHistoryDetail"></div>
+  <div class="xf_ht_Tab xf_ht_Tab_border" id="showBidRecord"></div>
+  <div class="xf_ht_Tab xf_ht_Tab_border" id="showBidQuestion"></div>
+  <div class="xf_ht_Tab xf_ht_Tab_border" id="showReportRecord"></div>
+</div>
+<!-- 详情下 -->
+<!-- 用户资料 -->
+<div class="xf_con_mem_r_bottom" id="showUserItemsList"></div>
+<!-- 还款详情 -->
+<div class="xf_con_mem_r_bottom" id="showRepaymentSituation"></div>
+<!-- 发送站内信 -->
+#{include '/supervisor/bidManager/BidPlatformAction/sendMessages.control'/}
+<script type="text/javascript">
+   /* 提问记录 */
+  function bidQuestion(currPage){
+  	var listAction = #{jsAction @supervisor.bidManager.BidPlatformAction.bidQuestion(':currPage',':bidId') /};
+	$.post(listAction({currPage:currPage,bidId:${bid?.id}}), function(data) {
+		$("#showBidQuestion").html(data);
+	});
+  }
+
+  	/* 投标记录 */	
+	function bidRecord(currPage){
+		var listAction = #{jsAction @supervisor.bidManager.BidPlatformAction.bidRecord(':currPage',':bidId') /};
+		$.post(listAction({currPage:currPage,bidId:${bid?.id}}), function(data) {
+			$("#showBidRecord").html(data);
+		});
+	}
+	
+	/* 历史记录 */
+	function historyDetail(time){
+		var listAction = #{jsAction @supervisor.bidManager.BidPlatformAction.historyDetail(':time',':signUserId') /};
+		$.post(listAction({time:time, signUserId:'${bid?.signUserId}'}), function(data) {
+			$("#showHistoryDetail").html(data);
+		});
+	}
+	
+	/* 举报记录 */
+	function reportRecord(currPage){
+		var listAction = #{jsAction @supervisor.bidManager.BidPlatformAction.reportRecord(':currPage',':signUserId') /};
+		$.post(listAction({currPage:currPage, signUserId:'${bid?.signUserId}'}), function(data) {
+			$("#showReportRecord").html(data);
+		});
+	}
+	
+	/* 资料列表 */
+	function userItemsList() {
+		var listAction = #{jsAction @supervisor.bidManager.BidPlatformAction.userItemsList(':signUserId',':productId',':status',':mark') /};
+		$.post(listAction({signUserId:'${bid?.signUserId}', productId:${bid?.productId}, status:${bid?.status}, mark:'${bid?.mark}'}), function(data) {
+			$("#showUserItemsList").html(data);
+		});
+	}
+	
+	/* 还款情况 */
+	function repaymentSituation(currPage) {
+		var listAction = #{jsAction @supervisor.bidManager.BidPlatformAction.repaymentSituation(':currPage',':bidId') /};
+		$.post(listAction({currPage:currPage,bidId:${bid?.id}}), function(data) {
+			$("#showRepaymentSituation").html(data);
+		});		
+	}
+	
+  $(function(){
+  	var scale = '${bid?.userItemPassScale?.format("###0.0")}';
+  	
+  	/* 审核进度条显示 */
+	$("#showAuditScheduleTop").width(scale * 1).html(scale + "%");
+	$("#showAuditScheduleDown").width(scale * 1).html(scale + "%");
+  
+    /* 资料列表 */
+	//userItemsList();
+
+	#{if bid?.status > 3}
+		repaymentSituation(1);
+	#{/if}
+	
+	/* 提问记录 */
+	$("#bidQuestion").click(function(){bidQuestion(1);});  
+    
+    /* 投标记录 */
+    $("#bidRecord").click(function(){bidRecord(1);});  
+    
+    /* 举报记录 */
+    $("#reportRecord").click(function(){reportRecord(1);});  
+
+    /* 对应状态值显示倒计时  */
+   // var pageTimer = $("#pageTimer");
+   // switch(${bid?.status}){
+   // 	case 0: pageTimer.html("未开始"); break;
+   // 	case 1: case 2: if(${bid?.loanSchedule == 100}) pageTimer.html("已结束"); else showTime(); break;
+   // 	default: pageTimer.html("已结束"); break;
+   // }
+ });
+
+ /* 发送站内信 */
+ function showSendMessages(){
+    $("#showSendMessages").show();
+    //清空标题和内容
+	$("#title").val("");
+	$("#content").val("");
+	$("#remainingCharNum").html(1000);
+	
+ 	$.layer({
+	  type: 1,
+	  area: ['608', 'auto'],
+	  title: '发送站内信',
+	  page: {dom : '#showSendMessages'}
+	});
+ }
+
+ /*function showTime(){
+	 var endTime ="${bid?.investExpireTime?.format('yyyy-MM-dd HH:mm:ss')}".replace(/-/g,"/");
+	 dateEnd = new Date(endTime);
+	 var endTime = dateEnd.getTime();
+	 var now = new Date().getTime();
+	 var SysSecond = endTime-now;
+	   
+	 if(SysSecond > 0){
+	 	 int_day=Math.floor(SysSecond/86400000);
+         SysSecond-=int_day*86400000;
+         int_hour=Math.floor(SysSecond/3600000);
+         SysSecond-=int_hour*3600000;
+         int_minute=Math.floor(SysSecond/60000);
+         SysSecond-=int_minute*60000;
+         int_second=Math.floor(SysSecond/1000);
+
+       if(int_hour<10)
+	       int_hour="0"+int_hour;
+
+       if(int_minute<10)
+       	   int_minute="0"+int_minute;
+
+       if(int_second<10)
+           int_second="0"+int_second;
+
+       $("#pageTimer").html(int_day+'天'+int_hour+'小时'+int_minute+'分'+int_second+'秒');
+	 }else{
+        $("#pageTimer").html('已结束!');
+	 }
+	 
+	setTimeout('showTime()',1000);  
+ }*/
+</script>

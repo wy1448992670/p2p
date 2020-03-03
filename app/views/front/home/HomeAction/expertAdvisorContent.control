@@ -1,0 +1,75 @@
+			<!-- 右侧内容区域 -->
+				<div class="xf_about_box">
+					<div class="xf_about_gltd">
+						<ul class="xf_about_gltdul">
+						  	<li>
+						  		<div class="xf_about_gltd_l">
+						  			<img src="images/userImg.png" alt="">
+						  		</div>
+						  		<div class="xf_about_gltd_r">
+						  			<h2 class="xf_about_gltd_rh2">陈信宏</h2>
+						  			<div class="xf_about_gltd_rcon">
+						  				毕业于北京大学经济学院，经济学硕士。毕业后就职于国内最大的证券公司中信证券，从事机构销售业务，在证券、基金、信贷等金融领域有丰富的经验。
+						  				    　2011年与合伙人共同创立晓风安全网贷系统6，希望通过这一创新模式弥补个人金融需求，发展个人信用体系，为中国民间金融阳光化发展贡献应有之力。
+						  			</div>
+						  		</div>
+						  	</li>
+						  	<li>
+						  		<div class="xf_about_gltd_l">
+						  			<img src="images/userImg.png" alt="">
+						  		</div>
+						  		<div class="xf_about_gltd_r">
+						  			<h2 class="xf_about_gltd_rh2">陈信宏</h2>
+						  			<div class="xf_about_gltd_rcon">
+						  				毕业于北京大学经济学院，经济学硕士。毕业后就职于国内最大的证券公司中信证券，从事机构销售业务，在证券、基金、信贷等金融领域有丰富的经验。
+						  				    　2011年与合伙人共同创立晓风安全网贷系统6，希望通过这一创新模式弥补个人金融需求，发展个人信用体系，为中国民间金融阳光化发展贡献应有之力。
+						  			</div>
+						  		</div>
+						  	</li>
+						  	<li>
+						  		<div class="xf_about_gltd_l">
+						  			<img src="images/userImg.png" alt="">
+						  		</div>
+						  		<div class="xf_about_gltd_r">
+						  			<h2 class="xf_about_gltd_rh2">陈信宏</h2>
+						  			<div class="xf_about_gltd_rcon">
+						  				毕业于北京大学经济学院，经济学硕士。毕业后就职于国内最大的证券公司中信证券，从事机构销售业务，在证券、基金、信贷等金融领域有丰富的经验。
+						  				    　2011年与合伙人共同创立晓风安全网贷系统6，希望通过这一创新模式弥补个人金融需求，发展个人信用体系，为中国民间金融阳光化发展贡献应有之力。
+						  			</div>
+						  		</div>
+						  	</li>
+						  	<li>
+						  		<div class="xf_about_gltd_l">
+						  			<img src="images/userImg.png" alt="">
+						  		</div>
+						  		<div class="xf_about_gltd_r">
+						  			<h2 class="xf_about_gltd_rh2">陈信宏</h2>
+						  			<div class="xf_about_gltd_rcon">
+						  				毕业于北京大学经济学院，经济学硕士。毕业后就职于国内最大的证券公司中信证券，从事机构销售业务，在证券、基金、信贷等金融领域有丰富的经验。
+						  				    　2011年与合伙人共同创立晓风安全网贷系统6，希望通过这一创新模式弥补个人金融需求，发展个人信用体系，为中国民间金融阳光化发展贡献应有之力。
+						  			</div>
+						  		</div>
+						  	</li>
+						  	<li>
+						  		<div class="xf_about_gltd_l">
+						  			<img src="images/userImg.png" alt="">
+						  		</div>
+						  		<div class="xf_about_gltd_r">
+						  			<h2 class="xf_about_gltd_rh2">陈信宏</h2>
+						  			<div class="xf_about_gltd_rcon">
+						  				毕业于北京大学经济学院，经济学硕士。毕业后就职于国内最大的证券公司中信证券，从事机构销售业务，在证券、基金、信贷等金融领域有丰富的经验。
+						  				    　2011年与合伙人共同创立晓风安全网贷系统6，希望通过这一创新模式弥补个人金融需求，发展个人信用体系，为中国民间金融阳光化发展贡献应有之力。
+						  			</div>
+						  		</div>
+						  	</li>
+						</ul>
+					</div>
+				</div>
+				<!-- 清除浮动 -->
+				<div class="clear"></div>
+				
+		  <script>
+				$(function(){
+						$("#expertAdvisor").addClass("xf_con_wyjk_leftliisshow");
+				})
+			</script>	

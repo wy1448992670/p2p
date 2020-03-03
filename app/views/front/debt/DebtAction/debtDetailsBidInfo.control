@@ -1,0 +1,36 @@
+					<div class="xf_wylc_memmer_c left" style="height:auto;padding-bottom:2000px;margin-bottom:-2000px;">
+						<table border="0" cellpadding="0" cellspacing="0" width="440" class="xf_wylc_l_viewxx">
+							<tbody>
+								<tr>
+									<td align="left" valign="middle" colspan="2">
+										<span class="xf_wylc_viewTitle">${debt?.title}</span>
+										<span class="xf_zqzr_viewpore">编号：${debt?.no} </span>
+									</td>
+								</tr>
+								<tr class="xf_zqzr_view_tdzr">
+									<td align="left" valign="top" width="78">转让说明：</td>
+								  	<td style="word-break: break-all;">${debt?.transerReason}</td>
+								</tr> 
+								<tr>
+									<td align="left" valign="middle" colspan="2" class="xf_zqzr_view_td">
+										借款金额：  ${debt?.invest?.bid?.amount?.format("###,##0.00")}元<br />
+										投标本金： ${debt?.invest?.amount?.format("###,##0.00")}元<br />
+										年利率：  ${debt?.invest?.bid?.apr}%<br />
+										本息合计应收金额： ${debt?.map?.receive_money}元<br /> 
+										已收金额：  ${debt?.map?.has_receive_money}元<br />
+										剩余应收金额：   ${debt?.map?.remain_receive_money} 元<br />
+										待收本金：   ${debt?.map?.receive_corpus}元<br />
+										逾期情况：  
+										#{if debt?.invest?.bid?.hasOverdue == true}
+										
+										有逾期<br />
+										#{/if}
+										#{else}
+										无逾期<br />
+										#{/else}
+										还款日期： ${debt?.map?.receive_time != "" ? debt?.map?.receive_time: '已还款'}<br />
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>

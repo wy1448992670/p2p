@@ -1,0 +1,252 @@
+.titleBorder{border-left:1px solid #DDDDDD;border-right:1px solid #DDDDDD;padding:14px 20px}
+.LookImg{
+	cursor:pointer;
+}
+.remove {
+		-webkit-transform: translateY(-800%) !important;
+		-moz-transform: translateY(-800%) !important;
+		-ms-transform: translateY(-800%) !important;
+		transform: translateY(-800%) !important;
+		transition: all .8s ease-in-out;
+	}
+#tmp{
+	 display:none;
+	}
+
+.lay{
+	width: 100%;
+    height: 100%;
+    display: none;
+    background-color: #000;
+    position: absolute;
+    z-index: 400;
+    left: 0;
+    top: 0;
+    opacity: 0.6;
+}
+#what{
+	display:none;
+}
+.what{
+	 position:absolute;
+	 top:10px;
+	 left:10px;
+	 font-size:12px;
+	 color:#666666;
+	 line-height: 20px;
+ }
+.activity{
+	padding:3px 5px;color:#F92A49;border-radius:3px;font-size:12px;border:1px solid #F92A49;
+}
+.fs30{
+	font-size:30px;
+}
+.ColorPink{
+	color:#FF384F;
+}
+.pop {
+    width: 61.33%;
+    height: 660px;
+    border-radius: 10px;
+    display: none;
+    position: fixed;
+    z-index: 450;
+    left: 0;
+    top: 50px!important;
+    background: white;
+}
+
+.close_all {
+    width: 61.3%;
+    height: 0;
+    text-align: center;
+    z-index: 9999;
+    position: fixed;
+     background: #000;
+     opacity: 0.6;
+    top: 50px;
+    display: none;
+}
+.close_all img {
+    cursor: pointer;
+    float: right;
+}
+.con_tit {
+    width: 100%;
+    font-weight: bold;
+    text-align: center;
+    font-size: 28px;
+    margin-top: 60px;
+    margin-bottom: 50px;
+}
+.con_text {
+    width: 80%;
+    height: 460px;
+    overflow: auto;
+    margin: 0 auto;
+    /*font-size: 26px;*/
+}
+input[type="checkbox"]{
+	-webkit-appearance: none;
+	background: #fff;
+	height: 16px;
+	vertical-align: middle;
+	width: 16px;
+	border-radius: 50%;
+	outline: none;
+	border: 1px solid #CCCCCC;
+	margin: 0 8px 0 0;
+
+}
+input[type="checkbox"]:checked{
+	background: url(/public/images/reg20171208/dui.png)no-repeat;
+	background-size: cover;
+	border: none;
+
+}
+/*进度条*/
+.progress-bar:after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    box-shadow: 0 5px 5px rgba(0,0,0,0.6);
+    background: #fff;
+    position: absolute;
+    right: -5px;
+    top: -8px;
+}
+.progress-bar:after{ border: 5px solid #FF384F }
+@-webkit-keyframes animate-positive{
+	0% { width: 0; }
+}
+@keyframes animate-positive{
+	0% { width: 0; }
+}
+.projectProgress{
+		-webkit-animation: animate-positive 2s;
+		animation: animate-positive 2s;
+}
+/**/
+ div.ulOuter>ul>li{
+		float:left;
+		list-style:none;
+		width:50%;
+		padding:5px 0;
+		box-sizing:border-box;
+	}
+
+	div.ulOuter>ul>li>div:nth-child(1){
+		width:70px;
+		display: table-cell;
+		color:#999999;
+	}
+	div.ulOuter>ul>li>div:nth-child(2){
+		display: table-cell;
+	}
+	/*借款人信息标题*/
+    .investDetailTitle{
+    	border-left: 4px solid #FF384F;
+    	padding-left: 11px;
+    	font-size:16px;
+    	color:#333333;
+    	margin:42px 0 28px;
+    	font-weight:400;
+    }
+    .p_xq_b1r02{
+    	width:280px;
+    	}
+     .c6{
+    	color:#666666;
+    }
+    .c9{
+    	color:#999999;
+    }
+    .p_xq_b1rina{
+    	width:280px;
+    	padding:0;
+    }
+    .p_xq_b1right{
+    	padding: 41px 45px;
+	    width: 365px;
+	    box-sizing: border-box;
+    }
+    .p_xq_xxkul>li.on span {
+	    color: #EA544A;
+	    border-bottom: 2px solid;
+	    padding-bottom:21px;
+	}
+	.p_xq_xxkul>li.on {
+	    color: #EA544A;
+	    background-color:white;
+	}
+	.p_xq_xxkul>li{
+		border:0;
+		 background-color:white;
+		 font-weight:bold;
+		 font-size:16px;
+	}
+	.p_xq_xxkbox{
+		margin:31px 0 0;
+		height:60px;
+		line-height:60px;
+		background:white;
+		padding-top:15px;
+	}
+	.p_xq_xxkbox>ul{
+		border-bottom:1px solid #E0E0E0;
+		padding-bottom:17px;
+		padding-left:17px;
+	}
+	.p_bd_tbox01{
+		padding-left:30px;
+	}
+	.content{
+		margin-right:70px;
+		color:#333333;
+	}
+	ul.docImg li{
+		margin-top: 10px;
+		float:left;
+		width:20%;
+		padding-right:32px;
+		box-sizing:border-box;
+		height:230px;
+	}
+	ul.docImg li div{
+		display:table-cell;
+		height:230px;
+		vertical-align:middle;
+		background:#f0f0f0;
+		text-align:center;
+		width:inherit;
+	}
+	ul.docImg li div img{
+		display:table-cell;
+		vertical-align:middle;
+		background:#f0f0f0;
+		max-width: 160px;
+		max-height:230px;
+		margin:auto;
+	}
+	ul.docImg{
+		display:table-cell;
+		width: 970px;
+	}
+	fs12{
+		font-size:12px;
+	}
+	.basic tr :nth-child(odd){
+		color:#999999;
+	}
+	.p_xq_bianh{
+		font-size:14px;
+		margin-left:19px;
+	}
+	input[type="checkbox"]{
+		width:14px;
+		height:14px;
+	}
+	input[type="checkbox"]:checked {
+    	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAABkElEQVQ4T5WSPWgUURRGzzdkSQIaTaXpLDSNiMJiZuwEIWncmZgUItrY2YjYKGiviKCIhaVNQmyybmYrhUA6ZyML/hAQsRerhCgkspv5ZDdms5go5hWPB++d+z7uPaJruTg2RE/vdaTz4GObV/qCXaX586nqr75uPdfWwWFpEukZZhqCKfpXlmgMFGgGw8iXwVeAa8rScrtca3OUXMQ8JFest5V33Sk6hU+PnyJwCr6lWvpC7XiF3vdI5/Rm7qNHLgwTbNwHjW5Cfk3Dd1WvfvKZ5AT2PI2ek3IY3wP6VUtv/oYy0OAfvy6TB5EWX352GD8G1uQo+YB1VbVK3WE8izSxW1TssmrppMPxIvJzOYrX6Fsd1MLCuqPkO7BvVxB+KJvb7yNn+zg8sLwH0KvK0gNdYFfUKJ6Fv0RFZWWVrqh7bU6UPMJal4sTQxSaO8dhxpA2gHka+Z0d42hPaqR0CQUP/ksA57e1WJ3ZVq4FB3oCmsKa5tvKUru7hw4e7yiX+0YL6ijX0Wpb8hL46L8k/wVgMdYHS4iF4QAAAABJRU5ErkJggg==)no-repeat;
+	}

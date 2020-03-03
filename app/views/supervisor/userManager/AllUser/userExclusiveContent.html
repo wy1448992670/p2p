@@ -1,0 +1,58 @@
+#{if user?.user_type == 1}
+<table width="100%" cellspacing="0" cellpadding="0" border="0" class="xf_member_jbox">
+  <tr>
+    <td valign="middle" align="center">
+      <span class="xf_td_title">性别：</span>
+      <select id="sex" class="f_field" style="width:157px;" disabled>   
+	    <option value="0">请选择</option> 	
+	    <option value="1" #{if user?.sex == '男'}selected#{/if}>男</option> 
+	    <option value="2" #{if user?.sex == '女'}selected#{/if}>女</option>
+	  </select>
+    </td>
+    <td valign="middle" align="center">
+	  <span class="xf_td_title">年龄：</span>
+	  <input type="text" id="age" min="0" value="${user?.age}" disabled style="width:90px;"/>岁
+	</td>
+  </tr>
+  <tr>
+    <td valign="middle" align="center">
+      <span class="xf_td_title">文化水平：</span>
+      <select id="education" class="f_field" style="width:157px;" disabled>
+       	  	<option value=''>请选择</option>
+            #{list items:educations,as:'item'}
+            <option value="${item?.id}" #{if user?.educationId == item?.id}selected#{/if}>${item?.name}</option>
+            #{/list}
+       </select>
+    </td>
+    <td valign="middle" align="center">
+     <span class="xf_td_title">购车情况：</span>
+     <select id="car" class="f_field" style="width:157px;" disabled>
+       	  	<option value=''>请选择</option>
+            #{list items:cars,as:'item'}
+            <option value="${item?.id}" #{if user?.carId == item?.id}selected#{/if}>${item?.name}</option>
+            #{/list}
+       </select>
+    </td>
+  </tr>
+  <tr>
+    <td valign="middle" align="center">
+      <span class="xf_td_title">购房状况：</span>
+       <select id="house" class="f_field" style="width:157px;" disabled>
+       	  	<option value=''>请选择</option>
+            #{list items:houses,as:'item'}
+            <option value="${item?.id}" #{if user?.houseId == item?.id}selected#{/if}>${item?.name}</option>
+            #{/list}
+       </select>
+    </td>
+    <td valign="middle" align="center">
+      <span class="xf_td_title">婚姻状况：</span>
+       <select id="marital" class="f_field" style="width:157px;" disabled>
+       	  	<option value=''>请选择</option>
+            #{list items:maritals,as:'item'}
+            <option value="${item?.id}" #{if user?.maritalId == item?.id}selected#{/if}>${item?.name}</option>
+            #{/list}
+       </select>
+    </td>
+  </tr>
+</table>
+#{/if}

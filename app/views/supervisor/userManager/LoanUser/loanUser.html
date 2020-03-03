@@ -1,0 +1,137 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'借款会员列表' /}
+
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist"> 
+    #{include 'supervisor/userManager/userLeft.control'/}
+    <!--右-->
+    #{include 'supervisor/userManager/LoanUser/loanUserContent.control'/} 
+  </div>
+</div>
+<!--弹出层-->
+<div class="xn_c_ban_jox xn_c_ban_jox_hyxq" id="xf_ht_fkzh_ttc" style="display: none;"></div>
+#{include 'supervisor/userManager/commonPage/allUserEmail.control'/}
+#{include 'supervisor/userManager/commonPage/allUserResetPassword.control'/}
+#{include 'supervisor/userManager/commonPage/allUserSendMsg.control'/}
+#{include 'supervisor/userManager/commonPage/allUserStationLetter.control'/}
+
+<script type="text/javascript">
+/* 高亮显示 */
+(10, 2, 'lab_usr_', null);
+  
+var g_users_type = "loan_users";
+    
+$("#close1").click(function(){
+  $("#xf_ht_fkzh_ttc").hide();
+});
+   
+function details(userId){
+  $.ajax({ 
+    url : "@{supervisor.userManager.AllUser.detail()}",
+    type : "POST",
+    data : {
+      "sign" : userId
+    },
+    success : function(data) {
+      if (data.code < 0) {
+        alert(data.msg);
+
+        return;
+      }
+        
+      $("#xf_ht_fkzh_ttc").html(data);
+      $.layer({
+        type: 1,
+        area: ['700px', '800px'],
+        title: '会员详情',
+        page: {dom : '#xf_ht_fkzh_ttc'}
+      });
+    },
+    error : function() {
+      alert("对不起，出现错误!");
+    }
+  });
+}
+  
+function station(name,id){
+  $("#userId").val(id);
+  $("#sendName").html(name);
+  
+  $.layer({
+    type: 1,
+    area: ['680px', 'auto'],
+    title: '发站内信',
+    page: {dom : '#xf_ht_memznx_ttc'}
+  });
+} 
+    
+$("#close2").click(function(){
+  $("#xf_ht_memznx_ttc").hide();
+});     
+   
+function email(email){
+  $("#emailto").html(email);
+  $("#transEmail").val(email);
+  showDiv($("#xf_ht_mememail_ttc"));
+  $("#hiddenshow").show(); 
+} 
+    
+$("#close3").click(function(){
+  $("#xf_ht_mememail_ttc").hide();
+});    
+   
+function resetPassword(name,email){
+  $("#nameForReset").val(name);
+  $("#emailForReset").val(email);
+  $("#email_name").html(name);
+        
+  $("#xf_ht_mememail_ttc").hide();
+  $.layer({
+    type: 1,
+    area: ['680px', 'auto'],
+    title: '重置密码',
+    page: {dom : '#xf_ht_memczmm_ttc'}
+  });
+} 
+    
+$("#close4").click(function(){
+  $("#xf_ht_memczmm_ttc").hide();
+});  
+   
+function sendMsg(mobile,name){
+  $("#msgForName").html(name);
+
+  if(mobile == ''){
+	  $("#telephone").val("用户未填写号码");
+  }else{
+	  $("#telephone").val(mobile);
+  }
+        
+  $.layer({
+    type: 1,
+    area: ['680px', 'auto'],
+    title: '发短信',
+    page: {dom : '#xf_ht_memfdx_ttc'}
+  });
+} 
+    
+$("#close5").click(function(){
+  $("#xf_ht_memfdx_ttc").hide();
+});   
+   
+function locking(id){
+  if(confirm("确定锁定？")){
+    var lockUser = #{jsAction @lockUser(':sign')/}
+    $.post(lockUser({sign:id}),function(data){
+      var arr=eval(data);
+        
+      if(arr.error.code < 0){
+        alert(arr.error.msg);
+        reutrn;
+      }
+      alert(arr.error.msg);
+      location.reload();
+    });
+  }
+}
+</script>

@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- <title>#{get 'title' /}</title> -->
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/jquery.json-2.4.min.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/commonToShowForum.js'}"></script>
+<script type="text/javascript" src="/public/javascripts/TouchSlide.1.1.js"></script>
+<link rel="stylesheet" type="text/css" href="/public/stylesheets/shzt.css" />
+<script type="text/javascript" src="/public/javascripts/wechat/iscroll.js"></script>
+<script type="text/javascript" src="/public/javascripts/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="/public/javascripts/shzt.js"></script>
+
+	
+
+</head>
+
+<body>
+#{doLayout /}
+</body>
+
+<script type="text/javascript">
+
+	var myScroll,
+	pullUpEl, pullUpOffset,
+	generatedCount = 0;
+	
+	var myScroll1,
+	pullUpEl1, pullUpOffset1,
+	generatedCount1 = 0;
+	
+	function loaded() {
+		pullUpEl = document.getElementById('pullUp1');
+		pullUpOffset = pullUpEl.offsetHeight;
+		myScroll = new iScroll('wrapper', {
+		    useTransition: false,
+		    onRefresh: function () {
+		        if (pullUpEl.className.match('loading')) {
+		            pullUpEl.className = '';
+		            pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉加载更多...';
+		        }
+		    },
+		    onScrollMove: function () {
+		        if (this.y < (this.maxScrollY - 5) && !pullUpEl.className.match('flip')) {
+		            pullUpEl.className = 'flip';
+		            pullUpEl.querySelector('.pullUpLabel').innerHTML = '松开加载...';
+		            this.maxScrollY = this.maxScrollY;
+		        } else if (this.y > (this.maxScrollY + 5) && pullUpEl.className.match('flip')) {
+		            pullUpEl.className = '';
+		            pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉加载更多...';
+		            this.maxScrollY = pullUpOffset;
+		        }
+		    },
+		    onScrollEnd: function () {
+		        if (pullUpEl.className.match('flip')) {
+		            pullUpEl.className = 'loading';
+		            pullUpEl.querySelector('.pullUpLabel').innerHTML = '加载中...';
+		            pullUpAction(); // Execute custom function (ajax call?)
+		        }
+		    }
+		});
+		setTimeout(function () { document.getElementById('wrapper').style.left = '0'; }, 800);
+		
+		pullUpEl1 = document.getElementById('pullUp2');
+		pullUpOffset1 = pullUpEl1.offsetHeight;
+		myScroll1 = new iScroll('wrapper01', {
+			
+		    useTransition: false,
+		    onRefresh: function () {
+		    	
+		        if (pullUpEl1.className.match('loading')) {
+		            pullUpEl1.className = '';
+		            pullUpEl1.querySelector('.pullUpLabel2').innerHTML = '上拉加载更多...';
+		        }
+		    },
+		    onScrollMove: function () {
+		    	
+		        if (this.y < (this.maxScrollY - 5) && !pullUpEl.className.match('flip')) {
+		            pullUpEl1.className = 'flip';
+		            pullUpEl1.querySelector('.pullUpLabel2').innerHTML = '松开加载...';
+		            this.maxScrollY = this.maxScrollY;
+		        } else if (this.y > (this.maxScrollY + 5) && pullUpEl.className.match('flip')) {
+		            pullUpEl1.className = '';
+		            pullUpEl1.querySelector('.pullUpLabel2').innerHTML = '上拉加载更多...';
+		            this.maxScrollY = pullUpOffset1;
+		        }
+		    },
+		    onScrollEnd: function () {
+		    	
+		        if (pullUpEl1.className.match('flip')) {
+		            pullUpEl1.className = 'loading';
+		            pullUpEl1.querySelector('.pullUpLabel2').innerHTML = '加载中...';
+		            pullUpAction(); // Execute custom function (ajax call?)
+		        }
+		    }
+		});
+	
+		setTimeout(function () { document.getElementById('wrapper01').style.left = '0'; }, 800);
+		
+		
+	}
+	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+	document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+
+</html>

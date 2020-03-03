@@ -1,0 +1,134 @@
+<!-- 财富理财说明 -->		
+<div class="xf_wylc_wylcExp">
+	<!-- 财富工具箱 -->
+	<div class="xf_con_wylc_cfgjx">
+		<div class="xf_con_wyjk_cfgjx_t">
+			<b>&nbsp;</b>
+			<span>财富工具箱</span>
+		</div>
+		<ul class="xf_wylc_cfgjContent">
+			<li>
+				<a href="#" class="xf_c_idx_9_cfgjxItemsWrap">
+					<div class="xf_c_idx_9_cfgjxImgWrap">	
+					</div>
+					<div class="xf_c_idx_9_cfgjxTitleWrap">
+						利息计算
+					</div>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="xf_c_idx_9_cfgjxItemsWrap">
+					<div class="xf_c_idx_9_cfgjxIp">	
+					</div>
+					<div class="xf_c_idx_9_cfgjxTitleWrap">
+						IP查询
+					</div>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="xf_c_idx_9_cfgjxItemsWrap">
+					<div class="xf_c_idx_9_cfgjxKscz">	
+					</div>
+					<div class="xf_c_idx_9_cfgjxTitleWrap">
+						快速充值
+					</div>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="xf_c_idx_9_cfgjxItemsWrap">
+					<div class="xf_c_idx_9_cfgjxXyjs">	
+					</div>
+					<div class="xf_c_idx_9_cfgjxTitleWrap">
+						信用计算
+					</div>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="xf_c_idx_9_cfgjxItemsWrap">
+					<div class="xf_c_idx_9_cfgjxSfrz">	
+					</div>
+					<div class="xf_c_idx_9_cfgjxTitleWrap">
+						身份认证
+					</div>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="xf_c_idx_9_cfgjxItemsWrap">
+					<div class="xf_c_idx_9_cfgjxSjrz">	
+					</div>
+					<div class="xf_c_idx_9_cfgjxTitleWrap">
+						手机认证
+					</div>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<!-- 信用等级图标说明 -->
+	<div class="xf_con_wylc_cfgjx xf_con_wylc_xydjtb">
+		<div class="xf_con_wyjk_cfgjx_t">
+			<b>&nbsp;</b>
+			<span>信用等级图标说明</span>
+		</div>
+		<ul class="xf_wylc_xydjsm">
+			<li class="xf_wylc_xydjsmlastA">AAA</li>
+			<li class="xf_wylc_xydjsmlastA">AA</li>
+			<li class="xf_wylc_xydjsmlast xf_wylc_xydjsmlastA">A</li>
+			<li class="xf_wylc_xydjsmlastB">BBB</li>
+			<li class="xf_wylc_xydjsmlastB">BB</li>
+			<li class="xf_wylc_xydjsmlast xf_wylc_xydjsmlastB">B</li>
+			<li class="xf_wylc_xydjsmlastC">C</li>
+			<li class="xf_wylc_xydjsmlastHR">HR</li>
+			<li class="xf_wylc_xydjsmlast"></li>
+		</ul>
+	</div>
+	<!-- 借款图标说明 -->
+	<div class="xf_con_wylc_cfgjx">
+		<div class="xf_con_wyjk_cfgjx_t">
+			<b>&nbsp;</b>
+			<span>借款图标说明</span>
+		</div>
+		<ul class="xf_wylc_jktbsm">
+			<li>
+				<a href="#" class="xf_wylc_jktbsm_a">
+					<div class="xf_wylc_jktbsm_fx">信</div>
+					<div class="xf_wylc_jktbsm_text font_onetwo">
+						信用借款标
+					</div>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="xf_wylc_jktbsm_a">
+					<div class="xf_wylc_jktbsm_fx xf_wylc_jktbsm_fj">净</div>
+					<div class="xf_wylc_jktbsm_text font_onetwo">
+						净值借款标
+					</div>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="xf_wylc_jktbsm_a">
+					<div class="xf_wylc_jktbsm_fx xf_wylc_jktbsm_fs">实</div>
+					<div class="xf_wylc_jktbsm_text font_onetwo">
+						实地考察
+					</div>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="xf_wylc_jktbsm_a">
+					<div class="xf_wylc_jktbsm_fx xf_wylc_jktbsm_fb">保</div>
+					<div class="xf_wylc_jktbsm_text font_onetwo">
+						机构但保标
+					</div>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="xf_wylc_jktbsm_a">
+					<div class="xf_wylc_jktbsm_fx xf_wylc_jktbsm_fm">秒</div>
+					<div class="xf_wylc_jktbsm_text font_onetwo">
+						秒还借款标
+					</div>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<div class="clear"></div>
+</div>

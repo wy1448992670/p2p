@@ -1,0 +1,33 @@
+	<div class="foot_cent" style="background: #5452FE;color: white;margin-top:80px;">
+		<ul style="width:1000px;padding: 45px 0 35px;margin:auto;display: table;">
+			<li style="display: table-cell;vertical-align: middle;">
+				<div style="display: table-cell;height: 100%;    vertical-align: sub;">
+					<div>
+					地址：上海市普陀区长寿路28弄4号1703室
+					</div>
+					<div style="margin-top:23px;">
+					   <a href="https://v.pinpaibao.com.cn/cert/site/?site=www.yiyilc.com&at=business">
+						<img style="height: 30px;width: 81px;" src="../../../public/images/newhome/fcc2.png"/>
+					   </a>
+						<a href="http://si.trustutn.org/info?sn=427170103000559853165&certType=4">
+							<img src="../../../public/images/newhome/icon1.jpg" style=" height: 30px; width: 81px; margin-left: 20px;"/>
+						</a>
+						<a href="https://cn.norton.com/">
+							<img style="margin-left:20px;width: 81px;height: 30px;" src="../../../public/images/newhome/fcc1.png"/>
+						</a>
+					</div>
+				</div>	
+			</li>
+			<li style="text-align: right;display: table-cell;">
+				<div class="foot_cents">
+					 <div class="foot_right">
+						<div>客服电话</div>
+						<div>021-6438-0510</div>
+						<p>客服工作时间：9：00-21：00</p>
+						<p>总经理邮箱</p>
+						<p>service@zhongyijr.com</p>
+					 </div>
+				</div>
+			</li>
+		</ul>
+	</div>

@@ -1,0 +1,657 @@
+<head>
+	<link rel="stylesheet" href="/public/paging/jquery.pagination.css" />
+	<script src="/public/paging/jquery.pagination.min.js"></script>
+</head>
+<style>
+	table.commTablePadding tr td{
+		padding:10px 0;
+		color:#3E3833;
+	}
+	table.commTablePaddingSmall tr td{
+		padding:5px 0;
+		color:#3E3833;
+	}
+	.imgMargin{
+		margin:10px 7px;
+	}
+	ul.title li{
+		float: left;
+		width: 130px;
+		text-align: center;
+		font-weight: bold;
+		background: #E4E4E4;
+		margin-right: 5px;
+	}
+	.inputSelectWidth{
+		width:150px;
+		box-sizing: border-box;
+	}
+	.inputSelectWidthSmall{
+		width:130px;
+		box-sizing: border-box;
+	}
+	.textareaWidth{
+		width:330px;
+		height:60px;
+	}
+	.tdPadding tr td{
+		padding:15px 0;
+	}
+	.btnStyle{
+		background-color:#199ED8;
+		border-radius:5px;
+		border:0;
+		color:white;
+		height:40px;
+		width:140px;
+		margin-right:30px;
+		font-size:16px;
+	}
+	.padleft30{
+		padding-left:30px;
+	}
+	.borderBot{
+		border-bottom: 1px dashed  #707070;
+	    padding-left: 30px;
+	    padding-bottom:15px;
+	    margin:15px 0;
+	}
+	.right{
+		float: right;
+	    position: relative;
+	    top: 13px;
+	    right: 10px;
+	    transform:rotateX(180deg);
+	}
+	.xf_htgl_jgtitle{
+		margin:0;
+	}
+	.contextPadding{
+		padding:0 60px 0 20px;
+		margin:20px 0;
+	}
+	.hiddenContext{
+		//display:none;
+	}
+	.Tright{
+		text-align:right;
+		padding-right: 15px;
+	}
+	.pleft10{
+		padding-left:10px;
+	}
+	.tabList{
+		display:none;
+	}
+	.tleft{
+		text-align:left !important;
+	}
+	.tabList:nth-child(2){
+		display:block;
+	}
+	.tabColor:nth-child(1){
+		background:#D7D7D7;
+	}
+</style>
+<div class="xn_c_content" style="background:white">
+    <div style="padding-left:20px;background:#E1E1E1;height:53px;line-height:53px;font-size:19px;">
+  		详情
+    </div>
+			<div class="contextPadding ">
+					<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+						<div>
+							<span>基础信息</span>
+							<span class="right">
+								<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+							</span>
+						</div>
+					</h3>
+					<div class="pleft10 hiddenContext" style="text-align:center;margin-top:35px;">
+					  <table  class="commTablePaddingSmall" width="90%" border="1" style="border:1px solid #B7B7B7;">
+						<tr style="background:#AFDFE4;">
+							<td width="100">姓名</td>
+							<td width="100">手机号</td>
+							<td width="100">身份证号</td>
+							<td width="100">学历</td>
+							<td >婚姻状况</td>
+							<td >工作行业</td>
+							<td>工作城市</td>
+							<td>居住地址</td>
+							<td >月工资</td>
+							<td>公积金汇缴金额</td>
+							<td>是否租房</td>
+							<td>月房租</td>
+						</tr>
+						<tr>
+							<td height="30">${user?.reality_name}</td>
+							<td>${user?.mobile}</td>
+							<td>${user?.id_number}</td>
+							<td>${user?.educations.name}</td>
+							<td>${user?.marital.name}</td>
+							<td>${userInfo?.work_industry_name}</td>
+							<td>${adCity?.name}</td>
+							<td>${user?.address}</td>
+							<td>${userInfo?.salary}</td>
+							<td>${userInfo?.accumulation_fund}</td>
+							<td>${user?.house.name}</td>
+							<td>${userInfo?.rent}</td>
+						</tr>
+					  </table>
+					   <table  class="commTablePaddingSmall"  border="1" style="margin-top:20px;border:1px solid #B7B7B7;">
+						<tr style="background:#AFDFE4;">
+							<td>常用联系人1</td>
+							<td>常用联系人1关系</td>
+							<td>常用联系人1电话</td>
+							<td>常用联系人2</td>
+							<td>常用联系人2关系</td>
+							<td>常用联系人2电话</td>
+							<td>公司全称</td>
+							<td>QQ/微信</td>
+						</tr>
+						<tr>
+							<td height="30" width="100">${userInfo.first_contacts.name}</td>
+							<td width="100">${userInfo.first_contacts_relation_obj.name}</td>
+							<td width="100">${userInfo.first_contacts.phone}</td>
+							<td width="100">${userInfo.second_contacts.name}</td>
+							<td width="100">${userInfo.second_contacts_relation_obj.name}</td>
+							<td width="100">${userInfo.second_contacts.phone}</td>
+							<td width="100">${user.company}</td>
+							<td width="100">${userInfo.QQ}</td>
+						</tr>
+					  </table>
+					</div>
+			</div>
+			
+			<div class="contextPadding ">
+					<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+						<div>
+							<span>项目信息</span>
+							<span class="right">
+								<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+							</span>
+						</div>
+					</h3>
+					<div class="pleft10 hiddenContext" style="text-align:center;margin-top:35px;">
+					   <table  class="commTablePaddingSmall"  border="1" style="border:1px solid #B7B7B7;">
+						<tr style="background:#AFDFE4;">
+							<td>医院名称</td>
+							<td>申请期数</td>
+							<td>申请项目</td>
+							<td>项目金额</td>
+							<td>申请金额</td>
+							<td>还款方式</td>
+						</tr>
+						<tr>
+							<td height="30" width="100">${consociationUserInfo.brand_name}</td>
+							<td width="100">${creditApply.apply_period}</td>
+							<td width="100">
+							#{list items:projectList, as:'project'}
+								#{if project_index!=1}
+								|
+								#{/if}
+								${project.name}
+							#{/list}
+							</td>
+							<td width="100">${creditApply.items_amount}</td>
+							<td width="100">${creditApply.apply_credit_amount}</td>
+							<td width="100">${creditApply.repayment_type.name}</td>
+						</tr>
+					  </table>
+					</div>
+			</div>
+		
+		
+		<div class="contextPadding ">
+					<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+						<div>
+							<span>机审报告</span>
+							<span class="right">
+								<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+							</span>
+						</div>
+					</h3>
+					<div class="pleft10 hiddenContext" style="text-align:center;margin-top:35px;">
+					  <table  class="commTablePaddingSmall" width="60%" border="1">
+						<tr>
+							<td width="200">审核内容</td>
+							<td >数值</td>
+							<td >机审得分</td>
+						</tr>
+						#{list items:scoreList , as:'score'}
+						
+						<tr>
+							<td>${score.risk_manage_type.name}</td>
+							<td>${score.value}</td>
+							<td>${score.score}</td>
+						</tr>
+						#{/list}
+					  </table>
+					  <div style="text-align:left;">
+						  <div style="margin-top:30px;">机审分数：<span>${creditApply?.machine_score}</span>分</div>
+						  <div style="margin-top:15px;">机审额度：<span>${creditApply?.machine_credit_amount}</span></div>
+						  <div style="margin-top:15px;color: red">温馨提示：居住地验证代码：01：0-2公里；02：2-5公里；03：5-10公里；04：10公里以上，但在同一个城市；05：不在同一个城市</div>
+					  </div>
+					</div>
+			</div>
+	<div class="contextPadding">
+	 		<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+	 			<div>
+		 			<span>第三方报告</span>
+					<span class="right">
+						<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+					</span>
+	 			</div>
+	 		</h3>
+			<div class="hiddenContext">
+				<ul class="imgMargin">
+				#{if reportList.size()>0 || t_risk_report != null }
+					%{String file_dict_name="";}%
+					#{list items:reportList , as:'fileRe'}
+						<li style="float:left;">
+							<div><img src="${fileRe.file.real_path}" width="300px" /></div>
+							<div style="text-align:center;">${fileRe.file.file_dict_name}</div>
+						</li>
+					#{/list}
+					
+					#{if t_risk_report}
+						<a href="${t_risk_report.reportUrl}" target="view_window">
+							<li style="float:left;">
+							<div><img style="width:200px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALMAAABfCAMAAACUTAY4AAAAAXNSR0IArs4c6QAAAFpQTFRFy+fP7e/v0efVRouz5+nny+XPzeXR6enp3+fh1+fZ3uzhxd3J3Ordk7/Dv9/NeK2/rcWwmqqdvdfBo7Wl39/ft8+71dfVy8vLu7u7j5+RgY+DSmp238iL96k+WI3CCAAABQtJREFUeNrtWwt7oygUdVMxWDozPATEbP//39xzLybd7lZjpk4KMzlJUfMBPTVyuK82zQMP3AMaMNo4jZdTO0/+9wyx77TTNJ1OeHOj9+b8SoxfX3fmDK5T5pxOJ7c754ydOWtjTNKKng1jbB3PRiP4/cBvIk/eeu2FssoKq3AgWD5ahU++kpvw3ltrL3wEk1MkT5NxFqKacMQKcrSOknE4JkdnX0dbmQm/P3nSfA1iyjksb998qw62eXo6nfFUB741b5Tr4fyjOvjme3UQjUvGWxIPf4MGqSlBXYxO05TwMnSpP70BCs3TQhsmqIRa3mshzkro20xHIcjo9BiVD5BRNJ/nDEMFU3qa1OsVzofq0DVyGIa25VYOIeD8OmSL7rkzDvkqg+bZNMUn0DdjhhmjjHiYxvZ4Ha0042XcGAKfRW6A8fhr0TchBtyxQDdtwO+Lmzi3MWJcHjhI3NyQ73vGL+csq8MBi5WsJQHkVmzSDbawuLu6QW1oiBJXOlylIBp2g4xWmmwmwkatwxit/Lb+Z/k12AqSXzE9naE51TXOltUVtrNnWL+JM2xuTXattf4G+aUxK4yEos3C2qv3ua8OXcPqvFGX3/RZDvgJUrbc4mLLKAlhoSHcQmxwzVPcrs/JxMFEZ8J2tWllSmmIZiL7gN7TlsFtnEYsnTCMsG7YC6LWbdoR3msdJJnkNUR5A+c2BiUDpAP6DKVWmwa3JOkQdonBKswXeLd/hD4rD7vOw7ElDxcHu8E+6yCk1pM37D00hF3j67rRKRIFS5r+sTRgKqKBDUN4taYbhuxncrjh4jpytie7QbXYLYernpKnc2CLPica5BV0Wi2JIcx57BXa+DXO0GbFf98N91mIrM34jngwBx02/KWWB4klCebdlTsoq34/fSarF3oJmW2PNWC2nw1EB4ehEs4hSIjkQD5KkJVwPlYH7Cl/VQbZNy/V4fAIwD+wHEtXcx6CUUfSiW0AO9saX5s+2YzuPSpgLFbDEfk1PzU5prEc8SiCMxnGGnYyBVg59uHcpJfd/DI4O52jNFafsWiKwyYugvOhw+s/od8y4s/Li1PeFPG4H/oVzj3cNxjVybDzx2a2iUtxgLvadSv3eYwUCI9RRg6Fk1cQyuYs+mLjG8ucu1mbc5iZ3l0R2KDP/MPZQP9T+nNffdaec3VneFs+565UrOnGQDGPOeeHti0Eq1rnctIv5kygW9OzgvSZ4sNxVud4LJ9zsfrcLa/HYtfghacwE4Wgp+l0/khY4/AZFV5pOiSjC9M6YSlUTRD/imDP+uwL1Wc4R+Jd4lb8z3AtJv68ps+5bmAuGaATWbr9HKg6A7bGaOJILZR6KF6fA1doQKQpC8gH+dDn/e3nc2TjEhejZiGr1ZUS33DaUEJaJ45yUJjDmEmVHd+gug4qnEM717yBtlj6UsqIbxSbH1yNb8zKzHZ0TiEOheuzGfl5HtNIzzNUWk/GyML1OcaBaywC11ko0uiF+ruHPm+3nz+qprBc2ZFrCLgybCF70X2JXfdRfMNwwQW1HOVIVJ38vehYgXj7b5V5P7SLWaL7cq6vfuNQZb5bVpfv7h9J3Qeu5bsvqCHjfalgpI2ukoy3qA+bOM85lRV0l67vRnEBv9qd83rumKtCDXyqazX2lMhAR3If0dm67IoZl6hGX+y8dz8vQio1xjj66LE0++d1vKBPHNU4UnFz39NqxkmEIahieHneFf8AVmhFRjoylKIAAAAASUVORK5CYII=" width="300px" /></div>
+							<div style="text-align:center;">摩羯运营商报告</div>
+							</li>
+						</a>
+					#{/if}
+				#{/if}
+				#{else}
+					<li style="float:left;">
+						<div><img src="/public/images/risk/Noimg.jpg" width="300px" /></div>
+						<div style="text-align:center;">xxx</div>
+					</li>
+				#{/else}
+				</ul>
+			</div>
+	</div>
+	
+	<div style="clear:both;"></div>
+	
+	#{if creditPictureList?.size()>0}  
+	<div class="contextPadding">
+	 		<h3 class="xf_htgl_jgtitle" style="text-indent:0">
+				<ul class="title">
+					<li class="tabColor" onclick="tabList(0,this)">额度申请附件</li>
+				<ul>
+	 		</h3>
+		     <div class="">	
+				<!-- <div style="margin:15px 0">
+					<input style="font-size:14px;height: 28px;width: 80px;" type="button" class="btnStyle" value="下载附件" />
+				</div> -->
+				<div style="clear:both;"></div>
+				%{file_dict_name="";}%
+				#{list items:creditPictureList, as:'fileRe'}
+					<div>
+						%{
+							if(!file_dict_name.equals(fileRe.file.file_dict_name)){
+								file_dict_name=fileRe.file.file_dict_name;
+								out.println("<div class='imgMargin'>"+fileRe.file.file_dict_name+":</div>");
+							}
+						}%
+						<div><img src="${fileRe.file.real_path}" width="300px" /></div>
+					</div>
+				#{/list}
+		</div>
+	</div>
+	#{/if}
+	
+	#{if borrowPictureList?.size()>0}  
+	<div class="contextPadding">
+	 		<h3 class="xf_htgl_jgtitle" style="text-indent:0">
+				<ul class="title">
+					<li class="tabColor" onclick="tabList(0,this)">借款申请附件</li>
+				<ul>
+	 		</h3>
+		     <div class="">	
+				<!-- <div style="margin:15px 0">
+					<input style="font-size:14px;height: 28px;width: 80px;" type="button" class="btnStyle" value="下载附件" />
+				</div> -->
+				<div style="clear:both;"></div>
+				%{file_dict_name="";}%
+				#{list items:borrowPictureList, as:'fileRe'}
+					<div>
+						%{
+							if(!file_dict_name.equals(fileRe.file.file_dict_name)){
+								file_dict_name=fileRe.file.file_dict_name;
+								out.println("<div class='imgMargin'>"+fileRe.file.file_dict_name+":</div>");
+							}
+						}%
+						<div><img src="${fileRe.file.real_path}" width="300px" /></div>
+					</div>
+				#{/list}
+		</div>
+	</div>
+	#{/if}
+	
+	
+	<div class="contextPadding">
+		<h3 class="xf_htgl_jgtitle" style="text-indent:0">
+				<ul class="title">
+					<li class="tabColor" onclick="tabList(1,this)">手机通讯录</li>
+				<ul>
+	 	</h3>
+	    <input type="hidden" id="currPage" name="currPage"/>
+	    <input type="hidden" id="pageSize" name="pageSize"/>
+	    <div class="xf_ht_search">
+	
+	    </div>
+	    <div class="xf_ht_search_inon">
+	      <div class="xf_ht_search_r" style="width:100%">
+	        <div class="xf_ht_search_xl">
+	              <input name="mobile" type="text" placeholder="手机号码" class="search_w" id="mobile" value="" />
+	        </div>
+	 
+	        <div class="xf_ht_search_xl">
+	          <input type="button" class="search_button" onclick="getPage();" value="搜 索" />
+	        </div>
+	    </div>
+		<div class="">	
+				<table border="0" cellspacing="0" cellpadding="0" class="xn_c_content_list">
+					<tbody id="contacts">
+						<tr>
+							<th width="80">序号</th>
+							<th width="500">联系人姓名</th>
+							<th align="left">联系电话</th>
+						</tr>
+						#{list items:userAddressPage.page, as:'userAddress'}
+							<tr uid = ${userAddress.user_id}>
+								<td>${(userAddressPage.currPage-1)*userAddressPage.pageSize+userAddress_index}</td>
+								<td>${userAddress.name}</td>
+								<td class="tleft">${userAddress.mobile}</td>
+							</tr>
+						#{/list}
+					</tbody>
+				</table>
+			<div class="box">
+				<div id="pagination3" class="page fl"></div>
+				<div class="info ">
+					<p>当前页数：<span id="current3">1</span></p>
+				</div>
+			</div>
+	   </div>
+	</div>
+	
+			<div class="contextPadding">
+		 		<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+		 			<div>
+			 			<span>预审结果</span>
+						<span class="right">
+							<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+						</span>
+		 			</div>
+		 		</h3>
+		 		#{form @supervisor.bidManager.BidApplicationAction.YMDApplicationCheck(),method:'POST',id:'applicationCheck'}
+				<div class="hiddenContext">
+					<input type="hidden" id="supervisorSign" name="supervisorSign" value="${business.Supervisor.currSupervisor().sign}" />
+					<input type="hidden" id="borrow_apply_id" name="borrow_apply_id" value="${borrowApply.id}" />
+					<input type="hidden" id="operation" name="operation" />
+					
+				  <table  class="commTablePadding" width="100%" >
+					<tr>
+						<td class="Tright" width="100">申请金额：</td>
+						<td >${creditApply.apply_credit_amount}</td>
+					</tr>
+					<tr>
+						<td class="Tright" width="100">机审得分：</td>
+						<td >${creditApply.machine_score}分</td>
+					</tr>
+					<tr>
+						<td class="Tright">机审建议额度：</td>
+						<td >${creditApply.machine_credit_amount}</td>
+					</tr>
+					<tr>
+						<td class="Tright">最终审批额度：</td>
+						<td >${creditApply.audit_credit_amount}</td>
+					</tr>
+					<tr>
+						<td style="vertical-align:top;" class="Tright">备注：</td>
+						<td>${creditApply.remark}</td>
+					</tr>
+				 </table>
+				</div>
+			</div>
+			
+			<div class="contextPadding">
+		 		<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+		 			<div>
+			 			<span>提额结果</span>
+						<span class="right">
+							<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+						</span>
+		 			</div>
+		 		</h3>
+				<div>
+				  <table  class="commTablePadding" width="100%" >
+					<tr>
+						<td class="Tright" width="100">预审额度：</td>
+						<td >${creditIncreaseApply?.prepare_credit_amount}</td>
+					</tr>
+					<tr>
+						<td class="Tright">申请提额到：</td>
+						<td>${creditIncreaseApply?.apply_credit_amount}</td>
+					</tr>
+					<tr>
+						<td class="Tright">确认提额到：</td>
+						<td>${creditIncreaseApply?.audit_credit_amount}</td>
+					</tr>
+					<tr>
+						<td style="vertical-align:top;" class="Tright">备注：</td>
+						<td>${creditIncreaseApply?.remark}</td>
+					</tr>
+				  </table>
+				</div>
+			</div>
+			<div class="contextPadding">
+		 		<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+		 			<div>
+			 			<span>使用额度审核</span>
+						<span class="right">
+							<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+						</span>
+		 			</div>
+		 		</h3>
+				<div>
+				  <table  class="commTablePadding" width="100%" >
+					<tr>
+						<td class="Tright" width="100">申请借款：</td>
+						<!-- 申请金额|审批金额 -->
+						<td >${borrowApply.apply_amount} </td>
+					</tr>
+					<tr>
+						<td class="Tright" width="100">已使用额度：</td>
+						<td >${useCredit}</td>
+					</tr>
+					<tr>
+						<td class="Tright">剩余额度：</td>
+						<td>${creditApply.audit_credit_amount - useCredit}</td>
+					</tr>
+					<tr>
+						<td style="vertical-align:top;" class="Tright">备注：</td>
+						#{if borrowApply.canAudit() && business.Supervisor.currSupervisor().haveRight("supervisor.ymd.CreditManageAction.audit")}
+						<td><textarea class="textareaWidth" id="reason" name="reason" >${borrowApply.reason}</textarea></td>
+						#{/if}
+						#{else}
+						<td>${borrowApply.reason}</td>
+						#{/else}
+					</tr>
+					<tr>
+						<td>
+						#{if borrowApply.canAudit() && business.Supervisor.currSupervisor().haveRight("supervisor.ymd.CreditManageAction.audit")}
+						<input class="btnStyle" type="button" value="通过"  onClick="operationSubmit(1)" />
+						<input style="background:white;color:#169BD5;border:1px solid #169BD5;" class="btnStyle" type="button" value="拒绝"  onClick="operationSubmit(2)"/>
+						#{/if}
+						#{if borrowApply.canClose() && business.Supervisor.currSupervisor().haveRight("supervisor.ymd.CreditManageAction.close")}
+						<input style="background:white;color:#169BD5;border:1px solid #169BD5;" class="btnStyle" type="button" value="关闭额度"  onClick="operationSubmit(1)"/>
+						#{/if}
+						</td>
+					</tr>
+				  </table>
+				</div>
+				#{/form}
+			</div>
+			
+			<div class="contextPadding ">
+					<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+						<div>
+							<span>操作日志</span>
+							<span class="right">
+								<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+							</span>
+						</div>
+					</h3>
+					<div class="pleft10 hiddenContext" style="text-align:center;margin-top:35px;">
+					  <table  class="commTablePaddingSmall" width="60%" border="1">
+						<tr>
+							<td width="100">操作人员</td>
+							<td>操作结果</td>
+							<td>操作时间</td>
+							<td>备注</td>
+						</tr>
+						#{list items:creditApplyLogs, as:'log'}
+							<tr>
+								<td>${log.user_name}</td>
+								<td>${log.status_name}</td>
+								<td>${log.time}</td>
+								<td>${log.description}</td>
+							</tr>
+						#{/list}
+						
+					  </table>
+					</div>
+			</div>
+		
+	<input id="uid" type="hidden" />
+</div>
+	
+<script type="text/javascript">
+//切换附件与通讯录列表
+function tabList(i,_this){
+	$('.tabColor').css('background','#E4E4E4');
+	$(_this).css('background','#D7D7D7');
+	$('.tabList').hide();
+	$('.tabList').eq(i).show();
+}
+
+$('._xf_htgl_jgtitle').click(function(){
+	$(this).next().toggle(100);
+})
+
+$(function(){
+	/* 高亮显示 */
+	showHighLight(3, 3, 6);
+});
+</script>
+<script>
+	// 搜索事件
+	function getPage(){
+			var str1 = '';
+			var mobile = $('#mobile').val();
+			var uid = $('#uid').val();
+			 // alert(mobile);
+			var layerMsg = layer.load('加载通讯录中…',{ icon: 0, shade: [0.5,'black']});
+			$.get("@{supervisor.postLoanManager.UserListAction.getUserAddressList}",{id: uid,returnJson: 1,currPage: 1,mobile: mobile},function(res){
+							
+							$.each(res.page,function(i,e){
+								str1 +='<tr><td>'+(i+1)+'</td><td>'+e.name+'</td><td class="tleft">'+e.mobile+'</td></tr>'
+								
+							})
+							console.log(res);
+							$("#pagination3").pagination({
+									currentPage: 1,
+									totalPage: res.totalPageCount,
+									isShow: true,
+									count: 7,
+									homePageText: "首页",
+									endPageText: "尾页",
+									prevPageText: "上一页",
+									nextPageText: "下一页",
+									callback: function(current) {
+									
+										var str = '';
+										var layerMsg = layer.load('加载通讯录中…',{ icon: 0, shade: [0.5,'black']});
+										$.get("@{supervisor.postLoanManager.UserListAction.getUserAddressList}",{id: uid,returnJson: 1,currPage: current,mobile: mobile},function(res){
+											console.log(res.page);
+											$.each(res.page,function(i,e){
+												console.log(e.name);
+												str +='<tr><td>'+parseInt(((current-1)*10)+1+i)+'</td><td>'+e.name+'</td><td class="tleft">'+e.mobile+'</td></tr>'
+												
+											})
+											layer.close(layerMsg); 
+											console.log(str);
+										$("#contacts").html('<tr><th width="80">序号</th><th width="500">联系人姓名</th><th align="left">联系电话</th></tr>'+str);
+										});
+										$("#current3").text(current);
+										
+									}
+							});
+							layer.close(layerMsg); 
+						$("#contacts").html('<tr><th width="80">序号</th><th width="500">联系人姓名</th><th align="left">联系电话</th></tr>'+str1);
+			});
+		
+			
+	}
+		// 分页js
+			$(function() {
+				var pageCount = ${userAddressPage.totalPageCount}||0;
+				var user_id = '';
+				
+				if($('#contacts').find('tr').length>2){
+					user_id = $('#contacts').find('tr').eq(1).attr('uid');
+				}
+				$('#uid').val(user_id);
+				var mobile = $("#mobile").val();
+				$("#pagination3").pagination({
+					currentPage: 1,
+					totalPage: pageCount,
+					isShow: true,
+					count: 7,
+					homePageText: "首页",
+					endPageText: "尾页",
+					prevPageText: "上一页",
+					nextPageText: "下一页",
+					callback: function(current) {
+						var str = '';
+						var layerMsg = layer.load('加载通讯录中…',{ icon: 0, shade: [0.5,'black']});
+						$.get("@{supervisor.postLoanManager.UserListAction.getUserAddressList}",{id: user_id,returnJson: 1,currPage: current,mobile:mobile},function(res){
+							$.each(res.page,function(i,e){
+								console.log(e.name);
+								str +='<tr><td>'+parseInt(((current-1)*10)+1+i)+'</td><td>'+e.name+'</td><td class="tleft">'+e.mobile+'</td></tr>'
+								
+							})
+							layer.close(layerMsg); 
+							console.log(str);
+						$("#contacts").html('<tr><th width="80">序号</th><th width="500">联系人姓名</th><th align="left">联系电话</th></tr>'+str);
+						});
+						$("#current3").text(current);
+						
+					}
+				});
+			 	 
+
+				
+			});
+</script>
+<script>
+function operationSubmit(operation){
+			if(operation==2){
+				var str = $('[name="reason"]').val();
+				if($.trim(str)==''){
+					layer.alert('请填写理由');
+					return false;
+				}
+			}
+	layer.confirm('是否确认操作', function(index){
+		$('#operation').val(operation);
+		$('#applicationCheck').submit();
+	 	layer.close(index);
+	});
+}
+
+</script>

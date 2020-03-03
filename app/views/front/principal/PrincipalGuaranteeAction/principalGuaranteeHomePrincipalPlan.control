@@ -1,0 +1,15 @@
+	<div class="xf_zjbz_home_top">
+			<h3 class="xf_mem_accout_title"> ${types?.get(0)?.name}</h3>
+			<div class="xf_zjbz_home_top_l  widthInherit">
+				${principal?.content}
+			</div>
+			<div class="xf_zjbz_home_top_r_update" style="display:none;">
+				<div class="l">质保服务专款</div>
+				<div class="r">
+					<img src = "/public/images/fx-icon.png"/>
+					<h3>质量保障服务专款累计</h3>
+					<p>#{format money:((jobs.IndexStatisticsJob.sumInvest+543960)*3*0.005)}#{/format}</p>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>

@@ -1,0 +1,123 @@
+ %{
+  business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+
+<div class="p_right_wordbox">
+	<div class="p_hp_rtbox">
+	    <h4 class="p_hp_title clr"><strong>${titleName}</strong></h4>
+	    <div class="p_hp_word">
+	        #{if contentList != null && contentList.size > 0}
+				#{list contentList}
+					${_?.raw()}
+				#{/list}
+			#{/if}
+	    </div>
+	  <!-- <div class="clr pl5">
+	        <div class="xf_about_contet_l">
+	            <span class="xf_about_contet_sz">${investData[0]}</span>投资人已加入${currBackstageSet?.platformName}
+	        </div>
+	        <div class="xf_about_contet_r">
+	            <span class="xf_about_contet_sz2">￥#{format money:investData[1]}#{/format}</span>投资额已交易成功
+	        </div>
+	    </div>-->
+	</div>
+</div>
+ <script>
+	$(function(){
+			$("#companyDescription").addClass("xf_con_wyjk_leftliisshow");
+	})
+	
+	function initMap(){
+        createMap();
+        setMapEvent();
+        addMapControl();
+        addMarker();
+    }
+    
+    function createMap(){
+        var map = new BMap.Map("dituContent");
+        var point = new BMap.Point(121.379716,31.2781);
+        map.centerAndZoom(point,17);
+        window.map = map;
+    }
+    
+   function setMapEvent(){
+        map.enableDragging();
+        map.enableScrollWheelZoom();
+        map.enableDoubleClickZoom();
+        map.enableKeyboard();
+    }
+    
+    function addMapControl(){
+	var ctrl_nav = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
+	map.addControl(ctrl_nav);
+      	var ctrl_ove = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:1});
+	map.addControl(ctrl_ove);
+	var ctrl_sca = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
+	map.addControl(ctrl_sca);
+    }
+    
+    //标注点数组
+    var markerArr = [{title:"中亿云",content:"中亿云投资是一家基于实业的创新型的金融服务公司，由多家浙江商会及温州商会联合创办，以投资成立和运营互联网投资借贷平台为主。中亿云投资致力于为中小企业和个人用户提供安全便捷的网上借贷理财服务，帮助中小企业和个人用户解决融投资需求，是国内P2P借贷服务的专业提供商。",point:"121.379716|31.2781",isOpen:0,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}}
+		 ];
+    //创建marker
+    function addMarker(){
+        for(var i=0;i<markerArr.length;i++){
+            var json = markerArr[i];
+            var p0 = json.point.split("|")[0];
+            var p1 = json.point.split("|")[1];
+            var point = new BMap.Point(p0,p1);
+			var iconImg = createIcon(json.icon);
+            var marker = new BMap.Marker(point,{icon:iconImg});
+			var iw = createInfoWindow(i);
+			var label = new BMap.Label(json.title,{"offset":new BMap.Size(json.icon.lb-json.icon.x+10,-20)});
+			marker.setLabel(label);
+            map.addOverlay(marker);
+            label.setStyle({
+                        borderColor:"#808080",
+                        color:"#333",
+                        cursor:"pointer"
+            });
+			
+			(function(){
+				var index = i;
+				var _iw = createInfoWindow(i);
+				var _marker = marker;
+				_marker.addEventListener("click",function(){
+				    this.openInfoWindow(_iw);
+			    });
+			    _iw.addEventListener("open",function(){
+				    _marker.getLabel().hide();
+			    })
+			    _iw.addEventListener("close",function(){
+				    _marker.getLabel().show();
+			    })
+				label.addEventListener("click",function(){
+				    _marker.openInfoWindow(_iw);
+			    })
+				if(!!json.isOpen){
+					label.hide();
+					_marker.openInfoWindow(_iw);
+				}
+			})()
+        }
+    }
+    //创建InfoWindow
+    function createInfoWindow(i){
+        var json = markerArr[i];
+        var iw = new BMap.InfoWindow("<b class='iw_poi_title' title='" + json.title + "'>" + json.title + "</b><div class='iw_poi_content'>"+json.content+"</div>");
+        return iw;
+    }
+
+    function createIcon(json){
+        var icon = new BMap.Icon("http://app.baidu.com/map/images/us_mk_icon.png", new BMap.Size(json.w,json.h),{imageOffset: new BMap.Size(-json.l,-json.t),infoWindowOffset:new BMap.Size(json.lb+5,1),offset:new BMap.Size(json.x,json.h)})
+        return icon;
+    }
+    
+    $(function(){
+		initMap();
+		alert(1111);
+	})
+	
+</script>
+		

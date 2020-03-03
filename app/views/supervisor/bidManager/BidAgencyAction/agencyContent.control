@@ -1,0 +1,112 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    #{form @agencyList(), id:'agencyList'}
+    <input type="hidden" id="currPage" name="currPage"/>
+	<input type="hidden" id="pageSize" name="pageSize"/>
+    <div class="xf_ht_search_inon">
+      <div class="xf_ht_search_r">
+        <div class="xf_ht_search_xl">
+          <select class="xf_membill_selectAge" name="condition">
+            <option value="0" id="type0">全部</option>
+	        <option value="1" id="type1">名称</option>
+	        <option value="2" id="type2">编号</option> 
+          </select>
+        </div>
+	    <div class="xf_ht_search_xl">
+	      <input type="text" class="search_w" name="keyword" id="keyword">
+	    </div>
+	    <div class="xf_ht_search_xl">
+		  <input type="submit" class="search_button" value="搜索">
+	    </div>
+      </div>
+    </div>
+    #{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}	
+          #{th}编号#{/th}
+		  #{th}合作机构#{/th}
+		  #{th}信用级别#{/th}
+		  #{th}合作标数#{/th}
+		  #{th}标平均利率#{/th}
+		  #{th}成功标数#{/th}
+		  #{th}逾期标数#{/th}
+		  #{th}坏账标数#{/th}
+		  #{th}开始合作时间#{/th}
+		  #{th}合作时长(天)#{/th}
+		  #{th}合作状态#{/th}
+		  #{th}操作#{/th}
+        #{/tr}
+		#{list pageBean?.page}
+		#{tr tr_index:_index}
+		  #{td}${(pageBean?.currPage - 1)*pageBean?.pageSize + _index}#{/td}
+	      #{td}${_?.no}#{/td}
+		  #{td}${_?.name}#{/td}
+		  #{td}
+			#{if _?.credit_level == 1}
+				AAA
+			#{/if}
+			#{elseif _?.credit_level == 2}
+				AA
+			#{/elseif}
+			#{else}
+				A
+			#{/else}
+		  #{/td}
+		  #{td}${_?.bid_count}#{/td}
+		  #{td}${_?.bid_avg_apr?.format('0.00')}#{/td}
+		  #{td}${_?.success_bid_count}#{/td}
+		  #{td}${_?.overdue_bid_count}#{/td}
+		  #{td}${_?.bad_bid_count}#{/td}
+		  #{td}${_?.time?.format('yyyy-MM-dd')}#{/td}
+		  #{td}${_?.cooperation_length}#{/td}
+		  #{td}
+		    #{if _?.is_use}正常#{/if}
+		    #{else}暂停#{/else}
+		  #{/td}
+		  #{td}
+		  	<a class="xf_ta_onclick" href="@{agencyDetail(_?.id)}" >详情</a>
+          	#{if _?.is_use}<a class="xf_ta_onclick" href="@{notEnanleAgency(_?.id)}">暂停</a>#{/if}
+			#{else}<a class="xf_ta_onclick" href="@{enanleAgency(_?.id)}">启用</a>#{/else}
+		  #{/td}
+	    #{/tr}
+	    #{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+       #{page currPage:pageBean.currPage,totalCount:pageBean.totalCount,pageSize:pageBean.pageSize,theme:2,style:4/}
+      <div class="page_warp_l">
+        <input class="xf_htbutton" type="button" value="添加" onClick="window.location.href='@{addAgency()}'"}/>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+	/* 条件搜素查询 */
+	function showPage(currPage, pageSize){
+         $("#currPage").val(currPage);
+         $("#pageSize").val(pageSize);
+         $("#agencyList").submit();
+    }
+	
+	$(function(){
+	    /* 高亮显示 */
+		showHighLight(2, 2, 10);
+
+		/* 给搜索条件赋记录值 */
+		var condition = "${pageBean?.conditions?.condition}";
+		var keyword = "${pageBean?.conditions?.keyword}";
+	    
+		switch(parseInt(condition)){
+			case 0:$("#type0").attr("selected","selected");break;
+			case 1:$("#type1").attr("selected","selected");break;
+			case 2:$("#type2").attr("selected","selected");break;
+		}
+		
+		$("#keyword").val(keyword);
+	});
+</script>

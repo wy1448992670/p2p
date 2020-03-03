@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	%{
+		business.User currUser = business.User.currUser();
+		business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+		String platUrl = constants.Constants.BASE_URL;
+		java.util.Map<String,java.util.List<business.BottomLinks>> bottomLinks = business.BottomLinks.currentBottomlinks();
+		java.lang.String type1Name = business.NewsType.queryName(1);
+		java.lang.String type2Name = business.NewsType.queryName(2);
+		java.lang.String type4Name = business.NewsType.queryName(4);
+		boolean ipsEnable = constants.Constants.IPS_ENABLE;
+		boolean debtUse = constants.Constants.DEBT_USE;
+	}%
+		<title>出借金融产品,短期出借产品,网贷金融服务,出借服务平台,亿亿理财</title><!--    #{get 'title' /} -->
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+		<meta name="keywords" content="最安全理财，国资安全理财平台，理财投资组合，投资理财有限公司" /><!-- ${currBackstageSet?.seoKeywords} -->
+		<meta name="description" content="亿亿理财是一家为短期出借，网贷金融服务，提供便捷出借方式的简易出借服务平台.为个人及中小企业提供综合性、一站式的金融信息和交易撮合服务.TEL：021-6438-0510" /><!-- ${currBackstageSet?.seoDescription} -->
+		
+		<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+		<meta property="qc:admins" content="2556436366763152216363757" />
+		<meta property="wb:webmaster" content="6582954f8f7d9e1d" />
+		<meta name="baidu-site-verification" content="N7G1QMJqXO" />
+		<meta name="360-site-verification" content="c2e2c905993259b8f3ab2a54c43f4754" />
+		<meta name="sogou_site_verification" content="ihlz3tbqBM"/>
+		<link rel="stylesheet" href="/public/stylesheets/newhome/swiper.min.css" />
+		<link rel="stylesheet" href="/public/stylesheets/newhome/index.css" />
+		<link rel="stylesheet" href="/public/stylesheets/newhome/bannerList.css" />
+		<link rel="stylesheet" type="text/css" href="/public/stylesheets/newhome/media.css"/>
+		<!--title图标-->
+		<link rel="shortcut icon" type="image/png" href="/public/images/favicon2.ico">
+		
+		<script type="text/javascript" src="/public/javascripts/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="/public/javascripts/jquery.lazyload.min.js"></script>
+	      <script>
+	      var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?e9a3618b98f87779beb31b90373d730f";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+			_hmt.push(['_setAutoPageview', true]);
+		</script>
+	    	<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1261677866'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1261677866%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>										  
+	</head>
+	<body>
+	
+	<!-- 右边悬浮框 -->
+	<div id="Suspension">
+			<div class="sus_right">
+				<div id="calculate">
+					<a href="@{front.home.HomeAction.wealthToolkit(4)}"><img src="@{'public/images/newhome/cal.png'}"/></a>
+				</div>
+
+				*{<div id="qq">
+					<a href="http://q.url.cn/s/vf9mbLm?_type=wpa" target="_blank"><img src="@{'public/images/newhome/qq_left.png'}" alt="" /></a>
+				</div>}*
+				<div id="back" >TOP</div>
+			</div>
+
+		</div>
+	<!-- header头部 -->
+	    <div class="top">
+			<ul>
+				<li>
+					<img src="@{'public/images/newhome/top-tel.png'}" /> 
+					<h4>021-6438-0510</h4>
+					<a href="http://weibo.com/u/5792077016"><img src="@{'public/images/newhome/wb.png'}" alt="" /><span>关注我们</span></a><a href="#" class="gzh"><img src="@{'public/images/newhome/wx.png'}" alt="" /><span>微信公众号</span></a><a href="http://q.url.cn/s/vf9mbLm?_type=wpa" target="_blank"><img src="@{'public/images/newhome/qq.png'}" alt="" /><span>在线客服</span></a><a href="#" class="top_yi"  style="border: none;" ><img src="/public/images/newhome/yi.png" /><span>APP下载</span></a>
+				</li>
+				<li #{if currUser == null} style="visibility: hidden;"#{/if}>  <!--登录状态的-->
+					<p><a href="@{front.account.loginAndRegisterAction.logout()}"">安全退出</a></p>
+				</li>
+				<li><!--未登录状态的（默认）-->
+				</li>
+				<li>
+					<a href="@{front.home.HomeAction.restAboutUs(16)}">关于我们</a>&nbsp;&nbsp;
+					<a href="/front/help/index?typeId=13">帮助中心</a>
+				</li>
+			</ul>
+		</div>
+	    
+	    <div class="nav">
+			<div class="nav1" id="nav1">
+
+				<ul>
+					<li>
+						<a href="/" style="color:#ee4035;">首页</a><img src="@{'public/images/newhome/jt.png'}" alt="" /></li>
+                    <li style="width:inherit;">
+                        <a href="@{front.home.HomeAction.LoanIndex()}?pageFinanceType=0">我要借款/还款</a><img src="/public/images/newhome/jt2.png" alt="" /></li>
+
+					<li>
+						<a href="@{front.invest.InvestAction.investHome()}">我要出借</a><img src="@{'public/images/newhome/jt2.png'}" alt="" /></li>
+					<li>
+						<a href="@{front.principal.PrincipalGuaranteeAction.principalGuaranteeHome()}">安全保障</a><img src="@{'public/images/newhome/jt2.png'}" alt="" /></li>
+					<li>
+						<a href="@{front.home.HomeAction.restAboutUs(16)}">信息披露</a><img src="@{'public/images/newhome/jt2.png'}" alt="" /></li>
+					<li>
+						#{if currUser == null}
+   							<a href="@{front.account.loginAndRegisterAction.login()}" class="my_yy">
+	                	#{/if}
+	                	#{else}
+							<a href="@{front.account.AccountHome.home()}" class="my_yy">
+	                	#{/else}
+						我的亿亿</a>
+						<img src="@{'public/images/newhome/jt2.png'}" alt="" />
+					</li>
+				</ul>
+			</div>
+		</div>
+	    
+	</div>
+        #{doLayout /}
+        <div class="foot_top">
+		     <ul>
+		     	<li><span>友情链接：</span></li>
+		     	#{list bottomLinks?.get("7")}
+		     		<li>
+		     			<a
+						href = "${_?.url}" 
+						#{if _?.target == 1}
+							target = "_self"'
+						#{/if}
+						#{else}
+							target = "_blank"
+						#{/else}>
+			     		${_?.title}</a>
+			     	</li>
+			     	<li><a></a></li>
+		     	#{/list}
+		     </ul>
+		</div>
+        <div class="foot_cent">
+     		<div class="foot_cents">
+      			<div class="foot_left">
+      				<p><img src="@{'public/images/newhome/swx.png'}" alt="" /></br><span>关注微信公众号</span></p>
+      			</div>
+      		     <div class="foot_cc">
+      		     	<ul>
+      		     		<li><a href="@{front.home.HomeAction.restAboutUs(16)}">关于我们</a></li>
+      		     		<li><a href="@{front.wealthinfomation.WealthInfomationAction.restHome(7)}">公司动态</a></li>
+      		     		<li><a href="@{front.help.HelpCenterAction.index(13)}">帮助中心</a></li>
+      		     	</ul>
+      		     	<ul>
+      		     		<li><img src="@{'public/images/newhome/wb_bottom.png'}" alt=""><a href="http://weibo.com/u/5792077016">关注我们</a></li>
+      		     		<li><img src="@{'public/images/newhome/wx_bottom.png'}" alt=""><a href="#" class="foot_wxbo">微信公众号</a><img class="code_bot" src="/public/images/newhome/swx.png" alt="" /></li>
+      		     	</ul>
+      		     	<ul id="bm">
+      		     		<li><a href="https://cn.norton.com/"></a></li>
+      		     		<li><a href="./public/static/auth.html"></a></li>
+      		     		<li><a href="http://si.trustutn.org/info?sn=427170103000559853165&certType=4"><img src="../../../public/images/newhome/icon1.jpg"/></a></li>
+      		     		<li><a style="display:none;" href=" "><img border="0" src="http://webscan.360.cn/status/pai/hash/bf5336fbfd6cec88e06900c943eec32b"/></a></li>
+      		     	</ul>
+      		     </div>	 
+      		     <div class="foot_right">
+      		     	<h3>客服电话</h3>
+      		     	<h2 style="font-size: 30px;">021-6438-0510</h2>
+      		     	<p>客服工作时间：9：00-21：00</p>
+      		     	<p>总经理邮箱</p>
+      		     	<p>service@zhongyijr.com</p>
+      		     </div>
+      			
+      		</div>
+      	</div>
+      	<div class="foot_end">
+      		<div class="foot_ends">
+      			<p><span>版权所有&nbsp;&nbsp;</span><span>沪ICP备15054793号</span><span>&nbsp;&nbsp;网贷有风险，决策需谨慎</span> </p>
+      		</div>
+      	</div>
+	</body>
+    <script type="text/javascript" src="/public/javascripts/newhome/index.js"></script>
+		<script type="text/javascript" src="/public/javascripts/newhome/bannerList.js"></script>
+		<script type="text/javascript" src="/public/javascripts/newhome/swiper.jquery.min.js"></script>
+<script type="text/javascript">
+/* 悬浮框*/
+var picT;
+var picL;
+var picsT;
+var picsL;
+function pictotb(){
+	pics=document.getElementById("Suspension");
+	if(pics.currentStyle){
+		var picsT=pics.currentStyle.top;
+		var picsL=pics.currentStyle.left;
+		
+	}else{
+		var picsT=document.defaultView.getComputedStyle(pics,null).top;
+		var picsL=document.defaultView.getComputedStyle(pics,null).left;
+	}
+}
+function con(){
+	pics=document.getElementById("Suspension");
+	pics.style.top=parseInt(picsT)+parseInt(document.body.scrollTop||document.documentElement.scrollTop)+"px";
+	pics.style.top=parseInt(picsL)+parseInt(document.body.scrollLeft||document.documentElement.scrollLeft)+"px";
+	
+}
+
+window.onload=pictotb;
+window.onscroll=con;
+/*返回顶部*/
+ $(function(){
+ 	$("#back").hide();
+ 	$(window).scroll(function(){
+ 		var sT=$(window).scrollTop();
+ 		if(sT>150){
+ 			$("#back").show();
+ 		}else{
+ 			$("#back").hide();
+ 		}
+ 	});
+ 	$("#back").bind("click",function(){
+ 		$("html,body").animate({"scrollTop":0},1000)
+ 	});
+
+ })
+
+
+
+  $(document).keydown(function(event){
+    if(event.keyCode == 13){
+      if(document.activeElement.id == 'name' || document.activeElement.id == 'code' || document.activeElement.id == 'password'){
+    	  login();
+      }
+    }
+  });
+  
+  $(function(){
+	$('img.lazy').lazyload({ 
+	  //effect:'fadeIn' 
+	});
+	   
+    /* 所有继承页面flash.error的值弹框,被继承页面则无需再写 */
+    if('${flash.error}' !='') {
+	      alert('${flash?.error}');
+      if('${flash?.emailUrl}' !='') {
+        window.open('${flash?.emailUrl}');
+      }
+    }
+	/*与重复提交冲突，注释，如功能发生冲突，请更改其他处
+    if('${flash.success}' != ''){
+      alert('${flash?.success}');
+    }
+	*/  	
+    //获取图片验证码
+    if('${currUser?.name}' == '' && '${loginOrRegister}' == '') {
+      var setCode = #{jsAction @front.account.LoginAndRegisterAction.setCode()/}
+      $.post(setCode({}),function(data){
+        var arr=eval(data);
+        var img = arr.img;
+        $("#img").attr("src","@{front.account.LoginAndRegisterAction.getImg()}?id="+img)	
+		$("#randomID").val(img);
+	  });
+	}
+  });
+  
+  function vipApply(){
+	  
+	  /** 检查用户是否激活*/
+	  var result = frontJSIntercepter();
+	  
+	  if(!result){
+      	 showDiv($("#xf_mem_acc_sjvip_tcc")); 
+	  }
+  };
+
+  function login(){
+    var name = $("#name").val();
+           
+    if(name == ''){
+      alert("请输入用户名或邮箱");
+      return;
+    }
+
+    if($("#password").val() == ''){
+      alert("请输入密码");
+      return;
+    }
+
+    if($("#code").val() == ''){
+      alert("请输入验证码");
+      return;
+    }
+    $("#submit").submit();
+  };
+
+  function change(){
+    var setCode = #{jsAction @front.account.LoginAndRegisterAction.setCode()/}
+	$.post(setCode({}),function(data){
+	  var arr=eval(data);
+	  var img = arr.img;
+	  $("#img").attr("src","@{front.account.LoginAndRegisterAction.getImg()}?id="+img);
+	  $("#randomID").val(img);	
+	});
+  };
+  
+  function AddFavorite(url,title) {
+    var ua = navigator.userAgent.toLowerCase();
+    if(ua.indexOf("msie 8")>-1){
+      external.AddToFavoritesBar(url,title,'');//IE8
+    }else{
+      try {
+        window.external.addFavorite(url, title);
+      } catch(e) {
+        try {
+          window.sidebar.addPanel(title, url, "");//firefox
+        } catch(e) {
+          alert("加入收藏失败，请使用Ctrl+D进行添加");
+        }
+      }
+    }
+  }
+  
+  /** 前台，拦截器 ，拦截内容：登陆拦截，资金托管开户拦截，已被拦截返回true */
+  function frontJSIntercepter(){
+	  //未登录 
+	  if('${currUser?.name}' == ''){  
+		  
+		  window.location.href=http_path+"/login";
+	  	  return true;
+	  }
+	  
+	  //托管未开户 
+	  if('${ipsEnable}'=='true' && '${currUser?.ipsAcctNo}'==''){
+		  
+		  window.location.href=http_path+"/front/account/trustAccount";
+	  	  return true;
+	  }
+
+	  //用户未激活
+	  if('${ipsEnable}'=='false' && '${currUser?.isEmailVerified}'=='false' && '${currUser?.isMobileVerified}'=='false'){  //邮箱和手机都未激活，则用户未激活
+		 
+		  window.location.href=http_path+"/front/account/inactiveUser";
+		  return true;
+	  }
+	  
+	  if('${currUser?.realityName}' == ''){
+	  		
+	  		window.location.href=http_path+"/front/account/certification";
+	  		return true;
+	  }
+	  
+	  return false;
+	  
+  }
+  
+  /**
+   * 拦截器拦截后，跳转到相应的页面（AJAX）
+   */
+  function checkIntercepterResult(data){
+  	
+  	
+  	if('UnLogin' == data){
+  		
+  		window.location.href=http_path+"/login";
+  		return true;
+  	}
+  	
+  	if('NullIpsAccount' == data){
+  		
+  		window.location.href=http_path+"/front/account/trustAccount";
+  		return true;
+  	}
+  	
+  	if('InactiveUser' == data){
+  		
+  		window.location.href=http_path+"/front/account/inactiveUser";
+  		return true;
+  	}
+  	
+  	if('NullRealName' == data){
+  		
+  		window.location.href=http_path+"/front/account/certification";
+  		return true;
+  	}
+  	
+  	return false;
+  	
+ }
+//	新轮播
+
+	
+  var swiper = new Swiper('.swiper-container', {
+	loop: true,
+	pagination: '.swiper-pagination',
+	nextButton: '.swiper-button-next',
+	prevButton: '.swiper-button-prev',
+	paginationClickable: true,
+	spaceBetween: 30,
+	centeredSlides: true,
+	autoplay: 5000,
+	autoplayDisableOnInteraction: false
+	});
+	$('.swiper-slide').mouseover(function(){
+	swiper.stopAutoplay();
+	})
+	$('.swiper-slide').mouseout(function(){
+	swiper.startAutoplay();
+	});
+</script>
+</html>

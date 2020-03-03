@@ -1,0 +1,208 @@
+ <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+ <!-- 对也顶部我要借款、我要投资、信息披露单独 设置seo关键字，描述等 -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+	%{
+		business.User currUser = business.User.currUser();
+		business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+		String platUrl = constants.Constants.BASE_URL;
+		java.util.Map<String,java.util.List<business.BottomLinks>> bottomLinks = business.BottomLinks.currentBottomlinks();
+		java.lang.String type1Name = business.NewsType.queryName(1);
+		java.lang.String type2Name = business.NewsType.queryName(2);
+		java.lang.String type4Name = business.NewsType.queryName(4);
+		boolean ipsEnable = constants.Constants.IPS_ENABLE;
+		boolean debtUse = constants.Constants.DEBT_USE;
+	}%
+		<title>#{get 'title' /}</title> 
+		<meta name="keywords" content="#{get 'keywords' /}" />
+		<meta name="description" content="#{get 'description' /}" />
+		<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+		<meta property="qc:admins" content="2556436366763152216363757" />
+		<meta property="wb:webmaster" content="6582954f8f7d9e1d" />
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=8">
+        <meta http-equiv="Expires" content="0">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Cache-control" content="no-cache">
+        <meta http-equiv="Cache" content="no-cache">
+
+		<meta name="baidu-site-verification" content="mJQnaerC31" />
+
+		<link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon2.ico'}">
+				
+		<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/reset.css'}" />
+		<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/temp.css'}" />
+		<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/site.css'}" />
+		<script type="text/javascript" src="@{'/public/javascripts/jquery-1.11.2.min.js'}"></script>
+		
+		<script type="text/javascript" src="@{'/public/javascripts/koala.min.1.5.js'}"></script>
+		<script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
+		<script type="text/javascript" src="@{'/public/javascripts/jquery.json-2.4.min.js'}"></script>
+		<script type="text/javascript" src="@{'/public/javascripts/xf_front.js'}"></script>
+		<script charset="utf-8" src="@{'public/javascripts/ajaxfileupload.js'}"></script>
+		<script type="text/javascript" src="@{'/public/javascripts/common.js'}"></script>
+		<script type="text/javascript" src="@{'/public/javascripts/jquery.lazyload.min.js'}"></script>
+		<script type="text/javascript" src="@{'/public/javascripts/ppcommon.js'}"></script>
+	      <script>
+				var _hmt = _hmt || [];
+				(function() {
+				  var hm = document.createElement("script");
+				  hm.src = "//hm.baidu.com/hm.js?4ce1beb6632c52346e1035e69add148c";
+				  var s = document.getElementsByTagName("script")[0]; 
+				  s.parentNode.insertBefore(hm, s);
+				})();
+		</script>
+		<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan style='display:none;' id='cnzz_stat_icon_1261677866'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1261677866%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+	    													  
+	</head>
+	<body>
+	
+	
+	
+	<!-- header头部 -->
+	<div class="p_header">
+	    <div class="p_topbox">
+	        <div class="p_top clr">
+	            <div class="p_top_left">
+	                <a href="http://weibo.com/u/5792077016" target="_blank" title="" class="p_top_abt">关注我们<i></i></a>
+	            	<span class="p_top_tel">客服电话：021-6438-0510</span>
+	            </div>
+	        </div>
+	    </div>			
+	    
+	</div>
+        #{doLayout /}
+        <!--底部-->
+		<div style="text-align:center;color:#A0BBFF;background:#555AFF;height:60px;line-height:60px;" class="p_footerbox">
+		    版权所有 沪ICP备15054793号 网贷有风险，决策需谨慎
+		</div>
+		#{include "front/account/AccountHome/overBorrowIps.control"/}
+		#{include "common/homeVipApply2.control"/}
+		
+		<!--start:风险评测指引弹框-->
+		<!--<div class="bomb_bg risk_dia" style="display:none"></div>
+		<div class="cp_guide_box risk_dia" style="display:none">
+		    <h5>您还没有完成风险测评</h5>
+		    <p class="cp_guide_txt">根据相关法规，出借前请先进行测评，以便了解自身的风险承受能力，做出理性的出借决策。</p>
+		    <div class="guide_btn_box">
+		        <a href="javascript:;" class="guide_btn_l left">取消</a>
+		        <a href="/front/invest/risk" class="guide_btn_r right">立即测评</a>
+		    </div>
+		</div>-->
+		<!--end:风险评测指引弹框-->
+		
+    </body>
+    
+<script type="text/javascript">
+  $(document).keydown(function(event){
+    if(event.keyCode == 13){
+      if(document.activeElement.id == 'name' || document.activeElement.id == 'code' || document.activeElement.id == 'password'){
+    	  login();
+      }
+    }
+  });
+  
+  $(function(){
+  
+  });
+  
+
+  
+  function change(){
+    var setCode = #{jsAction @front.account.LoginAndRegisterAction.setCode()/}
+	$.post(setCode({}),function(data){
+	  var arr=eval(data);
+	  var img = arr.img;
+	  $("#img").attr("src","@{front.account.LoginAndRegisterAction.getImg()}?id="+img);
+	  $("#randomID").val(img);	
+	});
+  };
+
+  function AddFavorite(url,title) {
+    var ua = navigator.userAgent.toLowerCase();
+    if(ua.indexOf("msie 8")>-1){
+      external.AddToFavoritesBar(url,title,'');//IE8
+    }else{
+      try {
+        window.external.addFavorite(url, title);
+      } catch(e) {
+        try {
+          window.sidebar.addPanel(title, url, "");//firefox
+        } catch(e) {
+          alert("加入收藏失败，请使用Ctrl+D进行添加");
+        }
+      }
+    }
+  }
+  
+  /** 前台，拦截器 ，拦截内容：登陆拦截，资金托管开户拦截，已被拦截返回true */
+  function frontJSIntercepter(){
+	  //未登录 
+	  if('${currUser?.name}' == ''){  
+		  
+		  window.location.href=http_path+"/login";
+	  	  return true;
+	  }
+	  
+	  //托管未开户 
+	  if('${ipsEnable}'=='true' && '${currUser?.ipsAcctNo}'==''){
+		  
+		  window.location.href=http_path+"/front/account/trustAccount";
+	  	  return true;
+	  }
+
+	  //用户未激活
+	  if('${ipsEnable}'=='false' && '${currUser?.isEmailVerified}'=='false' && '${currUser?.isMobileVerified}'=='false'){  //邮箱和手机都未激活，则用户未激活
+		 
+		  window.location.href=http_path+"/front/account/inactiveUser";
+		  return true;
+	  }
+	  
+	  if('${currUser?.realityName}' == ''){
+	  		
+	  		window.location.href=http_path+"/front/account/certification";
+	  		return true;
+	  }
+	  
+	  return false;
+	  
+  }
+  
+  /**
+   * 拦截器拦截后，跳转到相应的页面（AJAX）
+   */
+  function checkIntercepterResult(data){
+  	
+  	
+  	if('UnLogin' == data){
+  		
+  		window.location.href=http_path+"/login";
+  		return true;
+  	}
+  	
+  	if('NullIpsAccount' == data){
+  		
+  		window.location.href=http_path+"/front/account/trustAccount";
+  		return true;
+  	}
+  	
+  	if('InactiveUser' == data){
+  		
+  		window.location.href=http_path+"/front/account/inactiveUser";
+  		return true;
+  	}
+  	
+  	if('NullRealName' == data){
+  		
+  		window.location.href=http_path+"/front/account/certification";
+  		return true;
+  	}
+  	
+  	return false;
+  	
+ }
+  
+  
+</script>
+</html>

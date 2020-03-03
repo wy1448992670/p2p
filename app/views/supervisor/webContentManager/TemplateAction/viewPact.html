@@ -1,0 +1,111 @@
+
+#{extends 'common/supervisor.html' /}
+#{set title:'站内信模板' /} 
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  <!--左-->
+  #{include "supervisor/webContentManager/common/leftBar.control"/}
+  <!--右-->
+  <div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    <div class="xf_ht_search">
+      <div class="xf_ht_search_l">
+      </div>
+     </div>
+    <!-- 列表内容 -->
+    #{form @supervisor.webContentManager.TemplateAction.updatePact(), id:'updatePact'}
+    		<input type="hidden" value="${pact?.id}" name="id"/>
+            <input type="hidden"  id="content" name="content"/>
+            <input type="hidden"  id="title" name="title"/>
+    #{/form}
+    <div class="xn_c_content_top">
+   		<!-- 编辑邮件模版弹窗 -->
+<div class="xn_c_ban_jox xn_c_ban_jox_qxsz" id="xf_ht_edit" style="background:#fff; z-index:999;">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_ht_damem_hy_box">
+      <div class="xf_ht_jbox_table">
+        <table class="xf_htgl_jg_tableone_table" cellspacing="0" cellpadding="0" border="0">
+          <tr>
+            <td>标题：</td>
+            <td><input class="xfht_zr_input xfht_zr_bjqxz_w" type="text" id="titlePact" value="${pact?.title}" disabled="disabled"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="xf_ht_damem_hy_bott xf_ht_damem_hy_bott6">
+        <div class="xf_ht_cytc_cont">内容编辑：</div>
+        <!--  
+        <div class="xf_ht_damem_hy_bott_t clr">
+        <div class="xf_ht_damem_hy_bott_l">编辑器</div>
+      </div>
+      <div class="xf_ht_damem_hy_bott_ta3">
+      -->
+        <textarea name="content" id="editstation" style="width: 480px; height: 200px;border:none;" class="xf_ht_jr_obttd_textarea">${pact?.content?.raw()}</textarea>
+       <!--
+       </div>
+       -->
+     </div>
+     <div class="jbox_tan_ondiv jbox_tan_width4">
+       <input class="jbox_ok" type="button" value="保 存" onclick="editPact();">
+       <input class="jbox_on" type="button" value="返 回" onclick="cancle();">
+     </div>
+   </div>
+  </div>
+</div>
+    </div>
+    <!-- 列表底部 -->
+    </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+<script charset="utf-8" src="@{'public/javascripts/kindeditor-4.1.7/kindeditor-min.js'}"></script>
+<script type="text/javascript">  
+  var editor;
+  KindEditor.ready(function(K) {
+    editor = K.create('#editstation', {
+    cssPath :"@{'public/javascripts/kindeditor-4.1.7/plugins/code/prettify.css'}",
+    uploadJson : '@{FileUpload.uploadImage2()}',
+    allowFileManager : true,
+    allowUpload: true,
+    syncType:'auto'
+    });
+  });
+</script>
+<script>
+$(function() {
+    /* 高亮显示 */
+    showHighLight(5,5,22);
+  });
+
+function cancle(){
+   window.location.href="javascript:history.go(-1);";
+  }
+
+	function editPact(){
+		var content = editor.html();
+		var title = $("#titlePact").val();
+		if("" == title.trim()){
+			alert("标题不能为空");
+			return;
+		}
+		if("" == content.trim()){
+			alert("标题不能为空");
+			return;
+		}
+
+		 content = replaceAllHTML(content);
+		$("#content").val(content);
+		$("#title").val(title);
+		$("#updatePact").submit();
+	}
+	
+</script>

@@ -1,0 +1,177 @@
+<div class="xf_ht_jr_obu_width">
+  <div class="xf_fktz_tcc_table">
+  <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form">
+  
+    <tr>
+      <td align="right" width="140">标的名称：</td>
+      <td><input id="bidTitle" class="xf_ht_jr_dfk_i_input" type="text"></td>
+    </tr>
+     
+    <tr>
+      <td align="right" width="140">标的类型：</td>
+      <td>#{select 'productId', items:products, valueProperty:'id', labelProperty:'name', value:productId, class:'xf_membill_selectAge', id:'productId' /}</td>
+    </tr>
+    
+    <tr>
+      <td align="right" width="140">借款金额：</td>
+      <td><input id="amount" class="xf_ht_ptgl_dfk_i" type="text" onkeyup="value=value.replace(/[^\d]/g,'')" ></td>
+    </tr>
+    
+    <tr>
+      <td align="right" width="140">借款期限：</td>
+      <td>
+        <input id="period" class="xf_ht_ptgl_dfk_i" type="text" onkeyup="value=value.replace(/[^\d]/g,'')" >
+        <select class="xf_membill_selectAge" name="periodUnit" id="periodUnit" >
+          <option value="-1">年</option>
+          <option value="0">月</option>
+          <option value="1">日</option>
+        </select>
+       </td>
+    </tr>
+    
+    <tr>
+      <td align="right" width="140">年利率：</td>
+      <td><input id="apr" class="xf_ht_ptgl_dfk_i" type="text" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{2}).*/g, '$1')" >%</td>
+    </tr>
+    
+    <tr>
+      <td align="right" width="140">还款方式：</td>
+      <td>#{select 'repaymentTypeId', items:repaymentTypes, valueProperty:'id', labelProperty:'name', value:repayment_type_id, class:'xf_membill_selectAge', id:'repaymentTypeId' /}</td>
+    </tr>
+    
+    <tr>
+      <td align="right" width="140">开标时间：</td>
+      <td>
+      	 
+         <input type="text" class="xf_ht_ptgl_dfk_i" id="startPublishTime" class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="laydate-icon" style="cursor: pointer" value="">
+      </td>
+    </tr>
+    
+    <tr>
+      <td>&nbsp;</td>
+      <td class="xf_ht_tcc_button">
+        <input class="jbox_ok" type="button" value="确  定" onclick="addBidPublish();">
+        <input class="jbox_on" type="button" value="取  消" onclick="layer.closeAll()">
+      </td>
+    </tr>
+  </table>
+</div>
+</div>
+<script type="text/javascript">
+  var g_groupIds;
+  var g_selectedIds;
+  
+  $(function() {
+    //关闭
+    $(".xf_ht_jr_obu_r").click(function() {
+      $("#xf_ht_tjgly_ttc").hide();
+    });
+
+    init();
+    
+    $("#productId").append("<option value='0' selected>--请选择--</option>");
+    
+    $("#repaymentTypeId").append("<option value='0' selected>--请选择--</option>");
+
+  });
+
+  
+  
+  //确定(添加标的公告)
+  function addBidPublish() {
+   
+	var bidTitle = $.trim($("#bidTitle").val());
+	
+	if(bidTitle == ''){
+		
+		alert("借款标题不能为空");
+		
+		return;
+	}
+	
+	var productId = $("#productId").val();
+	
+	var periodUnit = $("#periodUnit").val();
+	
+	var amount = $.trim($("#amount").val());
+	
+	var repaymentTypeId = $("#repaymentTypeId").val();
+	
+	
+	if(amount == ''){
+		
+		alert("请输入借款金额");
+		
+		return;
+	}
+	
+	if(parseInt(amount) <= 0){
+		
+		alert("借款金额必须大于等于0");
+		
+		return;
+	}
+	
+	var period = $.trim($("#period").val());
+	
+	if(period == ''){
+		
+		alert("请输入借款期限");
+		
+		return;
+	}
+	
+	var apr = $.trim($("#apr").val());
+	
+	if(apr == ''){
+		
+		alert("请输入年利率");
+		
+		return;
+	}
+	
+	if(apr <= 0){
+		
+		alert("年利率必须大于0");
+		
+		return;
+	}
+	
+	var startPublishTime = $("#startPublishTime").val();
+	
+	if(startPublishTime == ''){
+		
+		alert("请选择发布时间");
+		
+		return;
+	}
+	
+	
+    $.ajax({
+      url : "@{supervisor.networkMarketing.CPSSpreadAction.addBidPublish()}",
+      type : "POST",
+      data : {
+        "bidTitle" : bidTitle,
+        "amount" : amount,
+        "productId" : productId,
+        "periodUnit" : periodUnit,
+         "period":period,
+        "repaymentTypeId" : repaymentTypeId,
+        "apr":apr,
+        "startPublishTime":startPublishTime
+      },
+      success : function(data) {
+    	  
+        alert(data.msg);
+        
+        if (data.code == 0) {
+          location.reload();
+        }
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+  
+</script>

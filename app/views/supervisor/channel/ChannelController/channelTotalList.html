@@ -1,0 +1,13 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'借款中的借款标列表' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "/supervisor/networkMarketing/CPSSpreadAction/networkMarketingLeft.control"/}    
+    #{include "/supervisor/channel/ChannelController/channelTotalList.control"/}
+  </div>
+</div>
+<script type="text/javascript">
+  $(function(){
+		showHighLight(9,9,23);
+	})
+</script>

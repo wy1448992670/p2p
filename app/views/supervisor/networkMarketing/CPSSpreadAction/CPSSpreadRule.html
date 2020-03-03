@@ -1,0 +1,43 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'CPS推广规则设置' /}
+<div class="xfht_t_j_k"> 
+<!--左-->
+#{include "supervisor/networkMarketing/CPSSpreadAction/networkMarketingLeft.control"/}
+  <div class="xn_c_content">
+    <div class="xf_content_add">
+    #{form @saveRule(), id:'saveSubmit'}
+      <div class="xfht_t_j_y_2">
+      <!--右上-->
+        <div class="xf_ht_obu_fklm">
+          CPS推广规则设置
+        </div>
+        <!-- cps推广规则设置 -->
+        <div class="xf_ht_cps_gz">
+          <ul class="xf_ht_cps_gz_ul">
+            <li><input type="radio" name="cpsRewardType" value="1" ${backstageSet?.cpsRewardType==1?"checked=checked":"--"}> 按有效会员个数结算</li>
+            <li>&nbsp;&nbsp;&nbsp;&nbsp;每个有效会员奖金：<input class="xfht_zr_input" type="text" style="width:80px;" name="rewardForCounts" value="${backstageSet?.rewardForCounts}"> 元</li>
+            <li class="xf_ht_cpsliast_last">&nbsp;&nbsp;&nbsp;&nbsp;注：有效会员是指通过链接注册并成功产生交易数据的会员。</li>
+          </ul>
+          <ul class="xf_ht_cps_gz_ul">
+            <li><input type="radio" name="cpsRewardType" value="3" ${backstageSet?.cpsRewardType==3?"checked=checked":"--"}> 按被推荐人收益${backstageSet?.rewardForRate}%结算</li>
+            <li>&nbsp;&nbsp;&nbsp;&nbsp;每个有效会员收益提成：<input class="xfht_zr_input" type="text" style="width:80px;" name="rewardForRate" value="${backstageSet?.rewardForRate}"> %
+            	&nbsp;&nbsp;开始时间：<input class="xfht_zr_input" type="text" style="width:100px;" name="cpsRelationStartDate" onclick="laydate()" value="${backstageSet?.cpsRelationStartDate?.format("yyyy-MM-dd")}">
+            </li>
+            <li class="xf_ht_cpsliast_last">&nbsp;&nbsp;&nbsp;&nbsp;注：有效会员是指通过链接注册并成功产生交易数据的会员。</li>
+          </ul>
+          <div class="xf_htgl_jgsix">
+            <input class="xf_ht_tcc_button_ok" type="submit" value="提交发布">
+          </div>
+        </div>
+      </div>
+    #{/form}
+    </div>
+  </div>
+</div>
+
+<script>
+$(function(){
+	//高亮显示
+	showHighLight(1,1,3);
+})
+</script>

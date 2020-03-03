@@ -1,0 +1,372 @@
+#{extends 'common/frontMain.html' /}
+ %{
+  business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{set title: currBackstageSet.seoKeywords + '完善账号信息' /}
+<div class="xf_login_centent clr">
+<div class="xf_login_centent_rightbj"></div>
+	<div class="xf_login_title xf_login_title2">
+		#{if obj}
+			<span class="xf_login_title_yhdl"><img src="${obj?.get('picurl')}" width="30px" height="30px"  style="vertical-align: middle;"/></span ><span class="xf_login_title_yhdl" style="vertical-align: middle;">Hi,${obj?.get('nickname')}, 欢迎使用${obj?.get('title')}帐号登录${currBackstageSet?.platformName}</span>
+		#{/if}	
+	</div>
+	<div class="xf_register_email">
+		<ul class="xf_register_email_ul clr" id="xf_wyjkview_xxk">
+			<li class="xf_con_wyjk_r_liishot xf_con_wyjk_r_liwyhm">创建新账号</li>
+			<li onClick="byBinding()">已有本平台账号</li>
+		</ul>
+		#{form @front.quicklogin.QuickLogin.quickRegisting(), id:'submit'}
+		<input type="hidden" name="obj" value="${obj}"/>
+		<input type="hidden" name="bindKey" value="${obj?.get('bindKey')}"/>
+		<input type="hidden" name="bindVal" value="${obj?.get('bindVal')}"/>
+		<div class="xf_con_wyjk_tentultbody">
+			<ul class="xf_login_inputsrul xf_login_inputsrul_zhyhm">
+				<li>
+					<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">
+					<span class="xf_register_hx">*</span>用户名：</div>
+					<div class="xf_login_inputsrul_r">
+						<input type="text" id="userName" name="userName" class="xf_login_shurk" value="${flash?.userName}" />
+						<span class="xf_register_intext" id="s_userName">2-10个字符组成（不含特殊字符）</span>
+					</div>
+				</li>
+				<li>
+					<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">
+					<span class="xf_register_hx">*</span>邮箱：</div>
+					<div class="xf_login_inputsrul_r">
+						<input type="text" id="email" name="email" value="${flash?.email}" class="xf_login_shurk">
+					    <span class="xf_register_intext" id="s_email">用来处理账单及找回密码</span>
+					</div>
+				</li>
+				<li>
+					<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">
+					<span class="xf_register_hx">*</span>密码：
+					</div>
+					<div class="xf_login_inputsrul_r">
+						<input type="password" id="password" name="password" value="${flash?.password}" class="xf_login_shurk">
+						<span class="xf_register_intext" id="s_password">6-20位数字和字母组成</span>
+					</div>
+				</li>
+				<li>
+					<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">
+					<span class="xf_register_hx">*</span>确认密码：
+					</div>
+					<div class="xf_login_inputsrul_r">
+						<input class="xf_login_shurk" type="password" id="confirmPassword" value="${flash?.confirmPassword}" name="confirmPassword" />
+						<span class="xf_register_intext" id="s_confirmPassword"></span>
+					</div>
+				</li>
+				<li>
+					<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">
+					邀请码：
+					</div>
+					<div class="xf_login_inputsrul_r">
+						<input class="xf_login_shurk" type="text" id="recommended" name="recommended" value="${flash?.recommendUserName}">
+						<span class="xf_register_intext" id="s_recommended">如无邀请码，可不填写</span>
+					</div>
+				</li>
+				<li>
+					<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">验证码：</div>
+					<div class="xf_login_inputsrul_r">
+						<input class="xf_login_yzm" type="text" name="code" id="code" value="${flash.code}">
+						<input type="hidden" name="randomID" id="randomID" />
+						<img src="" class="xf_login_yzmimg" id="img" onClick="change()" width="75px" height="28px">
+						<a href="javascript:void(0);" onClick="change()" class="xf_login_inputspan">刷新</a>
+					</div>
+				</li>
+				<li>
+					<div class="xf_register_inputsrul_l">
+						&nbsp;
+					</div>
+					<div class="xf_login_inputsrul_r">
+						<input type="checkbox" class="xf_register_fxk" id="agreement" name="agreement" checked="checked">
+						<span class="xf_register_intext xf_register_intext2">我已阅读并同意</span>
+						<span class="xf_register_inxieyi" onclick="showProtocol()">《${currBackstageSet?.platformName}用户注册协议》</span>
+					</div>
+				</li>
+				<li>
+					<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">&nbsp;</div>
+					<div class="xf_login_inputsrul_r">
+						<a href="javascript:void(0);" onClick="register()" class="xf_con_inputfbjk">完成，继续</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+		#{/form}
+	</div>
+</div>
+#{include "front/account/LoginAndRegisterAction/register.control"/}
+<script type="text/javascript">
+	 $(function(){
+         var setCode = #{jsAction @front.account.LoginAndRegisterAction.setCode()/}
+		 $.post(setCode({}),function(data){
+			var arr=eval(data);
+			var img = arr.img;
+			$("#img").attr("src","@{front.account.LoginAndRegisterAction.getImg()}?id="+img);	
+			$("#randomID").val(img);
+		 });
+     })
+     
+    function showProtocol() {
+	
+		showDiv($("#xf_mem_zc_xytc"));
+	}
+	
+	function change(){
+		var setCode = #{jsAction @front.account.LoginAndRegisterAction.setCode()/}
+		$.post(setCode({}),function(data){
+		var arr=eval(data);
+		var img = arr.img;
+		$("#randomID").val(img);
+		$("#img").attr("src","@{front.account.LoginAndRegisterAction.getImg()}?id="+img)	
+		});
+	}
+	
+	function byBinding(){
+		$('#submit').attr('action',"@{front.quicklogin.QuickLogin.quickLogin}");
+		$('#submit').submit();
+    }
+</script>
+<script type="text/javascript">
+       
+       $(function(){
+       		$("#userName").blur();
+	        if($("#userName").val() == ''){
+	             $("#userName").val("建议不用真实姓名作为用户名");
+	        }
+	        
+			$("#userName").focus(function(){
+				 
+				  if($(this).val() == "建议不用真实姓名作为用户名"){  
+	                  $(this).val("");           
+				  } 
+			}).blur(function(){
+				
+				 if ($(this).val() == '') {
+	                $(this).val("建议不用真实姓名作为用户名");
+	             }
+			});
+			
+		});
+		
+	   var bName = 0;
+       var bEmail = 0;
+       var bRecommended = 0;
+  //     var bCode = 0;
+		
+       $(document).ready(function(){
+		   $("form :input").blur(function(){ 
+		   
+		   if($(this).attr("id") == "userName"){
+		   
+		     if(this.value=="" ||　this.value== "建议不用真实姓名作为用户名"){
+		           $("#s_userName").removeClass("xf_register_intext");
+				   $("#s_userName").addClass("xf_register_intext1");
+		           $("#s_userName").html("请填写用户名");
+		     }else if(this.value.length < 2){ 
+		           $("#s_userName").removeClass("xf_register_intext");
+				   $("#s_userName").addClass("xf_register_intext1");
+		           $("#s_userName").html("用户名长度为2-10个字符");
+		     }else if(this.value.length > 10){
+		           $("#s_userName").removeClass("xf_register_intext");
+				   $("#s_userName").addClass("xf_register_intext1");
+		           $("#s_userName").html("用户名长度为2-10个字符");
+		     }else if(!/^[\u4E00-\u9FA5A-Za-z0-9_]+$/.test(this.value)){
+		           $("#s_userName").removeClass("xf_register_intext");
+				   $("#s_userName").addClass("xf_register_intext1");
+		           $("#s_userName").html("用户名不能含有特殊字符");
+		     }else{
+		          var name = this.value;
+		          var hasNameExist = #{jsAction @front.account.LoginAndRegisterAction.hasNameExist(':name')/}
+				  $.post(hasNameExist({name:encodeURI(name)}),function(data){
+					
+				  var arr=eval(data);
+				  
+				  if(arr.error.code < 0){
+				  	   bName = -1;
+			           $("#s_userName").html(arr.error.msg);
+				    }else{
+				       bName = 0;
+				       $("#s_userName").removeClass("xf_register_intext1");
+				       $("#s_userName").addClass("xf_register_intext");
+					   $("#s_userName").html("该用户名可以使用");
+				    }
+		          });
+		         }
+		         
+		     }
+		   
+		    if($(this).attr("id")=="email"){
+		       var email = this.value;
+		        var result;
+		        
+		        if(this.value == ""){
+		            $("#s_email").removeClass("xf_register_intext");
+				    $("#s_email").addClass("xf_register_intext1");
+			        $("#s_email").html("请填写邮箱地址");
+		        }else if(!(this.value).isEmail()){
+		            $("#s_email").removeClass("xf_register_intext");
+				    $("#s_email").addClass("xf_register_intext1");
+			        $("#s_email").html("请填写正确的邮箱地址");
+		        }else{
+		            var hasEmailExist = #{jsAction @front.account.LoginAndRegisterAction.hasEmailExist(':email')/}
+			        $.post(hasEmailExist({email:email}),function(data){
+					    var arr=eval(data);
+					
+					    if(arr.error.code < 0){
+					        bEmail = -1;
+			                $("#s_email").html(arr.error.msg);
+					    }else{
+					    	bEmail = 0;
+					    	$("#s_email").removeClass("xf_register_intext1");
+				            $("#s_email").addClass("xf_register_intext"); 
+			                $("#s_email").html("邮箱用来处理账单及找回密码");
+					    }
+				    });
+		       }
+		          
+		    }
+		   
+		   if($(this).attr("id") == "password"){
+		   
+		     if(this.value == ""){
+		          $("#s_password").removeClass("xf_register_intext");
+				  $("#s_password").addClass("xf_register_intext1");
+		          $("#s_password").html("请设置您的密码");  
+		     }else if(this.value.length < 6){
+		          $("#s_password").removeClass("xf_register_intext");
+				  $("#s_password").addClass("xf_register_intext1");
+		          $("#s_password").html("密码长度为6-20个字符"); 
+		     }else if(this.value.length >20){
+		          $("#s_password").removeClass("xf_register_intext");
+				  $("#s_password").addClass("xf_register_intext1");
+		          $("#s_password").html("密码长度为6-20个字符"); 
+		     }else if(!/[a-zA-Z\d]{6,20}/.test(this.value)){
+		          $("#s_password").removeClass("xf_register_intext");
+				  $("#s_password").addClass("xf_register_intext1");
+		     	  $("#s_password").html("密码由6-20位数字或字母组成");
+		     }
+		     else{
+		           $("#s_password").removeClass("xf_register_intext1");
+				   $("#s_password").addClass("xf_register_intext");
+		           $("#s_password").html("密码符合要求"); 
+		     }
+		   }
+
+		   if($(this).attr("id")=="confirmPassword"){
+		   	
+		     if(this.value == ""){
+		           $("#s_confirmPassword").removeClass("xf_register_intext");
+				   $("#s_confirmPassword").addClass("xf_register_intext1");
+		           $("#s_confirmPassword").html("请输入密码确认"); 
+		     }else if(this.value != $("#password").val()){ 
+		           $("#s_confirmPassword").removeClass("xf_register_intext");
+				   $("#s_confirmPassword").addClass("xf_register_intext1");
+		           $("#s_confirmPassword").html("两次输入的密码不一致"); 
+		     }else{
+		           $("#s_confirmPassword").removeClass("xf_register_intext1");
+				   $("#s_confirmPassword").addClass("xf_register_intext");
+		           $("#s_confirmPassword").html("确认密码成功");
+		     }
+		  }	
+		  
+		  if($(this).attr("id")=="recommended"){
+		  	if(this.value != ""){
+	          var hasNameExist = #{jsAction @front.account.LoginAndRegisterAction.hasNameExist(':name')/}
+			  $.post(hasNameExist({name:encodeURI(this.value)}),function(data){ 
+			  	  var arr=eval(data);
+				  
+				  if(arr.error.code != -2){
+				  	 bRecommended = -1;
+				  	 $("#s_recommended").removeClass("xf_register_intext");
+				     $("#s_recommended").addClass("xf_register_intext1");
+			         $("#s_recommended").html("该用户不存在，不能成为推荐人");
+				  }else{
+				  	 bRecommended = 0;
+				  	 $("#s_recommended").removeClass("xf_register_intext1");
+				     $("#s_recommended").addClass("xf_register_intext");
+				  	 $("#s_recommended").html("推荐人填写正确");
+				  }
+			  });
+		    }
+		  }
+	   });	 
+	 });
+		 
+     function register(){
+     	 var username = $("#userName").val();
+     	 
+	     if(username =='' ||　username == "建议不用真实姓名作为用户名"){
+	          alert("请填写用户名");
+	          return;
+	     }else if(username.length < 2){ 
+	          alert("用户名长度为2-10个字符");
+	          return;
+	     }else if(username.length > 10){
+	          alert("用户名长度为2-10个字符");
+	          return;
+	     }else if(!/^[\u4E00-\u9FA5A-Za-z0-9_]+$/.test(username)){
+	          alert("用户名不能含有特殊字符");
+	          return;
+	     }else if(bName < 0){
+		      alert("该用户名已存在");
+		      return;
+	    }
+		    
+	   var email = $("#email").val();
+		 
+       if(email == ""){
+        	alert("请填写邮箱地址");
+        	return;
+       }else if(!(email).isEmail()){
+        	alert("请填写正确的邮箱地址");
+        	return;
+       }else if(bEmail < 0){
+            alert("对不起，该邮箱已存在");
+            return;
+       }
+       
+       var password = $("#password").val();
+		   
+      if(password == ""){
+          alert("请设置您的密码");
+          return; 
+      }else if(password.length < 6){
+         alert("密码长度为6-20个字符"); 
+         return;
+      }else if(password.length >20){
+          alert("密码长度为6-20个字符"); 
+          return;
+      }else if(!/[a-zA-Z\d]{6,20}/.test(password)){
+     	  alert("密码由6-20位数字或字母组成");
+     	  return;
+      }
+		      
+	  var confirmPassword = $("#confirmPassword").val();
+	    
+      if(confirmPassword == ""){
+           alert("请输入密码确认"); 
+           return;
+      }else if(confirmPassword != $("#password").val()){ 
+           alert("两次输入的密码不一致"); 
+           return;
+      }
+      
+      if($("#code").val() == '') {
+   		  alert("请输入验证码");
+   		  return;
+      }
+      
+      if(!$("#agreement").is(":checked")) {
+           alert("注册${currBackstageSet?.platformName}需同意注册协议");
+           return;
+      }
+      
+      if(bRecommended < 0) {
+      	   alert("对不起，该用户不存在，不能成为推荐人");
+      	   return;
+      }
+      
+      
+      $("#submit").submit();
+   }
+</script>

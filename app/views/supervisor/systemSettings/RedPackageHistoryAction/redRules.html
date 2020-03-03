@@ -1,0 +1,203 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'广告条管理' /}
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  #{include '/supervisor/activity/OperatingActivitiesLeft.control'/}
+  
+  <script type="text/javascript" src="@{'public/javascripts/kindeditor-4.1.7/kindeditor.js'}"></script>
+  <link rel="stylesheet" src="@{'public/javascripts/kindeditor-4.1.7/themes/default/default.css'}" />
+  <script charset="utf-8" src="@{'public/javascripts/kindeditor-4.1.7/kindeditor-min.js'}"></script>
+  <script charset="utf-8" src="@{'public/javascripts/kindeditor-4.1.7/lang/zh_CN.js'}"></script>
+  <script   type="text/javascript">  
+    var editor;
+    KindEditor.ready(function(K) {
+      editor = K.create('#TextArea3', {
+           cssPath :"@{'public/javascripts/kindeditor-4.1.7/plugins/code/prettify.css'}",
+           uploadJson : '@{FileUpload.uploadImage2()}',
+        allowFileManager : true,
+        allowUpload: true
+      });
+    });
+  </script>
+  #{form @redRulesUpdate() ,method:'POST',id:'submitedit'}
+  <div class="xn_c_content">
+    <div class="xf_content_add">
+    <div class="xfht_t_j_y_2">
+    <!--右上-->
+    <div class="xf_ht_obu_fklm">编辑红包使用规则</div>
+    <!-- 借款标基本信息 -->
+    <div class="xf_ht_news_content">
+    <div class="xf_ht_news_content_t">
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_news_content_t_t">
+      <!--  <tr>
+          <td width="200" align="right" valign="middle" style="padding-right:5px;">类别：</td>
+          <td>
+            <input class="xfht_zr_input" type="text" name="topTypeName" value="${news?.type?.parentType?.name}" disabled="disabled"/>
+            <input class="xfht_zr_input" type="text" name="typeName" value="${news?.type?.name}" disabled="disabled"/>  --> 
+            <input type="hidden" id="topTypes" name="topTypes" value="${news?.type?.id}">
+            <input type="hidden" name="typeId" value="${news?.id}">
+            <input type="hidden" name="id" value="${news?.id}">
+			<input type="hidden" id="editcontent" name="editcontent" />
+        <!--   </td>
+        </tr>--> 
+        <tr>
+          <td width="200" align="right" valign="middle" style="padding-right:5px;">标题：</td>
+          <td>
+            <input class="xfht_zr_input" type="text" style="width:600px;" name="edittitle" value="${news?.title}" id="edittitle" maxlength="30">
+          </td>
+        </tr>
+       <!--   <tr>
+          <td width="200" align="right" valign="middle" style="padding-right:5px;">显示时间：</td>
+          <td>
+            <input class="xfht_zr_input" type="text" style="width:160px;" name="startShowTime" id="startDate" value="${news?.startShowTime?.format('yyyy-MM-dd')}" class="laydate-icon" onclick="laydate()" style="cursor:pointer">
+            <span class="xfht_news_zz_span">作者：</span> 
+            <input class="xfht_zr_input" type="text" style="width:160px;" name="editauthor" id="editauthor" value="${news?.author}">
+          </td>
+        </tr> --> 
+        <tr>
+          <td width="200" align="right" valign="top" style="padding-right:5px;">内容编辑：</td>
+          <td>
+            <div class="xf_ht_news_conr">
+              <textarea class="xf_ht_jr_obttd_textarea" id="TextArea3">${news?.content}</textarea>
+            </div>
+          </td>
+        </tr>
+        <!-- <tr>
+          <td width="200" align="right" valign="top" style="padding-right:5px;">SEO内链关键词：</td>
+          <td>
+            <input class="xfht_zr_input" type="text" style="width:600px;" id="editkeyword" name="editkeyword"  value="${news?.keyword}"><br />
+            <div class="xf_ht_news_span_two">不超过5个词，每个词不越过10个字符，为本文的主题词，用逗号隔开</div>
+          </td>
+        </tr> --> 
+      </table>
+    </div>
+  <!--  <div class="xf_ht_news_content_b">
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_news_content_t_b">
+        <tr>
+          <td width="34" align="center" valign="middle"><input id="index"  type="checkbox" name="locationPc"
+            #{if news.locationPc&1}
+            checked="checked"
+            #{/if}
+            #{else}
+            #{/else}
+            value="1"></td>
+          <td>
+
+          	 <span style="position: relative; vertical-align:middle;">&nbsp;&nbsp;
+                <input class='upload_btn' type="button" value="上传图片" style="display:inline-block; *margin-top:-28px !important;"> &nbsp;&nbsp;
+                <input type="file" class="upload_file" name="imgFile" id="imgFile" style="left:-70px;*top:4px !important; *left:10px !important!" onchange="uploadImageType('imgFile','image');" />
+              </span>
+          	<span style="padding:0 20px;*padding:0 20px 0 80px !important; *vertical-align:-5px !important; ">推荐至首页</span>
+             #{img src:"${news?.imageFilename}",id:"image",name:"image",alt:"",width:"30",height:"30"}#{/img}
+              
+              <span style="color:#999;" id="imageResolution"></span>
+              <input type="hidden" name="filename" id="filename" />
+          </td>
+        </tr>
+        <tr>
+          <td width="34" align="center" valign="middle"><input id="index2"  type="checkbox" name="locationPc"
+            #{if news.locationPc&8}
+            checked="checked"
+            #{/if}
+            #{else}
+            #{/else}
+            value="8"></td>
+           <td>
+           <span style="position: relative; vertical-align:middle;">&nbsp;&nbsp;
+                <input class='upload_btn' type="button" value="上传图片" style="display:inline-block; *margin-top:-28px !important;"> &nbsp;&nbsp;
+                <input type="file" class="upload_file" name="imgFile" id="imgFile2" style="left:-70px;*top:4px !important; *left:10px !important!" onchange="uploadImageType('imgFile2','image2');" style="left:-246px;" />
+              	</span>
+           <span style="padding:20px;*padding:0 20px 0 80px !important; *vertical-align:-5px !important; ">APP端官方活动</span>
+             #{img src:"${news?.imageFilename2}",id:"image2",name:"image2",alt:"",width:"30",height:"30"}#{/img}
+                
+              <span style="color:#999;" id="imageResolution"></span>
+              <input type="hidden" name="filename2" id="filename2" />
+            </td>
+        </tr>
+        <tr>
+          <td width="34" align="center" valign="middle">
+            <input type="checkbox" id="effect"  name="locationPc" #{if news.locationPc&2}
+            checked="checked"
+            #{/if}   value="2"/>
+          </td>
+          <td>推荐跑马灯效果区</td>
+        </tr>
+        <tr>
+          <td align="center" valign="middle">
+            <input id="headlines"  name="locationPc" type="checkbox" #{if news.locationPc&4}
+            checked="checked"
+            #{/if}
+            #{else}
+            #{/else}
+            value="4"/>
+          </td>
+          <td>推荐为首页头条</td>
+        </tr>
+        <tr>
+          <td align="center" valign="middle">&nbsp;</td>
+          <td>浏览次数设置：<input class="xfht_zr_input" type="text" style="width:80px;" name="editreadCount" id="editreadCount" value="${news?.readCount}">
+              *{<span style="padding-left:20px;">显示顺序设置：</span>
+              <input type="hidden" id="hiddenorder" name="editorder" value="${news?.order}"/>
+              <input class="xfht_zr_input" type="text" style="width:80px;" name="editorder" id="editorder"  onblur="checkOrder();" value="${news?.order}" disabled="disabled">}*
+          </td>
+        </tr>
+      </table>
+    </div> --> 
+    <div class="xf_ht_news_content_button" colspan="4">
+      <input class="xf_ht_tcc_button_ok" type="button" value="确定" onClick="contentEdit()">
+    </div>
+    </div>
+    </div>
+    </div>
+  </div>
+  #{/form}
+  </div>
+</div>
+<script type="text/javascript">
+  $(function() {
+    showHighLight(1,8,83);
+        
+    $("#hiddenTime").hide();
+    
+    $("#parent").change(function(){
+      var selectVal = $(this).children('option:selected').val();
+      var jsAction = #{jsAction @supervisor.webContentManager.NewsManageAction.typeList(":parentId")/}
+      $.post(jsAction({parentId:selectVal}),function(data) {
+        var cityList = [];
+        for(var i = 0; i < data.length; i ++){
+          cityList.push("<option value='"+data[i].id+"'>"+data[i].name+"</option>");
+        }
+        $("#child").html(cityList);
+      });
+    });
+  })
+
+  function cancleEdit(){
+    $("#control3").hide();
+    $("#control1").show();
+  }
+    
+  function contentEdit(){
+    var title = $("#edittitle").val();
+    var content = editor.html();
+    content = replaceAllHTML(content);
+    $("#editcontent").val(content);
+    var loanImage = $("#loanImage").attr("src");
+    var patrn=/^([1-9]\d*|0)(\.\d*[1-9])?$/; 
+  
+    
+    
+    if(title == "" || title == null){
+      alert("对不起！标题不能为空!");
+      return ;
+    }
+    
+    if(content == "" || content == null){
+      alert("对不起！新闻内容不能为空!");
+      return ;
+    }
+    
+    $("#submitedit").submit();
+  } 
+</script>

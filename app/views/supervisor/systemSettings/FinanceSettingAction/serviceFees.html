@@ -1,0 +1,325 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'服务费设置' /}
+
+%{
+	boolean debtUse = constants.Constants.DEBT_USE;
+}%
+
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/systemSettings/common/leftBar.control"/}
+    <div class="xn_c_content">
+      <div class="xf_content_add">
+        <div class="xfht_t_j_y_2">
+          <!--右上-->
+          <div class="xf_ht_obu_fklm">
+                                        平台服务费设置
+          </div>
+          <div class="xf_htgl_jgone xf_ht_fff_sz">
+            <h3 class="xf_htgl_jgtitle">借款管理费</h3>
+            <div class="xf_ht_gl_jgone_botton">
+              <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr>
+                <td align="center">借款管理费(月)：借款本金 *
+                <input class="xfht_zr_input" type="text" style="width:80px;" id="borrowFee" value="${backstageSet?.borrowFee}" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/^\.+/, '').replace(/^(100|\d{1,2}(\.\d{0,2})?).*/,'$1')"> %  +本金*（期数  - 
+                <input class="xfht_zr_input" type="text" style="width:80px;" id="borrowFeeMonth" value="${backstageSet?.borrowFeeMonth}" onkeyup="value=value.replace(/[^\d]/g,'').replace(/^(100|\d{0,2})*/g, '$1')">个月）* 
+                <input class="xfht_zr_input" type="text" style="width:80px;" id="borrowFeeRate" value="${backstageSet?.borrowFeeRate}" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/^\.+/, '').replace(/^(100|\d{1,2}(\.\d{0,2})?).*/,'$1')">  %                
+                <br/>借款管理费(日)：借款本金 *
+                <input class="xfht_zr_input" type="text" style="width:80px;" id="borrowFeeDay" value="${backstageSet?.borrowFeeDay}" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/^\.+/, '').replace(/^(100|\d{1,2}(\.\d{0,2})?).*/,'$1')"> % / ${day_interest} * 借款天数         
+                <br/>
+                <br/><font color="red" >提示：借款管理费最大为本金的50%，如果超出本金的50%，将按照本金的50%收取</font>
+                </td>
+              </tr>
+              </table>
+            </div>
+            <h3 class="xf_htgl_jgtitle">理财管理费</h3>
+            <div class="xf_ht_gl_jgone_botton">
+              <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr>
+                <td align="center">理财管理费：按年利率收益 
+                <input class="xfht_zr_input" type="text" style="width:80px;" id="investmentFee" value="${backstageSet?.investmentFee}" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/^\.+/, '').replace(/^(100|\d{1,2}(\.\d{0,2})?).*/,'$1')"> %收取            
+                </td>
+              </tr>
+              </table>
+            </div>
+            #{if debtUse}
+            <h3 class="xf_htgl_jgtitle">债权转让管理费</h3>
+            <div class="xf_ht_gl_jgone_botton">
+              <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr>
+                <td align="center">债权转让管理费：按年利率收益 
+                <input class="xfht_zr_input" type="text" style="width:80px;" id="debtTransferFee" value="${backstageSet?.debtTransferFee}" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/^\.+/, '').replace(/^(100|\d{1,2}(\.\d{0,2})?).*/,'$1')"> %收取           
+                </td>
+              </tr>
+              </table>
+            </div>
+            #{/if}
+            #{else}
+            <input  type="hidden" id="debtTransferFee" value="0"> 
+            #{/else}
+            <h3 class="xf_htgl_jgtitle">逾期管理费</h3>
+            <div class="xf_ht_gl_jgone_botton">
+              <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr>
+                <td align="center">逾期罚息：按账单金额 
+                <input class="xfht_zr_input" type="text" style="width:80px;" id="overdueFee" value="${backstageSet?.overdueFee}" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/^\.+/, '').replace(/^(100|\d{1,2}(\.\d{0,2})?).*/,'$1')"> % * 逾期天数收取       
+                </td>
+              </tr>
+              </table>
+            </div>
+            <h3 class="xf_htgl_jgtitle">提现手续费</h3>
+            <div class="xf_ht_gl_jgone_botton">
+              <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr>
+                <td align="center">提现手续费：按（提现金额  -  
+                <input class="xfht_zr_input" type="text" style="width:80px;" id="withdrawFee" value="${backstageSet?.withdrawFee}" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{2}).*/g, '$1')">）  * 
+                <input class="xfht_zr_input" type="text" style="width:80px;" id="withdrawRate" value="${backstageSet?.withdrawRate}" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/^\.+/, '').replace(/^(100|\d{1,2}(\.\d{0,2})?).*/,'$1')">% + 
+                <input class="xfht_zr_input" type="text" style="width:80px;" id="withdrawBase" oninput="this.value=this.value.replace(/\D/g,'')" value="${backstageSet?.withdrawBase}" /> 收取     
+                <br/>
+                <br/><font color="red" >提示：提现手续费最大为提现金额的1%，如果超出1%，将按照1%收取</font>
+                </td>
+              </tr>
+              </table>
+            </div>
+            <div style="display:none;">
+            <h3 class="xf_htgl_jgtitle">VIP服务费</h3>
+            <div class="xf_ht_gl_jgone_botton">
+              <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr>
+                <td align="center" style="padding:20px 0 0 0;">VIP服务费：
+                <input class="xfht_zr_input" type="text" style="width:100px;" id="vipFee" value="${backstageSet?.vipFee}" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{2}).*/g, '$1')"> 元 
+                <input type="radio" class="xf_ht_zr_input_radio" name="vipTimeType" value="0" #{if backstageSet?.vipTimeType == 0}checked="checked"#{/if}> 年
+                <input type="radio" class="xf_ht_zr_input_radio" name="vipTimeType" value="1" #{if backstageSet?.vipTimeType == 1}checked="checked"#{/if}> 月
+                </td>
+              </tr>
+              <tr>
+                <td align="center" style="padding:20px 0 0 0;">最少开通年限：
+                <input type="radio" class="xf_ht_zr_input_radio" #{if backstageSet?.vipMinTimeType == 0}checked="checked"#{/if} name="vipMinTimeType" value="0"> 
+                <input class="xfht_zr_input" type="text" id="vipMinTimeLength0" value="#{if backstageSet?.vipMinTimeType == 0}${backstageSet?.vipMinTimeLength}#{/if}" onkeyup="value=value.replace(/[^\d]/g,'')"> 年
+                <input type="radio" class="xf_ht_zr_input_radio" #{if backstageSet?.vipMinTimeType == 1}checked="checked"#{/if} name="vipMinTimeType" value="1">
+                <input class="xfht_zr_input" type="text" style="width:80px;" id="vipMinTimeLength1" value='#{if backstageSet?.vipMinTimeType == 1}${backstageSet?.vipMinTimeLength}#{/if}' onkeyup="value=value.replace(/[^\d]/g,'')"> 月
+                </td>
+              </tr>
+              <tr>
+                <td align="center" style="padding:20px 0 0 0;">VIP服务费折扣：
+                <input class="xfht_zr_input" type="text" style="width:80px;" id="vipDiscount" value="${backstageSet?.vipDiscount}" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{2}).*/g, '$1')"> 折 &nbsp;&nbsp;&nbsp;&nbsp;借款资料审核周期：
+                <input class="xfht_zr_input" type="text" style="width:80px;" id="vipAuditPeriod" value="${backstageSet?.vipAuditPeriod}" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{2}).*/g, '$1')"> 个工作日 
+                </td>
+              </tr>
+              </table>
+            </div>
+            <h3 class="xf_htgl_jgtitle">资料审核费</h3>
+            <div class="xf_ht_gl_jgone_botton">
+              <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr>
+                <td align="center">
+                <span class="xfht_gl_span_cen">见审核科目库管理</span>
+                </td>
+              </tr>
+              </table>
+            </div>
+            </div>
+            <h3 class="xf_htgl_jgtitle ">最低充值金额</h3>
+            <div class="xf_ht_gl_jgone_botton">
+              <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr>
+                <td align="center">
+                		最低充值金额：
+                <input type="text" class="xfht_zr_input" style="width:100px;margin:0 5px 0 10px" id="rechargeLowest" value="${backstageSet?.rechargeLowest}">元
+                </td>
+              </tr>
+              </table>
+            </div>
+            <h3 class="xf_htgl_jgtitle">最高充值金额</h3>
+            <div class="xf_ht_gl_jgone_botton">
+              <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr>
+                <td align="center">
+                		最高充值金额：
+                <input type="text" class="xfht_zr_input" style="width:100px;margin:0 5px 0 10px" id="rechargeHighest" value="${backstageSet?.rechargeHighest}">元
+                </td>
+              </tr>
+              </table>
+            </div>
+          </div>
+          <div class="xf_htgl_jgsix_hyg">
+            <input class="xf_ht_tcc_button_ok" type="button" onclick="save()" id="xf_dfk_fkzh_tcc3" value="保存">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    /* 高亮显示 */
+	  showHighLight(2,2,5);
+  });
+  
+  function save() {
+    var borrowFee = $("#borrowFee").val();
+    var borrowFeeDay = $("#borrowFeeDay").val();
+    var borrowFeeMonth = $("#borrowFeeMonth").val();
+    var borrowFeeRate = $("#borrowFeeRate").val();
+    
+    if ("" == borrowFee.trim() || "" == borrowFeeMonth.trim() || "" == borrowFeeRate.trim() || "" == borrowFeeDay.trim()) {
+      alert("请把借款管理费信息填充完整");
+      
+      return;
+    }
+    
+    var investmentFee = $("#investmentFee").val();
+    
+    if ("" == investmentFee.trim()) {
+      alert("请填写理财管理费");
+      
+      return;
+    }
+    
+    var debtTransferFee = $("#debtTransferFee").val();
+    
+    if ("" == investmentFee.trim()) {
+      alert("请填写债权转让管理费");
+      
+      return;
+    }
+    
+    var overdueFee = $("#overdueFee").val();
+    
+    if ("" == investmentFee.trim()) {
+      alert("请填写逾期罚息");
+      
+      return;
+    }
+    
+    var withdrawFee = $("#withdrawFee").val();
+    var withdrawRate = $("#withdrawRate").val();
+    var withdrawBase = $("#withdrawBase").val();
+    
+    if ("" == withdrawRate.trim() || "" == withdrawFee.trim()) {
+      alert("请把提现手续费信息填充完整");
+      
+      return;
+    }
+    
+    if (withdrawBase == null || withdrawBase == "" || withdrawBase == undefined){
+    	withdrawBase = 0;
+    }
+    /*不需要充值手续费
+    var rechargeFee = $("#rechargeFee").val();
+    
+    if ("" == rechargeFee.trim()) {
+      alert("请填写充值手续费");
+      
+      return;
+    }
+    */
+    var vipFee = $("#vipFee").val();
+    
+    if ("" == vipFee.trim()) {
+      alert("请填写VIP服务费");
+      
+      return;
+    }
+    
+    var vipTimeType = $('input:radio[name="vipTimeType"]:checked').val();
+   /* var vipTimeType = $(':radio[name="vipTimeType"]:checked').val();*/
+    /*var vipTimeLength;
+    
+    if ("0" == vipTimeType) {
+      vipTimeLength = $("#vipTimeLength0").val();
+    } else {
+      vipTimeLength = $("#vipTimeLength1").val();
+    }*/
+    
+    var vipMinTimeType = $('input:radio[name="vipMinTimeType"]:checked').val();
+    var vipMinTimeLength;
+    
+    if ("0" == vipMinTimeType) {
+      vipMinTimeLength = $("#vipMinTimeLength0").val();
+    } else {
+      vipMinTimeLength = $("#vipMinTimeLength1").val();
+    }
+    
+    if ("" == vipMinTimeLength.trim()) {
+      alert("请把VIP服务费填写完整");
+      
+      return;
+    }
+    
+    var vipDiscount = $("#vipDiscount").val();
+    
+    if ("" == vipDiscount.trim()) {
+      alert("请填写其他服务费折扣");
+      
+      return;
+    }
+    
+    var vipAuditPeriod = $("#vipAuditPeriod").val();
+    
+    if ("" == vipAuditPeriod.trim()) {
+      alert("请填写借款资料审核周期");
+      
+      return;
+    } 
+    
+    var rechargeLowest = $.trim($('#rechargeLowest').val());
+    if(rechargeLowest == ''){
+    	alert('最低充值金额不能为空');
+    	return;
+    }
+    if(isNaN(rechargeLowest) || rechargeLowest < 0){
+    	alert('最低充值金额必须大于等于0');
+    	return;
+    }
+    
+    var rechargeHighest = $.trim($('#rechargeHighest').val());
+    if(rechargeHighest == ''){
+    	alert('最高充值金额不能为空');
+    	return;
+    }
+    if(isNaN(rechargeHighest) || rechargeHighest < 0){
+    	alert('最高充值金额必须大于等于0');
+    	return;
+    }
+    
+    $.ajax({
+      url : "@{saveServiceFees()}",
+      type : "POST",
+      data : {
+        "borrowFee" : borrowFee,
+        "borrowFeeDay" : borrowFeeDay,
+        "borrowFeeMonth" : borrowFeeMonth,
+        "borrowFeeRate" : borrowFeeRate,
+        "investmentFee" : investmentFee,
+        "debtTransferFee" : debtTransferFee,
+        "overdueFee" : overdueFee,
+        "withdrawFee" : withdrawFee,
+        "withdrawRate" : withdrawRate,
+      //"rechargeFee" : rechargeFee,
+        "vipFee" : vipFee,
+        "vipTimeType" : vipTimeType,
+      //"vipTimeLength" : vipTimeLength,
+        "vipMinTimeType" : vipMinTimeType,
+        "vipMinTimeLength" : vipMinTimeLength,
+        "vipDiscount" : vipDiscount,
+        "vipAuditPeriod" : vipAuditPeriod,
+        "withdrawBase" : withdrawBase,
+        "rechargeLowest" : rechargeLowest,
+        "rechargeHighest" : rechargeHighest
+      },
+      success : function(data) {
+        alert(data.msg);
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+</script>
+
+

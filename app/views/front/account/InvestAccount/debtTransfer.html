@@ -1,0 +1,55 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /}
+#{set title:currBackstageSet.seoTitle +' | 收款中的投资标  | '+invest?.bid?.title+'借款标债权转让' /}
+<script type="text/javascript">
+    $(function(){
+		$("#xf_membill_shurk_yhm").focus(function(){
+			  $(this).addClass("focus");
+			  if($(this).val() ==this.defaultValue){  
+                  $(this).val("");           
+			  } 
+		}).blur(function(){
+			 $(this).removeClass("focus");
+			 if ($(this).val() == '') {
+                $(this).val(this.defaultValue);
+             }
+		});
+		$(".membill_list_limit").limit();
+		$("#xf_mem_hmdwindow").center();
+		$("#xf_mem_hmd").click(function(){
+			$("#xf_mem_hmdwindow").show();	
+		});
+	})
+	$(function(){
+			/* 高亮显示 */
+			showHighLightFront(13);
+			showHighLightFront2(7, 4);
+			
+			$("#xf_membill_shurk_yhm").focus(function(){
+				  $(this).addClass("focus");
+				  if($(this).val() ==this.defaultValue){  
+	                  $(this).val("");           
+				  } 
+			}).blur(function(){
+				 $(this).removeClass("focus");
+				 if ($(this).val() == '') {
+	                $(this).val(this.defaultValue);
+	             }
+			});
+			$(".membill_list_limit").limit();
+		})
+</script>
+<!-- 内容区域 start -->
+	<div class="xf_con_box">
+		<div class="xf_con_mem_nav"></div>
+		<!-- 左边导航区域 -->
+		#{include "front/account/AccountHome/homeLeft.control"/}
+		<!-- 右侧内容区域 -->
+		#{include "front/account/InvestAccount/repayingInvestBidDebt.control"/}
+		<!-- 清除浮动 -->
+		<div class="clear"></div>
+	</div>
+<!-- 内容区域 end -->
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>

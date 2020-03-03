@@ -1,0 +1,113 @@
+<div class="xf_ht_ttc" id="xf_ht_fkzh_tt_add" style="display:none;height: 400px;overflow: auto;">
+  <div class="xf_ht_jr_obu_width">
+    #{form @increasedPartner(), id:'increasedPartner'}
+    <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form" width="100%">
+      <tr>
+        <td align="right" valign="middle" width="130">名称：</td>
+        <td>
+          <input class="xf_ht_pro_in_bq" type="text" id="addPartner" name="addPartner"/>
+        </td>
+      </tr>
+      <tr>
+        <td  align="right" valign="middle">上传LOGO：</td>
+        <td>
+          <span style="position: relative;top: -15px;">
+		    <input type='button' class='upload_btn' value='上传' style="vertical-align: middle;*margin:25px 0 !important;"/> 
+		    <input type="file" class="upload_file" name="imgFile" id="imgFile" onchange="uploadImageType('imgFile','image');" style="top:17px;*top:45px !important; left:-70px;" />
+		  </span>
+		  <input type="hidden" id="imageResolution" name="imageResolution" />
+		  <input type="hidden" id="imageSize" name="imageSize" />
+		  <input type="hidden" id="imageType" name="imageType" />
+        </td>
+      </tr>
+      <tr>
+        <td align="right" valign="top">格式：</td>
+        <td>
+          <span class="xf_ht_banner_s" id="imageType2">${partner?.fileFormat}</span>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          #{img src:"${partner?.imageFileName}", alt:"",class:"xf_ht_banner_simg",id:"image", name:"image"}#{/img}
+          <input type="hidden" name="imageFileName" id="imageFileName">
+        </td>
+      </tr>
+      <tr>
+        <td align="right" valign="top">链接地址：</td>
+        <td>
+          <input class="xf_ht_banner_input" type="text" id="addUrl" name="addUrl" />
+        </td>
+      </tr>
+      <tr>
+        <td align="right" valign="top">排序：</td>
+        <td>
+          <input class="xf_ht_banner_input" type="text" style="width:80px" value="${partner?.order}" id="addOrder" name="addOrder" />
+        </td>
+      </tr>
+      <tr>
+        <td align="right" valign="top">合作伙伴描述：</td>
+        <td>
+          <textarea class="xf_ht_jr_obttd_textarea" id="addDescription" name="addDescription"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td align="right">&nbsp;</td>
+        <td style="padding:20px 0 40px 0;">
+          <input class="xf_ht_tcc_button_ok" type="button" onclick="addPartnerEvent();" value="保  存">
+          <input class="xf_ht_tcc_button_on" type="button" onclick="concel();" value="取  消">
+        </td>
+      </tr>
+    </table>
+    #{/form}
+  </div>
+</div>
+<script>
+  function concel(){
+    layer.closeAll();
+  }
+ 	
+  function addPartnerEvent(){
+    if($("#addPartner").val() == ''){
+      alert("名称不能为空");
+      return;
+    }
+        
+    var filename = $("#image").attr("src");
+        
+    $("#imageFileName").val(filename);
+        
+    if(filename.trim() == ''){
+      alert("请上传图片");
+      
+      return;
+    }
+        
+    var addUrl = $("#addUrl").val();    
+    if(addUrl == ''){
+      alert("链接地址不能为空");
+      
+      return;
+    }
+        
+    if(addUrl.indexOf('http://') !== 0 && addUrl.indexOf('https://') !== 0){
+    	alert("请填写完整的连接地址；如：http://、https://");
+    	
+    	return;
+    }
+        
+    if($("#addOrder").val() == ''){
+      alert("排序不能为空");
+    
+      return;
+    }
+        
+    if($("#addDescription").val() == ''){
+      alert("合作伙伴描述不能为空");
+      
+      return;
+    }
+      
+    $("#increasedPartner").submit();
+  }
+</script>

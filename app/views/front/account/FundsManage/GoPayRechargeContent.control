@@ -1,0 +1,105 @@
+
+<div class="xf_mem_acc_titlebox" id="selectBank">
+	<ul class="xf_mem_accout_titleUL clr">
+		<li value="0" class="xf_mem_img_ishowt" id="bank_0" onClick="selectBank(0)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_01.png'}" alt="">
+			</div>
+		</li>
+		<li id="bank_1" onClick="selectBank(1)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_02.png'}" alt="">
+			</div>
+		</li>
+		<li id="bank_2" onClick="selectBank(2)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_03.png'}" alt="">
+			</div>
+		</li>
+		<li id="bank_3" onClick="selectBank(3)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_04.png'}" alt="">
+			</div>
+		</li>
+		<li id="bank_4" onClick="selectBank(4)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_05.png'}" alt="">
+			</div>
+		</li>
+		<li id="bank_5" onClick="selectBank(5)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_06.png'}" alt="">
+			</div>
+		</li>
+		<li id="bank_6" onClick="selectBank(6)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_08.png'}" alt="">
+			</div>
+		</li>
+		<li id="bank_7" onClick="selectBank(7)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_09.png'}" alt="">
+			</div>
+		</li>
+		<li id="bank_8" onClick="selectBank(8)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_10.png'}" alt="">
+			</div>
+		</li>
+		<li id="bank_9" onClick="selectBank(9)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_11.png'}" alt="">
+			</div>
+		</li>
+		<li id="bank_10" onClick="selectBank(10)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_12.png'}" alt="">
+			</div>
+		</li>
+		<li id="bank_11" onClick="selectBank(11)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_13.png'}" alt="">
+			</div>
+		</li>
+		<li id="bank_12" onClick="selectBank(12)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_14.png'}" alt="">
+			</div>
+		</li>
+		<li id="bank_13" onClick="selectBank(13)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_15.png'}" alt="">
+			</div>
+		</li>
+		<li id="bank_14" onClick="selectBank(14)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_16.png'}" alt="">
+			</div>
+		</li>
+		<li id="bank_16" onClick="selectBank(16)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_19.png'}" alt="">
+			</div>
+		</li>
+		<li id="bank_17" onClick="selectBank(17)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_20.png'}" alt="">
+			</div>
+		</li>
+		<li id="bank_18" onClick="selectBank(18)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_30.png'}" alt="">
+			</div>
+		</li>
+		<li id="bank_19" onClick="selectBank(19)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_24.png'}" alt="">
+			</div>
+		</li>
+		<li id="bank_20" onClick="selectBank(20)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_23.png'}" alt="">
+			</div>
+		</li>
+	</ul>
+</div>

@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Pragma" content="no-cache" />  
+<meta http-equiv="Expires" content="-1" />  
+<meta http-equiv="Cache-Control" content="no-cache" />
+<meta http-equiv="content-type" content="text/html;charset=UTF-8"/> 
+<title>通连支付--网银支付</title>
+<style>
+.box{ width:450px; height:240px; margin:0 auto; position:absolute; top:50%; left:50%; margin-top:-99px; margin-left:-225px; text-align:center;}
+</style>
+</head>
+<body>
+	<form action="${order.action}" id="payBillForm" method="post">
+		<input type="hidden" name="inputCharset" value="${order.inputCharset}"/>
+		<input type="hidden" name="pickupUrl" value="${order.pickupUrl}"/>
+        <input type="hidden" name="receiveUrl" value="${order.receiveUrl}"/>
+        <input type="hidden" name="version" value="${order.version}"/>
+        <input type="hidden" name="signType" value="${order.signType}"/>
+        <input type="hidden" name="merchantId" value="${order.merchantId}"/>
+        <input type="hidden" name="orderNo" value="${order.orderNo}"/>
+        <input type="hidden" name="orderAmount" value="${order.orderAmount}"/>
+        <input type="hidden" name="orderCurrency" value="${order.orderCurrency}"/>
+        <input type="hidden" name="orderDatetime" value="${order.orderDatetime}"/>
+        <input type="hidden" name="ext1" value="${order.ext1}"/>
+        <input type="hidden" name="payType" value="${order.payType}"/>
+        <input type="hidden" name="signMsg" value="${order.signMsg}"/>
+        <input type="hidden" name="issuerId" value="${order.issuerId}"/>
+	</form>
+</body>
+</html>
+<script language="javascript">
+	document.getElementById("payBillForm").submit();
+</script>

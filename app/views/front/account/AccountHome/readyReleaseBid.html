@@ -1,0 +1,161 @@
+ %{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle + ' | 我的账户   | 借款子账户  | 待放款的借款标'/}
+
+<!-- 内容区域 start -->
+<div class="xf_con_box">
+	<div class="xf_con_mem_nav"></div>
+	<!-- 左边导航区域 -->
+	#{include "front/account/AccountHome/homeLeft.control"/}
+	<!-- 右侧内容区域 我的借款账单 -->
+	<div class="xf_mem_Account xf_mem_shzdjkb_box">
+		<h3 class="xf_mem_accout_title">待放款的借款标</h3>
+		<!-- 搜索区域 -->
+		<ul class="xf_membill_search clr">
+			#{form @readyReleaseBid(), id:'readyReleaseBid'}
+			<input type="hidden" id="currPage" name="currPage"/>
+	        <input type="hidden" id="pageSize" name="pageSize"/>
+			<li>
+				<select class="xf_membill_selectAge" name="condition">   
+				   <option value="0" id="type0">全部</option>     
+			       <option value="2" id="type2">标题</option>   
+			       <option value="1" id="type1">编号</option>   
+				</select>
+			</li>
+			<li class="xf_membill_searchLi">
+				<input type="text" name="keyword" id="keyword" class="xf_membill_shurk_yhm" />
+				<input type="submit" value="搜 索" class="xf_membill_button_yhm"/>
+			</li>
+		    #{/form}
+		</ul>
+	    <!-- 搜索结果 -->
+		<div class="xf_membill_search_jg xf_membill_search_table">
+			<div class="xf_membill_search_jgleft">
+				<ul>
+					<li class="xf_membill_search_th">序号</li>
+					#{list pageBean?.page}
+						<li #{if _index % 2 == 0}
+								style="background-color:#f6f6f6"
+							#{/if}
+							class="xf_membill_search_td" >
+							${_index}
+						</li>
+					#{/list}
+				</ul>
+			</div>
+			<div class="xf_membill_search_jgcenter">
+				<table border="0" cellpadding="0" cellspacing="0" width="780" class="xf_membill_acc_viewcpms" id="bgTab">
+					<tbody>
+						<tr>
+						  	<th align="center" height="45">编号</th>
+							<th align="center">借款标题</th>
+							<th align="center">类型</th>
+							<th align="center">金额</th>
+							<th align="center">合同约定年化利率</th>
+							<th align="center">本息合计</th>
+							<th align="center">需提交资料</th>
+							<th align="center">已通过资料</th>
+						</tr>
+						#{list pageBean?.page}
+						<tr>
+							<td align="center">${_?.bid_no}</td>
+							<td align="center">${_?.title}</td>
+							<td align="center">
+								#{img src:"${_?.small_image_filename}",alt:"",width:"20",height:"20"}#{/img}
+							</td>
+							<td align="center">￥${_?.amount?.format('###,##0.00')}</td>
+							<td align="center">${_?.apr}%</td>
+							<td align="center">￥${_?.capital_interest_sum?.format('###,##0.00')}</td>
+							<td align="center"><span class="membill_list_lv">${_?.product_item_count}</span></td>
+							<td align="center"><span class="membill_list_red">${_?.user_item_count_true}</span></td>
+						</tr>
+						#{/list}
+						#{if pageBean?.page?.size > 0}
+						<tr>
+							<td align="center">合计</td>
+							<td></td>
+						  	<td></td>
+						  	<td align="center">￥<span id="suma"></span></td>
+						  	<td></td>
+						    <td align="center">￥<span id="sumci"></span></td>
+						  	<td></td>
+						    <td></td>
+						</tr>
+						#{/if}
+					</tbody>
+				</table>
+			</div>
+			<div class="xf_membill_search_jgright">
+				<ul>
+					<li class="xf_membill_search_th">操作项</li>
+					#{list pageBean?.page}
+					<li #{if _index % 2 == 0}
+							style="background-color:#f6f6f6"
+						#{/if}
+						class="xf_membill_search_td"
+					>
+						<a href="@{bidDetail(_?.id)}" class="xf_membill_cza" target="_self">详情</a>
+					#{/list}
+				</ul>
+				</div>
+			<!-- 清除浮动 -->
+			<div class="clear"></div>
+			</div>
+			<!-- 列表底部 -->
+		    <div class="xf_wylc_page xf_membill_view_page1">
+				#{page currPage:pageBean.currPage,totalCount:pageBean.totalCount,pageSize:pageBean.pageSize,theme:2,style:2}#{/page}
+			</div>
+		
+	</div>
+	<!-- 清除浮动 -->
+	<div class="clear"></div>
+</div>
+<!-- 内容区域 end -->
+
+<script type="text/javascript">
+
+<!--
+	/* 条件搜素查询 */
+	function showPage(currPage, pageSize){
+         $("#currPage").val(currPage);
+         $("#pageSize").val(pageSize);
+         $("#readyReleaseBid").submit();
+    }
+	
+	$(function(){
+		/* 高亮显示 */
+		showHighLightFront(38);
+		showHighLightFront2(7, 3);
+		
+		/* 偶数行，改变其td的背景颜色(tr是无法修改的，会被子元素所替代) */
+		$('#bgTab').find('tr:even').find('td').css('background-color', '#f6f6f6');
+		
+		/* 给搜索条件赋记录值 */
+		var condition = "${pageBean?.conditions?.condition}";
+		var keyword = "${pageBean?.conditions?.keyword}";
+	
+		switch(parseInt(condition)){
+			case 0:$("#type0").attr("selected","selected");break;
+			case 1:$("#type1").attr("selected","selected");break;
+			case 2:$("#type2").attr("selected","selected");break;
+		}
+		
+		if("" != keyword && null != keyword)
+			$("#keyword").val(keyword);
+
+		//合计
+		var suma = 0;
+		var sumci = 0;
+		#{list pageBean?.page}
+			suma += ${_?.amount};
+			sumci += ${_?.capital_interest_sum};
+		#{/list}
+
+		$("#suma").html(suma.toFixed(2));
+		$("#sumci").html(sumci.toFixed(2));
+	});
+//-->
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>

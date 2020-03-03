@@ -1,0 +1,46 @@
+#{extends 'payment/PaymentBaseAction/checkMain.html' /}
+#{set title:'实名认证' /}
+  
+<div class="p_zctancbg" style="display: block"></div>
+<div class="p_zctanc3" style="display: block">
+  <div class="p_zctcbox">
+    <div class="p_zctctextimg"><img src="@{'public/images/p_zc002.png'}"></div>
+    #{form @payment.PaymentBaseAction.doCheckRealName(), id:'form'}
+    <div class="p_zctctextword">
+      <table>
+        <tr height="50"><th width="292">真实姓名：</th>
+       	 <td>
+       	 	<input name="realName" type="text" value="${flash?.realName}">
+       	 		#{if flash.nameError}
+			        <span class="p_zctctishi" style="color:red">${flash?.nameError}</span>
+			      #{/if}
+       	 </td>
+        </tr>
+        <tr height="50"><th>身份证号：</th>
+        	<td>
+        		<input name="idNumber" type="text" value="${flash?.idNumber}" onKeyUp="value=value.replace(/[\W|^_]/g,'')" />
+		       	 	#{if flash.idNoError}
+			        <span class="p_zctctishi" style="color:red">${flash?.idNoError}</span>
+			      #{/if}
+       	 	</td>
+       	 </tr>
+      </table>
+      <p><span class="p_zctctishi">您必须填写您的真实姓名和身份证号，虚假的身份信息是不能通过验证的。</span></p>
+      
+      <p><a href="#" onclick="submit();" class="p_zctcnext3">下一步</a></p>
+    </div>
+    #{/form}
+    <div class="p_zctcbottom">
+      <p>请注意以下事项</p>
+      <p>1、我们将通过全国公民身份信息中心（NCIIC）系统对您提交的身份进行审核。</p>
+      <p>2、实名认证是您绑定银行卡和使用核心功能的必要条件。</p>
+      <p>3、如果您的验证过程中，出现任何问题，请致电${phone}，或咨询客服QQ：${qq1} &nbsp;| &nbsp;${qq2}。</p>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+function submit() {
+  $("#form").submit();
+}
+</script>

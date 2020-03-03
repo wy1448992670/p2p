@@ -1,0 +1,153 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    #{form @donateList(), id:'submit'}
+    <input type="hidden" id="currPage" name="currPage"/>
+    <input type="hidden" id="pageSize" name="pageSize"/>
+    <input type="hidden" id="orderType" name="orderType" value="${result.conditions?.orderType}"/>
+    <div class="xf_ht_search">
+      <div class="xf_ht_search_l sort_select">
+        <span id="div_0" onClick="conditonSearch(0)">默认排序</span>
+        <span id="div_1" onClick="conditonSearch(1)">捐款总金额 <a id="div_a_1">↑</a></span>
+      </div>
+    </div>
+    <div class="xf_ht_search_inon">
+      <div class="xf_ht_search_r">
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">用户名/手机号/标的名称/公益名称：</span>
+          <input name="name" type="text" class="search_w" id="name" value="${result?.conditions?.name}" />
+        </div>
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">捐款时间：</span>
+          <input name="beginTime" type="text" id="startDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${result?.conditions?.beginTime}" />
+          <span class="search_timesp">--</span>
+          <input name="endTime" type="text" id="endDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${result?.conditions?.endTime}" />
+        </div>
+        <div class="xf_ht_search_xl">
+        	<span class="search_timesp">使用情况：</span>
+          <select class="xf_membill_selectAge" name="usedType">
+            <option value="0" id="type0" ${result?.conditions?.usedType == 0 ? "selected" :""}>全部</option>
+            <option value="1" id="type1" ${result?.conditions?.usedType == 1 ? "selected" :""}>已使用</option>
+            <option value="2" id="type2" ${result?.conditions?.usedType == 2 ? "selected" :""}>未使用</option>
+          </select>
+        </div>
+        <div class="xf_ht_search_xl">
+          <input type="button" class="search_button" onclick="searchSubmit(0);" value="搜 索" />
+        </div>
+      </div>
+    </div>
+    #{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table class:"xn_c_content_list1 recommend",cellspacing:"0",cellpadding:"0",border:"1",tr_class_odd:"xn_tr_bj",width:"1000px"}
+        <tr class="head">
+          <td>序号</td>
+          <td>会员名</td>
+          <td>手机号</td>
+          <td>投资标的</td>
+          <td>捐款时间</td>
+          <td>用户捐款</td>
+          <td>平台捐款</td>
+          <td>捐款总金额</td>
+          <td>使用情况</td>
+          <td>公益名称</td>
+        </tr>
+        #{list result?.page,as:'map'}
+        #{tr}
+          #{td}${map_index}#{/td}
+          #{td}${map.username}#{/td}
+          #{td}${map.mobile}#{/td}
+          #{td}${map.bid_name}#{/td}
+          #{td}${map.ins_dt}#{/td}
+          #{td}${map.user_donate}#{/td}
+          #{td}${map.admin_donate}#{/td} 
+          #{td}${map.admin_donate+map.user_donate}#{/td} 
+          #{td}${map.benefit_name != null ? "已使用" : "未使用"}#{/td} 
+          #{td}${map.benefit_name}#{/td}
+        #{/tr}
+        #{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      <div class="page_warp">
+      #{page currPage:result.currPage,totalCount:result.totalCount,pageSize:result.pageSize,theme:2,style:4/}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+function conditonSearch(num){
+  var orderType= ${result.conditions?.orderType};
+  if(orderType == 0){
+    $("#orderType").val(num);
+    $("#submit").submit();
+    return;
+  }
+  var sum = orderType/2;
+  if(sum.toString().indexOf('.') == -1){
+    var sum2 = orderType - 1;
+    $("#orderType").val(num);
+    $("#submit").submit();
+  }else{
+    if(orderType == num){
+      $("#orderType").val(num + 1);
+      $("#submit").submit();
+      return;
+    }else{
+      $("#orderType").val(num);
+      $("#submit").submit();
+      return;
+    }
+  }
+}
+
+$(function(){  
+  /* 高亮显示 */
+  highLight(6);
+  
+  //条件查询控制样式
+  var num= ${result.conditions?.orderType};
+  
+  if(num == 0){
+    $("#div_0").addClass("xf_sea_isshow");
+    return;
+  }
+
+  var sum = num/2;
+  if(sum.toString().indexOf('.') == -1){
+    var sum2 = num -1;
+    $("#div_"+sum2).addClass("xf_sea_isshow");
+    $("#div_a_"+sum2).html("↓");
+    return;
+  }
+
+  $("#div_"+num).addClass("xf_sea_isshow");
+  $("#div_a_"+num).html("↑");
+});
+
+
+function searchSubmit(export_){
+  $("#submit").submit();
+}
+
+
+$(".sort_select > span").on("click", function(){
+	var obj = $(this);
+	var orderBy = "";
+	
+	if(obj.attr("sn") != ""){
+		orderBy = obj.attr("sn") +" "+ (_order_desc == "DESC" ? "ASC" : "DESC");
+	}
+	
+	$("#orderType").val(orderBy);
+	searchSubmit(0);
+});
+function showPage(currPage, pageSize){
+  $("#currPage").val(currPage);
+  $("#pageSize").val(pageSize);
+  $("#submit").submit();
+}
+</script>

@@ -1,0 +1,3 @@
+$(function(){
+	$('#principal').toggleClass("click");
+});

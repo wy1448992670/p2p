@@ -1,0 +1,75 @@
+<!-- <div class="s_search"> -->
+<!-- 	<input id="keywords" name="keywords" type="text" placeholder="请输入借款标题/借款编号" /> <label><i -->
+<!-- 		class="icobg"></i></label> -->
+<!-- </div> -->
+
+<script>
+
+	
+// 	$(function () {
+// 		var element = document.getElementById("keywords");
+// 		if ("\v" == "v") {
+// 			element.onpropertychange = webChange;
+// 		} else {
+// 			element.addEventListener("input", webChange, false);
+// 		}
+// 	})
+
+// 	function webChange() {
+// 		$("#main").empty();
+// 		//var currPage = parseInt("${pageBean?.currPage}") + 1;
+// 		//var pageSize = "${pageBean?.pageSize}";
+// 		//var orderType = "${pageBean?.conditions?.orderType}";
+// 		//var keywords = $("#keywords").val();
+// 		var orderType = $("#orderType").val();
+// 		var keywords = $("#keywords").val();
+// 		$.ajax({
+// 			url: "@{wechat.service.InvestAction.queryAllBidsAjax()}",
+// 			type: "POST",
+// 			data: {
+// 				"currPage": 1,
+// 				"orderType": orderType,
+// 				"keywords": keywords
+// 			},
+// 			success: function (data) {
+// 					var arr = eval(data);
+// 					if (arr.error.code < 0) {
+// 						alert(arr.error.msg);
+
+// 						return;
+// 					} else {
+// 						var list = arr.pageBean.page;
+// 						if (list.length == 0) {
+// 							$("#main").find("#more").remove();
+// 							$("#up").empty();
+// 							$("#main").append("<ul class='s_lcpro'>没有更多了...<ul>");
+// 						} else {
+// 							for (var i = 0; i < list.length; i++) {
+// 								var url = "/wechat/investAction/queryBidDetail?bidId=" + list[i].id;
+// 								var period;
+// 								if (list[i].period_unit == -1) {
+// 									period = list[i].period + "年";
+// 								} else if (list[i].period_unit == 0) {
+// 									period = list[i].period + "月";
+// 								} else {
+// 									period = list[i].period + "日";
+// 								}
+// 								$("#main").append("<ul class='s_lcpro'>" + "<li>" + "<h3>" +
+// 									"<i class='protype protype-jing'><img src='" + list[i].small_image_filename +
+// 									"'></img></i><a " + "href='" + url + "'>" + list[i].title + "</a>" + "</h3>" +
+// 									"<div class='s_promain clearfix'>" + "<ul class='s_promainl'>" + "<li>借款金额：￥" +
+// 									list[i].amount + "</li>" + "<li>借款期限： " + period + "</li>" + "<li>年 利 率：" + list[i]
+// 									.apr + "%</li>" + "<li>还款方式：" + list[i].repay_name + "</li>" + "</ul>" +
+// 									"<div class='s_promainr'>" + "<div class='s_probar'>" + "<i></i>" + list[i].loan_schedule +
+// 									"%" + "</div>" + "<a href='" + url + "'>" + list[i].strStatus + "</a>" + "</div>" +
+// 									"</div>" + "</li>" + "</ul>");
+// 							}
+// 						}
+// 					}
+// 				},
+// 				error: function () {
+// 					alert("对不起，出现错误!");
+// 				}
+// 		});
+// 	}
+</script>

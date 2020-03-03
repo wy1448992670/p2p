@@ -1,0 +1,176 @@
+<div class="xf_ht_ttc" id="xf_ht_ac" style="display:none;width:500;height: 550px;overflow: auto;">
+  <div class="xf_ht_jr_obu_width">
+    #{form @submitActivityCenter(), id:'add'}
+    <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form" width="100%">
+      <tr>
+        <td align="right" valign="middle" width="130">标题：</td>
+        <td >
+          	
+          <input class="xf_ht_pro_in_bq" type="text" id="titles" name="titles"/>
+        </td>
+      </tr>
+      <tr>
+        <td  align="right" valign="middle">首页图片：</td>
+        <td >
+     		<div style="float: left;">
+        	   #{img src:"",alt:"",class:"xf_first_banner_simg",id:"loanImage"}#{/img}
+        	 </div>
+        	 <div style="float: left;height: 72px;width: 70px;padding-left: 10px" >
+        	 	<div style="padding-top: 20px">格式 ：jnp</div>
+        	   	
+        	 </div>
+        	 
+        	<div style="padding-top: 28px;">
+	          <input type="hidden"  name="resolution" id="imageResolution3" value=""/>
+	          <input type="hidden"  name="type" id="imageType3" value=""/>
+	          <input type="hidden" id="filename" name="filename" value=""/>
+	          <span style="padding-top: 20px">
+			    <input type='button' class='upload_btn' style="margin-left: 20px" value='上传'/> 
+			    <input type="file" class="upload_file"  name="imgFile" id="imgFileTemp" onchange="uploadImage('imgFileTemp','loanImage');" style="top:105px; left:370px;" />
+			  </span>
+	        </div>  
+         	
+        </td>
+      </tr>
+      <tr>
+        <td  align="right" valign="middle">活动详情：</td>
+        <td >
+     		<div style="float: left;">
+        	   #{img src:"",alt:"",class:"xf_first_banner_simg",id:"loanImage2"}#{/img}
+        	 </div>
+        	 <div style="float: left;height: 72px;width: 70px;padding-left: 10px" align="center">
+        	 	<div style="padding-top: 20px">格式 ：jnp</div>
+        	   	
+        	 </div>
+        	 
+        	<div style="padding-top: 28px;">
+	          <input type="hidden"  name="resolution" id="imageResolution3" value=""/>
+	          <input type="hidden"  name="type" id="imageType3" value=""/>
+	          <input type="hidden" id="filename2" name="filename2" value=""/>
+	          <span style="padding-top: 40px">
+			    <input type='button' class='upload_btn' style="margin-left: 20px" value='上传'/> 
+			    <input type="file" class="upload_file"  name="imgFile" id="imgFileTemp2" onchange="uploadImage('imgFileTemp2','loanImage2');" style="top:198px; left:370px;" />
+			  </span>
+	        </div>  
+         	
+        </td>
+      </tr>
+      <tr>
+        <td  align="right" valign="middle">活动规则：</td>
+        <td >
+     		<div style="float: left;">
+        	   #{img src:"",alt:"",class:"xf_first_banner_simg",id:"loanImage3"}#{/img}
+        	 </div>
+        	 <div style="float: left;height: 72px;width: 70px;padding-left: 10px" align="center">
+        	 	<div style="padding-top: 20px">格式 ：jnp</div>
+        	   	
+        	 </div>
+        	 
+        	<div style="padding-top: 28px;">
+	          <input type="hidden"  name="resolution" id="imageResolution3" value=""/>
+	          <input type="hidden"  name="type" id="imageType3" value=""/>
+	          <input type="hidden" id="filename3" name="filename3" value=""/>
+	          <span style="padding-top: 20px">
+			    <input type='button' class='upload_btn' style="margin-left: 20px" value='上传'/> 
+			    <input type="file" class="upload_file"  name="imgFile" id="imgFileTemp3" onchange="uploadImage('imgFileTemp3','loanImage3');" style="top:291px; left:370px;" />
+			  </span>
+	        </div>  
+         	
+        </td>
+      </tr>
+      <tr>
+        <td align="right" valign="top">前往页面：</td>
+        <td>
+          <select id="url" name="url" style="height: 25px;width: 100px">
+          	<option value="充值">充值</option>
+          	<option value="产品中心">产品中心</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td align="right" valign="top">排序：</td>
+        <td>
+          <input class="xf_ht_banner_input" type="text" style="width:80px"  value="${partner?.order}" id="order" name="order"/>
+        </td>
+      </tr>
+      <tr>
+        <td align="right">&nbsp;</td>
+        <td style="padding:20px 0 40px 0;">
+          <input class="xf_ht_tcc_button_ok" type="button" onclick="add();" value="保  存">
+          <input class="xf_ht_tcc_button_on" type="button" onclick="concel();" value="取  消">
+        </td>
+      </tr>
+    </table>
+    #{/form}
+  </div>
+</div>
+<style>
+.xf_first_banner_simg{width: 140px; height: 70px; border:1px solid #e0e0e0;}
+</style>
+<script>
+  
+ 
+  function concel(){
+    layer.closeAll();
+  }
+ 	
+  function add(){
+	  
+	  
+	  var titles = $("#titles").val();
+	 
+	    if(title == ""){
+	    	alert("标题不能为空");
+	    	return;
+	    }
+	  
+    var loanImage = $("#loanImage").attr("src");
+ 		
+    if(loanImage =="" || loanImage =="/public/images/default.png" || loanImage == null){
+      alert("对不起！请上传首页图片！");
+      
+      return;
+    }
+ 		
+    $("#filename").val(loanImage);
+    	
+    var loanImage2 = $("#loanImage2").attr("src");
+		
+    if(loanImage2 =="" || loanImage2 =="/public/images/default.png" || loanImage2 == null){
+      alert("对不起！请上传活动详情！");
+      
+      return;
+    }
+    $("#filename2").val(loanImage2);
+    
+    var loanImage3 = $("#loanImage3").attr("src");
+	
+    if(loanImage3 =="" || loanImage3 =="/public/images/default.png" || loanImage3 == null){
+      alert("对不起！请上传活动规则！");
+      
+      return;
+    }
+    $("#filename3").val(loanImage3);
+    	
+    
+    
+    
+    var url = $("#url").val();
+
+    var order = $("#order").val();
+    if(url.replace(/(^\s*)/, "") =="" || url.replace(/(^\s*)/, "")==null){
+      alert("对不起！链接不能为空！");
+      
+      return;
+    }
+
+
+    if(order.replace(/(^\s*)/, "") =="" || order.replace(/(^\s*)/, "")==null){
+      alert("对不起！排序不能为空！");
+      
+      return;
+    }
+    	
+    $("#add").submit();	
+  }
+</script>

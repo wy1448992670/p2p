@@ -1,0 +1,15 @@
+<div class="xf_c_idx_12_partnerWrap">
+		<div class="xf_c_idx_12_partnerHeader">
+			<span class="xf_c_idx_12_partnerTitle">合作伙伴</span> <span
+				class="xf_c_idx_12_partnerMore"><a href="@{front.help.HelpCenterAction.partner(-1008)}">更多</a>
+			</span>
+		</div>
+		<div class="xf_c_idx_12_partnerContent">
+			#{list items:adsPartner,as:'adsPartner'}
+			 <a  class="xf_c_idx_12_partnerCSI" href="${adsPartner?.url}" target="_blank"> 
+			 	#{img class:"lazy", data_original:"${adsPartner?.imageFileName}", src:"/public/images/loading.gif",alt:""}#{/img}
+			 </a>
+			#{/list}	
+				
+		</div>
+	</div>

@@ -1,0 +1,125 @@
+#{extends 'common/frontMain.html' /} 
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{set title:currBackstageSet.seoTitle+'|帮助中心|'+newses?.get(1)?.title /}
+
+<div class="xf_con_box">
+	<div class="xf_con_wyjk_nav">
+		<span class="sf_con_wyjk_gtnav">帮助中心&nbsp;&gt;</span><span
+			class="sf_con_wyjk_dq">${newses?.get(1)?.title}</span>
+	</div>
+	<!-- 左边导航区域 -->
+	<!-- <div class="xf_con_wyjk_left">
+		<h2 class="xf_con_mem_lefth2">帮助中心</h2>
+		<ul class="xf_con_wyjk_leftul xf_con_suba_leftul">
+			#{list types}
+			<li id="companyDescription" #{if _?.id == newses?.get(1)?.type?.id} class = "xf_con_wyjk_leftliisshow" #{/if}>
+			<a class="xf_mem_l_title" href="javascript:list('${_?.id}');">${_?.name}【${_?.counts}】</a><a
+				class="xf_mem_r_more xf_mem_r_ishot2"></a>
+			</li>
+			#{/list}
+		</ul>
+	</div> -->
+	<div class="p_left_navbox">
+            <h1><i></i><span>帮助中心</span></h1>
+            <ul class="p_left_navul">
+               <!--  <li><a href="帮助中心.html" title="" class="click">常见问题</a></li>
+                <li><a href="借款须知.html" title="">借款须知</a></li>
+                <li><a href="投资须知.html" title="">理财须知</a></li> -->
+                #{list types}
+				<li >
+				<a #{if _?.id == newses?.get(1)?.type?.id} class = "cozhuse" #{/if} href="javascript:list('${_?.id}');">${_?.name}</a></li>
+				#{/list}
+            </ul>
+        </div>
+	<!-- 右侧内容区域 -->
+	<div class="xf_bzzx_home xf_bzzx_home_view">
+		<h1 class="xf_cfzx_view_title">${newses?.get(1)?.title}</h1>
+		<div class="xf_cfzx_view_datetime">
+			<span class="xf_cfzx_view_datetime_span">发布时间：${newses?.get(1)?.startShowTime?.format("yyyy-MM-dd")}</span> 
+			<span class="xf_cfzx_view_datetime_span">此新闻已被浏览：${newses?.get(1)?.readCount}</span> 
+			<span class="xf_cfzx_view_datetime_spant">新闻来源：${newses?.get(1)?.author}</span>
+		</div>
+		<div class="xf_cfzx_view_content">${newses?.get(1)?.content?.raw()}
+		</div>
+		<div class="xf_bzzx_view_bottom">
+			<span class="xf_bzzx_view_boutton" onclick="support(${newses?.get(1)?.id});">赞(<span id="support">${newses?.get(1)?.support}</span>)</span> 
+			<span class="xf_bzzx_view_boutton" onclick="opposition(${newses?.get(1)?.id});">踩(<span id="opposition">${newses?.get(1)?.opposition}</span>)</span>
+		</div>
+		<div class="xf_cfzx_view_bottom_paga">
+			<div class="xf_cfzx_view_bottom_paga_l">
+				#{if null != newses?.get(0)}
+				<a href="javascript:detail(${newses?.get(0)?.id});">上一篇：${newses?.get(0)?.title}</a>
+				#{/if}
+			</div>
+			<div class="xf_cfzx_view_bottom_paga_r">
+				#{if null != newses?.get(2)}
+				<a href="javascript:detail(${newses?.get(2)?.id});">下一篇：${newses?.get(2)?.title}</a>
+				#{/if}
+			</div>
+		</div>
+	</div>
+
+	<!-- 清除浮动 -->
+	<div class="clear"></div>
+</div>
+
+
+<script type="text/javascript">
+	$(function() {
+	})
+	
+	function list(typeId) {
+		window.location.href = "index?typeId=" + typeId;
+	}
+	
+	function support(newsId) {
+		$.ajax({
+			url : "@{support()}",
+			type : "POST",
+			data : {
+				"newsId" : newsId
+			},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+
+					return;
+				}
+				
+				$("#support").html(data);
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+	
+	function opposition(newsId) {
+		$.ajax({
+			url : "@{opposition()}",
+			type : "POST",
+			data : {
+				"newsId" : newsId
+			},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+
+					return;
+				}
+				
+				$("#opposition").html(data);
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+	
+	function detail(newsId) {
+		window.location.href = "detail?newsId=" + newsId + "&keyword=" + '${keyword}';
+	}
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_help.js'}"></script>

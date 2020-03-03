@@ -1,0 +1,212 @@
+#{include 'supervisor/login/LoginAction/checkKey.html'/}
+<object
+  id="eims"
+  classid="clsid:2D37D5F7-B18B-4E8E-8B3C-F26171922C16"
+  codebase="/public/ActiveLoginProj1.ocx#version=1,0,0,0"
+  width=0
+  height=0
+  align=center
+  hspace=0
+  vspace=0 >
+</object>
+<div class="xf_loginmain">
+   <div class="xf_logintab" style="background-image: none">
+   	<h2>管理员登录</h2>
+   	#{form @supervisor.login.LoginAction.login(), id:'submit'}
+	<input type="hidden"  name="flag" id="adminId"/>
+       <table width="100%">
+       	<tr height="30">
+           	<th width="135">用户名：</th>
+               <td width="330">
+               	 <input type="text" class="login_in_c" id="name" name="name" value="${flash.name}">
+               	 <input id="city" name="city" class="xf_login_input" type="hidden" value=""></input>
+               </td>
+           </tr>
+           <tr height="30">
+           	<th></th>
+               <td><span class="error"></span></td>
+           </tr>
+           <tr height="30">
+           	<th>密码：</th>
+               <td><input type="password" class="login_in_c" id="password" name="password"></td>
+           </tr>
+           <tr height="30">
+           	<th></th>
+               <td><span class="error"></span></td>
+           </tr>
+           <tr height="30">
+           	<th>验证码：</th>
+               <td>
+               	<input type="text" class="login_in_y" name="captcha" #{if !constants.Constants.CHECK_CODE} value="1234" readonly="readonly" disabled="disabled" #{/if}>
+				<input id="randomID" name="randomID" value="${randomID}" type="hidden"/>
+           		<span class="login_yzimg"><img id="captchaImage" src="@{Application.captcha(randomID)}" style="width: 60px;height: 30px;" alt="验证码" onclick="refreshCaptcha();"></span>
+          		<span class="login_sx" onclick="refreshCaptcha()">刷新</span>
+               </td>
+           </tr>
+           <tr height="30">
+           	<th></th>
+               <td><span class="error" id="show">#{if flash.error}${flash.error}#{/if}</span></td>
+           </tr>
+           <tr height="30">
+           	<td></td>
+               <td>
+                 <input type="button" class="login_warp_ago" value="安全登录" onclick="validate();">
+              	 <input type="button" class="login_warp_dow" value="下载控件" id="download" onclick="loadActiveX();">
+               </td>
+            </tr>
+        </table>
+        #{/form}
+        <p class="btm-word"><span>您的信息将通过128位SGC加密保护数据传输安全</span></p>
+    </div>
+    <div class="xf_loginad">
+ 	  <div class="banner">
+        <div id="container">
+          <div id="example">
+            <div id="slides">
+              <div class="slides_container">
+              	#{list backImgs}
+              		<div class="prolist">
+              			<a 
+              				#{if _?.is_link_enabled}
+              					href="${_?.url}"
+              					
+              					#{if _?.target == 1}
+	              					target="_self"
+	              				#{/if}
+	              				#{else}
+	              					target="_blank"
+	              				#{/else}
+              				#{/if}
+              			>
+              			#{img src:"${_?.image_filename}", width:"533", height:"434"}#{/img}
+              			</a>
+              		</div>
+              	#{/list}
+              </div>
+            </div>
+          </div>
+        </div>       
+      </div>
+    </div>
+</div>
+<script type="text/javascript" src="@{'/public/javascripts/layer/layer.min.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/slides.min.jquery.js'}"></script>
+<script type="text/javascript">
+   // $("#keyTips").hide();
+  $(function(){
+    //$("#keyTips").hide();
+    getCity();
+
+    $("#download").hide();
+    
+	/*try{  
+	  if(document.all.eims.object == null){
+	     $("#download").show();
+	      $.layer({
+		     type: 1,
+		     area: ['450', 'auto'],
+		     closeBtn : false,
+		     title: '安全云盾控件安装 ',
+		     page: {dom : '#keyTips'}
+		     });
+	  }else{ 
+	    $("#show").html("提示：当前安全云盾控件已成功识别！"); 
+	  }  
+	}catch(e){
+	  $("#download").show();
+	}*/
+
+    $('#slides').slides({
+        preloadImage: "@{'/public/images/loading.gif'}",
+        play: 2000,
+        pause: 2500,
+        hoverPause: true
+    });
+  });
+	
+  function getCity() {
+    $.ajax({
+	  url : "@{supervisor.login.LoginAction.ipLocation()}",
+	  type : "GET",
+	  data : {
+	  },
+	  success : function(data) {
+	    $("#city").val(data);
+	  },
+	  error : function() {
+	  $("#city").val("未知区域");
+	  }
+	});
+  }
+	
+  function refreshCaptcha() {
+    $.ajax({
+	  url : "@{Application.randomID()}",
+	  type : "POST",
+	  data : {
+	  },
+	  success : function(randomID) {
+	    $("#captchaImage").attr("src","@{Application.captcha()}?id="+randomID);
+		  $("#randomID").val(randomID);
+		},
+	  error : function() {
+	    alert("对不起，出现错误!");
+	  }
+	 });
+  }
+	
+  function validate(){
+    var name = $("input[name='name']").val().trim();
+    var password = $("input[name='password']").val().trim();
+    var protocol = window.location.protocol;// 获取 协议部分
+    var host = window.location.host;//获取域名
+    var url = protocol + "//" + host;
+		
+    /*var Result =  document.getElementById("eims").into(name,password,url);
+    $("#adminId").val(Result);
+
+    if(Result == ""){
+     alert("尊敬的用户，您插入的云盾不支持本系统或者版本过低，请与软件开发商联系!");
+     return;
+	  }*/
+   
+	if("" == name){
+	  $("#show").html("请输入用户名!");
+	  $("input[name='name']").focus();
+	  
+	  return false;
+	}
+		
+	if ("" == password) {
+	  $("#show").html("请输入密码!");
+	  $("input[name='password']").focus();
+	  
+	  return false;
+    }
+		
+	var captcha = $("input[name='captcha']").val().trim();
+	if ("" == captcha) {
+	  $("#show").html("请输入验证码!");
+	  $("input[name='captcha']").focus();
+			
+	  return false;
+	}
+		
+    $("#submit").submit();
+  }
+	
+  function loadActiveX(){
+    layer.msg('控件下载完毕后请刷新页面!', 3, 4);
+    window.open("/public/Setup.exe");
+  }
+     
+  $(document).keyup(function(event){
+    if(event.keyCode == 13){
+	  validate();
+    }
+  });
+  
+  $(function(){
+	  $("#slides ul").remove(); 
+  });
+</script>

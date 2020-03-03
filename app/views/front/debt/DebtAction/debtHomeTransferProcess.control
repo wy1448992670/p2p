@@ -1,0 +1,77 @@
+			<div class="xf_c_wyjk_1_wyjkWrap">
+				<div class="xf_c_wyjk_1_jklc">
+					<!--借款中的标 start-->
+					<div class="xf_c_wyjk_1_jklcHeader">
+						<span class="xf_c_wyjk_1_jklcTitle">转让流程</span>									
+					</div>
+					<div class="xf_c_wyjk_1jklcContent">
+						<div class="xf_c_wyjk_1jklcLeft">
+							<ul class="xf_c_wyjk_1_jklcUl xf_c_zqzr_1_jklcUl">
+								<li>
+									<div class="xf_c_wyjk_1_jklcItems">
+										<div class="xf_zqzr_1_dlzh"></div>
+										<div class="xf_c_wyjk_1_jklcLinks xf_c_wyjk_1_wylcjklc"><span >登录我的账户</span></div>
+									</div>
+								</li>
+								<li>
+									<div class="xf_c_wyjk_1_jklcArrow"></div>
+								</li>
+								<li>
+									<div class="xf_c_wyjk_1_jklcItems">
+										<div class="xf_zqzr_1_lczzh"></div>
+										<div class="xf_c_wyjk_1_jklcLinks xf_c_wyjk_1_wylcjklc"><span>点击投资子账户</span></div>
+									</div>
+								</li>
+								<li>
+									<div class="xf_c_wyjk_1_jklcArrow"></div>
+								</li>
+								<li>
+									<div class="xf_c_wyjk_1_jklcItems">
+										<div class="xf_zqzr_1_skzdb"></div>
+										<div class="xf_c_wyjk_1_jklcLinks xf_c_wyjk_1_wylcjklc"><span>点击收款中的<br/>投资标</span></div>
+									</div>
+								</li>
+								<li>
+									<div class="xf_c_wyjk_1_jklcArrow"></div>
+								</li>
+								<li>
+									<div class="xf_c_wyjk_1_jklcItems">
+										<div class="xf_zqzr_1_zqzr"></div>
+										<div class="xf_c_wyjk_1_jklcLinks xf_c_wyjk_1_wylcjklc"><span >点击债权转让</span></div>
+									</div>
+								</li>
+								<li>
+									<div class="xf_c_wyjk_1_jklcArrow"></div>
+								</li>
+								<li>
+									<div class="xf_c_wyjk_1_jklcItems">
+										<div class="xf_zqzr_1_tjzrsq"></div>
+										<div class="xf_c_wyjk_1_jklcLinks xf_c_wyjk_1_wylcjklc"><span>提交转让申请</span></div>
+									</div>
+								</li>
+								<li>
+									<div class="xf_c_wyjk_1_jklcArrow"></div>
+								</li>
+								<li>
+									<div class="xf_c_wyjk_1_jklcItems">
+										<div class="xf_zqzr_1_gkzr"></div>
+										<div class="xf_c_wyjk_1_jklcLinks xf_c_wyjk_1_wylcjklc"><span >公开转让</span></div>
+									</div>
+								</li>
+								<li>
+									<div class="xf_c_wyjk_1_jklcArrow"></div>
+								</li>
+								<li>
+									<div class="xf_c_wyjk_1_jklcItems">
+										<div class="xf_zqzr_1_zqzrcg"></div>
+										<div class="xf_c_wyjk_1_jklcLinks xf_c_wyjk_1_wylcjklc"><span>债权转让成功</span></div>
+									</div>
+								</li>
+								<div class="clear"></div>
+							</ul>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<!--借款中的标 ends-->
+				</div>
+			</div>

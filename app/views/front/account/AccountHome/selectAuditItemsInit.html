@@ -1,0 +1,100 @@
+
+<div class="xf_ht_jr_obu_width xf_ht_jkbsh_width">
+	<div class="xf_ht_jr_obu_title clr">
+		<div class="xf_ht_jr_obu_l">选择借款标审核科目</div>
+		<div class="xf_wyjkfb_4_windowClose">&nbsp;</div>
+	</div>
+	<div class="xf_ht_ures_view_tcc" style="height:400px;overflow: auto;">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0"
+			class="xf_con_mem_r_b_table">
+			<tr>
+				<td><input type="checkbox" name="check_all" onclick="checkAll()" value="-1"/></td>
+				<td>序号</td>
+				<td>编号</td>
+				<td>名称</td>
+				<td>格式</td>
+				<td>有效期(月)</td>
+				<td>审核期(日)</td>
+				<td>信用积分</td>
+				<td>创建时间</td>
+			</tr>
+			#{list auditItems}
+			<tr>
+				<td><input type="checkbox" name="check_box" value="${_?.id}" /> 
+				<input type="hidden" value="${_?.name}" id="name${_?.id}" /></td>
+				<input type="hidden" value="${_?.mark}" id="mark${_?.id}" /></td>
+				<td>${_index}</td>
+				<td>${_?.no}</td>
+				<td>${_?.name}</td>
+				<td>
+					#{if _?.type == 1 } 图片文件 #{/if} 
+					#{elseif _?.type == 2} 文本文件 #{/elseif} 
+					#{elseif _?.type == 3} 视频文件 #{/elseif} 
+					#{elseif _?.type == 4} 音频文件 #{/elseif} 
+					#{elseif _?.type == 5} 表格文件 #{/elseif}
+				</td>
+				<td>${_?.period}</td>
+				<td>${_?.auditCycle}</td>
+				<td>${_?.creditScore}</td>
+				<td>${_?.time?.format('yyyy-MM-dd')}</td>
+			</tr>
+			#{/list}
+		</table>
+		<div class="xf_ht_jkb_pro_input">
+			<a class="xf_con_inputfbjk" onclick="submit();">确认添加</a>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function() {
+		$(".xf_wyjkfb_4_windowClose").click(function() {
+			$("#audit_items_window").hide(300).html("");
+		});
+
+		init();
+
+		g_selectItems = new Array();
+	});
+
+	/**
+	 * 初始化
+	 */
+	function init() {
+		$('input:checkbox[name=check_box]').each(function(){
+			for ( var i = 0; i < g_selectItems.length; i++) {
+				var item = g_selectItems[i];
+
+				if (item.id == $(this).val()) {
+					$(this).attr("checked", "checked");
+					$(this).attr("disabled", "disabled");
+
+					break;
+				}
+			}
+		});
+	}
+
+	/**
+	 * 确定
+	 */
+	function submit() {
+		$('input:checkbox[name=check_box]').each(function(){
+			var id = $(this).val();
+			var isSelected = this.checked;
+	
+			var item = {};
+			item.id = id;
+			item.name = $("#name" + id).val();
+			item.mark = $("#mark" + id).val();
+	
+			if (isSelected) {
+				g_selectItems.push(item);
+			} else {
+				g_selectItems.removeObjectById(id);
+			}
+		});
+		auditItemsDidSelect(g_selectItems);
+		$("#audit_items_window").hide(300).html("");
+	}
+</script>

@@ -1,0 +1,150 @@
+<div class="xf_ht_jr_obu_width" style="height: 350px; overflow: auto;">
+  <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form">
+    <tr>
+      <td width="132" align="right" valign="top">客服座席编号：</td>
+      <td><input id="customer_num" class="xf_ht_jr_dfk_i_input" type="text" value="系统自动识别" readonly="readonly"/></td>
+    </tr>
+  </table>
+  <div class="xf_ht_tcc_button_box" style="padding-left:135px; overflow:hidden;">
+    <input class="xf_ht_tcc_button_ok" id="xf_dfk_fkzh_tcc11"
+      type="button" onclick="supervisorsWillSelect();" value="选择人员">
+  </div>
+  <div id="selectedSupervisors" class="xf_ht_ures_view_tcc">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="xf_con_mem_r_b_table">
+      <tr>
+        <th>管理员账号</th>
+        <th>真实姓名</th>
+        <th>性别</th>
+        <th width="80px">手机1</th>
+        <th>邮箱</th>
+        <th>管理员类型</th>
+        <th>权限组</th>
+      </tr>
+    </table>
+  </div>
+  <div class="xf_ht_tcc_button_box xf_ht_tcc_button_box_oktwo" style="overflow:hidden;">
+    <input class="xf_ht_tcc_button_ok" type="button" onclick="addCustomers();" value="确  定">
+    <input class="xf_ht_tcc_button_on" type="button" value="取  消">
+  </div>
+  <div class="xf_ht_zd_content" style="padding:0 20px 50px 20px">提醒：客服人员只能从网站管理员中进行选择，如无合适选择目标，请先添加管理员，再进行选择。</div>
+  </div>
+
+<script type="text/javascript">
+  var g_signs;
+  var g_selectedSigns;
+  
+  $(function() {
+    init();
+
+    //取消
+    $(".xf_ht_tcc_button_on").click(function() {
+      layer.closeAll();
+    });
+
+  });
+
+  //初始化
+  function init() {
+    g_signs = new Array();
+    g_selectedSigns = new Array();
+  }
+  
+  //显示选择管理员弹窗
+  function selectSupervisorInit(currPage, pageSize) {
+    $.ajax({
+      url : "@{selectSupervisorInit()}",
+      type : "POST",
+      data : {
+        "currPage" : currPage,
+        "pageSize" : pageSize,
+        "keyword" : $("#xf_ht_supervisors_ttc #keyword").val()
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+
+          return;
+        }
+        
+        layer.close(layer_index);
+       
+        $("#xf_ht_supervisors_ttc").html(data);
+        layer_index =$.layer({
+          type: 1,
+          area: ['60%', 'auto'],
+          title: '选择管理员',
+          page: {dom : '#xf_ht_supervisors_ttc'}
+        });
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+  
+  //将要弹出选择管理员弹窗
+  function supervisorsWillSelect() {
+    g_selectedSigns = clone(g_signs);
+    selectSupervisorInit(1, 5);
+  }
+  
+  //选择管理员弹窗已提交
+  function supervisorsDidSelect(signs) {
+    g_signs = clone(signs);
+    refreshSelectedSupervisors();
+  }
+  
+  //刷新选择的管理员列表
+  function refreshSelectedSupervisors() {
+    var ttc = $("#selectedSupervisors");
+    ttc.html('');
+    var signs = g_signs.join(",").trim();
+    
+    $.ajax({
+      url : "@{selectedSupervisors()}",
+      type : "POST",
+      data : {
+        "signs" : signs
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          return;
+        }
+        
+        ttc.html(data);
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+  
+  //添加客服
+  function addCustomers() {
+    var signs = g_signs.join(",").trim();
+    
+    if ("" == signs) {
+      alert("请选择人员");
+      
+      return;
+    }
+    
+    $.ajax({
+      url : "@{addCustomers()}",
+      type : "POST",
+      data : {
+        "signs" : signs
+      },
+      success : function(error) {
+        alert(error.msg);
+        
+        if (error.code == 0) {
+          location.reload(true);
+        }
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+</script>

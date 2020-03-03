@@ -1,0 +1,160 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+  #{form @bottomLinkManager(), id:"submit"}
+  <input type="hidden" id="key" name="key"/>
+    <div class="xf_ht_search">
+      <div class="xf_ht_search_l">
+        <span id="lable_beginner_introduction" onClick="introduction('lable_beginner_introduction')">新手入门</span>
+        <span id="lable_about_loan" onClick="myloan('lable_about_loan')">我要借款</span>
+        <span id="lable_about_financing" onClick="invest('lable_about_financing')">我要理财</span>
+		<span id="lable_about_us" onClick="aboutUs('lable_about_us')">关于我们</span>
+		<span id="lable_help_centre" onClick="help('lable_help_centre')">帮助中心</span>
+		<span id="lable_friend_link" onClick="friend('lable_friend_link')">友情连接</span>
+      </div>
+    </div>
+    #{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xn_c_content_list",tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}标  题#{/th}
+          #{th}广告链接#{/th}
+          #{th}排序#{/th}
+          #{th}是否显示#{/th}
+          #{th}操作#{/th}
+        #{/tr}
+		#{list items:bottomLinks, as:'bottomLinks'} 
+        #{tr tr_index:bottomLinks_index}
+          #{td}${bottomLinks_index}#{/td}
+          #{td}${bottomLinks?.title}#{/td}
+          #{td}${bottomLinks?.url}#{/td}
+          #{td}${bottomLinks?._order}#{/td}
+           #{td}
+			<input type="hidden" value ="${bottomLinks?.status}" id = "status${bottomLinks_index}" />
+          	<input name="checkbox" type="checkbox" id="test"  
+                #{if bottomLinks?.status == 0 }
+                checked="checked"
+                onmouseup="updateShow('${bottomLinks?.id}','${bottomLinks_index}')"
+                #{/if}
+                #{else}
+                onmouseup="updateShow('${bottomLinks?.id}','${bottomLinks_index}')"
+                #{/else}
+                />
+          #{/td}
+          
+          #{td}
+            <span class="xf_ta_onclick" onClick="editBotton('${bottomLinks?.id}','${bottomLinks?.title}','${bottomLinks?.url}',
+                    '${bottomLinks?.target}','${bottomLinks?._key}','${bottomLinks?._order}')">编辑</span>
+          #{/td}
+        #{/tr}
+		#{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom" style="display:none">
+      <input class="xf_ggnr_help_input" type="button" id="addFriendLink" onClick="addFriend('${bottomLinks?._key}')" value="添加友情连接">
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){
+    $("#${key}".trim()).addClass("xf_sea_isshow");
+    var k = '${key}';
+    if (k == 'lable_about_ financing'){
+    	document.getElementById(k).className = 'xf_sea_isshow';
+    }
+    if(k == 'lable_friend_link'){
+    	$("#addFriendLink").parent().css('display','block');
+    }
+});
+
+function updateShow(id, index){
+	var status = $("#status" + index).val();
+	if (status == '0'){
+		status = '1';
+	}
+	else{
+		status = '0';
+	}
+	
+	var updateUseStatus = #{jsAction @updateBottomLinkStatus(':id',':status')/}
+	$.post(updateUseStatus({id:id, status:status}),function(data){
+		 var arr = eval(data);
+		 if (arr.error.code != 0){
+	  	    alert(arr.error.msg);
+		 }
+		 else{
+		 	$("#status" + index).val(status);
+		 }
+	});	
+}
+
+function editBotton(id,title,url,target,key,order){
+    if(!confirm("底部链接为系统信息，请谨慎编辑，确定编辑后能链接到正确的页面")){ 
+      return ;
+    }
+    	 
+    $("#title").val(title);
+    $("#url").val(url);
+    $("input[name='target']").val([target]);
+    $("#order").val(order);
+    $("#typeKey").val(key);
+    $("#editId").val(id);
+    $.layer({
+      type: 1,
+      area: ['500', 'auto'],
+      title: '底部链接编辑',
+      page: {dom : '#xf_ht_jr_obu_width'}
+    });
+}
+    
+$(".xf_ht_jr_obu_r").click(function(){
+    $(this).parents(".xf_ht_ttc").hide();
+});
+    
+function introduction(info){
+    $("#key").val(info);
+    $("#submit").submit();
+}
+    
+function myloan(info){
+    $("#key").val(info);
+    $("#submit").submit();
+}
+    
+function invest(info){
+    $("#key").val(info);
+    $("#submit").submit();
+}
+    
+function aboutUs(info){
+    $("#key").val(info);
+    $("#submit").submit();
+}
+    
+function help(info){
+    $("#key").val(info);
+    $("#submit").submit();
+}
+    
+function support(info){
+    $("#key").val(info);
+    $("#submit").submit();
+}
+
+function friend(info){
+    $("#key").val(info);
+    $("#submit").submit();
+}
+
+function addFriend(key){
+	$("#add_typeKey").val(key);
+    $.layer({
+      type: 1,
+      area: ['500', 'auto'],
+      title: '添加友情连接',
+      page: {dom : '#xf_ht_jr_obu_width_add'}
+    });
+}
+</script>

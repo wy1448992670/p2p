@@ -1,0 +1,29 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle + ' | 我的账户   | 基本设置  | 安全手机设置'/}
+
+<!-- 内容区域 start -->
+	<div class="xf_con_box">
+		<div class="xf_con_mem_nav"></div>
+		<!-- 左边导航区域 -->
+		#{include "front/account/AccountHome/homeLeft.control"/}
+		<!-- 右侧内容区域 -->
+		#{include "front/account/BasicInformation/modifyMobileContent.control"/}
+		
+		<!-- 清除浮动 -->
+		<div class="clear"></div>
+	</div>
+<!-- 内容区域 end -->
+<!-- 弹窗DIV -->
+
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript">
+    $(function(){
+		/* 高亮显示 */
+		showHighLightFront(34);
+		showHighLightFront2(7, 6);
+    	
+    });
+</script>

@@ -1,0 +1,184 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'信用等级列表' /}
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  <!--左-->
+  #{include "supervisor/webContentManager/common/leftBar.control"/}
+  <!--右-->
+  <div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+     #{form @creditLevelList(), id:'creditLevelList'}
+    <input type="hidden" id="currPage" name="currPage"/>
+	<input type="hidden" id="pageSize" name="pageSize"/>
+    <div class="xf_ht_search_inon">
+       <div class="xf_ht_search_r">
+         <div class="xf_ht_search_xl">
+           <input id="keyword" name="keyword" type="text" class="search_w" title="请输入等级名称" value="${pageBean?.conditions?.keyword}"/>
+         </div>
+         <div class="xf_ht_search_xl">
+           <input type="submit" class="search_button" value="搜&nbsp;&nbsp;索">
+         </div>
+       </div>
+     </div>
+     #{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xn_c_content_list",tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}名称#{/th}
+          #{th}等级图标#{/th}
+          #{th}最低信用积分#{/th}
+          #{th}最低审核科目数量#{/th}
+          #{th}是否允许逾期扣分#{/th}
+          #{th}必审科目#{/th}
+          #{th}信贷建议#{/th}
+          #{th}操作#{/th}
+        #{/tr}
+        #{list pageBean?.page}
+        #{tr tr_index:_index}
+          #{td}${(pageBean?.currPage - 1)*pageBean?.pageSize + _index}#{/td}
+          #{td}${_?.name}#{/td}
+          #{td}#{img src:"${_?.image_filename}",alt:"",width:"20",height:"20"}#{/img}#{/td}
+          #{td}${_?.min_credit_score}#{/td}
+          #{td}${_?.min_audit_items}#{/td}
+          #{td}${_?.is_allow_overdue}#{/td}
+          #{td}${_?.must_items}#{/td}
+          #{td}${_?.suggest}#{/td}
+          #{td}
+            <a href="javascript:editCreditLevelInit(${_?.id});" id="xf_dfk_fkzh_tcc1" class="xf_ta_onclick">编辑</a>
+            #{if _?.is_enable == true}
+              <a href="javascript:enable(${_?.id}, false)" id="enable${_?.id}" class="xf_ta_onclick">暂停</a>
+            #{/if}
+            #{else}
+              <a href="javascript:enable(${_?.id}, true)" id="enable${_?.id}" class="xf_ta_onclick">启用</a>
+            #{/else}
+          #{/td}
+        #{/tr}
+        #{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      #{page currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:4}
+      #{/page}
+      <div class="page_warp_l">
+          <input type="button" class="xf_htbutton" onclick="addCreditLevelInit();" value="添加CBO">
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</div>
+<!-- 添加CBO-弹出层 -->
+<div class="xf_ht_ttc" id="xf_ht_tjcbo_ttc">
+</div>
+<!-- 编辑CBO-弹出层 -->
+<div class="xf_ht_ttc" id="xf_ht_bjcbo_ttc">
+</div>
+<script type="text/javascript">
+  $(function() {
+    /* 高亮显示 */
+    showHighLight(4,4,16);
+  });
+    
+  function addCreditLevelInit() {
+	  $("#xf_ht_bjcbo_ttc").html("");
+	  
+    $.ajax({
+      url : "@{addCreditLevelInit()}",
+      type : "POST",
+      data : {
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+                    
+          return;
+        }
+                
+        var ttc = $("#xf_ht_tjcbo_ttc");
+        ttc.html(data);
+        $.layer({
+          type: 1,
+          area: ['610', 'auto'],
+          title: '添加CBO',
+          page: {dom : '#xf_ht_add_credit_width'}
+        });
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+    
+  function editCreditLevelInit(id) {
+	  $("#xf_ht_tjcbo_ttc").html("");
+	  
+    $.ajax({
+      url : "@{editCreditLevelInit()}",
+      type : "POST",
+      data : {
+        "id" : id
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+                    
+          return;
+        }
+                
+        var ttc = $("#xf_ht_bjcbo_ttc");
+        ttc.html(data);
+        $.layer({
+          type: 1,
+          area: ['610', 'auto'],
+          title: '编辑CBO',
+          page: {dom : '#xf_ht_edit_credit_width'}
+        });
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+    
+  //暂停/启用
+  function enable(id, isEnable) {
+    $.ajax({
+      url : "@{enable()}",
+      type : "POST",
+      data : {
+        "id" : id,
+        "isEnable" : isEnable
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+                    
+          return;
+        }
+            
+        if (isEnable) {
+          $("#enable"+id).html("暂停");
+          $("#enable"+id).attr("href","javascript:enable("+id+", false)");
+        } else {
+          $("#enable"+id).html("启用");
+          $("#enable"+id).attr("href","javascript:enable("+id+", true)");
+        }
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+
+  /* 条件搜素查询 */
+	function showPage(currPage, pageSize){
+	     $("#currPage").val(currPage);
+	     $("#pageSize").val(pageSize);
+	     $("#creditLevelList").submit();
+	}
+</script>

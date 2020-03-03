@@ -1,0 +1,214 @@
+<!--投标搜索 start-->
+<div class="xf_wylc_tbssbox">
+	<div class="xf_wylc_tbsousou">
+		<span class="xf_c_wyjk_1_jklcTitle" >投标搜索</span>
+		 #{form @investHome(),method:'GET',id :'bidsSearch'}
+		<div class="xf_wylc_tbssinput">
+			<input type="text" title="请输入标题或编号"  id="keywords" name="keywords" value="${pageBean?.conditions?.keywords}"/> <a onclick="showHomeBids();">搜索</a>
+			<input type="hidden" id="currPage" name="currPage"/>
+      <input type="hidden" id="pageSize" name="pageSize"/>
+      <input type="hidden" id="aprtemp" name="apr" value="${pageBean?.conditions?.apr}"/>
+      <input type="hidden" id="amounttemp" name="amount" value="${pageBean?.conditions?.amount}"/>
+      <input type="hidden" id="loanScheduletemp" name="loanSchedule" value="${pageBean?.conditions?.loanSchedule}" />
+      <input type="hidden" id="orderType" name="orderType" value="${pageBean?.conditions?.orderType}"/>
+				
+		</div>
+	</div>
+	<!-- 搜索条件 -->
+	
+	<dl class="xf_wylc_tbtitlelist" id="apr">
+		<dt class="xf_wylc_tbsstitle">利率：</dt>
+		<dd value="0" #{if pageBean?.conditions?.apr == 0} class="xf_wylc_tbssisthot" #{/if}>全部</dd>
+		<dd value="1" #{if pageBean?.conditions?.apr == 1} class="xf_wylc_tbssisthot" #{/if}>10%以下</dd>
+		<dd value="2" #{if pageBean?.conditions?.apr == 2} class="xf_wylc_tbssisthot" #{/if}>10%-15%</dd>
+		<dd value="3" #{if pageBean?.conditions?.apr == 3} class="xf_wylc_tbssisthot" #{/if}>15%-20%</dd>
+		<dd value="4" #{if pageBean?.conditions?.apr == 4} class="xf_wylc_tbssisthot" #{/if}>20%以上</dd>
+	</dl>
+	<dl class="xf_wylc_tbtitlelist" id="amount">
+		<dt class="xf_wylc_tbsstitle">金额：</dt>
+		<dd value="0" #{if pageBean?.conditions?.amount == 0} class="xf_wylc_tbssisthot" #{/if}>全部</dd>
+		<dd value="1" #{if pageBean?.conditions?.amount == 1} class="xf_wylc_tbssisthot" #{/if}>10万以下</dd>
+		<dd value="2" #{if pageBean?.conditions?.amount == 2} class="xf_wylc_tbssisthot" #{/if}>10—50万</dd>
+		<dd value="3" #{if pageBean?.conditions?.amount == 3} class="xf_wylc_tbssisthot" #{/if}>50—100万</dd>
+		<dd value="4" #{if pageBean?.conditions?.amount == 4} class="xf_wylc_tbssisthot" #{/if}>100—300万</dd>
+		<dd value="5" #{if pageBean?.conditions?.amount == 5} class="xf_wylc_tbssisthot" #{/if}>300万以上</dd>
+	</dl>
+	<dl class="xf_wylc_tbtitlelist" id="loanSchedule">
+		<dt class="xf_wylc_tbsstitle">认购进度：</dt>
+		<dd value="0" #{if pageBean?.conditions?.loanSchedule == 0} class="xf_wylc_tbssisthot" #{/if}>全部</dd>
+		<dd value="1" #{if pageBean?.conditions?.loanSchedule == 1} class="xf_wylc_tbssisthot" #{/if}>50%以下</dd>
+		<dd value="2" #{if pageBean?.conditions?.loanSchedule == 2} class="xf_wylc_tbssisthot" #{/if}>50%-80%</dd>
+		<dd value="3" #{if pageBean?.conditions?.loanSchedule == 3} class="xf_wylc_tbssisthot" #{/if}>80%以上</dd>
+		<dd value="4" #{if pageBean?.conditions?.loanSchedule == 4} class="xf_wylc_tbssisthot" #{/if}>满标</dd>
+	</dl>
+	<dl class="xf_wylc_tbtitlelist" >
+		<dt class="xf_wylc_tbsstitle">借款标类型：</dt>
+		<dd class="xfselect">
+			<select 
+				class="xf_wylc_selectAge xf_wylc_selectAge2" name="loanType">
+				<option value="-1">请选择</option>
+				#{list items:list, as : 'product'}
+					<option value="${product?.id}"
+					#{if pageBean?.conditions?.loanType == product?.id} selected="selected"  #{/if}
+					>${product?.name}</option>
+				#{/list}
+			</select>&nbsp;
+		</dd>
+	</dl>
+	<dl class="xf_wylc_tbtitlelist xf_wylc_tbtitlelist_fast" >
+		<dt class="xf_wylc_tbsstitle">信用等级：</dt>
+		<dd class="xfselect">
+			<select name="minLevel" class="xf_wylc_selectAge xf_wylc_selectAge2" id="minLevel" >
+			   <option value="-1">请选择</option>
+			   #{list items:creditLevels,as:'level'}
+				<option value="${level?.id}" 
+				#{if pageBean?.conditions?.minLevel == level?.id}
+				selected="selected"
+				#{/if}
+				>${level?.name}</option>
+			  #{/list}	
+			</select>&nbsp;
+		</dd>
+	</dl>
+</div>
+
+<!-- 排序条件 -->
+
+
+<!-- 排序条件 -->
+<div class="xf_wylc_orderdesc clr">
+	<div class="xf_wylc_orderdesc_l">
+		<ul class="clr">
+			<li class="xf_wylc_orderdesc_lione xf_wylc_orderdesc_last" onClick="conditonSearch(0)"><a id="div_0">默认排序</a>
+			</li>
+			<li class="xf_wylc_orderdesc_litwo" onClick="conditonSearch(1)"><a id="div_1" class="">金额</a>
+			</li>
+			<li class="xf_wylc_orderdesc_lithree" onClick="conditonSearch(3)"><a id="div_3" class="">利率</a>
+			</li>
+			<li class="xf_wylc_orderdesc_lifour" onClick="conditonSearch(5)"><a id="div_5" class="">进度</a>
+			</li>
+			<li class="xf_wylc_orderdesc_lifive" onClick="conditonSearch(7)"><a id="div_7" class="">还款期限</a>
+			</li>
+		</ul>
+	</div>
+	#{/form}  
+	<div class="xf_wylc_orderdesc_r">
+		<span class="xf_wylc_orderdesc_rl">共计<span
+			class="xf_wylc_orderdesc_span" id="bidTotle">${pageBean?.totalCount}</span>个标</span> <a 
+			class="xf_wylc_orderdesc_rr" onclick ="showCollect()">只看收藏</a>
+	</div>
+</div>
+<script src="@{'/public/javascripts/laydate/laydate.js'}"></script>
+<script>
+    var apr="";
+    var amount="";
+    var loanSchedule="";
+    var startDate = "";
+ 	var endDate = "";
+ 	var loanType = "";
+ 	var orderType = "";
+ 	var startDate = "";
+ 	var endDate = "";
+ 	
+ 	$(function(){
+	    $("#apr dd").click(function(){ 
+	    	$("#apr dd").removeClass("xf_wylc_tbssisthot");
+		    $(this).addClass("xf_wylc_tbssisthot");
+		      apr = $(this).attr("value"); 
+		      $("#aprtemp").val(apr);
+		      showHomeBids();
+	   });
+	   $("#amount dd").click(function(){ 
+	    	$("#amount dd").removeClass("xf_wylc_tbssisthot");
+		    $(this).addClass("xf_wylc_tbssisthot");
+		     amount = $(this).attr("value"); 
+		      $("#amounttemp").val(amount);
+		    showHomeBids();
+	   });
+	   $("#loanSchedule dd").click(function(){ 
+	    	$("#loanSchedule dd").removeClass("xf_wylc_tbssisthot");
+		    $(this).addClass("xf_wylc_tbssisthot");
+		     loanSchedule = $(this).attr("value");  
+		     $("#loanScheduletemp").val(loanSchedule);
+		     showHomeBids();
+	   });
+    });
+
+	$(function(){
+	   	 //条件查询控制样式
+	 	 var num= '${pageBean?.conditions?.orderType}';
+	
+		  if(num == 0){
+		  	$("#div_0").addClass("xf_wylc_orderdesc_nocheck");
+		    	return;
+		  }
+	
+		  var sum = num/2;
+		  if(sum.toString().indexOf('.') == -1){
+		    var sum2 = num -1;
+		    $("#div_"+sum2).removeClass("xf_wylc_orderdesc_ishot");
+		    $("#div_"+sum2).addClass("xf_wylc_orderdesc_up");
+		    return;
+		  }else{
+		   // $("#div_"+num).removeClass("xf_wylc_orderdesc_up");
+		    $("#div_"+num).addClass("xf_wylc_orderdesc_ishot");
+		  }
+     });
+	     
+	function conditonSearch(num){
+	
+	  var order= '${pageBean?.conditions?.orderType}';
+	  if(order == 0){
+	    $("#orderType").val(num);
+	    $("#bidsSearch").submit();
+	    return;
+	  }
+	  if(order == num){
+	    $("#orderType").val(num + 1);
+	    $("#bidsSearch").submit();
+	     return;
+	  }else{
+	    $("#orderType").val(num);
+	    $("#bidsSearch").submit();
+	     return;
+	  }
+	}
+	
+	    
+	  function showHomeBids(){
+	  
+	    var minLevel = $("#minLevel").val();
+	    
+	     $("#bidsSearch").submit();
+	}	
+	
+	function showCollect(){
+		var pageNum = 1;
+		var pageSize = 10;
+		showCollectBids(pageNum,pageSize);
+	}
+	
+	 function showCollectBids(pageNum,pageSize){
+		
+		$.ajax({
+		  url:"@{queryUserCollectBids()}",
+		  type:"POST",
+		  data:{"pageNum" : pageNum,"pageSize" : pageSize},
+		  success:function(data){
+		  	
+		  	//拦截器，拦截判断。frontMain.html
+			if(checkIntercepterResult(data)){
+				return;
+			}
+		  	
+		  	$("#bidList").html(data);
+		  },
+		  error:function(){alert("对不起，出现错误!");}
+		})
+	}
+	 function showPage(currPage, pageSize){
+	    $("#currPage").val(currPage);
+	    $("#pageSize").val(pageSize);
+	    $("#bidsSearch").submit();
+	}
+</script>

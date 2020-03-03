@@ -1,0 +1,92 @@
+<script type="text/javascript">  
+  var editor2;
+  KindEditor.ready(function(K) {
+	editor2 = K.create('#editstation2', {
+    cssPath :"@{'public/javascripts/kindeditor-4.1.7/plugins/code/prettify.css'}",
+    uploadJson : '@{FileUpload.uploadImage2()}',
+    allowFileManager : true,
+    allowUpload: true,
+    syncType:'auto'
+    });
+  });
+</script>
+<!-- 编辑邮件模版弹窗 -->
+<div class="xn_c_ban_jox xn_c_ban_jox_qxsz" id="xf_ht_create_ttc" style="background:#fff; z-index:999; display: none;">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_ht_damem_hy_box">
+      #{form @createStationTemplate(), method:'POST', id:'createStationTemplate' }
+      <div class="xf_ht_jbox_table">
+        <table class="xf_htgl_jg_tableone_table" cellspacing="0" cellpadding="0" border="0">
+          <tr>
+            <td>应用场景：</td>
+            <td><input class="xfht_zr_input xfht_zr_bjqxz_w" name="scenarios" type="text" id="scenarios2" value="${template?.scenarios}"></td>
+          </tr>
+          <tr>
+            <td>站内信标题：</td>
+            <td><input class="xfht_zr_input xfht_zr_bjqxz_w" name="title" type="text" id="title2" value="${template?.title}"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="xf_ht_damem_hy_bott xf_ht_damem_hy_bott6">
+        <div class="xf_ht_cytc_cont">站内信内容：</div>
+        <textarea id="editstation2" style="width: 480px; height: 200px;border:none;" class="xf_ht_jr_obttd_textarea"></textarea>
+        <input type="hidden" name="content" id="content"/>
+     </div>
+     <div class="jbox_tan_ondiv jbox_tan_width4">
+       <input class="jbox_ok" type="button" value="浏 览" onclick="previewCreatingTemplate();">
+       <input class="jbox_ok" type="button" value="确 定" onclick="createStationTemplate();">
+       <input class="jbox_on" type="button" value="取 消" onclick="cancle2();">
+     </div>
+     #{/form}
+   </div>
+  </div>
+</div>
+<!-- 预览站内信模板-弹出层 -->
+<div class="xf_ht_ttc" id="previewNewStationTemplate" style="display: none">
+  #{include "supervisor/webContentManager/TemplateAction/previewNewStationTemplate.html"/}
+</div>
+<script type="text/javascript">
+<!--
+  function previewCreatingTemplate() {
+    $("#preview_title").html($("#title2").val());
+    $("#preview_content").html(editor2.html());
+    $.layer({
+        type: 1,
+        area: ['610', 'auto'],
+        title: '新增自定义模板',
+        page: {dom : '#previewNewStationTemplate'}
+      });
+  }
+
+  function cancle2(){
+	$('#xf_ht_create_ttc').hide();
+	$('#scenarios2').val('');
+	$('#title2').val('');
+	$("#content").val('');
+	editor2.html('');
+  }
+
+  function createStationTemplate(){
+    if($('#scenarios2').val().trim() == ''){
+	    alert("请填写应用场景");
+	    return;
+    } 
+	      
+	if($('#title2').val().trim() == ''){
+        alert("请填写标题");
+        return;
+    }  
+    
+	var value = editor2.html();
+
+	if(value == ''){
+		alert("请填写内容");
+		return;
+	}
+
+	value = replaceAllHTML(value);
+    $("#content").val(value);
+    $("#createStationTemplate").submit();
+  }
+//-->
+</script>

@@ -1,0 +1,21 @@
+<table border="0" cellpadding="0" cellspacing="0" width="739" class="xf_mem_jsq_hk_ctble">
+	<tr>
+		<td class="xf_mem_jsq_hk_ctitle" height="52" colspan="5">还款明细</td>
+	</tr>
+	<tr>
+		<td class="xf_mem_jsq_hk_tdl" width="202">还款期数</td>
+		<td class="xf_mem_jsq_hk_tdl" width="202">月还本息</td>
+		<td class="xf_mem_jsq_hk_tdl" width="202">月还本金</td>
+		<td class="xf_mem_jsq_hk_tdl" width="202">月还利息</td>
+		<td class="xf_mem_jsq_hk_tdl" width="202">本息余额</td>
+	</tr>
+	 #{list items:payList}
+	<tr>
+		<td class="xf_mem_jsq_hk_tdr">${_index}</td>
+		<td class="xf_mem_jsq_hk_tdr"><span class="xf_mem_jsq_red">${_?.monPay?.format('###,##0.00')}</span></td>
+		<td class="xf_mem_jsq_hk_tdr">${_?.monPayAmount?.format('###,##0.00')}</td>
+		<td class="xf_mem_jsq_hk_tdr">${_?.monPayInterest?.format('###,##0.00')}</td>
+		<td class="xf_mem_jsq_hk_tdr">${_?.stillPay?.format('###,##0.00')}</td>
+	</tr>
+	#{/list}
+</table>

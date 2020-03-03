@@ -1,0 +1,49 @@
+ <h4 class="p_hp_title clr"><strong>快捷方式</strong></h4>
+ <ul class="p_zh_fastlink clr">
+    <!--<li>
+        <a href="@{front.account.FundsManage.recharge()}"  target="_self" title="">
+            <span><i class="p_zh_i01"></i></span>
+            <em>我要充值</em>
+        </a>
+    </li>-->
+   <!-- <li>
+        <a href="@{front.invest.InvestAction.investHome()}" target="_self" title="">
+            <span><i class="p_zh_i02"></i></span>
+            <em>我要贷出</em>
+        </a>
+    </li>
+    <li>
+        <a href="@{front.account.InvestAccount.myDebts()}" target="_self"  title="">
+            <span><i class="p_zh_i03"></i></span>
+            <em>债权转让</em>
+        </a>
+    </li>-->
+    <li>
+        <a href="@{front.account.accountHome.myLoanBills()}" target="_self" title="">
+            <span><i class="p_zh_i04"></i></span>
+            <em>我要还款</em>
+        </a>
+    </li>
+    #{if currUser != null && currUser.financeType == 1}
+    <li>
+        <a href="@{front.account.InvestAccount.investBills()}" title="" target="_self" >
+            <span><i class="p_zh_i05"></i></span>
+            <em>待收款</em>
+        </a>
+    </li>
+    <li>
+        <a href="@{front.account.FundsManage.dealRecord()}" target="_self" title="">
+            <span><i class="p_zh_i06"></i></span>
+            <em>资金流水</em>
+        </a>
+    </li>
+    #{/if}
+    #{if currUser != null && currUser.financeType == 1}
+    <li>
+        <a href="@{front.account.AccountHome.applyLoan()}" target="_self" title="">
+            <span><i class="p_zh_i07"></i></span>
+            <em>我要借款</em>
+        </a>
+    </li>
+    #{/if}
+</ul>

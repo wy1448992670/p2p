@@ -1,0 +1,102 @@
+<!--侧边栏开始-->
+<div class="xf_c_wyjkfb_2_toolWrap">
+	<div class="xf_c_wyjkfb_2_colName"><span class="xf_c_wyjkfb_2_colBg"></span>财富工具箱</div>
+	<div class="xf_c_wyjkfb_2_cont">
+	
+	    	<ul class="p_1225ul clr">
+				<li>
+                    <a href="@{front.home.homeAction.wealthToolkit(1)}" title="" class="p_sy_cfacon p_sy_cfa01">
+                        <span><i></i></span>
+                        <em>信用计算器</em>
+                    </a>
+                </li>
+                <li>
+                    <a href="@{front.home.homeAction.wealthToolkit(2)}" title="" class="p_sy_cfacon p_sy_cfa02">
+                        <span><i></i></span>
+                        <em>还款计算器</em>
+                    </a>
+                </li>
+                <li>
+                    <a href="@{front.home.homeAction.wealthToolkit(3)}" title="" class="p_sy_cfacon p_sy_cfa03">
+                        <span><i></i></span>
+                        <em>净值计算器</em>
+                    </a>
+                </li>
+                <li>
+                    <a href="@{front.home.homeAction.wealthToolkit(4)}" title="" class="p_sy_cfacon p_sy_cfa04">
+                        <span><i></i></span>
+                        <em>利率计算器</em>
+                    </a>
+                </li>
+                <li>
+                    <a href="@{front.home.homeAction.wealthToolkit(5)}" title="" class="p_sy_cfacon p_sy_cfa05">
+                        <span><i></i></span>
+                        <em>服务手续费</em>
+                    </a>
+                </li>
+                <li>
+                    <a href="@{front.home.homeAction.wealthToolkit(6)}" title="" class="p_sy_cfacon p_sy_cfa06">
+                        <span><i></i></span>
+                        <em>超额借款</em>
+                    </a>
+                </li>
+			</ul>
+											
+		<!--<ul class="xf_c_wyjkfb_2_cfgjxUl">
+			<li>
+				<a href="@{front.home.homeAction.wealthToolkit(1)}" class="xf_c_wyjkfb_2_items">
+					<div class="xf_c_wyjkfb_2_xyjsq">	
+					</div>
+					<div class="xf_c_wyjkfb_2_titleWrap">
+						信用计算器
+					</div>
+				</a>
+			</li>
+			<li>
+				<a href="@{front.home.homeAction.wealthToolkit(2)}" class="xf_c_wyjkfb_2_items">
+					<div class="xf_c_wyjkfb_2_hkjsq">	
+					</div>
+					<div class="xf_c_wyjkfb_2_titleWrap">
+						还款计算器
+					</div>
+				</a>
+			</li>
+			<li>
+				<a href="@{front.home.homeAction.wealthToolkit(3)}" class="xf_c_wyjkfb_2_items">
+					<div class="xf_c_wyjkfb_2_jzjsq">	
+					</div>
+					<div class="xf_c_wyjkfb_2_titleWrap">
+						净值计算器
+					</div>
+				</a>
+			</li>
+			<li>
+				<a href="@{front.home.homeAction.wealthToolkit(4)}" class="xf_c_wyjkfb_2_items">
+					<div class="xf_c_wyjkfb_2_lljsq">	
+					</div>
+					<div class="xf_c_wyjkfb_2_titleWrap">
+						利率计算器
+					</div>
+				</a>
+			</li>
+			<li>
+				<a href="@{front.home.homeAction.wealthToolkit(5)}" class="xf_c_wyjkfb_2_items">
+					<div class="xf_c_wyjkfb_2_fwf">	
+					</div>
+					<div class="xf_c_wyjkfb_2_titleWrap">
+						服务手续费
+					</div>
+				</a>
+			</li>
+			<li>
+				<a href="@{front.home.homeAction.wealthToolkit(6)}" class="xf_c_wyjkfb_2_items">
+					<div class="xf_c_wyjkfb_2_cejk">	
+					</div>
+					<div class="xf_c_wyjkfb_2_titleWrap">
+						信用额度
+					</div>
+				</a>
+			</li>
+		</ul>-->
+	</div>
+</div>

@@ -1,0 +1,181 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    #{form @overdueList(), id:'overdueList'}
+    <div class="xf_ht_search">
+	  <input type="hidden" id="currPage" name="currPage"/>
+	  <input type="hidden" id="pageSize" name="pageSize"/>
+	  <input type="hidden" id="orderIndex" name="orderIndex"/>
+	  <input type="hidden" id="orderStatus" name="orderStatus"/>
+      <div class="xf_ht_search_l">
+		<span id="order0"><a title="默认排序" onclick="orderSearch(0);">默认排序</a></span>
+		<span id="order8"><a title="审核进度" onclick="orderSearch(8);">逾期时间<a id="sp8">↑</a></a></span>
+		<span id="order9"><a title="申请时间" onclick="orderSearch(9);">逾期账单数量<a id="sp9">↑</a></a></span>
+      </div>
+    </div>
+    <div class="xf_ht_search_inon">
+      <div class="xf_ht_search_r">
+        <div class="xf_ht_search_xl">
+          <select class="xf_membill_selectAge" name="condition">
+            <option value="0" id="type0">全部</option>     
+	        <option value="1" id="type1">编号</option>   
+	        <option value="3" id="type2">借款人</option> 
+          </select>
+        </div>
+	    <div class="xf_ht_search_xl">
+		  <span class="search_timesp">放款时间：</span>
+		  <input type="text" class="search_time" name="startDate" id="startDate" onclick="laydate()" class="laydate-icon" style="cursor:pointer">
+		  <span class="search_timesp">--</span>
+		  <input type="text" class="search_time" name="endDate" id="endDate" onclick="laydate()" class="laydate-icon" style="cursor:pointer">  
+	    </div>
+	    <div class="xf_ht_search_xl">
+	      <input type="text" class="search_w" name="keyword" id="keyword">
+	    </div>
+	    <div class="xf_ht_search_xl">
+	      <input type="hidden" name="isExport" value="0" id="isExport">
+		  <input type="submit" class="search_button" value="搜索">
+		  <input type="submit" class="search_button" onmouseout="clearIsExport();" onclick="download();" value="下载数据">
+	    </div>
+      </div>
+    </div>
+    #{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+		  #{th}编号#{/th}
+          #{th}标题#{/th}
+          #{th}借款人#{/th}
+          #{th}信用等级#{/th}
+          #{th}借款标类型#{/th}
+          #{th}借款金额[￥]#{/th}
+          #{th}年利率#{/th}
+          #{th}借款期限#{/th}
+          #{th}放款时间#{/th}
+		  #{th}本息合计#{/th}
+		  #{th}已还期数#{/th}
+		  #{th}逾期账单数量#{/th}
+		  #{th}开始逾期时间#{/th}
+		  #{th}操作#{/th}
+        #{/tr}
+		#{list pageBean?.page}
+		#{tr tr_index:_index}
+		  #{td}${(pageBean?.currPage - 1)*pageBean?.pageSize + _index}#{/td}
+		  #{td}${_?.bid_no}#{/td}
+		  #{td}${_?.title}#{/td}
+		  #{td}${_?.user_name}#{/td}
+		  #{td}#{img src:"${_?.credit_level_image_filename}",alt:"",width:"25",height:"25"}#{/img}#{/td}
+		  #{td}#{img src:"${_?.small_image_filename}",alt:"",width:"20",height:"20"}#{/img}#{/td}
+		  #{td}${_?.amount?.format("###,##0.00")}#{/td}
+		  #{td}${_?.apr}#{/td}
+		  #{td}
+		    ${_?.period}
+		  	#{if _?.period_unit == -1}
+			  [年]
+		    #{/if}
+		    #{elseif _?.period_unit == 1}
+		      [日]
+		    #{/elseif}
+		    #{else}
+		      [月]
+		    #{/else}
+		  #{/td}
+	      #{td}${_?.audit_time?.format('yyyy-MM-dd')}#{/td}
+		  #{td}${_?.capital_interest_sum?.format('###,##0.00')}#{/td}
+		  #{td}${_?.repayment_count}#{/td}
+		  #{td}${_?.overdue_count}#{/td}
+		  #{td}${_?.mark_overdue_time?.format('yyyy-MM-dd')}#{/td}
+		  #{td}<a class="xf_ta_onclick" href="@{loanSucceedDetail(_?.id, 5, 7)}">详情</a>#{/td}
+	    #{/tr}
+	    #{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      <div class="page_warp">
+        #{page currPage:pageBean.currPage,totalCount:pageBean.totalCount,pageSize:pageBean.pageSize,theme:2,style:4/}
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+
+/* 搜索 */
+function search(){
+  $("#isExport").val(0);
+  $("#overdueList").submit();
+}
+
+/* 下载数据 */
+function download(){
+  $("#isExport").val(1);
+  $("#overdueList").submit();
+}
+
+/* 清除下载数据 */
+function clearIsExport(){
+  $('#isExport').val(0);
+}
+
+/* 条件搜素查询 */
+function showPage(currPage, pageSize){
+     $("#currPage").val(currPage);
+     $("#pageSize").val(pageSize);
+     $("#overdueList").submit();
+}
+
+/* 排序搜索 */
+function orderSearch(order){
+	var orderStatus = "${pageBean?.conditions?.orderStatus}";
+	var orderIndex = "${pageBean?.conditions?.orderIndex}";
+	
+	if(orderStatus == 1 && orderIndex == order){
+		$("#orderStatus").val(0);
+	}else{
+		$("#orderStatus").val(1);
+	}
+	
+	$("#orderIndex").val(order);
+	$("#overdueList").submit();
+}
+
+$(function(){
+	/* 高亮显示 */
+	showHighLight(1, 1, 5);
+		
+	/* 给搜索条件赋记录值 */
+	var condition = "${pageBean?.conditions?.condition}";
+	var keyword = "${pageBean?.conditions?.keyword}";
+	var startDate = "${pageBean?.conditions?.startDate}";
+	var endDate = "${pageBean?.conditions?.endDate}";
+    var orderIndex = "${pageBean?.conditions?.orderIndex}";
+    $("#orderIndex").val(orderIndex);
+    var orderStatus = "${pageBean?.conditions?.orderStatus}";
+    $("#orderStatus").val(orderStatus);
+    var order = $("#order" + orderIndex);
+    
+	switch(parseInt(condition)){
+		case 0:$("#type0").attr("selected","selected");break;
+		case 1:$("#type1").attr("selected","selected");break;
+		case 3:$("#type2").attr("selected","selected");break;
+		case 5:$("#type3").attr("selected","selected");break;
+	}
+	
+	$("#keyword").val(keyword);
+	$("#startDate").val(startDate);
+	$("#endDate").val(endDate);
+	
+	/* 初始为默认搜索 */
+	if(orderIndex == ''){
+		$("#order0").attr("class", "xf_sea_isshow");
+	}else {
+	  order.attr("class", "xf_sea_isshow");
+	  if(orderStatus == 1){
+	     $("#sp"+orderIndex).html("↑");
+	  }else{
+	    $("#sp"+orderIndex).html("↓");
+	  }
+	}
+});
+</script>

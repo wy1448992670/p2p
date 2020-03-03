@@ -1,0 +1,35 @@
+<div class="xf_b_idx_2_banner" id="xf_b_idx_2_banner">
+	<!--首页图片轮换添加div层(其它内容是原来的)-->
+	<div class="scroll-box"> 
+	<!--banner start-->
+	<ul class="xf_b_idx_2_banul" id="xf_b_idx_2_banul">
+		#{list homeAds}	
+			<li>
+				<a 
+					#{if _?.is_link_enabled}
+						href = "${_?.url}" 
+						#{if _?.target == 1}
+							target = "_self"'
+						#{/if}
+						#{else}
+							target = "_blank"
+						#{/else}
+						
+						style="cursor: pointer;"
+					#{/if}
+					style="cursor: default;"
+				>
+						#{img src:"${_?.image_filename}",alt:"广告",width:"1920",height:"356"}#{/img}
+				</a>
+			</li>
+		#{/list}
+	</ul>
+	<!--banner end-->
+	</div>
+	
+	<div id='nextDiv'> 
+		<img class="next_right" src="@{'/public/images/bg18.png'}" id="rightButton" >  
+		<img class="next_left" id="leftButton" src="@{'/public/images/bg17.png'}"> 
+	</div>
+</div>
+

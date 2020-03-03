@@ -1,0 +1,30 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'借款端申请列表' /} 
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  <!--左-->
+   #{include "/supervisor/bidManager/bidManagerLeft.control"/}
+  <!--右-->
+   #{form @applicationDueDiligenceList(), id:'applicationList'}
+   #{include '/supervisor/bidManager/BidApplicationAction/applyListContent.control'/}
+   #{/form}
+  </div>
+</div>  
+<script type="text/javascript">
+
+	$(function(){
+		/* 高亮显示 */
+		showHighLight(4,4,17);
+		//$('#bgTab').find('tr:even').find('td').css('background-color', '#f4f4f4');
+	});
+
+	/* 条件搜素查询 */
+	function showPage(currPage, pageSize){
+	     $("#currPage").val(currPage);
+	     $("#pageSize").val(pageSize);
+	     $("#applicationList").submit();
+	}
+
+</script>
+

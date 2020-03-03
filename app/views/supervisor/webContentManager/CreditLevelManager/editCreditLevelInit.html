@@ -1,0 +1,259 @@
+<div class="xn_c_ban_jox xn_c_ban_jox_ptsh" id="xf_ht_edit_credit_width" style="display:none;height:400px;overflow: auto;">
+  <div class="xf_ht_jr_obu_width">
+  <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form" width="100%">
+    <tr>
+      <td align="right" valign="middle">名称：</td>
+      <td>
+        <input class="xf_ht_banner_input" type="text" id="name" value="${creditLevel?.name}">
+      </td>
+    </tr>
+    <tr>
+      <td align="right" valign="top">上传等级图标：</td>
+      <td>
+        #{img src:"${creditLevel?.imageFilename}",id:"image",alt:"",style:"float: left;",width:"25",height:"25"}#{/img}
+        <span>
+	    <input type='button' class='upload_btn' value='上传' /> 
+        <input type="file" class="upload_file" name="imgFile" id="imgFile" onchange="uploadImage('imgFile','image');" style="top: 110px;left: 258px;" />
+		</span>
+      </td>
+    </tr>
+    <tr>
+      <td align="right" valign="top">最低信用积分：</td>
+      <td>
+        <input id="minCreditScore" type="text" class="xf_ht_banner_input" style="width:135px;" value="${creditLevel?.minCreditScore}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" style="ime-mode:Disabled" > 分
+      </td>
+    </tr>
+    <tr>
+      <td align="right" valign="top">最低审核科目数量：</td>
+      <td>
+        <input id="minAuditItems" type="text" class="xf_ht_banner_input" style="width:135px;"  value="${creditLevel?.minAuditItems}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" style="ime-mode:Disabled"> 最多为 <span class="xfht_red">${auditItems?.size()}</span>项
+      </td>
+    </tr>
+    <tr>
+	  <td align="right">是否允许有逾期扣分：</td>
+	  <td>
+		<input name="isAllowOverdue" value=false type="radio" #{if creditLevel?.isAllowOverdue == false}checked="checked"#{/if}><span style="padding:0 20px 0 3px;">不允许</span> 
+		<input name="isAllowOverdue" value=true type="radio" #{if creditLevel?.isAllowOverdue}checked="checked"#{/if}>允许
+	  </td>
+	</tr>
+	<tr>
+	  <td align="right">添加必审科目：</td>
+	  <td>
+	    <select id="select" class="xfht_t_j_td_1" name="select">
+		#{list auditItems}
+		  <option value='${_?.id}'>${_?.name}</option>
+		#{/list}
+		</select> 
+		<input class="xf_ht_jkbgl_page_fh" type="button" onclick="addAuditItem();" value="增 加" style="margin:2px 0 0 10px;">
+	  </td>
+	</tr>
+	<tr>
+	  <td align="right" valign="top">必审科目：</td>
+	  <td>
+	  	<ul id="bskm" class="bskm">
+	  	</ul>
+	  </td>
+	</tr>
+  <tr>
+	  <td align="right"> 信贷建议：</td>
+	  <td>
+		  <textarea id="suggest" style="max-width:300px;" class="xf_ht_jr_obttd_textarea xf_ht_jr_obttd_textarea2">${creditLevel?.suggest}</textarea>
+      </td>
+	</tr>
+    <tr>
+      <td align="right">&nbsp;</td>
+      <td style="padding:20px 0 40px 0;">
+        <input class="xf_ht_tcc_button_ok" type="button" onclick="editCBO('${creditLevel?.id}');" value="确  定">
+        <input class="xf_ht_tcc_button_on" type="button" onclick='layer.closeAll();' value="取  消">
+      </td>
+    </tr>
+  </table>
+  </div>
+</div>
+<script type="text/javascript">
+  var g_auditItems = [];
+
+  $(function() {
+    $("#name").focus();
+		
+    $(".xf_ht_jr_obu_r").click(function() {
+      $("#xf_ht_bjcbo_ttc").html("").hide();
+    });
+		
+    setItemIds('${creditLevel?.mustItems}');
+		
+    $("#minAuditItems").bind("input propertychange", function() {
+			
+      var max = ${auditItems?.size()};
+			
+      if ($(this).val() > max) {
+        $(this).val(max);
+      }
+    });
+  });
+	
+  function editCBO(id) {
+    var name = $("#name").val();
+		
+    if ("" == name.trim()) {
+      $("#name").focus();
+      alert("请输入名称");
+			
+      return;
+    }
+		
+    var imageFilename = $("#image").attr("src");
+		
+    if ("" == imageFilename.trim()) {
+      alert("请上传图片");
+			
+      return;
+    }
+		
+    var minCreditScore = $("#minCreditScore").val();
+		
+    if ("" == minCreditScore.trim()) {
+      $("#minCreditScore").focus();
+      alert("请输入最低信用积分");
+			
+      return;
+    }
+		
+    var minAuditItems = $("#minAuditItems").val();
+		
+    if ("" == minAuditItems.trim()) {
+      $("#minAuditItems").focus();
+      alert("请输入最低审核科目数量");
+			
+      return;
+    }
+		
+    var isAllowOverdue = $("input[name='isAllowOverdue']:checked").val();
+    var mustItems = getItemIds();
+    var suggest = $("#suggest").val();
+		
+    if ("" == suggest.trim()) {
+      $("#suggest").focus();
+      alert("请输入信贷建议");
+			
+      return;
+    }
+		
+    $.ajax({
+      url : "@{editCreditLevel()}",
+      type : "POST",
+      data : {
+        "id" : id,
+        "name" : name,
+        "imageFilename" : imageFilename,
+        "minCreditScore" : minCreditScore,
+        "minAuditItems" : minAuditItems,
+        "isAllowOverdue" : isAllowOverdue,
+        "mustItems" : mustItems,
+        "suggest" : suggest
+      },
+      success : function(data) {
+        alert(data.msg);
+				
+        if (data.code < 0) {
+          
+          return;
+        }
+				
+        $("#xf_ht_bjcbo_ttc").html("");
+          location.reload();
+        },
+        error : function() {
+          alert("对不起，出现错误!");
+        }
+    });
+  }
+	
+  /**
+    * 添加审核科目
+    */
+  function addAuditItem() {
+    var name=$("#select").find("option:selected").text();
+    var id=$("#select").val();
+		
+    var item = {};
+    item.id = id;
+    item.name = name;
+		
+    if (g_auditItems.inArray(item)) {
+      
+      return;
+    }
+		
+    g_auditItems.push(item);
+    $("#bskm").append('<li id="bskm' + id + '">' + name + '<span onclick="delAuditItem(' + id + ');">x</span></li>');
+  }
+  
+  function delAuditItem(id) {
+		g_auditItems.removeObjectById(id);
+		$('li').remove('#bskm'+id);
+  }
+	
+  function getItemNames() {
+    var names = [];
+    var len = g_auditItems.length
+		
+    for ( var i = 0; i < len; i++) {
+      var item = g_auditItems[i];
+      names.push(item.name);
+    }
+		
+    return names.join(",");
+  }
+	
+  function getItemIds() {
+    var ids = [];
+    var len = g_auditItems.length
+		
+    for ( var i = 0; i < len; i++) {
+      var item = g_auditItems[i];
+      ids.push(item.id);
+    }
+		
+    return ids.join(",");
+  }
+	
+  function setItemIds(ids) {
+    ids = ids.trim();
+    g_auditItems = [];
+    $("#names").val("");
+	
+    if ("" == ids) {
+      
+      return;
+    }
+		
+    ids = ids.split(",");
+    var len = ids.length
+		
+    for ( var i = 0; i < len; i++) {
+    	var id = ids[i];
+      addAuditItemById(id);
+      var item = g_auditItems.findObjectById(id);
+      var name = item.name;
+      $("#bskm").append('<li id="bskm' + id + '">' + name + '<span onclick="delAuditItem(' + id + ');">x</span></li>');
+    }
+  }
+	
+  function addAuditItemById(id) {
+    #{list auditItems}
+      if('${_?.id}' == id){
+        var item = {};
+        item.id = id;
+        item.name = '${_?.name}';
+				
+        if (g_auditItems.inArray(item)) {
+          
+          return;
+        }
+				
+        g_auditItems.push(item);
+      }
+    #{/list}
+  }
+</script>

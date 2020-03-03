@@ -1,0 +1,28 @@
+<div class="xf_ht_ttc" id="editPurposePage" style="display:none;">
+  <div class="xf_ht_jr_obu_width">
+    #{form @editingPurpose(), method:'POST', id:'editingPurpose' }
+    <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form" width="100%">
+      <tr>
+        <td align="right" valign="middle" width="130">借款用途：</td>
+        <td>
+          <input class="xf_ht_pro_in_bq" type="text" name="purposename" id="epurposename"/>
+          <input type="hidden" name="purposeId" id="epurposeId" />
+        </td>
+      </tr>
+      <tr>
+        <td  align="right" valign="middle">排序：</td>
+        <td>
+           <input title="支持同排,时间优先!" type="text" class="xf_ht_banner_input" name="purposeorder" id="epurposeorder" onkeyup="value=value.replace(/[^\d]/g,'')"/>
+        </td>
+      </tr>
+      <tr>
+        <td align="right">&nbsp;</td>
+        <td style="padding:20px 0 40px 0;">
+          <input class="xf_ht_tcc_button_ok" type="submit" value="添  加">
+          <input class="xf_ht_tcc_button_on" type="button" id="editpurpose_no" value="取  消">
+        </td>
+      </tr>
+    </table>
+    #{/form}
+  </div>
+</div>

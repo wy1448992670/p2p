@@ -1,0 +1,198 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'理财数据统计分析对比' /}
+
+<script type="text/javascript">
+$(function(){
+	/* 高亮显示 */
+	  showHighLight(2, 2, 8);
+})
+</script>
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/dataStatistics/statisticLeft.html"/}
+    <div class="xn_c_content">
+      <div class="xf_ht_tablelist">
+                 <!-- 列表内容 -->
+		    <div  class="xn_c_content_top">
+			    <ul class="s_datacomparelist">
+		         <li>
+		            <dl>
+		                <dt>累计理财投标总额（￥${invests?.invest_accoumt}）</dt>
+		                <dd class="appline">
+		                    <span class="listl">PC端：</span>
+		                    #{if invests?.invest_accoumt == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${invests?.invest_accoumt_pc / invests?.invest_accoumt * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">￥${invests?.invest_accoumt_pc}</span>
+		                </dd>
+		                <dd class="pcline">
+		                    <span class="listl">APP端：</span>
+		                    #{if invests?.invest_accoumt == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${invests?.invest_accoumt_app / invests?.invest_accoumt * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">￥${invests?.invest_accoumt_app}</span>
+		                </dd>
+		                <dd class="wxline">
+		                    <span class="listl">微信端：</span>
+		                    #{if invests?.invest_accoumt == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${invests?.invest_accoumt_wechat / invests?.invest_accoumt * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">￥${invests?.invest_accoumt_wechat}</span>
+		                </dd>
+		            </dl>
+		        </li>
+		         <li>
+		            <dl>
+		                <dt>本月新增理财总额（￥${invests?.increase_invest_account}）</dt>
+		                <dd class="appline">
+		                    <span class="listl">PC端：</span>
+		                    #{if invests?.increase_invest_account == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${invests?.increase_invest_account_pc / invests?.increase_invest_account * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">￥${invests?.increase_invest_account_pc}</span>
+		                </dd>
+		                <dd class="pcline">
+		                    <span class="listl">APP端：</span>
+		                    #{if invests?.increase_invest_account == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${invests?.increase_invest_account_app / invests?.increase_invest_account * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">￥${invests?.increase_invest_account_app}</span>
+		                </dd>
+		                <dd class="wxline">
+		                    <span class="listl">微信端：</span>
+		                    #{if invests?.increase_invest_account == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${invests?.increase_invest_account_wechat / invests?.increase_invest_account * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">￥${invests?.increase_invest_account_wechat}</span>
+		                </dd>
+		            </dl>
+		        </li>
+		        <li>
+		            <dl>
+		                <dt>累计理财总会员数（${invests?.invest_user_account}）</dt>
+		                <dd class="appline">
+		                    <span class="listl">PC端：</span>
+		                    #{if invests?.invest_user_account == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${invests?.invest_user_account_pc / invests?.invest_user_account * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${invests?.invest_user_account_pc}</span>
+		                </dd>
+		                <dd class="pcline">
+		                    <span class="listl">APP端：</span>
+		                    #{if invests?.invest_user_account == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${invests?.invest_user_account_app / invests?.invest_user_account * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${invests?.invest_user_account_app}</span>
+		                </dd>
+		                <dd class="wxline">
+		                    <span class="listl">微信端：</span>
+		                    #{if invests?.invest_user_account == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${invests?.invest_user_account_wechat / invests?.invest_user_account * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${invests?.invest_user_account_wechat}</span>
+		                </dd>
+		            </dl>
+		        </li>
+		        <li>
+		            <dl>
+		                <dt>新增理财会员数（${invests?.increase_invest_user_account}）</dt>
+		                <dd class="appline">
+		                    <span class="listl">PC端：</span>
+		                    #{if invests?.increase_invest_user_account == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${invests?.increase_invest_user_account_pc / invests?.increase_invest_user_account * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${invests?.increase_invest_user_account_pc}</span>
+		                </dd>
+		                <dd class="pcline">
+		                    <span class="listl">APP端：</span>
+		                    #{if invests?.increase_invest_user_account == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${invests?.increase_invest_user_account_app / invests?.increase_invest_user_account * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${invests?.increase_invest_user_account_app}</span>
+		                </dd>
+		                <dd class="wxline">
+		                    <span class="listl">微信端：</span>
+		                    #{if invests?.increase_invest_user_account == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${invests?.increase_invest_user_account_wechat / invests?.increase_invest_user_account * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${invests?.increase_invest_user_account_wechat}</span>
+		                </dd>
+		            </dl>
+		        </li>
+		        <li>
+		            <dl>
+		                <dt>平均理财金额（￥${invests?.per_capita_invest_amount}）</dt>
+		                <dd class="appline">
+		                    <span class="listl">PC端：</span>
+		                    #{if invests?.per_capita_invest_amount == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${invests?.per_capita_invest_amount_pc / invests?.per_capita_invest_amount * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">￥${invests?.per_capita_invest_amount_pc}</span>
+		                </dd>
+		                <dd class="pcline">
+		                    <span class="listl">APP端：</span>
+		                    #{if invests?.per_capita_invest_amount == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${invests?.per_capita_invest_amount_app / invests?.per_capita_invest_amount * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">￥${invests?.per_capita_invest_amount_app}</span>
+		                </dd>
+		                <dd class="wxline">
+		                    <span class="listl">微信端：</span>
+		                    #{if invests?.per_capita_invest_amount == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${invests?.per_capita_invest_amount_wechat / invests?.per_capita_invest_amount * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">￥${invests?.per_capita_invest_amount_wechat}</span>
+		                </dd>
+		            </dl>
+		        </li>
+		    </ul>
+		  </div>                   
+    </div>
+   </div>
+  </div>
+</div>

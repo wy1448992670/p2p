@@ -1,0 +1,109 @@
+		<div class="xf_wylc_memmer_c left">
+			<table border="0" cellpadding="0" cellspacing="0" width="440" class="xf_wylc_l_viewxx">
+				<tbody>
+					<tr>
+						<td align="left" valign="middle" colspan="2">
+							<span class="xf_wylc_viewTitle">
+								#{img src:"${bid?.product?.smallImageFilename}", width:"20px", height:"20px"}#{/img}
+								${bid?.title}
+							</span>
+							<span class="xf_wylc_viewpore" >编号：${bid?.no} </span>
+						</td>
+					</tr>
+					<tr>
+						<td align="left" valign="middle" width="100">借款总额：</td>
+						<td align="left" width="340">
+							<span class="xf_wylc_l_memhyA" width="343" >${bid?.amount?.format('###,##0.00')}元</span>
+						</td>
+					</tr>
+					<tr>
+						<td align="left" valign="middle">年利率：</td>
+						<td align="left">
+							<span class="xf_wylc_l_memhyA">${bid?.apr}%</span>
+						</td>
+					</tr>
+					<tr>
+						<td align="left" valign="middle">借款期限：</td>
+						<td align="left">
+							${bid?.period}${bid?.strPeriodUnit}
+						</td>
+					</tr>
+					<tr>
+						<td align="left" valign="middle">还款日期：</td>
+						<td align="left">
+						#{if bid?.repaymentTime == null}
+							---
+						#{/if}
+						${bid?.repaymentTime?.format('yyyy-MM-dd')}</td>
+					</tr>
+					<tr>
+						<td align="left" valign="middle">还款方式：</td>
+						<td align="left">
+							${bid?.repayment?.name}
+						</td>
+					</tr>
+					
+					#{if bid?.product?.isAgency == true}
+						#{if bid?.isShowAgencyName == true}
+							<tr>
+								<td align="left" valign="middle">机构名称：</td>
+								<td align="left">
+								${bid?.agency?.name}
+								</td>
+					       </tr>
+						#{/if}
+					#{/if}
+					<tr>
+						<td align="left" valign="middle">&nbsp;</td>
+						<td align="left">&nbsp;</td>
+					</tr>
+					
+					<tr>
+						<td align="left" valign="middle">投标进度：</td>
+						<td>
+							<span class="xf_c_idx_4_proWrap">
+								<span class="xf_c_idx_4_proPer" id="loanSchedule">${bid?.loanSchedule}%</span>
+							</span>
+						</td>
+					</tr>
+					<tr>
+						<td align="left" valign="middle">投标人数：</td>
+						<td align="left">${bid?.investCount}</td>
+					</tr>
+					<tr>
+						<td align="left" valign="middle">浏览次数：</td>
+						<td align="left">${bid?.readCount}</td>
+					</tr>
+					<tr>
+						<td align="left" valign="middle">已投金额：</td>
+						<td align="left">${bid?.hasInvestedAmount?.format('###,##0.00')}元</td>
+					</tr>
+					<tr>
+						<td align="left" valign="middle">还需金额：</td>
+						<td align="left">${(bid?.amount - bid?.hasInvestedAmount)?.format('###,##0.00')}元</td>
+					</tr>
+					
+					#{if bid?.averageInvestAmount > 0}
+					<tr>
+						<td align="left" valign="middle">最小认购金额：</td>
+						<td align="left">${bid?.averageInvestAmount?.format('###,##0.00')}元</td>
+					</tr>
+					#{/if}
+					#{else}
+						<tr>
+						<td align="left" valign="middle">最低投标金额：</td>
+						<td align="left">${bid?.minInvestAmount?.format('###,##0.00')}元</td>
+					</tr>
+					#{/else}
+				</tbody>
+			</table>
+		</div>
+		
+<script>
+     $(function(){
+
+			 $('#loanSchedule').css({"width":${bid?.loanSchedule}})
+      })
+
+
+</script>

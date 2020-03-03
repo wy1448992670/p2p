@@ -1,0 +1,103 @@
+#{extends 'wechat/common.html' /}
+
+<body>
+	<div class="s_main s_center">
+		<header class="s_header">
+		  <a onclick="javascript:history.go(-1)" class="s_goback"></a>
+			${debt?.bid_no}号借款标
+			<a href="@{wechat.account.WechatAccountHome.accountInfo()}" class="icobg"></a>
+		</header>
+		<div class="s_zqshing">
+			<span>此债权转让时间已过，仍未竞拍成功，或者转让期间有收到还款，或者定向转让用户拒绝受让，因此该债权转让失败</span>
+		</div>
+	
+		<div class="s_biaodetail">
+			<h3>债权转让详情<i class="arrow" onclick="debtDetail()"></i></h3>
+			<div class="s_biaodetaimain" id="debtDiv">
+				<ul>
+					<li>转让标题：${debtBussiness?.title}</li>
+					<li>待收本息合计：<span class="blue">￥
+				    #{if debt?.receiving_amount != null && debt?.receiving_amount != 0}
+						  ${debt?.receiving_amount?.format('###,##0.00')}
+						#{/if} 
+						#{else}
+						  0
+						#{/else}
+					</span></li>
+					<li>转让底价：<span class="blue">￥${debtBussiness?.transferPrice?.format("###,##0.00")}</span></li>
+					<li>转让截止时间：<span class="blue">${debtBussiness?.endTime?.format('yyyy/MM/dd HH:mm:ss')}</span></li>
+				</ul>
+				<br/>
+				<div class="s_zrtell">
+					<span>转让说明：</span>
+					<span>${debtBussiness?.transerReason}</span>
+				</div>
+			</div>
+		</div>
+		<div class="s_biaodetail">
+			<h3>转让的借款标详情<i class="arrow" onclick="bidDetail()"></i></h3>
+			<div class="s_biaodetaimain" id="bidDiv">
+				<ul>
+					<li>借款标编号：${debt?.bid_no}</li>
+					<li>借款人：${debt?.name}</li>
+					<li>借款标类型：<i class="biaotype type-xin">#{img src:"${imageUrl}",alt:"",width:"20",height:"20"}#{/img}</i></li>
+					<li>转让截止时间：<span class="blue">${debtBussiness?.endTime?.format('yyyy/MM/dd HH:mm:ss')}</span></li>
+					<li class="s_zrtell s_zrtell1">
+						<span>借款标标题：</span>
+						<span>${debt?.title}</span>
+					</li>
+					<li>借款金额：<span class="blue">￥${debt?.amount?.format("###,##0.00")}</span></li>
+					<li>投标本金：<span class="blue">￥${investAmount?.format("###,##0.00")}</span></li>
+					<li>年 利 率：<span class="blue">${debt?.apr}%</span></li>
+					<li>本息合计应收金额：<span class="blue">￥
+				    #{if debt?.receiving_amount != null && debt?.receiving_amount != 0}
+						  ${debt?.receiving_amount?.format('###,##0.00')}
+						#{/if} 
+						#{else}
+						 0
+						#{/else}
+					</span></li>
+					<li>已收本息合计：<span class="blue">￥
+					#{if debt?.has_received_amount == '' || debt?.has_received_amount == null}
+					  0
+					#{/if}
+					#{else}
+					  ${debt?.has_received_amount?.format("###,##0.00")}
+					#{/else}
+					</span></li>
+					<li>待收本金：<span class="blue">￥
+					#{if debt?.remain_received_corpus == '' || debt?.remain_received_corpus == null}
+					  0
+					#{/if}
+					#{else}
+					  ${debt?.remain_received_corpus?.format("###,##0.00")}
+					#{/else}
+					</span></li>
+					<li>剩余应收本息合计：<span class="blue">￥
+					#{if debt?.remain_received_amount == '' || debt?.remain_received_amount == null}
+					  0
+					#{/if}
+					#{else}
+					  ${debt?.remain_received_amount?.format("###,##0.00")}
+					#{/else}
+					</span></li>
+					<li>还款日期：${debtBussiness?.invest?.bid?.recentRepayTime?.format('yyyy-MM-dd')}</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript">
+$(function(){
+	$("#s_zrtell").limit();
+})
+
+function bidDetail(){
+  $("#bidDiv").show();
+}
+
+function debtDetail(){
+	  $("#debtDiv").show();
+	}
+</script>

@@ -1,0 +1,236 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'安全云盾设置' /}
+<object
+  id="eims"
+  classid="clsid:2D37D5F7-B18B-4E8E-8B3C-F26171922C16"
+  codebase="/public/ActiveLoginProj1.ocx#version=1,0,0,0"
+  width=0
+  height=0
+  align=center
+  hspace=0
+  vspace=0 >
+</object>
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  <!-- 左边导航区域 -->
+    #{include "supervisor/systemSettings/common/leftBar.control"/}
+    <div class="xn_c_content">
+      <div class="xf_ht_tablelist">
+        <!-- 搜索 -->
+        #{form @UKeyList(), id:'UKeyList'}
+        <div class="xf_ht_search_inon" style="border:1px solid #ddd">
+        <input type="hidden" id="currPage" name="currPage"/>
+	    <input type="hidden" id="pageSize" name="pageSize"/>
+        <div class="xf_ht_search_r" >
+          <div class="xf_ht_search_xl">
+            <input type="text" class="search_w" width="200px" name="keyword" id="keyword" title="账号/真实姓名/邮箱" value="${pageBean?.conditions?.keyword}" style="width:150px">
+          </div>
+          <div class="xf_ht_search_xl">
+          <input type="submit" class="search_button"  value="搜索">
+          </div>
+        </div>
+        </div>
+        #{/form}
+        <!-- 列表内容 -->
+        <div class="xn_c_content_top">
+        #{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}云盾编号#{/th}
+          #{th}使用管理员#{/th}
+          #{th}真实姓名#{/th}
+          #{th}最近登录时间#{/th}
+          #{th}管理员等级#{/th}
+          #{th}权限组#{/th}
+          #{th}操作#{/th}
+        #{/tr}
+        #{list pageBean?.page} 
+        #{tr tr_index:_index}
+          #{td}${(pageBean?.currPage - 1)*pageBean?.pageSize + _index}#{/td}
+          #{td}${_?.ukey}#{/td}
+          #{td}${_?.name}#{/td}
+          #{td}${_?.reality_name}#{/td}
+          #{td}${_?.last_login_time?.format("yyyy-MM-dd HH:mm:ss")}#{/td}
+          #{td}
+          #{if _?.level == 0}
+                                    普通管理员
+          #{/if}
+          #{if _?.level == 1}
+                                      超级管理员
+          #{/if}
+          #{/td}
+          #{td}${_?.right_group}#{/td}
+          #{td}
+          <span><a href="javascript:showDetailWindow('${_?.sign}')" class="xf_ta_onclick">详情</a></span>
+          <span><a href="javascript:editSupervisorInit('${_?.sign}');" class="xf_ta_onclick">编辑</a></span>
+          <span><a href="javascript:deleteSupervisor('${_?.sign}');" class="xf_ta_onclick">删除</a></span>
+          <span><a href="javascript:makeKey('${_?.id}')" class="xf_ta_onclick">制盾</a></span>
+          #{/td}
+        #{/tr}
+        #{/list}
+        #{/table}
+        </div>
+        <!-- 列表底部 -->
+        <div class="xn_c_content_bottom">
+          #{page currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:4}
+          #{/page}
+          <input id="xf_dfk_fkzh_tcc3" type="button" class="xf_ggnr_help_input" onclick="createSupervisorInit();" value="添加管理员">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 详情-弹出层 -->
+<div class="xn_c_ban_jox xn_c_ban_jox_qxsz" id="xf_ht_fkzh_ttc" style="display:none">
+</div>
+
+<!-- 添加管理员-弹出层 -->
+<div class="xn_c_ban_jox" id="xf_ht_tjgly_ttc" style="display:none;height:400px;overflow:auto;">
+</div>
+
+<!-- 编辑管理员-弹出层 -->
+<div class="xn_c_ban_jox" id="xf_ht_bjgly_ttc" style="display:none;height:400px;overflow:auto;">
+</div>
+
+<!-- 设置管理员权限组-弹出层 -->
+<div class="xn_c_ban_jox xn_c_ban_jox_qxsz" id="xf_ht_szqxz_ttc">
+</div>
+
+<script type="text/javascript">
+
+  $(function() {
+    /* 高亮显示 */
+       showHighLight(1,1,1);
+  });
+
+  //详情
+  function showDetailWindow(sign) {
+     $.ajax({
+      url : "@{supervisor.systemSettings.supervisorAction.detail()}",
+      type : "POST",
+      data : {
+        "sign" : sign
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+          
+          return;
+        }
+      
+        var ttc = $("#xf_ht_fkzh_ttc");
+        ttc.html(data);
+        $.layer({
+          type: 1,
+          area: ['500', 'auto'],
+          title: '详情',
+          page: {dom : ttc}
+        });
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+  
+  var ps,p2p,pt;
+  //添加管理员
+  function createSupervisorInit() {
+    $.ajax({
+      url : "@{supervisor.systemSettings.supervisorAction.createSupervisorInit()}",
+      type : "POST",
+      data : {
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+          
+          return;
+        }
+      
+        var ttc = $("#xf_ht_tjgly_ttc");
+        ttc.html(data);
+        ps = $.layer({
+          type: 1,
+          area: ['610', 'auto'],
+          title: '添加管理员',
+          page: {dom : ttc}
+        });
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+  
+  //编辑管理员
+  function editSupervisorInit(sign) {
+    $.ajax({
+      url : "@{supervisor.systemSettings.supervisorAction.editSupervisorInit()}",
+      type : "POST",
+      data : {
+        "sign" : sign
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+          
+          return;
+        }
+      
+        var ttc = $("#xf_ht_bjgly_ttc");
+        ttc.html(data);
+        pt = $.layer({
+          type: 1,
+          area: ['610', 'auto'],
+          title: '编辑管理员',
+          page: {dom : ttc}
+        });
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+  
+  //删除管理员
+  function deleteSupervisor(sign) {
+  	
+    if (!confirm("确认要删除？")) {
+            return;
+       }
+    
+    $.ajax({
+      url : "@{supervisor.systemSettings.supervisorAction.deleteSupervisor()}",
+      type : "POST",
+      data : {
+        "sign" : sign
+      },
+      success : function(data) {
+        alert(data.msg);
+        
+        if (data.code == 0) {
+          location.reload();
+        }
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+  
+  //制盾 
+    function makeKey(adminIds){
+     if(window.confirm("在制作U盾之前请先确定USB接口只有你要制作的盾")){
+        document.getElementById("eims").makeUkey(adminIds);
+     }
+      }
+
+    /* 条件搜素查询 */
+    function showPage(currPage, pageSize){
+         $("#currPage").val(currPage);
+         $("#pageSize").val(pageSize);
+         $("#UKeyList").submit();
+    }
+</script>

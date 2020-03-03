@@ -1,0 +1,20 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'您没有足够的权限哦' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  #{if map.leftbar}
+   #{include map.leftbar/}
+  #{/if} 
+    <div class="xf_ht_yfwarp">
+      <div class="xf_ht_yf">
+        <div class="xf_th_ct_zt">
+                                对不起，您没有执行此操作的权限
+        </div>
+        <div class="xf_ht_conter_c">您可以
+          <a href="javascript:history.back();">返回</a>或者进入
+          <a href="@{supervisor.account.AccountAction.home}">用户中心</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

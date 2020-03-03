@@ -1,0 +1,149 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMenu.html' /} 
+#{set title:'急用钱贷款,个人无抵押贷款,小额贷款app,车子抵押贷款,个人急用钱  '/}
+#{set keywords:'急用钱贷款,个人无抵押贷款,小额贷款app,车子抵押贷款,个人急用钱  '/}
+#{set description:'中亿云为用户提供车子抵押贷款, 个人无抵押贷款的小额贷款服务的平台，公司并具有独立开发小额借款贷款的app服务.'/}
+<!--内容区-->
+<div class="soon_box">
+    <h2>借款产品介绍</h2>
+    <em class="guide_icon"></em>
+    <ul class="soon_ul">
+        <li class="soon_li1">
+            <div class="goods_img left"><img src="/public/images/180313/goods_img1.png" alt="信亿贷"/></div>
+            <div class="goods_txt left">
+                <p class="goods_p"><em>介绍：</em>信亿贷即借款人以信用担保方式向我平台申请借款的一款产品，首先借款人须有自己的实业，并且经营正常，或者具有稳定的工作和收入。</p>
+                <p class="goods_p"><em>基本资料：</em>包括夫妻双方身份证明、户口本，结婚证、征信报告（企业及个人）、银行交易流水（企业及个人）、资产证明。并由较强担保能力的第三方保证人提供100%本息担保。</p>
+                <p class="goods_p"><em>尽职调查：</em>我公司尽职调查人员双人实地调查借款人所提供资料的真实性，查询法院不良记录，核实资产状况，评估借款人的财务状况，社会背景，而且要通过实地完整考察企业的生产经营状况，资产及负债情况，资金的流动性，产品的市场销售情况来具体判断企业的还款来源。严格调查借款人资产负债比例，杜绝借款人过度融资。对担保人的调查等同于借款人情况调查。</p>
+            </div>
+        </li>
+        <li class="soon_li2">
+            <div class="goods_img left"><img src="/public/images/180313/goods_img2.png" alt="房亿贷"/></div>
+            <div class="goods_txt left">
+                <p class="goods_p"><em>介绍：</em>房亿贷即借款人以房产为抵押向我平台申请借款的一款产品。</p>
+                <p class="goods_p"><em>基本资料：</em>包括夫妻双方身份证明、户口本，结婚证、个人征信报告、银行交易流水、房产证等。</p>
+                <p class="goods_p"><em>尽职调查：</em>我公司尽职调查人员双人实地调查借款人所提供资料的真实性，查询法院不良记录，现场考察抵押房产并拍照，交房产评估所谨慎评估房屋价值后确定借款金额。最后由权证专员陪同客户办理房屋抵押他项权证、全委托买卖公证。</p>
+            </div>
+        </li>
+        <!--<li class="soon_li3">-->
+        <!--<div class="goods_img left"><img src="/public/images/180313/goods_img3.png" alt="车亿贷"/></div>-->
+        <!--<div class="goods_txt left">-->
+        <!--<p class="goods_p"><em>介绍：</em>车亿贷即借款人以车辆质押或者抵押的担保方式向我平台申请借款的一款产品。</p>-->
+        <!--<p class="goods_p"><em>基本资料：</em>包括借款人身份证、车辆登记证，车辆行驶证、保险单、近期个人银行征信、购车发票及完税证明等。</p>-->
+        <!--<p class="goods_p"><em>尽职调查：</em>由专业的评估公司对车辆的价值进行评估，并完成质押或抵押的各项合法手续。我公司尽职调查人员双人实地调查借款人所提供资料的真实性，借款人是否有自己的实业并且经营正常，或者具有稳定的工作和收入。</p>-->
+        <!--</div>-->
+        <!--</li>-->
+        <li class="soon_li4">
+            <div class="goods_img left"><img src="/public/images/180313/goods_img4.png" alt="农亿贷"/></div>
+            <div class="goods_txt left">
+                <p class="goods_p"><em>介绍：</em>农亿贷服务三农小微，灵活方便。</p>
+                <p class="goods_p"><em>基本资料：</em>身份证、结婚证、户口簿、征信、经营地证明。</p>
+                <p class="goods_p"><em>尽职调查：</em>我公司获取到借款人基本信息后，首先在全国法院被执行网、工商网、百度等相关网站查询借款人基本信用状态、社会背景等；在无不良记录的前提下要求借款人提供个人基本信息、企业基本信息、担保人基本信息，并核查所提供资料的真实性，对借款人、担保人及企业的征信、流水、负债、所经营行业以及还款来源等进行全面分析了解，并给出专业评估，通过专业审核人员审核后，安排实地尽调人员上门实地考察，进一步核查借款人实际经营情况以及可能存在的风险，结合实地考察结果，给出审批意见。</p>
+            </div>
+        </li>
+    </ul>
+    <div class="soon_contact">
+        <div>
+            <div class="soon_contact_img left"><img src="/public/images/180313/soon_phone.png" alt="借款联系电话"/></div>
+            <div class="soon_contact_txt left">
+                <p>山东&nbsp;&nbsp;15306328202</p>
+                <p>宁德&nbsp;&nbsp;0593-2608666</p>
+                <p>温州&nbsp;&nbsp;0577-61113111</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+#{if code == -3}
+	#{include 'front/bid/BidAction/addBaseInfo.html'/}
+#{/if}
+<script type="text/javascript">
+	$(function(){	
+		fullbid(1);
+		
+		/* 自动投标签约 */
+		var code = ${code};		
+		if(code < 0){
+			$("#name").attr("disabled","disabled");
+			$("#name").attr("readonly","readonly");
+			$("#password").attr("disabled","disabled");
+			$("#password").attr("readonly","readonly");
+			$("#code").attr("disabled","disabled");
+			$("#code").attr("disabled","disabled");
+		}
+	});
+	
+	/* 最新满标 */
+	function fullbid(nowPage){
+		var action = #{jsAction @front.bid.bidAction.fullBid(':nowPage') /};
+		$.get(action({nowPage:nowPage}), function(data) {
+			if(data == "")
+				$("#showFull").hide();
+			else
+				$("#zxmbContent").html(data);
+		});
+	}
+	
+	
+	
+	(function($){
+	    $.fn.FontScroll = function(options){
+	        var d = {time: 3000,s: 'fontColor',num: 1}
+	        var o = $.extend(d,options);
+	        
+
+	        this.children('ul').addClass('line');
+	        this.children('ul').attr("style",'margin-top:0');
+	        var _con = $('.line').eq(0);
+	        var _conH = _con.height(); //滚动总高度
+	        var _conChildH = _con.children().eq(0).height();//一次滚动高度
+	        var _temp = _conChildH;  //临时变量
+	        var _time = d.time;  //滚动间隔
+	        var _s = d.s;  //滚动间隔
+
+
+	        _con.clone().insertAfter(_con);//初始化克隆
+
+	        //样式控制
+	        var num = d.num;
+	        var _p = this.find('li');
+	        var allNum = _p.length;
+
+	        _p.eq(num).addClass(_s);
+
+
+	        var timeID = setInterval(Up,_time);
+			this.hover(function(){clearInterval(timeID)},function(){timeID = setInterval(Up,_time);});
+
+	        function Up(){
+	        
+	            _con.animate({marginTop: '-'+_conChildH});
+	            //样式控制
+	            _p.removeClass(_s);
+	            num += 1;
+	            _p.eq(num).addClass(_s);
+	            
+	            if(_conH == _conChildH){
+	                _con.animate({marginTop: '-'+_conChildH},"normal",over);
+	            } else {
+	                _conChildH += _temp;
+	            }
+	        }
+	        function over(){
+	       
+	            _con.attr("style",'margin-top:0');
+	            _conChildH = _temp;
+	            num = 1;
+	            _p.removeClass(_s);
+	            _p.eq(num).addClass(_s);
+	        }
+	        
+	        
+	    }
+	})(jQuery);
+	
+	$('#FontScroll').FontScroll({time: 2000,num: 1});
+
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_bid.js'}"></script>

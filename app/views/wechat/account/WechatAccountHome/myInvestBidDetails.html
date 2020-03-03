@@ -1,0 +1,180 @@
+#{extends 'wechat/common.html' /} 
+#{set title:'标的详情' /}
+<!-- <link rel="stylesheet" type="text/css" href="/public/stylesheets/wechat/scrollbar.css"> -->
+<div class="s_main s_center">
+	<header class="s_header">
+	  <a onclick="javascript:history.go(-1)" class="s_goback"></a>
+		理财标详情 <a href="@{wechat.account.WechatAccountHome.accountInfo()}" class="icobg"></a>
+	</header>
+	<div class="s_detailtop">
+		<h3>
+			<i class="biaotype type-xin"><img
+				src="${bid?.product?.smallImageFilename}" width="20px" height="20px"></img></i>借款编号：${bid?.no}
+		</h3>
+		<p class="s_biaoreson">${bid?.title}</p>
+		<div class="s_biaostate">
+			<span>
+			状态：<span class="blue">
+					  #{if bid?.status == 0}
+				               审核中
+						#{/if}
+						#{elseif bid?.status == 1 || bid?.status == 2}
+							借款中
+						#{/elseif}
+						#{elseif bid?.status == 3}
+							待放款
+						#{/elseif}
+						#{elseif bid?.status == 4 || bid?.status == 14}
+							还款中
+						#{/elseif}
+						#{elseif bid?.status == 5}
+							已成功
+						#{/elseif}
+						#{elseif bid?.status == 10 || bid?.status == 11}
+							待验证
+						#{/elseif}
+						#{else}
+							失败
+						#{/else}
+			</span>&nbsp;&nbsp; 进度：<span
+				class="blue">${bid?.loanSchedule}%</span>
+			</span> 
+		</div>
+		<ul class="s_biaodata">
+			<li>借款金额：<span class="blue">￥${bid?.amount?.format('###,##0.00')}</span></li>
+			<li>年 利 率：<span class="blue">${bid?.apr}%</span></li>
+			<li>借款期限：<span class="blue">${bid?.period}${bid?.strPeriodUnit}</span></li>
+			<li>还款方式：<span class="blue">${bid?.repayment?.name}</span></li> 
+			#{if bid?.product?.isAgency == true} 
+				#{if bid?.isShowAgencyName == true}
+			<li>合作机构: <span class="blue">${bid?.agency?.name}</span></li> 
+				#{/if} 
+			#{/if}
+			<li>已投金额：<span class="blue">￥${bid?.hasInvestedAmount?.format('###,##0.00')}</span></li>
+			<li>还需金额：<span class="blue">￥${(bid?.amount - bid?.hasInvestedAmount)?.format('###,##0.00')}</span></li>
+			#{if bid?.averageInvestAmount > 0}
+			<li>最小认购金额：<span class="blue">￥${bid?.averageInvestAmount?.format('###,##0.00')}</span></li>
+			#{/if}
+			#{else}
+			<li>最低投标金额：<span class="blue">￥${bid?.minInvestAmount?.format('###,##0.00')}</span></li>
+			#{/else}
+		</ul>
+	</div>
+
+	<!-- 投标操作 --> 
+	<!-- #{include 'wechat/account/WechatAccountHome/confirmInvest.html' /} -->
+
+	<div class="s_biaodetail">
+		<h3>
+			借款详细资料<i class="arrow"></i>
+		</h3>
+		<div class="s_biaodetaimain">
+			<ul>
+				<li>用户名:${bid?.user?.name?.asterisk()}&nbsp;&nbsp;<img src="${bid?.user?.myCredit?.imageFilename}" /></li>
+				<li>借贷记录：${historySituationMap?.successBidCount}次成功，${historySituationMap?.flowBids}次流标</li>
+				<li>还款记录：${historySituationMap?.normalRepaymentCount}次正常，${historySituationMap?.overdueRepaymentCount}次逾期已还</li>
+			</ul>
+			<h4>基本资料：</h4>
+			<ul class="ultable">
+				<li><span>真实姓名：${bid?.user?.realityName?.asterisk()}</span> <span>性别：${bid?.user?.sex}</span>
+				</li>
+				<li><span>婚姻情况：${bid?.user?.maritalName}</span> <span>年龄：${bid?.user?.age}</span>
+				</li>
+				<li><span>购车情况：${bid?.user?.carName}</span> <span>身份证号码：${bid?.user?.idNumber?.asterisk()}</span>
+				</li>
+				<li><span>文化程度：${bid?.user?.educationName}</span> <span>户口所在地：${bid?.user?.provinceName}${bid?.user?.cityName}</span>
+				</li>
+				<li><span>购房情况：${bid?.user?.houseName}</span> <span></span></li>
+			</ul>
+			<h4>借款描叙：</h4>
+			<p>${bid?.purpose?.name}</p>
+		</div>
+	</div>
+	<div class="s_biaodetail">
+		<h3>
+			必须审核科目资料<i class="arrow"></i>
+		</h3>
+		<div class="s_biaodetaimain">
+
+			<table width="100%" cellpadding="0" cellspacing="0" class="s_shtab">
+				#{if uItems?.size() == 0}
+				<tr>
+					<td align="center"><span style="color: red">暂无审核资料</span></td>
+				</tr>
+				#{/if} #{else} #{list uItems} #{if _?.status == 2}
+				<tr>
+					<td width="47%">${_?.auditItem?.name}</td>
+					<td width="31%">${_?.strStatus}</td>
+					<td align="right" width="22%">#{if _?.isVisible} <a
+						class="s_openbtn"
+						onclick="showitemNow('${_?.mark}','${bid?.signUserId}');">查看</a>
+						#{/if} #{else}不可见 #{/else}
+					</td>
+				</tr>
+				#{/if} #{/list} #{/else}
+			</table>
+		</div>
+	</div>
+	<div class="s_biaodetail">
+		<h3>
+			CBO风控体系审核<i class="arrow"></i>
+		</h3>
+		<div class="s_biaodetaimain">${bid?.auditSuggest}</div>
+	</div>
+	<div class="s_biaodetail">
+		<h3>
+			投标奖励<i class="arrow"></i>
+		</h3>
+		<div class="s_biaodetaimain">#{if bid?.bonusType == 0} 不设置奖励
+			#{/if} #{elseif bid?.bonusType == 1} 按固定奖金${bid?.bonus}元进行奖励
+			#{/elseif} #{elseif bid?.bonusType == 2} 按借款总额${bid?.awardScale}%进行奖励
+			#{/elseif}</div>
+	</div>
+	<!-- 投标记录 -->
+	#{include 'wechat/service/InvestAction/queryBidInvestRecords.html' /}
+</div>
+
+<!-- 查看用户审核资料层 -->
+#{include 'wechat/service/InvestAction/queryAuditItems.html' /}
+
+<script type="text/javascript">
+	$(function () {
+		var error = "${flash?.error}";
+		if (error != '' && error != undefined) {
+			alert(error);
+		}
+	});
+	
+	/*
+	$("div[class='s_biaodetail'] h3").click(function () {
+		$("div[class='s_biaodetail'] h3").not($(this)).removeClass("clicked");
+		if ($(this).hasClass("clicked")) {
+			$(this).removeClass("clicked");
+		} else {
+			$(this).addClass("clicked");
+		}
+
+		var $sbt = $(this).nextAll("div");
+		
+		if ($("#wrapper").is($sbt)) {
+			$(".s_biaodetaimain").removeClass("show");
+			if ($sbt.is(":visible")) {	
+				//$sbt.removeClass("show");
+				$sbt.css({display:"none"});
+			} else {
+				//$sbt.addClass("show");
+				$sbt.css({display:"block"});
+			}
+		} else {
+			$(".s_biaodetaimain").not($sbt).removeClass("show");
+			//$("#wrapper").removeClass("show");
+			$("#wrapper").css({display:"none"});
+			if ($sbt.hasClass("show")) {	
+				$sbt.removeClass("show");
+			} else {
+				$sbt.addClass("show");
+			}
+		}
+	});*/
+
+</script>

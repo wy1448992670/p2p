@@ -1,0 +1,225 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} #{set title:currBackstageSet.seoTitle +' | 我的账户 | 站内信 | 收件箱' /}
+
+<!-- 内容区域 start -->
+<div class="xf_con_box">
+	<div class="xf_con_mem_nav"></div>
+	<!-- 左边导航区域 -->
+	#{include "front/account/AccountHome/homeLeft.control"/}
+
+	<!-- 右侧内容区域 -->
+	<!-- 我的站内信 -->
+	<div class="xf_con_mem_r_content" id="mymessages">
+		<div id="msglist" class="xf_con_wyjk_tentultbody">
+			<div class="xf_mem_Account">
+			<h3 class="xf_mem_accout_title">收件箱</h3>
+			<!-- 搜索区域 -->
+			<ul class="xf_membill_search clr">
+				<li class="xf_membill_searchLi"><span class="xf_membill_segjc">关键字：</span>
+					<input type="text" value="${pageBean.conditions.keyword}" placeholder="发件人/标题"
+					id="xf_membill_shurk_yhm" class="xf_membill_shurk_yhm" /></li>
+				<li><span class="xf_membill_segjc xf_membill_segjc2">状态：</span> <select
+					name="xf_wylc_selectAge" class="xf_membill_selectAge"
+					id="read_status">
+						<option value="0">-请选择-</option>
+						<option value="1" #{if pageBean.conditions.readStatus==1}selected="selected"#{/if}>已读</option>
+						<option value="2" #{if pageBean.conditions.readStatus==2}selected="selected"#{/if}>未读</option>
+				</select></li>
+				<li><input type="button" value="搜 索"
+					class="xf_membill_button_yhm xf_membill_button_yhm2"
+					onclick="search();"></li>
+			</ul>
+		
+			<table border="0" cellpadding="0" cellspacing="0" width="739"
+				class="xf_mem_znx_viewcpms">
+				<tr>
+					<th><input type="checkbox" name="check_all" onclick="checkAll()" value="-1"/></th>
+					<th>序号</th>
+					<th>发件人</th>
+					<th>标题</th>
+					<th>发送时间</th>
+					<th>状态</th>
+					<th>操作</th>
+				</tr>
+		
+				#{list pageBean.page, as:'msg'}
+				<tr #{if msg.read_status == '未读'}class="xf_mem_znx_wdtr"#{/if}>
+					<td><input type="checkbox" class="xf_mem_znx_wdtr_checkbox" name="check_box" value="${msg.id}" />
+					</td>
+					<td>${msg_index}</td>
+					<td>${msg?.sender_name}</td>
+					<td width="150px;">${msg?.title}</td>
+					<td>${msg.time?.format("yyyy-MM-dd HH:mm:ss")}</td>
+					<td><span class="xf_mem_znx_wd">${msg.read_status}</span>
+					</td>
+					<td>
+						<span style="cursor: pointer;" onclick="inboxMsgDetail(${msg_index} + ${pageBean.pageSize} * (${pageBean.currPage} - 1));">查看</span>
+					</td>
+				</tr>
+				#{/list}
+		
+			</table>
+		
+			<div class="xf_mem_znx_cc">
+				<span class="xf_accout_cont_imginput" onclick="deleteInboxMsgs()">删除</span>
+				<span class="xf_accout_cont_imginput" onclick="markMsgsReaded()">标记为已读</span>
+				<span class="xf_accout_cont_imginput" onclick="markMsgsUnread()">标记为未读</span>
+			</div>
+		
+			<!-- 分页器 -->
+			<div class="xf_wylc_page xf_zqzr_view_page1 xf_znx_view_page1">
+				#{page currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:1,style:2}
+					keyword=${pageBean.conditions.keyword}&readStatus=${pageBean.conditions.readStatus}
+				#{/page}
+			</div>
+		</div>
+		</div>
+		<div id="detail" class="xf_con_wyjk_tentultbody"></div>
+
+	</div>
+	<!-- 清除浮动 -->
+	<div class="clear"></div>
+</div>
+<!-- 内容区域 end -->
+
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript">
+	var g_index = 1;
+	
+	$(function(){
+		
+		count();
+	});
+	
+	$(function() {
+		/* 高亮显示 */
+		showHighLightFront(3);
+		showHighLightFront2(7, 2);
+	});
+
+	function markMsgsReaded() {
+		var arr = new Array();
+
+		$('input:checkbox[name=check_box]:checked').each(function(){
+			arr.push($(this).val());
+		});
+		
+		var ids = arr.join(",");
+
+		if (ids == "") {
+			alert("请选择要标记为阅读的信息!");
+			return;
+		}
+
+		$.ajax({
+			url : "@{markMsgsReaded()}",
+			type : "POST",
+			data : {
+				"ids" : ids
+			},
+			success : function(data) {
+				location.reload();
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+
+	}
+
+	function markMsgsUnread() {
+		var arr = new Array();
+
+		$('input:checkbox[name=check_box]:checked').each(function(){
+			arr.push($(this).val());
+		});
+		
+		var ids = arr.join(",");
+
+		if (ids == "") {
+			alert("请选择要标记为未读的信息!");
+			return;
+		}
+
+		$.ajax({
+			url : "@{markMsgsUnread()}",
+			type : "POST",
+			data : {
+				"ids" : ids
+			},
+			success : function(data) {
+				location.reload();
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+	
+	function inboxMsgDetail(index) {
+		g_index = index;
+	
+		$.ajax({
+			url : "@{inboxMsgDetail()}",
+			type : "POST",
+			data : {
+				"index" : index,
+				"keyword" : $("#xf_membill_shurk_yhm").val(),
+				"readStatus" : $("#read_status").val()
+			},
+			success : function(data) {
+				$("#detail").html(data).show();
+				$("#msglist").hide();
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+
+	function deleteInboxMsgs() {
+		var arr = new Array();
+
+		$('input:checkbox[name=check_box]:checked').each(function(){
+			arr.push($(this).val());
+		});
+		
+		var ids = arr.join(",");
+		
+		if (ids == "") {
+			alert("请选择要删除的信息!");
+			return;
+		}
+		
+		if (!confirm("确认要删除？")) {
+            return;
+        }
+		
+		$.ajax({
+			url : "@{deleteInboxMsgs()}",
+			type : "POST",
+			data : {
+				"ids" : ids
+			},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+					
+					return;
+				}
+				
+				location.reload();				
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+		
+	}
+
+	function search() {
+		window.location.href = "@{front.account.Message.inboxMsgs()}?keyword=" + encodeURIComponent($("#xf_membill_shurk_yhm").val())+"&readStatus="+$("#read_status").val();
+	}
+</script>

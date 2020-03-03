@@ -1,0 +1,117 @@
+@charset "utf-8";
+.login_box{position: absolute; top: 0; left: 0; width: 100%; min-width: 320px; max-width: 750px; height: 100%; background: #fff; overflow: hidden;}
+.login_h{position: fixed; top: 0; left: 0; z-index: 10; width: 100%; height: 1rem;}
+.login_h>img{width: 100%; height: 100%;}
+.open_red_box{position: relative; overflow: hidden; width: 100%; height: 100%;}
+.red_img{margin-top: 1rem; width: 100%;}
+.open_img{position: absolute; top: 6.4rem; left: 50%; margin-left: -1.03rem; width: 2.06rem; height: 2.06rem;-webkit-transition:1s ease;-moz-transition:1s ease;-moz-transform:rotatey(0deg);-webkit-transform:rotatey(0deg);}
+.login_show_box{}
+.entry_box{padding-top: 3.85rem; height: 6.98rem; background: url("../images/entry_bg.jpg") no-repeat; background-size: cover;}
+.entry_box input{line-height: .8rem; background: #fff; border: 1px solid #999; color: #000; border-radius: .2rem; font-size: .32rem;}
+.inp_box{margin: 0 auto; width: 5.4rem;}
+.inp_box .l_inp1{display: block; margin: 0 auto; padding: 0 .3rem; width: 4.8rem;}
+.pw_hint{padding:0 .3rem; line-height: .53rem; color: #333; font-size: .24rem;}
+.inp_box .l_inp2{padding: 0 .3rem; width: 2.6rem;}
+.PIN_btn{width: 1.8rem; line-height: .82rem; background: url("../images/PIN_btn.jpg") no-repeat; background-size: 100% 100%; text-align: center; color: #fff; font-size: .28rem;}
+.PIN_btn:focus{text-decoration:none;}
+.tx_btn{width: 1.8rem; height: .82rem; border-radius: .2rem; background: #666;}
+.show_img>img{width: 100%;}
+.us_protocol{margin: 0 auto .3rem; width: 5.4rem; line-height: .45rem; color: #333; font-size: .24rem;}
+.us_protocol input[type="checkbox"]{-webkit-appearance: none; background: #fff; vertical-align: text-top; width: .24rem; height: .24rem; border-radius: 50%; border: 1px solid #CCCCCC; outline: none; margin-right: .06rem;}
+.us_protocol input[type="checkbox"]:checked{ background: url(../images/dui.png)no-repeat; background-size: cover; border: none;}
+.us_protocol a{color: #FE4D5E;}
+.login_btn{display: block; margin: 0 auto .26rem; width: 5.38rem; height: .8rem; line-height: .8rem; text-align: center; color: #fff; font-size: .36rem; background: url("../images/login_btn.png") no-repeat; background-size: cover;}
+.dl_app{line-height: .3rem; text-align: center;}
+.dl_app>a{font-size: .26rem; color: #3B65FF;}
+.login_box .mb30_rem{margin-bottom: .3rem;}
+/*协议弹框区*/
+.pop{
+    width: 90%;
+    height: 70%;
+    border-radius: .2rem;
+    display: none;
+    position: fixed;
+    z-index: 30;
+    top: 15%;
+    left: 5%;
+    background: #fff;
+}
+.pop_con{
+    padding: 0 .5rem .6rem;
+}
+.lay {
+    width: 100%;
+    height: 100%;
+    display: none;
+    background-color: #000;
+    position: fixed;
+    z-index: 20;
+    left: 0;
+    top: 0;
+    opacity: 0.6;
+}
+.xy_tit{
+    width: 100%;
+    height: .5rem;
+    line-height: .5rem;
+    font-weight: bold;
+    text-align: center;
+    font-size: .36rem;
+    padding-top: .6rem;
+    padding-bottom: .1rem;
+}
+.xy_text{
+    width: 100%;
+    height: 7rem;
+    line-height: .5rem;
+    overflow: auto;
+    font-size: .3rem;
+}
+.close_all{
+    position:absolute;
+    width: .6rem;
+    height: .6rem;
+    bottom: -.8rem;
+    left: 50%;
+    margin-left: -.3rem;
+    z-index: 30;
+    display: none;
+}
+.close_all>img{width: 100%; height: 100%;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

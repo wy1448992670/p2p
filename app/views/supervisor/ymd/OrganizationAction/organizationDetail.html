@@ -1,0 +1,982 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'审核中的借款标列表' /} 
+<link rel="stylesheet" type="text/css" href="/public/stylesheets/thisPage/ymd/addOrganization.css" />
+<style>
+	.tableCell{
+		display:table-cell;
+		width:12%;
+	}
+	.TwoCategoryUl{
+		width:inherit;
+		display: table-cell;
+		background:#F2F2F2;
+		min-height:150px;
+	}
+	.TwoCategoryli{
+		float:left;width:25%;padding: 10px 0;text-indent:.5em;
+	}
+	.non-null{
+		color:red;
+	}
+	.number{
+		width:50px;
+		text-align:center;
+		border:0;
+	
+	}
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+	}
+	 
+	input[type="number"] {
+		-moz-appearance: textfield;
+	}
+</style>
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include '/supervisor/ymd/riskLeft.control'/}
+    
+<div class="xn_c_content" style="background:white">
+    <div style="padding-left:20px;background:#E1E1E1;height:53px;line-height:53px;font-size:19px;">
+		#{if organization?.id}
+			<span>详情</span>
+		#{/if}	
+		#{else}
+			<span>添加</span>
+		#{/else}	
+    </div>
+    <div class="xf_htgl_jgtitle _xf_htgl_jgtitle" style="margin: 30px 60px 0 20px;font-size: 11px;">
+   
+		<h3>
+		 			<div>
+			 			<span style="font-weight: 500;">机构信息</span>
+				 		<span class="right">
+			 				<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+			 			</span>
+		 			</div>
+		</h3>
+	</div>
+	<div>
+	#{form @editOrganizationInfo(), method:'POST', id:'editOrganizationInfo' }
+	<div class="contextPadding">
+	 		
+	 		<div class="hiddenContext pleft10">
+		 		<h3>
+		 			基础信息
+		 		</h3>
+				
+				<div style="display:none">
+					<!-- 获取注册地址的全部市 -->
+					<select class="registAddr">
+						#{list items:newCitys, as:'item'}
+							<option cid="${item?.city_id}" value="${item?.father}">${item?.city}</option>
+						#{/list}
+					</select>
+					<!-- 获取实际营业地址的全部市 -->
+					<select class="OperatingAddr">
+						 #{list items:citys, as:'item'}
+						<option cid="${item?.id}" value="${item?.province_id}">${item?.name}</option>
+						#{/list}
+					</select>
+				</div>
+	 			<table class="commTablePadding" width="100%">
+					<tr>
+						<td width="100"><span class="non-null">*</span>商户注册名称：</td>
+						<td >
+							<input value="${user?.reality_name}" name="user.reality_name" class="inputSelectWidth isNull" type="text" />
+						</td>
+					</tr>
+					<tr>
+						<td width="150"><span class="non-null">*</span>商家名称：</td>
+						<td >
+							<input value="${userInfo?.brand_name}" name="userInfo.brand_name" class="inputSelectWidth isNull" type="text" />
+						</td>
+					</tr>
+					<tr>
+						<td width="120"><span class="non-null">*</span>注册地址：</td>
+						<td width="150">
+							<select id="province" name="registAddr.province_id" class="inputSelectWidth province_id isNull">
+								<option value="0">请选择</option>
+								#{list items:newProvinces, as:'item'}
+								<option #{if item?.province_id==registAddr?.province_id} selected="selected" #{/if} value="${item?.province_id}">${item?.province}</option>
+								#{/list}
+							</select>
+						</td>
+						<td style="text-align:center;" width="30">市</td>
+						<td>
+							<select id="city" name="registAddr.city_id" class="city_id inputSelectWidth isNull">
+								<option value="0">请选择</option>
+								#{list items:newCitys, as:'item'}
+                				<option value="${item?.city_id}" #{if registAddr?.city_id == item?.city_id}selected#{/if}>${item?.city}</option>
+                				#{/list}
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td width="120"></td>
+						<td  colspan="3">
+							<input value="${registAddr?.address}" name="registAddr.address" class="inputSelectWidth isNull" type="text" />
+							<span>详细地址</span>
+						</td>
+					</tr>
+					<tr>
+						<td width="120">实际营业地址：</td>
+						<td >
+							<select id="adProvince" class="inputSelectWidth" name="OperatingAddr" >
+								<option value="0">请选择</option>
+								#{list items:provinces, as:'item'}
+								<option value="${item?.id}" #{if businessAddr?.province_id == item?.id}selected#{/if}>${item?.name}</option>
+								#{/list}
+							</select>
+						</td>
+						<td style="text-align:center;" width="30">市</td>
+						<td >
+							<select id="adCity" class="inputSelectWidth" name="businessCity">
+								<option value="0">请选择</option>
+								#{list items:citys, as:'item'}
+				                <option value="${item?.id}" #{if businessAddr?.id == item?.id}selected#{/if}>${item?.name}</option>
+				                #{/list}
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td width="120"></td>
+						<td  colspan="3">
+							<input value="${user?.address}" name="user.address" class="inputSelectWidth" type="text" />
+							<span>详细地址</span>
+						</td>
+					</tr>
+					<tr>
+						<td width="100"><span class="non-null">*</span>邮政编码：</td>
+						<td >
+							<input value="${user?.postcode}" name="user.postcode" class="inputSelectWidth isNull" type="text" />
+						</td>
+					</tr>
+					<tr>
+						<td width="120"><span class="non-null">*</span>经营起始日期：</td>
+						<td width="150">
+							<input value="${user?.birthday?.format("yyyy-MM-dd")}" name="user.birthday" type="text" class="search_time inputSelectWidth isNull" onclick="laydate()" style="cursor: pointer">
+						</td>
+					</tr>
+					<tr>
+						<td width="100"><span class="non-null">*</span>注册资本（万元）：</td>
+						<td >
+							<input value="${userInfo?.reg_capital}" name="userInfo.reg_capital" class="inputSelectWidth isNull" type="text" />
+						</td>
+					</tr>
+					
+					<tr>
+		 				<td valign="top" width="90px"><span class="non-null">*</span>经营范围：</td><td><textarea name="userInfo.business_scope" class="textareaWidth isNull">${userInfo?.business_scope}</textarea></td>
+		 			</tr>
+		 		</table>
+	 	</div>
+	</div>
+	
+	   <div class="contextPadding">
+	 		<h3>
+				联系人信息
+	 		</h3>
+	 		<div class="hiddenContext pleft10">
+	 			<table class="commTablePadding" width="100%">
+					<tr>
+						<td><span class="non-null">*</span>法定代表人姓名：</td>
+						<td>
+							<input value="${legalPerson?.name}" name="legalPerson.name" class="inputSelectWidth isNull" type="text" />
+						</td>
+					</tr>
+					<tr>
+						<td width="130"><span class="non-null">*</span>身份证号码：</td>
+						<td>
+							<input value="${legalPerson?.id_card}" name="legalPerson.id_card" class="inputSelectWidth isNull" type="text" />
+						</td>
+					</tr>
+					<tr>
+						<td width="130"><span class="non-null">*</span>联系人姓名：</td>
+						<td>
+							<input value="${firstContacts?.name}" name="firstContacts.name" class="inputSelectWidth isNull" type="text" />
+						</td>
+					</tr>
+					<tr>
+						<td width="130"><span class="non-null">*</span>联系人电话：</td>
+						<td>
+							<input value="${firstContacts?.phone}" name="firstContacts.phone" class="inputSelectWidth isNull" type="text" />
+						</td>
+					</tr>
+					<tr>
+						<td width="130">备用联系人姓名：</td>
+						<td>
+							<input value="${secondContacts?.name}" name="secondContacts.name" class="inputSelectWidth" type="text" />
+						</td>
+					</tr>
+					<tr>
+						<td width="130">备用联系人电话：</td>
+						<td>
+							<input value="${secondContacts?.phone}" name="secondContacts.phone" class="inputSelectWidth" type="text" />
+						</td>
+					</tr>
+					<tr>
+						<td>邮箱：</td>
+						<td colspan="5">
+							<input value="${firstContacts?.email}" name="firstContacts.email" class="inputSelectWidth" type="text">
+						</td>
+					</tr>
+		 		</table>
+	 	</div>
+	</div>
+	
+	<div class="contextPadding">
+	 		<h3>
+	 			证照信息
+	 		</h3>
+	 		<div class="hiddenContext pleft10">
+	 			<table class="commTablePadding" width="100%">
+					<tr>
+						<td width="130"><span class="non-null">*</span>统一社会信用代码： </td>
+						<td>
+							<input value="${user?.id_number}" name="user.id_number" class="inputSelectWidth isNull" type="text" />
+						</td>
+					</tr>
+					<tr>
+						<td width="130"><span class="non-null">*</span>结算账号（公/私）：</td>
+						<td>
+							<input value="${userBank?.account}" name="userBank.account" class="inputSelectWidth isNull" type="text" />
+						</td>
+					</tr>
+					<tr>
+						<td><span class="non-null">*</span>开户银行：</td>
+						<td colspan="5">
+							<input value="${userBank?.bank_name}" name="userBank.bank_name" class="inputSelectWidth isNull" type="text">
+						</td>
+					</tr>
+		 		</table>
+	 	</div>
+	</div>
+	
+	<div class="contextPadding">
+	 		<h3>
+	 			BD信息
+	 		</h3>
+	 		<div class="hiddenContext pleft10">
+	 			<table class="commTablePadding" width="100%">
+					<tr>
+						<td width="130">对应BD姓名：</td>
+						<td>
+							<input value="${bdPerson?.name}" name="bdPerson.name" class="inputSelectWidth" type="text" />
+						</td>
+					</tr>
+					<tr>
+						<td>电话号码：</td>
+						<td colspan="5">
+							<input value="${bdPerson?.phone}" name="bdPerson.phone" class="inputSelectWidth" type="text">
+						</td>
+					</tr>
+		 		</table>
+	 	</div>
+	</div>
+		<div class="hiddenContext pleft10">
+					<input type="hidden" value="${user?.id}" name="user.id"/>
+					<input type="hidden" value="${user?.id}" name="userId"/>
+					<input type="hidden" value="${organization?.id}" name="organization.id"/>
+					<input type="hidden" value="${organization?.id}" name="orgId"/>
+					<div style="text-align:center;">
+						 <input id="sbutton" style="width:180px;height:43px;" class="btnStyle" type="button" value="提交">
+					</div>
+				</div>
+	</div>
+	#{/form}
+	<div class="contextPadding">
+	 		<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+	 			<div>
+		 			<span>附件信息</span>
+			 		<span class="right">
+		 				<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+		 			</span>
+	 			</div>
+	 		</h3>
+	 		<form id="addFileSubmit" action="#" method="get">
+	 			<input type="hidden" value="${organization?.id}" name="orgId"/>
+	 			<input type="hidden" value="${organization?.id}" name="realtion_id"/>
+			  <!-- <input type="text" value="${organization?.id}" name="orgId"/>  -->
+			  <div>
+				<div class="" style="">
+					<input type="file" id="filesUp" name="file" style="display:none"  />
+				</div>
+				
+				%{int file_index=0;}%
+				#{list items:orgnizationFileRelationDictList, as:'fileRelationDict'}
+	               <ul style="width: 100%;margin:20px;display:table;" class="uploadFile">
+		
+					<li style="float: left;width: 13%;">${fileRelationDict.file_dict_name}</li>
+					<li fileDictId="${fileRelationDict.file_dict_id}" class="SetFile FileHeight1" style="text-align: center;width: 13%;float: left;min-height:200px">
+						<div style="border-radius: 3px;border: 1px solid #E4E4E4">
+							<div style="background:#E4E4E4;padding: 5px 0;color:#94949B;font-weight: 100">上传电脑中图片</div>
+							<div style="padding: 10px;">	
+								<img style="width:100%;" src="data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAHYAAABbCAYAAACmlXH5AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGISURBVHhe7d0xasNAEEbh3P+CskACq5QagS6wYQxqzO8yA355xUfIss3MQ47dxD/XdQ3xGBbKsFCGhTIslGGhDAtlWCjDQhkWyrBQhoUyLJRhoQwLZVgobNjzPMfz+RzzPI9pml4/6/c6T/dpsGG3bXsFfVfn6T4NNuz9pL6r83SfBhs2Rb2l+zSGhTIslGGhDAtlWCjDQhkWyrBQhoUyLJRhoQwLZVgow0IZFsqwUIaFMiyUYaHawx7HMdZ1HY/HIy7929VcNV/Nmebv0hp23/e4DKqaN+2hQ2vYZVniAqhq3rSHDq1hqS+/n9S8aQ8dWsOm4enSHjr4xP6hf/PE+je2T2tY3xX3aQ1b/Bzboz1sl7T0W7pPY1gow0IZFsqwUIaFMiyUYaEMC2VYKMNCGRbKsFCGhTIslGGhDAtlWCjDQhkWyrBQ2LD+6/hwSOCXPYRDAr+eJRzq+xkWyrBQhoUyLJRhoQwLZVgow0IZFsqwUIaFMiyUYaEMC2VYKMNCGRbKsEjX+AX7hbWuNvGoVQAAAABJRU5ErkJggg==">
+							</div>
+						</div>
+						<!--<div>
+							<span style="color:red;">*</span>标题不得超过10个字，图片宽高比为：19:27，图片大小不得超过2M
+						</div>-->
+					 </li>
+					#{list items:fileRelationDict.file_relation_list, as:'file_relation'}
+						 <li class="rmImg${file_index}" style="width:auto;float: left;padding: 0 8px;">
+						 <div style="position:relative;width:160px">
+						 <img style="width:160px;height:166px" src="${file_relation.file.real_path}">
+						 	<div style="height:35px;width:100%;position:absolute;bottom:0"></div>
+							<div style="text-align:right;height:35px;width:100%;position:absolute;bottom:0">
+								<img class="InitIcon" index="${file_index}" height="35px" width="32px" ;="" src="data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAqCAYAAAAnH9IiAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAIJSURBVFhHY/ifxvB/qOFRR9MLjzqaXnjU0fTCo46mF6aKo/+lMvy/HsXx/1wEF058DSj/F6gOm35SMVUcfS+G7b+OtvZ/B0P1/444sK6O9v8rkRxY9ZOKqeLoG1Hs/830tf7/TGH8/yeFASu2N9T4fzqcC6t+UjFZjo6xUPzvbKT+3wmKQQ4ChbStgQZODAppEA3TA9IfZq6M1XxCmCxH6wMdsNhH6P/+EF6y8Qo/IbBHsJlPCJPlaANd7f8tLpL/53iJkI07XCX+69HT0U3Okv+NdbX+h5sr/U+3kScZR1ko/TcE6q9xlMJqPiFMdkZ0NlT7fzSUG6scIXweWATaGahjlSMGj2xHg4o1UCUD439LQrBB+DdQHsYeNI4ONlP+v9pPAMz+nMQETrPvE5jA/O2BfP/9TFXgageNo71MVMHFIIj9IZH5v46Ozv83Ccxg/jp/gf+uRmpwtaOOJgWPOppEPOroUUfjwdRztLHK/yVwRzOBHf0W6ugNAQL/3YwHoaOPANkv4yGOBOE1wIoGVkOCPHEwhAcuN2gcTQoeko4GdXQHxNFBwLbGPG8RrHKE8Epfwf/ewIyLTY4YTLaj9wbx/DfQ0QL3tGH9PmIwSD1I344gPqzmEoPJdjQIP4tnBfewT4YRj0Hqn8axYjWPWEyRowcKjzqaXnjU0fTCo46mFx6Cjmb4DwA8CyCvmNOFnAAAAABJRU5ErkJggg=="
+								remove_id="${file_relation.id}">
+							</div>
+						 </div>
+						<!--   
+						<input type="text" name="relation_type" value="${file_relation?.relation_type}" />
+						<input type="text" name="relation_id" value="${organization?.id}" />
+						<input type="text" class="url2 arguments" name="fileDictId" value="${fileRelationDict.file_dict_id}">
+						<input type="text" class="url2 arguments" name="imgPathString" value="${file_relation.file.real_path}">
+						-->
+						 </li>
+						 %{file_index++;}%
+					#{/list}
+
+				   </ul>
+				#{/list}
+					<div id="FileImgUrl">	
+					</div>
+					<div class="hiddenContext pleft10">
+						<div style="text-align:center;">
+							 <input onclick="allFileSubmit(this)" style="width:180px;height:43px;" class="btnStyle" type="button" value="提交">
+						</div>
+					</div>
+				</form>
+		</div>
+	</div>
+		
+	<div class="contextPadding">
+				<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+					<div>
+						<span>商家利率配置</span>
+						<span class="right">
+							<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+						</span>
+					</div>
+				</h3>
+				<div style="padding:30px 0 30px 20px">
+				  <table style="text-align:center;" class="commTablePaddingSmall" width="90%" border="1">
+						<tr>
+							<td width="200">借款期限</td>
+							<td>1月</td>
+							<td>2月</td>
+							<td>3月</td>
+							<td>4月</td>
+							<td>5月</td>
+							<td>6月</td>
+							<td>7月</td>
+							<td>8月</td>
+							<td>9月</td>
+							<td>10月</td>
+							<td>11月</td>
+							<td>12月</td>
+						</tr>
+						<tr>
+							<td width="200">年化利率 </td>
+							 #{if interestRateList}
+								
+								#{list items:interestRateList, as:'interestRate'}
+								<td width="90"><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" value="${interestRate?.interest_rate}"/>%</td>
+								#{/list}
+							#{/if}
+							#{else}
+								<td width="90"><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+								<td width="90"><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+								<td width="90"><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+								<td width="90"><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+								<td width="90"><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+								<td width="90"><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+								<td width="90"><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+								<td width="90"><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+								<td width="90"><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+								<td width="90"><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+								<td width="90"><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+								<td width="90"><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+							#{/else}
+						</tr>
+				 </table>
+					<div  style="margin:15px 0;font-size:15px;">付费方式：等额本息</div>
+					<div class="hiddenContext ">
+						<div style="text-align:center;">
+							 <input id="rateSubmit" style="width:180px;height:43px;" class="btnStyle" type="button" value="提交">
+						</div>
+					</div>	
+			 </div>
+	</div>
+
+	<div class="contextPadding">
+	 		<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle">
+	 			<div>
+		 			<span>添加类目（医院项目）</span>
+			 		<span class="right">
+		 				<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+		 			</span>
+	 			</div>
+	 		</h3>
+	 		<div class="hiddenContext pleft10">
+	 			<div class="hiddenContext" style="margin:35px 20px;">
+				 <div style="background:#E4E4E4;margin-bottom:50px;">
+					<span style="margin:0 10px;font-size:14px;">一级类目：</span>
+					<input class="marRight CategoryTxt" style="box-sizing: border-box;height:40px;width:200px;" type="text">
+					<input style="border-radius:0;height: 40px;width: 120px;" class="btnStyle marRight addCategory" type="button" value="添加">
+				</div>
+			<div>
+				<div  id="CategoryList">
+					#{list items:orgProjectList , as: 'orgProject'}
+				       <div class="contextPadding" style="padding-left:0;">
+				 		<div class="hiddenContext outer" style="width:650px;margin:0">
+				 			<div>
+							 <div style="background:#E4E4E4;">
+							    <div class="tableCell"><span style="padding-left:5px;font-size:14px;">
+							      <input target="0"  firstProjectId="${orgProject?.id}" name="firstProject" type="hidden" value="${orgProject?.name}" /></span>${orgProject?.name}</span>
+							    </div>
+							  	 <div style="display:table-cell;">
+								<input class="marRight CategoryTxt" style="box-sizing: border-box;height:40px;width:200px;" type="text"/>
+								<input  style="border-radius:0;height: 40px;width: 120px;margin:0 10px;" class="btnStyle marRight  addTwoCategory" type="button" value="添加"/>
+								<input remove_id="${orgProject?.id}" style="border-radius:0;height: 40px;width: 120px;" class="btnStyle marRight RemoveOneCategory" type="button" value="删除类目"/>
+							   </div>
+							</div>
+						   </div>
+						   <ul class="TwoCategoryUl">
+						   		#{list items:orgProject.childProjectList, as: 'childProject'}
+						   			<li class="TwoCategoryli"><label>
+						   			<input secondID="${childProject?.id}" type="checkbox"  class="check" />
+						   			<input target="0" name="secondProject" type="hidden" value="${childProject?.name}" />${childProject?.name}</label></li>
+						   		#{/list}
+						   </ul>
+						   <div style="background:#F2F2F2;text-align:right;padding:0 50px 10px 0;"><input style="border-radius:0;height: 30px;width: 67px;" class="btnStyle marRight RemoveTwoCategory" type="button" value="删除"/></div>
+						</div>
+					</div>
+				#{/list}
+			</div>
+				<div class="hiddenContext ">
+				<div style="text-align:center;margin-top:30px;">
+					 <input id="category" style="width:180px;height:43px;" class="btnStyle" type="button" value="提交"/>
+				</div>
+			</div>	
+	 	</div>
+		
+	</div>
+	
+	
+</div>
+
+     </div>
+</div>	
+  </div>
+</div>	
+
+
+
+<script>
+	$(function(){
+	  //所在地
+	  $("#province").change(function(){
+	    var province_id = $("#province").find("option:selected").val();
+		loadNewCity(province_id); 
+	  });
+	  //居住地
+	  $("#adProvince").change(function(){
+	    var province_id = $("#adProvince").find("option:selected").val();
+		loadAdCity(province_id); 
+	  });
+	});
+
+	//加载市
+	function loadNewCity(provinceId){
+	  $.ajax({
+	    url : "@{supervisor.SupervisorController.getNewCity()}",
+		type : "POST", 
+		dataType: "JSON",
+		data : {"provinceId": provinceId},
+		success : function(data) {
+		  if (data.code < 0) {
+		    alert(data.msg);
+		    return;
+		  }
+		  $("#city").empty();//先清空
+		  $("#city").prepend("<option value=''>请选择</option>");
+		  $.each(data, function(n,value) {
+		    if('${registAddr?.city_id}' == value.city_id ){
+			  $("#city").append("<option value = "+value.city_id  + " selected='selected' > "+value.city+"</option>");
+			} else {
+		      $("#city").append("<option value = "+value.city_id  + " > "+value.city+"</option>");
+			} 
+		  });  	 
+		},
+		error : function() {
+		  alert("对不起，出现错误!");
+		}
+	  });
+	}
+	//加载市
+	function loadAdCity(provinceId){
+	  $.ajax({
+	    url : "@{supervisor.SupervisorController.getAdCity()}",
+		type : "POST", 
+		dataType: "JSON",
+		data : {"provinceId": provinceId},
+		success : function(data) {
+		  $("#adCity").empty();//先清空
+		  $("#adCity").prepend("<option value=''>请选择</option>");
+		  $.each(data, function(n,value) {
+		    if('${businessAddr?.id}' == value.id ){
+			  $("#adCity").append("<option value = "+value.id  + " selected='selected' > "+value.name+"</option>");
+			} else {
+		      $("#adCity").append("<option value = "+value.id  + " > "+value.name+"</option>");
+			} 
+		  });  	 
+		},
+		error : function() {
+		  alert("对不起，出现错误!");
+		}
+	  });
+	}
+	
+	
+	// 提交编辑基本信息
+	$('#sbutton').click(function(){
+		var non_null_id = 200;
+		var Names = {200:"成功",0: "商户注册名称",1: "商家名称",2: "注册地址",3: "注册地址",4: "注册地址"
+		,5: "邮政编码",6: "经营起始日期",7: "注册资本",8: "经营范围",9: "法定代表人姓名"
+		,10: "身份证号码",11: "联系人姓名",12: "联系人电话",13: "统一社会信用代码",14: "结算账号",15: "开户银行"};
+		
+		$('.isNull').each(function(i,e){
+			if(!$.trim($(e).val())||$(e).val()=="0"){
+				non_null_id = i;
+				return false;
+			}
+		})
+		if(non_null_id!=200){
+			Common.toast("请填写"+Names[non_null_id]);
+			return false;
+		}
+		var args = $('#editOrganizationInfo').serialize();
+		console.log(args);
+		$.post('/supervisor/OrganizationAction/editOrganizationInfo?'+args,function(res){
+			console.log(res);
+			$('[name="user.id"]').val(res.userId);
+			$('[name="organization.id"]').val(res.orgId);
+			$('[name=orgId]').val(res.orgId);
+			$('[name=userId]').val(res.userId);
+			Common.toast('提交成功');
+		}).error(function(){
+				console.log(error);
+		});
+	})
+	// 商家利率配置
+	$('#rateSubmit').click(function(){
+		if(!$('[name="organization.id"]').val()){
+			Common.toast('请先填写基础信息');
+			return false;
+		}
+		
+		var paramenter = [];
+		$('.number').each(function(i,e){
+			paramenter.push($(e).val());
+		});
+		console.log({orgId: $('[name=orgId]').val(),interestRate: JSON.stringify(paramenter)});
+		$.post('@{supervisor.ymd.OrganizationAction.createInterestRate}',{orgId: $('[name=orgId]').val(),interestRate: JSON.stringify(paramenter)},function(res){
+			Common.toast('提交成功！');
+		});
+	});
+</script>
+
+
+	
+<script type="text/javascript">
+// 标题收缩
+$('._xf_htgl_jgtitle').click(function(){
+	$(this).next().toggle(100);
+})
+
+$(function(){
+	/* 高亮显示 */
+	showHighLight(4, 4, 7);
+	
+	$('.RemoveTwoCategory').each(function(i,e){
+		$(e).parent().prev().children().length?$(e).parent().show():$(e).parent().hide();
+	})
+});
+
+//删除
+		$('.InitIcon').click(function(){
+							var _this = this;
+							var remove_id = $(_this).attr('remove_id')||'';
+							layer.confirm("点击“确定”删除图片", function(index){
+								// 提交后需要删除图片调用此方法
+								if(remove_id){
+									$.post('@{ymd.BackFileUploadController.delFileRelation}',{fileRelationId: remove_id},function(res){
+									var res = JSON.parse(res);
+										if(res.error==-1){
+											Common.toast('删除成功！');
+										}else{
+											Common.toast('删除失败！');
+										}
+									});
+								}
+								$('.title'+$(_this).attr('index')).remove();
+								$('.url'+$(_this).attr('index')).remove();
+								$(_this).closest('li').remove();							
+							 	layer.close(index);
+							});
+		});
+
+//图片提交
+function allFileSubmit(){
+	if(!$('[name="organization.id"]').val()){
+			Common.toast('请先填写基础信息');
+			return false;
+	}
+	var length = $('.arguments').length;
+	if(!length){
+		layer.alert('请上传新图片后提交');
+		return false;
+	}
+	
+	var arg = $('#addFileSubmit').serialize();//+'&orgId='+$('[name=orgId]').val();
+	console.log(arg);
+	
+	$.post('@{ymd.BackFileUploadController.allFileSubmit}',arg,function(res){
+		$('.arguments').remove(); // 清除图片路径和参数
+	
+		var res = JSON.parse(res);
+	
+		if(res.error==-1){
+			// 提交后赋值对应的id 供给删除使用
+			$('.new').each(function(i,e){
+				$(e).attr('remove_id',res.data[i]);
+			})
+			/*for(var i=0;i<data.length;i++){
+			   for(var j=0;j<data[i].id.length;j++){
+				  $('.'+data[i].fileType).eq(j).attr('remove_id',data[i].id[j]);
+			   }
+			}*/
+			// 提交后删除原有url，以防重复提交添加
+			$('#FileImgUrl').html('');
+			Common.toast('提交成功！');
+		}else{
+			Common.toast(res.msg);
+		}
+		
+	});
+}
+
+//添加图
+	var file_Index = ${file_index};
+	$('.SetFile').click(function(){
+		if(!$('[name="organization.id"]').val()){
+			Common.toast('请先填写基础信息');
+			return false;
+		}
+	   var _this = $(this);
+	  
+		$('#filesUp').unbind('change');
+		
+		var IconRemove = 'data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAqCAYAAAAnH9IiAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAIJSURBVFhHY/ifxvB/qOFRR9MLjzqaXnjU0fTCo46mF6aKo/+lMvy/HsXx/1wEF058DSj/F6gOm35SMVUcfS+G7b+OtvZ/B0P1/444sK6O9v8rkRxY9ZOKqeLoG1Hs/830tf7/TGH8/yeFASu2N9T4fzqcC6t+UjFZjo6xUPzvbKT+3wmKQQ4ChbStgQZODAppEA3TA9IfZq6M1XxCmCxH6wMdsNhH6P/+EF6y8Qo/IbBHsJlPCJPlaANd7f8tLpL/53iJkI07XCX+69HT0U3Okv+NdbX+h5sr/U+3kScZR1ko/TcE6q9xlMJqPiFMdkZ0NlT7fzSUG6scIXweWATaGahjlSMGj2xHg4o1UCUD439LQrBB+DdQHsYeNI4ONlP+v9pPAMz+nMQETrPvE5jA/O2BfP/9TFXgageNo71MVMHFIIj9IZH5v46Ozv83Ccxg/jp/gf+uRmpwtaOOJgWPOppEPOroUUfjwdRztLHK/yVwRzOBHf0W6ugNAQL/3YwHoaOPANkv4yGOBOE1wIoGVkOCPHEwhAcuN2gcTQoeko4GdXQHxNFBwLbGPG8RrHKE8Epfwf/ewIyLTY4YTLaj9wbx/DfQ0QL3tGH9PmIwSD1I344gPqzmEoPJdjQIP4tnBfewT4YRj0Hqn8axYjWPWEyRowcKjzqaXnjU0fTCo46mFx6Cjmb4DwA8CyCvmNOFnAAAAABJRU5ErkJggg==';
+		
+		// 上传参数
+		var fileDictId = _this.attr('fileDictId');
+		var args = {fileDictId: fileDictId,relationType: 8,requiredNum: 1,maxNum: 1,sequence: 1};
+		
+		
+		$('#filesUp').change(function(){
+			var fileName = this.files[0].name;
+			if(fileName!=''){
+				var pathName = fileName.split('.')[fileName.split('.').length - 1];
+				if(pathName!='png'&&pathName!='jpg'){
+					Common.toast('请上传jpg或png');
+					return false;
+				}
+			}
+			var _index = _this.attr('index');
+			var typeName = _this.attr('fileDictId');
+			
+			var OrganizationID = 1;
+			upLoadIMG('filesUp',function(res){
+			console.log(res);
+			//var ImgFlag = {1: '14',2: '15',3: '16',4: '17',5: '24',6: '19',7: '20',8: '21',9: '22'};
+			//var typeName = ImgFlag[_index];
+			var listIMG = '<li class="rmImg'+file_Index+'" style="width:auto;float: left;padding: 0 8px;"><div style="position:relative;width:160px">'
+							+'<img  style="width:160px;height:166px" src="'+res.imagePath+'"/>'
+							+'<div style="height:35px;width:100%;position:absolute;bottom:0"></div>'
+							+'<div style="text-align:right;height:35px;width:100%;position:absolute;bottom:0">'
+							+'<img class="new IconRemove'+file_Index+'" index="'+file_Index+'" height="35px" width="32px"; src="'+IconRemove+'"/></div></div>'
+		                 //  +'<div style="position:relative;top:5px;">标题&nbsp<input style="width:80px" maxlength="10" type="text" /><span class="ShowShot change'+file_Index+'">&nbsp修改</span><span index="'+file_Index+'" class="ShowShot comfire'+file_Index+'">&nbsp确认</span><div>'
+							 +'<input type="hidden"  class="url'+file_Index+' arguments" name="fileDictId" value="'+typeName+'" />'
+							 +'<input type="hidden"  class="url'+file_Index+' arguments" name="imgPathString" value="'+res.imagePath+'" />'
+					  +'</li>';
+					  	
+						console.log(typeName);
+					
+					// $('#FileImgTitle').append('<input type="text"  class="title'+file_Index+'" name="bid.image_title_'+typeName+'" />'); //保存标题
+				    /* $('#FileImgUrl').append('<input type="text"  class="url'+file_Index+' arguments" name="fileDictId" value="'+typeName+'" />'
+											+'<input type="text"  class="url'+file_Index+' arguments" name="imgPathString" value="'+res.imagePath+'" />'); //保存图片路径
+					*/
+						_this.parent().append(listIMG);
+						
+						//留出第一个空的位置
+						$('.FileHeight'+_index).height($('.uploadFile').height());
+						
+						//删除
+						$('.IconRemove'+file_Index).click(function(){
+							var _this = this;
+							var remove_id = $(_this).attr('remove_id')||'';
+						
+							layer.confirm("点击“确定”删除图片", function(index){
+								// 提交后需要删除图片调用此方法
+								if(remove_id){
+									$.post('@{ymd.BackFileUploadController.delFileRelation}',{fileRelationId: remove_id},function(res){
+									var res = JSON.parse(res);
+										if(res.error==-1){
+											Common.toast('删除成功！');
+										}else{
+											Common.toast('删除失败！');
+										}
+									});
+								}
+								$('.title'+$(_this).attr('index')).remove();
+								$('.url'+$(_this).attr('index')).remove();
+								$(_this).closest('li').remove();							
+							 	layer.close(index);
+							});
+						});
+						//修改标题
+						$('.change'+file_Index).click(function(){
+							$(this).prev().removeAttr('disabled');
+						})
+						//确认标题
+						$('.comfire'+file_Index).click(function(){
+							var vTxt = $(this).prev().prev();
+							var txt = $(this).prev().prev().val(); //当前图片输入的标题
+							vTxt.attr('disabled','disabled');
+							$('.title'+$(this).attr('index')).val(txt);
+						})
+							file_Index+=1;
+		},args)	
+	});
+		$('#filesUp').click();
+		
+	})
+	
+		function upLoadIMG(id,fn,args){
+		var type = '1';
+			if($('#'+id).val() == "") {
+				// alert("请选择上传的文件");
+				return false;
+			}
+			$.ajaxFileUpload({
+				url : "@{ymd.BackFileUploadController.uploadFile()}",
+				secureuri : false,
+				fileElementId : id ,
+				dataType : 'text',
+				data: args,
+				success : function(data) {
+					
+					data = $.evalJSON(data);
+					//console.log(data);
+					fn(data);
+				},
+				error : function(data, status, e) {
+					console.log(data);
+				}
+			});
+	}
+	
+	
+	
+	// 二级类目添加
+	$('.addTwoCategory').unbind('click');
+	$('.addTwoCategory').click(function(){
+		var CategoryTwoTxt = $.trim($(this).prev().val());
+		if(!CategoryTwoTxt){
+			layer.alert('请填写二级类目');
+			return false;
+		}
+		var _ul  = $(this).closest('.contextPadding').find('.TwoCategoryUl');
+		
+		
+		var twoMenu = '<li class="TwoCategoryli"><label><input type="checkbox"  class="check" /><input target="1" name="secondProject" type="hidden" value="'+$(this).prev().val()+'"/>'+$(this).prev().val()+'</label></li>';
+		_ul.append(twoMenu);
+		_ul.next().show();
+		$(this).prev().val('');
+		// alert(888);
+	});
+	// 删除一级类目
+	$('.RemoveOneCategory').click(function(){
+		var r_id = $(this).attr('remove_id');
+		var _this = $(this);
+		layer.confirm('是否确认删除此类目？', function(index){
+			_this.closest('.contextPadding').remove();
+			$.post("@{supervisor.ymd.OrganizationAction.deleteProject}",{firstProjectId:r_id},function(res){
+				Common.toast('删除成功');
+				console.log(res);
+			});
+			layer.close(index);
+		});
+	});
+	
+	$('.RemoveTwoCategory').click(function(){
+		
+		var _index = 0;
+		var _this = $(this);
+		var secondID = [];
+		$("[type=checkbox]").eq(0).prop('checked')
+		$(this).parent().prev().find('[type=checkbox]').each(function(i,e){
+			if($(e).prop('checked')){
+				secondID.push($(e).attr('secondid'));
+			}
+		});
+		var strSecondID = {secondProjectId: JSON.stringify(secondID)};
+		
+		layer.confirm('是否确认删除此类目？', function(index){
+			console.log(strSecondID);
+			_this.parent().prev().find('li').each(function(i,e){
+				// 选中的二级类目删除
+				if($(e).find('[type="checkbox"]').is(':checked')){
+					_index++;
+					$(e).remove();
+				}
+			});
+			layer.close(index);
+			if(!_index){
+				layer.alert('请选择要删除的二级类目');
+				return false;
+			}
+			_this.parent().prev().children().length?_this.parent().show():_this.parent().hide();
+			$.post("@{supervisor.ymd.OrganizationAction.deleteProject}",strSecondID,function(res){
+				console.log(res);
+				Common.toast('删除成功');
+			});
+			
+		});
+		
+	});
+	
+	/*添加类目*/
+	// 一级类目添加
+	$('.addCategory').click(function(){
+		
+		var CategoryTxt = $.trim($('.CategoryTxt').val());
+		if(!CategoryTxt){
+			layer.alert('请填写一级类目');
+			return false;
+		}
+		// 
+		var oneMenu = '<div class="contextPadding" style="padding-left:0;">'
+	 		+'<div class="hiddenContext outer" style="width:650px;margin:0">'
+	 			+'<div>'
+				 +'<div style="background:#E4E4E4;">'
+				    +'<div class="tableCell"><span style="padding-left:5px;font-size:14px;"><input  target="1" name="firstProject" type="hidden" value="'+CategoryTxt+'" />'+CategoryTxt+'</span></div>'
+				    +'<div style="display:table-cell;">'
+					+'<input  class="marRight CategoryTxt" style="box-sizing: border-box;height:40px;width:200px;" type="text"/>'
+					+'<input  style="border-radius:0;height: 40px;width: 120px;margin:0 10px;" class="btnStyle marRight  addTwoCategory" type="button" value="添加"/>'
+					+'<input  style="border-radius:0;height: 40px;width: 120px;" class="btnStyle marRight RemoveOneCategory" type="button" value="删除类目"/>'
+				   +'</div>'
+				+'</div>'
+			   +'</div>'
+			   +'<ul class="TwoCategoryUl">'
+			   +'</ul>'
+			   +'<div style="display:none;background:#F2F2F2;text-align:right;padding:0 50px 10px 0;"><input style="border-radius:0;height: 30px;width: 67px;" class="btnStyle marRight RemoveTwoCategory" type="button" value="删除"/></div>'
+			+'</div>';
+	
+		$('#CategoryList').append(oneMenu);
+		$(this).prev().val('');
+		
+		// 二级类目添加
+		$('.addTwoCategory').unbind('click');
+		$('.addTwoCategory').click(function(){
+			
+			var CategoryTwoTxt = $.trim($(this).prev().val());
+			if(!CategoryTwoTxt){
+				layer.alert('请填写二级类目');
+				return false;
+			}
+			var _ul  = $(this).closest('.contextPadding').find('.TwoCategoryUl');
+			
+			
+			var twoMenu = '<li class="TwoCategoryli"><label><input type="checkbox"  class="check" /><input target="1" name="secondProject" type="hidden" value="'+$(this).prev().val()+'" />'+$(this).prev().val()+'</label></li>';
+			_ul.append(twoMenu);
+			_ul.next().show();
+			$(this).prev().val('');
+			// alert(888);
+		});
+		// 删除一级类目
+		$('.RemoveOneCategory').click(function(){
+			var _this = $(this);
+			layer.confirm('是否确认删除此类目？', function(index){
+				_this.closest('.contextPadding').remove();
+				layer.close(index);
+			});
+		});
+		
+		$('.RemoveTwoCategory').click(function(){
+			var _index = 0;
+			var _this = $(this);
+			
+			layer.confirm('是否确认删除此类目？', function(index){
+				_this.parent().prev().find('li').each(function(i,e){
+					// 选中的二级类目删除
+					if($(e).find('[type="checkbox"]').is(':checked')){
+						_index++;
+						$(e).remove();
+					}
+					
+				});
+				layer.close(index);
+				if(!_index){
+					layer.alert('请选择要删除的二级类目');
+					return false;
+				}
+				_this.parent().prev().children().length?_this.parent().show():_this.parent().hide();
+			});
+			
+		});
+		
+	});
+	
+	// 类目提交
+	$('#category').click(function(){
+		if(!$('[name="organization.id"]').val()){
+				Common.toast('请先填写基础信息');
+				return false;
+		}
+		var userId = $('[name="user.id"]').val();
+		var first = [];
+		var second = [];
+		var third = [];
+		var firstProjectId = '';
+		/*if(!userId){
+			Common.toast("用户id错误");
+			return false;
+		}*/
+		$('[name=firstProject]').each(function(i,e){
+			$(e).closest('.outer ').find('.TwoCategoryli').each(function(i,e){
+				second.push($(e).find('[name=secondProject]').val());
+				third.push($(e).find('[name=secondProject]').attr('target'));
+			})
+			firstProjectId = $(e).attr('firstProjectId');
+			first.push({firstName: $(e).val(),isFirstAdd: $(e).attr('target'),secondName: second,isSecondAdd: third,firstProjectId: firstProjectId});
+			third=[];
+			second=[];
+			
+		})
+		console.log(first);
+
+		var args = {projects: JSON.stringify(first),userId: userId};
+		$.post('@{supervisor.ymd.OrganizationAction.createOrgProject}',args,function(res){
+			Common.toast('类目修改成功');
+			setTimeout(function(){
+				location.href="/supervisor/OrganizationAction/organizationList";
+			},800)
+		});
+	});
+
+</script>

@@ -1,0 +1,94 @@
+
+	<div class="xf_mem_Account xf_mem_shzdjkb_box">
+		<ul class="xf_con_mem_r_tentul xf_con_mem_r_tentul_sc clr">
+						<li class="xf_con_wyjk_r_liishot" id="showTransferDebts" onclick="changeStyle2();">转让债权管理</li>
+						<li  id="showReceiceDebts" onclick="changeStyle1();">受让债权管理</li>
+					</ul>
+            		<!-- 搜索区域 -->
+		
+					<!-- 搜索结果 -->
+					<div class="xf_con_wyjk_tentultbody" id="transferDebts">
+	
+					</div>
+				
+			
+		       <div class="xf_con_wyjk_tentultbody"  id="receiveDebts">
+		
+					</div>
+		
+		<!-- 清除浮动 -->
+		<div class="clear"></div>
+	</div>
+<!-- 内容区域 end -->
+<script type="text/javascript">
+    $(function(){
+    
+    	 var pageNum =1;
+    	 var pageSize = 5;
+         showTransferDebts(pageNum,pageSize);	
+         $("#transferDebts").show();
+         $("#receiveDebts").hide();
+      
+    })
+    
+      $("#showReceiceDebts").click(function(){
+	         $("#transferDebts").hide();
+	         
+	         var pageNum =1;
+	         var pageSize = 5;
+	         showReceivedDebts(pageNum,pageSize);
+	         $("#receiveDebts").show();
+         })
+         
+         
+        $("#showTransferDebts").click(function(){
+	         $("#receiveDebts").hide();
+	         
+	         var pageNum =1;
+	    	 var pageSize = 5;
+	         showTransferDebts(pageNum,pageSize);
+	         $("#transferDebts").show();
+	     })  
+         
+    
+    
+    
+    function showReceivedDebts(pageNum,pageSize){
+    	
+    	var type = $("#typetype").val();
+    	var paramter = $("#paramterparamter").val();
+    	$.ajax({
+    	  url:"@{receivedDebts()}",
+    	  type:"POST",
+    	  data:{"pageNum" : pageNum,"pageSize" : pageSize,"type" : type,"paramter" : paramter},
+    	  success:function(data){$("#receiveDebts").html(data);},
+		  error:function(){alert("对不起，出现错误!");}
+    	})
+    }
+    
+    
+    
+     function showTransferDebts(pageNum,pageSize){
+    	
+    	var type = $("#type").val();
+    	var paramter = $("#paramter").val();
+    	var status = $("#status").val();
+    	$.ajax({
+    	  url:"@{transferDebts()}",
+    	  type:"POST",
+    	  data:{"pageNum" : pageNum,"pageSize" : pageSize,"type" : type,"status" : status,"paramter" : paramter},
+    	  success:function(data){$("#transferDebts").html(data);},
+		  error:function(){alert("对不起，出现错误!");}
+    	})
+    }
+	
+	
+	function changeStyle1(){
+		$("#showTransferDebts").removeClass("xf_con_wyjk_r_liishot");
+		$("#showReceiceDebts").addClass("xf_con_wyjk_r_liishot");
+	}
+	function changeStyle2(){
+	    $("#showReceiceDebts").removeClass("xf_con_wyjk_r_liishot");
+		$("#showTransferDebts").addClass("xf_con_wyjk_r_liishot");
+	}
+</script>

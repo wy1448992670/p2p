@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/site.css'}" />	
+<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/yystyle1.css'}" />	
+<title>免费注册</title>
+</head>
+<body>
+<div class="y_p2psj">
+    <!-- top -->
+    <header class="p_mhead">
+        <span>免费注册</span>
+    </header>
+    <!-- cenetr -->
+    #{form @front.account.loginAndRegisterAction.appRegMobile(), id:'appReg'}
+    <article class="p_minheight p_bgf7">
+        <section class="p_dlinpbox">
+            <div class="p_dlincon">
+                <span class="p_foico01 p_bg"></span>
+                <input type="text" class="p_dlin01" id="mobile" name="mobile" placeholder="手机号码">
+            </div>
+            <div class="p_dlincon">
+                <span class="p_dlico01 p_bg"></span>
+                <input type="text" class="p_dlin01" name="name" placeholder="用户名">
+            </div>
+            <div class="p_dlincon">
+                <span class="p_dlico02 p_bg"></span>
+                <input type="password" class="p_dlin01" id="password" name="password" placeholder="密码">
+                <div class="p_zc_icon p_bg clicked"><i class="p_bg clicked" style="left: 0px;"></i></div>
+            </div>
+            <div class="p_dlincon">
+                <span class="p_foico02 p_bg"></span>
+                <input type="text" class="p_foin01" name="smsCode" placeholder="短信验证码">
+                <a href="###" class="p_fohuoq" id="sendSmsCode" onclick="sendCode()">获取验证码</a>
+            </div> 
+            <div class="p_dlincon">
+                <span class="p_wsico01 p_bg"></span>
+                <input type="text" class="p_dlin01" name="recommendName" value="${recommendName}" placeholder="推荐人" readonly="readonly">
+            </div>
+        </section>
+        <section class="p_dlbtnbox">
+            <a href="###" class="p_czbtn" id="reg">注册</a>
+        </section>
+    </article>
+    #{/form}
+    <!-- footer -->
+    <footer class="p_infoot">
+        
+        <div class="p_ft_apbox flex">
+            <div class="flex-1">
+                <a href="@{app.AppController.download()}"" class="p_ft_alin">
+                    <span class="p_ft_ap01"><span class="p_bg"></span></span>
+                    <span class="p_ft_apword">客户端</span>
+                </a>
+            </div>
+            <div class="flex-1">
+                <a href="@{front.home.HomeAction.home}" class="p_ft_alin">
+                    <span class="p_ft_ap02"><span class="p_bg"></span></span>
+                    <span class="p_ft_apword">电脑版</span>
+                </a>
+            </div>
+        </div>
+        <div class="p_ft_banquan">版权所有 © 亿亿理财安全系统  沪ICP备案15054793号</div>
+    </footer>
+</div>
+<script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/common.js'}"></script>
+</body>
+<script type="text/javascript">
+
+
+var remain = 60;
+
+function countDown() {
+  if (remain == 0) {
+    remain = 60;
+    $("#sendSmsCode").html("点击发送");
+    $("#sendSmsCode").attr("onclick", "sendCode();");
+    $("#sendSmsCode").attr("style", "cursor:pointer");
+
+    return;
+  }
+
+  $("#sendSmsCode").html("" + remain-- + "秒后重发");
+  setTimeout("countDown()",1000);
+}
+function sendCode() {
+	  var mobile = $("#mobile").val();
+	  if(mobile == "") {
+	    alert("请输入手机号码后，再获取验证码");
+	    return;
+	  }
+	  
+	  $.ajax({
+		  url : "@{sendSmsCode()}",
+		  type : "POST",
+		  data : {
+			  "mobile" : mobile,
+			  'send' : true
+		  },
+		  dataType:'json',
+		  success : function(data) {
+			  if(data.code < 0){
+				  alert(data.msg);
+			  }else{
+				  countDown();
+				  $("#sendSmsCode").attr("onclick", "void(0);");
+				  $("#sendSmsCode").attr("style", "cursor: default");
+			  }
+			},
+		  error : function() {
+		    alert("对不起，出现错误!");
+		  }
+		 });
+	}
+$(function(){
+	
+	$('#reg').click(function(){
+		if($(this).attr('disabled') == 'disabled'){
+			return;
+		}
+		$(this).attr('disabled','disabled');
+		
+		$.ajax({
+			  url : "@{front.account.LoginAndRegisterAction.appRegMobile()}",
+			  type : "POST",
+			  data : $('#appReg').serialize(),
+			  dataType:'json',
+			  success : function(data) {
+				  if(data.code < 0){
+					  alert(data.msg);
+					  $('#reg').removeAttr('disabled');
+				  }else{
+					  alert('注册成功');
+					  //location.href = 'http://appstore.qiwangyun.com/lab/sp2p_Test/download.html';
+					  location.href = '@{app.AppController.download()}';
+				  }
+				},
+			  error : function() {
+			    alert("对不起，出现错误!");
+			  }
+			 });
+		
+	});
+	
+	
+	//导航js
+	$('.p_hebtn').click(function(){
+		if ($('.p_nav').is(':hidden')) {
+			$(this).children('span').children('i').animate({'top': '17px'},100, function() {
+				$('.p_hebtn').children('span').addClass('click');
+				$('.p_nav').slideDown();
+			});
+		}else{
+			$(this).children('.p_hxtop').children('i').animate({'top': '13px'}, 500);
+			$(this).children('.p_hxbot').children('i').animate({'top': '21px'}, 500);
+			$('.p_hebtn').children('span').removeClass('click');
+			$('.p_nav').slideUp();
+		};
+	});
+	
+	//边距处理
+	$('.p_ft_link div:last a').css('border-right', 'none');
+	//最小高度处理
+	var heit = $(window).height();
+	$('.p_minheight').css('min-height', heit-201+'px');
+	
+	//注册 按钮  js
+	$('.p_zc_icon').click(function() {
+		var ico = $(this).children('i'),
+			num = ico.position().left;
+		if (num==23) {
+			$('#password').attr('type','password');
+			ico.animate({left: 0},180, function() {
+				$(this).addClass('clicked');
+				$('.p_zc_icon').addClass('clicked');
+			});
+		}else{
+			$('#password').attr('type','text');
+			$('.p_zc_icon').removeClass('clicked');
+			ico.animate({left: '23px'},180, function() {
+				$(this).removeClass('clicked');
+			});
+		};
+	});
+	//通用选项卡 xxk
+	function tab(li,tabox,name){
+		li.eq(0).addClass(name);
+		tabox.eq(0).show();
+		li.click(function(){
+			$(this).addClass(name).siblings().removeClass(name);
+			tabox.hide().eq($(this).index()).show();
+		})
+	}
+	tab($(".p_lctop div"),$(".p_lctabox"),"on");
+
+})
+</script>
+</html>

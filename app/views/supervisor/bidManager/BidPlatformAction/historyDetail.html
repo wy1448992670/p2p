@@ -1,0 +1,27 @@
+<div class="xf_ht_tab_view">
+ #{table class:"xf_con_view_table", cellspacing:"0", cellpadding:"0", border:"0", width:"100%"}
+    #{tr}
+      #{td class:"xf_pcir_ltitle"}历史情况#{/td}
+      #{td}
+      	#{table class:"xf_view_table_lm", cellspacing:"0", cellpadding:"0", border:"0"}
+      	  #{tr}
+      	    #{td width:"262"}注册时间：${time?.format('yyyy-MM-dd')}#{/td}
+      	    #{td width:"250"}成功借款次数：${historySituationMap?.successBidCount}次#{/td}
+      	  #{/tr}
+      	  #{tr}
+      	    #{td}正常还款次数：${historySituationMap?.normalRepaymentCount}次#{/td}
+      	    #{td}逾期还清次数：${historySituationMap?.overdueRepaymentCount}次#{/td}
+      	  #{/tr}
+      	  #{tr}
+      	    #{td}待付款金额：${historySituationMap?.pendingRepaymentAmount}元#{/td}
+      	    #{td}共计借入金额：${historySituationMap?.loanAmount}元#{/td}
+      	  #{/tr}
+      	  #{tr}
+      	    #{td}理财投标笔数：${historySituationMap?.financialCount}笔#{/td}
+      	    #{td}待收款金额：${historySituationMap?.receivingAmount}元#{/td}
+      	  #{/tr}
+      	#{/table}
+      #{/td}
+  	#{/tr}
+  #{/table}
+</div>

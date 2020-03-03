@@ -1,0 +1,80 @@
+<div class="xn_c_ban_jox" id="xf_ht_hf_obu_width" style="display:none; overflow: auto;">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_ht_ptjbk_shok_bottom">
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jbox_znx" width="100%">
+        <tr>
+          <td align="right" width="112">发信人：</td>
+          <td>${msg?.senderUserName}</td>
+        </tr>
+        <tr>
+          <td align="right" width="112">发信时间：</td>
+          <td>${msg?.time?.format("yyyy-MM-dd HH:mm:ss")}</td>
+        </tr>
+        <tr>
+          <td align="right" width="112">标题：</td>
+          <td>${msg?.title}</td>
+        </tr>
+        <tr>
+          <td align="right" width="112" valign="top">内容：</td>
+          <td>${msg?.content}</td>
+        </tr>
+        <tr>
+          <td align="right" width="112" valign="top">回复内容：</td>
+          <td><textarea id="content" class="xf_ht_jr_halp_textarea" style="height:150px; width: 420px;overflow:auto;"></textarea></td>
+        </tr>
+        <tr>
+          <td align="right" width="112" valign="top">回复人：</td>
+          <td>${supervisor?.name}</td>
+        </tr>
+        <tr>
+          <td align="right">&nbsp;</td>
+          <td style="padding:20px 0 40px 0;">
+            <input class="xf_ht_tcc_button_ok" type="button" value="回  复">
+            <input class="xf_ht_tcc_button_on" type="button" value="返  回">
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function() {
+    //回复
+    $(".xf_ht_tcc_button_ok").click(function() {
+      var content = $("#content").val().trim();
+		
+      if ("" == content || content.length > 300) {
+    	alert("站内信内容需在1~300字之间!");
+
+        return;
+      }
+
+      $.ajax({
+        url : "@{reply()}",
+        type : "POST",
+        data : {
+          "id" : ${msg.id},
+          "title" : '回复:'+'${msg.title}',
+          "content" : content
+        },
+        success : function(data) {
+          if (data.code < 0) {
+            alert(data.msg);
+
+            return;
+          }
+
+          location.reload();
+        },
+        error : function() {
+          alert("对不起，出现错误!");
+        }
+      });
+    });
+
+    //返回
+    $(".xf_ht_tcc_button_on").click(function() {
+      layer.closeAll();
+    });
+  });
+</script>

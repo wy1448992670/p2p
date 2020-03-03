@@ -1,0 +1,59 @@
+%{
+	boolean debtUse = constants.Constants.DEBT_USE;
+}%
+<!-- 记录标的详情(ID和上一个下一个标示) -->
+<input name="bidId" id="bidId" type="hidden" value="${bid?.id}"/>
+<input name="upNextFlag" id="upNextFlag" type="hidden" value="${bid?.upNextFlag}"/>
+<input name="overBorrowId" id="overBorrowId" type="hidden" value="${auditingOverBorrow?.id}"/>
+<div class="xn_c_content_left">
+  <div class="xn_c_content_leftul">
+    <ul>
+		<li>
+			<div class="xn_c_li_head_one">
+				<div class="xn_c_li_bg" id="lab_1"></div>加息设置
+			</div>
+			<div class="xn_c_li_head_two" id="hi_1">
+				<a id="mg_1" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.BidPlatformAction.ratesList()}">加息审核</a>
+				<a id="mg_2" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.BidPlatformAction.ratesList()}">加息汇总</a>
+				<a id="mg_3" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.BidPlatformAction.ratesList()}">加息明细</a>
+			</div>
+		</li>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_2"></div>红包管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_2">
+				  <a id="mg_8" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.BidAgencyAction.agencyBidList()}"></a>
+          <a id="mg_9" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.BidAgencyAction.agencyBidList()}"></a>
+        </div>
+      </li>
+
+               <!--  -->
+     <!--#{if debtUse}
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_3"></div>加息券管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_3">
+           <a id="mg_11" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.DebtTransferAction.DebtTransferPending()}">加息券管理</a>
+        </div>
+      </li>
+     #{/if}-->
+    <!--标的加息统计-->
+     #{if debtUse}
+     <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_3"></div>标的加息统计
+        </div>
+        <div class="xn_c_li_head_two" id="hi_3">
+           <a id="mg_11" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.DebtTransferNewAction.debtTransferPendingNew()}">标的加息统计</a>
+        </div>
+      </li>
+     #{/if}
+     </ul>
+   </div>
+   <div class="xn_c_con_leftbutton">
+     <div class="xn_c_con_enimg">导航点击</div>
+   </div>
+</div>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_mg_active.js'}"></script>

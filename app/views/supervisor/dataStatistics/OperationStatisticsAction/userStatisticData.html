@@ -1,0 +1,269 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'会员数据统计分析对比' /}
+
+<script type="text/javascript">
+$(function(){
+	/* 高亮显示 */
+	  showHighLight(2, 2, 6);
+})
+</script>
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/dataStatistics/statisticLeft.html"/}
+    <div class="xn_c_content">
+      <div class="xf_ht_tablelist">
+                 <!-- 列表内容 -->
+		    <div  class="xn_c_content_top">
+			    <ul class="s_datacomparelist">
+		         <li>
+		            <dl>
+		                <dt>新增会员数（${member?.new_member}）</dt>
+		                <dd class="appline">
+		                    <span class="listl">PC端：</span>
+		                    #{if member?.new_member == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${member?.new_member_pc / member?.new_member * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${member?.new_member_pc}人</span>
+		                </dd>
+		                <dd class="pcline">
+		                    <span class="listl">APP端：</span>
+		                    #{if member?.new_member == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${member?.new_member_app / member?.new_member * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${member?.new_member_app}人</span>
+		                </dd>
+		                <dd class="wxline">
+		                    <span class="listl">微信端：</span>
+		                    #{if member?.new_member == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${member?.new_member_wechat / member?.new_member * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${member?.new_member_wechat}人</span>
+		                </dd>
+		            </dl>
+		        </li>
+		         <li>
+		            <dl>
+		                <dt>新增充值会员数（${member?.new_recharge_member}）</dt>
+		                <dd class="appline">
+		                    <span class="listl">PC端：</span>
+		                    #{if member?.new_recharge_member == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${member?.new_recharge_member_pc / member?.new_recharge_member * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${member?.new_recharge_member_pc}人</span>
+		                </dd>
+		                <dd class="pcline">
+		                    <span class="listl">APP端：</span>
+		                    #{if member?.new_recharge_member == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${member?.new_recharge_member_app / member?.new_recharge_member * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${member?.new_recharge_member_app}人</span>
+		                </dd>
+		                <dd class="wxline">
+		                    <span class="listl">微信端：</span>
+		                    #{if member?.new_recharge_member == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${member?.new_recharge_member_wechat / member?.new_recharge_member * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${member?.new_recharge_member_wechat}人</span>
+		                </dd>
+		            </dl>
+		        </li>
+		        <li>
+		            <dl>
+		                <dt>新增会员充值占比（${member?.new_member_recharge_rate * 100}%）</dt>
+		                <dd class="appline">
+		                    <span class="listl">PC端：</span>
+		                    #{if member?.new_member_recharge_rate == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${member?.new_member_recharge_rate_pc / member?.new_member_recharge_rate * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${member?.new_member_recharge_rate_pc * 100}%</span>
+		                </dd>
+		                <dd class="pcline">
+		                    <span class="listl">APP端：</span>
+		                    #{if member?.new_member_recharge_rate == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${member?.new_member_recharge_rate_app / member?.new_member_recharge_rate * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${member?.new_member_recharge_rate_app * 100}%</span>
+		                </dd>
+		                <dd class="wxline">
+		                    <span class="listl">微信端：</span>
+		                    #{if member?.new_member_recharge_rate == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${member?.new_member_recharge_rate_wechat / member?.new_member_recharge_rate * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${member?.new_member_recharge_rate_wechat * 100}%</span>
+		                </dd>
+		            </dl>
+		        </li>
+		        <li>
+		            <dl>
+		                <dt>新增VIP会员数（${member?.new_vip_count}）</dt>
+		                <dd class="appline">
+		                    <span class="listl">PC端：</span>
+		                    #{if member?.new_vip_count == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${member?.new_vip_count_pc / member?.new_vip_count * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${member?.new_vip_count_pc}人</span>
+		                </dd>
+		                <dd class="pcline">
+		                    <span class="listl">APP端：</span>
+		                    #{if member?.new_vip_count == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${member?.new_vip_count_app / member?.new_vip_count * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${member?.new_vip_count_app}人</span>
+		                </dd>
+		                <dd class="wxline">
+		                    <span class="listl">微信端：</span>
+		                    #{if member?.new_vip_count == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${member?.new_vip_count_wechat / member?.new_vip_count * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${member?.new_vip_count_wechat}人</span>
+		                </dd>
+		            </dl>
+		        </li>
+		        <li>
+		            <dl>
+		                <dt>累计会员数（${member?.member_count}）</dt>
+		                <dd class="appline">
+		                    <span class="listl">PC端：</span>
+		                    #{if member?.member_count == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${member?.member_count_pc / member?.member_count * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${member?.member_count_pc}人</span>
+		                </dd>
+		                <dd class="pcline">
+		                    <span class="listl">APP端：</span>
+		                    #{if member?.member_count == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${member?.member_count_app / member?.member_count * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${member?.member_count_app}人</span>
+		                </dd>
+		                <dd class="wxline">
+		                    <span class="listl">微信端：</span>
+		                    #{if member?.member_count == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${member?.member_count_wechat / member?.member_count * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${member?.member_count_wechat}人</span>
+		                </dd>
+		            </dl>
+		        </li>
+		        <li>
+		            <dl>
+		                <dt>会员活跃度（${member?.member_activity}%）</dt>
+		                <dd class="appline">
+		                    <span class="listl">PC端：</span>
+		                    #{if member?.member_activity == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${member?.member_activity_pc / member?.member_activity * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${member?.member_activity_pc}%</span>
+		                </dd>
+		                <dd class="pcline">
+		                    <span class="listl">APP端：</span>
+		                    #{if member?.member_activity == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${member?.member_activity_app / member?.member_activity * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${member?.member_activity_app}%</span>
+		                </dd>
+		                <dd class="wxline">
+		                    <span class="listl">微信端：</span>
+		                    #{if member?.member_activity == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${member?.member_activity_wechat / member?.member_activity * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${member?.member_activity_wechat}%</span>
+		                </dd>
+		            </dl>
+		        </li>
+		        <li>
+		            <dl>
+		                <dt>VIP会员数（${member?.vip_count}）</dt>
+		                <dd class="appline">
+		                    <span class="listl">PC端：</span>
+		                    #{if member?.vip_count == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${member?.vip_count_pc / member?.vip_count * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${member?.vip_count_pc}人</span>
+		                </dd>
+		                <dd class="pcline">
+		                    <span class="listl">APP端：</span>
+		                    #{if member?.vip_count == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${member?.vip_count_app / member?.vip_count * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${member?.vip_count_app}人</span>
+		                </dd>
+		                <dd class="wxline">
+		                    <span class="listl">微信端：</span>
+		                    #{if member?.vip_count == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${member?.vip_count_wechat / member?.vip_count * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${member?.vip_count_wechat}人</span>
+		                </dd>
+		            </dl>
+		        </li>
+		    </ul>
+		  </div>                   
+    </div>
+   </div>
+  </div>
+</div>
+

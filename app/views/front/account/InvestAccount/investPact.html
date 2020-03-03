@@ -1,0 +1,33 @@
+%{
+business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /}
+#{set title:currBackstageSet.seoTitle + ' | 我的账户   | 投资子账户  | 投资合同'/}
+<!-- 内容区域 start -->
+<div class="xf_con_box">
+<div class="xf_con_mem_nav"></div>
+<!-- 左边导航区域 -->
+#{include "front/account/AccountHome/homeLeft.control"/}
+<!-- 右侧内容区域 我的借款账单 -->
+${pact?.raw()}
+<!-- 清除浮动 -->
+<div class="clear"></div>
+</div>
+<!-- 内容区域 end -->
+<script type="text/javascript">
+<!--
+	$(function(){
+		/* 高亮显示 */
+		#{if type == 1}
+			showHighLightFront(18);
+			showHighLightFront2(7, 4);
+		#{/if}
+		#{else}
+			showHighLightFront(19);
+			showHighLightFront2(7, 4);
+		#{/else}
+	});
+//-->
+</script>
+<script type="text/javascript"
+src="@{'/public/javascripts/tab/tab_usr.js'}"></script>

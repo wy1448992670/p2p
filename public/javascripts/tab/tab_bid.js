@@ -1,0 +1,3 @@
+$(function(){
+	$('#bid').toggleClass("click");
+});

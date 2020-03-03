@@ -1,0 +1,158 @@
+<object
+  id="eims"
+  classid="clsid:2D37D5F7-B18B-4E8E-8B3C-F26171922C16"
+  codebase="/public/ActiveLoginProj1.ocx#version=1,0,0,0"
+  width=0
+  height=0
+  align=center
+  hspace=0
+  vspace=0 >
+</object>
+#{form @supervisor.login.LoginAction.login(), id:'submit'}
+<input type="hidden"  name="flag" id="adminId"/>
+<div class="xfht_content">
+  <div class="login_warp">
+    <div class="login_inputj">
+      <ul>
+        <li>
+          <div class="login_warp_lil">用户名：</div>
+          <div class="login_warp_lir"><input type="text" class="login_in_c" id="name" name="name" value="${flash.name}"></div>
+        </li>
+        <li>
+          <div class="login_warp_lil">密码：</div>
+          <div class="login_warp_lir"><input type="password" class="login_in_c" id="password" name="password"></div>
+        </li>
+        <li>
+          <div class="login_warp_lil">验证码：</div>
+          <div class="login_warp_lir">
+            <input type="text" class="login_in_y" name="captcha">
+			<input id="randomID" name="randomID" value="${randomID}" type="hidden" />
+            <span class="login_yzimg"><img id="captchaImage" src="@{Application.captcha(randomID)}" style="width: 60px;height: 30px;" alt="验证码" onclick="refreshCaptcha();"></span>
+            <span class="login_sx" onclick="refreshCaptcha()">刷新</span>
+          </div>
+        </li>
+        <li class="login_warp_lirtx">
+          <div class="login_warp_lil">&nbsp;</div>
+            <div class="login_warp_lir" id="show">
+              #{if flash.error}${flash.error}#{/if}
+            </div>
+        </li>
+        <li class="login_warp_lir_li">
+          <div class="login_warp_lil">&nbsp;</div>
+          <div class="login_warp_lir">
+            <div class="login_warp_lir_in">
+              <input type="button" class="login_warp_ago" value="安全登录" onclick="validate();">
+              <input type="button" class="login_warp_dow" value="下载控件" onclick="loadActiveX();">
+            </div>
+          </div>
+        </li>
+      </ul>
+      <div class="login_tx">
+        <img src="@{'/public/images/login_aq.gif'}" alt="安全认证">&nbsp; 您的信息将通过128位SGC加密保护数据传输安全（请在IE7以上浏览器下访问）
+      </div>
+    </div>
+  </div>
+</div>
+#{/form}
+<script type="text/javascript" src="@{'/public/javascripts/layer/layer.min.js'}"></script>
+<script type="text/javascript">
+	$(function(){
+	    getCity();
+	    
+	    //var Result = document.getElementById("eims").checkUkey();
+		//if(Result == ''){
+		 //  $("#pageControl").hide();
+		//}
+	    
+	    /*$("#download").hide();
+  $(function(){
+    getCity();
+
+  /*$("#download").hide();
+	try{  
+	  if(document.all.eims.object == null){
+	    layer.msg('云盾控件不存在，您还不能使用云盾功能！请点击下载控件按钮!', 3, 4);  
+	  }else{ 
+	    $("#show").html("提示：当前安全云盾已成功识别！"); 
+	  }  
+	}catch(e){
+	  layer.msg('云盾控件不存在，您还不能使用云盾功能！请点击下载控件按钮!', 3, 4);  
+	}*/
+  });
+	
+  function getCity() {
+    $.ajax({
+	  url : "@{supervisor.login.LoginAction.ipLocation()}",
+	  type : "GET",
+	  data : {
+	  },
+	  success : function(data) {
+	    $("#city").val(data);
+	  },
+	  error : function() {
+	  $("#city").val("未知区域");
+	  }
+	});
+  }
+	
+  function refreshCaptcha() {
+    $.ajax({
+	  url : "@{Application.randomID()}",
+	  type : "POST",
+	  data : {
+	  },
+	  success : function(randomID) {
+	    $("#captchaImage").attr("src","@{Application.captcha()}?id="+randomID);
+		  $("#randomID").val(randomID);
+		},
+	  error : function() {
+	    alert("对不起，出现错误!");
+	  }
+	 });
+  }
+	
+  function validate(){
+    var name = $("input[name='name']").val().trim();
+	var password = $("input[name='password']").val().trim();
+	var protocol = window.location.protocol;// 获取 协议部分
+	var host = window.location.host;//获取域名
+	var url = protocol + "//" + host;
+		
+  //var Result =  document.getElementById("eims").into(name,password,url);
+  //$("#adminId").val(Result);
+	if("" == name){
+	  $("#show").html("请输入用户名!");
+	  $("input[name='name']").focus();
+	  
+	  return false;
+	}
+		
+	if ("" == password) {
+	  $("#show").html("请输入密码!");
+	  $("input[name='password']").focus();
+	  
+	  return false;
+    }
+		
+	var captcha = $("input[name='captcha']").val().trim();
+	if ("" == captcha) {
+	  $("#show").html("请输入验证码!");
+	  $("input[name='captcha']").focus();
+			
+	  return false;
+	}
+		
+    $("#submit").submit();
+  }
+	
+  function loadActiveX(){
+    layer.msg('控件下载完毕后请刷新页面!', 3, 4);
+    window.open("/dlWidget");
+  }
+     
+  $(document).keyup(function(event){
+    if(event.keyCode == 13){
+	  validate();
+    }
+  });
+</script>

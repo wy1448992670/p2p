@@ -1,0 +1,174 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'用户中心' /}
+
+<div class="xn_c_contentwarp">
+	<div class="xn_c_contentlist">
+		<div class="xn_c_content" style="float: none;margin: 0px auto;">
+			<div class="xf_content_add">
+				<div class="xfht_t_j_y_2">
+					<!--右上-->
+					<div class="xf_ht_obu_fklm">
+						基本资料
+					</div>
+					<!-- 借款标基本信息 -->
+					<div class="xf_ht_news_content">
+						<div class="xf_ht_news_content_t">
+							<table border="0" width="100%" cellspacing="0" cellpadding="0" class="xf_ht_news_content_t_t">
+								<tr>
+									<td align="center" valign="middle" style="padding-right:5px;" colspan="2">
+										HI，${supervisor?.realityName}：欢迎您登录网贷后台管理系统！
+										<br/>
+										<font color="red">${supervisor?.realityName}初次登录必须修改密码，非初次登录无需修改密码，则不填写密码栏任一项。</font>
+									</td>
+								</tr>
+								<tr>
+									<td width="300" align="right" valign="middle" style="padding-right:5px;">管理员等级：</td>
+									<td>
+										${supervisor?.level ==0 ? "普通管理员" : "超级管理员" }
+									</td>
+								</tr>
+								<tr>
+									<td width="300" align="right" valign="middle" style="padding-right:5px;">权限组：</td>
+									<td>
+										${supervisor?.groupNames}
+									</td>
+								</tr>
+								<tr>
+									<td width="300" align="right" valign="middle" style="padding-right:5px;">原始密码：</td>
+									<td>
+										<input  id="oldPassword" type="password" class="xfht_zr_input"style="width:400px;">
+									</td>
+								</tr>
+								<tr>
+									<td width="300" align="right" valign="middle" style="padding-right:5px;">新密码：</td>
+									<td>
+										<input id="password1" type="password" class="xfht_zr_input" style="width:400px;">
+									</td>
+								</tr>
+								<tr>
+									<td width="300" align="right" valign="middle" style="padding-right:5px;">确认密码：</td>
+									<td>
+										<input id="password2" type="password" class="xfht_zr_input" style="width:400px;">
+									</td>
+								</tr>
+								<tr>
+									<td width="300" align="right" valign="middle" style="padding-right:5px;">真实姓名：</td>
+									<td>
+										<input id="realityName" value="${supervisor?.realityName}" class="xfht_zr_input" type="text" style="width:400px;">
+									</td>
+								</tr>
+								
+								<tr>
+									<td width="300" align="right" valign="middle" style="padding-right:5px;">手机：</td>
+									<td>
+										<input id="mobile1" class="xfht_zr_input" type="text" value="${supervisor?.mobile1}" style="width:400px;">
+									</td>
+								</tr>
+								
+								<tr>
+									<td width="300" align="right" valign="middle" style="padding-right:5px;">邮箱：</td>
+									<td>
+										<input id="email" class="xfht_zr_input" type="text" value="${supervisor?.email}" style="width:400px;">
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div class="xf_ht_news_content_button" colspan="4">
+							<input class="xf_ht_tcc_button_ok" type="button" onclick="editSupervisor();" value="确  定">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+//确定(编辑管理员)
+function editSupervisor() {
+	
+	var oldPassword = $("#oldPassword").val().trim();
+	var password1 = $("#password1").val().trim();
+	var password2 = $("#password2").val().trim();
+	
+	if(password1 != '' || password2 != '') {
+		if ("" == password1) {
+			alert("请输入新密码!");
+			$("#password1").focus();
+				
+			return;
+		}
+		
+		
+		if ("" == password2) {
+			alert("请输入确认新密码!");
+			$("#password2").focus();
+				
+			return;
+		}
+		
+		if (password1 != password2) {
+			alert("新密码与确认新密码不一致!");
+				
+			return;
+		}
+	}
+	
+	var realityName = $("#realityName").val().trim();
+		
+	if ("" == realityName) {
+		alert("请输入真实姓名!");
+		$("#realityName").focus();
+			
+		return;
+	}
+
+
+		
+	var mobile1 = $("#mobile1").val().trim();
+		
+	if ("" == mobile1) {
+		alert("请输入手机!");
+		$("#mobile1").focus();
+			
+		return;
+	} else if (!mobile1.isMobileNum()) {
+		alert("手机格式不正确，请重新输入");
+		$("#mobile1").focus();
+			
+		return;
+	}
+		
+	var email = $("#email").val().trim();
+		
+	if ("" == email) {
+		alert("请输入邮箱!");
+		$("#email").focus();
+			
+		return;
+	} else if (!email.isEmail()) {
+		alert("邮箱格式不正确，请重新输入");
+		$("#email").focus();
+			
+		return;
+	}
+		
+	$.ajax({
+		url : "@{editSupervisor()}",
+		type : "POST",
+		data : {
+			"oldPassword" : oldPassword,
+			"password" : password1,
+			"realityName" : realityName,
+			"mobile1" : mobile1,
+			"email" : email
+		},
+		success : function(data) {
+			alert(data.msg);
+		},
+		error : function() {
+			alert("对不起，出现错误!");
+		}
+	});
+}
+</script>

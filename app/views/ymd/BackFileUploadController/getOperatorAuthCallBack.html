@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>认证</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<meta name="keywords" content="亿亿理财" />
+<meta name="description" content="亿亿理财">
+<meta name="author" content="亿亿理财" />
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<style media="screen">
+html,body,div,strong,span,form,ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5,h6,table,tr,td,th,tbody,thead,input,textarea,select,fieldset,p,hr{margin:0;padding:0;font-family:"Microsoft Yahei";}
+body{line-height:16px;color:#000;font-size:12px;font-family:"Microsoft Yahei";}
+button,input,select,textarea{margin:0;border:0;font-weight:inherit;vertical-align:baseline;*vertical-align:middle;outline:none}
+  div{margin:0 auto}
+  .td_box{width: 100%; min-width: 320px; }
+  .m_item{width: 100%;}
+  .m_item>img{width: 100%;}
+  .goLinkClick{
+    width: 100%;background: #555AFF !important;height: .8rem;font-size: .36rem;color: white;border-radius: 4px;
+  }
+</style>
+<!--rem start-->
+<script type="text/javascript">
+    new function (){
+        var _self = this;
+        _self.width = 750;//设置默认最大宽度
+        _self.fontSize = 100;//默认字体大小
+        _self.widthProportion = function(){var p = (document.body&&document.body.clientWidth||document.getElementsByTagName("html")[0].offsetWidth)/_self.width;return p>1?1:p<0.5?0.5:p;};
+        _self.changePage = function(){
+            document.getElementsByTagName("html")[0].setAttribute("style","font-size:"+_self.widthProportion()*_self.fontSize+"px !important");
+        }
+        _self.changePage();
+        window.addEventListener('resize',function(){_self.changePage();},false);
+    };
+    window.onload = function(){
+      //认证
+      document.querySelector('.goLinkClick').onclick = function(){
+        if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+			// 认证成功点击
+			if(parseInt(document.getElementById('status').value)){
+				succeed(); //IOS
+				control.authsuccee(); //android
+			}else{
+				console.log('失败');
+				// 认证失败点击
+				restartAuth();//ios
+				control.authfailed();
+			}
+         
+          }
+      }
+    }
+   function succeed(){}
+   function restartAuth(){}
+  
+</script>
+<!--rem end-->
+</head>
+<body>
+  <input id="status" type="hidden" value="1" />
+<div class="td_box">
+    <div class="m_item" style="padding: 1.51rem 0 2.23rem 0;text-align: center;">
+      <img id="statusIMG" style="width:2.21rem;height:1.35rem" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG8AAABECAMAAAC4cJunAAACTFBMVEUAAAAgIP/S1ePV1eFOUv9GRv9aXf/Pz/rl5fJFUP/19f9VWf9PUv9QVP9VWv/9/f/9/f/w8P9UWv/n5//////w8P/7+//6+v/u8veOk/////9UWv/////3+P9VWv/5+f/+/v/x8f/9/f9UWv9UWv/39/9UWf/////+/v/////o6P/19//t7fT39/+4uP/+/v9VWv/u7//9/f/t7f////9VWf/29/9UWf/w8P9VWv/T1ONVWf////9UWv////9UWf/q6//19v/////o6P////9UWf/n5//u7v9VWf/g4P/////U1P/////N0P9RWP/q6v+urv9VWf/////9/f/y8v/t7f9VWv/S1OP////S1OTr6//////t7f/+/v/r7P/29v/r6//+/v/t7//////////l5//n5/9UWf/4+P/29v9UWf9UWf9WW/9VWv/////Q1OJWW//V2v9TWP/d4utVWv/S1OP////+/v/8/P/6+/9WW//3+P/5+f/s7f/29v/l5v/k5P/r6//c3f/e3//b2//Z2v/n6P/P0P9ZXv/t7v/09f/z8//w8f/j4//i4v9mav/p6f/U1f/Fxv+9v//v7//u7//Y2f+Xmv/x8v+cn/+Ul/+Okf+Dhv94fP9eY//y8v/R0v/Iyv+5u/+2uP+ztv+xs/+rrv+oq/+jpv+RlP+JjP97fv92ev9hZv9cYf/c3urLzf/GyP/Awv+ZnP+EiP+Ag/9xdv9rb//p6vHY2ebT1eTg4f+tsP+go/9ucv/19v/Jy/+7vf/6+vzu7vUlpaCsAAAAdHRSTlMAAsErBQMLBQIJ/hcOB/tEPf7gaU08MyMODQn47+fn4MfEraGaloRxYVtNKBcTEPbu7ejn4tnRz8vLyMK6t7Gtp56Be3d1XldJRDgxLSYiHhwbGvv49vHu6ejc29rXzcK8tKqcl5aVj45samdlXVVHOzc3NLNkHSAAAATvSURBVFjDzdZlV9tQGMDxdKsBg8FgyNzd3d3d3d31rrlppKl7aZGhQ4aMbcDQjbl9sd3kdFBPSMrO/i9yeF79zhOacy+WjE4/E9uapHjPxIdxjfrHHsDCUt+/lzaE3igAwIRQbiWa0wbvaYLTvEHutwugpg3e6x8FvQnR3tSh8qIbgV7wiQP/zEPgjJtxOU1eZs7sWbMfjNw3P9LTBqd8AU902tyZ63Bdf8uu5cwXWEiOd3DmKU7BcRxCiJ68vGGkdmi8vKuIQhJBW+ydRUUdAS/JqWjLHG3yvfwtSIPQ2VHZBvp722AiOPLsnmR7meOQRlirQGSFxeWc2PcpmZ5mG6+9ALHSN7qQ+Otj8rwxU3AcZlWCeLXXEUh8lyxvzCS0XMABEtTNQFwnEhTDUS9B4j44uQ2HJWiNSE8zBYfkKyBUuw2Bc7EEifRmou0QJ5jDCPGF+bK9XBwSL4GY2mohvk4r0xszDhLPgbh6SYjnyPS24USJA4ismIL40+FxeijGO4JDsgyIzkbgfSK+B9WTaVMfKWN50yFhAeKrJiH+UdBTbQSLFoH1McB5OMG8FVT01VXtwT/NFOwT9O6A7Rh2Fz2imgUpizBn1ulIR3BBhoCfhLy1qzEUekamXUIwr0VwqMLgZKDgOyFv5XoMtXF5lDcXUkZBzsRxsCY4NpDwt5A3LQNdbdMyou9/syFpF8Xhrf3HoUvwhWJpYzNmzBg79nCUd5lILRPgLGEciiVh4l/oSbTb8oyMUdGc9ijlbkvsWXku9BwOMDATk9YRSBoSc891XKEc+OIitkj09hGMNSEX4LnwD/SNm9og0dtDpIb8XGoaqyO4uhgc+OYhz0v0RhKu+oF7GLpoFoHQ7DzXG3nuZpHjpHsDQpUOVQwG6uC5ahBZCQmlepS7c+CCouMaOHnr+bkninOUMgslepmUux7095oHmoJTET+9AVEVOpklEr1cym0HA5VxAt4MuLriceBFKTNJopdHuEO/B30FD7ZwBznPVYEYVZaSmyV6+YTLAELBFh6sAC95LvbJUVxCzpLoKSamGlvDwFc8aOe5ONf7gIfMxSR2i3F+AWFgk+5vZSB2bC01T6qXSZbUgXCwIchVxOF6jK6JCqnefKrc0BYBFvPcVxCnTpq5jUlNMcVlbAIRYBHiWuJxDl8WmYdJbjTjtOgjwbJAD4hXs792hVa6pxnvsbUA8elN9PfRCumeYk4qbXKI95psnvEaTEaaiR7DT9HcBzOditaTkWJ0Ku17I9az2zwXNZgsTzW93G8pFMc1sE7moAKTBy4YX2qwi/oXVviM7p0qTGaquW6arRcBVpptnulKhVxPoZpTa/T+qBHiuk2GkskFiJMNKneUG7117xNzzWZD6YoF/NuUD+70GFlrdwKtsAhxkxeoFFhywN3HaNbcFW9F/Verz1ayuQBxyfEUyv2raNtnS2MsUV9mN7H+8uwUjksaWLA1y8iaLcWvayKuR80Bk89Gr9qr5Lmkiar0/Vecfvazydr1qqq10KHX13zrrWi0W0xeg3HxDrUyUpO/YvrjTU6/wWs2WazW5yirxWT2sX76XHaBwHISV1SmH8qe7DTaDKzX6/N5Wdbgp5fe2K1WCiwnZ8eUQ3O2brqw9DhNLz5z6Xr2XnUK2k2AkyOqEJmiVo9AqVNS0oUx+SaHcqmQpcD+//4Ap710Ns1y/UAAAAAASUVORK5CYII=" alt="成功"/>
+      <div id="statusColor" style="font-size:.48rem;color:#555AFF;margin-top:.27rem">认证成功!</div>
+    </div>
+
+    <div style="padding: 0 .48rem;">
+      <input class="goLinkClick" type="button" name="" value="下一步" >
+    </div>
+</div>
+<script type="text/javascript">
+	var status = "${resultString}"||"";
+    if(status!="success"){
+	  document.getElementById('status').value="0";
+	  var failed = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG8AAABECAMAAAC4cJunAAACXlBMVEUAAAD/BQXS1eP6LS3V1eHzLCz2Kir/Pj719fX//f3tKirvzc3zNDT/enr/p6fyMzPyMzPzMzP//f3//////f3////98fH18vXy8vL////////yNDTyMzP/9vb/+Pj+6+v//v7////zMzPzMzP////yMzP////yNDT//f3/+vrxNTX/9/f/qKj//f3+6+vS1OT//f3+6en////+6ur////+7+/+5+fzMzP////+5ub94uL////xMzP//f395OT////95OT93d3/6en+39/91tb//f3/7e3/7Oz9zMzt3+T5w8P2NDTyMzP+7+/+6en////yNDT////zNDTyNDT/+Pj+8PDT1OPS0+P+8/P////yNDT////xNDT/+Pj95+f97Oz/////+vr/8vL98PD//PzxNTX/8/P839/0NDT85ub/7+/Q1OL3MzP/0dH1MzP0MDD/8fHwMzPwNTX3oqL1k5PyNDTS1OP/////+/v//v7//f380tL+6Oj/9fX+8vL94uL/+Pj+9/f6vb3+7e3yNTX/+vr+8PD95ub93d394+PzQ0P/+fn+6+vzQED7xsb0Tk7yOTn+9PT919f81dXzSUnyOzv939/93Nz92Nj5pqb0VlbzRkbzPT3+7Oz+6ur92tr8zMz7ubn4ior6sLD3hob3fX30XFz+7+/c3un7u7v5nZ34mJj4k5P3goL1YGDY2ebT1eT81NT6v7/6tLT4lZX4jo74i4v2d3f1Z2f0UlLzS0vr6/L7yMj7wcH6trb5ra35oqL4kJD2cnL2bGz2amr6+vzv7vTn6O/95eX0WFjPZUL0AAAAdXRSTlMAAsEEKwsHBQQ8DgL6DAfgz5pgTTQlHhcOCfDv6efgzMmyooxxalhKRS4XExD67evo5+Lb2cW/s6yrlpSBf3t3amdXTERCPjoxLyYb/vj29fHp49fR0cnGw8DAuravoqCcnJmYiYNsYF1cTkc8NzIwJSMiHhpBYKJSAAAFJElEQVRYw83WZXfaUBjA8WQMaNeuc3d3d3d3d3fXZwkhJGF4obRAC6Vdbaus3dq5u2/fahc2CCwJZAnd2f9FOTn08OO59+YQLBNNuCa3HRnxrskPi9ThH3uAJaU9OWx0K3odAGBzItcRoO/ov/eyfl/1+Mv5RgCq0997/GU6r6/QG9xanrB2aIE3Xmp9jwePDbmMSZTVLbvL8M6dh48cNUZq/3qm9uSX03XoLgMRb/KcLmMkB1LvdR+6CSEGFIVCLxFz0LKc1vG6HYxYFEnSAW9jTc2baqeJJCPm5C5Zmfd6ziMIhHne1OVDvJaw3xYhp3bNtJfdG2k24zP4s+JbFpIyEK/uZ9LLWhDVWkAsa5hBM365lzmv10y0kpY6kOrGaxs6Pbcz5fUaiLjqIkhRrY80EDJBORz3DlJXWIl28XabFG2X6WWhxTTfgXSVuBDYDUuRTG+oHA5V5CCpDT1Ve10NlPsdyCkf3Rh7slR6vXpT7mqQ13MTaeii0ltAkZ4SkNktjqJWtZXojByvu4E0N/NnQuyeKCgrh1guN/VKxv2gOTu40wVczJtDuR9ArGeErUzAlZMEURy7+IxW9F5aTzMD+vSBTiJgDwPpa4kPQhAEWSbCEWGI5eeob2m9YTAMw4bACKHXmeL48QoMQjCfJFCfIGFA6n46b3dH9NF4n8ECLmciaaqDeLVEBHyRuHdR7hHwBTnqdjqv414MtWWGwOtGcQ5I6CaBoniwgCJQbyGhsIn8ms7rlIsebc/DXIE3nDR7QQgWxn4WDAIOihl3ugXF1uTmzh2ytq9e4A2yMc0gCZZEuRpILmimUp/QCRi2pkNubketcPvGcfZ8EANfRjhCjINqE5mNKasHaWYBxEBD8W+uUfB+E2Obp9AbRZqMIAEWRrnrIOijnRuk0Mu2MV4Q9jQiSXHwwmKeqtBbZmOuQwpQ9M0bFnNvhd5It70GxHoS5R6CaBUmUqnH2RtFRyCjHlUOIlk9pnFK94+zPxTjbMSvqGIQVl5pmqjQ68rZRc5LgTtilRIoUgSs95gGKvQuuu1GIcf9OipPJMBmj+mQQq+nm2EFnDl2Mj9EwZeCZwqLubNCD+/P0PWQVH6MkwSrLeZRmMKO+uimZM4U51B3o2Bhsue0cz2UetnmCq8Ex4O2JPCTg+mfo9QbwzWw+Qmcj+ekwEbadxxTGr6PcbznH9jtUc4KCT0mUO4S/m4PVZi7Y4pb4asMWOPjxTgByK9Bk8u+NUe5l9fP4rob/+5+nuO7QxBMUfxfArRvOa7cw08zdKAkvqAt9SDsx/MbEOs9a+mXh6kor7+FvQVyK6yiGTSeivAVDB36KNfzuiw78zBVnuZwg8tYLo8LByt93XFMHTi2n4f1FsnhnlY57Is1mMo0qxjaeV0GWFfqshzJw9V6uGaJ3eF8eCMdV+tnK6a1R5x68FSDI/S6LDXX5Gc928ZqsAyE6xc3OJzG2hRacU0p65k2VoNjmQGXrqOD/kdSI1qfGKtcFQfa85xKD9evHkCzVcZwmZjW7PU7HZaFOp5TD2raz69wBEuNt+oKkrX6O9WBKpYesFLAqRR1q2d5XM7SgPHR42f15UVWa0Hh89qw1+gPsfT4E8K1VL+munP7PQ4WkQ+MvwuUVgVd9JRF7cWGU39f6HVXFk6vdLhYpzMUCjmdQfY7PWn2Uq2kpn4bddqrS+bPGjBpfSU9fsr02YtWarV6Dc5zmRc1Op1Wq22HQi86GZh6E6EavR79wRH2//cTxv2NgKO2neAAAAAASUVORK5CYII=';
+      document.getElementById('statusIMG').src= failed;
+      document.getElementById('statusColor').style.color = '#F23434';
+	  document.getElementById('statusColor').innerHTML = '认证失败!'; 
+      document.querySelector('.goLinkClick').value='重新认证';
+    }
+</script>
+</body>
+</html>

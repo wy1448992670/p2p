@@ -1,0 +1,36 @@
+<table class="p_sy_table" width="100%">
+          <tr height="44">
+          <td width="150">项目名称</td>
+              <td width="130">合同约定年化利率</td>
+              <td width="134">金额（元）</td>
+              <td width="99">期限</td>
+              <td width="110">进度</td>
+              <td>状态</td>
+          </tr>
+         #{if qualityBids?.size()!=0}
+		#{list items:qualityBids,as:'qualityBids'}
+		  <tr height="76">
+                   <td><span class="co333">${qualityBids?.title}</span></td>
+                   <td><span class="cozhuse">${qualityBids?.apr}%</span></td>
+                   <td><span class="co333">￥${qualityBids?.amount?.format('###,##0.00')}</span></td>
+                   <td><span class="co333">
+                     #{if qualityBids.period_unit == 1}
+                      	${qualityBids?.period}  年
+                     #{/if}
+                     #{elseif qualityBids.period_unit == 0}
+                      	${qualityBids?.period}  月
+                     #{/elseif}
+                     #{elseif qualityBids.period_unit == -1}
+                       ${qualityBids?.period}  天
+                     #{/elseif}
+                   </span></td>
+                   <td><span class="probar50" probar="${qualityBids?.loan_schedule}">${qualityBids?.loan_schedule}%</span></td>
+                   <td><a href="@{front.invest.investAction.invest(qualityBids?.id)}" target="_self"  class="p_sy_tbtn">立即投标</a></td>
+               	</tr>
+		#{/list}
+		#{/if}
+            
+</table>
+
+
+                   

@@ -1,0 +1,123 @@
+#{extends 'common/supervisor.html' /} #{set title:'借款标销量情况统计' /}
+
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/dataStatistics/statisticLeft.html"/}
+    <div class="xn_c_content">
+      <div class="xf_ht_tablelist">
+        <!-- 搜索 -->
+        <div class="xf_ht_search">
+          <div class="xf_ht_search_l">
+            <span id="div_0" onClick="order(0);">默认排序 </span>
+            <span id="div_1" onClick="order(1);">已放款数量 <a id="div_a_1">↑</a></span>
+            <span id="div_2" onClick="order(2);">均标借款金额 <a id="div_a_2">↑</a></span>
+            <span id="div_3" onClick="order(3);">成功借款标数量 <a id="div_a_3">↑</a></span>
+          </div>
+        </div>
+        <div class="xf_ht_search_inon">
+          <div class="xf_ht_search_r">
+           
+             <div class="xf_ht_search_xl">
+              <input type="button" class="search_button" onclick="search(1);" value="下载数据" />
+            </div>
+          </div>
+        </div>
+        <!-- 列表内容 -->
+        <div class="xn_c_content_top">
+          #{table class:"xn_c_content_list",cellspacing:"0",cellpadding:"0",border:"0",width:"1300px",tr_class_odd:"xn_tr_bj"}
+            #{tr}
+              #{th}序号#{/th}
+              #{th}借款标类型#{/th}
+              #{th}已放款标数量#{/th}
+              #{th}已借款总额#{/th}
+              #{th}均标借款金额#{/th}
+              #{th}逾期数量#{/th}
+              #{th}逾期数量占比#{/th}
+              #{th}坏账数量#{/th}
+              #{th}坏账数量占比#{/th}
+              #{th}借款标数量#{/th}
+              #{th}投标会员数#{/th}
+              #{th}平均年利率#{/th}
+              #{th}管理费收入总额#{/th}
+            #{/tr}
+            #{list page?.page}
+            #{tr tr_index:_index}
+              #{td}${(page?.currPage - 1)*page?.pageSize + _index}#{/td}
+              #{td}${_?.name}#{/td}
+              #{td}${_?.success_bids_num}#{/td}
+              #{td}${_?.released_amount?.format('###,##0.00')}#{/td}
+              #{td}${_?.average_bid_amount?.format('###,##0.00')}#{/td}
+              #{td}${_?.overdue_num}#{/td}
+              #{td}${_?.overdue_per}#{/td}
+              #{td}${_?.bad_bids_num}#{/td}
+              #{td}${_?.bad_bids_per}#{/td}
+              #{td}${_?.bids_num?.format('###,##0')}#{/td}
+              #{td}${_?.invest_user_num}#{/td}
+              #{td}${_?.average_annual_rate}#{/td}
+              #{td}${_?.manage_fee_amount?.format('###,##0.00')}#{/td}
+            #{/tr}
+            #{/list}
+          #{/table}
+        </div>
+        <!-- 列表底部 -->
+        <div class="xn_c_content_bottom">
+          <div class="page_warp">
+            #{page currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:1,style:4}year=${page.conditions.year}&month=${page.conditions.month}&orderType=${page.conditions?.orderType}
+            #{/page}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+var g_orderType = 0;
+
+$(function() {
+  /* 高亮显示 */
+  showHighLight(2, 2, 9);
+  init();
+});
+  
+function init() {
+  /**
+  * 排序样式
+  */
+  g_orderType = ${page.conditions?.orderType};
+  var index = parseInt(g_orderType / 2);
+  $("#div_"+index).addClass("xf_sea_isshow");
+  
+  if (g_orderType%2 == 1) {
+    $("#div_a_"+index).html("↑");
+  } else {
+    $("#div_a_"+index).html("↓");
+  }
+}
+
+  
+/**
+* 搜索
+*/
+function search(type) {
+  var year = $("#year option:selected").val();
+  var month = $("#month option:selected").val();
+    
+  window.location.href = "@{supervisor.dataStatistics.OperationStatisticsAction.loanBidStatistic()}?year=" + year + "&month=" + month + "&orderType=" + g_orderType+"&isExport="+type;
+}
+  
+/**
+* 排序
+*/
+function order(index) {
+  var year = $("#year option:selected").val();
+  var month = $("#month option:selected").val();
+    
+  var _index = parseInt(g_orderType / 2);
+  var type = g_orderType % 2;
+  type = (index == _index && type == 1) ? 0 : 1;
+  g_orderType = index * 2 +  type;
+    
+  window.location.href = "@{supervisor.dataStatistics.OperationStatisticsAction.loanBidStatistic()}?year=" + year + "&month=" + month + "&orderType=" + g_orderType;
+}
+</script>

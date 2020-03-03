@@ -1,0 +1,90 @@
+<!-- 右侧内容区域 -->
+<div class="xf_mem_Account">
+	<h3 class="xf_mem_accout_title">基本资料</h3>
+	<div class="xf_mem_accout_cont clr">
+		<div class="xf_mem_accout_cont_l">
+			#{img src:"${user?.photo}",id:"image",alt:"头像",width:"146",height:"136"}#{/img}
+			<div class="xf_accout_cont_imgbj" style="position: relative;">
+				<input type='button' class='upload_btn' value='更换头像' /> 
+				<input type="file" class="upload_file" name="imgFile" id="imgFile" onchange="upload('imgFile','image');" />
+			</div>
+		</div>
+		<div class="xf_mem_accout_cont_r">
+			<table border="0" cellpadding="0" cellspacing="0" width="100%" class="xf_mem_acc_viewcpms">
+				<tbody>
+					<tr>
+						<td align="left" valign="middle" width="81">用户名：</td>
+					  	<td>
+					  		${user?.name}
+					  		<!--#{if user?.vipStatus}
+					  			（vip会员）
+					  		#{/if}
+					  		#{else}
+					  			（普通会员）<a class="xf_mem_acc_sjvip" id="xf_mem_acc_sjvip" onClick="vipApply()>[升级VIP]</a> 
+					  		#{/else}-->
+					  	</td>
+					</tr>
+					<!--<tr><td align="left" valign="middle"></td></tr>-->
+					<tr>
+						<td align="left" valign="middle">信用等级：</td>
+					  	<td>
+					  	<span class="xf_mem_l_memhyA">
+					  	#{img src:"${user?.myCredit?.imageFilename}",alt:"",width:"30px",height:"30px"}#{/img}
+					  	</span>
+					  	</td>
+					</tr>
+					<tr>
+						<td align="left" valign="middle">信用积分：</td>
+					  	<td>${user?.userScore?.credit_score}分<a href="@{front.account.FundsManage.myCredit()}" class="xf_mem_acc_sjvip">[积分明细]</a></td>
+					</tr>
+					<tr>
+						<td align="left" valign="middle">注册时间：</td>
+					  	<td>${user?.time?.format('yyyy-MM-dd')}</td>
+					</tr>
+				<!--<tr>
+						<td align="left" valign="middle">积分：</td>
+					  	<td>${user?.userScore?.score}分</td>
+					</tr>-->
+					<tr>
+						<td align="left" valign="middle">信用额度：</td>
+					  	<td>${user?.balanceDetail?.credit_line?.format('###,##0.00')}元<!-- <a class="xf_mem_acc_sjvip" onclick="applyForOverBorrowInit();">[提高信用额度]</a>--></td>
+					</tr>
+					<tr>
+						<td align="left" valign="middle">财富统计：</td>
+					  	<td><span class="xf_mem_acc_sjvip">${user?.investAmount?.bid_count}</span>条借款标记录，<span class="xf_mem_acc_sjvip">${user?.investAmount?.invest_count}</span>条出借记录</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+<script type="text/javascript">
+    
+    function photo(){
+      $("#showOrHide2").hide();
+      $("#showOrHide").show();
+    }
+    
+	function upload() {
+		$.ajaxFileUpload({
+			url : '@{front.account.AccountHome.uploadPhoto()}',
+			secureuri : false,
+			fileElementId : 'imgFile',
+			dataType : 'text',
+			success : function(data) {
+				data = $.evalJSON(data);
+				if (data.code < 0) {
+					alert(data.msg);
+	
+					return;
+				}
+				$("#image").attr("src", data.filename);
+				$("#imgFile").val('');
+			},
+		error : function(data, status, e) {
+			alert("上传图片失败");
+		}
+	})
+  }
+</script>

@@ -1,0 +1,50 @@
+%{
+	business.User currUser = business.User.currUser();
+}%
+
+<div class="swiper-container">
+	<div class="swiper-wrapper">
+		#{set count:0 /}
+		#{list homeAds}	
+			<div class="swiper-slide">
+				<a class="url_yesnos"
+					#{if _?.is_link_enabled}
+					href = "${_?.url}" 
+					#{if _?.target == 1}
+						target = "_self"
+					#{/if}
+					#{else}
+						target = "_blank"
+					#{/else}
+					style="cursor: pointer;"
+					#{/if}
+				>
+				#{img src:"${_?.image_filename}",alt:"广告"}#{/img}
+				</a>
+			</div>
+			#{set count:count+1 /}	
+		#{/list}
+	</div>
+	<!-- Add Pagination -->
+	<div class="swiper-pagination"></div>
+	<!-- Add Navigation -->
+	<div class="swiper-button-prev"><img src="/public/images/newhome/left-1.png" alt="" /></div>
+	<div class="swiper-button-next"><img src="/public/images/newhome/right-1.png" alt="" /></div>
+	<div class="pisit"><!--新增（这一行）-->
+		<div class="register">
+			<img src="/public/images/newhome/reg1.png" alt=""/>
+	<!--已登录状态-->
+	 <div class="already" style="display: #{if currUser == null}none#{/if}#{else} block#{/else};">
+		<div class="reg_line"></div>
+		<div class="reg">
+		<p>欢迎!</p>
+		<!-- <p>安心托付，智慧出借，您的财富管家！</p> -->
+		</div>
+	</div>
+	<!--未登录（默认状态）-->
+	 <div class="nreg" style="display: #{if currUser == null}block#{/if}#{else} none#{/else};">
+             <p><a>已有账号？</a><a href="@{front.account.loginAndRegisterAction.login()}">立即登录</a></p>
+	</div>
+	</div>
+	</div>
+	</div>

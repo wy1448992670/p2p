@@ -1,0 +1,213 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'有百度账号登录' /}
+<style type="text/css">
+input,textarea{ resize:none;}
+button, input, select, textare{ font-size:100%; outline:none; resize:none; }
+.login{
+  position: absolute;
+  bottom: 220px;
+  right: 140px;
+  width: 302px;
+  height: 300px;
+  border: 1px solid #cecece;
+  border-radius: 5px;
+}
+h1{
+  font-size: 14px;
+  margin: 0 12px 10px 12px;
+  padding: 8px;
+  border-bottom: 1px solid #cecece;
+}
+input {
+  padding: 2px;
+  font:14px/12px 'sans-serif';
+  border: 1px solid #cecece;
+  /*box-shadow: 2px 2px 7px #000;*/
+  width: 180px;
+  height: 20px;
+  *line-height: 20px;
+  line-height: 20px\9;
+}
+input.entered-login {
+}
+input.entered_imagecode {
+  width: 50px;
+  vertical-align: middle;
+}
+.check-code-img {
+  vertical-align: middle;
+}
+a {
+  font-size: 12px;
+  color: #2e7ad0; 
+}
+.error-box{
+    color: red;
+}
+.plus-Container {
+    display: inline-block;
+    width: 180px;
+    height: 30px;
+}
+#password_edit {
+/*    position: absolute;
+    left: 0;
+    top: 12px;*/
+}
+.form-item {
+    padding-left: 90px;
+    margin-bottom: 10px;
+}
+.find-password {
+  margin: 0 0 0 10px;
+}
+input.submit {
+  background: #2e7ad0;
+  width: 103px;
+  height: 38px;
+  border: 0;
+  cursor: pointer;
+  color: #Fff;
+}
+input.submit-hover {
+  background: #61A4E9;
+  width: 103px;
+  height: 38px;
+  border: 0;
+  cursor: pointer;
+  color: #Fff;
+}
+input.submit-down {
+  background: #0F63B9;
+  width: 103px;
+  height: 38px;
+  border: 0;
+  cursor: pointer;
+  color: #Fff;
+}
+label {
+    width: 90px;
+    font-size: 14px;
+    height: 22px;
+    line-height: 22px;
+    text-align: right;
+    display: inline-block;
+}
+.relative {
+  position: relative;
+}
+.install-plug {
+  display: block;
+  /*box-shadow: 2px 2px 7px #000;*/
+  width:186px;
+  height: 26px;
+  line-height: 26px;
+  text-align: center;
+  background: #fff;
+}
+.dialog{z-index:1000;width:540px;left:-3000px;background: #fff;position:absolute;top:110px;border-radius: 6px;}
+.dialog-content h1{font-size:14px;color: #000;}
+.dialog-title{border-bottom: 1px solid #cecece;height:30px;line-height:20px;margin: 1px;padding:4px;}
+.dialog-title-word{margin: 20px 0 0 20px;font:16px 'Microsoft YaHei','Simsun';}
+.dialog-title-close{width:21px;height:21px;background: url(/img/close.png) no-repeat #fff;cursor:pointer;float:right;margin-right:4px;}
+
+.dialog-content{margin: 10px; text-align: center;}
+.dialog-content p {
+  font-size: 14px;
+  margin: 30px;
+}
+.dialog-content p.orange {
+  color: #FE7E01;
+  font-weight: 700;
+}
+.layerMask{z-index:999;position:absolute; top: 0; left: 0 ;background-color: silver;filter:alpha(opacity=25); opacity:0.25;}
+
+.hide{
+display: none;
+}
+table{
+margin: 0 auto;
+}
+table tr,table td{
+height: 50px;
+}
+</style>
+#{include "supervisor/networkMarketing/CPSSpreadAction/networkMarketingLeft.control"/}
+<script type="text/javascript" src="http://cas.baidu.com/js/BaiduSafeInput.js"></script>
+<script>
+	$(function(){
+		 /* 高亮显示 */
+		showHighLight(2,2,4);
+
+		 var imgID = 'checkCodeImg';
+		 var btnID = 'change-vcode';
+
+		 function G(id){
+			 return document.getElementById(id);
+		 }
+		 
+		 var baseurl = G(imgID).src;
+		 G(btnID).onclick = function(){
+		 var imgsrc = ""
+		 + baseurl
+		 + (baseurl.indexOf("?") >= 0 ? "&" : "?")
+		 + "key="
+		 + (new Date().getTime());
+		 G(imgID).src = imgsrc;
+		 }; 
+	})
+</script>
+<div class="xn_c_content">
+  <div class="xf_content_add">
+    <!-- 编辑流量统计代码 -->
+    <div class="xf_ht_baidu_llsz">
+	<div>
+	  <div style="border: 1px solid #CECECE;border-radius: 5px;margin-left:35px;margin-right: 35px;">
+	    <form name="loginForm" id="loginForm" onsubmit="login(event)" action="https://cas.baidu.com/?action=login" method="post" target="_blank">
+	      <input type="hidden" name="appid" value="12">
+	      <input type="hidden" name="selfu" value="https://cas.baidu.com/?appid=12">
+	      <input type="hidden" name="fromu" value="">
+	      <input type="hidden" id="sid" name="sid" value="">
+	      <input type="hidden" id="pwd" name="pwd" value="">
+	      <h1>登录</h1>
+	      <table cellpadding="0" cellspacing="0">
+	        <tbody>
+	          <tr>
+	            <td><label for="entered_login">账户名：</label></td>
+	            <td><input id="entered_login" name="entered_login" value="" class="" tabindex="1" type="text" autocomplete="off" maxlength="100"></td>
+	          </tr>
+	          <tr>
+	            <td><label for="entered_password">密码：</label></td>
+	            <td>		<span class="" id="password-container">
+				<input type="password" tabindex="2" id="entered_password" name="entered_password" value="" class="" oncontextmenu="return false" onpaste="return false" oncopy="return false" oncut="return false" autocomplete="off">
+			</span>
+	            </td>
+	          </tr>
+	          <tr>
+	            <td><label for="entered_imagecode">验证码：</label></td>
+	            <td><span>
+	          <input type="text" class="entered_imagecode" id="entered_imagecode" autocomplete="off" name="entered_imagecode" value="" maxlength="4" tabindex="3" placeholder="">
+	          <img id="checkCodeImg" class="check-code-img" src="http://cas.baidu.com/?action=image" title="校验码" alt="校验码">
+	          <span id="change-vcode" title="点击更新验证码" class="ucl-change-vcode" style="cursor: pointer;">换一张</span>
+	        </span></td>
+	          </tr>
+	          <tr>
+	            <td>&nbsp;</td>
+	            <td><div class="error-box" id="error-box" style="display: none;">
+	      </div></td>
+	          </tr>
+	          <tr>
+	            <td>&nbsp;</td>
+	            <td><input type="submit" id="submit-btn" class="submit" tabindex="4" value="登 录"><a target="_blank" class="find-password" href="http://cas.baidu.com/?controller=user&amp;action=retrivepwd">找回密码</a></td>
+	          </tr>
+	        </tbody>
+	      </table>
+	    </form>
+	  </div>
+	</div>
+	<div class="foot"></div>
+	<div class="layerMask" id="layerMask"></div>
+  </div>
+</div>
+</div>
+</div>

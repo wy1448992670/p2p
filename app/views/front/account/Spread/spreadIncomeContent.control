@@ -1,0 +1,186 @@
+<div class="xf_mem_Account xf_mem_shzdjkb_box">
+	<h3 class="xf_mem_accout_title">
+		我的推广收入
+	</h3><!-- 搜索区域 -->
+	<ul class="xf_membill_search clr">
+		<li>
+			<select id="year" name="xf_wylc_selectAge" class="xf_membill_selectAge xf_memjkzlshrz_selectAge" style="margin-right:10px;">
+				<option value="-1">
+					全部
+				</option>
+				
+			</select> 
+			<select id="month" name="xf_wylc_selectAge" class="xf_membill_selectAge xf_memjkzlshrz_selectAge">
+				<option value="-1">
+					全部
+				</option>
+				<option value="1" #{if page.conditions.month==1}selected="selected"#{/if}>
+					1月
+				</option>
+				<option value="2" #{if page.conditions.month==2}selected="selected"#{/if}>
+					2月
+				</option>
+				<option value="3" #{if page.conditions.month==3}selected="selected"#{/if}>
+					3月
+				</option>
+				<option value="4" #{if page.conditions.month==4}selected="selected"#{/if}>
+					4月
+				</option>
+				<option value="5" #{if page.conditions.month==5}selected="selected"#{/if}>
+					5月
+				</option>
+				<option value="6" #{if page.conditions.month==6}selected="selected"#{/if}>
+					6月
+				</option>
+				<option value="7" #{if page.conditions.month==7}selected="selected"#{/if}>
+					7月
+				</option>
+				<option value="8" #{if page.conditions.month==8}selected="selected"#{/if}>
+					8月
+				</option>
+				<option value="9" #{if page.conditions.month==9}selected="selected"#{/if}>
+					9月
+				</option>
+				<option value="10" #{if page.conditions.month==10}selected="selected"#{/if}>
+					10月
+				</option>
+				<option value="11" #{if page.conditions.month==11}selected="selected"#{/if}>
+					11月
+				</option>
+				<option value="12" #{if page.conditions.month==12}selected="selected"#{/if}>
+					12月
+				</option>
+			</select> 
+			<input type="button" onclick="search();" value="查 看" class="xf_membill_button_yhm xf_membill_button_more">
+		</li>
+	</ul><!-- 搜索结果 -->
+	<div class="xf_membill_search_jg">
+		<table border="0" cellpadding="0" cellspacing="0" width="auto" class="xf_membill_acc_viewcpms">
+			<tbody>
+				<tr>
+					<th align="center" width="46">
+						序号
+					</th>
+					<th width="182">
+						年
+					</th>
+					<th align="center" width="86">
+						月
+					</th>
+					<th width="63">
+						推广会员数
+					</th>
+					<th width="64">
+						有效会员数
+					</th>
+					<th width="96">
+						无效会员数
+					</th>
+					<th width="104">
+						CPS奖金(元)
+					</th>
+					<th width="91">
+						操作
+					</th>
+				</tr>
+				#{list items:page.page,as:'spreadIncome'}
+				<tr>
+					<td align="center">
+						${spreadIncome_index}
+					</td>
+					<td align="center">
+						${spreadIncome?.year}
+					</td>
+					<td align="center">
+						${spreadIncome?.month}
+					</td>
+					<td align="center">
+						${cpsCount?.cps_count}
+					</td>
+					<td align="center">
+						${cpsCount?.active_count}
+					</td>
+					<td align="center">
+						${cpsCount?.unactive_count}
+					</td>
+					<td align="center">
+						${spreadIncome.cps_reward_temp?.format("###,##0.00")}
+					</td>
+					<td align="center">
+						<a onClick="incomeDetail('${spreadIncome.year}','${spreadIncome.month}')" class="xf_membill_cza">明细</a>
+					</td>
+				</tr>
+				#{/list}
+			</tbody>
+		</table>
+	</div><!-- 清除浮动 -->
+	<div class="clear"></div>
+	<div class="xf_wylc_page xf_membill_view_page1">
+		<!-- 分页器 -->
+		#{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:2}year=${page?.conditions?.year}&month=${page?.conditions?.month}
+		#{/page}
+	</div>
+	<div class="xf_mem_cps_tgtj">
+		共推广会员<b>${cpsCount?.cps_count}</b>名，其中有效会员<b>${cpsCount?.active_count}</b>名，无效会员<b>
+		${cpsCount?.unactive_count}</b> 名，产生CPS奖金<b class="xf_mem_cps_red"><span id="commission_amount">${totalCpsIncome?.format("###,##0.00")}</span></b>元。
+	</div>
+</div>
+<div id="showincomeDetail"></div>
+<script type="text/javascript">
+
+$(function(){
+  var mydate = new Date();
+  var now = mydate.getFullYear();
+  var before = now -5;
+  var html = "";
+  
+  for(var  c = now ;c >= before;c--){
+	   html += '<option ';
+
+	   if('${page?.conditions?.year}' == c)
+		   html += 'selected="selected"';
+
+	   html += ' value="'+c+'">'+c+'</option>';
+  }
+
+  $("#year").append(html);
+});
+	//搜索
+	function search() {
+		window.location.href = "spreadIncome?year=" + encodeURIComponent($("#year").val()) + "&month=" + $("#month").val();
+	}
+	
+	function incomeDetail(year, month){
+	    $.ajax({
+			url : "@{incomeDetail()}",
+			type : "POST",
+			data : {
+			"year" : year,
+			"month" : month
+			},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+					return;
+				}
+			    $("#showincomeDetail").html(data);
+			    showDiv($("#xf_mem_zchkjf_window"));
+			},
+			error : function() {
+				alert(data.msg);
+			}
+		});
+	}
+</script>
+<script>
+		//合计
+		var cps_count = 0;//总推广会员数
+		var active_count = 0;//有效会员数
+		var un_active_count = 0;//无效会员数
+		var commission_amount = 0;//推广收入
+		#{list items:page.page, as:'spreadIncome'}
+		 cps_count += ${spreadIncome?.spread_user_account_temp};
+		 active_count += ${spreadIncome?.effective_user_account_temp};
+		 un_active_count += ${spreadIncome?.invalid_user_account_temp};
+		#{/list}
+</script>

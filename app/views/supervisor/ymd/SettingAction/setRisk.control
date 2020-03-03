@@ -1,0 +1,208 @@
+<style>
+	.tdPadding tr td{
+		padding:15px 0;
+	}
+	.btnStyle{
+		background-color:#199ED8;
+		border-radius:5px;
+		border:0;
+		color:white;
+		height:25px;
+		width:60px;
+	}
+	.padleft30{
+		padding-left:30px;
+	}
+	.borderBot{
+		border-bottom: 1px dashed  #707070;
+	    padding-left: 30px;
+	    padding-bottom:15px;
+	    margin:15px 0;
+	}
+	.right{
+		float: right;
+	    position: relative;
+	    top: 13px;
+	    right: 10px;
+	    transform:rotateX(180deg);
+	}
+	.xf_htgl_jgtitle{
+		margin:0;
+	}
+	.contextPadding{
+		padding:0 60px 0 20px;
+		margin:20px 0;
+	}
+	.hiddenContext{
+		// display:none;
+	}
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+	    -webkit-appearance: none;
+	}
+	 
+	input[type="number"] {
+	    -moz-appearance: textfield;
+	}
+</style>
+<div class="xn_c_content" style="background:white">
+    <div style="padding-left:20px;background:#E1E1E1;height:53px;line-height:53px;font-size:19px;">
+  		风控规则设置（所有满分之和不得超过100）
+    </div>
+       
+     	
+    #{list  items:bigTypeList, as:'bigType'}
+    <div class="contextPadding">
+	 		<h3 class="xf_htgl_jgtitle">
+	 			<div>
+		 			<span>${bigType.name}：</span>
+			 		<span class="right">
+		 				<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+		 			</span>
+	 			</div>
+	 		</h3>
+	 
+	 	<form id="bigType_${bigType.id}" >
+		<div class="hiddenContext" >
+			<div class="borderBot">满分：<input type="text" name ="totalScore" value ="${bigType.total_score}"  id="totalScore_${bigType.id}" disabled/>分</div>
+	 		<div class="padleft30">
+		 	<div style="font-weight:bold;">得分依据：</div>
+			 	#{list  items:typeList, as:'type'}
+					<div style="width: 100%;display: inline-block;">#{if type.big_type_id == bigType.id}  ${type.name}: #{/if}</div>
+					<ul style="box-sizing:border-box;">
+						#{list  items:riskList, as:'risk'}
+							#{if risk.bigTypeId == bigType.id && risk.typeId == type.id }
+								<li style="float:left;width:25%;margin:10px 0"> 
+								${risk.show_str}
+								<input onkeyup= "if(!/[0-9\.]/.test(this.value)){this.value='';}" style="width:100px;" type="number" value="${risk.score?.format('###,##0')}" name="riskScore" type="text" id= "riskScore_${risk.id}" vid = "${risk.id}" onblur="submitScore(${risk.id});" disabled/>分<span style="border-right: 5px solid #C6C6C6;padding-left: 20px;">
+								<!-- #{if risk.compareType == 1}  
+									#{if risk.min_value != null && risk.max_value != null}${risk.min_value?.format('###,##0')}${risk.unit} - ${risk.max_value?.format('###,##0')}${risk.unit} #{/if}
+									<input onkeyup= "if(! /[0-9\.]/.test(this.value)){this.value='';}"  style="width:100px;" value="${risk.score?.format('###,##0')}" name="riskScore" type="number"  id= "riskScore_${risk.id}" onblur="submitScore(${risk.id});"  disabled/>分<span style="border-right: 5px solid #C6C6C6;padding-left: 20px;" />
+								</span>
+								#{/if}
+								#{else}
+									${risk.show_str} 
+									<input onkeyup= "if(! /[0-9\.]/.test(this.value)){this.value='';}" style="width:100px;" type="number" value="${risk.score?.format('###,##0')}" name="riskScore" type="text" id= "riskScore_${risk.id}" onblur="submitScore(${risk.id});" disabled/>分<span style="border-right: 5px solid #C6C6C6;padding-left: 20px;">
+									</span>
+								#{/else} -->
+								</li>
+						   #{/if} 
+					   #{/list}
+					</ul>
+	  		   #{/list} 
+	  		</div>
+	  		<div style="width: 100%;display: inline-block;">
+		 		<input class="btnStyle" type="button" value="修改"  onclick="updateScore(${bigType.id})"/>
+				<input class="btnStyle" type="button" value="提交"  onclick="submitMaxScore(this,${bigType.id})"/>
+				<div></div>
+		 	 	<!-- <input  style="margin-left:20px;" class="btnStyle" type="button" value="保存"   onclick="saveScore(${bigType.id});"/>  -->
+			</div> 
+	     </div>
+	     </form> 
+	</div> 
+
+    #{/list}
+   
+	</div>
+<script type="text/javascript">
+
+$('.xf_htgl_jgtitle').click(function(){
+	$(this).next().toggle(100);
+})
+
+$(function(){
+	/* 高亮显示 */
+	showHighLight(1, 1, 1);
+	
+	
+	
+});
+// 排序
+var sortMax = function(arr){
+	var r = arr.sort((num1, num2) => {
+		return num1 - num2 < 0
+	});
+	return r[0];
+}
+
+// 提交
+function submitMaxScore(_this,bigTypeId){
+	var arr = [];
+	var formValue = [];
+	var resMax = 0;
+	var all = 0;
+	
+	$(_this).parent().prev().find('ul').each(function(i,e){
+		if($(e).find('[type=number]').length){
+			$(e).find('[type=number]').each(function(ii,ee){
+				arr.push($(ee).val());
+				
+				formValue.push({riskId:$(ee).attr('vid'),value: $(ee).val()});
+			})
+			resMax = parseFloat(sortMax(arr));
+			all+=resMax;
+			arr=[];
+		}
+	})
+	var total = parseFloat($(_this).parent().parent().find("[name=totalScore]").val());
+	
+	if(all>total){
+		Common.toast('设置不能超过最高分');
+		return false;
+	}
+	$.ajax({
+	      url : "@{supervisor.ymd.SettingAction.saveAllRiskScore()}",
+	      type : "POST", 
+	      data : {"formValue":JSON.stringify(formValue)},
+	      success : function(data) {
+	    	     layer.alert(data.msg);
+	         	 var types = $("#bigType_"+bigTypeId).find("input[name='riskScore']");
+	      	  	 $(types).attr("disabled",true);
+	     
+	      },
+	      error : function() {
+	        layer.alert("对不起，出现错误!");
+	      }
+	});
+	
+}
+
+
+function submitScore(id){
+	/* layer.confirm('是否确认提交修改？', function(index){
+		var riskScore = $("#riskScore_" + id).val();
+		 $.ajax({
+		      url : "@{supervisor.ymd.SettingAction.saveRiskScore()}",
+		      type : "POST", 
+		      data : {"id":id, "riskScore":riskScore},
+		      success : function(data) {
+				if (data.code < 0) {
+		          layer.alert(data.msg);
+		          return;
+		        } 
+				$("#riskScore_" + id).attr("disabled","disabled");
+		      },
+		      error : function() {
+		        layer.alert("对不起，出现错误!");
+		      }
+		});
+	 	layer.close(index);
+	}); */
+}
+
+function updateScore(bigTypeId){
+	var types = $("#bigType_"+bigTypeId).find("input[name='riskScore']");
+	$(types).attr("disabled",false);
+}
+
+function saveScore(bigTypeId){
+	var types = $("#bigType_"+bigTypeId).find("input[name='riskScore']");
+	//$(types).attr("disabled",true);
+	
+	$(types).each(function (i){
+ 		var id = $(this).attr("id");
+ 		submitScore($("#"+id).val()); 
+	}); 
+	
+}
+</script>

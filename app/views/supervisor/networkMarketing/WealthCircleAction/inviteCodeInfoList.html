@@ -1,0 +1,108 @@
+#{extends 'common/supervisor.html' /} #{set title:'财富圈邀请码' /}
+<div class="xfht_t_j_k"> 
+<!--左-->
+#{include "supervisor/networkMarketing/CPSSpreadAction/networkMarketingLeft.control"/}
+ <!--右-->
+#{include "supervisor/networkMarketing/WealthCircleAction/inviteCodeInfoList.control"/}
+</div>
+<!--弹出层-->
+<div class="xn_c_ban_jox xn_c_ban_jox_hyxq" id="xf_ht_fkzh_ttc" style="display: none;"></div>
+<div class="xn_c_ban_jox xn_c_ban_jox_hyxq" id="inviteIncomeDetails" style="display: none;"></div>
+<div class="xn_c_ban_jox xn_c_ban_jox_fdx" id="xf_ht_memznx_ttc" style="display:none;">
+
+<script type="text/javascript">
+function details(id){
+	  $.ajax({
+	    url : "@{supervisor.networkMarketing.WealthCircleAction.inviteCodeDetails()}",
+	    type : "POST",
+	    async : false,
+	    data : {
+	      "id" : id
+	    },
+	    success : function(data) {
+	      if (data.code < 0) {
+	        alert(data.msg);
+	        return;
+	      }
+	        
+	      $("#xf_ht_fkzh_ttc").html(data);
+	      $.layer({
+	        type: 1,
+	        area: ['700px', 'auto'],
+	        title: '邀请码详情',
+	        page: {dom : '#xf_ht_fkzh_ttc'}
+	      });
+	    },
+	    error : function() {
+	      alert("对不起，出现错误!");
+	    }
+	  });
+	}
+	
+function investDetails(userId, invitedUserId){
+	$.ajax({
+	  url : "@{supervisor.networkMarketing.WealthCircleAction.investDetails()}",
+	  type : "GET",
+	  async : false,
+	  data : {
+	    "userId" : userId,
+	    "invitedUserId" : invitedUserId
+	  },
+	  success : function(data) {
+	    if (data.code < 0) {
+	      alert(data.msg);
+	      return;
+	    }
+	      
+	    $("#inviteIncomeDetails").html(data);
+	    $.layer({
+	      type: 1,
+	      area: ['700px', 'auto'],
+	      title: '返佣记录',
+	      page: {dom : '#inviteIncomeDetails'}
+	    });
+	  },
+	  error : function() {
+	    alert("对不起，出现错误!");
+	  }
+	});
+}
+	
+	
+function giveCode(){
+	$.ajax({
+		  url : "@{supervisor.networkMarketing.WealthCircleAction.searchUserInfo()}",
+		  type : "GET",
+		  async : false,
+		  success : function(data) {
+		    if (data.code < 0) {
+		      alert(data.msg);
+		      return;
+		    }
+		      
+		    $("#xf_ht_memznx_ttc").html(data);
+		    $.layer({
+		      type: 1,
+		      area: ['500px', 'auto'],
+		      title: '赠送邀请码',
+		      page: {dom : '#xf_ht_memznx_ttc'}
+		    });
+		  },
+		  error : function() {
+		    alert("对不起，出现错误!");
+		  }
+		});
+} 
+
+$(function(){
+	//高亮显示
+	showHighLight(3,3,6);
+})
+</script>
+
+
+
+
+
+
+	

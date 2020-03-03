@@ -1,0 +1,188 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'财富圈佣金发放统计' /}
+ <div class="xfht_t_j_k"> 
+<!--左-->
+#{include "supervisor/networkMarketing/CPSSpreadAction/networkMarketingLeft.control"/}    
+<!--右-->
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    #{form @supervisor.networkMarketing.WealthCircleAction.invitationStatistic(), id:'invitationStatistic'}
+    <input type="hidden" id="currPage" name="currPage"/>
+	<input type="hidden" id="pageSize" name="pageSize"/>
+    <div class="xf_ht_search">
+      <div class="xf_ht_search_r">
+        <div class="xf_ht_search_xl">
+          <select class="xf_membill_selectAge" id="year" name="year">
+            <option value="0" #{if page.conditions?.year == 0} selected="selected"} #{/if}>
+				全部
+			</option>
+			
+          </select>
+		  <select class="xf_membill_selectAge" id="month" name="month">
+            <option value="0" #{if page.conditions?.month == 0} selected="selected" #{/if}>
+	          --请选择--
+            </option>
+			<option value="1" #{if page.conditions?.month == 1} selected="selected" #{/if}>
+				1月
+			</option>
+			<option value="2" #{if page.conditions?.month == 2} selected="selected" #{/if}>
+				2月
+			</option>
+			<option value="3" #{if page.conditions?.month == 3} selected="selected" #{/if}>
+				3月
+			</option>
+			<option value="4" #{if page.conditions?.month == 4} selected="selected" #{/if}>
+				4月
+			</option>
+			<option value="5" #{if page.conditions?.month == 5} selected="selected" #{/if}>
+				5月
+			</option>
+			<option value="6" #{if page.conditions?.month == 6} selected="selected" #{/if}>
+				6月
+			</option>
+			<option value="7" #{if page.conditions?.month == 7} selected="selected" #{/if}>
+				7月
+			</option>
+			<option value="8" #{if page.conditions?.month == 8} selected="selected" #{/if}>
+				8月
+			</option>
+			<option value="9" #{if page.conditions?.month == 9} selected="selected" #{/if}>
+				9月
+			</option>
+			<option value="10" #{if page.conditions?.month == 10} selected="selected" #{/if}>
+				10月
+			</option>
+			<option value="11" #{if page.conditions?.month == 11} selected="selected" #{/if}>
+				11月
+			</option>
+			<option value="12" #{if page.conditions?.month == 12} selected="selected" #{/if}>
+				12月
+			</option>
+          </select>
+        </div>
+        <div class="xf_ht_search_xl">
+            <input type="hidden" name="isExport" value="0" id="isExport">
+			<input type="submit" class="search_button" onclick="search();" value="搜索">
+			<input type="submit" class="search_button" onmouseout="clearIsExport();" onclick="download();" value="下载数据">
+        </div>
+      </div>
+    </div>
+    #{/form}
+	<!-- 列表内容 -->
+	<div class="xn_c_content_top">
+      #{table class:"xn_c_content_list",cellspacing:"0",cellpadding:"0",border:"0",tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}年#{/th}
+          #{th}月#{/th}
+          #{th}新增邀请码数#{/th}
+          #{th}新增受邀会员数#{/th}
+          #{th}新增充值会员数#{/th}
+          #{th}新增理财会员数#{/th}
+          #{th}受邀理财金额#{/th}
+          #{th}返佣金额#{/th}
+          #{th}操作#{/th}
+        #{/tr}
+        #{list page?.page}
+        #{tr tr_index:_index}
+          #{td}${(page?.currPage - 1) * page?.pageSize + _index}#{/td}
+          #{td}${_?.year}#{/td}
+          #{td}${_?.month}#{/td}
+          #{td}${_?.invite_code_count}#{/td}
+          #{td}${_?.invited_user_count}#{/td}
+          #{td}${_?.invited_recharge_user_count}#{/td}
+          #{td}${_?.invited_invest_user_count}#{/td}
+          #{td}${_?.invest_amount?.format("###,##0.00")}#{/td}
+          #{td}${_?.invitation_income?.format("###,##0.00")}#{/td}
+          #{td}<span class="xf_ta_onclick" onClick="investDetails(${_?.year},${_?.month});">返佣明细</span>#{/td}
+        #{/tr}
+        #{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+        <div class="page_warp">
+          #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4/}
+        </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="xn_c_ban_jox xn_c_ban_jox_hyxq" id="inviteIncomeDetails" style="display: none;"></div>
+<script>
+$(function(){
+	//高亮显示
+	showHighLight(3,3,7);
+	
+	  var mydate = new Date();
+	  var now = mydate.getFullYear();
+	  var before = now -5;
+	  var html = "";
+	  
+	  for(var  c = now ;c >= before;c--){
+		   html += '<option ';
+
+		   if('${page?.conditions?.year}' == c)
+			   html += 'selected="selected"';
+
+		   html += ' value="'+c+'">'+c+'</option>';
+	  }
+
+	  $("#year").append(html);
+	});
+
+/* 搜索 */
+function search(){
+  $("#isExport").val(0);
+  $("#invitationStatistic").submit();
+}
+
+/* 下载数据 */
+function download(){
+  $("#isExport").val(1);
+  $("#invitationStatistic").submit();
+}
+
+/* 清除下载数据 */
+function clearIsExport(){
+  $('#isExport').val(0);
+}
+
+function showPage(currPage, pageSize){
+  $("#currPage").val(currPage);
+  $("#pageSize").val(pageSize);
+  $("#invitationStatistic").submit();
+}
+
+function investDetails(year, month){
+	$.ajax({
+	  url : "@{supervisor.networkMarketing.WealthCircleAction.invitationStatisticDetails()}",
+	  type : "GET",
+	  async : false,
+	  data : {
+	    "year" : year,
+	    "month" : month
+	  },
+	  success : function(data) {
+	    if (data.code < 0) {
+	      alert(data.msg);
+	      return;
+	    }
+	      
+	    $("#inviteIncomeDetails").html(data);
+	    $.layer({
+	      type: 1,
+	      area: ['700px', 'auto'],
+	      title: '返佣记录',
+	      page: {dom : '#inviteIncomeDetails'}
+	    });
+	  },
+	  error : function() {
+	    alert("对不起，出现错误!");
+	  }
+	});
+}
+
+</script>

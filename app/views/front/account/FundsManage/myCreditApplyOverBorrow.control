@@ -1,0 +1,82 @@
+<div class="xf_mem_Account xf_mem_passage">
+		<h3 class="xf_mem_accout_title">信用额度申请记录</h3>
+		<div class="xf_membill_search_jg xf_membill_search_xydj">
+			<table border="0" cellpadding="0" cellspacing="0" width="740"
+				class="xf_membill_acc_viewcpms xf_membill_acc_vtx">
+				<tr>
+					<th align="center" width="74">序号</th>
+					<th width="96">申请金额</th>
+					<th align="center" width="243">申请原因</th>
+					<th width="144">申请时间</th>
+					<th width="101">超额借款状态</th>
+					<th width="76">操作</th>
+				</tr>
+				#{if overBorrows != null && overBorrows.size() != 0}
+					#{list items:overBorrows, as:"overBorrow"}
+						<tr>
+							<td align="center">${overBorrow_index}</td>
+							<td align="center"><span class="membill_list_lvs">${overBorrow?.amount}</span>
+							</td>
+							<td align="center">${overBorrow?.reason}</td>
+							<td align="center">${overBorrow?.time?.format("yyyy-MM-dd")}</td>
+							<td align="center">
+							#{if overBorrow?.status == 0}
+								审核中
+							#{/if}
+							#{elseif overBorrow?.status == 1}
+								通过
+							#{/elseif}
+							#{elseif overBorrow?.status == 2}
+								未通过
+							#{/elseif}
+							#{elseif overBorrow?.status == -1}
+							         等待资料 
+							#{/elseif}
+							</td>
+							<td align="center"><a class="xf_membill_cza" onCLick="viewOverBorrow('${overBorrow?.id}')">查看</a>
+							</td>
+						</tr>
+					#{/list}
+				#{/if}
+			</table>
+		</div>
+	</div>
+	<div class="xf_fixedbg" id="backGround"></div>
+<script type="text/javascript">
+    $(function(){
+    	$("#position").center();
+    });
+    
+	/**
+	 * 显示申请超额借款页面
+	 */
+	function viewOverBorrow(id) {
+	    %{boolean ipsEnable = constants.Constants.IPS_ENABLE;}%
+			$.ajax({
+			#{if ipsEnable}
+				url : "@{front.account.FundsManage.viewOverBorrowIps()}",
+			#{/if}
+			#{else}
+				url : "@{front.account.FundsManage.viewOverBorrow()}",
+			#{/else}
+				type : "POST",
+				data : {
+				    "overBorrowId" : id
+				},
+				success : function(data) {
+					if (data.code < 0) {
+						alert(data.msg);
+						
+						return;
+					}
+					  $("#backGround").show();
+				    var ttc = $("#position");
+					ttc.html(data);
+					showDiv(ttc);
+				},
+				error : function() {
+					alert(data.msg);
+				}
+			});
+	}
+</script>

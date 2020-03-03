@@ -1,0 +1,97 @@
+				<div class="xf_mem_Account xf_mem_shzdjkb_box" id="divHidden">
+				<!--<div class="xf_mem_shzdjkb_box_tcc">遮盖层</div>-->
+					<h3 class="xf_mem_accout_title">安全邮箱</h3>
+					<!-- 修改安全邮箱 -->
+					<div class="xf_xgaq_email">
+						<!-- 已经激活 -->
+						<div class="xf_xgaq_email_one">
+							<div class="xf_xgaq_email_onebox">
+								<div id ="displayEmail">
+									#{if user!=null && user.email != null && user.email != ''}
+									安全邮箱：<span class="xf_xgaq_email_yx">${user?.email}</span> 
+									<span class="xf_xgaq_email_yx2">
+									#{if user.isEmailVerified}已激活#{/if}
+									#{else}未激活#{/else}
+									</span>
+									#{/if}
+									#{else}
+									安全邮箱：<input class="xf_mem_aq_wtszinput" type="text" style="width: 200px" id="email" name="email" value="${user?.email}">
+									#{/else}
+								</div>
+								<div id ="modifyEmail">
+									安全邮箱：<input class="xf_mem_aq_wtszinput" type="text" style="width: 200px" id="email" name="email" value="${user?.email}">
+								</div>
+								<font color="red"><div id="error"></div></font>
+							</div>
+							<div class="xf_xgaq_email_onebox" style="padding-top: 10px;">
+								<span ><a id="update" style="text-decoration: underline;">修 改</a></span>
+								<span class="xf_xgaq_email_yx2" id="sendEmailSpan"><a href="javascript:void(0);" id="sendEmail" style="text-decoration: underline;" onclick="sendEmail();">发送激活邮件</a></span>						
+								<span class="xf_xgaq_email_yx2"><a href="javascript:openLoginEmail();" id="lookEmail" style="text-decoration: underline;">查看激活邮件</a></span>
+							</div>
+						</div>
+					</div>
+				</div>
+<input type="hidden" id="emailUrl" name="emailUrl" value="">
+<script type="text/javascript">
+	function waitToSendEmail(){
+		$("#error").html("请稍后重试.");
+	}
+	
+	function setSendEmail(){
+		$("#sendEmail").attr("onclick","waitToSendEmail()");
+		window.setTimeout(function(){
+			$("#sendEmail").attr("onclick","sendEmail()");
+		},60000); 
+	}
+	
+	function openLoginEmail(){
+		if($("#emailUrl").val() == '' || $("#emailUrl").val() == null){
+			$("#error").html("请点击发送激活邮件.");
+			$("#error").show();
+			return;
+		}
+		window.open($("#emailUrl").val());
+	}
+	
+	function sendEmail(){
+		 var email = $("#email").val();
+	     if(email == ""){
+			$("#error").html("请输入邮箱");
+			 return;
+	     }
+	     if(!(email).isEmail()){
+	    	$("#error").html("请输入正确的邮箱");
+	    	return;
+	     }
+	     $.ajax({
+			url : "@{front.account.BasicInformation.saveEmail()}",
+			type : "POST",
+			data : {email:$("#email").val()},
+			success : function(data) {
+				var arr=eval(data);
+				if(data.error.code == 0){
+					$("#error").html(data.error.msg);
+					$("#emailUrl").val(data.emailUrl);
+					openLoginEmail();
+				}else{
+					$("#error").html(data.error.msg);
+				}
+				$("#error").show();
+			},
+		 	error : function() {
+				alert("对不起，出现错误!");
+		 	}
+		});
+ 		setSendEmail();
+	}
+
+     $(function(){
+    	  //$("#error").hide();
+     	  $("#modifyEmail").hide();
+     	  $("#update").click(function(){
+     	  	 $("#displayEmail").hide();
+     	  	 $("#modifyEmail").show();
+     	  	 $("#sendEmailSpan").show();
+          });
+     })
+</script>

@@ -1,0 +1,212 @@
+<script type="text/javascript" src="@{'/public/javascripts/rotate.js'}"></script>
+<div class="xf_ht_jr_obu_width">
+  <div class="xf_ht_ptjkb_shok">
+    <ul class="xf_ht_ptjkb_shok_ul">
+      <li>用户名：${item?.userName}</li>
+      <li>科目种类：${item?.auditItem?.name}</li>
+      <li>
+        <div class="xf_ht_ptjkb_lilist_l"> 素材(如果加载失败，请下载后查看!)：</div>
+        <div class="xf_ht_ptjkb_lilist_r">
+          <input type="button" value="上一个" onclick="showLastItem2();" id="lastItem2">
+          <input type="button" value="下一个" onclick="showNextItem2();" id="nextItem2" >
+        </div>
+        <div class="clear"></div>
+        <div class="xf_ht_ptjkb_lilist_img" id="showImag2"></div>
+        <div id="notIsImag2" style="display: none;">
+		      科目资料：<a href="@{Application.downloadFiles(item?.strItems, item?.auditItem?.type)}">下载</a>
+		</div>
+        <div class="xf_ht_ptjkb_lilist_button" id="isImag2" style="display: none;">
+          <input type="button" value="放大" onclick="imgToSize2(20)"/>
+	      <input type="button" value="缩小" onclick="imgToSize2(-20)"/>
+		  <input type="button" value="右翻转" onclick="$('#imageFileName2').rotateRight();"/>
+		  <input type="button" value="左翻转" onclick="$('#imageFileName2').rotateLeft();"/>
+		  <input type="button" value="还原" onclick="restore2();" />
+         </div>
+      </li>
+    </ul>
+  </div>
+  <div class="xf_ht_ptjbk_shok_bottom">
+    <table border="0" cellspacing="15" cellpadding="0" class="xf_ht_jr_obu_form xf_ht_sh_form2" width="100%">
+      <tr>
+        <td align="center" width="88">科目可见性：</td>
+        <td>
+		  <input class="xf_ht_radio" type="radio" value="1" name="isVisible" /> 
+		  <span class="xf_ht_jr_obttd_span">可见</span>
+		  <input class="xf_ht_radio" type="radio" value="0" name="isVisible" checked="checked" />
+		  <span class="xf_ht_jr_obttd_span">不可见</span>
+        </td>
+      </tr>
+      <tr>
+        <td align="right" width="88">审核状态：</td>
+        <td>
+          <input class="xf_ht_radio" type="radio" value="2" name="status" checked="checked" /> 
+		  <span class="xf_ht_jr_obttd_span">通过</span>
+		  <input class="xf_ht_radio" type="radio" value="-1" name="status" /> 
+		  <span class="xf_ht_jr_obttd_span">不通过</span>
+        </td>
+      </tr>
+      <tr>
+        <td align="right" valign="top" class="xf_ht_jr_obttd_l">审核意见：</td>
+        <td>
+          <textarea class="xf_ht_jr_obttd_textarea xf_ht_jr_obttd_textarea2" name="suggestion" id="suggestion"></textarea>
+        </td>
+      </tr>
+      <tr>
+      	<td>&nbsp;</td>
+        <td class="xf_ht_sh_td xf_ht_news_content_button">
+          <input class="xf_ht_tcc_button_ok" type="button" onclick="auditItam();" value="确  定">
+          <input class="xf_ht_tcc_button_on" type="button" value="取  消" onclick="layer.closeAll();">
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<script type="text/javascript">
+<!--
+	var nowItem2 = 0;
+	var itemLen2 = 0;
+	var items2 = null;
+	$("#suggestion").maxLength(50);
+
+	/* 审核 */
+	function auditItam(){
+		var isVisible = $('input[name="isVisible"]:checked').val();
+		var status = $("input[name='status']:checked").val();
+		var suggestion = $("#suggestion").val();
+		var bidId = $("#bidId").val(); // 标ID（可选）
+		var detail = $("#upNextFlag").val(); // 标的详情标示吗（可选）
+		var overBorrowId = $("#overBorrowId").val(); // 超额借款标示吗（可选）
+		
+		if($.trim(suggestion) == ""){
+			//layer.msg("请填写审核意见!", 1, 5);	
+			alert("请填写审核意见!");
+			
+			return;
+		}
+		
+		window.location.href = '@{supervisor.bidManager.UserAuditItemAction.audit()}?signUserId=' 
+				+ '${item?.signUserId}' + '&mark=' + '${item?.mark}' + '&status=' 
+				+ status + '&isVisible=' + isVisible + '&suggestion=' + encodeURI(suggestion) 
+				+ '&bidId=' + bidId + '&detail=' + detail + '&overBorrowId=' + overBorrowId;
+		
+		
+	}
+		
+	$(function(){
+		restore2();
+	});
+
+	/* 上一个资料 */
+	function showLastItem2(){
+		nowItem2--;
+		showImag2((nowItem2 == 0? subItem2(0) : items2[nowItem2]));
+		
+		$("#nextItem2").removeAttr("disabled");
+		
+		if(nowItem2 <= 0){
+			$("#lastItem2").attr("disabled","disabled");
+			nowItem2 = 0;
+			return;
+		}
+
+		$("#lastItem2").removeAttr("disabled");
+	}
+
+	/* 下一个资料 */
+	function showNextItem2(){
+		nowItem2++;
+		showImag2((nowItem2 == (itemLen2-1)? subItem2(nowItem2) : items2[nowItem2]));
+
+		$("#lastItem2").removeAttr("disabled");
+		
+		if(nowItem2 >= itemLen2-1){
+			$("#nextItem2").attr("disabled","disabled");
+			nowItem2 = itemLen2-1;
+			return;
+		}
+		
+		$("#nextItem2").removeAttr("disabled");
+	}
+
+	/* 截取多余的'[' 或者 ']' */
+	function subItem2(index){
+		var img = items2[index];
+		var len = img.length;
+
+		if(itemLen2 == 1){
+			img = img.substring(1, len);
+			return img.substring(0, img.length-1)
+		}
+		
+		if(index == 0)
+			img = img.substring(1, len);
+		else
+			img = img.substring(0, len-1);
+		
+		return img;
+	}
+	
+	/* 还原 */
+	function restore2(){
+		nowItem2 = 0;
+		try{
+			items2 = '${item?.items}'.trim().split(","); // 把Java集合转为js数组
+		}catch(e){
+			return;
+		}
+		if(null == items2){
+			layer.msg("图片加载有误!", 3, 4);
+			
+			return;
+		}
+		
+		itemLen2 = items2.length;
+
+		$("#lastItem2").attr("disabled","disabled");
+		if(itemLen2 <= 1){
+			$("#nextItem2").attr("disabled","disabled");
+		}else{
+			$("#nextItem2").removeAttr("disabled");
+		}
+		
+		showImag2(subItem2(nowItem2));
+	}
+
+	function showImag2(src){
+		var isImag2 = $("#isImag2");
+		var showImag2 = $("#showImag2");
+		var notIsImag2 = $("#notIsImag2");
+		
+		var len = src.lastIndexOf(".");
+		
+		if(-1 == len) {
+			src += ".png";
+		}
+		
+		var html = '<img src="'+src+'" id="imageFileName2" title="${item?.auditItem?.name}" width="250" height="250">';
+		isImag2.show();
+		showImag2.html(html).show();
+	    notIsImag2.hide();
+	}
+
+	/* 放大缩小图片 */
+	function imgToSize2(size) {
+		var img = $("#imageFileName2");
+		var oWidth=img.width(); //取得图片的实际宽度
+		var oHeight=img.height(); //取得图片的实际高度
+		var w = 0;
+		var h = 0;
+		if(oWidth > 380 || oHeight > 380){
+			w = 380;
+			h = 380;
+		}else{
+			w = oWidth + size;
+			if(w > 380 || w < 180) return;
+			h = oHeight + size/oWidth * oHeight;
+		}
+		img.width(w);
+		img.height(h);
+	}
+
+//-->
+</script>

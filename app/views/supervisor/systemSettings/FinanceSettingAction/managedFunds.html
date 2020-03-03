@@ -1,0 +1,66 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'资金托管账户' /}
+<div class="xfht_t_j_k">
+  <!--左-->
+  #{include "supervisor/systemSettings/common/leftBar.control"/}
+
+  <!--右-->
+  <div class="xfht_t_j_k_rihgt">
+    <div class="xfht_t_q_y">
+      <div class="xfht_t_j_y_1"></div>
+      <div class="xfht_t_j_y_2">
+        <!--右上-->
+        <div class="xf_ht_obu_fklm">资金托管账户设置</div>
+        <!--右下-->
+        <div class="xfht_t_j_y_yx_k">
+          <div class="xf_ht_obu_fkhz xf_ht_obu_fkhz_tgzh">
+            <ul class="xf_ht_obu_fkul">
+              <li>
+                <div class="xf_ht_obu_fkul_img">
+                  <img src="images/zf_list_03.png" alt="">
+                </div>
+                <div class="xf_ht_obu_fkul_title">
+                  <input type="radio"> 国付宝托管
+                </div></li>
+              <li>
+                <div class="xf_ht_obu_fkul_img">
+                  <img src="images/zf_list_05.png" alt="">
+                </div>
+                <div class="xf_ht_obu_fkul_title">
+                  <input type="radio"> 环迅托管
+                </div></li>
+              <li>
+                <div class="xf_ht_obu_fkul_img">
+                  <img src="images/zf_list_09.jpg" alt="">
+                </div>
+                <div class="xf_ht_obu_fkul_title">
+                  <input type="radio"> 工行托管
+                </div></li>
+              <li>
+                <div class="xf_ht_obu_fkul_img">
+                  <img src="images/zf_list_10.png" alt="">
+                </div>
+                <div class="xf_ht_obu_fkul_title">
+                  <input type="radio"> 招行托管
+                </div></li>
+            </ul>
+          </div>
+          <div class="xf_htgl_jgsix">
+            <input class="xf_ht_tcc_button_ok" type="button" value="确 定">
+          </div>
+        </div>
+
+      </div>
+      <div class="xfht_t_j_y_3"></div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+$(function() {
+  /* 高亮显示 */
+	showHighLight(2,2,8);
+});
+  alert("该功能暂未开通");
+  window.location = "@{supervisor.managementHome.HomeAction.showHome(1)}";
+</script>

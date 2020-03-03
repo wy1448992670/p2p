@@ -1,0 +1,131 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'活动中心管理' /}
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  #{include "supervisor/webContentManager/common/leftBar.control"/}
+  <!-- 内容区 --> 
+  <div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+   #{form @activityCenter(), id:'submit'}
+  	<div class="xf_ht_search_inon" style="border-top: 1px solid #ddd">
+	       <div class="xf_ht_search_r">
+	         
+	         <div class="xf_ht_search_xl">
+	         	
+	           <input name="title" type="text" class="search_w" id="title" value="${title}" />
+	         </div>
+	         <div class="xf_ht_search_xl">
+	           <input type="submit" class="search_button" value="搜索">
+	         </div>
+	         
+	       </div>
+	       <div class="xf_ht_search_xl" style="float: right;" >
+	       	   
+	           <input type="button" class="search_button" value="添加" onclick="addActivityCenter()">
+	         </div>
+	     </div>
+	 #{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table border:"0",cellspacing:"0",cellpadding:"0",class:"xn_c_content_list",tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}标题#{/th}
+          #{th}所在位置#{/th}
+          #{th}分辨率#{/th}
+          #{th}建议文件大小#{/th}
+          #{th}文件格式#{/th}
+		  #{th}链接位置#{/th}
+		  #{th}排序#{/th}
+		  #{th}操作#{/th}
+        #{/tr}
+		#{list items:t, as:'content'}
+		        #{tr tr_index:content_index}
+		          #{td}${content_index}#{/td}
+		          #{td width:"30%"}${content?.title} #{/td}
+		          #{td}${content?.location}#{/td}
+		          #{td}${content?.resolution}#{/td}
+				  #{td}${content?.file_size}#{/td}
+				  #{td}${content?.file_format}#{/td}
+				  #{td}${content?.url}#{/td}
+				  #{td}${content?._order}#{/td}
+		          #{td}
+		          
+		            <span><a class="xf_ta_onclick" onclick="deleteAC()">删除</a></span>
+		            <span><a class="xf_ta_onclick" onclick="eidtActivityCenter(${content?.id})">编辑</a></span>
+		          #{/td}
+		        #{/tr}
+			#{/list}
+      #{/table}
+    </div>
+  </div>
+</div>
+<div id="show"></div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+$(function(){
+	//高亮显示
+	showHighLight(7,7,30);
+})
+
+function deleteAC(id){
+
+	$.ajax({
+		url:"@{supervisor.webContentManager.ActivityCenterAction.deleteActivityCenter()}",
+		type:"POST",
+		data:{id:id},
+		success:function(data){
+			
+			if (data.error.code < 0) {
+	          alert(data.error.msg);
+	          
+	          return;
+	        }
+	        
+		
+	        alert(data.error.msg);
+	        location.reload();
+		}
+	});
+}
+
+function addActivityCenter(){
+	$.ajax({
+	      url : "@{supervisor.webContentManager.ActivityCenterAction.addActivityCenter()}",
+	      type : "POST",
+	      success : function(data) {
+	    	
+	        $('#show').html(data);
+	        $.layer({
+	          type: 1,
+	          area: ['600', 'auto'],
+	          title: '添加活动',
+	          page: {dom : '#xf_ht_ac'}
+	        });
+	      }
+	      
+	    });
+  }
+function eidtActivityCenter(id){
+	$.ajax({
+	      url : "@{supervisor.webContentManager.ActivityCenterAction.eidtActivityCenter()}",
+	      type : "POST",
+	      data:{id:id},
+	      success : function(data) {
+	    	
+	        $('#show').html(data);
+	        $.layer({
+	          type: 1,
+	          area: ['600', 'auto'],
+	          title: '添加活动',
+	          page: {dom : '#xf_ht_eidt'}
+	        });
+	      }
+	      
+	    });
+  }
+</script>

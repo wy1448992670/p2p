@@ -1,0 +1,94 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'借款端已分配列表详情' /} 
+<style>
+  .z_title{
+    font-size: 16px;
+    padding: 15px;
+  }
+  .outer{
+    padding:20px;
+  }
+  .outer table tr td{
+    padding: 8px 3px!important;
+  }
+</style>
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  <!--左-->
+  #{include "supervisor/webContentManager/common/leftBar.control"/}
+  <!--右-->
+  <div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 申请信息 -->
+    <div style="padding:30px;" class="xn_c_content_top">
+      <div style="border: 1px solid #AEAEAE" class="">
+        <div class="z_title" style="border-bottom: 1px solid #AEAEAE;background:#F2F2F2;">
+          <em>申请信息</em>
+        </div>
+        <div class="outer" style="font-size:16px;">
+          <table width="100%" >
+            <tbody>
+              <tr>
+                <td width="8%">用户名： </td>
+                <td width="26%">130255822100</td>
+                <td width="9%">申请金额（元）： </td>
+                <td>10,000,000</td>
+              </tr>
+              <tr>
+                <td>注册时间： </td>
+                <td>2018-06-3024:0</td>
+                <td>申请地区： </td>
+                <td>上海</td>
+              </tr>
+              <tr>
+                <td>申请时间： </td>
+                <td>2018-06-3024:0</td>
+                <td>借款期限： </td>
+                <td>12个月</td>
+              </tr>
+              <tr>
+                <td>申请项目： </td>
+                <td>信亿贷：</td>
+                <td>借款用途： </td>
+                <td>上海</td>
+              </tr>
+              <tr>
+                <td>借款人分配至： </td>
+                <td>2018-06-3024:0</td>
+                <td>借款性质： </td>
+                <td><span style="color:red;">企业借款</span><span style="color:#0044FC;font-size: 10px;margin-left: 10px;">更改</span></td>
+              </tr>
+              <tr>
+                <td >审批金额： </td>
+                <td><input type="text" name="" id=""><span style="color:#0044FC;font-size: 10px;margin-left: 10px;">更改</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- 借贷信息 -->
+      #{include 'supervisor/webContentManager/ProductAction/loanContent.control'/}
+    </div>
+  </div>
+  </div>
+  </div>
+</div>  
+<script type="text/javascript">
+<!--
+	$(function(){
+		/* 高亮显示 */
+		showHighLight(4,4,19);
+		
+		$('#bgTab').find('tr:even').find('td').css('background-color', '#f4f4f4');
+	});
+
+	/* 条件搜素查询 */
+	function showPage(currPage, pageSize){
+	     $("#currPage").val(currPage);
+	     $("#pageSize").val(pageSize);
+	     $("#productList").submit();
+	}
+//-->
+</script>
+

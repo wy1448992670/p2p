@@ -1,0 +1,286 @@
+<div class="xf_ht_jr_obu_width">
+    <div class="xf_ht_damem_hy_box">
+      <div class="xf_ht_jbox_table">
+        <table class="xf_htgl_jg_tableone_table" cellspacing="0" cellpadding="0" border="0">
+          <tr>
+            <td>权限组：</td>
+            <td>${group?.name}</td>
+          </tr>
+          <tr>
+            <td>权限组描述：</td>
+            <td><input value="${group?.description}" readonly class="xfht_zr_input xfht_zr_bjqxz_w" type="text" height="100px"></td>
+          </tr>
+          <tr>
+            <td>权限组名单：</td>
+            <td style="max-width:550px; overflow:auto;">
+              <span id="groupRoster">${groupRoster}</span>
+              <input class="xf_ht_tcc_zzezat2" type="button" id="xf_dfk_fkzh_tcc10" value="编辑权限组名单" onclick="selectGroupRosterInit(1, 2);">
+            </td>
+          </tr>
+          <tr>
+            <td>输入要添加用户的EIMS ID：</td>
+            <td>
+              <input id="supervisor_name" type="text" class="xfht_zr_input xfht_zr_bjqxz_w" style="width:300px"/>
+              <input class="xf_ht_tcc_zzezat2" type="button" id="supervisor_name" value="从管理员中选择" onclick="selectSupervisorInit(1, 2)">
+            </td>
+          </tr>
+          <tr>
+            <td>描述：</td>
+            <td>
+              <textarea id="description" readonly style="height:100px;width:200px;max-width:550px;"></textarea>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="jbox_tan_ondiv jbox_tan_width4">
+        <input class="jbox_ok" type="button" onclick="addSupervisor()" value="添 加">
+        <input class="jbox_on" type="button" value="取 消">
+      </div>
+    </div>
+  </div>
+
+<script type="text/javascript">
+  var g_groupRoster;
+  var g_selectedRoster;
+  var g_isSupervisorExist = false;
+  
+
+  $(function() {
+    //关闭
+    $(".xf_ht_jr_obu_r").click(function() {
+      $("#xf_ht_fkzh_ttc4").hide();
+    });
+
+    init();
+
+    //取消
+    $(".jbox_on").click(function() {
+      layer.close(pop3);
+      //$("#xf_ht_fkzh_ttc4").hide();
+    });
+
+    //监听管理员账号输入框值发生改变事件
+    $("#supervisor_name").on("input propertychange change", function() {
+      onSupervisorNameChanged($(this).val());
+    });
+  });
+
+  //初始化
+  function init() {
+    var groupRoster = '${groupRoster}'.trim();
+    
+    if ("" == groupRoster) {
+      g_groupRoster = new Array();
+      g_selectedRoster = new Array();
+    } else {
+      g_groupRoster = groupRoster.split(",");
+      g_selectedRoster = groupRoster.split(",");
+    }
+  }
+
+  //显示选择名单弹窗
+  function selectGroupRosterInit(currPage, pageSize) {
+    
+    $.ajax({
+      url : "@{selectGroupRosterInit()}",
+      type : "POST",
+      data : {
+        "currPage" : currPage,
+        "pageSize" : pageSize
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+
+          return;
+        }
+        
+        if(pop31 > 1 && pop31 != pop3) {
+          layer.close(pop31);
+        }
+
+        var ttc = $("#xf_ht_fkzh_ttc6");
+        ttc.html(data);
+        pop31 = $.layer({
+          type: 1,
+          area: ['780', 'auto'],
+          title: '编辑权限组名单',
+          page: {dom : ttc}
+        });
+        //showDiv(ttc);
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+
+  //选择名单弹窗已提交
+  function groupRosterDidSelect(groupRoster) {
+    g_groupRoster = clone(groupRoster);
+    var roster = g_groupRoster.join(",");
+
+    $("#groupRoster").html(roster).change();
+    setGroupRoster();
+  }
+
+  //设置权限组名单
+  function setGroupRoster() {
+    var groupRoster = g_groupRoster.join(",");
+
+    $.ajax({
+      url : "@{setGroupRoster()}",
+      type : "POST",
+      data : {
+        "groupId" : '${group?.id}',
+        "groupRoster" : groupRoster
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+
+          return;
+        }
+
+        $("#groupRoster").html(groupRoster);
+        $("#supervisor_name").val("");
+        $("#description").val(data.msg);
+        alert(data.msg);
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+
+  //管理员账号输入框值发生改变时回调
+  function onSupervisorNameChanged(name) {
+    name = name.trim();
+
+    if ("" == name) {
+      $("#description").val("");
+
+      return;
+    }
+
+    if (g_groupRoster.inArray(name)) {
+      g_isSupervisorExist = true;
+      var description = "管理员账号" + name + "已在权限组名单中";
+      $("#description").val(description);
+
+      return;
+    }
+
+    $.ajax({
+      url : "@{querySupervisorByName()}",
+      type : "POST",
+      data : {
+        "name" : $("#supervisor_name").val()
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          g_isSupervisorExist = false;
+          $("#description").val(data.msg);
+
+          return;
+        }
+
+        g_isSupervisorExist = true;
+        var description = "管理员账号：" + data.name + "\n真实姓名："
+            + data.reality_name;
+        $("#description").val(description);
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+
+  function selectSupervisorInit(currPage, pageSize) {
+    $.ajax({
+      url : "@{selectSupervisorInit()}",
+      type : "POST",
+      data : {
+        "currPage" : currPage,
+        "pageSize" : pageSize
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+
+          return;
+        }
+        
+        if(pop32 > 1 && pop32 != pop3) {
+          layer.close(pop32);
+        }
+
+        var ttc = $("#xf_ht_fkzh_ttc5");
+        ttc.html(data);
+        pop32 = $.layer({
+          type: 1,
+          area: ['780', 'auto'],
+          title: '设置权限',
+          page: {dom : ttc}
+        });
+        //showDiv(ttc);
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+
+  //选择名单弹窗已提交
+  function supervisorDidSelect(supervisorName) {
+    $("#supervisor_name").val(supervisorName).change();
+    //addSupervisor();
+  }
+
+  //添加管理员到权限组
+  function addSupervisor() {
+    var supervisorName = $("#supervisor_name").val().trim();
+
+    if ("" == supervisorName) {
+      alert("管理员名字不能为空");
+      return;
+    }
+
+    if (!g_isSupervisorExist) {
+      alert("账号为" + supervisorName + "的管理员不存在");
+      return;
+    }
+
+    if (g_groupRoster.inArray(supervisorName)) {
+      alert("账号为" + supervisorName + "的管理员已在权限组中");
+      return;
+    }
+
+    g_groupRoster.push(supervisorName);
+    var groupRoster = g_groupRoster.join(",");
+
+    $.ajax({
+      url : "@{addSupervisor()}",
+      type : "POST",
+      data : {
+        "groupId" : '${group?.id}',
+        "supervisorName" : supervisorName
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+
+          return;
+        }
+
+        $("#groupRoster").html(groupRoster);
+        $("#supervisor_name").val("");
+        $("#description").val(data.msg);
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+  
+</script>

@@ -1,0 +1,4 @@
+
+$(function(){
+	$('#aboutUs').toggleClass("click");
+})

@@ -1,0 +1,99 @@
+
+	<!--借款中的标 start-->
+	<div class="xf_c_wyjk_1_jklcHeader">
+		<span class="xf_c_wyjk_1_jklcTitle">借款流程</span>
+	</div>
+	<div class="xf_c_wyjk_1jklcContent">
+		<div class="xf_c_wyjk_1jklcLeft">
+			<ul class="xf_c_wyjk_1_jklcUl">
+				<li>
+					<div class="xf_c_wyjk_1_jklcItems">
+						<div class="xf_c_wyjk_1_jklcRegis"></div>
+						<div class="xf_c_wyjk_1_jklcLinks">
+							<span >免费注册</span>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="xf_c_wyjk_1_jklcArrow"></div>
+				</li>
+				<li>
+					<div class="xf_c_wyjk_1_jklcItems">
+						<div class="xf_c_wyjk_1_jklcFbjk"></div>
+						<div class="xf_c_wyjk_1_jklcLinks">
+							<span>发布借款标</span>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="xf_c_wyjk_1_jklcArrow"></div>
+				</li>
+				<li>
+					<div class="xf_c_wyjk_1_jklcItems">
+						<div class="xf_c_wyjk_1_jklcZxjk"></div>
+						<div class="xf_c_wyjk_1_jklcLinks">
+							<span>开始在线借款</span>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="xf_c_wyjk_1_jklcArrow"></div>
+				</li>
+				<li>
+					<div class="xf_c_wyjk_1_jklcItems">
+						<div class="xf_c_wyjk_1_jklcMbsh"></div>
+						<div class="xf_c_wyjk_1_jklcLinks">
+							<span>满标审核</span>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="xf_c_wyjk_1_jklcArrow"></div>
+				</li>
+				<li>
+					<div class="xf_c_wyjk_1_jklcItems">
+						<div class="xf_c_wyjk_1_jklcExaOk"></div>
+						<div class="xf_c_wyjk_1_jklcLinks">
+							<span>审核通过,成功借款</span>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="xf_c_wyjk_1_jklcArrow"></div>
+				</li>
+				<li>
+					<div class="xf_c_wyjk_1_jklcItems">
+						<div class="xf_c_wyjk_1_jklcInstall"></div>
+						<div class="xf_c_wyjk_1_jklcLinks">
+							<span>分期还款</span>
+						</div>
+					</div>
+				</li>
+				<div class="clear"></div>
+			</ul>
+		</div>
+		<div class="xf_c_wyjk_1jklcRight">
+			<div class="xf_c_wyjk_1jklcRightName">
+				
+			</div>
+			<div class="xf_c_wyjk_1jklcRightTitle">
+					 <span class="xf_c_idx_4_mebersNews">最新投资资讯：</span>  <br/>
+					#{list bids}
+						#{if _?.userName != null}
+							<a 
+								href="@{front.invest.investAction.invest(_?.id)}" 
+								style="display: block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom: -5px;"
+							>
+							会员  ${_?.userName?.asterisk()},
+							${_?.time?.format('yyyy-MM-dd HH:mm:ss')}
+							发布了借款金额￥${_?.amount?.format('###,##0.00')},年息${_?.apr}%借款中...
+							</a>
+							<br/>
+						#{/if}
+					#{/list}
+				</p>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<!--借款中的标 ends-->

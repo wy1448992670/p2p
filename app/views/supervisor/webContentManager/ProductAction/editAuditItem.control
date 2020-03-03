@@ -1,0 +1,79 @@
+<div class="xn_c_ban_jox xn_c_ban_jox_ptsh" id="showEditPage" style="display:none;height:400px;overflow: auto;">
+  <div class="xf_ht_jr_obu_width">
+  #{form @editingAuditItem(item), method:'POST', id:'editingAuditItem' } 
+  <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form" width="100%">
+    <tr>
+      <td align="right" valign="middle" width="130">审核资料科目名称：</td>
+      <td>
+        <input type="hidden" name="itemId" id="itemId">
+        <input class="xf_ht_banner_input" type="hidden" name="item.name" id="editItemName" onblur="checkName(this,$('#itemId').val());">
+        <lable id='showTxt'></lable>
+        <span id="showError"></span>
+      </td>
+    </tr>
+    <tr>
+      <td align="right" valign="top">文件格式：</td>
+      <td>
+      	<lable id="showType"></lable>
+      	<input type="hidden" name="item.type" id="eselect">
+      </td>
+    </tr>
+    <tr>
+      <td align="right" valign="top">资料提交要求：</td>
+      <td>
+        <textarea rows="5" class="xf_ht_jr_obttd_textarea xf_ht_jr_obttd_textarea2" oninput="Limitdesc(this)" onkeyup="Limitdesc(this)" cols="35" name="item.description" id="edescription"></textarea>
+        <span class="xf_con_zqzr_znx" style="display:inline-block; margin-top:5px;">您还可以输入<span class="xf_con_zqzr_znxsz" id="showReason">200</span>字</span>
+      </td>
+    </tr>
+    <tr>
+      <td align="right" valign="top">审核资料有效期：</td>
+      <td>
+        <input id="eperiod" name="item.period" type="text" class="xf_ht_banner_input" style="width:135px;"  value="" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" style="ime-mode:Disabled">个月
+      </td>
+    </tr>
+    
+    <tr>
+      <td align="right" valign="top">审核周期：</td>
+      <td>
+        <input id="eauditCycle" name="item.auditCycle" type="text" class="xf_ht_banner_input" style="width:135px;"  value="" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" style="ime-mode:Disabled">个工作日
+      </td>
+    </tr>
+    
+    #{if !constants.Constants.IPS_ENABLE}
+    <tr style="display:none;">
+      <td align="right" valign="top">审核费用：</td>
+      <td>
+        <input id="eauditFee" name="item.auditFee" type="text" class="xf_ht_banner_input" style="width:135px;"  value="0" onkeyup="this.value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{2}).*/g, '$1')" onafterpaste="this.value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{2}).*/g, '$1')" style="ime-mode:Disabled">元
+      </td>
+    </tr>
+    #{/if}
+	<tr>
+      <td align="right" valign="top">科目信用积分：</td>
+      <td>
+        <input id="ecreditScore" name="item.creditScore" type="text" class="xf_ht_banner_input" style="width:135px;"  value="" onkeyup="this.value=value.replace(/[^\d]/g,'')" onafterpaste="this.value=value.replace(/[^\d]/g,'')" style="ime-mode:Disabled">最高不超过[15]分
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <input class="xf_ht_tcc_button_ok" type="submit" value="保  存">
+        <input class="xf_ht_tcc_button_on" type="button" onclick='layer.closeAll();' value="取  消">
+      </td>
+    </tr>
+    <tr>
+	  <td colspan="2">
+      </td>
+	</tr>
+  </table>
+  #{/form}
+  </div>
+</div>
+<script type="text/javascript">
+
+	function Limitdesc(obj){
+     if (obj.value.length > 200){
+    	obj.value = obj.value.substring(0, 200);
+     }
+     $("#showReason").html(200 - obj.value.length);
+}
+</script>

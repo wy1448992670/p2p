@@ -1,0 +1,153 @@
+			<div class="xf_wylc_tbssbox">
+				<div class="xf_wylc_tbsousou">
+					<span class="xf_c_wyjk_1_jklcTitle" >投标搜索</span>
+					 #{form @debtHome(),method:'GET',id :'debtsSearch'}
+					<div class="xf_wylc_tbssinput">
+						<input type="text" title="请输入转让标题"  id="keywords" name="keywords" value="${page?.conditions?.keywords}">
+						<input type="hidden" id="currPage" name="currPage"/>
+            <input type="hidden" id="pageSize" name="pageSize"/>
+            <input type="hidden" id="aprtemp" name="apr" value="${page?.conditions?.apr}"/>
+            <input type="hidden" id="debtAmounttemp" name="debtAmount" value="${page?.conditions?.amount}"/>
+            <input type="hidden" id="orderType" name="orderType" value="${page?.conditions?.orderType}"/>
+						<a onclick="showDebtLists();">搜索</a>
+					</div>
+				</div>
+				<!-- 搜索条件 -->
+				<dl class="xf_wylc_tbtitlelist" id="apr">
+					<dt class="xf_wylc_tbsstitle">利率：</dt>
+					<dd value="0" #{if page?.conditions?.apr == 0} class="xf_wylc_tbssisthot" #{/if}>全部</dd>
+					<dd value="1" #{if page?.conditions?.apr == 1} class="xf_wylc_tbssisthot" #{/if}>10%以下</dd>
+					<dd value="2" #{if page?.conditions?.apr == 2} class="xf_wylc_tbssisthot" #{/if}>10%-15%</dd>
+					<dd value="3" #{if page?.conditions?.apr == 3} class="xf_wylc_tbssisthot" #{/if}>15%-20%</dd>
+					<dd value="4" #{if page?.conditions?.apr == 4} class="xf_wylc_tbssisthot" #{/if}>20%以上</dd>
+				</dl>
+				<dl class="xf_wylc_tbtitlelist" id="debtAmount">
+					<dt class="xf_wylc_tbsstitle">待收本金：</dt>
+					<dd value="0" #{if page?.conditions?.debtAmount == 0} class="xf_wylc_tbssisthot" #{/if}>全部</dd>
+					<dd value="1" #{if page?.conditions?.debtAmount == 1} class="xf_wylc_tbssisthot" #{/if}>1000以下</dd>
+					<dd value="2" #{if page?.conditions?.debtAmount == 2} class="xf_wylc_tbssisthot" #{/if}>1001—5000</dd>
+					<dd value="3" #{if page?.conditions?.debtAmount == 3} class="xf_wylc_tbssisthot" #{/if}>5001—10000</dd>
+					<dd value="4" #{if page?.conditions?.debtAmount == 4} class="xf_wylc_tbssisthot" #{/if}>10001—30000</dd>
+					<dd value="5" #{if page?.conditions?.debtAmount == 5} class="xf_wylc_tbssisthot" #{/if}>30000以上</dd>
+				</dl>
+				<dl class="xf_wylc_tbtitlelist" >
+					<dt class="xf_wylc_tbsstitle">借款标类型：</dt>
+					<dd class="xfselect">
+						<select name="loanType" class="xf_wylc_selectAge xf_wylc_selectAge2" id="loanType"> 
+						 <option value="">请选择</option>
+						#{list items:products,as:'product'}  
+					       <option value="${product?.id}"
+					       #{if page?.conditions?.loanType == product?.id}
+					       selected="selected"
+					       #{/if}
+					       
+					       >${product?.name}</option>   
+					    #{/list}
+						</select>&nbsp;
+					</dd>
+				</dl>
+			</div>
+			
+			
+			<div class="xf_wylc_orderdesc clr">
+				<div class="xf_wylc_orderdesc_l">
+					<ul class="clr">
+						<li class="xf_wylc_orderdesc_lione xf_wylc_orderdesc_last" onClick="conditonSearch(0)"><a id="div_0">默认排序</a></li>
+						<li class="xf_wylc_orderdesc_litwo" onClick="conditonSearch(1)"><a id="div_1">待收本金</a></li>
+						<li class="xf_wylc_orderdesc_lithree" onClick="conditonSearch(3)"><a id="div_3">利率</a></li>
+						<li class="xf_wylc_orderdesc_lifour" onClick="conditonSearch(5)"><a id="div_5">剩余时间</a></li>
+						<li class="xf_wylc_orderdesc_lifive" onClick="conditonSearch(7)"><a id="div_7">还款日</a></li>
+					</ul>
+				</div>
+				#{/form}
+				 <div class="xf_wylc_orderdesc_r">
+					<span class="xf_wylc_orderdesc_rl">共计<span class="xf_wylc_orderdesc_span">${page.totalCount}</span>个债权标</span>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+				</div> 
+			</div>
+			
+			
+
+
+
+ <script>
+	var debtAmount = "";
+	var apr = "";
+	$(function(){
+			 $("#apr dd").click(function(){ 
+			    	$("#apr dd").removeClass("xf_wylc_tbssisthot");
+				    $(this).addClass("xf_wylc_tbssisthot");
+				      apr = $(this).attr("value");  
+				       $("#aprtemp").val(apr);
+				      showDebtLists();
+			    });
+			   $("#debtAmount dd").click(function(){ 
+			    	$("#debtAmount dd").removeClass("xf_wylc_tbssisthot");
+				    $(this).addClass("xf_wylc_tbssisthot");
+				      debtAmount = $(this).attr("value");  
+				       $("#debtAmounttemp").val(debtAmount);
+				      showDebtLists();
+			  });
+			  
+	         //条件查询控制样式
+			      var num= '${page?.conditions?.orderType}';
+					  if(num == 0){
+					  $("#div_0").addClass("xf_wylc_orderdesc_nocheck");
+					    return;
+					  }
+			
+					  var sum = num/2;
+					  if(sum.toString().indexOf('.') == -1){
+					    var sum2 = num -1;
+					    $("#div_"+sum2).removeClass("xf_wylc_orderdesc_ishot");
+					    $("#div_"+sum2).addClass("xf_wylc_orderdesc_up");
+					    return;
+					  }else{
+					    $("#div_"+num).removeClass("xf_wylc_orderdesc_up");
+					    $("#div_"+num).addClass("xf_wylc_orderdesc_ishot");
+					  }
+	
+		      
+	})
+	
+function conditonSearch(num){
+  var order= '${page?.conditions?.orderType}';
+  if(order == 0){
+    $("#orderType").val(num);
+    $("#debtsSearch").submit();
+    return;
+  }
+  var sum = order/2;
+  if(sum.toString().indexOf('.') == -1){
+    var sum2 = order - 1;
+    $("#orderType").val(num);
+    $("#debtsSearch").submit();
+    return;
+  }else{
+    if(order == num){
+      $("#orderType").val(num + 1);
+      $("#debtsSearch").submit();
+      return;
+    }else{
+      $("#orderType").val(num);
+      $("#debtsSearch").submit();
+      return;
+    }
+  }
+}
+	
+	
+	
+	
+	function showDebtLists(){
+    	
+    	 $("#debtsSearch").submit();
+    }
+	
+	function showPage(currPage, pageSize){
+        $("#currPage").val(currPage);
+        $("#pageSize").val(pageSize);
+        $("#debtsSearch").submit();
+    }
+
+</script>

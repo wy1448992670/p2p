@@ -1,0 +1,41 @@
+ <table border="0" cellpadding="0" cellspacing="0" width="664" class="xf_membill_zqzr3">
+							<tr>
+							<th>序号</th>
+							<th>竞拍人</th>
+							<th>竞拍出价</th>
+							<th>竞拍时间</th>
+							<th>竞拍状态</th>
+						</tr>
+						
+						
+						#{list items:page.page, as:'records'}
+								<tr>
+									<td>${records_index}</td>
+									<td>${records?.name}</td>
+									<td>${records?.offer_price}元</td>
+									<td>${records?.time?.format('yyyy-MM-dd HH:mm:ss')}</td>
+									<td>
+									#{if records?.status==0}
+									正常
+									#{/if}
+									#{if records?.status==1}
+									成交
+									#{/if}
+									#{if records?.status==2}
+									待接受
+									#{/if}
+									#{if records?.status==-1}
+									失败
+									#{/if}
+									#{if records?.status==3}
+									等待确认
+									#{/if}
+									
+									</td>
+								</tr>
+						#{/list}
+					</table>
+					<!-- 分页器 -->
+						<div class="xf_wylc_page xf_zqzr_view_page">
+						#{page funMethod:"showAuctionRecords",currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:2,style:2 /}
+						</div>

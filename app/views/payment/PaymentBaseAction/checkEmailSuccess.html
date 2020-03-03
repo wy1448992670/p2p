@@ -1,0 +1,21 @@
+#{extends 'payment/PaymentBaseAction/checkMain.html' /}
+#{set title:'邮箱激活成功' /}
+  
+<div class="p_zctancbg" style="display: block"></div>
+<div class="p_zctanc2" style="display: block">
+  <div class="p_zctcbox">
+    <div class="p_zctctextimg"><img src="@{'public/images/p_zc001.png'}"></div>
+    <div class="p_zctctextword">
+      <p>&nbsp;</p>
+      <p class="p_zcyougg">邮箱激活成功，请继续下一步认证</p>
+      <p>&nbsp;</p>
+      <br>
+      <p><a href="@{payment.PaymentBaseAction.checkRealName}" class="p_zctcnext2">下一步</a></p>
+    </div>
+    <div class="p_zctcbottom">
+      <p>请注意以下事项</p>
+      <p>1、邮箱认证激活成功，请点击下一步进行实名认证。</p>
+      <p>2、如果您在验证过程中，出现任何问题，请致电${phone}，或咨询客服QQ：${qq1} &nbsp;| &nbsp; ${qq2}</p>
+    </div>
+  </div>
+</div>

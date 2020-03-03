@@ -1,0 +1,245 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta content="telephone=no" name="format-detection">
+<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/czstyle.css'}" />
+<script type="text/javascript" src="@{'/public/javascripts/zepto.min.js'}"></script>
+
+
+</head>
+
+<body>
+	#{form @submitRechargeApp(), id:'paySubmit'}
+	<div class="s_czbody s_main">
+		<input type="hidden" id="type" name="type" />
+	        <input type="hidden" id="bankType" name="bankType" value="${bankType}"/>
+	        <input type="hidden" id="userId" name="userId" value="${userIdStr}"/>
+		<ul class="s_czuser">
+			
+	        
+			<li>真实姓名：<strong>${user?.realityName}</strong></li>
+			<li>用&nbsp;&nbsp;户&nbsp;&nbsp;名：<strong>${user?.name}</strong></li>
+			<li>请输入充值金额：
+				<div class="s_input">
+					<input type="text" placeholder="请输入充值金额" id="money" name="money"/><span>元</span>
+				</div>
+			</li>
+			<li>
+				充值类型：
+				
+				<span class="s_likeradio"><i class="s_radio clicked" id="ui_1" ></i><label>宝付支付</label></span>
+				
+			</li>
+			*{#{if bank == null}
+			
+			<li>
+				请选择充值银行：
+				
+				<ul class="s_paystyle" id="LLselectBank">
+					<li>
+						<a href="javascript:void(0);" class="clicked" id="bank0" onClick="LLselectBank(0)">
+							<span class="s_banklogo bank1"></span>
+							中国工商银行
+						</a>
+						<span class="whitespace2"></span>
+						<a href="javascript:void(0);" id="bank1" onClick="LLselectBank(1)">
+							<span class="s_banklogo bank2"></span>
+							中国招商银行
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0);" id="bank2" onClick="LLselectBank(2)">
+							<span class="s_banklogo bank3"></span>
+							中国建设银行
+						</a>
+						<span class="whitespace2"></span>
+						<a href="javascript:void(0);" id="bank3" onClick="LLselectBank(3)">
+							<span class="s_banklogo bank4"></span>
+							中国农业银行
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0);" id="bank4" onClick="LLselectBank(4)">
+							<span class="s_banklogo bank5"></span>
+							中国银行
+						</a>
+						<span class="whitespace2"></span>
+						<a href="javascript:void(0);" id="bank5" onClick="LLselectBank(5)">
+							
+							<span class="s_banklogo bank7"></span>
+							浦发银行
+						</a>
+						
+					</li>
+					<li>
+						<a href="javascript:void(0);" id="bank6" onClick="LLselectBank(6)">
+							<img  src="/public/images/F7.png" />&nbsp;&nbsp;
+							兴业银行
+						</a>
+						<span class="whitespace2"></span>
+						<a href="javascript:void(0);" id="bank7" onClick="LLselectBank(7)">
+							<img  src="/public/images/F8.png" />&nbsp;&nbsp;
+							中国光大银行
+						</a>
+						
+					</li>
+					<li>
+						<a href="javascript:void(0);" id="bank8" onClick="LLselectBank(8)">
+							<img  src="/public/images/F9.png" />&nbsp;&nbsp;
+							交通银行
+						</a>
+						<span class="whitespace2"></span>
+						<a href="javascript:void(0);" id="bank9" onClick="LLselectBank(9)">
+							<img  src="/public/images/F10.png" />&nbsp;&nbsp;
+							中信银行
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0);" id="bank10" onClick="LLselectBank(10)">
+							<img  src="/public/images/F11.png" />&nbsp;&nbsp;
+							上海银行
+						</a>
+						<span class="whitespace2"></span>
+						<a href="javascript:void(0);" id="bank11" onClick="LLselectBank(11)">
+							<img  src="/public/images/F12.png" />&nbsp;&nbsp;
+							平安银行
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0);" id="bank12" onClick="LLselectBank(12)">
+							<img  src="/public/images/F13.png" />&nbsp;&nbsp;
+							中国邮政银行
+						</a>
+						<span class="whitespace2"></span>
+						
+					</li>
+					
+				</ul>
+			</li>
+			#{/if}
+			}*
+			<li>
+				#{if bank == null}请填写与您真实姓名一样的银行卡号：#{/if}
+				<div class="s_input">
+					<input size="28" type="text" #{if bank?.account != null && bank?.account != ""} value="${bank?.account?.safeBankAccount()}" readonly="readonly"#{/if}>
+					<input type="hidden" id="card_no" name="card_no" value="${bank?.account}">
+				</div>
+			</li>
+			<li>
+				请填写交易密码：
+				<div class="s_input">
+					<input size="28" style="width: 90%;text-indent: 10px;height: 100%;font-size: 1em;border: medium none;" type="password" id="payPassword" name="payPassword">
+				</div>
+			</li>
+			<li>
+				<input value="确定充值" type="button" class="s_czsubbtn" Onclick="recharge()"/>
+			</li>
+		</ul>
+		
+	</div>
+	#{/form}
+	<script type="text/javascript">
+	 var bankNum;
+     var typeNum
+	
+		$(function(){
+			
+			if('${flash.error}' != '') {
+				alert('${flash.error}');
+			}
+			
+			
+			
+			
+			var $banks=$(".s_paystyle>li>a");
+			$banks.click(function(){
+				$banks.removeClass("clicked");
+				$(this).addClass("clicked");
+			});
+			$(".s_czsubbtn").click(function(){
+				$(".s_fixedbg").show();
+			});
+			$(".s_closebtn").click(function(){
+				$(".s_fixedbg").hide();
+			});
+		});
+		
+		function select(num){
+	      if(num == 1){
+	          $("#payTypes").hide();
+	          $("#LLselectBank").show();
+	          $("#ui_2").removeClass("clicked");
+	          $("#ui_1").addClass("clicked");
+	          $("#type").val(num);
+	      }
+	      
+	      if(num == 2){
+	          $("#payTypes").show();
+	          $("#LLselectBank").hide();
+	          $("#ui_1").removeClass("clicked");
+	          $("#ui_2").addClass("clicked");
+	          $("#type").val(num);
+	      }
+	  }
+		
+		function LLselectBank(num){
+		    $("#type").val(1);
+	        $("#bankType").val(num);
+	        $("a").attr('class','');
+	        $("#bank"+num).attr('class','clicked');
+	    }
+	  
+	    function payTypes(num){
+	       $("#pay_"+typeNum).removeClass("clicked");
+	       $("#pay_0").removeClass("clicked");
+	       $("#pay_"+num).addClass("clicked");
+	       $("#type").val(2);
+	       $("#bankType").val(num);
+	       typeNum = num;
+	    }
+	    
+	    function recharge(){
+	      var money = $("#money").val();
+	      
+	      if(isNaN(money)) {
+	      	 alert("请输入正确的充值金额");
+	      	 return;
+	      }
+	      
+	      if($("#money").val() < ${rechargeLowest} ){
+	      	alert("最低充值${rechargeLowest}元");
+	      	return;
+	      }
+	      
+	      if($("#money").val() > ${rechargeHighest}){
+	    	  alert("充值金额不能大于${rechargeHighest}元");
+	    	  return;
+	      }
+	      
+	      if($("#card_no").val() == ''){
+			  
+			  alert("请填写银行账号!");
+			  
+			  return;
+		  }
+	      
+	      if($("#payPassword").val() == ''){
+		         alert("请填写交易密码");
+		         return;
+		  }
+	      
+	      if($("#bankType").val() == ''){
+	         alert("请选择支付银行");
+	         return;
+	      }
+	      
+	      $("#paySubmit").submit();
+	  }
+	</script>
+		
+	
+</body>
+	
+</html>

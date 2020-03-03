@@ -1,0 +1,131 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle +' | 我的账户   | 投资子账户 | 债权转让管理  | '+debtBussiness?.title+'债权标详情  '/}
+<div class="xf_lczzh_btg">
+			<div class="xf_lczzh_btg_title">${debt?.bid_no}号借款标  债权转让  详情</div>
+			<div class="xf_lczzh_btg_tcon">
+				转让标题：<span class="xf_lczzh_btg_red">${debtBussiness?.title}</span> <br />
+				待收本金转让底价：<span class="xf_lczzh_btg_red">${debt?.transfer_price}</span> 元<br />
+				转让截止时间：<span class="xf_lczzh_btg_red">${debtBussiness?.endTime?.format('yyyy-MM-dd')}</span><br />
+				转让原因：<span class="xf_lczzh_btg_red">${debtBussiness?.transerReason}</span>
+			</div>
+				<div class="xf_lczzh_btg_zrxq">
+				<div class="xf_lczzh_btg_title2">转让的借款标情况</div>
+				<div class="xf_lczzh_btg_tcon2">
+					<table border="0" cellpadding="0" cellspacing="0" width="684" class="xf_membill_zqzr">
+						<tr>
+							<td>借款标编号：${debt?.bid_no}</td>
+							<td>借款人：${debt?.name}</td>
+							<td>借款标类型：${debtBussiness?.invest?.bid?.product?.name}</td>
+						</tr>
+						<tr>
+							<td colspan="3">借款标标题：${debt?.title}</td>
+						</tr>
+						<tr>
+							<td>投标本金：${debtBussiness?.invest?.amount?.format('###,##0.00')} 元</td>
+							<td colspan="2">年利率：${debt?.apr} %</td>
+						</tr>
+						#{if debt?.status != 1}
+						<tr>
+							<td>本息合计应收金额：
+							#{if debt?.receiving_amount != null && debt?.receiving_amount != 0}
+							${debt?.receiving_amount?.format('###,##0.00')}
+							#{/if} 
+							#{else}0#{/else}
+							元</td>
+							<td colspan="2">已收金额：
+							#{if debt?.has_received_amount == null || debt?.has_received_amount ==0}
+							0
+							#{/if}
+							#{else}
+							${debt?.has_received_amount?.format('###,##0.00')}
+							#{/else}
+							 元</td>
+						</tr>
+						<tr>
+							<td>剩余应收款：
+							#{if debt?.remain_received_amount != null && debt?.remain_received_amount != 0}
+							${debt?.remain_received_amount?.format('###,##0.00')}
+							#{/if}
+							#{else}
+							0
+							#{/else}
+							 元</td>
+							<td>还款日期：${debtBussiness?.invest?.bid?.recentRepayTime?.format('yyyy-MM-dd')}</td>
+							<td>待收本金：
+							#{if debt?.remain_received_corpus != null && debt?.remain_received_corpus != 0}
+							${debt?.remain_received_corpus?.format('###,##0.00')}
+							#{/if}
+							#{else}0#{/else} 
+							元</td>
+						</tr>
+						#{/if}
+						
+						#{else}
+						<tr>
+							<td>本息合计应收金额：
+							#{if debt?.receiving_amount_success != null && debt?.receiving_amount_success != 0}
+							${debt?.receiving_amount_success?.format('###,##0.00')}
+							#{/if} 
+							#{else}0#{/else}
+							元</td>
+							<td colspan="2">已收金额：
+							#{if debt?.has_received_amount_success == null || debt?.has_received_amount_success ==0}
+							0
+							#{/if}
+							#{else}
+							${debt?.has_received_amount_success?.format('###,##0.00')}
+							#{/else}
+							 元</td>
+						</tr>
+						<tr>
+							<td>剩余应收款：
+							#{if debt?.remain_received_amount_success != null && debt?.remain_received_amount_success != 0}
+							${debt?.remain_received_amount_success?.format('###,##0.00')}
+							#{/if}
+							#{else}
+							0
+							#{/else}
+							 元</td>
+							<td>还款日期：${debtBussiness?.invest?.bid?.recentRepayTime?.format('yyyy-MM-dd')}</td>
+							<td>待收本金：
+							#{if debt?.remain_received_corpus_success != null && debt?.remain_received_corpus_success != 0}
+							${debt?.remain_received_corpus_success?.format('###,##0.00')}
+							#{/if}
+							#{else}0#{/else} 
+							元</td>
+						</tr>
+						
+						
+						#{/else}
+					</table>
+				</div>
+			</div>
+			<div class="xf_lczzh_btg_title">受让情况</div>
+					<div class="xf_lczzh_btg_tcon2">
+					<table border="0" cellpadding="0" cellspacing="0" width="684" class="xf_membill_zqzr">
+						<tr>
+							<td>受让状态：已成功</td>
+							<td>受让方式：
+							#{if debt?.type == 1}
+								定向转让
+							#{/if}
+							#{if debt?.type == 2}
+								竞价转让
+							#{/if}
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">成功受让时间：${debt?.transaction_time?.format('yyyy-MM-dd')}</td>
+						</tr>
+						<tr>
+							<td>待收本金受让成交价：${debtBussiness?.transactionPrice}</td>
+							<td>原待收本金：${debtBussiness?.debtAmount}</td>
+						</tr>
+					</table>
+				</div>
+			<div class="xf_lczzh_btg_go">
+			</div>
+		</div>

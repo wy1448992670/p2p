@@ -1,0 +1,406 @@
+
+<div class="xf_ht_tablelist">
+	<!-- 搜索 -->
+	<form method="post" action="@{supervisor.systemSettings.RedPackageAction.addDetails}" id="addForm">
+		<!-- 列表内容 -->
+		<div style="width: 780px;">
+			<div class="xn_c_content_top">
+				<table cellpadding="0" cellspacing="0" align="center" style="text-align: center; width: 760px;">
+					<tr>
+						<td colspan="2" align="left"><b>${couponName}类型</b></td>
+					</tr>
+					<tr style="vertical-align: top;">
+						<td align="center">${couponName}类型：<select class="xfht_zr_input" name="name" onchange="changeSelectName(this.value)" id="red_name">
+								<option value="1" selected="selected">注册</option>
+								<option value="11">回款</option>
+								<option value="5">实名认证</option>
+								<option value="6">添加银行卡</option>
+								<option value="3">投资</option>
+								<option value="7">累计投资</option>
+								#{if couponFlag == '1' }
+								<option value="10">积分兑换</option>
+								#{/if}
+								<option value="8">生日</option>
+								<option value="9">自定义</option>
+
+							</select>
+						</td>
+						<td align="left"><input type="hidden" name="rules" id="red_rules" />
+
+							<div class="red_rules_dt  red_rules_11" style="display: none">
+								回款本金：
+								<input type="text" name="received_money_start" id="received_money_start" style="height: 28px; width: 90px" class="xfht_zr_input" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="8" />
+								<span class="search_timesp">--</span>
+								<input type="text" name="received_money_end" id="received_money_end" style="height: 28px; width: 90px" class="xfht_zr_input" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="8" />
+								元
+							</div>
+							<div style="margin:10px 0; display: none" class="red_rules_dt red_rules_11">
+								累计投资金额：
+								<label style="padding-right: 45px">
+									<input type="text" name="all_invest_money" id="all_invest_money" style="height: 28px; width: 100px" class="xfht_zr_input" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="8" />
+								</label>
+								元以上(0为无限制)
+							</div>
+							<div style="margin-bottom: 10px; display: none" class="red_rules_dt red_rules_11">
+								累计投资笔数：
+								<label style="padding-right: 45px">
+									<input type="text" name="all_invest_count" id="all_invest_count" style="height: 28px; width: 100px" class="xfht_zr_input" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="8" />
+								</label>
+								笔以上(0为无限制)
+							</div>
+							<div style="margin-bottom: 10px; display: none" class="red_rules_dt red_rules_11">
+								注册时间：
+								<label style="padding-right: 45px">
+									<input type="text" name="reg_time" id="reg_time" style="height: 28px; width: 100px" class="xfht_zr_input" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="8" />
+								</label>
+								月以上
+							</div>
+							<div style="margin-bottom: 10px; display: none" class="red_rules_dt red_rules_3">
+								是否首投${couponName}：
+								<label style="padding-right: 45px">
+									<input type="radio" name="isFirst" checked="checked" value="1" class="isFirst" />
+									首投
+								</label>
+								<label>
+									<input type="radio" name="isFirst" value="0" class="isFirst" />
+									再投
+								</label>
+							</div>
+
+							<div class="red_rules_dt red_rules_3" style="display: none">
+								是否秒标${couponName}：
+								<label style="padding-right: 19px">
+									<input type="radio" name="isAll" value="1" class="isAll" />
+									秒标${couponName}
+								</label>
+								<label>
+									<input type="radio" name="isAll" checked="checked" value="0" class="isAll" />
+									普通投资
+								</label>
+							</div>
+
+							<div class="red_rules_dt red_rules_7 red_rules_9" style="display: none">
+								时间：
+								<input name="start" type="text" id="startDate" class="search_time" onclick="laydate()" style="cursor: pointer" />
+								<span class="search_timesp">--</span>
+								<input name="end" type="text" id="endDate" class="search_time" onclick="laydate()" style="cursor: pointer" />
+							</div>
+
+							<div class="red_rules_dt red_rules_10" style="display: none">
+								商品代码：
+								<input type="text" name=item_code id="item_code" class="xfht_zr_input">
+							</div></td>
+					</tr>
+					<tr>
+						<td align="center">&nbsp;&nbsp;&nbsp; ${couponName}名称： <input type="text" name="typeName" id="retypeName" class="xfht_zr_input">
+						</td>
+						<td align="left">
+							<div class="red_rules_dt red_rules_3 red_rules_7" style="display: none">
+								获取条件(元)：
+								<input type="text" name="obtain_money" id="obtain_money" class="xfht_zr_input" onkeyup="value=value.replace(/[^\d]/g,'')" />
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td colspan="2">
+							<div class="packets_type_hr"></div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" align="left"><b>${couponName}使用条件设置</b></td>
+					</tr>
+					<tr>
+						<td align="center">&nbsp;&nbsp;&nbsp;${couponName}#{if couponFlag==1}金额：#{/if}#{else}年化利率：#{/else} <input type="text" class="xfht_zr_input" name="amount"
+								 id="reamount" />#{if couponFlag==2}%#{/if}
+						</td>
+						<td align="left">最低投资金额限制(元)&nbsp;:&nbsp;&nbsp; <input type="text" class="xfht_zr_input" name="validity_money" onkeyup="value=value.replace(/[^\d]/g,'')" id="revalidity_money" />
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: left;">&nbsp;最低标的期限限制： <select class="xfht_zr_input" onchange="setPeriodUnit(this.value)">
+								<option value="0" selected>无限制</option>
+								<option value="2,0">2个月</option>
+								<option value="3,0">3个月</option>
+								<option value="4,0">4个月</option>
+								<option value="5,0">5个月</option>
+								<option value="6,0">6个月</option>
+								<option value="1,-1">1年(12个月)</option>
+							</select> <input type="hidden" name="bid_period" id="bid_period" value="0"> <input type="hidden" name="bid_period_unit" id="bid_period_unit" value="0">
+						</td>
+						<td align="left">${couponName}有效期&nbsp;:&nbsp;&nbsp;<input type="text" id="revalidity_time" name="validity_time" class="xfht_zr_input" type="text" onkeyup="value=value.replace(/[^\d]/g,'')" />
+							<select class="xf_membill_selectAge112" id="revalidate_unit" name="validate_unit" style="height: 28px; border: 1px solid #ddd;">
+								<option value="1" selected>天</option>
+								<option value="0">小时</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: left;">&nbsp;&nbsp;&nbsp; 新手标是否使用： <label style="padding-right: 40px">
+								<input type="radio" name="is_new_user" checked="checked" value="1">
+								是
+							</label> <label>
+								<input type="radio" name="is_new_user" value="0">
+								否
+							</label>
+						</td>
+						<td></td>
+					</tr>
+
+					<tr>
+						<td colspan="2">
+							<div class="packets_type_hr"></div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" align="left"><b>通知方式</b></td>
+
+					</tr>
+					<tr>
+						<td colspan="2" align="left" style="padding-left: 60px;"><input type="checkbox" name="notice_message" class="add_notice_way" />
+							短信&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="notice_box" class="add_notice_way" />
+							站内信&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="notice_email" class="add_notice_way" />
+							邮件&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					</tr>
+				</table>
+	</form>
+</div>
+</div>
+<!-- 列表底部 -->
+<div class="xn_c_content_bottom" style="border: 0px; width: 740px;">
+	<div class="page_warp_l">
+		<input type="button" value="确  定" onclick="return submit();" class="xf_htbutton" />
+		<input type="button" id="cancel" value="取  消" class="xf_htbutton" />
+	</div>
+</div>
+</div>
+<blockquote>
+	<br>
+</blockquote>
+
+<script type="text/javascript" src="@{'public/javascripts/layer/layer.min.js'}"></script>
+<script type="text/javascript">
+	$(function() {
+		//取消
+		$("#cancel").click(function() {
+			layer.closeAll();
+		});
+		$(".isAll").click(function() {
+			var val = $(this).val();
+			if (val == 1) {
+				$("#obtain_money").val('标的借款总金额');
+				$("#obtain_money").attr('disabled', true);
+			} else {
+				$("#obtain_money").val('');
+				$("#obtain_money").attr('disabled', false);
+			}
+		});
+	});
+	function changeSelectName(res) {
+		$(".red_rules_dt").hide();
+		$("#obtain_money").attr('disabled', false);
+		if (res == '3' || res == '7' || res == '9' || res == '10') {
+			$(".red_rules_" + res).show();
+		}
+		if (res == '11') {
+			$(".red_rules_" + res).show();
+		}
+
+	}
+	function setPeriodUnit(val) {
+		if (val == 0) {
+			$("#bid_period").val(0);
+			return;
+		}
+		var period = val.split(',')[0];
+		var unit = val.split(',')[1];
+		$("#bid_period").val(period);
+		$("#bid_period_unit").val(unit);
+	}
+	//确定提交
+	function submit() {
+		var typeName = $('#retypeName').val();
+		if ("" == typeName || null == typeName || undefined == typeName) {
+			alert("${couponName}名称不能为空!");
+			return false;
+		}
+
+		var amount = $('#reamount').val();
+		if ("" == amount || null == amount || undefined == amount) {
+			alert("${couponName}金额不能为空!");
+			return false;
+		}
+
+		if (amount <= 0) {
+			alert("${couponName}金额必须大于零!");
+			return false;
+		}
+
+		var validity_time = $('#revalidity_time').val();
+		if ("" == validity_time || null == validity_time
+				|| undefined == validity_time) {
+			alert("${couponName}有效期不能为空!");
+			return false;
+		}
+
+		var validity_money = $('#revalidity_money').val();
+		if ("" == validity_money || null == validity_money
+				|| undefined == validity_money) {
+			alert("最低投资金额限制不能为空!");
+			return false;
+		}
+		if (validity_money < 0) {
+			alert("最低投资金额限制必须大于零!");
+			return false;
+		}
+		var res = $("#red_name").val();
+		var params = {};
+		if (res == 3) {
+			var isAllVal = $('input:radio[name="isAll"]:checked').val();
+			if (isAllVal == 1) {
+				if (!checkObtainMoney()) {
+					return false;
+				}
+			}
+			params.first = $('input:radio[name="isFirst"]:checked').val();
+			params.all = isAllVal;
+		}
+		if (res == 11) {
+			var received_money_start = $('#received_money_start').val();
+			var received_money_end = $('#received_money_end').val();
+			var all_invest_money = $('#all_invest_money').val();
+			var all_invest_count = $('#all_invest_count').val();
+			var reg_time = $('#reg_time').val();
+			if (received_money_start == '' || received_money_start == null
+					|| received_money_start == undefined
+					|| received_money_start <= 0 || received_money_end == null
+					|| received_money_end == ''
+					|| received_money_end == undefined
+					|| received_money_end <= 0) {
+				alert("请正确填写回款本金!");
+				return;
+			}
+			if (parseFloat(received_money_end) < parseFloat(received_money_start)) {
+				alert("回款金额最大值不能小于回款金额最小值!");
+				return;
+			}
+			if (all_invest_money == '' || all_invest_money == null
+					|| all_invest_money == undefined
+					|| parseFloat(all_invest_money) < 0) {
+				alert("请正确填写累计投资金额!");
+				return;
+			}
+			if (all_invest_count == '' || all_invest_count == null
+					|| all_invest_count == undefined
+					|| parseFloat(all_invest_count) < 0) {
+				alert("请正确填写累计投资笔数!");
+				return;
+			}
+			if (reg_time == '' || reg_time == null || reg_time == undefined
+					|| parseFloat(reg_time) < 0) {
+				alert("请正确填写注册时间!");
+				return;
+			}
+			params.received_money_start = received_money_start;
+			params.received_money_end = received_money_end;
+			params.all_invest_money = all_invest_money;
+			params.all_invest_count = all_invest_count;
+			params.reg_time = reg_time;
+		}
+		var start = $("#startDate").val();
+		var end = $("#endDate").val();
+		if (res == 7) {
+			if (!checkDate(start, end)) {
+				return false;
+			}
+			var received_money_start = $('#received_money_start').val();
+			var received_money_end = $('#received_money_end').val();
+			params.received_money_start = received_money_start;
+			params.received_money_end = received_money_end;
+			params.start = start;
+			params.end = end;
+			if (!checkObtainMoney()) {
+				return false;
+			}
+		}
+		if (res == 9) {
+			if (!checkDate(start, end)) {
+				return false;
+			}
+			params.start = start;
+			params.end = end;
+		}
+		$("#red_rules").val(JSON.stringify(params));
+		$("#addForm").submit();
+	}
+
+	function checkObtainMoney() {
+		var obtain_money = $('#obtain_money').val()
+		if ("" == obtain_money || null == obtain_money
+				|| undefined == obtain_money) {
+			alert("${couponName}获取条件不能为空!");
+			return false;
+		}
+		if (obtain_money < 0) {
+			alert("${couponName}获取条件必须大于零!");
+			return false;
+		}
+		return true;
+	}
+	function checkDate(start, end) {
+		if ("" == start || null == start || undefined == start) {
+			alert("开始日期不能为空!");
+			return false;
+		}
+
+		if ("" == end || null == end || undefined == end) {
+			alert("结束日期不能为空!");
+			return false;
+		}
+		var d1 = new Date(start.replace(/\-/g, "\/"));
+		var d2 = new Date(end.replace(/\-/g, "\/"));
+
+		if (d1 > d2) {
+			alert("开始时间不能大于结束时间！");
+			return false;
+		}
+		return true;
+	}
+
+	
+	
+	if(${couponFlag==1}){
+		$("#reamount").on(
+				'keyup',
+				function(event) {
+					var $amountInput = $(this);
+					//先把非数字的都替换掉，除了数字和.
+					$amountInput.val($amountInput.val()	.replace(/[^\d]/g,''));
+				});
+	}else{
+	/* 	$("#reamount").on(
+				'keyup',
+				function(event) {
+					var $amountInput = $(this);
+					//先把非数字的都替换掉，除了数字和.
+					$amountInput.val($amountInput.val().replace(/[^\d.]/g, "").
+					//只允许一个小数点              
+					replace(/^\./g, "").replace(/\.{2,}/g, ".").
+					//只能输入小数点后两位
+					replace(".", "$#$").replace(/\./g, "").replace("$#$", ".")
+							.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'));
+				}); */
+		$("#reamount").on('blur', function() {
+			var $amountInput = $(this);
+			    var re = /^\d+(\.\d)?$/;
+                var bol = re.test($amountInput.val());
+				if(!bol){
+					alert('年化利率小数位最多保留一位');
+					$amountInput.val('');
+				}
+		});
+	}
+
+	
+	
+</script>

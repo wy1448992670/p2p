@@ -1,0 +1,251 @@
+<div class="s_biaobox s_biaotime">
+	<i class="icobg"></i><span id="day"></span><span>天</span><span
+		id="hours"></span><span>小时</span><span id="minutes"></span><span>分</span><span
+		id="seconds"></span><span>秒</span>
+</div>
+<ul class="s_biaobox s_biaotb">
+	#{if user == null}
+	<li>
+	<span style="color: red">您未登录&nbsp;&nbsp;</span>  <span ><a href="/wechat/registAndLogin/login"><span style="color: green">请登录</span></a></span>
+	</li>
+	#{/if}
+	%{
+	long now = new java.util.Date().getTime();
+	}%
+	#{elseif now > endTime}
+		<span style="color: red">对不起！此借款标时间已经截止，请投资其他借款标！谢谢</span> 
+	#{/elseif}
+	#{elseif (bid?.status > 2 || bid?.status < 1) || bid?.amount == bid?.hasInvestedAmount}
+	<li>
+	<span style="color: red">对不起！此借款标已经不处于招标状态，请投资其他借款标！谢谢</span> 
+	</li>
+	#{/elseif}
+	#{else}
+		<li>您的账户总额：<span class="blue">￥${(user?.balance+user?.balance2+user?.freeze).format('###,##0.00')}</span></li>
+		<li>您的可用余额：<span class="blue">￥${user?.balance.format('###,##0.00')}</span></li>
+		<form id="form1" method="post" action="@{wechat.service.InvestAction.confirmInvest}">
+		<!-- 加密sign -->
+		<input id="sign" name="sign" value="${bid?.sign}" type="hidden">
+		<input id="uuid" name="uuid" value="${uuid}" type="hidden">
+		
+		#{if bid?.minInvestAmount > 0}
+		<li>最低投标金额：<span class="blue">￥${bid?.minAllowInvestAmount?.format('###,##0.00')}</span></li> <br/>
+		  #{if user != null}
+		    <li><label>投标金额：</label> <input id="investAmount"
+				name="investAmount" type="text" class="text"/><span class="blue">元</span>&nbsp;&nbsp;<br> </li><br>
+		  #{/if}
+		#{/if}
+		
+		#{else}
+			<li>最多可购买份数：<span class="blue">${((bid?.amount-bid?.hasInvestedAmount)/bid?.averageInvestAmount)?.format('0')}份</span></li> <br/> 	
+			#{if user != null}
+		    <li><label>投标份数：</label> 
+					<input class="xf_wylc_tbje" type="button" style="width:24px;" value="-" id="plus"/>
+					<input type="text" class="xf_wylc_tbje" style="width:30px;" id="investAmount" name="investAmount" onkeyup="value=value.replace(/[^\d]/g,'')" />
+					<input class="xf_wylc_tbje" type="button" style="width:24px;" value="+"  id="add"/><span class="blue">份</span><br /> 
+		    </li>
+			#{/if}
+		#{/else}
+			
+		#{if bid?.product?.isDealPassword}
+			#{if user != null && user.payPassword == null}
+			    <a href="/wechat/home/securitySet" class="s_errortips" style="color:red">请设置交易密码！</a>
+			#{/if}
+		    #{else}
+				<li>
+				<label>交易密码：</label> <input id="dealpwd" name="dealpwd"
+					type="password" class="text" />
+				</li>
+				<li><input id="submit1" name="submit1" type="button" value="确认投标" onclick="investApplyNow()"
+				class="btn" /></li>
+			#{/else}
+		#{/if}
+		#{else}
+			<li><input id="submit2" name="submit2" type="button" value="确认投标" onclick="investApplyNow()"
+				class="btn" /></li>
+		#{/else}
+			
+		</form>
+	
+	#{/else}
+</ul>
+<script type="text/javascript">
+
+	$(function() {
+		#{if bid?.minInvestAmount == 0}
+			$("#investAmount").val(1);
+		#{/if}
+		$("#add").click(function(){	
+			var investAmount = $("#investAmount").val();
+			var patrn=/^([1-9]\d*)$/; 
+			var patrn1=/^([0-9]\d*)$/; 
+		    var flag = patrn1.exec(investAmount);
+		    var copy = ${bid?.amount - bid?.hasInvestedAmount}/${bid?.averageInvestAmount};
+			if(!flag){
+				alert("对不起！请您输入正整数！");
+			 	return;
+	        }
+				
+		    $("#investAmount").val(parseInt($("#investAmount").val())+1);//加
+		    if($("#investAmount").val() > copy){
+		    	$("#investAmount").val(copy);
+		    }
+		    	
+		});
+		
+		$("#plus").click(function(){
+			var investAmount = $("#investAmount").val();
+			var patrn=/^([1-9]\d*)$/;
+		    var flag = patrn.exec(investAmount);
+			if(!flag){
+				alert("对不起！请您输入正整数！");
+			 	return;
+	         }		
+		    $("#investAmount").val(parseInt($("#investAmount").val())-1);//减
+		    if($("#investAmount").val() < 1){
+		    	$("#investAmount").val(1);
+		    }	
+		});
+	})
+	var now = ${new java.util.Date().getTime()};
+	showTime();
+	function showTime() {
+		var end_time = "${endTime}";
+		var cha = end_time - now;
+		var SysSecond = parseInt(cha);
+		if (SysSecond > 0) {
+			int_day = Math.floor(SysSecond / 86400000);
+			SysSecond -= int_day * 86400000;
+			int_hour = Math.floor(SysSecond / 3600000);
+			SysSecond -= int_hour * 3600000;
+			int_minute = Math.floor(SysSecond / 60000);
+			SysSecond -= int_minute * 60000;
+			int_second = Math.floor(SysSecond / 1000);
+			if (int_hour < 10) {
+				int_hour = "0" + int_hour;
+			}
+
+			if (int_minute < 10) {
+				int_minute = "0" + int_minute;
+			}
+
+			if (int_second < 10) {
+				int_second = "0" + int_second;
+			}
+
+			$("#day").html(int_day);
+			$("#hours").html(int_hour);
+			$("#minutes").html(int_minute);
+			$("#seconds").html(int_second);
+		} else {
+
+			$("#day").html("00");
+			$("#hours").html("00");
+			$("#minutes").html("00");
+			$("#seconds").html("00");
+		}
+		
+		if(cha > 0) {
+			setTimeout('showTime()', 1000);
+			now = now + 1000;
+		}
+	}
+	
+	function investApplyNow(){
+		var listAction = #{jsAction @wechat.account.WechatAccountHome.checkUserStatusAndActiveEmail() /};
+		$.post(listAction(), function(data) {
+			if (data.code < 0) {
+				alert(data.msg);
+				return;
+			}
+			switch(data.status * 1){
+			    case 1:
+			    	confirmInvest();  
+					break;
+					return;
+				case -1: 
+				/* 未登录 */
+					window.location.href="@{wechat.service.RegistAndLogin.login}";
+					return;
+				case -2: 
+				/* 未激活 */
+					if (${ipsEnable}) {
+						window.location.href="@{front.account.CheckAction.trustAccount}";
+						return;
+					}
+					var info = data.email;
+					alert("您账号未激活\n邮箱已经发送到您的:"+info+"请激活！");
+					break;
+					return;
+				 case -3: 
+				 /* 未完善基本资料 */
+					confirmInvest();
+					break;
+					return;
+			}
+		});	
+	 }
+	
+	function confirmInvest() {
+		var investAmount = $("#investAmount").val();
+		var minInvestAmount = ${bid?.minAllowInvestAmount};
+		var maxInvestAmount = ${bid?.amount - bid?.hasInvestedAmount};
+		var averageInvestAmount = ${bid?.averageInvestAmount};
+		
+		var patrn=/^([1-9]\d*)$/;
+		var flag = patrn.exec(investAmount);
+		
+		var isDealPassword = ${bid?.product?.isDealPassword};
+		if( isDealPassword == true){
+			if($("#dealpwd").val().replace(/\s+/g,"") == "" || null ==$("#dealpwd").val().replace(/\s+/g,"")){
+				alert("对不起！请输入交易密码！");
+				return false;
+			}
+		}
+		
+		if(minInvestAmount > 0){
+			
+			if(investAmount.replace(/\s+/g,"") == "" || null == investAmount.replace(/\s+/g,"")){
+			    alert("对不起！投标金额不能为空！");
+			    return false;
+		    }
+		    if(!flag){
+				alert("对不起！请您输入正整数！");
+			 	return false;
+		   }
+			if(investAmount < minInvestAmount){
+				alert("对不起！您的投标金额少于最低投标金额！");
+				return false;
+			}
+			if(investAmount > maxInvestAmount){
+				alert("对不起！您的投标金额超过了剩余投标金额！");
+				return false;
+			}
+		}
+		
+		if(averageInvestAmount > 0){
+			var maxInvestcopys = ${bid?.amount - bid?.hasInvestedAmount}/${bid?.averageInvestAmount};
+			
+			if(investAmount.replace(/\s+/g,"")== "" || null == investAmount.replace(/\s+/g,"")){
+			    alert("对不起！投标份数不能为空！");
+			    return false;
+		    }
+		    if(!flag){
+				alert("对不起！请您输入正整数！");
+				return false;
+		    }
+			if(investAmount <= 0){
+				alert("对不起！您的投标份数不能小于0！");
+			    return false;
+			}
+			if(investAmount > maxInvestcopys){
+				alert("对不起！您最多只能投"+maxInvestcopys+"份!");
+			    return false;
+			}
+		}
+		
+		$("#form1").submit();
+	}
+	
+	
+</script>

@@ -1,0 +1,86 @@
+#{extends 'wechat/common.html' /}
+
+<body>
+	<div class="s_main s_center">
+		<header class="s_header">
+			净值计算器
+			<a href="@{wechat.account.WechatAccountHome.accountInfo()}" class="icobg"></a>
+		</header>
+		<ul class="s_countertype">
+		  <li><a href="@{wechat.others.InterestCalculator.wealthToolkitCreditCalculator()}">信用计算器</a></li>
+			<li><a href="@{wechat.others.InterestCalculator.wealthToolkitRepaymentCalculator()}">还款计算器</a></li>
+			<li><a class="clicked" href="@{wechat.others.InterestCalculator.wealthToolkitNetValueCalculator()}">净值计算器</a></li>
+			<li><a href="@{wechat.others.InterestCalculator.wealthToolkitAPRCalculator()}">利率计算器</a></li>
+		</ul>
+		<div class="s_centerbox">
+			<table width="100%" cellpadding="0" cellspacing="0" class="s_countertab">
+				<tr>
+					<td align="right" width="32%">可用余额：</td>
+					<td width="68%">
+					<input class="border" type="text" id="balance" onkeyup="value=value.replace(/[^\d]/g,'')" 
+				onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d  |^\.]/g,''))">
+						&nbsp;&nbsp;元
+					</td>
+				</tr>
+				<tr>
+					<td align="right">待收金额：</td>
+					<td>
+					<input class="border" type="text" id="receive" onkeyup="value=value.replace(/[^\d]/g,'')" 
+				onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d  |^\.]/g,''))">
+					&nbsp;&nbsp;元
+					</td>
+				</tr>
+				<tr>
+					<td align="right">待还金额：</td>
+					<td>
+					<input class="border" type="text" id="pay" onkeyup="value=value.replace(/[^\d]/g,'')" 
+				onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d  |^\.]/g,''))">
+						&nbsp;&nbsp;元
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="s_counterbtn">
+			<input type="button" value="计算" onclick="calculate();" />
+		</div>
+		<p class="s_counternum">
+			您最多可以借&nbsp;<strong id="showResult">0</strong>&nbsp;元的借款。
+		</p>
+	</div>
+</body>
+
+<script type="text/javascript">
+$(function(){
+	$("#balance").focus(function(){this.value = "";});
+	$("#receive").focus(function(){this.value = "";});
+	$("#pay").focus(function(){this.value = "";});
+})
+
+function calculate(){
+	var balance = $("#balance").val() * 1;
+	var receive = $("#receive").val() * 1;
+	var pay = $("#pay").val() * 1;
+
+	if(balance < 0 || balance > 100000000){
+		$("#balance").val("可用金额有误!");
+		return;
+	}
+
+	if(receive < 0 || receive > 100000000){
+		$("#receive").val("待收金额有误!");
+		return;
+	}
+	
+	if(pay < 0 || pay > 100000000){
+		$("#pay").val("待付金额有误!");
+		return;
+	}
+	
+	var bailScale = '${bailScale}' * 1;
+	
+	/* 借款金额+保证金<(可用余额+待收-待还)* 70% */
+	var amount = ((balance + receive - pay) * 0.7)/(1 + (bailScale/100));
+	
+	$("#showResult").html(amount <= 0 ? "0" : amount.toFixed(2));
+}
+</script>

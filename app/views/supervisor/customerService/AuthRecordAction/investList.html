@@ -1,0 +1,238 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'用户所在地查询' /} 
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include '/supervisor/customerService/customerLeft.control'/}
+  <div class="xn_c_content">
+	  <div class="xf_ht_tablelist">
+		<!-- 搜索 -->
+		#{form @investList(), id:'submit'}
+		<div class="xf_ht_search">
+		  <input type="hidden" id="currPage" name="currPage"/>
+          <input type="hidden" id="pageSize" name="pageSize"/>
+		 
+		  <input type="hidden" id="orderType" name="orderType" value="${page.conditions?.orderType}"/>
+		    <div class="xf_ht_search_l">
+		        <span id="div_0" onClick="conditonSearch(0)">默认排序</span>
+				<span id="div_1" onClick="conditonSearch(1)">标的期限<a id="div_a_1">↑</a></span>
+				<span id="div_3" onClick="conditonSearch(3)">投资金额<a id="div_a_3">↑</a></span>
+				<span id="div_5"  onClick="conditonSearch(5)">使用红包金额<a id="div_a_5">↑</a></span>
+		    </div>
+		</div>
+		<div class="xf_ht_search_inon">
+		  <div class="xf_ht_search_r">
+			 
+		    <div class="xf_ht_search_xl">
+				会员名
+				<input type="text" class="search_w" id="name" name="name" value="${page.conditions?.name}">
+			</div>
+			<div class="xf_ht_search_xl">
+				<input type="text" class="search_w" placeholder="推荐人用户名"  id="recommend_user_name" name="recommend_user_name" value="${page.conditions?.recommend_user_name}">
+			</div>
+			
+			<div class="xf_ht_search_xl">
+				投资时间：
+			  <input type="text" class="search_time" name="beginTime" id="beginTime" value="${page.conditions?.beginTime}" onclick="laydate()" class="laydate-icon" style="cursor:pointer">
+			  <span class="search_timesp">--</span>
+			  <input type="text" class="search_time" name="endTime" id="endTime" value="${page.conditions?.endTime}" onclick="laydate()" class="laydate-icon" style="cursor:pointer">  
+		    </div>
+			
+			<div class="xf_ht_search_xl">
+				标的类型：
+				<select name="is_only_new_user" id="is_only_new_user" style="width:50px">
+					<option value="">全部</option> 
+					<option value=1 ${page.conditions?.is_only_new_user == "1" ? "selected" : ""}>新手标</option>
+					<option value=0 ${page.conditions?.is_only_new_user == "0" ? "selected" : ""}>非新手标</option>
+				</select>
+		    </div>
+			 <div class="xf_ht_search_xl">
+				是否使用红包：
+				<select name="red_amount" id="red_amount" style="width:50px">
+					<option value="">全部</option> 
+					<option value=1 ${page.conditions?.red_amount == "1" ? "selected" : ""}>是</option>
+					<option value=0 ${page.conditions?.red_amount == "0" ? "selected" : ""}>否</option>
+				</select>
+		    </div>
+			<div class="xf_ht_search_xl">
+				是否加息：
+				<select name="is_increase_rate" id="is_increase_rate" style="width:50px">
+					<option value="">全部</option> 
+					<option value=1 ${page.conditions?.is_increase_rate == "1" ? "selected" : ""}>是</option>
+					<option value=0 ${page.conditions?.is_increase_rate == "0" ? "selected" : ""}>否</option>
+				</select>
+		    </div>
+			<div class="xf_ht_search_xl">
+				期限单位：
+				<select name="period_unit" id="period_unit" style="width:50px">
+					<option value="">全部</option> 
+					<option value=-1 ${page.conditions?.period_unit == "-1" ? "selected" : ""}>年</option>
+					<option value=0 ${page.conditions?.period_unit == "0" ? "selected" : ""}>月</option>
+					<option value=1 ${page.conditions?.period_unit == "1" ? "selected" : ""}>日</option>
+				</select>
+		    </div>
+			<div class="xf_ht_search_xl">
+				还款方式：
+				<select name="repayment_type_name" id="repayment_type_name" style="width:120px">
+					<option value="">全部</option> 
+					<option value="3" ${page.conditions?.repayment_type_name == "3" ? "selected" : ""}>一次性还款</option>
+					<option value="2" ${page.conditions?.repayment_type_name == "2" ? "selected" : ""}>按月付息、到期还本</option>
+					<option value="1" ${page.conditions?.repayment_type_name == "1" ? "selected" : ""}>按月还款、等额本息</option>
+				</select>
+		    </div>
+		    <div class="xf_ht_search_xl">
+				是否有效：
+				<select name="is_valid"  style="width:50px">
+					<option value="">全部</option> 
+					<option value=1 ${page.conditions?.is_valid == "1" ? "selected" : ""}>是</option>
+					<option value=0 ${page.conditions?.is_valid == "0" ? "selected" : ""}>否</option>
+				</select>
+		    </div>
+			<div class="xf_ht_search_xl">
+				<input type="submit" class="search_button" value="搜索">
+			</div>
+			<div class="xf_ht_search_xl">
+              <input type="hidden" name="isExport" id="isExport"/>	
+              <input type="button" class="search_button" onclick="searchSubmit(1);" onmouseout="$('#isExport').val(0);" value="下载数据" />
+        </div>
+		  </div>
+		</div>
+		#{/form}
+		<!-- 列表内容 -->
+		<div class="xn_c_content_top">
+		  #{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+			#{tr}
+			  #{th}序号#{/th}
+			  #{th}会员名#{/th}
+			  #{th}真实姓名#{/th}
+			  #{th}手机号#{/th}
+			  #{th}推荐人#{/th}
+			  #{th}推荐人手机#{/th}
+			  #{th}投资时间#{/th}
+			  #{th}投资标的期限#{/th}
+			  #{th}期限单位#{/th}
+			  #{th}投资标的名称#{/th}
+			  #{th}标的类型#{/th}
+			  #{th}还款方式#{/th}
+			  #{th}投资金额#{/th}
+			  #{th}预计利息收益#{/th}
+			  #{th}使用红包金额#{/th}
+			  #{th}加息奖励#{/th}
+			  #{th}投资是否有效#{/th}
+			#{/tr}
+			#{list items:page.page, as:'inv'}
+			#{tr tr_index:_index}
+			  #{td}${(page?.currPage - 1)*page?.pageSize + inv_index}#{/td}
+			  #{td}${inv?.name}#{/td}
+			  #{td}${inv?.reality_name}#{/td}
+			  #{td}${inv?.mobile}#{/td}
+			  #{td}${inv?.recommend_user_name}#{/td}
+			  #{td}${inv?.recommend_user_mobile}#{/td}
+			  #{td}${inv?.invest_time?.format('yyyy-MM-dd HH:mm:ss')}#{/td}
+			  #{td}${inv?.period}#{/td}
+			 <!-- #{td}${inv?.period_unit}#{/td}-->
+			   #{td}
+			  	#{if inv?.period_unit == '-1'}
+			  		年
+			  	#{/if}
+			  	#{if inv?.period_unit == '0'}
+			  		月
+			  	#{/if}
+			  	#{if inv?.period_unit == '1'}
+			  		日
+			  	#{/if}
+			  #{/td}
+			  #{td}${inv?.title}#{/td}
+			 <!--  #{td}${inv?.is_only_new_user} #{/td} -->
+			  #{td}
+			  	#{if inv?.is_only_new_user == '1'}
+			  		新手标
+			  	#{/if}
+			  	#{if inv?.is_only_new_user == '0'}
+			  		非新手标
+			  	#{/if}
+			  #{/td}
+			  
+			  #{td}${inv?.repayment_type_name}#{/td}
+			  #{td}${inv?.amount}#{/td}
+			  #{td}${inv?.income_dt}#{/td}
+			  #{td}${inv?.red_amount}#{/td}
+			  #{td}${inv?.correct_interest}#{/td}
+			  #{td}${inv?.is_valid}#{/td}
+			#{/tr}
+			#{/list}
+		  #{/table}
+		</div>
+		<!-- 列表底部 -->
+		<div class="xn_c_content_bottom">
+		  <div class="page_warp">
+			#{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4}#{/page}
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </div>
+</div>
+<div id="show"></div>
+
+<script type="text/javascript">
+	function conditonSearch(num){
+	  var orderType= ${page.conditions?.orderType};
+
+	  if(orderType == 0){
+	    $("#orderType").val(num);
+	    $("#submit").submit();
+	    return;
+	  }
+	  var sum = orderType/2;
+	  if(sum.toString().indexOf('.') == -1){
+	    var sum2 = orderType - 1;
+	    $("#orderType").val(num);
+	    $("#submit").submit();
+	    return;
+	  }else{
+	    if(orderType == num){
+	      $("#orderType").val(num + 1);
+	      $("#submit").submit();
+	      return;
+	    }else{
+	      $("#orderType").val(num);
+	      $("#submit").submit();
+	      return;
+	    }
+	  }
+	}
+
+	$(function(){  
+	  /* 高亮显示 */
+	  highLight(4);
+	  //条件查询控制样式
+	  var num= ${page.conditions?.orderType};
+
+	  if(num == 0){
+	    $("#div_0").addClass("xf_sea_isshow");
+	    return;
+	  }
+
+	  var sum = num/2;
+	  if(sum.toString().indexOf('.') == -1){
+	    var sum2 = num -1;
+	    $("#div_"+sum2).addClass("xf_sea_isshow");
+	    $("#div_a_"+sum2).html("↓");
+	    return;
+	  }
+
+	  $("#div_"+num).addClass("xf_sea_isshow");
+	  $("#div_a_"+num).html("↑");
+	});
+
+	function showPage(currPage, pageSize){
+	  $("#currPage").val(currPage);
+	  $("#pageSize").val(pageSize);
+	  $("#submit").submit();
+	}
+	
+	function searchSubmit(isExport){
+		$("#isExport").val(isExport);	
+	  	$("#submit").submit();
+	}
+</script>

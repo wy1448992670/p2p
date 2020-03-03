@@ -1,0 +1,42 @@
+
+<!-- 信用等级图标说明 -->
+<div class="xf_con_wylc_cfgjx xf_con_wylc_xydjtb">
+	<div class="xf_con_wyjk_cfgjx_t">
+		<b>&nbsp;</b>
+		<span>信用等级图标说明</span>
+	</div>
+	<ul class="xf_wylc_xydjsm" id="xf_wylc_xydjsm">
+		#{list creditLevels}
+			<li class="xf_wylc_xydjsmlastA" onclick="show();">
+				#{img class:"lazy", data_original:"${_?.imageFilename}", src:"/public/images/loading.gif",width:"30px",height:"30px",title:"${_?.name}"}#{/img}
+			</li>
+		#{/list}
+	</ul>
+</div>
+
+<div id="very">
+</div>
+
+<script type="text/javascript">
+
+ function show(){
+ 
+	 $.ajax({
+			url : "@{front.account.FundsManage.viewCreditRule()}",
+			type : "POST",
+			data : {},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+					
+					return;
+				}
+			    $("#very").html(data);
+			},
+			error : function() {
+				alert(data.msg);
+			}
+		});
+ }
+</script>
+

@@ -1,0 +1,43 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'权限地图' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/systemSettings/common/leftBar.control"/}
+    <div class="xn_c_content">
+      <div class="xf_content_add">
+        <div class="xfht_t_j_y_2">
+          <!--右上-->
+          <div class="xf_ht_obu_fklm">网贷后台管理系统 权限地图</div>
+          <div class="xf_htgl_jgone xf_ht_fff_sz">
+          #{list rightMapList, as : 'rightMap'} 
+          <h3 class="xf_htgl_jgtitle">${rightMap?.get("type")?.name}</h3>
+          <div class="xf_ht_gl_map_dt">
+            <table border="0" cellspacing="0" cellpadding="0" width="100%" class="xf_ht_gly_xc_table">
+            #{list rightMap.get("rights"), as : 'right'}
+            #{if right_index % 4 == 1}
+            <tr>
+              <td width="20%">${right?.name}</td>
+            #{/if}
+            #{elseif right_index % 4 == 0 || right_index == rightMap.get("rights").size()}
+              <td width="20%">${right?.name}</td>
+            </tr>
+            #{/elseif}
+            #{else}
+              <td width="20%">${right?.name}</td>
+            #{/else}
+            #{/list}
+            </table>
+          </div>
+          #{/list}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+$(function() {
+  /* 高亮显示 */
+  showHighLight(4,4,11);
+});
+</script>

@@ -1,0 +1,159 @@
+#{extends 'common/supervisor.html' /}
+ %{
+  business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{set title:'投资账单详细表' /}
+<div class="xfht_t_j_k">
+#{include "supervisor/financeManager/common/financeManageLeft.control"/}
+<!-- 内容区域 start -->
+		<div class="xf_con_box">
+			<div class="xf_con_wyjk_nav">财务管理<span class="sf_con_wyjk_gtnav">&gt;</span><span class="sf_con_wyjk_dq">待付款投资账单列表</span><span class="sf_con_wyjk_gtnav">&gt;</span><span class="sf_con_wyjk_dq">借款账单</div>
+			<div class="xf_membill_view_xq">
+				<h1 class="xf_membill_view_title">晓网网贷平台借款客户对账单</h1>
+				<h3 class="xf_membill_view_No">2014008号借款标第五期</h3>
+				<div class="xf_membill_view_content">
+					尊敬的先生，您好！<br />
+					<span class="xf_membill_view_textaler">感谢您使用${currBackstageSet?.platformName}平台借款服务，我平台客服专线：${currBackstageSet?.platformTelephone}竭诚为您服务！</span><br /><br />
+
+					重要提示：<br />
+					 
+					<span class="xf_membill_view_textaler">
+						尊敬的客户，为确保您还款准确，请您仔细阅读下面需还款明细栏目中各账户本期应还款金额及本期最低还款额等信息。<br />
+					</span>
+				</div>
+				<!-- 本期借款账单明细 -->
+				<div class="xf_membill_view_bqjkzd xf_membill_view_bqjkzd2">
+					<table border="0" cellpadding="0" cellspacing="0" width="918" class="xf_membill_view_contable">
+						<tbody>
+							<tr>
+								<th align="left" colspan="3">本期借款账单明细：</th>
+							</tr>
+							<tr>
+								<td colspan="3" class="xf_membill_view_td">&nbsp;</td>
+							</tr>
+							<tr>                                          
+								<td align="left" width="240">本期账单应还款：<span class="xf_membill_view_tdlv">${investDetail?.receive_corpus}元</span></td>
+								<td align="left" width="240">还款到期时间：<span class="xf_membill_view_tdred">${investDetail?.receive_time}</span></td>
+								<td align="left">还款方式：<span class="xf_membill_view_tdlv">${investDetail?.repayment_type}</span></td>
+							</tr>
+							<tr>                                          
+								<td align="left" width="240">投标本金：<span class="xf_membill_view_tdlv">${investDetail?.invest_amount?.format("###,##0.00")}元</span></td>
+								<td align="left" width="240">年利率：<span class="xf_membill_view_tdred">${investDetail?.apr}</span>&nbsp;%</td>
+								<td align="left">本息合计应收金额：<span class="xf_membill_view_tdlv">${investDetail?.current_receive_amount?.format("###,##0.00")}</span>&nbsp;元</td>
+							</tr>
+							<tr>                                          
+								<td align="left" width="240">已收金额：<span class="xf_membill_view_tdlv">${investDetail?.has_received_amount?.format("###,##0.00")}元</span></td>
+								<td align="left" width="240">已收期数：<span class="xf_membill_view_tdred">${investDetail?.has_received_periods}</span>&nbsp;期</td>
+								<td align="left">剩余期数： ${investDetail?.loan_periods - investDetail?.has_received_periods}</span>&nbsp;期</td>
+							</tr>
+							<tr>                                          
+								<td align="left" width="240" colspan="3">剩余应收款：<span class="xf_membill_view_tdlv">${investDetail?.should_received_amount?.format("###,##0.00")}元</span></td>
+							</tr>
+							<tr>
+								<td colspan="3">&nbsp;</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- 借款标详细情况 -->
+				<div class="xf_membill_view_jkbxxqk">
+					<table border="0" cellpadding="0" cellspacing="0" width="918" class="xf_membill_view_contable xf_membill_view_contable2">
+						<tbody>
+							<tr>
+								<th align="left" colspan="3">借款标详细情况：</th>
+							</tr>
+							<tr>
+								<td align="left" colspan="3" class="xf_membill_view_tbhc">${investDetail?.title}</td>
+							</tr>
+							<tr class="xf_membill_view_tbtr">
+								<td align="left" colspan="3">借款总额：${investDetail?.amount?.format("###,##0.00")}元</td>
+							</tr>                          
+							<tr class="xf_membill_view_tbtr">                                          
+								<td align="left" width="240">借款本息合计： ${investDetail?.loan_principal_interest}元</td>
+								<td align="left" width="240">借款期数：  ${investDetail?.loan_periods}期</td>
+								<td align="left">年利率：   ${investDetail?.apr}%</td>
+							</tr>
+							<tr class="xf_membill_view_tbtr xf_membill_view_tblast">                                          
+								<td align="left">每期还款：元</td>
+								<td align="left">已还期数：  ${investDetail?.has_received_periods}期</td>
+								<td align="left">剩余期限：  ${investDetail?.loan_periods - investDetail?.has_received_periods}期</td>
+							</tr>
+						</tbody>
+					</table>	
+				</div>
+				<!-- 历史还款情况 -->
+				<div class="xf_membill_view_bqjkzd">
+					<table border="0" cellpadding="0" cellspacing="0" width="918" class="xf_membill_view_contable">
+						<tbody>
+							<tr>
+								<th align="left">历史收款情况：</th>
+							</tr>
+							<tr>                                          
+								<td align="left" class="xf_membill_view_tdzytable">
+									<table border="0" cellpadding="0" cellspacing="0" width="879" class="xf_membill_view_lishi">
+										<tbody>
+											<tr>
+												<th align="center">序号</th>
+												<th align="center">账单标题</th>
+												<th align="center">本期应收款金额</th>
+												<th align="center">是否逾期</th>
+												<th align="center">状态</th>
+												<th align="center">到期还款时间</th>
+												<th align="center">实际还款时间</th>
+											</tr>
+											#{list items:page.page,as:'received'}
+											<tr class="membill_list_yqtr">                                          
+												<td>${received_index}</td>
+												<td>${received?.title}</td>
+												<td><span class="xf_membill_view_tdlv">￥${received?.receive_amount?.format("###,##0.00")}</span></td>
+												#{if received.status == -1 || received.status == 0}
+												<td><span class="xf_membill_view_tdlv">未逾期</span></td>
+												#{/if}
+												#{else}
+												<td><span class="xf_membill_view_tdlv">逾期</span></td>
+												#{/else}
+												#{if received.status == -1 || received.status == -2}
+												<td><span class="xf_membill_view_tdlv">未收款</span></td>
+												#{/if}
+												#{else}
+												<td><span class="xf_membill_view_tdlv">已收款</span></td>
+												#{/else}
+												<td><span class="xf_membill_view_tdred">${received?.receive_time}</span></td>
+												<td><span class="xf_membill_view_tdred">${received?.real_receive_time}</span></td>
+											</tr>
+											#{/list}
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr>
+								<tr>
+									<td>
+										<!-- 分页器 -->
+										<div class="xf_wylc_page xf_zqzr_view_page1 xf_znx_view_page1">
+										#{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:1,style:4/}
+										</div>
+									</td>
+								</tr>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- 提交 -->
+				<div class="xf_membill_view_inputgo xf_membill_view_inputgo2">
+					<a href="javascript:history.go(-1);" class="xf_con_inputfbqux">返 回</a>
+				</div>
+			</div>
+			<!-- 底部备注 -->
+			<div class="xf_membill_view_footer_t">
+				<div class="xf_membill_view_footer_l">
+					账单编号：ZD20149098
+				</div>
+				<div class="xf_membill_view_footer_r">
+					客服专线：${currBackstageSet?.platformTelephone}<br/>
+					${currBackstageSet?.platformName}平台：www.shovebank.com<br/>
+					借款账单生成日期：2014年1月31日
+				</div>
+			</div>
+		</div>
+      </div>

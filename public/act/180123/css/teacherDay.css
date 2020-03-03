@@ -1,0 +1,50 @@
+@charset "utf-8";
+
+@media (min-width: 768px){
+  body{
+    width: 640px;
+    margin: auto;
+  }
+  .goLink{
+    width:640px !important;
+  }
+  .topBody{
+    width: 640px;
+  }
+
+}
+
+.td_box{width: 100%; min-width: 320px; max-width: 640px;}
+.m_item{width: 100%;}
+.m_item>img{width: 100%;}
+
+.goLink{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+#opt{
+    display: none;
+    position: fixed;
+    width: 640px;
+    height: 100%;
+    opacity: .6;
+    background: black;
+    bottom: 0;
+    z-index: 1;
+}
+.close{
+    z-index: 3;
+    position: absolute;
+    top: -.1rem;
+    right: .1rem;
+    width: .6rem;
+    margin-top: .3rem;
+}
+.topBody{
+  display:none;
+  position:fixed;
+  left:0;
+  right:0;
+  top:.5rem;
+}

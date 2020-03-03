@@ -1,0 +1,288 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle + ' | 我的账户   | 资金管理  | 支付'/}
+
+<!-- 内容区域 start -->
+<div class="xf_con_box">
+	<div class="xf_con_mem_nav"></div>
+	<!-- 左边导航区域 -->
+	#{include "front/account/AccountHome/homeLeft.control"/}
+	<!-- 右侧内容区域 -->
+	<div class="xf_mem_Account xf_mem_shzdjkb_box">
+	               #{form @submitRechargePay(), id:'paySubmit'}
+	                <input type="hidden" id="type" name="type" />
+	                <input type="hidden" id="bankType" name="bankType" />
+					<h3 class="xf_mem_accout_title">支付</h3>
+					<!-- 充值 -->
+					<div class="xf_mem_accout_content">
+						<table border="0" cellpadding="0" cellspacing="0" width="738" class="xf_mem_zjgl_cz">
+							<tr>
+								<td width="11%" align="right">真实姓名：</td>
+								<td width="50%">${user?.realityName}</td>
+							</tr>
+							<tr>
+								<td align="right">账&nbsp;&nbsp;&nbsp;&nbsp;号：</td>
+								<td>${user?.name}</td>
+							</tr>
+							<tr>
+								<td align="right">支付金额： </td>
+								<td>${fee}元</td>
+							</tr>
+							#{if amount > 0} 
+							<tr class="s_useryue"> 
+								<td colspan="2"><input type="checkbox" name="isUse" value="true"/> 平台账户余额：${amount?.format('###,##0.00')}元</td> 
+							</tr> 
+							#{/if} 
+						</table>
+					</div>
+					<div class="xf_mem_zflx">
+						<div class="xf_mem_zflx_lt">充值类型：</div>
+						<ul id="xf_wyjkview_xxkil" class="clr">
+						   #{if payType[0]?.is_use == true}
+							<li class="xf_mem_img_ishow" id="ul_li_1" onClick="select(1)"><img src="@{'/public/images/banks/gopay.png'}" alt="国付宝"></li>
+						   #{/if}
+						   #{if payType[1]?.is_use == true}
+							<li id="ul_li_2" onClick="select(2)"><img src="@{'/public/images/banks/ipay.png'}" alt="环迅支付"></li>
+						   #{/if}
+						</ul>
+					</div>
+					#{if !isPay}
+					<h3 class="xf_mem_zflx_lti">选择支付方式：</h3>
+					#{/if}
+					<!-- 国付宝支持银行 -->
+					<div class="xf_mem_acc_titlebox" id="selectBank">
+						<ul class="xf_mem_accout_titleUL clr">
+							<li value="0" class="xf_mem_img_ishowt" id="bank_0" onClick="selectBank(0)">
+								<div class="xf_mem_zjgl_img">
+									<img src="@{'/public/images/banks/bank_01.png'}" alt="">
+								</div>
+							</li>
+							<li id="bank_1" onClick="selectBank(1)">
+								<div class="xf_mem_zjgl_img">
+									<img src="@{'/public/images/banks/bank_02.png'}" alt="">
+								</div>
+							</li>
+							<li id="bank_2" onClick="selectBank(2)">
+								<div class="xf_mem_zjgl_img">
+									<img src="@{'/public/images/banks/bank_03.png'}" alt="">
+								</div>
+							</li>
+							<li id="bank_3" onClick="selectBank(3)">
+								<div class="xf_mem_zjgl_img">
+									<img src="@{'/public/images/banks/bank_04.png'}" alt="">
+								</div>
+							</li>
+							<li id="bank_4" onClick="selectBank(4)">
+								<div class="xf_mem_zjgl_img">
+									<img src="@{'/public/images/banks/bank_05.png'}" alt="">
+								</div>
+							</li>
+							<li id="bank_5" onClick="selectBank(5)">
+								<div class="xf_mem_zjgl_img">
+									<img src="@{'/public/images/banks/bank_06.png'}" alt="">
+								</div>
+							</li>
+							<li id="bank_6" onClick="selectBank(6)">
+								<div class="xf_mem_zjgl_img">
+									<img src="@{'/public/images/banks/bank_08.png'}" alt="">
+								</div>
+							</li>
+							<li id="bank_7" onClick="selectBank(7)">
+								<div class="xf_mem_zjgl_img">
+									<img src="@{'/public/images/banks/bank_09.png'}" alt="">
+								</div>
+							</li>
+							<li id="bank_8" onClick="selectBank(8)">
+								<div class="xf_mem_zjgl_img">
+									<img src="@{'/public/images/banks/bank_10.png'}" alt="">
+								</div>
+							</li>
+							<li id="bank_9" onClick="selectBank(9)">
+								<div class="xf_mem_zjgl_img">
+									<img src="@{'/public/images/banks/bank_11.png'}" alt="">
+								</div>
+							</li>
+							<li id="bank_10" onClick="selectBank(10)">
+								<div class="xf_mem_zjgl_img">
+									<img src="@{'/public/images/banks/bank_12.png'}" alt="">
+								</div>
+							</li>
+							<li id="bank_11" onClick="selectBank(11)">
+								<div class="xf_mem_zjgl_img">
+									<img src="@{'/public/images/banks/bank_13.png'}" alt="">
+								</div>
+							</li>
+							<li id="bank_12" onClick="selectBank(12)">
+								<div class="xf_mem_zjgl_img">
+									<img src="@{'/public/images/banks/bank_14.png'}" alt="">
+								</div>
+							</li>
+							<li id="bank_13" onClick="selectBank(13)">
+								<div class="xf_mem_zjgl_img">
+									<img src="@{'/public/images/banks/bank_15.png'}" alt="">
+								</div>
+							</li>
+							<li id="bank_14" onClick="selectBank(14)">
+								<div class="xf_mem_zjgl_img">
+									<img src="@{'/public/images/banks/bank_16.png'}" alt="">
+								</div>
+							</li>
+							<li id="bank_15" onClick="selectBank(15)">
+								<div class="xf_mem_zjgl_img">
+									<img src="@{'/public/images/banks/bank_18.png'}" alt="">
+								</div>
+							</li>
+							<li id="bank_16" onClick="selectBank(16)">
+								<div class="xf_mem_zjgl_img">
+									<img src="@{'/public/images/banks/bank_19.png'}" alt="">
+								</div>
+							</li>
+							<li id="bank_17" onClick="selectBank(17)">
+								<div class="xf_mem_zjgl_img">
+									<img src="@{'/public/images/banks/bank_20.png'}" alt="">
+								</div>
+							</li>
+						</ul>
+					</div>
+					#{if !isPay}
+					<!-- 环迅支付支持 -->
+					<div class="xf_mem_acc_titlebox" id="payTypes">
+						<ul class="xf_mem_accout_titleUL clr">
+							<li class="xf_mem_img_ishowt" id="pay_0" Onclick="payTypes(0)">
+								<div class="xf_mem_zjgl_img">
+									人民币借记卡
+								</div>
+							</li>
+							<li id="pay_1" Onclick="payTypes(1)">
+								<div class="xf_mem_zjgl_img">
+									信用卡支付
+								</div>
+							</li>
+							<li id="pay_2" Onclick="payTypes(2)">
+								<div class="xf_mem_zjgl_img">
+									IPS账户支付
+								</div>
+							</li>
+							<li id="pay_3" Onclick="payTypes(3)">
+								<div class="xf_mem_zjgl_img">
+									电话支付
+								</div>
+							</li>
+							<li id="pay_4" Onclick="payTypes(4)">
+								<div class="xf_mem_zjgl_img">
+									手机支付
+								</div>
+							</li>
+							<li id="pay_5" Onclick="payTypes(5)">
+								<div class="xf_mem_zjgl_img">
+									手机语音支付
+								</div>
+							</li>
+						</ul>
+					</div>
+					#{/if}
+					<div class="xf_mem_zjgl_input_atijiao">
+						<a Onclick="recharge()" class="xf_con_inputfbjk">确定#{if isPay}支付#{/if}#{else}充值#{/else}</a>
+					</div>
+				</div>
+				#{/form}
+				<!-- 清除浮动 -->
+				<div class="clear"></div>
+			</div>
+<!-- 内容区域 end -->
+<script type="text/javascript">
+        var bankNum;
+        var typeNum
+    
+	    $(function(){
+		    #{if isPay}
+		    	/* 如果是共享资金模式则提交为2，下面不在执行 */
+		  	   $("#bankType").val(2);  
+		  	   
+		       return ;
+		    #{/if}
+			    
+	        if(${payType[0]?.is_use} & ${payType[1]?.is_use}){
+	             $("#payTypes").hide();
+	             $("#selectBank").show();
+	             $("#type").val(1);
+	             $("#bankType").val(0);
+	        }else{
+	            if(${payType[0]?.is_use}){
+	               $("#payTypes").hide();
+	               $("#selectBank").show();
+	               $("#type").val(1);
+	               $("#bankType").val(0);
+	               return;
+	            }
+	            
+	            if(${payType[1]?.is_use}){
+	               $("#payTypes").show();
+	               $("#selectBank").hide();
+	               $("#type").val(2);
+	               $("#bankType").val(0);
+	               return;
+	            }
+	        }
+		})
+		
+	  function recharge(){
+	      if($("#type").val() == ''){
+	         alert("请选择充值类型");
+	         return;
+	      }
+	      
+	      if($("#bankType").val() == ''){
+	         alert("请选择支付方式");
+	         return;
+	      }
+	      
+	      $("#paySubmit").submit();
+	  }	
+	  
+	  function select(num){
+	      if(num == 1){
+	          $("#payTypes").hide();
+	          $("#selectBank").show();
+	          $("#ul_li_2").removeClass("xf_mem_img_ishow");
+	          $("#ul_li_1").addClass("xf_mem_img_ishow");
+	          $("#type").val(num);
+	      }
+	      
+	      if(num == 2){
+	          $("#payTypes").show();
+	          $("#selectBank").hide();
+	          $("#ul_li_1").removeClass("xf_mem_img_ishow");
+	          $("#ul_li_2").addClass("xf_mem_img_ishow");
+	          $("#type").val(num);
+	      }
+	  }
+	  
+	  function selectBank(num){
+	      $("#bank_0").removeClass("xf_mem_img_ishowt");
+	      $("#bank_"+bankNum).removeClass("xf_mem_img_ishowt");
+	      $("#bank_"+num).addClass("xf_mem_img_ishowt");
+	      $("#bankType").val(num)
+	      bankNum = num;
+	  }
+	  
+	  function payTypes(num){
+	      $("#pay_"+typeNum).removeClass("xf_mem_img_ishowt");
+	      $("#pay_0").removeClass("xf_mem_img_ishowt");
+	      $("#pay_"+num).addClass("xf_mem_img_ishowt");
+	      $("#bankType").val(num);
+	      typeNum = num;
+	  }
+	</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript">
+<!--
+	$(function(){
+		/* 高亮显示 */
+		showHighLightFront(27);
+		showHighLightFront2(7, 5);
+	});
+//-->
+</script>

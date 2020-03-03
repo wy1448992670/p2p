@@ -1,0 +1,74 @@
+table.commTablePadding tr td{
+		padding:10px 0;
+	}
+	table.commTablePaddingSmall tr td{
+		padding:5px 0;
+	}
+	.imgMargin{
+		margin:10px 7px;
+	}
+	ul.title li{
+		float: left;
+		width: 130px;
+		text-align: center;
+		font-weight: bold;
+		background: #E4E4E4;
+		margin-right: 5px;
+	}
+	.inputSelectWidth{
+		width:150px;
+		box-sizing: border-box;
+	}
+	.inputSelectWidthSmall{
+		width:130px;
+		box-sizing: border-box;
+	}
+	.textareaWidth{
+		width:330px;
+		height:60px;
+	}
+	.tdPadding tr td{
+		padding:15px 0;
+	}
+	.btnStyle{
+		background-color:#199ED8;
+		border-radius:5px;
+		border:0;
+		color:white;
+		height:28px;
+		width:80px;
+	}
+	.padleft30{
+		padding-left:30px;
+	}
+	.borderBot{
+		border-bottom: 1px dashed  #707070;
+	    padding-left: 30px;
+	    padding-bottom:15px;
+	    margin:15px 0;
+	}
+	.right{
+		float: right;
+	    position: relative;
+	    top: 13px;
+	    right: 10px;
+	    transform:rotateX(180deg);
+	}
+	.xf_htgl_jgtitle{
+		margin:0;
+	}
+	.contextPadding{
+		padding:0 60px 0 20px;
+		margin:20px 0;
+	}
+	.hiddenContext{
+		/*display:none;*/
+	}
+	.Tright{
+		text-align:right;
+		padding-right: 15px;
+	}
+	.pleft10{
+		padding-left:10px;
+	}
+	

@@ -1,0 +1,58 @@
+<!-- 详情-弹出层 -->
+<div class="xf_ht_jr_obu_width">
+	
+	<table border="0" cellspacing="0" cellpadding="0"
+		class="xf_ht_jr_obu_form xf_ht_jr_obu_formsz">
+		<tr>
+			<td width="204" align="right" valign="middle"
+				class="xf_ht_jr_obttd_l">管理员账号：</td>
+			<td><span class="xf_ht_fk_span">${supervisor?.name}</span></td>
+		</tr>
+		<tr>
+			<td align="right" valign="middle" class="xf_ht_jr_obttd_l">管理员等级：</td>
+			<td>
+				<span class="xf_ht_fk_span">
+				#{if supervisor?.level == 0}
+					普通管理员
+				#{/if}
+				#{if supervisor?.level == 1}
+					超级管理员
+				#{/if}
+				</span>
+			</td>
+		</tr>
+		<tr>
+			<td align="right" valign="middle" class="xf_ht_jr_obttd_l">权限组：</td>
+			<td><span class="xf_ht_fk_span">${supervisor?.name}</span>
+			</td>
+		</tr>
+		<tr>
+			<td align="right" valign="middle" class="xf_ht_jr_obttd_l">真实姓名：</td>
+			<td><span class="xf_ht_fk_span">${supervisor?.reality_name}</span>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="right" valign="middle" class="xf_ht_jr_obttd_l">手机：</td>
+			<td><span class="xf_ht_fk_span">${supervisor?.mobile1}</span>
+			</td>
+		</tr>
+		<tr>
+			<td align="right" valign="middle" class="xf_ht_jr_obttd_l">邮箱：</td>
+			<td><span class="xf_ht_fk_span">${supervisor?.email}</span>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="padding:10px 0;">&nbsp;</td>
+		</tr>
+	</table>
+</div>
+
+<script type="text/javascript">
+	$(function() {
+		//关闭
+		$(".xf_ht_jr_obu_r").click(function() {
+			$("#xf_ht_fkzh_ttc").hide();
+		});
+	});
+</script>

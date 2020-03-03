@@ -1,0 +1,35 @@
+#{extends 'wechat/common.html' /}
+
+<body>
+	<div class="s_main s_center">
+		<header class="s_header">
+		  <a onclick="javascript:history.go(-1)" class="s_goback"></a>
+			财富资讯
+			<a href="@{wechat.account.WechatAccountHome.accountInfo()}" class="icobg"></a>
+		</header>
+		<ul class="s_cfnews">
+		#{list items:page}
+			<li>
+				<h3>${_?.title}</h3>
+				<div class="limitTry" limit="50">
+				<p class="jiequ"> 
+					${_?.content.raw()}
+				</p>
+				</div>
+				#{if _?.image_filename != '/public/images/default.png'}
+				  #{img src:"${_?.image_filename}",width:"100%",height:"66"}#{/img}
+				#{/if}
+				<a href="@{wechat.others.WealthInfomation.wealthDetails(_?.id)}">查看全文</a>
+			</li>
+		#{/list}
+		</ul>
+	</div>
+</body>
+
+<script type="text/javascript">
+$(function(){
+	$(".limitTry").limit();
+	
+})
+
+</script>

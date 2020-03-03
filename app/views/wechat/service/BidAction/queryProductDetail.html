@@ -1,0 +1,120 @@
+#{extends 'wechat/common.html' /} 
+#{set title:'我要借款' /}
+<div class="s_main s_center">
+	<header class="s_header">
+		#{if product?.name.length() <= 10}
+								${product?.name}
+		#{/if}
+		#{else}
+			%{java.lang.String title = product?.name.substring(0,10) + "...";}%
+			${title}
+		#{/else}
+		<a href="@{wechat.account.WechatAccountHome.accountInfo()}" class="icobg"></a>
+	</header>
+	<div class="s_borrowbox">
+		<ul class="s_borrowtab s_borrowtab1">
+			<li>
+				<span class="lil">额度范围：</span>
+				<span class="lir">
+					${product?.minAmount?.format('###,##0.00')}-${product?.maxAmount?.format('###,##0.00')}元
+				</span>
+			</li>
+			<li>
+				<span class="lil">必审资料：</span>
+				<span class="lir">
+					#{list product?.requiredAuditItem}
+					${_index}、${_?.auditItem?.name}<br/>
+					#{/list}
+				</span>
+			</li>
+			<li>
+				<span class="lil">年 利 率：</span>
+				<span class="lir">
+					${product?.minInterestRate}%~${product?.maxInterestRate}%
+				</span>
+			</li>
+			<li>
+				<span class="lil">贷款期限：</span>
+				<span class="lir">
+					${product?.periodYear}(年)<br/>
+							#{list product?.periodMonthArray}
+								${_},
+							#{/list}(月)<br/>
+							#{list product?.periodDayArray}
+								${_},
+							#{/list}(日) 
+				</span>
+			</li>
+			<li>
+				<span class="lil">投标时间：</span>
+				<span class="lir">
+					${product?.investPeriod}(日)
+				</span>
+			</li>
+			<li>
+				<span class="lil">还款方式：</span>
+				<span class="lir">
+					#{list product?.repaymentType}
+						${_index}、${_?.name}<br/>
+					#{/list}
+				</span>
+			</li>
+			<li>
+				<span class="lil">申请条件：</span>
+				<span class="lir">
+					${product?.applicantCondition}
+				</span>
+			</li>
+			#{list product?.lables[2]?.fields}
+			<li>
+				<span class="lil">${_?.name}：</span>
+				<span class="lir">
+					${_?.content}
+				</span>
+			</li>
+			#{/list}
+			<li>
+				<span class="lil">手 续 费：</span>
+				<span class="lir">
+					借款期限${borrowFeeMonth?.format('0')}个月（含）以下，借款成功后，收取本金的${strfee}%；
+					<br/>
+					借款期限${borrowFeeMonth?.format('0')}个月以上，借款成功后，收取本金的${strfee}%以外，
+					<br/>
+					还另外收取超过月份乘本金的${borrowFeeRate}%（不成功不收取成交服务费）。
+				</span>
+			</li>
+			#{list product?.lables}
+					#{if _index < 3}
+						#{list items : _?.fields, as : 'field'}
+						<li>
+						<span class="lil">${field?.name}：</span>
+						<span class="lir">${field?.content}</span>
+						</li>
+						#{/list}
+					#{/if}
+			#{/list}
+			
+			*{ 其它字段 }*
+			#{if product?.lables?.size > 3}
+			#{list product?.lables}
+				#{if _index > 3}
+						#{list items : _?.fields, as : 'field'}
+						<li>
+						<span class="lil">${field?.name}：</span>
+						<span class="lir">${field?.content}</span>
+						</li>
+						#{/list}
+				#{/if}
+			#{/list}
+			#{/if}
+			<li>
+				<input id="bidPage" type="button" value="发布借款" class="s_fbborrow" />
+			</li>
+		</ul>
+	</div>
+</div>
+<script type="text/javascript">
+	$("#bidPage").click(function() {
+		window.location.href = "@{wechat.service.BidAction.bidPage}?productId=" + "${product?.id}";
+	})
+</script>

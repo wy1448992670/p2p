@@ -1,0 +1,100 @@
+%{
+	boolean debtUse = constants.Constants.DEBT_USE;
+}%
+<!-- 记录标的详情(ID和上一个下一个标示) -->
+<input name="bidId" id="bidId" type="hidden" value="${bid?.id}"/> 
+<input name="upNextFlag" id="upNextFlag" type="hidden" value="${bid?.upNextFlag}"/>
+<input name="overBorrowId" id="overBorrowId" type="hidden" value="${auditingOverBorrow?.id}"/>
+<div class="xn_c_content_left">
+  <div class="xn_c_content_leftul">
+    <ul>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_1"></div>平台借款标管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_1">
+          <a id="mg_1" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.BidPlatformAction.auditingList()}">审核中的借款标列表</a>
+          <a id="mg_2" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.BidPlatformAction.fundraiseingList()}">借款中的借款标列表</a>
+          <a id="mg_3" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.BidPlatformAction.fullList()}">满标的借款标列表</a>
+          <a id="mg_4" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.BidPlatformAction.repaymentingList()}">还款中的借款标列表</a>
+          <a id="mg_5" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.BidPlatformAction.overdueList()}">逾期的借款标列表</a>
+          <a id="mg_6" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.BidPlatformAction.repaymentList()}">已完成的借款标列表</a>
+          <a id="mg_7" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.BidPlatformAction.notThroughList()}">失败的借款标列表</a>
+          <a id="mg_8" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.BidPlatformAction.badList()}">坏账借款标列表</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_2"></div>机构合作标管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_2">
+          <a id="mg_9" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.BidAgencyAction.agencyBidList()}">机构合作标列表</a>
+          <a id="mg_10" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.BidAgencyAction.agencyList()}">合作机构列表</a>
+          <a id="mg_18" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.BidAgencyAction.bidUserRiskShow()}">标的风险等级分类划分</a>
+        </div>
+      </li>
+      
+               <!--  -->
+     <!--#{if debtUse}
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_3"></div>债权转让管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_3">
+           <a id="mg_11" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.DebtTransferAction.DebtTransferPending()}">待审核的债权转让标</a>
+           <a id="mg_12" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.DebtTransferAction.debtIsTransfer()}">转让中的债权转让标</a>
+           <a id="mg_13" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.DebtTransferAction.successDebtTransfer()}">成功的债权转让标</a>
+           <a id="mg_14" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.DebtTransferAction.nopassAssignedClaims()}">未通过的债权转让标</a>
+           <a id="mg_15" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.DebtTransferAction.failedDebtTransfer()}">失败的债权转让标</a>
+        </div>
+      </li>
+     #{/if}-->
+    <!--新功能 债权转让菜单-->
+     #{if debtUse}
+     <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_3"></div>债权转让管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_3">
+           <a id="mg_11" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.DebtTransferNewAction.debtTransferPendingNew()}">待审核的债权转让标</a>
+           <a id="mg_12" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.DebtTransferNewAction.debtIsTransferNew()}">转让中的债权转让标</a>
+           <a id="mg_13" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.DebtTransferNewAction.successDebtTransferNew()}">成功的债权转让标</a>
+           <a id="mg_14" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.DebtTransferNewAction.nopassAssignedClaimsNew()}">未通过的债权转让标</a>
+           <a id="mg_15" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.DebtTransferNewAction.failedDebtTransferNew()}">失败的债权转让标</a>
+        </div>
+      </li>
+     #{/if}
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_4"></div>借款产品管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_4">
+          <a id="mg_16" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.BidApplicationAction.applicationCheckList()}">借款端申请列表</a>
+          <a id="mg_17" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.BidApplicationAction.applicationDueDiligenceList()}">借款端已分配列表</a>
+        </div>
+      </li>
+     <!--
+      <li>
+         <div class="xn_c_li_head_one">
+           <div class="xn_c_li_bg" id="lab_4"></div>会员借款资料审核管理
+         </div>
+         <div class="xn_c_li_head_two" id="hi_4">
+           <a id="mg_16" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.UserAuditItemAction.userAuditItemList()}">会员借款资料审核管理</a>
+         </div>
+       </li>
+       -->
+  <!-- <li>
+          <div class="xn_c_li_head_one">
+            <div class="xn_c_li_bg" id="lab_5"></div>提高信用额度管理
+          </div>
+          <div class="xn_c_li_head_two" id="hi_5">
+             <a id="mg_17" class="xn_c_li_head_twoli" href="@{supervisor.bidManager.OverBorrowAction.overBorrows()}">提高信用额度管理</a>
+          </div>
+       </li>-->
+     </ul>
+   </div>
+   <div class="xn_c_con_leftbutton">
+     <div class="xn_c_con_enimg">导航点击</div>
+   </div>
+</div>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_mg_bid.js'}"></script>

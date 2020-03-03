@@ -1,0 +1,387 @@
+	<style>
+		.btnStyle{
+			width: 140px;
+			height: 40px;
+			background: #169BD5;
+			color: #FFFFFF;
+			border-radius: 5px;
+			font-size: 16px;
+			border: 0;
+		}
+		.zhOuter{
+			position: fixed;background: #FFFFFF;width: 350px;border-radius: 25px;left:0;font-size: 17px;right:0;height: 280px;padding: 0 20px;font-weight: bold;margin: auto;top: 35%;
+		}
+	</style>
+	<div style="display:none;">
+		<div class="protocol">${protocol}</div> 
+	</div>
+	<!--弹出层-->
+	<div class="pop pp_car" style="z-index:	10000">
+		<div class="con_tit"></div>
+		<div class="con_text" id="context">
+
+		</div>
+		<div class="close_all">
+			<img src="/public/images/reg20171208/close.png" class="close_img" alt="" />
+		</div>
+
+	</div>
+	 <!--遮罩层-->
+	<div class="lay">
+	</div>
+	#{if user?.financeType == 0 && isNotSign && user?.user_type == 1}
+		<div class="lay" style="display: inherit; z-index:0">
+		</div>
+		<div class="zhOuter" >
+			<div style="margin-top: 40px;">
+				系统通知
+			</div>
+				<div style="margin-top: 15px;">尊敬的用户您好，您还没有签署<span style="color:#0000FF;cursor:pointer;" >
+					 <a class="open2" onclick="agreement()" fs12 href="#">《委托扣款授权协议》</a> </span>，请签署协议
+				</div>
+			<div style="text-align:center;margin-top: 80px;">
+				<button class="btnStyle" onclick="cancel(this)">取消</button>
+				<button class="btnStyle" style="margin-left: 20px" onclick="submitAgreement(this);">确认签署</button>
+			</div>
+		</div>
+	#{/if}	
+<div class="xf_zqzr_znx_window" id="xf_mem_zjyhzh_window">
+	<div class="xf_wyjkwszl_4_windowInner xf_hmd_sqtx_window">
+		<div class="xf_wyjkfb_4_windowClose" id="closeBank"></div>
+		<div class="xf_wyjkfb_4_windowColName" id="changeFont">
+			编辑银行账号
+		</div>
+		<div class="xf_zqzr_znx_windowCot xf_zqzr_zhxx_windowCot">
+			<table border="0" cellpadding="0" cellspacing="0" width="	" class="xf_zqzr_znx_teot xf_zqzr_sqtx_teot l-bank-table">
+				<tr>
+				<td align="right" valign="top">
+						<span class="xf_zqzr_znx_title">开户行：</span>
+					</td>
+					<td>
+						<select  id="bank_code" style="width:280px;">
+							<option value=0>请选择</option>
+							#{list bankCodeNameTable,as:'map'}
+							<option value="${map.key}">${map.value}</option>
+				        	 #{/list} 
+						</select>
+					</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">
+						<span class="xf_zqzr_znx_title">银行卡号：</span>
+					</td>
+					<td>
+						<input class="xf_memvip_input" type="text" id="bankNumber" style="width: 270px"/>
+					</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">
+						<span class="xf_zqzr_znx_title">银行预留手机号：</span>
+					</td>
+					<td>
+						<input class="xf_memvip_input" type="text" id="mobile" style="width: 270px"/>
+					</td>
+				</tr>
+				
+				<tr>
+					<td align="right">
+						<span class="xf_zqzr_znx_title">真实姓名： </span>
+					</td>
+					<td>
+					    #{if user?.realityName!= null && user?.realityName!= ''}
+						<input class="xf_memvip_input" value="${user?.realityName}" readonly="readonly" type="text" id="receiver" style="width: 270px"/>
+						#{/if}
+						#{else}
+						 <input class="xf_memvip_input" type="text" id="receiver" style="width: 270px"/>
+						#{/else}
+						<input  type="hidden" id="bank">
+						<input  type="hidden" id="flag">
+					</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">
+						<span class="xf_zqzr_znx_title">短信验证码：</span>
+					</td>
+					<td>
+						<input class="xf_memvip_input" type="text" id="v-code" style="width: 170px"/>
+						<input type="hidden" id="v-token"/>
+						<a href="javascript:;" style="line-height:38px;background:#e84c3d;height:38px;padding:6px 12px;color:#FFF;" id="get-v-code">发送</a>
+					</td>
+				</tr>
+				
+				#{if user?.financeType == 0 && user?.user_type == 1}
+				<tr>
+					<td colspan="2">
+						<input type="checkBox"  style="margin-left: 20px" id="signProtocol" />
+						<span class="c9 fs12" style="margin-left:5px;">我已阅读并同意</span>
+					 		<div style="margin-left:28px;">
+					       	  <div onclick="agreement()"> 
+					      		<a class="open2" fs12 href="#">《委托扣款授权协议》</a>
+						      </div>
+							</div>
+					</td>
+				</tr>
+				#{/if}
+				
+				<tr>
+					<td>
+						<span class="xf_zqzr_znx_title">&nbsp;</span>
+					</td>
+					<td class="xf_zqzr_znx_title_td xf_zqzr_znx_title_tdtcc">
+						<a class="xf_con_inputfbjk" onClick="sure(0)">确 定</a>
+						<a class="xf_con_inputfbqux" onClick="cancle()">取 消</a>
+						
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function cancel(_this){
+		$(_this).closest('.zhOuter').hide(300);
+		$('.lay').hide();
+	}
+	
+	function submitAgreement(_this){
+         $.ajax({
+			url : "@{signProtocol()}",
+			type : "POST",
+			success : function(data) {
+				if(data.code > 0){
+					alert("签约成功！");
+					$(_this).closest('.zhOuter').hide(300);
+				}
+			  
+			},
+			error : function() {
+				alert("对不起，查询数据出现错误");
+			}
+		});
+	}
+	
+	function agreement(){
+		$('.con_tit').html("委托扣款授权协议");
+		$('#context').html($('.protocol').html());
+	}
+	$(function(){
+	//$('.lay').show();
+		$(".close_all,.lay,.close_img").on("click",function(){
+						$(".lay,.pop,.close_img").hide();
+					})
+		$(".open2").on("click",function(){
+						$(".close_img,.close_all").css("display","block")
+					})
+		$(".open2").bind("click", function() {
+					showDailog();
+			    });
+	});
+	function showDailog() {
+		//alert(123);
+		$(".lay").show();
+		$(".close_all").show();
+		$(".code_fix").show();
+		var dH = $(document).height(); //获取文档的高度
+		$(".lay").css("height", dH); //黑色遮罩层高度设置为文档高度
+		var wW = $(window).width(), //window的宽度
+			wH = $(window).height(), //window的高度
+			pW = $(".pop").width(), //弹出层的宽度
+			pH = $(".pop").height(), //弹出层的高度
+			pL = (wW - pW) / 2, //弹出层距离左边的距离
+			pT = (wH - pH) / 2;
+		$(".pop").show().css({
+			"left": pL + "px",
+			"top": pT + "px"
+		});
+		$(".close").show().css({
+			"left": pL + "px",
+			"top": pT + "px"
+		});
+
+	}
+	  $("#province_code").change(function(){
+	  		var province_code = $("#province_code").val();
+	   		var cityUrl = #{jsAction @queryCityCode2NameByProvinceCode(':provinceCode')/}
+			   $.getJSON(cityUrl({provinceCode:province_code}),function(data){
+			   var size = data.length;
+			   var temp = '';
+			   $('#city_code').empty();
+			   $('#city_code').append("<option value=0>请选择</option>");
+			   for(var i = 0; i <size;i++){
+			   		temp = "<option value="+data[i].name+">"+data[i].value+"</option>";
+			   		$('#city_code').append(temp);
+			   	}
+			});
+			$("#branchBankName").val("");
+			
+	  });
+	  
+	  $("#bank_code").change(function(){
+	  	    $("#branchBankName").val("");
+			getBankNameByCityCodeAndBankCode($("#city_code").val(), $("#bank_code").val());
+	  })
+	  
+	  $("#city_code").change(function(){
+	  	    $("#branchBankName").val("");
+			getBankNameByCityCodeAndBankCode($("#city_code").val(), $("#bank_code").val());
+	  })
+	  
+
+      $("#closeBank").click(function(){
+           $("#xf_mem_zjyhzh_window").hide();
+      });
+      
+      var time = 60;
+      $("#get-v-code").click(function(){
+      		var thisObj = $(this);
+      		if(thisObj.text().indexOf("重新发送") != -1){
+      			return;
+      		}
+      		sure(1);
+      });
+      
+      function sure(vcode){ 
+    	  var  financeType = '${user?.financeType}';
+    	  if(!$("#signProtocol").is(':checked') && financeType == 0){
+    		  alert("请先同意委托扣款授权协议！");
+              return;
+    	  }
+          if($("#bank_code").val() == 0){
+              alert("请选择开户行");
+              return;
+          }
+          
+          if($("#province_code").val() == 0){
+              alert("请选择省");
+              return;
+          }
+          
+          if($("#city_code").val() == 0){
+              alert("请选择市");
+              return;
+          }
+          
+          if($("#branchBankName").val() == ''){
+              alert("支行不能为空");
+              return;
+          }
+          
+          if($("#bankNumber").val() == ''){
+              alert("账号不能为空");
+              return;
+          }
+          
+          if($("#mobile").val() == ''){
+              alert("预留手机号不能为空");
+              return;
+          }
+          
+          var mobile = $.trim($("#mobile").val());
+          
+          if(!(mobile).isMobileNum()){
+	      	  alert("预留手机号格式有误");
+          	  return;
+         }
+          
+          if($("#receiver").val() == ''){
+              alert("真实姓名不能为空");
+              return;
+          }
+          var reg = /^\d{16,22}$/;   // 以数字开头，总共16-22位
+				
+					if( !reg.test($("#bankNumber").val())){
+					   alert("银行账号格式错误，应该是16-22位数字！");
+					   return;
+					}
+      		
+      	  if(vcode == 0 && $("#v-code").val() == ''){
+      	  	  alert("短信验证码不能为空");
+              return;
+      	  }
+      	  if(vcode == 1){
+      	  	$("#v-code").val("");
+      	  }
+	      var value = $("#flag").val();
+	      if(value == 1){
+	           var addBank = #{jsAction @addBank(':editAccountId',':addBankCode',':addProvinceCode',':addCityCode',':addBranchBankName', ':addAccount', ':addMobile', ':addAccountName', ':verfyCode', ':verfyToken',':isSign')/}
+			   $.post(addBank({
+			   		editAccountId:encodeURI($("#bank").val()),
+			   		addBankCode:encodeURI($("#bank_code").val()),
+			   		addProvinceCode:encodeURI($("#province_code").val()),
+			   		addCityCode:encodeURI($("#city_code").val()),
+			   		/** addBranchBankName:encodeURI($("#branchBankName").val()),**/
+			   		addAccount:encodeURI($("#bankNumber").val()),
+			   		addMobile:encodeURI($("#mobile").val()), 
+			   		addAccountName:encodeURI($("#receiver").val()),
+			   		verfyCode:$("#v-code").val(),
+			   		verfyToken:$("#v-token").val(),
+			   		isSign:$("#signProtocol").is(':checked')
+			   	}),
+			   	
+			   function(data){
+			   var arr=eval(data);
+			   
+			   if(arr.error.code < 0){
+			       alert(arr.error.msg);
+			       return;
+			   }
+			   
+			   if(arr.error.code == 99){
+			   		alert("短信验证码发送成功，请注意查收");
+			   		$("#v-token").val(arr.verfyToken);
+			   		
+			   		var thisObj = $("#get-v-code");
+	      			var process = setInterval(function(){
+	      				thisObj.html(time+"秒后重新发送");
+	      				if(--time == 0){
+	      					thisObj.html("发送");
+	      					time = 60;
+	      					clearInterval(process);
+	      				}
+	      			}, 1000);
+		      		
+			   		return;
+			   }
+			   
+	           alert(arr.error.msg);
+	           $("#xf_mem_zjyhzh_window").hide();
+	           location.reload();
+	           });
+			   
+	      }else{
+	           var editBank = #{jsAction @editBank(':editAccountId',':eidtBankCode',':eidtProvinceCode',':eidtCityCode',':eidtBranchBankName', ':eidtAccount', ':eidtMobile', ':eidtAccountName',':isSign')/}
+			   $.post(editBank({
+			   		editAccountId:encodeURI($("#bank").val()),
+			   		eidtBankCode:encodeURI($("#bank_code").val()),
+			   		eidtProvinceCode:encodeURI($("#province_code").val()),
+			   		eidtCityCode:encodeURI($("#city_code").val()),
+			   		eidtBranchBankName:encodeURI($("#branchBankName").val()),
+			   		eidtAccount:encodeURI($("#bankNumber").val()),
+			   		eidtMobile:encodeURI($("#mobile").val()), 
+			   		eidtAccountName:encodeURI($("#receiver").val()),
+			   		isSign:$("#signProtocol").is(':checked')
+			   	}),
+			   function(data){
+			   var arr=eval(data);
+			   
+			   if(arr.error.code < 0){
+			       alert(arr.error.msg);
+			       return;
+			   }
+			   
+	           alert(arr.error.msg);
+	           $("#xf_mem_zjyhzh_window").hide();
+	           location.reload();
+	       });
+	      }
+     }
+      
+      function cancle(){
+           $("#xf_mem_zjyhzh_window").hide();
+		   $('.lay').hide();
+      }
+</script>

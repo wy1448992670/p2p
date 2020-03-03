@@ -1,0 +1,107 @@
+ 
+    <ul class="p_zh_navul" id="xf_mem_nav_left">
+    	
+        <li id="li_1">
+            <h4>
+                <a id="lab_1" href="@{front.account.accountHome.home()}"><i class="p_zh_i01"></i>我的账户首页</a>
+                <span #{if labId=="lab_1"} class="clicked" #{/if}></span>
+            </h4>
+            <ul  #{if labId!="lab_1"} class="none" #{/if} >
+                <li><a id="child_0"   #{if childId=="child_0"} class="click" #{/if} href="@{front.account.accountHome.home()}" title="">账户首页</a></li>
+              <!--  <li><a id="child_1"   #{if childId=="child_1"} class="click" #{/if} href="@{front.account.accountHome.myAttentionUser()}" title="">我关注的人</a></li>-->
+            </ul>
+        </li>
+        
+        <li id="li_2">
+            <h4>
+                <a  id="lab_2" href="@{front.account.Message.systemMsgs()}"><i class="p_zh_i02"></i>我的站内信</a>
+                <span #{if labId=="lab_2"} class="clicked" #{/if} ></span>
+            </h4>
+            <ul #{if labId!="lab_2"} class="none" #{/if}>
+                <li><a id="child_2" #{if childId=="child_2"} class="click" #{/if}  href="@{front.account.Message.systemMsgs()}">系统消息</a></li>
+                <li><a id="child_3" #{if childId=="child_3"} class="click" #{/if} href="@{front.account.Message.inboxMsgs()}">收件箱</a></li>
+                <li><a id="child_4"  #{if childId=="child_4"} class="click" #{/if} href="@{front.account.Message.outboxMsgs()}">发件箱</a></li>
+                <li><a id="child_5"  #{if childId=="child_5"} class="click" #{/if} href="@{front.account.Message.sendMsgInit()}">发站内信</a></li>
+                <li><a id="child_6" #{if childId=="child_6"} class="click" #{/if} href="@{front.account.Message.bidQuestions()}">借款提问</a></li>
+            </ul>
+        </li>
+         
+        <li id="li_4">
+            <h4>
+                <a id="lab_4" href="@{front.account.InvestAccount.investAccount()}"><i class="p_zh_i04"></i>出借子账户</a>
+                <span #{if labId=="lab_4"} class="clicked" #{/if} ></span>
+            </h4>
+            <ul #{if labId!="lab_4"} class="none" #{/if}>
+                <li><a id="child_14"  #{if childId=="child_14"} class="click" #{/if} href="@{front.account.InvestAccount.investAccount()}">子账户首页</a></li>
+                <li><a id="child_15"  #{if childId=="child_15"} class="click" #{/if} href="@{front.account.InvestAccount.investBills()}">我的出借账单</a></li>
+                <li><a id="child_16"  #{if childId=="child_16"} class="click" #{/if} href="@{front.account.InvestAccount.investRecord()}">我的出借记录</a></li>
+                <li><a id="child_17"  #{if childId=="child_17"} class="click" #{/if} href="@{front.account.InvestAccount.loaningInvestBid()}">等待满标的出借标</a></li>
+                <li><a id="child_41"  #{if childId=="child_41"} class="click" #{/if} href="@{front.account.InvestAccount.readyReleaseBid()}">待放款的出借标</a></li>
+                <li><a id="child_18"  #{if childId=="child_18"} class="click" #{/if} href="@{front.account.InvestAccount.repayingInvestBid()}">收款中的出借标</a></li>
+                <li><a id="child_19"  #{if childId=="child_19"} class="click" #{/if} href="@{front.account.InvestAccount.successInvestBid()}">已成功的出借标</a></li>
+                #{if debtUse}
+                <!--<li><a id="child_20"   #{if childId=="child_20"} class="click" #{/if} href="@{front.account.InvestAccount.myDebts()}">债权转让管理</a></li>-->
+                #{/if}
+                <li><a id="child_21"  #{if childId=="child_21"} class="click" #{/if} href="@{front.account.InvestAccount.blackList()}">我的黑名单</a></li>
+                <li><a id="child_22"  #{if childId=="child_22"} class="click" #{/if} href="@{front.account.InvestAccount.investStatistics()}">出借情况统计表</a></li>
+                <!--<li><a id="child_23"  #{if childId=="child_23"} class="click" #{/if} href="@{front.account.InvestAccount.auditmaticInvest()}">出借机器人</a></li>-->
+                <li><a id="child_24"  #{if childId=="child_24"} class="click" #{/if} href="@{front.account.InvestAccount.attentionBid()}">我的收藏</a></li>
+            </ul>
+        </li>
+        <li id="li_5">
+            <h4>
+                <a id="lab_5" href="@{front.account.FundsManage.accountInformation()}"><i class="p_zh_i05"></i>资金管理</a>
+                <span #{if labId=="lab_5"} class="clicked" #{/if}></span>
+            </h4>
+            <ul #{if labId!="lab_5"} class="none" #{/if}>
+                <li><a id="child_25" #{if childId=="child_25"} class="click" #{/if}  href="@{front.account.FundsManage.accountInformation()}">账户信息</a></li>
+                <li><a id="child_26" #{if childId=="child_26"} class="click" #{/if} href="@{front.account.FundsManage.myCredit()}">我的信用等级</a></li>
+                <li><a id="child_28" #{if childId=="child_28"} class="click" #{/if}  href="@{front.account.FundsManage.withdrawal()}">提现</a></li>
+                <li><a id="child_29" #{if childId=="child_29"} class="click" #{/if}  href="@{front.account.FundsManage.dealRecord()}">交易记录</a></li>
+            </ul>
+        </li>
+        <li id="li_6">
+            <h4>
+                <a id="lab_6" href="@{front.account.basicInformation.basicInformation()}"><i class="p_zh_i06"></i>基本设置</a>
+                <span #{if labId=="lab_6"} class="clicked" #{/if} ></span>
+            </h4>
+            <ul #{if labId!="lab_6"} class="none" #{/if}>
+                <li><a id="child_30" #{if childId=="child_30"} class="click" #{/if} href="@{front.account.basicInformation.basicInformation()}">基本资料</a></li>
+                <li><a id="child_31" #{if childId=="child_31"} class="click" #{/if} href="@{front.account.basicInformation.modifyPassword()}">修改密码</a></li>
+                <li><a id="child_32" #{if childId=="child_32"} class="click" #{/if} href="@{front.account.basicInformation.setSafeQuestion()}">安全问题设置</a></li>
+                <li><a id="child_33" #{if childId=="child_33"} class="click" #{/if} href="@{front.account.basicInformation.modifyEmail()}">安全邮箱设置</a></li>
+                <li><a id="child_34" #{if childId=="child_34"} class="click" #{/if} href="@{front.account.basicInformation.modifyMobile()}">安全手机设置</a></li>
+                <li><a id="child_80" #{if childId=="child_80"} class="click" #{/if} href="@{front.account.basicInformation.addSafeBankCard()}">安全银行卡设置</a></li>
+            </ul>
+        </li>
+        <!--<li id="li_8">
+            <h4>
+                <a id="lab_8" href="@{front.account.WealthCircle.wealthHome()}"><i class="p_zh_i08"></i>我的财富圈</a>
+                <span #{if labId=="lab_8"} class="clicked" #{/if} ></span>
+            </h4>
+            <ul #{if labId!="lab_8"} class="none" #{/if} >
+                <li><a id="child_50" #{if childId=="child_50"} class="click" #{/if} href="@{front.account.WealthCircle.wealthHome()}">我的邀请码</a></li>
+                <li><a id="child_51" #{if childId=="child_51"} class="click" #{/if} href="@{front.account.WealthCircle.invitationMember()}">我邀请的会员</a></li>
+            </ul>
+        </li>-->
+        <li id="li_9">
+            <h4>
+                <a  id="lab_9" href="@{front.account.CompanyAuth.auth()}"><i class="p_zh_i09"></i>企业认证</a>
+                <span #{if labId=="lab_9"} class="clicked" #{/if} ></span>
+            </h4>
+            <ul #{if labId!="lab_9"} class="none" #{/if}>
+                <li><a id="child_52" #{if childId=="child_52"} class="click" #{/if} href="@{front.account.CompanyAuth.auth()}">企业认证</a></li>
+            </ul>
+        </li>
+        <li id="li_10">
+            <h4>
+                <a  id="lab_10" href="@{front.account.CompanyAuth.individualAuth()}"><i class="p_zh_i10"></i>个体工商户认证</a>
+                <span #{if labId=="lab_10"} class="clicked" #{/if} ></span>
+            </h4>
+            <ul #{if labId!="lab_10"} class="none" #{/if}>
+                <li><a id="child_53" #{if childId=="child_53"} class="click" #{/if} href="@{front.account.CompanyAuth.individualAuth()}">个体工商户认证</a></li>
+            </ul>
+        </li>
+        
+    </ul>
+    

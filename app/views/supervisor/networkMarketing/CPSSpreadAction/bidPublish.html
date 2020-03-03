@@ -1,0 +1,206 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'发标公告列表' /}
+
+
+<script src="@{'/public/javascripts/WdatePicker/WdatePicker.js'}"></script>
+<div class="xfht_t_j_k"> 
+<!--左-->
+#{include "supervisor/networkMarketing/CPSSpreadAction/networkMarketingLeft.control"/}    
+<!--右-->
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+  #{form @supervisor.networkMarketing.CPSSpreadAction.bidPublish(), id:'submit'}
+  <input type="hidden" id="currPage" name="currPage" />
+  <input type="hidden" id="pageSize" name="pageSize"/>
+  <input type="hidden" id="orderType" name="orderType" value="${page?.conditions?.orderType}"/>
+  <!-- 搜索 -->
+    <div class="xf_ht_search">
+      <div class="xf_ht_search_l">
+        <span id="div_0" onClick="conditonSearch(0)">默认排序</span>
+		<span id="div_1" onClick="conditonSearch(1)">借款金额 <a id="tab_1">↑</a></span>
+      </div>
+     </div>
+     <div class="xf_ht_search_inon">
+       <div class="xf_ht_search_r">
+         <div class="xf_ht_search_xl">
+          	 标的类型：#{select 'productId', items:products, valueProperty:'id', labelProperty:'name', value:page?.conditions?.productId, class:'xf_membill_selectAge', id:'product' /}
+         </div>
+         <div class="xf_ht_search_xl">
+          	 标的名称：<input name="bidTitle" type="text" class="search_w"  value="${page?.conditions?.bidTitle}" />
+         </div>
+         <div class="xf_ht_search_xl">
+          	  <span class="search_timesp">开标时间：</span>
+			  <input type="text" class="search_time" value="${page?.conditions?.startDate}" name="startDate" id="startDate" onclick="laydate()" class="laydate-icon" style="cursor:pointer">
+			  <span class="search_timesp">--</span>
+			  <input type="text" class="search_time" name="endDate" value="${page?.conditions?.endDate}" id="endDate" onclick="laydate()" class="laydate-icon" style="cursor:pointer"> 
+         </div>
+         <div class="xf_ht_search_xl">
+           <input type="submit" class="search_button" value="搜索">
+         </div>
+       </div>
+     </div>
+     #{/form}
+	<!-- 列表内容 -->
+	<div class="xn_c_content_top">
+      #{table class:"xn_c_content_list",cellspacing:"0",cellpadding:"0",border:"0",tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}标的名称#{/th}
+          #{th}标的类型#{/th}
+          #{th}借款金额(元)#{/th}
+          #{th}借款期限#{/th}
+          #{th}年利率#{/th}
+          #{th}还款方式#{/th}
+          #{th}开标时间#{/th}
+        #{/tr}
+        #{list page?.page}
+        #{tr tr_index:_index}
+          #{td}${(page?.currPage - 1) * page?.pageSize + _index}#{/td}
+          #{td}${_?.bid_title}#{/td}
+          #{td}${_?.product_name}#{/td}
+          #{td}${_?.amount?.format("###,##0.00")}#{/td}
+          #{td}
+            #{if _?.period_unit == -1}
+              ${_?.period}年
+            #{/if}
+            #{elseif _?.period_unit == 0}
+               ${_?.period}月
+            #{/elseif}
+            #{else}
+               ${_?.period}日
+            #{/else}
+          #{/td}
+          #{td}${_?.apr.format("#0.00")}#{/td}
+          #{td}${_?.repayment_type_name}#{/td}
+          #{td}${_?.publish_time?.format('MM月dd日  HH:mm')}#{/td}
+        #{/tr}
+        #{/list}
+      #{/table}
+    </div>
+    
+     <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4}#{/page}
+      <input id="xf_dfk_fkzh_tcc3" type="button" class="xf_ggnr_help_input" onclick="addBidPublishInit();" value="添加标的公告">
+    </div>
+    
+  </div>
+</div>
+<div class="xn_c_ban_jox xn_c_ban_jox_hyxq" id="showCpaDetail"></div>
+</div>
+
+<!-- 添加标的gonggao-弹出层 -->
+<div class="xn_c_ban_jox" id="xf_ht_tjgly_ttc" style="display:none;height:400px;overflow:auto;">
+</div>
+
+<script type="text/javascript">
+
+
+
+
+function conditonSearch(num){
+  var orderType= ${page?.conditions?.orderType};
+  if(orderType == 0){
+    $("#orderType").val(num);
+    $("#submit").submit();
+    return;
+  }
+  
+  var sum = orderType/2;
+  if(sum.toString().indexOf('.') == -1){
+    var sum2 = orderType - 1;
+    if(sum2 == num){
+      $("#orderType").val(num);
+      $("#submit").submit();
+      return;
+    }else{
+      $("#orderType").val(num);
+      $("#submit").submit();
+      return;
+     }
+  }else{
+    if(orderType == num){
+      $("#orderType").val(num + 1);
+      $("#submit").submit();
+      return;
+    }else{
+      $("#orderType").val(num);
+      $("#submit").submit();
+      return;
+       }
+     }
+   }
+
+$(function(){
+  //高亮显示
+  //showHighLight(1,1,1);
+  
+  if('${page?.conditions?.productId}' == 0 ) {
+	  $("#product").append("<option value='0' selected>--请选择--</option>");
+   }else{
+	   $("#product").append("<option value='0'>--请选择--</option>");
+   }
+  
+  //条件查询控制样式
+  var num= ${page?.conditions?.orderType};
+  if(num == 0){
+    $("#div_0").addClass("xf_sea_isshow");
+    return;
+  }
+       
+  var sum = num/2;
+  if(sum.toString().indexOf('.') == -1){
+    var sum2 = num -1;
+    $("#div_"+sum2).addClass("xf_sea_isshow");
+    $("#tab_"+sum2).html("↓");
+    return;
+  }
+  
+  $("#div_"+num).addClass("xf_sea_isshow");
+  $("#tab_"+num).html("↑");
+});
+
+var g_sign = 0;
+function CPSDetail(sign) {
+  g_sign = sign;
+  showPagess(1,5);
+}
+		
+function showPage(currPage, pageSize){
+    $("#currPage").val(currPage);
+    $("#pageSize").val(pageSize);
+    $("#submit").submit();
+}
+
+var ps,p2p,pt;
+//添加标的发布
+function addBidPublishInit() {
+	
+  $.ajax({
+    url : "@{supervisor.networkMarketing.CPSSpreadAction.addBidPublishInit()}",
+    type : "POST",
+    data : {
+    },
+    success : function(data) {
+       
+      $("#xf_ht_tjgly_ttc").html(data);
+      
+      ps = $.layer({
+        type: 1,
+        area: ['610', 'auto'],
+        title: '添加标的公告',
+        page: {dom : $("#xf_ht_tjgly_ttc")}
+      });
+    },
+    error : function() {
+      alert("对不起，出现错误!");
+    }
+  });
+}
+
+$(function(){
+	
+	addBidPublishInit();
+});
+
+</script>

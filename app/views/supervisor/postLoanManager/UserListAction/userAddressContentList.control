@@ -1,0 +1,202 @@
+<style>
+  .xn_c_content_list1{
+    width:100%;
+  }
+</style>
+<div class="xn_c_content">
+    <div class="xf_ht_search_xl">
+              <input type="button" class="search_button" onclick="search(1);" onmouseout="$('#isExport').val(0);" value="下载数据" />
+        </div>
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    #{form @getUserAddressList(), id:'submit'}
+    <input type="hidden" id="currPage" name="currPage"/>
+    <input type="hidden" id="pageSize" name="pageSize"/>
+    <input type="hidden" id="id" name="id" value="${id}"/>
+    <input type="hidden" id="pageSize" name="pageSize"/>
+    <input type="hidden" id="mobile" name="mobile" value="${mobile}"/>
+    <input type="hidden" id="reality_name" name="reality_name" value="${reality_name}"/>
+    <input type="hidden" id="isExport" name="isExport" value="0"/>
+    
+
+    <div class="xf_ht_search">
+
+    </div>
+    <div class="xf_ht_search_inon">
+      <div class="xf_ht_search_r" style="width:100%">
+        <div class="xf_ht_search_xl">
+            <span class="search_timesp">用户：${mobile} ${reality_name} 的手机通讯录</span>
+        </div>
+
+    </div>
+    #{/form}
+   <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table class:"xn_c_content_list1",cellspacing:"0",cellpadding:"0",border:"0",tr_class_odd:"xn_tr_bj",width:"800px"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}手机号码#{/th}
+          #{th}姓名#{/th}
+
+
+        #{/tr}
+        #{list page?.page}
+        #{tr tr_index:_index}
+          #{td}${(page?.currPage - 1) * page?.pageSize + _index}#{/td}
+          #{td}${_?.mobile}#{/td}
+          #{td}${_?.name}#{/td}
+        #{/tr}
+        #{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      <div class="page_warp">
+        #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4/}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+
+
+function showPage(currPage, pageSize){
+  $("#currPage").val(currPage);
+  $("#pageSize").val(pageSize);
+  $("#submit").submit();
+}
+
+function searchSubmit(isExport){
+  $("#submit").submit();
+}
+
+function edit(sign){
+  $.ajax({
+    url : "@{supervisor.userManager.AllUser.editUserInfoWin()}",
+    type : "POST",
+    data : {
+      "sign" : sign
+    },
+    success : function(data) {
+      if (data.code < 0) {
+        alert(data.msg);
+
+        return;
+      }
+
+      $("#edit_user_info").html(data);
+      $.layer({
+		    type: 1,
+		    area: ['560px', 'auto'],
+		    title: '编辑用户信息',
+		    page: {dom : '#edit_user_info'}
+		  });
+    },
+    error : function() {
+      alert("对不起，出现错误!");
+    }
+  });
+}
+function changeSign(userId){
+ $.ajax({
+    url : "@{supervisor.userManager.AllUser.changeSign()}",
+    type : "POST",
+    data : {
+      "sign" : userId
+    },
+    success : function(data) {
+        alert(data.msg);
+    },
+    error : function() {
+      alert("对不起，出现错误!");
+    }
+  });
+}
+
+Array.prototype.contains = function (obj) {
+    var i = this.length;
+    while (i--) {
+        if (this[i] === obj) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// 短信群发
+var sessionMobiles = {};
+if(typeof(Storage) !== "undefined") {
+    if (sessionStorage.mobiles) {
+    	try{
+	        sessionMobiles = JSON.parse(sessionStorage.mobiles);
+	        for(var k in sessionMobiles){
+	        	$('input[mobile="'+sessionMobiles[k]+'"]').attr("checked", "checked");
+	        }
+    	}catch(e){
+    		sessionStorage.mobiles = "";
+    	}
+    }
+}
+console.log(sessionMobiles)
+
+sendMobiles = [];
+function sendMultiSMS(){
+	sendMobiles = [];
+	if(isChecked("name")){
+
+		$("#limitnum_").html("300");
+  		$("#msgContent_").val('');
+
+  		var msgUsers = "";
+  		var element = document.getElementsByName("name");
+        for (var i = 0; i < element.length; i++) {
+            if(element[i].checked && element[i].value != ""){
+                msgUsers += element[i].value + ";";
+                sendMobiles.push($(element[i]).attr("mobile"));
+
+                sessionMobiles[element[i].value] = $(element[i]).attr("mobile");
+            }
+        }
+	    $("#msgUsers").val(msgUsers);
+
+	    console.log(sessionMobiles)
+	    sessionStorage.mobiles = JSON.stringify(sessionMobiles);
+
+  		$.layer({
+    		type: 1,
+    		area: ['680px', 'auto'],
+    		title: '群发短信',
+    		page: {dom : '#xf_ht_memfdx_ttc_sms'}
+  		});
+
+	}else{
+		alert("请先选择用户！");
+	}
+}
+
+//checkbox选中
+checkedAll = function(chekedElementName, who){
+    var element = document.getElementsByName(chekedElementName);
+    if (element.length > 0) {
+        for (var i = 0; i < element.length; i++) {
+            element[i].checked = who.checked;
+        }
+    }
+};
+//是否选中
+isChecked = function(chekedElementName){
+    var flag = false;
+    var element = document.getElementsByName(chekedElementName);
+    if (element.length > 0) {
+        for (var i = 0; i < element.length; i++) {
+            if(element[i].checked){
+                flag = true;
+            }
+        }
+    }
+    return flag;
+};
+showHighLight(1, 1, 1);
+</script>

@@ -1,0 +1,283 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'本金保障统计' /}
+
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/dataStatistics/statisticLeft.html"/}
+    <div class="xn_c_content">
+      <div class="xf_ht_tablelist">
+        <!-- 搜索 -->
+        #{form @guaranteeStatistic(), id:'submit'}
+        <input type="hidden" id="currPage" name="currPage"/>
+        <input type="hidden" id="pageSize" name="pageSize"/>
+        <input type="hidden" id="orderType" name="order" value="${page.conditions?.orderType}"/>
+        <div class="xf_ht_search">
+          <div class="xf_ht_search_l">
+            <span id="div_0" onClick="conditonSearch(0)">默认排序</span>
+            <span id="div_1" onClick="conditonSearch(1)">时间 <a id="div_a_1">↑</a></span>
+            <span id="div_3" onClick="conditonSearch(3)">坏账收入占比 <a id="div_a_3">↑</a></span>
+            <span id="div_5" onClick="conditonSearch(5)">本金保障支出 <a id="div_a_5">↑</a></span>
+            <span id="div_7" onClick="conditonSearch(7)">垫付笔数 <a id="div_a_7">↑</a></span>
+          </div>
+        </div>
+        <div class="xf_ht_search_inon">
+          <div class="xf_ht_search_r">
+            <div class="xf_ht_search_xl">
+              <select id="year" name="year" class="xf_membill_selectAge">
+                <option value="0" #{if page.conditions?.year == 0} selected="selected" #{/if}>全部</option>
+                 #{list items:years,as:'year'}
+                 <option value="${year}" #{if page.conditions?.year == year} selected="selected" #{/if}>${year}</option>
+                 #{/list}
+              </select>
+            </div>
+            <div class="xf_ht_search_xl">
+              <select name="month" id="month" class="xf_membill_selectAge" onchange="check();">
+                <option value="0" #{if page.conditions?.month == 0}selected="selected"#{/if}>全部</option>
+                <option value="1" #{if page.conditions?.month == 1}selected="selected"#{/if}>1</option>
+                <option value="2" #{if page.conditions?.month == 2}selected="selected"#{/if}>2</option>
+                <option value="3" #{if page.conditions?.month == 3}selected="selected"#{/if}>3</option>
+                <option value="4" #{if page.conditions?.month == 4}selected="selected"#{/if}>4</option>
+                <option value="5" #{if page.conditions?.month == 5}selected="selected"#{/if}>5</option>
+                <option value="6" #{if page.conditions?.month == 6}selected="selected"#{/if}>6</option>
+                <option value="7" #{if page.conditions?.month == 7}selected="selected"#{/if}>7</option>
+                <option value="8" #{if page.conditions?.month == 8}selected="selected"#{/if}>8</option>
+                <option value="9" #{if page.conditions?.month == 9}selected="selected"#{/if}>9</option>
+                <option value="10" #{if page.conditions?.month == 10}selected="selected"#{/if}>10</option>
+                <option value="11" #{if page.conditions?.month == 11}selected="selected"#{/if}>11</option>
+                <option value="12" #{if page.conditions?.month == 12}selected="selected"#{/if}>12</option>
+                <option value="13" #{if page.conditions?.month == 13}selected="selected"#{/if}>第一季度</option>
+                <option value="14" #{if page.conditions?.month == 14}selected="selected"#{/if}>第二季度</option>
+                <option value="15" #{if page.conditions?.month == 15}selected="selected"#{/if}>第三季度</option>
+                <option value="16" #{if page.conditions?.month == 16}selected="selected"#{/if}>第四季度</option>
+              </select>
+            </div>
+            <div class="xf_ht_search_xl">
+              <select name="day" id="day" class="xf_membill_selectAge">
+                <option value="0" #{if page.conditions?.day == 0}selected="selected"#{/if}>全部</option>
+                <option value="1" #{if page.conditions?.day == 1}selected="selected"#{/if}>1</option>
+                <option value="2" #{if page.conditions?.day == 2}selected="selected"#{/if}>2</option>
+                <option value="3" #{if page.conditions?.day == 3}selected="selected"#{/if}>3</option>
+                <option value="4" #{if page.conditions?.day == 4}selected="selected"#{/if}>4</option>
+                <option value="5" #{if page.conditions?.day == 5}selected="selected"#{/if}>5</option>
+                <option value="6" #{if page.conditions?.day == 6}selected="selected"#{/if}>6</option>
+                <option value="7" #{if page.conditions?.day == 7}selected="selected"#{/if}>7</option>
+                <option value="8" #{if page.conditions?.day == 8}selected="selected"#{/if}>8</option>
+                <option value="9" #{if page.conditions?.day == 9}selected="selected"#{/if}>9</option>
+                <option value="10" #{if page.conditions?.day == 10}selected="selected"#{/if}>10</option>
+                <option value="11" #{if page.conditions?.day == 11}selected="selected"#{/if}>11</option>
+                <option value="12" #{if page.conditions?.day == 12}selected="selected"#{/if}>12</option>
+                <option value="13" #{if page.conditions?.day == 13}selected="selected"#{/if}>13</option>
+                <option value="14" #{if page.conditions?.day == 14}selected="selected"#{/if}>14</option>
+                <option value="15" #{if page.conditions?.day == 15}selected="selected"#{/if}>15</option>
+                <option value="16" #{if page.conditions?.day == 16}selected="selected"#{/if}>16</option>
+                <option value="17" #{if page.conditions?.day == 17}selected="selected"#{/if}>17</option>
+                <option value="18" #{if page.conditions?.day == 18}selected="selected"#{/if}>18</option>
+                <option value="19" #{if page.conditions?.day == 19}selected="selected"#{/if}>19</option>
+                <option value="20" #{if page.conditions?.day == 20}selected="selected"#{/if}>20</option>
+                <option value="21" #{if page.conditions?.day == 21}selected="selected"#{/if}>21</option>
+                <option value="22" #{if page.conditions?.day == 22}selected="selected"#{/if}>22</option>
+                <option value="23" #{if page.conditions?.day == 23}selected="selected"#{/if}>23</option>
+                <option value="24" #{if page.conditions?.day == 24}selected="selected"#{/if}>24</option>
+                <option value="25" #{if page.conditions?.day == 25}selected="selected"#{/if}>25</option>
+                <option value="26" #{if page.conditions?.day == 26}selected="selected"#{/if}>26</option>
+                <option value="27" #{if page.conditions?.day == 27}selected="selected"#{/if}>27</option>
+                <option value="28" #{if page.conditions?.day == 28}selected="selected"#{/if}>28</option>
+                <option value="29" #{if page.conditions?.day == 29}selected="selected"#{/if}>29</option>
+                <option value="30" #{if page.conditions?.day == 30}selected="selected"#{/if}>30</option>
+                <option value="31" #{if page.conditions?.day == 31}selected="selected"#{/if}>31</option>
+              </select>
+            </div>
+            <div class="xf_ht_search_xl">
+              <span class="search_timesp">时间范围：</span>
+              <input name="startDateStr" type="text" id="startDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${page?.conditions?.beginTime}" />
+              <span class="search_timesp">--</span>
+              <input name="endDateStr" type="text" id="endDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${page?.conditions?.endTime}" />
+            </div>
+            <div class="xf_ht_search_xl">
+              <input type="button" class="search_button" onclick="search(0);" value="搜 索" />
+            </div>
+            <div class="xf_ht_search_xl">
+              <input type="hidden" id="isExport" name="isExport"/>
+              <input type="button" class="search_button" onclick="search(1);" onmouseout="$('#isExport').val(0);" value="下载数据" />
+            </div>
+          </div>
+        </div>
+        #{/form}
+        <!-- 列表内容 -->
+        <div class="xn_c_content_top">
+          #{table class:"xn_c_content_list",cellspacing:"0",cellpadding:"0",border:"0",width:"1300px",tr_class_odd:"xn_tr_bj"}
+            #{tr}
+              #{th}序号#{/th}
+              #{th}年#{/th}
+              #{th}月#{/th}
+              #{th}日#{/th}
+              #{th}本金保障余额#{/th}
+              #{th}本金保障支出#{/th}
+              #{th}垫付账单笔数#{/th}
+              #{th}最高垫付金额#{/th}
+              #{th}最低垫付金额#{/th}
+              #{th}本金保障总投入#{/th}
+              #{th}平台总收入#{/th}
+              #{th}平台总借款额#{/th}
+              #{th}坏账总额#{/th}
+              #{th}坏账收入占比#{/th}
+              #{th}坏账保障金占比#{/th}
+              #{th}坏账借款占比#{/th}
+            #{/tr}
+            #{list page?.page}
+            #{tr tr_index:_index}
+              <td>${(page?.currPage - 1) * page?.pageSize + _index}</td>
+              <td>${_?.year}</td>
+              <td>${_?.month}</td>
+              <td>${_?.day}</td>
+              <td>${_?.balance?.format('###,##0.00')}</td>
+              <td>${_?.pay?.format('###,##0.00')}</td>
+              <td>${_?.advance_acount}</td>
+              <td>${_?.max_advance_amount?.format('###,##0.00')}</td>
+              <td>${_?.min_advance_amount?.format('###,##0.00')}</td>
+              <td>${_?.recharge_amount?.format('###,##0.00')}</td>
+              <td>${_?.income_amount?.format('###,##0.00')}</td>
+              <td>${_?.loan_amount?.format('###,##0.00')}</td>
+              <td>${_?.bad_debt_amount?.format('###,##0.00')}</td>
+              <td>${_?.bad_debt_income_rate}%</td>
+              <td>${_?.bad_debt_guarantee_rate}%</td>
+              <td>${_?.bad_loan_rate}%</td>
+            #{/tr}
+            #{/list}
+          #{/table}
+        </div>
+        <!-- 列表底部 -->
+        <div class="xn_c_content_bottom">
+          <div>
+            统计：全部（截止至${map?.year}-${map?.month}-${map?.day}）
+            保障本金总投入<b class="xf_ht_obu_nrb">${map?.rechargeAmount?.format("###,##0.00")}</b>元，
+            垫付支出投资账单<b class="xf_ht_obu_nrb">${map?.advanceAcount}</b>笔，
+            支出合计<b class="xf_ht_obu_nrb">${map?.pay}</b>元，
+            保障本金余额<b class="xf_ht_obu_nrb">${map?.balance?.format("###,##0.00")}</b>元。
+          </div>
+          <div class="page_warp">
+            #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4/}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+function conditonSearch(num){
+  var orderType= ${page.conditions?.orderType};
+
+  if(orderType == 0){
+    $("#orderType").val(num);
+    $("#submit").submit();
+    
+    return;
+  }
+
+  var sum = orderType/2;
+
+  if(sum.toString().indexOf('.') == -1){
+    var sum2 = orderType - 1;
+    if(sum2 = num){
+      $("#orderType").val(num);
+      $("#submit").submit();
+      
+      return;
+    }else{
+      $("#orderType").val(num);
+      $("#submit").submit();
+      
+      return;
+    }
+  }else{
+    if(orderType == num){
+      $("#orderType").val(num + 1);
+      $("#submit").submit();
+      
+      return;
+    }else{
+      $("#orderType").val(num);
+      $("#submit").submit();
+      
+      return;
+    }
+  }
+}
+
+
+function conditonSearch(num){
+  var orderType= ${page.conditions?.orderType};
+  if(orderType == 0){
+    $("#orderType").val(num);
+    $("#submit").submit();
+    return;
+  }
+  var sum = orderType/2;
+  if(sum.toString().indexOf('.') == -1){
+    var sum2 = orderType - 1;
+    if(sum2 = num){
+      $("#orderType").val(num);
+      $("#submit").submit();
+      return;
+    }else{
+      $("#orderType").val(num);
+      $("#submit").submit();
+      return;
+    }
+  }else{
+    if(orderType == num){
+      $("#orderType").val(num + 1);
+      $("#submit").submit();
+      return;
+    }else{
+      $("#orderType").val(num);
+      $("#submit").submit();
+      return;
+    }
+  }
+}
+
+$(function(){  
+  /* 高亮显示 */
+  showHighLight(1, 1, 5);
+  
+  //条件查询控制样式
+  var num= ${page.conditions?.orderType};
+  
+  if(num == 0){
+    $("#div_0").addClass("xf_sea_isshow");
+    return;
+  }
+
+  var sum = num/2;
+  if(sum.toString().indexOf('.') == -1){
+    var sum2 = num -1;
+    $("#div_"+sum2).addClass("xf_sea_isshow");
+    $("#div_a_"+sum2).html("↓");
+    return;
+  }
+
+  $("#div_"+num).addClass("xf_sea_isshow");
+  $("#div_a_"+num).html("↑");
+});
+
+function search(type){
+  $("#isExport").val(type);	
+  $("#submit").submit();
+}
+  
+function check(){
+  if($("#month option:selected").val() >= 13){
+    $("#day").attr("disabled","disabled");
+  }else{
+    $("#day").removeAttr("disabled");
+  }
+}
+  
+function showPage(currPage, pageSize){
+  $("#currPage").val(currPage);
+  $("#pageSize").val(pageSize);
+  $("#submit").submit();
+}
+</script>

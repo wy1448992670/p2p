@@ -1,0 +1,168 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'合作机构标列表' /} 
+
+<head>
+  <style>
+     tr{
+      height:50px;
+      text-align: center;
+    } 
+    #outer{
+
+    }
+    .riskData{
+      padding:30px 0 30px 30px; 
+    }
+    input:disabled{   
+		border: 1px solid #DDD;   
+		background-color: white;
+		border:0;		
+		color:#ACA899;   
+	}
+	input {
+		border:0;
+      height: 50px;
+      width:50%;
+	}
+
+    .ButtonColor{
+		background-color:#169BD5;
+        color:white;
+        width:150px;
+        height:43px;
+        border:0;
+        margin-right:30px;
+        border-radius: 8px;
+        cursor: pointer;
+	}
+  .riskData >.msg{
+    color: red;
+    margin-top:20px; 
+  }
+  .botton_top{
+    margin-top:30px;
+  }
+  td{position: relative;}
+  td[class=first]:before{
+      content: "";
+      position: absolute;
+      width: 1px;
+      height:200%;/*这里需要自己调整，根据td的宽度和高度*/
+      top:0;
+      left:0;
+      background-color: black;
+      display: block;
+      transform: rotate(-59deg);/*这里需要自己调整，根据线的位置*/
+      transform-origin: top;
+}
+.projectLevel{
+ position: absolute;
+  left: 0;
+  bottom: 0;
+}
+.userLevel{
+    position: absolute;
+  right: 0;
+  top: 0;
+}
+  </style>
+</head>
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include '/supervisor/bidManager/bidManagerLeft.control'/}
+    <div class="xn_c_content" style="background:white;min-height: 600px;">
+        <div class="xf_ht_obu_fklm" style="margin-bottom: 20px;">
+                                          标的风险等级分类划分
+        </div>
+        <h3 class="xf_htgl_jgtitle">类目表格</h3>
+                <div class="riskData">
+                  <table border="1" cellspacing=1 id="outer">
+				<tr>
+					<td class="first" width="10%">
+                    <div class="userLevel">用户等级</div>
+                    <div class="projectLevel">项目级别</div>
+                  </td>
+					#{list bid_user_risk.allUserRiskList}
+						<td>${_?.name}</td>
+					#{/list}
+				</tr>
+				
+		#{form @bidUserRiskUpdateBatch(sign), method:'POST', id:'risk_form'}	
+			%{int i=1;}%
+			#{list items:bid_user_risk.allBidRiskList, as:'bid_risk'}
+				<tr>
+					<td>${bid_risk.name}</td>
+				#{list items:bid_user_risk.allUserRiskList, as:'user_risk'}
+					<td>
+						<span><</span>
+						<input type="hidden" name='input_index' value='${i}' />
+						<input type="hidden" name='id_${i}' value='${bid_risk.bidUserRiskMap[user_risk.id].id}' />
+						<input type="text" name='quota_${i}' value="${bid_risk.bidUserRiskMap[user_risk.id].quota}" />
+					</td>
+					%{i++;}%
+				#{/list}
+				</tr>
+			#{/list}
+		#{/form}
+              </table>
+              <div class="msg">
+                                          注：(单位：万元）表中对应的数字为不同投资型投资者所对应的最高投资金额，输入“100000”前端显示无限制
+            </div> 
+               <div class="botton_top">
+                  <button class="clear_disabled ButtonColor">编辑</button>
+                  <button class="ButtonColor SubmitRisk" >提交</button>
+              </div>
+             
+        </div>
+       
+    </div>
+
+  </div>
+</div>	
+
+<script type="text/javascript">
+
+  //提交事件
+$('.SubmitRisk').click(function(){
+
+  	if(confirm("确认修改?")){
+		 $("#risk_form").submit();
+	}
+
+})
+
+//去除左右空格
+$('#outer').find('input').change(function(){
+  $(this).val($.trim($(this).val()));
+		console.log();
+})
+
+function is_Disabled(arg=true){
+	$('#outer').find('input').each(function(i,element){
+		if(arg){
+			$(element).prop('disabled','disabled');
+		}else{
+			$(element).prop('disabled','');
+		}
+	})
+}
+
+//
+$('.clear_disabled').click(function(){
+	is_Disabled(false);
+})
+
+$(document).ready(function(){
+    //菜单标识
+    showHighLight(2, 2, 18); 
+    //默认不可修改  
+	is_Disabled(true);
+})
+
+//空白处
+$('body').click(function(e){
+ if($(e.target).attr('class')=='riskData'){
+    is_Disabled(true);
+ }
+})
+</script>

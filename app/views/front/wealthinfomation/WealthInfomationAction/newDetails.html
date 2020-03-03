@@ -1,0 +1,101 @@
+#{extends 'common/frontMenu.html' /}
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{set title:currBackstageSet.seoTitle+'|财富资迅|'+newsDetail?.get(1)?.type?.name+'|'+newsDetail?.get(1).title /}
+
+<div class="xf_con_box">
+	<div class="xf_con_wyjk_nav">
+		<span class="sf_con_wyjk_gtnav">财富资讯&nbsp;&gt;</span><span
+			class="sf_con_wyjk_dq">${newsDetail?.get(1)?.title}</span>
+	</div>
+	<!-- 左边导航区域 -->
+	<div class="p_left_navbox">
+            <h1><i></i><span>财富资讯</span></h1>
+            <ul class="p_left_navul">
+               <!--  <li><a href="帮助中心.html" title="" class="click">常见问题</a></li>
+                <li><a href="借款须知.html" title="">借款须知</a></li>
+                <li><a href="理财须知.html" title="">理财须知</a></li> -->
+                #{list types}
+				<li >
+				<a #{if _?.id == newsDetail?.get(1)?.type?.id} class = "cozhuse" #{/if} href="@{front.wealthinfomation.WealthInfomationAction.restHome(_?.id)}">${_?.name}</a></li>
+				#{/list}
+            </ul>
+        </div>
+	<!-- 右侧内容区域 -->
+	<div class="xf_bzzx_home xf_bzzx_home_view">
+		<h1 class="xf_cfzx_view_title">${newsDetail?.get(1)?.title}</h1>
+		<div class="xf_cfzx_view_datetime">
+			<span class="xf_cfzx_view_datetime_span">发布时间：${newsDetail?.get(1)?.startShowTime?.format("yyyy-MM-dd")}</span> 
+			<span class="xf_cfzx_view_datetime_span">${newsDetail?.get(1)?.readCount}次</span> 
+			<span class="xf_cfzx_view_datetime_spant">新闻来源：${newsDetail?.get(1)?.author}</span>
+		</div>
+		<div class="xf_cfzx_view_content">${newsDetail?.get(1)?.content?.raw()}
+		</div>
+		<div class="xf_cfzx_view_bottom_paga">
+			<div class="xf_cfzx_view_bottom_paga_l">
+				#{if null != newsDetail?.get(0)}
+				<a href="@{front.wealthinfomation.WealthInfomationAction.restNewDetails(newsDetail?.get(0)?.id)}">上一篇：${newsDetail?.get(0)?.title}</a>
+				#{/if}
+			</div>
+			<div class="xf_cfzx_view_bottom_paga_r">
+				#{if null != newsDetail?.get(2)}
+				<a href="@{front.wealthinfomation.WealthInfomationAction.restNewDetails(newsDetail?.get(2)?.id)}">下一篇：${newsDetail?.get(2)?.title}</a>
+				#{/if}
+			</div>
+		</div>
+	</div>
+
+	<!-- 清除浮动 -->
+	<div class="clear"></div>
+</div>
+
+<br/>
+
+<!-- 
+<div class="xf_con_box">
+              <div class="xf_con_wyjk_nav"><span class="sf_con_wyjk_gtnav"></span><span class="sf_con_wyjk_dq">
+					 ${newsDetail?.get(1)?.type?.parentType?.name}>
+					 <span class="sf_con_wyjk_gtnav"></span> 
+					 ${newsDetail?.get(1)?.type?.name} 
+					 <span class="sf_con_wyjk_gtnav"></span>>
+					 ${newsDetail?.get(1)?.title}</span></div>
+				
+				<div class="xf_wylc_view_content xf_cfzx_view clr">
+					<h1 class="xf_cfzx_view_title">${newsDetail?.get(1).title}</h1>
+					<div class="xf_cfzx_view_datetime">
+						<span class="xf_cfzx_view_datetime_span">发布时间：${newsDetail?.get(1)?.startShowTime?.format("yyyy-MM-dd")}</span>
+						<span class="xf_cfzx_view_datetime_span">此新闻已被浏览：${newsDetail?.get(1)?.readCount}次</span>
+						<span class="xf_cfzx_view_datetime_spant">新闻来源：${newsDetail?.get(1)?.author}</span>
+					</div>
+					<div class="xf_cfzx_view_content">
+					${newsDetail?.get(1)?.content?.raw()}
+					</div>
+					<div class="xf_cfzx_view_bottom">
+						本文关键词：<span class="xf_cfzx_view_bottom_s">${newsDetail?.get(1)?.keyword}</span>
+					</div>
+					<div class="xf_cfzx_view_bottom_paga">
+						<div class="xf_cfzx_view_bottom_paga_l">
+						#{if null != newsDetail?.get(0)}
+						${newDetails?.get(0)?.id}
+				           <a href="@{front.wealthinfomation.WealthInfomationAction.restNewDetails(newsDetail?.get(0)?.id)}">上一篇：${newsDetail?.get(0)?.title}</a>
+				        #{/if}
+						</div>
+						<div class="xf_cfzx_view_bottom_paga_r">
+                        #{if null != newsDetail?.get(2)}
+                        ${newDetails?.get(2)?.id}
+				           <a href="@{front.wealthinfomation.WealthInfomationAction.restNewDetails(newsDetail?.get(2)?.id)}">下一篇：${newsDetail?.get(2)?.title} </a>
+				        #{/if}
+						</div>
+					</div>
+				</div>
+			</div> -->
+<script type="text/javascript">
+	//function detail(newsId) {
+	//	window.location.href = "newDetails?id=" + newsId;
+	//}
+	//function list(typeId) {
+	//	window.location=("home?typeId=" + typeId);
+	//}
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_wealth.js'}"></script>

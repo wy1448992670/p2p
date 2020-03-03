@@ -1,0 +1,33 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'黑名单会员列表' /}
+
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist"> 
+    #{include 'supervisor/userManager/userLeft.control'/}
+    <!--右-->
+    #{include 'supervisor/userManager/BlacklistUser//blacklistUserContent.control'/} 
+  </div>
+</div>
+
+<script type="text/javascript">
+/* 高亮显示 */
+(10, 10, 'lab_usr_', null);
+
+var g_users_type = "black_users";
+  
+function removeBlacklist(id){
+  if(confirm("确定解除？")){
+    var removeBlacklist = #{jsAction @supervisor.userManager.blacklistUser.removeBlacklist(':sign')/}
+    $.post(removeBlacklist({sign:id}),function(data){
+      var arr=eval(data);
+        
+      if(arr.error.code < 0){
+        alert(arr.error.msg);
+        reutrn;
+      }
+      alert(arr.error.msg);
+      location.reload();
+    });
+  }
+}
+</script>

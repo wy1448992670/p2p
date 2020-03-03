@@ -1,0 +1,86 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'应付账单' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/systemSettings/common/leftBar.control"/}
+    <div class="xn_c_content">
+      <div class="xf_content_add">
+        <div class="xfht_t_j_y_2">
+          <!--右上-->
+          <div class="xf_ht_obu_fklm">
+                                           应付账单设置
+          </div>
+          <div class="xf_htgl_jgone xf_ht_fff_sz">
+            <h3 class="xf_htgl_jgtitle">财务应付投资账单设置</h3>
+            <div class="xf_ht_gl_jgone_botton">
+            #{if ! constants.Constants.IPS_ENABLE}
+            <table class="xf_ht_cwsz_zdsz_f_k" border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr>
+              <td width="20">&nbsp;</td>
+              <td align="left">
+                <input type="radio" name="repayType" value="0" #{if repayType == "0"}checked="checked"#{/if}> 自动付款<br />
+                <span class="xf_ht_cwsz_zdsz_f">
+                                                          自动付款是指投资账单关联的借款账单已还款，系统自动向投资账单账户完成付款。
+                </span>             
+                </td>
+              </tr>
+              <tr>
+              <td width="20">&nbsp;</td>
+              <td align="left">
+                <input type="radio" name="repayType" value="1" #{if repayType == "1"}checked="checked"#{/if}> 手动付款<br />
+                <span class="xf_ht_cwsz_zdsz_f">
+                                                               手动付款是指投资账单关联的借款账单已还款，由财务人员再手动向投资账单账户完成付款。
+                </span>             
+                </td>
+              </tr>
+            </table>
+            #{/if}            
+            #{else}
+             <table class="xf_ht_cwsz_zdsz_f_k" border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr>
+              <td width="20">&nbsp;</td>
+              <td align="left">
+                <input type="radio" name="repayType" value="0" #{if repayType == "0"}checked="checked"#{/if}> 自动付款<br />
+                <span class="xf_ht_cwsz_zdsz_f">
+                                                          自动付款是指投资账单关联的借款账单已还款，系统自动向投资账单账户完成付款。
+                </span>             
+                </td>
+              </tr>
+			#{/else}            
+            </table>
+            </div>
+          </div>
+          <div class="xf_htgl_jgsix_hyg">
+            <input class="xf_ht_tcc_button_ok" type="button" onclick="save();" value="确  定">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    /* 高亮显示 */
+	  showHighLight(2,2,7);
+  });
+  
+  function save() {
+    var repayType = $(':radio[name="repayType"]:checked').val();
+    $.ajax({
+      url : "@{saveBillsPayable()}",
+      type : "POST",
+      data : {
+        "repayType" : repayType
+      },
+      success : function(data) {
+        alert(data.msg);
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+</script>
+
+

@@ -1,0 +1,83 @@
+<div class="xf_ht_jr_obu_width xf_ht_xtsz_yun">
+  <div class="xf_ht_xtsz_aqwt xf_ht_xtsz_aqwt2">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0"
+      class="xf_con_mem_r_b_table">
+      <tr>
+        <th width="60">选择</th>
+        <th width="60">序号</th>
+        <th width="80">管理员账号</th>
+        <th>真实姓名</th>
+        <th>管理员等级</th>
+        <th>所属权限组</th>
+      </tr>
+      #{list pageBean?.page}
+      <tr>
+        <td><input type="checkbox" value="${_?.name}"/></td>
+        <td>${_index}</td>
+        <td>${_?.name}</td>
+        <td>${_?.reality_name}</td>
+        <td>#{if _?.level == 0} 普通管理员 #{/if} #{if _?.level == 1} 超级管理员
+          #{/if}</td>
+        <td>${_?.right_group}</td>
+      </tr>
+      #{/list}
+    </table>
+
+    <!-- 分页器 -->
+    <div class="xf_wylc_page xf_zqzr_view_page1 xf_znx_view_page1">
+      #{page funMethod:"selectGroupRosterInit",currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:4/}
+    </div>
+    <div class="xf_ht_tcc_button_box xf_ht_tcc_button_box_ok">
+      <input class="xf_ht_tcc_button_ok" type="button" onclick="submit();"value="确  定">
+      <input class="xf_ht_tcc_button_on" type="button" value="取  消">
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    //关闭
+    $(".xf_ht_jr_obu_r").click(function() {
+      g_selectedRoster = clone(g_groupRoster);
+      parent.layer.close(layer.index);
+      //$("#xf_ht_fkzh_ttc6").hide();
+    });
+
+    init();
+
+    //取消
+    $(".xf_ht_tcc_button_on").click(function() {
+      g_selectedRoster = clone(g_groupRoster);
+      layer.close(pop31);
+      //$("#xf_ht_fkzh_ttc6").hide();
+    });
+
+    //复选框被点击
+    $("#xf_ht_fkzh_ttc6 :checkbox").click(function() {
+      var name = $(this).val();
+      var isSelected = this.checked;
+
+      if (isSelected) {
+        g_selectedRoster.push(name);
+      } else {
+        g_selectedRoster.removeObject(name);
+      }
+    });
+  });
+
+  //初始化
+  function init() {
+    $("#xf_ht_fkzh_ttc6 :checkbox").each(function() {
+      if (g_selectedRoster.inArray($(this).val())) {
+        $(this).attr("checked","checked");
+      }
+    });
+  }
+
+  //确定提交
+  function submit() {
+    groupRosterDidSelect(g_selectedRoster);
+    layer.close(pop31);
+    //$("#xf_ht_fkzh_ttc6").hide();
+  }
+</script>

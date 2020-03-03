@@ -1,0 +1,268 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'逾期账单' /}
+
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/billCollectionManager/common/billCollectionManagerLeft.control"/}
+    <div class="xn_c_content">
+      <div class="xf_ht_tablelist">
+        <!-- 搜索 -->
+        #{form @overdueBills(), id:'submit'}
+        <input type="hidden" id="currPage" name="currPage"/>
+        <input type="hidden" id="pageSize" name="pageSize"/>
+        <input type="hidden" id="orderType" name="orderType" value="${page.conditions?.orderType}"/>
+        <div class="xf_ht_search">
+          <div class="xf_ht_search_l">
+            <span id="div_0" onClick="conditonSearch(0)">默认排序</span>
+            <span id="div_1" onClick="conditonSearch(1)">还款时间 <a id="div_a_1">↑</a></span>
+            <span id="div_3" onClick="conditonSearch(3)">年利率 <a id="div_a_3">↑</a></span>
+            <span id="div_5" onClick="conditonSearch(5)">借款金额 <a id="div_a_5">↑</a></span>
+          </div>
+        </div>
+        <div class="xf_ht_search_inon">
+          <div class="xf_ht_search_r">
+            <div class="xf_ht_search_xl">
+              <select id="year" name="yearStr" class="xf_membill_selectAge">
+                <option value="0" #{if page.conditions?.year == 0} selected="selected" #{/if}>全部</option>
+              </select>
+            </div>
+            <div class="xf_ht_search_xl">
+              <select name="monthStr" id="monthStr" class="xf_membill_selectAge" onchange="check();">
+                <option value="0" #{if page.conditions?.month == 0}selected="selected"#{/if}>全部</option>
+                <option value="1" #{if page.conditions?.month == 1}selected="selected"#{/if}>1</option>
+                <option value="2" #{if page.conditions?.month == 2}selected="selected"#{/if}>2</option>
+                <option value="3" #{if page.conditions?.month == 3}selected="selected"#{/if}>3</option>
+                <option value="4" #{if page.conditions?.month == 4}selected="selected"#{/if}>4</option>
+                <option value="5" #{if page.conditions?.month == 5}selected="selected"#{/if}>5</option>
+                <option value="6" #{if page.conditions?.month == 6}selected="selected"#{/if}>6</option>
+                <option value="7" #{if page.conditions?.month == 7}selected="selected"#{/if}>7</option>
+                <option value="8" #{if page.conditions?.month == 8}selected="selected"#{/if}>8</option>
+                <option value="9" #{if page.conditions?.month == 9}selected="selected"#{/if}>9</option>
+                <option value="10" #{if page.conditions?.month == 10}selected="selected"#{/if}>10</option>
+                <option value="11" #{if page.conditions?.month == 11}selected="selected"#{/if}>11</option>
+                <option value="12" #{if page.conditions?.month == 12}selected="selected"#{/if}>12</option>
+              </select>
+            </div>
+            <div class="xf_ht_search_xl">
+              <select name="typeStr" id="typeStr" class="xf_membill_selectAge">
+                <option value="0" #{if page.conditions?.type == 0}selected="selected"#{/if}>全部</option>
+                <option value="1" #{if page.conditions?.type == 1}selected="selected"#{/if}>借款标编号</option>
+                <option value="2" #{if page.conditions?.type == 2}selected="selected"#{/if}>借款人</option>
+                <option value="3" #{if page.conditions?.type == 3}selected="selected"#{/if}>账单编号</option>
+              </select>
+            </div>
+            <div class="xf_ht_search_xl">
+              <input id="key" name="key" type="text" class="search_w" value="${page.conditions?.key}"/>
+            </div>
+            <div class="xf_ht_search_xl">
+              <input type="submit" class="search_button" value="搜 索" />
+            </div>
+          </div>
+        </div>
+        #{/form}
+        <!-- 列表内容 -->
+        <div class="xn_c_content_top">
+          #{table class:"xn_c_content_list",cellspacing:"0",cellpadding:"0",border:"0",tr_class_odd:"xn_tr_bj"}
+            #{tr}
+              #{th}序号#{/th}
+              #{th}账单编号#{/th}
+              #{th}借款人#{/th}
+              #{th}借款标编号#{/th}
+              #{th}借款金额#{/th}
+              #{th}年利率#{/th}
+              #{th}账单标题#{/th}
+              #{th}账单期数#{/th}
+              #{th}还款时间#{/th}
+              #{th}逾期时长#{/th}
+              #{th}逾期账单#{/th}
+              #{th}操作#{/th}
+            #{/tr}
+            #{list page?.page}
+            #{tr tr_index:_index}
+              #{td}${(page?.currPage - 1) * page?.pageSize + _index}#{/td}
+              #{td}${_?.bill_no}#{/td}
+              #{td}${_?.name}#{/td}
+              #{td}${_?.bid_no}#{/td}
+              #{td}${_?.amount?.format("###,##0.00")}#{/td}
+              #{td}${_?.apr}%#{/td}
+              #{td}${_?.title}#{/td}
+              #{td}${_?.period}#{/td}
+              #{td}${_?.repayment_time?.format('yyyy-MM-dd')}#{/td}
+              #{td}${_?.overdue_time}#{/td}
+              #{td}${_?.overdue_count}#{/td}
+              #{td}
+                <a class="xf_ta_onclick" href="javascript:showBill('${_?.sign}', -2);">账单详情</a>
+                <span class="xf_ta_onclick" onclick="collection('${_?.sign}')">催收</span>
+                <span class="xf_ta_onclick" onclick="makeOverdue('${_?.sign}')">坏账</span>
+                <a class="xf_ta_onclick" href="@{supervisor.billCollectionManager.UserLoanBills.detail(_?.bid_id, 2, 12)}">借款标详情</a>
+              #{/td}
+            #{/tr}
+            #{/list}
+          #{/table}
+        </div>
+        <!-- 列表底部 -->
+        <div class="xn_c_content_bottom">
+          <div class="page_warp">
+            #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4}
+             yearStr=$(page.conditons.yearStr)&monthStr=$(page.conditons.monthStr)&typeStr=$(page.conditons.typeStr)&key=$(page.conditons.key) 
+            #{/page}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="show" style="display:none;"></div>
+<!--站内信弹窗-->
+#{include "supervisor/billCollectionManager/UserLoanBills/station.control"/}
+<!--邮件弹窗-->
+#{include "supervisor/billCollectionManager/UserLoanBills/mail.control"/}
+
+<script type="text/javascript">
+$(function(){
+  /* 高亮样式 */
+  showHighLight(1, 1, 2);
+});
+
+function conditonSearch(num){
+	  var orderType= ${page.conditions?.orderType};
+	  if(orderType == 0){
+	    $("#orderType").val(num);
+	    $("#submit").submit();
+	    return;
+	  }
+	  var sum = orderType/2;
+	  if(sum.toString().indexOf('.') == -1){
+	    var sum2 = orderType - 1;
+	    $("#orderType").val(num);
+	    $("#submit").submit();
+	    return;
+	  }else{
+	    if(orderType == num){
+	      $("#orderType").val(num + 1);
+	      $("#submit").submit();
+	      return;
+	    }else{
+	      $("#orderType").val(num);
+	      $("#submit").submit();
+	      return;
+	    }
+	  }
+	}
+
+
+
+$(function(){
+	  var mydate = new Date();
+	  var now = mydate.getFullYear();
+	  var before = now -5;
+	  var html = "";
+	  
+	  for(var  c = now ;c >= before;c--){
+		   html += '<option ';
+
+		   if('${page?.conditions?.year}' == c)
+			   html += 'selected="selected"';
+
+		   html += ' value="'+c+'">'+c+'</option>';
+	  }
+
+	  $("#year").append(html);
+	});
+
+
+$(function(){  
+  //条件查询控制样式
+  var num= ${page.conditions?.orderType};
+  
+  if(num == 0){
+    $("#div_0").addClass("xf_sea_isshow");
+    return;
+  }
+
+  var sum = num/2;
+  if(sum.toString().indexOf('.') == -1){
+    var sum2 = num -1;
+    $("#div_"+sum2).addClass("xf_sea_isshow");
+    $("#div_a_"+sum2).html("↓");
+    return;
+  }
+
+  $("#div_"+num).addClass("xf_sea_isshow");
+  $("#div_a_"+num).html("↑");
+});
+
+function collection(billId){
+  $.ajax({
+    url : "@{queryCollection(billId)}",
+    type : "POST",
+    data : {
+      "billIdStr" : billId
+    },
+    success : function(data) {
+      if (data.code < 0) {
+        alert(data.msg);
+          
+        return;
+      }
+      $("#show").html(data);
+      $.layer({
+        type: 1,
+        area: ['815', 'auto'],
+        title: '催收',
+        page: {dom : '#show'}
+      });
+    },
+    error : function() {
+      alert(data.msg);
+    }
+  });
+}
+  
+function makeOverdue(billId){
+  $.ajax({
+    url : "@{queryBadBills(billId)}",
+    type : "POST",
+    data : {
+      "billIdStr" : billId
+    },
+    success : function(data) {
+      if (data.code < 0) {
+        alert(data.msg);
+          
+        return;
+      }
+      $("#show").html(data);
+      $.layer({
+        type: 1,
+        area: ['815', 'auto'],
+        title: '坏账',
+        page: {dom : '#show'}
+      });
+    },
+    error : function() {
+      alert(data.msg);
+    }
+  });
+}
+
+function showBill(billId, type) {
+   $.layer({
+    type : 2,
+    title: '对账单',
+    shadeClose: true,
+    maxmin: true,
+    fix : true,  
+    area: ['900', 500],                     
+    iframe: {
+      src : "@{supervisor.billCollectionManager.UserLoanBills.billDetail}?billId="+billId+"&type="+type
+    }
+  }); 
+}
+
+function showPage(currPage, pageSize){
+	  $("#currPage").val(currPage);
+	  $("#pageSize").val(pageSize);
+	  $("#submit").submit();
+	}
+</script>

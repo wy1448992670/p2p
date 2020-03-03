@@ -1,0 +1,82 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'校对列表' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include 'supervisor/financeManager/common/financeManageLeft.control'/}
+		<div class="xn_c_content">
+		  <div class="xf_ht_tablelist">
+		    <!-- 搜索 -->
+		    #{form @queryForAccBalance(), id:'form'}
+		    <div class="xf_ht_search_inon">
+		      <div class="xf_ht_search_r">
+		        <div class="xf_ht_search_xl">
+		          <span class="search_timesp">用户名：</span>
+		          <input name="name" type="text" class="search_w" id="name" value="${page.conditions?.name}" />
+		        </div>
+		        <div class="xf_ht_search_xl">
+				  <input type="submit" class="search_button" onclick="search();" value="搜索">
+		        </div>
+		      </div>
+		    </div>
+		    #{/form}
+		    <!-- 列表内容 -->
+		    <div class="xn_c_content_top">
+		      #{table class:"xn_c_content_list",cellspacing:"0",cellpadding:"0",border:"0",tr_class_odd:"xn_tr_bj"}
+		        #{tr}
+		          #{th}序号#{/th}
+		          #{th}用户名#{/th}
+		          #{th}托管账户#{/th}
+		          #{th}本地账户可用余额#{/th}
+		          #{th}本地账户冻结金额#{/th}
+		          #{th}第三方账户可用余额#{/th}
+		          #{th}第三方账户冻结金额#{/th}
+		        #{/tr}
+		        #{list page?.page}
+		        #{tr tr_index:_index}
+		        	#{if _?.status == "0"}
+		        		#{td}${(page?.currPage - 1) * page?.pageSize + _index}#{/td}
+		          		#{td}${_?.userName}#{/td}
+		         		#{td}${_?.account}#{/td}
+		          		#{td}${_?.systemBlance.format('###,##0.00')}#{/td}
+		         		#{td}${_?.systemFreeze.format('###,##0.00')}#{/td}
+		         		#{td}${_?.pBlance.format('###,##0.00')}#{/td}
+		          		#{td}${_?.pFreeze.format('###,##0.00')}#{/td}
+		        	#{/if}
+		        	
+		        	#{if _?.status == "1"}
+		        		#{td style:"color:red;"}${(page?.currPage - 1) * page?.pageSize + _index}#{/td}
+		          		#{td style:"color:red;"}${_?.userName}#{/td}
+		         		#{td style:"color:red;"}${_?.account}#{/td}
+		          		#{td style:"color:red;"}${_?.systemBlance.format('###,##0.00')}#{/td}
+		         		#{td style:"color:red;"}${_?.systemFreeze.format('###,##0.00')}#{/td}
+		         		#{td style:"color:red;"}${_?.pBlance.format('###,##0.00')}#{/td}
+		          		#{td style:"color:red;"}${_?.pFreeze.format('###,##0.00')}#{/td}
+		        	#{/if}
+		          
+		        #{/tr}
+		        #{/list}
+		      #{/table}
+		    </div>
+		    <!-- 列表底部 -->
+		    <div class="xn_c_content_bottom">
+		      <div class="page_warp">
+		        #{page currPage:page?.currPage,pageSize:page?.pageSize,totalCount:page?.totalCount,theme:1,style:4}name=${page?.conditions?.name}
+		        #{/page}
+		      </div>
+		    </div>
+		  </div>
+		</div>
+  </div>
+</div> 
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_mg_bill.js'}"></script>
+<script>
+	/* 搜索 */
+	function search(){
+	  $("#form").submit();
+	}
+	
+	$(function(){
+		//高亮显示
+		showHighLight(6,6,61);
+	})
+</script>

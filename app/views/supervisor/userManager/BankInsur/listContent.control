@@ -1,0 +1,96 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    #{form @list(), id:'submit'}
+    <input type="hidden" id="currPage" name="currPage"/>
+    <input type="hidden" id="pageSize" name="pageSize"/>
+    <div class="xf_ht_search">
+      <div class="xf_ht_search_l sort_select">
+        <span sn = "" class="xf_sea_isshow">默认排序</span>
+      </div>
+    </div>
+    <div class="xf_ht_search_inon">
+      <div class="xf_ht_search_r">
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">起保时间：</span>
+          <input name="beginTime" type="text" id="startDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${result?.conditions?.beginTime}" />
+          <span class="search_timesp">--</span>
+          <input name="endTime" type="text" id="endDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${result?.conditions?.endTime}" />
+        </div>
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">会员名/姓名：</span>
+          <input name="userName" type="text" class="search_w" id="name" value="${result?.conditions?.userName}" />
+        </div>
+        <div class="xf_ht_search_xl">
+          <input type="button" class="search_button" onclick="searchSubmit(0);" value="搜 索" />
+        </div>
+      </div>
+    </div>
+    #{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table class:"xn_c_content_list1 recommend",cellspacing:"0",cellpadding:"0",border:"1",tr_class_odd:"xn_tr_bj",width:"1000px"}
+        <tr class="head">
+          <td>序号</td>
+          <td>会员名</td>
+          <td>姓名</td>
+          <td>银行卡号</td>
+          <td>保单号</td>
+          <td>起保时间</td>
+          <td>保险金额</td>
+          <td>备注</td>
+        </tr>
+        #{list result?.page,as:'map'}
+        #{tr}
+          #{td}${map_index}#{/td}
+          #{td}${map.name}#{/td}
+          #{td}${map.reality_name}#{/td}
+          #{td}${map.bank_account}#{/td}
+          #{td}${map.insur_code}#{/td}
+          #{td}${map.insur_start}#{/td}
+          #{td}${map.insur_limit}#{/td}
+          #{td}${map.remark}#{if map.insur_bill != null}<a href="${map.insur_bill}" target="_blank">查看保单</a>#{/if}#{/td}
+        #{/tr}
+        #{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      <div class="page_warp">
+      #{page currPage:result.currPage,totalCount:result.totalCount,pageSize:result.pageSize,theme:2,style:4/}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+function searchSubmit(export_){
+  $("#submit").submit();
+}
+
+var _order = "${orderType}";
+var _order_desc = _order.indexOf("DESC") != -1 ? "DESC" : "ASC";
+if(_order_desc == "DESC"){
+	$(".xf_sea_isshow a").html("↑");
+}else{
+	$(".xf_sea_isshow a").html("↓");
+}
+
+$(".sort_select > span").on("click", function(){
+	var obj = $(this);
+	var orderBy = "";
+	
+	if(obj.attr("sn") != ""){
+		orderBy = obj.attr("sn") +" "+ (_order_desc == "DESC" ? "ASC" : "DESC");
+	}
+	
+	$("#orderType").val(orderBy);
+	searchSubmit(0);
+});
+function showPage(currPage, pageSize){
+  $("#currPage").val(currPage);
+  $("#pageSize").val(pageSize);
+  $("#submit").submit();
+}
+</script>

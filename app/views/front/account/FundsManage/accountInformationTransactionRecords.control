@@ -1,0 +1,44 @@
+	<!-- 最近交易记录 -->
+	<div class="xf_mem_Account xf_mem_passage">
+		<h3 class="xf_mem_accout_title xf_mem_accout_tijbzl xf_mem_xydj">
+			<span class="xf_mem_accout_jbzl">最近交易记录</span>
+			 <a class="xf_mem_accout_jbzl2" href="@{front.account.FundsManage.dealRecord()}">查看更多</a>
+		</h3>
+		<div class="xf_mem_xydj_search_zh">
+			<table border="0" cellpadding="0" cellspacing="0" width="735"
+				class="xf_mem_xydj_viewcpms xf_mem_zhxx_viewcpms">
+				<tbody>
+					<tr>
+						<th align="center" width="74">序号</th>
+						<th width="151">时间</th>
+						<th align="center" width="136">收入金额（元）</th>
+						<th width="141">支出金额（元）</th>
+						<th width="229">明细</th>
+					</tr>
+					#{if userDetails.size() != 0}
+					#{list items:userDetails, as:'userDetails'}
+					  #{if userDetails?.amount > 0}
+					<tr>
+						<td align="center">${userDetails_index}</td>
+						<td align="left">${userDetails?.time?.format('yyyy-MM-dd HH:mm:ss')}</td>
+						#{if userDetails?.type == 1}
+							<td align="center">${userDetails?.amount?.format("###,##0.00")}</td>
+							#{/if}
+							#{else}
+							<td align="center">0</td>
+							#{/else}
+							#{if userDetails?.type == 2}
+							<td align="center">${userDetails?.amount?.format("###,##0.00")}</td>
+							#{/if}
+							#{else}
+							<td align="center">0</td>
+							#{/else}
+						<td align="center">${userDetails?.summary}</td>
+					</tr>
+					#{/if}
+					#{/list}
+					#{/if}
+				</tbody>
+			</table>
+		</div>
+	</div>

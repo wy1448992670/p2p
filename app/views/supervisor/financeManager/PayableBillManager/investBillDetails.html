@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+<head>
+  <meta name="keywords" content="${currBackstageSet?.seoKeywords}" />
+  <meta name="description" content="${currBackstageSet?.seoDescription}" />
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+  <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.ico'}" />
+  <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/xfback.css'}" />
+  <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/temp.css'}" />
+  <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
+  <script type="text/javascript" src="@{'/public/javascripts/index.js'}"></script>
+  <script type="text/javascript" src="@{'/public/javascripts/jquery.json-2.4.min.js'}"></script>
+  <script charset="utf-8" src="@{'public/javascripts/ajaxfileupload.js'}"></script>
+  <script type="text/javascript" src="@{'/public/javascripts/common.js'}"></script>
+  <script src="@{'/public/javascripts/laydate/laydate.js'}"></script>    
+</head>
+<body>
+<div class="xn_c_ban_jox xn_c_ban_jox_hk" style="margin: 0 auto">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_ht_jr_obu_l">${currBackstageSet?.platformName}借款客户账单
+      <span class="xf_ht_jr_obu_rw">${investDetail?.bid_id}号借款标第${investDetail?.current_period}期</span>
+    </div>
+    <div class="xf_ht_zd_tc">
+      <div class="xf_ht_zd_content">尊敬的${investDetail?.name}用户，您好！<br>
+                         感谢您使用${backSet.platformName}借款服务，我平台客服专线：${backSet?.platformTelephone} 竭诚为您服务！<br>
+                         重要提示：<br>
+                          尊敬的客户，为确保您应收账款准确，请您仔细阅读下面需理财款单明细栏目中各借款标信息。
+      </div>
+      <div class="xf_ht_zd_conlist">
+        <h3>本期投资账单明细：</h3>
+        <table width="100%" class="xf_ht_zd_table1" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td>本期应收本金：<span class="xf_ht_lv">${investDetail?.receive_corpus?.format("###,##0.00")}元</span></td>
+          <td>还款到期时间：<span class="xf_ht_red">${investDetail?.receive_time?.format('yyyy-MM-dd')}</span></td>
+          <td>还款方式：<span class="xf_ht_lv">${investDetail?.repayment_type}</span></td>
+        </tr>
+        <tr>
+          <td>投标本金：<span class="xf_ht_lv">${investDetail?.invest_amount?.format("###,##0.00")}元</span></td>
+          <td>年利率：<span class="xf_ht_red">${investDetail?.apr}%</span></td>
+          <td>本期应收合计：<span class="xf_ht_lv">${investDetail?.current_receive_amount?.format("###,##0.00")}元</span></td>
+        </tr>
+        <tr>
+          <td>已收金额：<span class="xf_ht_lv">${investDetail?.has_received_amount?.format("###,##0.00")}元</span></td>
+          <td>已收期数：<span class="xf_ht_red">${investDetail?.has_received_periods}期</span></td>
+          <td>剩余期数：<span class="xf_ht_lv"> ${investDetail?.loan_periods - investDetail?.has_received_periods}期</span></td>
+        </tr>
+        <tr>
+          <td>剩余应收本金：<span class="xf_ht_lv"> ${investDetail?.still_receiving_corpus?.format("###,##0.00")}元</span></td>
+        </tr>
+        </table>
+      </div>
+      <div class="xf_ht_zd_conlist">
+        <h3>借款标详细情况：</h3>
+        <div class="xf_ht_zd_conlist2">
+        <table width="100%" class="xf_ht_zd_table2" cellspacing="0" cellpadding="0" border="0">
+          <tr>
+          <th colspan="3">
+            ${investDetail?.title}
+          </th>
+          </tr>
+          <tr>
+          <td colspan="3">
+                                        借款总额：${investDetail?.amount?.format("###,##0.00")}元
+          </td>
+          </tr>
+          <tr>
+          <td>借款本息合计：${investDetail?.loan_principal_interest?.format("###,##0.00")}元</td>
+          <td>借款期数：${investDetail?.loan_periods}期</td>
+          <td>年利率：${investDetail?.apr}%</td>
+          </tr>
+          <tr>
+          <td>已还期数：${investDetail?.has_received_periods}</td>
+          <td>剩余期限：${investDetail?.loan_periods - investDetail?.has_received_periods}期</td>
+          </tr>
+        </table>
+        </div>
+      </div>
+      <div class="xf_ht_zd_conlist xf_ht_zd_conlist3">
+        <h3>历史还款情况</h3>
+        
+        #{table class:"xf_ht_zd_table3", cellspacing:"0", cellpadding:"0", border:"0", width:"100%"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}账单标题#{/th}
+          #{th}本期需还款金额#{/th}
+          #{th}是否逾期#{/th}
+          #{th}状态#{/th}
+          #{th}到期还款时间#{/th}
+          #{th}实际还款时间#{/th}
+        #{/tr}
+        #{list items:page.page,as:'received'}
+        #{tr tr_index:_index}
+          #{td}${received_index}#{/td}
+          #{td}${received?.title}#{/td}
+          #{td}￥${received?.receive_amount?.format("###,##0.00")}#{/td}
+          #{td}
+          #{if received.status == -1 || received.status == 0}
+                                          未逾期
+          #{/if}
+          #{else}
+                                          逾期
+          #{/else}      
+          #{/td}
+          #{td}
+          #{if received.status == -1 || received.status == -2}
+                                           未还款
+          #{/if}
+          #{else}
+                                             已还款
+          #{/else}
+          #{/td}
+          #{td}${received?.receive_time?.format('yyyy-MM-dd')}#{/td}
+          #{td}${received?.real_receive_time?.format('yyyy-MM-dd')}#{/td}
+        #{/tr}
+        #{/list}
+        #{/table}
+      </div>
+      <div class="xf_ht_shmx_button xf_ht_ssjt">
+        #{form @investBillDetails(), id:'investBillSubmit'}
+        <input type="hidden" name="billId" value="${investDetail?.sign}">
+        <input type="hidden" name="currPage" id="currPage">
+        <input type="hidden" name="type" id="${type}">
+        #{/form}
+        #{page currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:2,style:4 }#{/page}
+        <div class="page_warp_l">
+        #{if status == -5 || status == -6}
+        <input type="button" value="付款" class="xf_htbutton" Onclick="payBill('${investDetail?.sign}')"/>
+        #{/if}
+      </div>
+      </div>
+      <div class="xf_ht_hkjox_bootm">
+        <div class="xf_ht_hkjox_bootm_l">账单编号：${investDetail?.invest_number}</div>
+        <div class="xf_ht_hkjox_bootm_r">客服专线：${backSet?.platformTelephone}<br>
+          ${backSet.platformName}平台：${backSet?.companyEmail}<br>
+                                    借款账单生成日期：${investDetail?.audit_time?.format('yyyy-MM-dd')}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+<script>
+$(function(){
+    /* 高亮显示 */
+	  showHighLight(3,3,10);
+ });
+
+function showPage(currPage, pageSize){
+    $("#currPage").val(currPage);
+    $("#investBillSubmit").submit();
+}
+</script>

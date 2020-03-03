@@ -1,0 +1,389 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+  <!-- 搜索 -->
+  #{form @toPayWithdraws(), id:'submit'}
+  <div class="xf_ht_search">
+    <input type="hidden" id="currPage" name="currPage"/>
+    <input type="hidden" id="pageSize" name="pageSize"/>
+    <div class="xf_ht_search_l">
+    <input type="hidden" id="orderType" name="orderType" value="${page.conditions?.orderType}"/>
+    <span id="div_0"><a title="默认排序" onclick="conditonSearch(0);" id="tab_0">默认排序<a id="sp0"></a></a></span>
+    <span id="div_1"><a title="申请时间" onclick="conditonSearch(1);" id="tab_1">申请时间<a id="sp1">↑</a></a></span>
+    <span id="div_3"><a title="提现金额" onclick="conditonSearch(3);" id="tab_3">提现金额<a id="sp3">↑</a></a></span>
+    </div>
+  </div>
+  <div class="xf_ht_search_inon">
+    <div class="xf_ht_search_r">
+    <div class="xf_ht_search_xl">
+      <span class="search_timesp">申请时间：</span>
+      <input type="text" class="search_time" name="startDate" id="startDate" onclick="laydate()" class="laydate-icon" style="cursor:pointer" value="${page?.conditions?.beginTime}">
+      <span class="search_timesp">--</span>
+      <input type="text" class="search_time" name="endDate" id="endDate" onclick="laydate()" class="laydate-icon" style="cursor:pointer" value="${page?.conditions?.endTime}">
+    </div>
+    <div class="xf_ht_search_xl">
+      <input type="text" class="search_w" name="key" id="keyword" value="${page?.conditions?.key}">
+    </div>
+    <div class="xf_ht_search_xl">
+      <input type="submit" class="search_button" value="搜索">
+    </div>
+     <div class="xf_ht_search_xl">
+      <input type="button" class="xf_ht_tcc_button_ok" value="批量付款通知" onclick="batchPay()">
+    </div>
+    </div>
+  </div>
+  #{/form}
+  <!-- 列表内容 -->
+  <div class="xn_c_content_top">
+    #{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+    #{tr}
+      #{th}序号#{/th}
+      #{th}申请人类型#{/th}
+      #{th}申请人账号#{/th}
+      #{th}申请人#{/th}
+      #{th}提现金额#{/th}
+      #{th}申请时间#{/th}
+      #{th}账户余额#{/th}
+      #{th}应还金额#{/th}
+      #{th}应收金额#{/th}
+      #{th}信用等级#{/th}
+      #{th}状态#{/th}
+      #{th}操作#{/th}
+    #{/tr}
+    #{list page.page}
+    #{tr tr_index:_index}
+      #{td}${(page?.currPage - 1)*page?.pageSize + _index}#{/td}
+      #{td}
+      #{if _?.finance_type == 0}借款人#{/if} 
+      #{elseif _?.finance_type == 1}投资人#{/elseif}
+      #{/td}
+      #{td}${_?.name}#{/td}
+      #{td}${_?.reality_name}#{/td}
+      #{td}${_?.amount?.format("###,##0.00")}#{/td}
+      #{td}${_?.time?.format('yyyy-MM-dd')}#{/td}
+      #{td}${_?.user_amount?.format("###,##0.00")}#{/td}
+      #{td}${_?.repayment_amount?.format("###,##0.00")}#{/td}
+      #{td}${_?.receive_amount?.format("###,##0.00")}#{/td}
+      #{td}#{img src:"${_?.credit_level_image_filename}",alt:"",width:"25",height:"25"}#{/img}#{/td}
+      #{td}
+      #{if _?.status == 0} 审核中
+      #{/if}
+      #{elseif _?.status == 1} 付款中
+      #{/elseif}
+      #{elseif _?.status == 2} 已成功
+      #{/elseif}
+      #{elseif _?.status == -1}未通过
+      #{/elseif}
+      #{else}状态有误!
+      #{/else}
+      #{/td}
+      #{td}
+        <span><a onclick="payNotificationInit(${_?.user_id}, '${_?.name}', ${_?.id});" class="xf_ta_onclick">付款通知</a></span>
+        <span><a onclick="printPayBill(${_?.id})" class="xf_ta_onclick">打印付款单</a></span>
+        <span><a onclick="withdrawReview(${_?.id})" class="xf_ta_onclick">退回</a></span>
+      #{/td}
+    #{/tr}
+    #{/list}
+    #{/table}
+  </div>
+  <!-- 列表底部 -->
+  <div class="xn_c_content_bottom">
+    <div class="page_warp">
+    #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4}#{/page}
+    </div>
+  </div>
+  </div>
+</div>
+
+
+<!-- 付款通知-弹出层 -->
+<div class="xn_c_ban_jox xn_c_ban_jox_fktz" id="xf_ht_fkzh_ttc" style="display:none; width:500px;">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_fktz_tcc_table">
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form" width="100%">
+        <tr>
+          <td align="right" width="140">提现申请人：</td>
+          <td><input class="xf_ht_ptgl_dfk_i" type="text" id="fktzuserName" readonly="readonly"></td>
+        </tr>
+        <tr>
+          <td align="right" width="140">应付提现金额：</td>
+          <td><input class="xf_ht_ptgl_dfk_i" type="text" id="fktzamount" readonly="readonly"> 元</td>
+        </tr>
+        <tr>
+          <td align="right" valign="top" class="xf_ht_jr_obttd_l">银行卡信息：</td>
+          <td>
+            <span id="fktzbankInfo"></span>
+          </td>
+        </tr>
+          <tr>
+          <td>&nbsp;</td>
+          <td class="xf_ht_tcc_checkbpx">
+            <input class="xf_ht_radio" type="checkbox" name="informType" value="1" checked="checked">站内信通知
+            <input class="xf_ht_radio xf_ht_radio2" type="checkbox" name="informType" value="2">短信通知
+            <input class="xf_ht_radio xf_ht_radio2" type="checkbox" name="informType" value="3">邮件通知
+            <input class="xf_ht_radio xf_ht_radio2" type="hidden" id="userId" />
+            <input class="xf_ht_radio xf_ht_radio2" type="hidden" id="withdrawalId" />
+          </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="xf_ht_tcc_button">
+            <input class="jbox_ok" type="button" value="确  定" onclick="payNotification();">
+            <input class="jbox_on" type="button" value="取  消" onclick="layer.closeAll()">
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- 打印付款单-弹出层 -->
+<div class="xn_c_ban_jox xn_c_ban_jox_dfk" id="xf_ht_off_ttc" style="display:none">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_dfk_tcc_table">
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_txdy_form" width="100%">
+        <tr>
+          <td align="right" width="120">提现申请人：</td>
+          <td width="158"><input class="xf_ht_ptgl_dfk_i" type="text" id="fkduserName" readonly="readonly"></td>
+          <td align="right" width="100">应付提现金额：</td>
+          <td><input class="xf_ht_ptgl_dfk_i" type="text" id="fkdamount" readonly="readonly"> 元</td>
+        </tr>
+        <tr>
+          <td align="right" width="100">申请时间：</td>
+          <td width="188"><input class="xf_ht_ptgl_dfk_i" type="text" id="fkdtime" readonly="readonly" style="width:140px;"></td>
+          <td align="right" width="100">审核通过时间：</td>
+          <td><input class="xf_ht_ptgl_dfk_i" type="text" id="fkdauditTime" readonly="readonly" style="width:140px;"> </td>
+        </tr>
+        <tr>
+          <td align="right" width="100">申请结果：</td>
+          <td colspan="3"><input class="xf_ht_ptgl_dfk_i" type="text" id="fkdstatus" readonly="readonly"></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top" class="xf_ht_jr_obttd_l">付款账户：</td>
+          <td colspan="3">
+           <span id="fkdbankInfo"></span>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="xf_ht_tcc_button">
+            <input class="jbox_on" type="button" value="关  闭" onclick="layer.closeAll()">
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- 不通过-弹出层 -->
+<div class="xn_c_ban_jox xn_c_ban_jox_fktz" id="xf_ht_no_ttc" style="display:none;width:500px;">
+  <div class="xf_ht_jr_obu_width">
+    #{form @withdrawReview(), id:'withdrawReview'}
+    <div class="xf_fktz_tcc_table">
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form" width="100%">
+        <tr>
+          <td align="right" valign="top" width="140">不通过原因：</td>
+          <input type="hidden" id="nothroughId" name="withdrawalId">
+          <input type="hidden" value="2" name="returnType">
+          <td><textarea class="xf_ht_jr_obttd_textarea xf_ht_jr_obttd_fktz" id="reason" name="reason"></textarea></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="xf_ht_tcc_button">
+            <input class="jbox_ok" type="submit" value="确  定">
+            <input class="xf_ht_tcc_button_on" type="button" value="取  消" onclick="layer.closeAll()"/>
+          </td>
+        </tr>
+      </table>
+    </div>
+    #{/form}
+  </div>
+</div>
+    
+<script type="text/javascript">
+$(function(){
+	//高亮显示
+	showHighLight(4,4,16);
+})
+function conditonSearch(num){
+	  var orderType= ${page.conditions?.orderType};
+	  if(orderType == 0){
+	    $("#orderType").val(num);
+	    $("#submit").submit();
+	    return;
+	  }
+	  var sum = orderType/2;
+	  if(sum.toString().indexOf('.') == -1){
+	    var sum2 = orderType - 1;
+	    $("#orderType").val(num);
+	    $("#submit").submit();
+	    return;
+	  }else{
+	    if(orderType == num){
+	      $("#orderType").val(num + 1);
+	      $("#submit").submit();
+	      return;
+	    }else{
+	      $("#orderType").val(num);
+	      $("#submit").submit();
+	      return;
+	    }
+	  }
+	}
+
+  /* 付款通知弹出层 */
+  function payNotificationInit(userId, name, withdrawalId){
+    var listAction = #{jsAction @payNotificationInit(':withdrawalId') /};
+    $.post(listAction({withdrawalId:withdrawalId}), function(data) {
+      var msg = data.error.msg;
+      if(msg.length > 0){
+        alert(msg);
+        return;
+      }
+		
+      var withdrawal = data.withdrawal;
+      $("#userId").val(userId);
+      $("#withdrawalId").val(withdrawalId);
+      $("#fktzuserName").val(name);
+      $("#fktzamount").val(withdrawal.amount - withdrawal.service_fee);
+      $("#fktzbankInfo").html("真实姓名：" + withdrawal.account_name 
+      							+ "<br/>账号：" + withdrawal.account 
+      							+ "<br/>开户行：" + withdrawal.bank_name
+      							+ "<br/>支行：" + withdrawal.branch_bank_name
+      							+ "<br/>支行所在地：" + withdrawal.province + " | " + withdrawal.city
+      						);
+      
+      $.layer({
+        type: 1,
+        area: ['600', 'auto'],
+        title: '付款通知',
+        page: {dom : '#xf_ht_fkzh_ttc'}
+      });
+      //$("#xf_ht_fkzh_ttc").show();
+    });
+  }
+
+  /* 付款通知 */
+  function payNotification(){
+    var userId = $("#userId").val();
+    var withdrawalId = $("#withdrawalId").val();
+    var arr = new Array();
+    $("input[name='informType']:checked").each(function(){
+        arr.push($(this).val());
+    });
+    var type = arr.join(',');  
+    
+    if(userId == "" || withdrawalId == ""){
+      $("#xf_ht_fkzh_ttc").hide();
+      return;
+    }
+    
+    if (type == "") {
+    	alert("请选择付款通知方式");
+    	return;
+    }
+    
+    var listAction = #{jsAction @payNotification(':userId', ':withdrawalId', ':type') /};
+    $.post(listAction({userId:userId, withdrawalId:withdrawalId, type:type}), function(data) {
+      alert(data.msg);
+      layer.closeAll();
+      location.reload();
+      //$("#xf_ht_fkzh_ttc").hide();
+    });
+  }
+  
+  function batchPay(){
+  	if(window.confirm('确定要执行批量付款通知吗？')){
+  		var startDate = $('#startDate').val();
+  		var endDate = $('#endDate').val();
+  		var keyword = $('#keyword').val();
+  		var listAction = #{jsAction @batchPayNotification(':startDate', ':endDate', ':key') /};
+	    $.post(listAction({startDate:startDate, endDate:endDate, key:keyword}), function(data) {
+	      alert(data.msg);
+	      layer.closeAll();
+	      location.reload();
+	      //$("#xf_ht_fkzh_ttc").hide();
+	    });
+  	}
+  }
+  
+  /* 打印付款单 */
+  function printPayBill(withdrawalId){
+    var listAction = #{jsAction @printPayBill(':withdrawalId') /};
+    $.post(listAction({withdrawalId:withdrawalId}), function(data) {
+      if(data.error.msg.length > 0){
+        alert(msg);
+        return;
+      }
+      
+      $("#fkduserName").val(data.name);
+      $("#fkdamount").val(data.amount);
+      $("#fkdtime").val(data.time);
+      $("#fkdauditTime").val(data.audit_time);
+      $("#fkdstatus").val(data.status);
+      $("#fkdbankInfo").html(data.bankInfo);
+      $.layer({
+        type: 1,
+        area: ['700', 'auto'],
+        title: '付款单',
+        page: {dom : '#xf_ht_off_ttc'}
+      });
+      
+      //$("#xf_ht_off_ttc").show();
+    });
+  }
+
+  /* 退回 */
+   function withdrawReview(id){
+    $("#nothroughId").val(id);
+    $.layer({
+      type: 1,
+      area: ['600', 'auto'],
+      title: '提现申请审核',
+      page: {dom : '#xf_ht_no_ttc'}
+    });
+    //$("#xf_ht_no_ttc").show();
+  }
+  
+  $(function(){  
+    $('#bgTab').find('tr:even').find('td').css('background-color', '#f4f4f4');
+       
+    $(".xf_ht_jr_obu_r").click(function(){
+      $(this).parents(".xf_ht_ttc").hide();
+    });
+     
+    //条件查询控制样式
+    var num= ${page.conditions?.orderType};
+    if(num == 0){
+      $("#div_0").addClass("xf_sea_isshow");
+      
+      return;
+    }
+    var sum = num/2;
+    if(sum.toString().indexOf('.') == -1){
+      var sum2 = num -1;
+      $("#div_"+sum2).addClass("xf_sea_isshow");
+      $("#sp"+sum2).html("↓");
+      
+      return;
+    }
+    $("#div_"+num).addClass("xf_sea_isshow");dClass("xfht_t_y_x_wz_1");
+    $("#div_0").removeClass("xfht_t_y_x_wz_1");
+
+    $("#withdrawReview").submit(function(){
+      if($.trim($("#reason").val()) == ""){
+        alert("退回原因不能为空!");
+        return false;
+      }
+      return true;
+    });
+  });
+
+  function showPage(currPage, pageSize){
+    $("#currPage").val(currPage);
+    $("#pageSize").val(pageSize);
+    $("#submit").submit();
+  }
+
+  function searchSubmit(){
+    $("#submit").submit();
+  }
+</script>

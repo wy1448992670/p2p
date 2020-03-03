@@ -1,0 +1,508 @@
+#{set title:'应急短期借款,个人借款公司,分期借款平台, 在线小额借贷, 借款快速下款'/}
+#{set keywords:'借贷平台,急用钱借款,快速借款,私人无抵押贷款'/}
+#{set description:'亿亿理财借款端是一家为在线小额借贷,应急短期借款,提供分期借款平台的个人借款公司.其产品借款快速下款. 是一家个人贷款快速申请平台. TEL：021-6438-0510'/}
+<style>
+.jk_InputTitle{
+	font-size:12px;
+	color:#666666;
+	margin-left: 20px;
+}
+.clearFloat{
+	clear:both;
+}
+.jk_input{
+    height: 38px;
+    border: 1px solid #CCCCCC;
+    line-height: 38px;
+    border-radius: 2px;
+}
+.contTxt{
+	height: 38px;
+    box-sizing: border-box;
+    border: 0;
+    width: 100;
+}
+	input[type="checkbox"]:checked {
+		background: url(/public/images/jk/checked.png)no-repeat;
+		background-size: cover;
+		border: none;
+	}
+	input[type="checkbox"] {
+		-webkit-appearance: none;
+		background: #fff;
+		height: 16px;
+		vertical-align: middle;
+		width: 16px;
+		border-radius: 50%;
+		outline: none;
+		border: 1px solid #CCCCCC;
+		/*margin: -3px 8px 0 4px;*/
+	}
+	.agreement{
+		color: #445AFF;
+		cursor:pointer;
+		display:table-cell;
+		/*padding-left:10px;*/
+		font-size:12px;
+	}
+	.marTop{
+		margin-top:5px;
+	}
+	.select_type{
+		border-bottom: 2px solid;
+		padding-bottom: 15px;
+	}
+	.is_sel{
+		cursor:pointer;
+	}
+	.apply {
+		margin-top:17px;
+		font-size:16px;
+		width:100%;
+		height:57px;
+		border-radius:4px;
+		color:white;
+		border:0;
+		background: -webkit-linear-gradient(left, #6163FE , #686DFE); /* Safari 5.1 - 6.0 */
+		background: -o-linear-gradient(right, #6163FE, #686DFE); /* Opera 11.1 - 12.0 */
+		background: -moz-linear-gradient(right, #6163FE, #686DFE); /* Firefox 3.6 - 15 */
+		background: linear-gradient(to right, #6163FE , #686DFE); /* 标准的语法（必须放在最后） */
+
+}
+ul .jk_right li{
+	float:left;
+	width:33%;
+	color:#555AFF;
+	font-size:15px;
+}
+a{
+	color:#445AFF;
+}
+.leftTitle{
+	font-size:32px;
+	color:#555AFF;
+	font-weight:bold;
+}
+.p_navul>li>a{
+	font-size:16px;
+}
+
+/*弹出协议*/
+.lay{
+	width: 100%;
+    height: 100%;
+    display: none;
+    background-color: #000;
+    position: absolute;
+    z-index: 400;
+    left: 0;
+    top: 0;
+    opacity: 0.6;
+}
+.pop {
+    width: 61.33%;
+    height: 660px;
+    border-radius: 10px;
+    display: none;
+    position: fixed;
+    z-index: 450;
+    left: 0;
+    top: 50px!important;
+    background: white;
+}
+
+.close_all {
+    width: 61.3%;
+    height: 0;
+    text-align: center;
+    z-index: 9999;
+    position: fixed;
+     background: #000;
+     opacity: 0.6;
+    top: 50px;
+    display: none;
+}
+.close_all img {
+    cursor: pointer;
+    float: right;
+}
+.con_tit {
+    width: 100%;
+    font-weight: bold;
+    text-align: center;
+    font-size: 28px;
+    margin-top: 60px;
+    margin-bottom: 50px;
+}
+.con_text {
+    width: 80%;
+    height: 460px;
+    overflow: auto;
+    margin: 0 auto;
+    /*font-size: 26px;*/
+}
+ul.apply_lc li{
+	text-align:center;
+}
+.fs17{
+	font-size:17px;
+	color:#333333;
+	margin-top:30px;
+}
+
+.qusTitle{
+	color:#333333;
+	font-size:16px;
+	margin-top:23px;
+}
+.qusContxt{
+	color:#999999;
+	font-size:14px;
+}
+.p_navul>li>a{
+	width:auto;color:#8A8A8A;
+	font-size:16px;
+}
+	.p_navul>li>a:hover,.p_navul>li>a.click{color:#5452FE;}
+</style>
+<div class="lay"></div>
+		<!--弹出层-->
+		<div class="pop pp_car">
+			<div class="con_tit"></div>
+			<div class="con_text" id="context">
+
+			</div>
+			<div class="close_all ">
+				<img src="/public/images/reg20171208/close.png" class="close_img" alt="" />
+			</div>
+
+		</div>
+		<!--遮罩层-->
+	<div style="display:none;">
+		<div class="service">${service}</div>
+		<div class="authorization">${authorization}</div>
+		<div class="manage">${manage}</div>
+	</div>
+	<!-- top -->
+	<div class="p_headbox">
+	        <div class="p_head clr">
+	            <div class="p_logobox" style="padding-top:20px;">
+	                *{<a href="#" class="p_logo">
+					<img style="height:49px;width:168px;" src="/public/images/jk/jk_logo.png" alt="">
+					</a>}*
+	            </div>
+	            <div class="p_navbox">
+	                <ul class="p_navul clr">
+	                    <li ><a style="color:#5452FE;" id="index" href="/">返回首页</a></li>
+	                    <li ><a id="bid" href="@{front.account.AccountHome.applyLoan()}?pageFinanceType=0" >申请借款<i></i></a></li>
+	                    <li ><a id="invests" href="@{front.account.AccountHome.home()}?pageFinanceType=0" title="">我的账户<i></i></a></li>
+	                </ul>
+	            </div>
+	        </div>
+    	</div>
+	<div>
+<div style="position:relative">
+	<div>
+		<img class="topBanner" width="100%" src="/public/images/jk/index/top.png" />
+		<div class="topIcon"  style="position:absolute;top:300px;left:900px">
+			<div style="display:table-cell" >
+				<img class="icon_wem" style="width:160px;height:160px;" src="/public/images/jk/index/ewm.png" alt="" />
+			</div>
+			<div style="display:table-cell;color:white;vertical-align:middle;font-size:24px;padding-left:48px;" >
+				扫码申请借款
+			</div>
+		</div>
+	</div>
+
+	<div class="p_main clr" style="position:absolute;width:1000px;left:0;right:0;top:500px;">
+		<ul style=" display: inline-block;width: 100%;padding: 49px 0;background: white;">
+			<li style="width: 33%;float: left;text-align: center;">
+				<div style="display: inline-block;">
+					<div style="display: table-cell;padding-right:29px;">
+						<img src="/public/images/jk/index/guozi.png" alt="" style="/* float: left; */display: table-cell;">
+					</div>
+					<div style="display: table-cell;vertical-align: middle;text-align:left;">
+						<div style="font-size:20px;">
+							<span style="color:#555AFF;">低</span><span>门槛</span>
+						</div>
+						<div style="color:#999999;">
+							<div>
+								<span>个人借贷，企业借贷</span>
+							</div>
+							<div>
+								个体工商户借贷
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</li>
+			<li style="width: 33%;float: left;text-align: center;">
+				<div style="display: inline-block;">
+					<div style="display: table-cell;padding-right:29px;">
+						<img src="/public/images/jk/index/zijin.png" alt="" style="/* float: left; */display: table-cell;">
+					</div>
+					<div style="display: table-cell;vertical-align: middle;text-align:left;">
+						<div style="font-size:20px;">
+							<span style="color:#FA6905;">高</span><span>额度</span>
+						</div>
+						<div>
+							<span style="color:#999999;">最高可达100万元</span>
+						</div>
+					</div>
+				</div>
+			</li>
+			<li style="width: 33%;float: left;text-align: center;">
+				<div style="display: inline-block;">
+					<div style="display: table-cell;padding-right:29px;">
+						<img src="/public/images/jk/index/anquan.png" alt="" style="/* float: left; */display: table-cell;">
+					</div>
+					<div style="display: table-cell;vertical-align: middle;text-align:left;">
+						<div style="font-size:20px;">
+							<span style="color:#FFB400;">少</span><span>费用</span>
+						</div>
+						<div style="color:#999999;">
+							<span>月费低至0.66%</span>
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+
+
+			<div style="margin-bottom:29px;margin-top:40px;">
+				<img src="/public/images/jk/index/t1.png" alt="" />
+			</div>
+			<div style="display:inline-block;width:100%;background:white;padding:53px 0;">
+				<ul class="apply_lc">
+					<li style="float:left;width:25%;">
+						<div style="position: relative;">
+							<img src="/public/images/jk/index/one.png" alt="" />
+							<img src="/public/images/jk/index/right.png" style="position:absolute;top:0;bottom:0;margin:auto;margin-left:57px;" alt="" />
+						</div>
+						<div class="fs17" >
+							填写申请资料
+						</div>
+					</li>
+					<li style="float:left;width:25%;">
+						<div style="position: relative;">
+							<img src="/public/images/jk/index/two.png" alt="" />
+							<img src="/public/images/jk/index/right.png" style="position:absolute;top:0;bottom:0;margin:auto;margin-left:57px;" alt="" />
+						</div>
+						<div class="fs17" >
+							尽调回访
+						</div>
+					</li>
+					<li style="float:left;width:25%;">
+						<div style="position: relative;">
+							<img src="/public/images/jk/index/three.png" alt="" />
+							<img src="/public/images/jk/index/right.png" style="position:absolute;top:0;bottom:0;margin:auto;margin-left:57px;" alt="" />
+						</div>
+						<div class="fs17" >
+							借款审核
+						</div>
+					</li>
+					<li style="float:left;width:25%;">
+						<div style="position: relative;">
+							<img src="/public/images/jk/index/four.png" alt="" />
+						</div>
+						<div class="fs17" >
+							上标放款
+						</div>
+					</li>
+				</ul>
+		</div>
+		<div class="clearFloat"></div>
+		<div style="margin:40px 0 29px">
+			<img src="/public/images/jk/index/t2.png" alt="" />
+		</div>
+
+		<div style="display: inline-block;margin-bottom:22px;">
+			<ul>
+				<li style="float:left;min-height: 250px;width:740px;background: white;box-sizing: border-box;padding: 0 20px 0;">
+
+						<div class="qusTitle" style="margin-top:30px;">1.如何查看审核及放款进度？</div>
+						<div class="qusContxt">您可以下载登录亿亿贷借款APP，进入我的申请查询审核及放款进度。</div>
+
+
+						<div class="qusTitle">2.拒贷后多久可以再次申请？</div>
+						<div class="qusContxt">申请贷款被拒贷后，可立即进行二次申请，没有限制。</div>
+
+						<div class="qusTitle">3.借款人如何还款？</div>
+						<div class="qusContxt">还款截止日前，您可以登录亿亿理财官网或亿亿贷借款APP进行还款，目前支持APP还款和PC还款两种还款方式。</div>
+
+				</li>
+				<li style="float:left;width:240px;min-height: 250px;margin-left: 20px;background: white;">
+					<div style="padding-top: 30px;text-align:center;">
+						<img src="/public/images/jk/index/ewm.png" alt="" width="140px"/>
+						<div style="margin-top:25px;">
+						下载查看更多
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+
+	<div class="foot_cent" style="background: #5452FE;color: white;margin-top:800px;">
+		<ul style="width:1000px;padding: 45px 0 35px;margin:auto;display: table;">
+			<li style="display: table-cell;vertical-align: middle;">
+				<div style="display: table-cell;height: 100%;    vertical-align: sub;">
+					<div>
+					总部地址：上海市普陀区长寿路28弄4号1703室
+					</div>
+					<div style="margin-top:23px;">
+						<a href="https://v.pinpaibao.com.cn/cert/site/?site=www.yiyilc.com&at=business">
+						  <img style="height: 30px;width: 81px;" src="../../../public/images/newhome/fcc2.png"/>
+						</a>
+						<a href="http://si.trustutn.org/info?sn=427170103000559853165&certType=4">
+						 <img src="../../../public/images/newhome/icon1.jpg" style=" height: 30px; width: 81px; margin-left: 20px;"/>
+						</a>
+						<a href="https://cn.norton.com/">
+						 <img style="margin-left:20px;width: 81px;height: 30px;" src="../../../public/images/newhome/fcc1.png"/>
+						</a>
+					</div>
+				</div>
+			</li>
+			<li style="text-align: right;display: table-cell;">
+				<div class="foot_cents">
+					 <div class="foot_right">
+						<div>客服电话</div>
+						<div>021-6438-0510</div>
+						<p>客服工作时间：9：00-21：00</p>
+						<p>总经理邮箱</p>
+						<p>service@zhongyijr.com</p>
+					 </div>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div class="clearFloat"></div>
+
+</div>
+<script>
+
+
+$(window).resize(function() {
+	onSize();
+});
+
+$(document).ready(function(){
+	onSize();
+
+
+
+	$('.apply').click(function(){
+
+		 var formTxt = ''; //表单内容
+		 var t = $(this);
+		 //  1.信亿贷 2.房亿贷 3.农亿贷
+		 var type = t.closest('li').attr('type');
+
+		 var isAgree = t.prev().find('.agree').is(':checked');
+		 if(!isAgree){
+			alert('请阅读协议并同意');
+			return false;
+		 }
+		 formTxt += t.closest('form').serialize();
+		 console.log(formTxt);
+
+		 // 提交表单 ajax...
+
+	})
+
+		// 用户类型事件
+   $('.is_sel').click(function(){
+		var t = $(this);
+		var type = t.closest('.jk_right').attr('type');
+		// 1. 个人借款 2.企业借款 3.个体工商户借款
+		t.closest('form').find('[name=loan]').val(t.attr('flag'));
+
+		$('.jk_right').each(function(i,e){
+			if($(e).attr('type')==type){
+				$(e).find('span').removeClass('select_type');
+			}
+		})
+		 t.addClass('select_type');
+   })
+
+	   $(".close_all,.lay,.close_img").on("click",function(){
+						$(".lay,.pop,.close_img").hide();
+					})
+		$(".open2").on("click",function(){
+						$(".close_img,.close_all").css("display","block")
+					})
+		$(".open2").bind("click", function() {
+					showDailog();
+			    });
+
+	})
+
+function onSize (){
+	var TopIcon = $('.topIcon');
+	var Width = $('.topBanner').width()/2.0756;
+	var TopBannerHeight = $('.topBanner').width()/3.1946;
+	var Height = TopBannerHeight/2.267;
+	var body = TopBannerHeight/1.2494;
+	var footer =  TopBannerHeight/0.7098;
+
+	TopIcon.css({
+		position: 'absolute',
+		top: Height,
+		left: Width,
+	})
+	$('.p_main').css({
+		top: body,
+	})
+	//$('.foot_cent').css('margin-top',footer);
+
+	$('.icon_wem').css({width:$('.topBanner').width()/12+'px',height:$('.topBanner').width()/12+'px'});
+}
+	  // 协议显示区分
+	function agreement(type=1){
+		var agreementTitle = '';
+		var agreementHTML = '';
+		if(type==1){
+			agreementTitle+='《借款人服务协议》';
+			agreementHTML+='service'
+		}else if(type==2){
+			agreementTitle+='《电子签章自动签署授权协议》';
+			agreementHTML+='authorization';
+		}else if(type==3){
+			agreementTitle+='《咨询与管理服务协议》';
+			agreementHTML+='manage';
+		}else{
+			agreementTitle+='《借款人服务协议》';
+			agreementHTML+='credit'
+		}
+
+		$('.con_tit').text(agreementTitle)
+		$('#context').html($('.'+agreementHTML).text());
+	}
+
+		function showDailog() {
+					$(".lay").show();
+					$(".close_all").show();
+					$(".code_fix").show();
+					var dH = $(document).height(); //获取文档的高度
+					$(".lay").css("height", dH); //黑色遮罩层高度设置为文档高度
+					var wW = $(window).width(), //window的宽度
+						wH = $(window).height(), //window的高度
+						pW = $(".pop").width(), //弹出层的宽度
+						pH = $(".pop").height(), //弹出层的高度
+						pL = (wW - pW) / 2, //弹出层距离左边的距离
+						pT = (wH - pH) / 2;
+					$(".pop").show().css({
+						"left": pL + "px",
+						"top": pT + "px"
+					});
+					$(".close").show().css({
+						"left": pL + "px",
+						"top": pT + "px"
+					});
+
+				}
+</script>
+#{extends 'common/frontMenuApply.html' /}

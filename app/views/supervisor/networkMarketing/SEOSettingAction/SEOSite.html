@@ -1,0 +1,68 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'SEO设置' /}
+<div class="xfht_t_j_k"> 
+<!--左-->
+#{include "supervisor/networkMarketing/CPSSpreadAction/networkMarketingLeft.control"/}
+  <div class="xn_c_content">
+    <div class="xf_content_add">
+      <div class="xfht_t_j_y_2">
+        <!--右上-->
+        <div class="xf_ht_obu_fklm">
+          SEO优化设置
+        </div>
+        #{form @save(), id:'saveSubmit'}
+          <div class="xf_ht_seo_sz">
+            <ul class="xf_ht_seo_szul">
+              <li>
+                <div class="xf_ht_seo_sztitle">1、首页title设置：</div>
+                <div class="xf_ht_seo_sz_textarea">
+                  <textarea class="xf_ht_seo_sztextarea1" name="seoTitle" id="seoTitle">${backstageSet?.seoTitle}</textarea>
+                </div>
+              </li>
+              <li>
+                <div class="xf_ht_seo_sztitle">2、Description描述设置：</div>
+                <div class="xf_ht_seo_sz_textarea">
+                  <textarea class="xf_ht_seo_sztextarea1 xf_ht_seo_sztextarea2" name="seoDescription" id="seoDescription">${backstageSet?.seoDescription}</textarea>
+                </div>
+              </li>
+              <li>
+                <div class="xf_ht_seo_sztitle">3、Keyword 关键词设置：</div>
+                <div class="xf_ht_seo_sz_textarea">
+                  <textarea class="xf_ht_seo_sztextarea1" name="seoKeywords" id="seoKeywords">${backstageSet?.seoKeywords}</textarea>
+                </div>
+              </li>
+            </ul>
+            <div class="xf_htgl_jgsix">
+              <input class="xf_ht_tcc_button_ok" type="button" onClick="save();" value="保 存">
+            </div>
+          </div>
+	     #{/form}
+       </div>
+    </div>
+  </div>
+</div>
+</div>
+<script type="text/javascript">
+$(function(){
+  (3, 3, 'lab_seo_', null);
+})
+
+function save(){
+  if($("#seoTitle").val() == ''){
+    alert("首页title设置不能为空");
+    return;
+  }
+ 
+  if($("#seoDescription").val() == ''){
+    alert("Description描述设置不能为空");
+    return;
+  }
+ 
+  if($("#seoKeywords").val() == ''){
+    alert("Keyword关键词设置不能为空");
+    return;
+  }
+ 
+  $("#saveSubmit").submit();
+}
+</script>

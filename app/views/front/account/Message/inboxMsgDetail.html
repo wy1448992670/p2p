@@ -1,0 +1,139 @@
+<div class="xf_mem_zhannx_tab">
+	#{if pageBean.page.size() == 1}
+	<div class="xf_mem_znx_view_t  xf_mem_znx_view_t_sj">
+		<div  style="word-break: break-all;width: 400px; margin: -25px auto;">
+		${pageBean.page.get(0).title}
+		</div>
+		<div class="xf_mem_znx_view_t_r">
+		${pageBean.page.get(0).time?.format("yyyy-MM-dd HH:mm:ss")}</div>
+		<div class="xf_mem_znx_view_t_r xf_mem_znx_view_t_r2">
+			<input class="xf_ht_znx_button" type="button"
+				onclick="showReplyWindow(${pageBean.page.get(0).id});" value="回复">
+		</div>
+	</div>
+	<div class="xf_mem_znx_view_c">${pageBean.page.get(0).content}</div>
+	<div class="xf_mem_znx_view_b clr">
+		<div class="xf_mem_znx_view_b_r">
+			<a href="javascript:back();">&lt;&lt;返回</a>
+		</div>
+	</div>
+	#{/if} #{elseif pageBean.currPage == 1}
+	<div class="xf_mem_znx_view_t xf_mem_znx_view_t_sj">
+		<div  style="word-break: break-all;width: 400px; margin: -25px auto;">
+		${pageBean.page.get(0).title}
+		</div>
+		<div class="xf_mem_znx_view_t_r">
+		${pageBean.page.get(0).time?.format("yyyy-MM-dd HH:mm:ss")}</div>
+		<div class="xf_mem_znx_view_t_r xf_mem_znx_view_t_r2">
+			<input class="xf_ht_znx_button" type="button"
+				onclick="showReplyWindow(${pageBean.page.get(0).id});" value="回复">
+		</div>
+	</div>
+	<div class="xf_mem_znx_view_c">${pageBean.page.get(0).content}</div>
+	<div class="xf_mem_znx_view_b clr">
+		<div class="xf_mem_znx_view_b_l">
+			<a href="javascript:goDownItem();">下一条：${pageBean.page.get(1).title}</a>
+		</div>
+		<div class="xf_mem_znx_view_b_r">
+			<a href="javascript:back();">&lt;&lt;返回</a>
+		</div>
+	</div>
+	#{/elseif} #{elseif pageBean.currPage == pageBean.totalCount}
+	<div class="xf_mem_znx_view_t xf_mem_znx_view_t_sj">
+		<div  style="word-break: break-all;width: 400px; margin: -25px auto;">
+		${pageBean.page.get(1).title}
+		</div>
+		<div class="xf_mem_znx_view_t_r">
+		${pageBean.page.get(1).time?.format("yyyy-MM-dd HH:mm:ss")}</div>
+		<div class="xf_mem_znx_view_t_r xf_mem_znx_view_t_r2">
+			<input class="xf_ht_znx_button" type="button"
+				onclick="showReplyWindow(${pageBean.page.get(1).id});" value="回复">
+		</div>
+	</div>
+	<div class="xf_mem_znx_view_c">${pageBean.page.get(1).content}</div>
+	<div class="xf_mem_znx_view_b clr">
+		<div class="xf_mem_znx_view_b_l">
+			<a href="javascript:goUpItem();">上一条：${pageBean.page.get(0).title}</a>
+		</div>
+		<div class="xf_mem_znx_view_b_r">
+			<a href="javascript:back();">&lt;&lt;返回</a>
+		</div>
+	</div>
+	#{/elseif} #{else}
+	<div class="xf_mem_znx_view_t xf_mem_znx_view_t_sj">
+		<div  style="word-break: break-all;width: 400px; margin: -25px auto;">
+		${pageBean.page.get(1).title}
+		</div>
+		<div class="xf_mem_znx_view_t_r">
+		${pageBean.page.get(1).time?.format("yyyy-MM-dd HH:mm:ss")}</div>
+		<div class="xf_mem_znx_view_t_r xf_mem_znx_view_t_r2">
+			<input class="xf_ht_znx_button" type="button"
+				onclick="showReplyWindow(${pageBean.page.get(1).id});" value="回复">
+		</div>
+	</div>
+	<div class="xf_mem_znx_view_c">${pageBean.page.get(1).content}</div>
+	<div class="xf_mem_znx_view_b clr">
+		<div class="xf_mem_znx_view_b_l">
+			<a href="javascript:goUpItem();">上一条：${pageBean.page.get(0).title}</a><br />
+			<a href="javascript:goDownItem();">下一条：${pageBean.page.get(2).title}</a>
+		</div>
+		<div class="xf_mem_znx_view_b_r">
+			<a href="javascript:back();">&lt;&lt;返回</a>
+		</div>
+	</div>
+	#{/else}
+</div>
+
+<!-- 后期补充-回复 -->
+<div class="xf_zqzr_znx_window" id="xf_zqzr_tgxyed_window">
+</div>
+
+<script type="text/javascript">
+
+	var g_msgId;
+	$(function(){
+		$("#userBidQuestions").html("【${unreadInboxMsgCount}】");
+	});
+
+	function showReplyWindow(msgId) {
+		g_msgId = msgId;
+		
+		$.ajax({
+			url : "@{replyMsgInit()}",
+			type : "POST",
+			data : {
+				"msgId" : msgId
+			},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+
+					return;
+				}
+
+				var tcc = $("#xf_zqzr_tgxyed_window");
+				tcc.html(data);
+				showDiv(tcc);
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+	
+	function back() {
+		$("#detail").hide();
+		$("#msglist").show();
+
+		location.reload();
+	}
+	
+	function goUpItem() {
+		inboxMsgDetail(g_index-1);
+	}
+	
+	function goDownItem() {
+		inboxMsgDetail(g_index+1);
+	}
+	
+</script>

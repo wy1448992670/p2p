@@ -1,0 +1,87 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xn_c_content_list",tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}4大保障编号#{/th}
+          #{th}定位标题#{/th}
+          #{th}所在位置#{/th}
+          #{th}图片分辨率#{/th}
+          #{th}建议文件大小#{/th}
+          #{th}文件格式#{/th}
+		  #{th}广告链接#{/th}
+		  #{th}状态#{/th}
+		  #{th}操作#{/th}
+        #{/tr}
+		#{list items:adsEnsure, as:'security'}
+        #{tr tr_index:security_index}
+          #{td}${security_index}#{/td}
+          #{td}${security?.id}#{/td}
+          #{td}${security?.title}#{/td}
+          #{td}${security?.location}#{/td}
+          #{td}${security?.resolution}#{/td}
+          #{td}${security?.fileSize}#{/td}
+		  #{td}${security?.fileFormat}#{/td}
+		  #{td}${security?.url}#{/td}
+		  #{td}#{if security.status}启用#{/if}#{else}暂停#{/else}#{/td}
+		  #{td}<a class="xf_ta_onclick" href="javascript:void(0)" onClick="edit('${security?.id}')">编辑</a>
+              #{if security.status}
+                <a class="xf_ta_onclick" onClick="updateSecurity('${security?.id}','1')">暂停</a>
+              #{/if}
+              #{else}
+                <a class="xf_ta_onclick" onClick="updateSecurity('${security?.id}','0')">启用</a>
+              #{/else}
+		  #{/td}
+        #{/tr}
+		#{/list}
+      #{/table}
+    </div>
+  </div>
+</div>
+<div id="show"></div>
+<script type="text/javascript">
+  function updateSecurity(id,status){
+    var updateSecurityStatus = #{jsAction @updateSecurityStatus(':idStr',':statusStr')/}
+    $.post(updateSecurityStatus({idStr:id,statusStr:status}),function(data){
+      var arr=eval(data);
+		 
+      if(arr.error.code < 0){
+        alert(arr.error.msg);
+        
+        return;
+      }
+        
+      alert(arr.error.msg);
+      location.reload();  
+    });
+  }
+      
+  function edit(adsId){
+    $.ajax({
+      url : "@{securityEditor(adsId)}",
+      type : "POST",
+      data : {
+        adsId : adsId
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+          
+          return;
+        }
+        $('#show').html(data);
+        $.layer({
+          type: 1,
+          area: ['520', 'auto'],
+          title: '4大安全保障编辑',
+          page: {dom : '#xf_ht_fkzh_ttc'}
+        });
+      },
+      error : function() {
+        alert(data.msg);
+      }
+    });
+  }
+</script>

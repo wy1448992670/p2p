@@ -1,0 +1,50 @@
+#{extends 'payment/PaymentBaseAction/checkMain.html' /}
+
+#{set title:'邮箱认证' /}
+  
+<div class="p_zctancbg" style="display: block"></div>
+<div class="p_zctanc1" style="display: block">
+  <div class="p_zctcbox">
+    <div class="p_zctctextimg"><img src="@{'public/images/p_zc001.png'}"></div>
+    <div class="p_zctctextword">
+      <p>&nbsp;</p>
+      <p class="p_zcyougg">邮件发送成功，请立即激活</p>
+      <p>验证邮件已发送到您的邮箱：<span>${email}</span>，请点击<br>邮件中的确认链接完成验证</p>
+      <p><a href="${emailUrl}" target="_blank" class="p_zctcnext1">登录邮箱激活</a></p>
+    </div>
+    <div class="p_zctcbottom">
+      <p>请注意以下事项</p>
+      <p>1、如果30分钟内没有收到激活邮件，请查看您邮箱中的垃圾邮件，依然不能收到请<a class="p_zcagain" id="sendActiveEmail"  onclick="sendActiveEmail();">重新发送</a></p>
+      <p>2、如果您在验证过程中，出现任何问题，请致电${phone}，或咨询客服QQ：${qq1} &nbsp;| &nbsp; ${qq2}</p>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+	function sendActiveEmail() {
+		$.ajax({
+			url : "@{payment.PaymentBaseAction.sendActiveEmail()}",
+			type : "POST",
+			data : {
+			},
+			success : function(data) {
+				alert(data.msg);
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+		
+		$("#sendActiveEmail").attr("onclick","waitToSendEmail()");
+		
+		window.setTimeout(function(){
+			$("#sendActiveEmail").attr("onclick","sendActiveEmail()");
+			},60000); 
+	}
+	
+	function waitToSendEmail(){
+		alert('请稍后再试');
+	}
+	
+	
+</script>

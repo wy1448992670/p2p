@@ -1,0 +1,105 @@
+<script>
+function cancelAttention(sign) {
+     if(confirm("确定要取消关注吗？")){
+		var test = #{jsAction @front.account.AccountHome.cancelAttentionUser(':sign')/}
+        $.post(test({sign: sign}), function(data) {
+        	var date= eval(data);
+        	var error = date.error;
+        	
+            if(error.code < 0) {
+	           	alert(error.msg);
+	           	return;
+           }
+           
+            alert(error.msg); 
+            location.replace("@{front.account.accountHome.myAttentionUser()}");
+        })
+       }
+	}
+
+function showNote(sign){
+	$.ajax({
+		url : "@{front.account.AccountHome.attentionUserNote()}",
+		type : "POST",
+		data : {
+			"id" : sign
+		},
+		success : function(data) {
+			if (data.code < 0) {
+				alert(data.msg);
+
+				return;
+			}
+
+			$("#show").html(data);
+		},
+		error : function() {
+			alert("对不起，出现错误!");
+		}
+	});
+    }
+	
+function showStation(sign,name){
+	$.ajax({
+		url : "@{front.account.AccountHome.attentionUsersStation()}",
+		type : "POST",
+		data : {
+			"sign" : sign,
+			"userName" : name
+		},
+		success : function(data) {
+			if (data.code < 0) {
+				alert(data.msg);
+
+				return;
+			}
+
+			$("#show").html(data);
+		},
+		error : function() {
+			alert("对不起，出现错误!");
+		}
+	});
+   }
+
+
+</script>
+<div class="xf_mem_Account">
+					<h3 class="xf_mem_accout_title">我关注的人</h3>
+					<div class="xf_mem_accout_wgzdr">
+						<ul class="xf_mem_accout_wgzdrUL clr">
+						#{if page.page.size()!=0}
+						#{list items:page.page,as:'attentionUser'}
+							<li>
+								<div class="xf_mem_accout_wgzdrUL_l">
+									#{img src:"${attentionUser.attention_user_photo}",alt:"头像"}#{/img}
+								</div>
+								<div class="xf_mem_accout_wgzdrUL_r">
+									<div class="xf_mem_wgzdr_top">
+										${attentionUser.attention_user_name}（${attentionUser.note_name}）
+									</div>
+									<div class="xf_mem_wgzdr_cen">
+										<a class="xf_accout_cont_imginput last" onclick="showNote('${attentionUser?.id}');" >
+											设置备注
+										</a>
+										<a class="xf_accout_cont_imginput" onclick="showStation('${attentionUser?.signAttentionUserId}','${attentionUser?.attention_user_name}');">
+											发送站内信
+										</a>
+									</div>
+									<div class="xf_mem_wgzdr_bot">
+										<a class="xf_accout_cont_quxiao" href="javascript:void(0)" onclick="cancelAttention('${attentionUser?.id}')">取消关注</a>
+									</div>
+								</div>
+							</li>
+						#{/list}
+							
+							
+						</ul>
+						<!-- 分页器 -->
+						<div class="xf_wylc_page xf_zqzr_view_page1 xf_znx_view_page1">
+						#{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:1,style:2/}
+						</div>
+						#{/if}
+					</div>
+				</div>
+				<div id="show"></div>

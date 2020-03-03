@@ -1,0 +1,88 @@
+#{extends 'common/frontMain.html' /} 
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{set title:currBackstageSet.seoTitle+'|合作伙伴' /}
+
+<div class="p_bgf1_box pb30 pt30">
+
+	<div class="p_main clr">
+	<!--侧边导航栏-->
+	#{include "front/home/HomeAction/aboutUsLeft.html"/}
+	<!-- 右侧内容区域 -->
+	<div class="p_right_wordbox">
+		<div class="p_hp_rtbox">
+			<ul class="xf_about_gltdul xf_about_gltdul_hz">
+				#{list page.page} 
+				<li>
+					<div class="xf_about_gltd_l xf_about_gltd_lhz">
+						#{img src:"${_?.image_filename}",alt:""}#{/img}
+					</div>
+					<div class="xf_about_gltd_r">
+						<h2 class="xf_about_gltd_rh2">${_?.name}</h2>
+						<div class="xf_about_gltd_rcon">
+							${_?.description}
+						</div>
+					</div>
+				</li>	
+				#{/list}
+			</ul>
+			#{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:1,style:3/}
+		</div>
+	</div>
+	<!-- 清除浮动 -->
+	<div class="clear"></div>
+	
+	<div class="xf_wylc_wylcExp">
+	#{include "common/WealthToolbox.control"/}
+		
+	#{include "common/CreditRatingIcons.control"/}
+	
+	#{include "common/BorrowingIcons.control"/}
+	
+	<div class="clear"></div>
+	</div>
+</div>
+
+<div class="xf_con_box" style="display:none;">
+	<!-- 左边导航区域 -->
+	#{include "front/home/HomeAction/aboutUsLeft.html"/}
+	<!-- 右侧内容区域 -->
+	<div class="xf_about_box">
+		<div class="xf_about_gltd">
+			<ul class="xf_about_gltdul xf_about_gltdul_hz">
+				#{list page.page} 
+				<li>
+					<div class="xf_about_gltd_l xf_about_gltd_lhz">
+						#{img src:"${_?.image_filename}",alt:""}#{/img}
+					</div>
+					<div class="xf_about_gltd_r">
+						<h2 class="xf_about_gltd_rh2">${_?.name}</h2>
+						<div class="xf_about_gltd_rcon">
+							${_?.description}
+						</div>
+					</div>
+				</li>	
+				#{/list}
+			</ul>
+			#{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:1,style:3/}
+		</div>
+	</div>
+	<!-- 清除浮动 -->
+	<div class="clear"></div>
+	
+	<div class="xf_wylc_wylcExp">
+	#{include "common/WealthToolbox.control"/}
+		
+	#{include "common/CreditRatingIcons.control"/}
+	
+	#{include "common/BorrowingIcons.control"/}
+	
+	<div class="clear"></div>
+</div>
+
+
+
+</div>
+
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_about_us.js'}"></script>

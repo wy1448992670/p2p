@@ -1,0 +1,63 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'短信通道' /} 
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/systemSettings/common/leftBar.control"/}
+    <div class="xn_c_content">
+      <div class="xf_content_add">
+        #{form @saveSMS(), id:'submit'}
+        <div class="xfht_t_j_y_2">
+          <!--右上-->
+          <div class="xf_ht_obu_fklm">
+                                               短信发送通道设置
+          </div>
+          <!-- 短信通道 -->
+          <div class="xf_htgl_jg_tongdao">
+            <table border="0" cellspacing="0" cellpadding="0" class="xf_htgl_jg_tableone_table">
+            <tr>
+              <td width="280" align="right">用户名：</td>
+              <td>
+              <input class="xfht_zr_input xfht_zr_input_shoping" type="text" id="smsAccount" name="smsAccount" value="${backstageSet?.smsAccount}">
+              </td>
+            </tr>
+            <tr>
+              <td width="280" align="right">密码：</td>
+              <td>
+              <input class="xfht_zr_input xfht_zr_input_shoping" type="password" id="smsPassword" name="smsPassword" value="${backstageSet?.smsPassword}">
+              </td>
+            </tr>
+            </table>
+          </div>
+          <div class="xf_htgl_jgsix_hyg">
+            <input class="xf_ht_tcc_button_ok" type="button" onClick="submits()" value="确  定">
+          </div>
+        </div>
+        #{/form}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    /* 高亮显示 */
+	showHighLight(5,5,13);
+  });
+  
+  function submits(){
+    if($("#smsPassword").val() == ''){
+    
+      alert("密码不能为空");
+      return;
+    }
+          
+    if($("#smsAccount").val() == ''){
+      alert("用户名不能为空");
+      
+      return;
+    }
+          
+    $("#submit").submit();
+  }
+</script>
+  

@@ -1,0 +1,214 @@
+#{extends 'common/supervisor.html' /} #{set title:'待审核债权转让标详情' /}
+
+<div class="xn_c_contentwarp">
+	<div class="xn_c_contentlist">
+		#{include 'supervisor/bidManager/bidManagerLeft.control' /}
+		<div class="audit_box">
+			<h2 class="zq_h mb20">待审核债权转让标详情</h2>
+			<!--start:债权信息区-->
+			<div class="zq_info_mod">
+				<dl class="zq_item clearfix">
+					<dt>编号：</dt>
+					<dd>${debt_transfer?.no}</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>债权转让标题：</dt>
+					<dd>
+						<input class="dd_inp" type="text" value="${debt_transfer?.title}" id="_title" />
+					</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>债权人：</dt>
+					<dd>${debt_transfer?.name}</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>债权人真实姓名：</dt>
+					<dd>${debt_transfer?.reality_name}</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>债权人证件号：</dt>
+					<dd>${debt_transfer?.id_number}</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>转让期限：</dt>
+					<dd>${debt_transfer?.period}[天]</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>起投金额：</dt>
+					<dd>
+						<input class="dd_inp" type="text" value="${debt_transfer?.min_invest_amount}" id="_min_invest_amount" />
+						元
+					</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>转让费用：</dt>
+					<dd>${debt_transfer?.transferFee}元（包括：本金转让费用${debt_transfer?.transfer_rate}元，红包收回${debt_transfer?.red_amount}元，加息收益收回${debt_transfer?.increase_rate}元）</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>募集截止：</dt>
+					<dd>${debt_transfer?.deadline}</dd>
+				</dl>
+			</div>
+			<!--end:债权信息区-->
+			<h2 class="zq_h mt5 mb20">关联标的信息</h2>
+			<!--start:债权信息区-->
+			<div class="zq_info_mod">
+				<dl class="zq_item clearfix">
+					<dt>标的名称：</dt>
+					<dd>${debt_transfer?.bid.title}</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>借款金额：</dt>
+					<dd>${debt_transfer?.bid.amount?.format("###,##0.00")}</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>借款期限：</dt>
+					<dd>${debt_transfer?.bid.period}[${debt_transfer?.bid.periodUnitName}]</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>年利率：</dt>
+					<dd>${debt_transfer?.bid.apr}%</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>借款人：</dt>
+					<dd>${debt_transfer?.bid.userName}</dd>
+				</dl>
+				<dl class="zq_item clearfix">
+					<dt>借款人真实姓名：</dt>
+					<dd>${debt_transfer?.bid.reality_name}</dd>
+				</dl>
+				<div class="zq_btn1">
+					<a href="@{supervisor.bidManager.BidPlatformAction.loanSucceedDetail(debt_transfer?.bid_id, 4, 6)}">其他详情</a>
+				</div>
+			</div>
+			<!--end:债权信息区-->
+			<!--start:审核信息区-->
+			<ul class="audit_tickling">
+				<li>
+					<span>初审人员：${debt_transfer?.audit_admin_name}</span><span>真实姓名：${debt_transfer?.audit_admin_real_name}</span><span>审核时间：${debt_transfer?.audit_time}</span>
+				</li>
+				<li>
+					<span>复审人员：${debt_transfer?.recheck_admin_name}</span><span>真实姓名：${debt_transfer?.recheck_admin_real_name}</span><span>审核时间：${debt_transfer?.recheck_time}</span>
+				</li>
+			</ul>
+			<!--end:审核信息区-->
+			<h2 class="zq_h xsb_yn">
+				是否标记为【新手标】：
+				<label class="mr10" for="xs_y">
+					<input id="xs_y" value="1" type="radio" name="_is_only_new_user" #{if debt_transfer.is_only_new_user== 'true'}checked #{/if}/>
+					是
+				</label>
+				<label for="xs_n">
+					<input id="xs_n" type="radio" value="0" name="_is_only_new_user" #{if debt_transfer.is_only_new_user== 'false'}checked #{/if} />
+					否
+				</label>
+			</h2>
+			<!--start:公用按钮区2-->
+			<div class="zq_btn2">
+				<a href="javascript:void(0);" onclick="auditDebtPass('yes');">通过审核</a>
+				<a id="notGoBtn" href="javascript:;">不通过审核</a>
+			</div>
+			<!-- 	#{form @supervisor.debt.DebtTransferAction.auditDebt(),id :'auditPass'}
+				
+			 #{/form} -->
+			<!--end:公用按钮区2-->
+		</div>
+		<!--start:不通过按钮弹框-->
+		<div class="pop_mask"></div>
+		#{form @supervisor.debt.DebtTransferAction.auditDebt(),id :'auditDebt'}
+		<div class="notGo_pop">
+			<h5>不通过原因：</h5>
+			<input type="hidden" name="audit_status" id="audit_status" value="#{if debt_transfer.audit_status==1}2#{/if}#{if debt_transfer.audit_status== 2}4#{/if}" />
+			<input type="hidden" name="debtId" id="debtId" value="${debt_transfer.id}" />
+			<input type="hidden" name="sign" id="sign" value="${supervisor?.sign}" />
+			<textarea name="reason" id="reason" maxlength="250"> </textarea>
+			<!--start:公用按钮区2-->
+			<div class="zq_btn2">
+				<a href="javascript:void(0);" onclick="auditDebtPass('no');">确认</a>
+				<a id="qxBtn" href="javascript:;">取消</a>
+			</div>
+			<!--end:公用按钮区2-->
+		</div>
+		#{/form}
+
+		<!--end:不通过按钮弹框-->
+	</div>
+</div>
+<script type="text/javascript">
+	var popMask = $('.pop_mask'), notGoPop = $('.notGo_pop'), notGBtn = $('#notGoBtn'), cancelBtn = $('#qxBtn');
+
+	notGBtn.on('click', function() {
+		popMask.show();
+		notGoPop.show();
+	});
+
+	cancelBtn.on('click', function() {
+		popMask.hide();
+		notGoPop.hide();
+	});
+
+	/* 	/*债权转让审核通过 
+	 function auditDebtPass() {
+	 if (confirm("确定通过审核?")) {
+	 $('#title').val($('#_title').val());
+	 $('#min_invest_amount').val($('#_min_invest_amount').val());
+	 $("#auditDebt").submit();
+	 } else {
+	 return;
+	 }
+	 } */
+
+	/*债权转让审核通过 */
+	function auditDebtPass(flag) {
+		var audit_status = $('#audit_status').val();
+		if ("no" == flag) {
+			if (confirm("确定不通过审核?")) {
+				if ('2' == audit_status) {
+					$('#audit_status').val('3');
+				}
+				if ('4' == audit_status) {
+					$('#audit_status').val('5');
+				}
+			} else {
+				return;
+			}
+		} else {
+			if (confirm("确定通过审核?")) {
+			} else {
+				return;
+			}
+		}
+		$.ajax({
+			url : "@{supervisor.debt.DebtTransferAction.auditDebt()}",
+			type : "POST",
+			data : {
+				"audit_status" : $('#audit_status').val(),
+				"content" : $('#content').val(),
+				"debtId" : $('#debtId').val(),
+				"sign" : $('#sign').val(),
+				"title" : $('#_title').val(),
+				"min_invest_amount" : $('#_min_invest_amount').val(),
+				"is_only_new_user" :  $("input[name='_is_only_new_user']:checked").val(),
+				"reason" : $('#reason').val()
+			},
+			success : function(error) {
+				if (error.code < 0) {
+					alert(error.msg);
+					return;
+				} else {
+					alert("审核成功");
+					window.location.href = "@{debtTransferPendingNew}";
+				}
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+
+	$(function() {
+		/* 高亮显示 */
+		showHighLight(3, 3, 11);
+	})
+</script>
+

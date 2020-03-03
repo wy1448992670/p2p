@@ -1,0 +1,80 @@
+<div class="xn_c_content_left">
+  <div class="xn_c_content_leftul">
+    <ul>
+      <li>
+        <div class="xn_c_li_head_one" id="lab_1">
+          <a class="xn_c_li_head_a" href="@{supervisor.userManager.AllUser.allUser()}">全部会员列表</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one" id="lab_14">
+          <a class="xn_c_li_head_a" href="@{supervisor.userManager.AllUser.listCompanyUser()}">企业会员列表</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one" id="lab_13">
+          <a class="xn_c_li_head_a" href="@{supervisor.userManager.AllUser.companyUser()}">企业会员审核</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one" id="lab_2">
+          <a class="xn_c_li_head_a" href="@{supervisor.userManager.LoanUser.loanUser()}">借款会员列表</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one" id="lab_3">
+          <a class="xn_c_li_head_a" href="@{supervisor.userManager.InvestUser.investUser()}">理财会员列表</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one" id="lab_4">
+          <a class="xn_c_li_head_a" href="@{supervisor.userManager.ComplexUser.complexUser()}">复合会员列表</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one" id="lab_5">
+          <a class="xn_c_li_head_a" href="@{supervisor.userManager.VIPUser.vipUser()}">VIP会员列表</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one" id="lab_6">
+          <a class="xn_c_li_head_a" href="@{supervisor.userManager.CPSUser.cpsUser()}">CPS会员列表</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one" id="lab_7">
+          <a class="xn_c_li_head_a" href="@{supervisor.userManager.InactiveUser.inactiveUser()}">未激活会员列表</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one" id="lab_8">
+          <a class="xn_c_li_head_a" href="@{supervisor.userManager.LockedUser.lockedUser()}">已锁定会员列表</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one" id="lab_9">
+          <a class="xn_c_li_head_a" href="@{supervisor.userManager.ReportedUser.reportedUser()}">被举报会员列表</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one" id="lab_10">
+          <a class="xn_c_li_head_a" href="@{supervisor.userManager.BlacklistUser.blacklistUser()}">黑名单会员列表</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one" id="lab_11">
+          <a class="xn_c_li_head_a" href="@{supervisor.userManager.ProfitUser.profitUser()}">推荐管理</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one" id="lab_12">
+          <a class="xn_c_li_head_a" href="@{supervisor.userManager.BankInsur.list()}">保险统计</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="xn_c_con_leftbutton">
+    <div class="xn_c_con_enimg">导航点击</div>
+  </div>
+</div>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_mg_usr.js'}"></script>

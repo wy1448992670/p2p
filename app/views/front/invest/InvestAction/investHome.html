@@ -1,0 +1,391 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMenu.html' /} 
+#{set title:'投资出借,短期出借产品,网贷金融服务,出借服务平台' /}
+#{set keywords:'高收益投资,可靠的投资,有什么投资项目,5万元怎样理财'/}
+#{set description:'为快速出借服务,网贷金融服务,个人出借服务,提供便捷出借方式的简易出借服务平台.为个人及中小企业提供综合性、一站式的金融信息和交易撮合服务.TEL：400-021-5600 '/}
+<style>
+	.p_jk_table .pl30{
+		max-width:500px;
+	}
+	.rateName{
+		padding-left:30px;
+		text-align:left;
+	}
+</style>
+<div class="p_bgf1_box pb30 pt30">
+    <div class="p_main">
+        <h6 class="p_sy_title mb10"><span>出借流程</span></h6>
+        <div class="p_lc_liucbox"><!-- 这里是理财流程背景图 --></div>
+        #{form @investHome(),method:'GET',id :'bidsSearch'}
+        <div class="p_lc_box01 mt20">
+            <div class="p_lc_b1top clr">
+                <div class="p_lc_b1left">
+                    <strong>出借搜索</strong>
+                    <div class="p_lc_ssbox">
+                        <input type="text" id="keywords" name="keywords" value="${pageBean?.conditions?.keywords}"/>
+                        <a onclick="showHomeBids();" class="p_lc_ssbtn p_op" title="搜索"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="p_lc_b1bot">
+             
+                <table class="p_lc_table01">
+                  <input type="hidden" id="currPage" name="currPage"/>
+			      <input type="hidden" id="pageSize" name="pageSize"/>
+			      <input type="hidden" id="aprtemp" name="apr" value="${pageBean?.conditions?.apr}"/>
+			      <input type="hidden" id="amounttemp" name="amount" value="${pageBean?.conditions?.amount}"/>
+			      <input type="hidden" id="loanScheduletemp" name="loanSchedule" value="${pageBean?.conditions?.loanSchedule}" />
+			      <input type="hidden" id="orderType" name="orderType" value="${pageBean?.conditions?.orderType}"/>
+			      <input type="hidden" id="bidPeriodtemp" name="bidPeriod" value="${pageBean?.conditions?.bidPeriod}"/>
+                    <tbody>
+                        <tr id="apr" >
+                            <th>合同约定年化利率：</th>
+                            <td value="0"><span #{if pageBean?.conditions?.apr == 0} class="click" #{/if}>全部</span></td>
+                            <td value="1"><span #{if pageBean?.conditions?.apr == 1} class="click" #{/if}>10%以下</span></td>
+                            <td value="2"><span #{if pageBean?.conditions?.apr == 2} class="click" #{/if}>10%-15%</span></td>
+                            <td value="3"><span #{if pageBean?.conditions?.apr == 3} class="click" #{/if}>15%-20%</span></td>
+                            <td value="4"><span #{if pageBean?.conditions?.apr == 4} class="click" #{/if}>20%以上</span></td>
+                            <td><span>&nbsp;</span></td>
+                        </tr>
+                        <tr id="amount">
+                            <th>金额：</th>
+                            <td value="0"><span #{if pageBean?.conditions?.amount == 0} class="click" #{/if}>全部</span></td>
+                            <td value="1"><span #{if pageBean?.conditions?.amount == 1} class="click" #{/if}>10万以下</span></td>
+                            <td value="2"><span #{if pageBean?.conditions?.amount == 2} class="click" #{/if}>10—50万</span></td>
+                            <td value="3"><span #{if pageBean?.conditions?.amount == 3} class="click" #{/if}>50—100万</span></td>
+                            <td value="4"><span #{if pageBean?.conditions?.amount == 4} class="click" #{/if}>100—300万</span></td>
+                            <td value="5"><span #{if pageBean?.conditions?.amount == 5} class="click" #{/if}>300万以上</span></td>
+                        </tr>
+                        <tr id="loanSchedule">
+                            <th>认购进度：</th>
+                            <td value="0"><span #{if pageBean?.conditions?.loanSchedule == 0} class="click" #{/if}>全部</span></td>
+                            <td value="1"><span #{if pageBean?.conditions?.loanSchedule == 1} class="click" #{/if}>50%以下</span></td>
+                            <td value="2"><span #{if pageBean?.conditions?.loanSchedule == 2} class="click" #{/if}>50%-80%</span></td>
+                            <td value="3"><span #{if pageBean?.conditions?.loanSchedule == 3} class="click" #{/if}>80%以上</span></td>
+                            <td value="4"><span #{if pageBean?.conditions?.loanSchedule == 4} class="click" #{/if}>满标</span></td>
+                            <td><span>&nbsp;</span></td>
+                        </tr>
+                        <tr id="bidPeriod">
+                            <th>借款期限：</th>
+                            <td value="0"><span #{if pageBean?.conditions?.bidPeriod == 0} class="click" #{/if}>全部</span></td>
+                            <td value="1"><span #{if pageBean?.conditions?.bidPeriod == 1} class="click" #{/if}>1~3个月</span></td>
+                            <td value="2"><span #{if pageBean?.conditions?.bidPeriod == 2} class="click" #{/if}>3~6个月</span></td>
+                            <td value="3"><span #{if pageBean?.conditions?.bidPeriod == 3} class="click" #{/if}>6~9个月</span></td>
+                            <td value="4"><span #{if pageBean?.conditions?.bidPeriod == 4} class="click" #{/if}>9~12个月</span></td>
+                            <td value="5"><span #{if pageBean?.conditions?.bidPeriod == 5} class="click" #{/if}>1年以上</span></td>
+                            <td><span>&nbsp;</span></td>
+                        </tr>
+                        <tr>
+                            <th>借款标类型：</th>
+                            <td colspan="7"><select name="loanType" id="loanType" class="p_lc_sel01"><option value="-1" >请选择 </option>
+                            		#{list items:list, as : 'product'}
+									<option value="${product?.id}"
+									#{if pageBean?.conditions?.loanType == product?.id} selected="selected"  #{/if}
+									>${product?.name}</option>
+									#{/list} 
+									<option value="6" #{if pageBean?.conditions?.loanType == 6} selected="selected"  #{/if} >会员贷</option>
+                           </select></td>
+                        </tr>
+                        <tr>
+                            <th>信用等级：</th>
+                            <td colspan="7"><select name="minLevel" id="minLevel" class="p_lc_sel02"><option value="-1">请选择
+                            		#{list items:creditLevels,as:'level'}
+									<option value="${level?.id}" 
+									#{if pageBean?.conditions?.minLevel == level?.id}
+									selected="selected"
+									#{/if}
+									>${level?.name}</option>
+			  						#{/list}
+                            </option></select></td>			
+                        </tr>
+                    </tbody>
+                </table>                
+            </div>
+        </div>
+        <!-- <div class="p_lc_paixubox clr">
+            <ul class="p_lc_paixul">
+                <li>默认排序</li>
+            </ul>
+        </div> -->
+        <div class="xf_wylc_orderdesc clr">
+            <div class="xf_wylc_orderdesc_l">
+                <ul class="clr">
+                    <li class="xf_wylc_orderdesc_lione xf_wylc_orderdesc_last" onclick="conditonSearch(0)"><a id="div_0">默认排序</a>
+                    </li>
+                    <li class="xf_wylc_orderdesc_litwo" onclick="conditonSearch(1)"><a id="div_1" class="">金额</a>
+                    </li>
+                    <li class="xf_wylc_orderdesc_lithree" onclick="conditonSearch(3)"><a id="div_3" class="">合同约定年化利率</a>
+                    </li>
+                    <li class="xf_wylc_orderdesc_lifour" onclick="conditonSearch(5)"><a id="div_5" class="">进度</a>
+                    </li>
+                    <li class="xf_wylc_orderdesc_lifive" onclick="conditonSearch(7)"><a id="div_7" class="">还款期限</a>
+                    </li>
+                </ul>
+            </div>
+            #{/form}
+            <div class="xf_wylc_orderdesc_r">
+                <span class="xf_wylc_orderdesc_rl mr20">共计<span class="xf_wylc_orderdesc_span" id="bidTotle">${pageBean?.totalCount}</span>个出借标</span>
+            </div>        	
+        </div>
+        <div class="p_lc_listbox">
+            <div class="p_jk_prolist">
+                <table class="p_jk_table" width="100%">
+                    <tr height="48">
+                        <td width="240"><strong class="fl pl50">项目名称</strong></td>
+                        <td><strong>合同约定年化利率</strong></td>
+                        <td><strong>金额（元）</strong></td>
+                        <td><strong>期限</strong></td>
+                        <td><strong>进度</strong></td>
+                        <td width="210"><strong>状态</strong></td>
+                    </tr>
+                    #{list items:pageBean.page, as:'bid'}
+                    <tr height="100">
+                        <td>
+							#{if bid?.has_invested_amount != bid?.amount}
+                        	<div class="rateName">
+                         	  #{if bid?.increaseRateName}<span style="padding:1px 5px;color:#F92A49;border-radius:3px;font-size:12px;border:1px solid #F92A49;" >${bid?.increaseRateName}</span>#{/if}
+                        	  #{if bid?.rate2&&bid?.rate3}<span style="padding:1px 5px;color:#F92A49;border-radius:3px;font-size:12px;border:1px solid #F92A49;" >首尾投加息</span>#{/if}
+							  #{else}
+								  #{if bid?.rate2}<span style="padding:1px 5px;color:#F92A49;border-radius:3px;font-size:12px;border:1px solid #F92A49;" >首投加息</span>#{/if}
+								  #{if bid?.rate3}<span style="padding:1px 5px;color:#F92A49;border-radius:3px;font-size:12px;border:1px solid #F92A49;" >尾投加息</span>#{/if}
+							  #{/else} 
+							</div>
+							#{/if}
+                        	<span class="fl pl30"><a href="@{invest(bid?.id)}">  ${bid?.title}</a>
+							<!-- #{if bid?.has_invested_amount != bid?.amount}
+								#{if bid?.rate2}<span style="margin-left:10px;padding:1px 5px;color:#F92A49;border-radius:3px;font-size:12px;border:1px solid #F92A49;" >首投+${bid?.rate2}%</span> #{/if}
+								#{if bid?.rate3}<span  style="padding:1px 5px;color:#F92A49;border-radius:3px;font-size:12px;border:1px solid #F92A49;" >尾投+${bid?.rate3}%</span> #{/if}
+	                        #{/if}-->
+						</span></td>
+                        <td><span class="cozhuse">${bid?.apr}%</span>#{if bid?.rate1 == true}<span class="cozhuse"> +${bid?.rate1}%<span> #{/if}
+						#{if bid?.increaseRate}<span class="cozhuse"> +${bid?.increaseRate}%<span>#{/if}
+						</td>
+                        <td><span class="co333">￥${bid?.amount?.format('###,##0.00')}</span></td>
+                        <td><span class="co333">
+                        #{if bid?.period_unit ==-1}
+								${bid?.period}年
+								#{/if}
+								#{if bid?.period_unit ==0}
+								${bid?.period}个月
+								#{/if}
+								#{if bid?.period_unit ==1}
+								${bid?.period}天
+					    #{/if}
+                        </span></td>
+                        <td><span class="probar50" probar="${bid?.loan_schedule}">${bid?.loan_schedule}%</span></td>
+                        #{if bid?.has_invested_amount == bid?.amount}
+                          <td><a href="@{invest(bid?.id)}" class="p_sy_tbtn curr">已售罄</a></td>
+                        #{/if}
+                        #{else}
+                        <td><a href="@{invest(bid?.id)}" class="p_jk_tbtn">立即出借</a></td>
+                        #{/else}
+                    </tr>
+                    #{/list}
+                  
+                </table>
+            </div>
+            <div class="xf_wylc_page xf_cfzx_page">
+            #{page pageTitle:"个标",currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:3 /}
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- *{登录弹框层}* -->	
+#{include 'front/invest/InvestAction/login.control'/}		
+	
+ *{激活弹框层}* 
+#{include 'front/invest/InvestAction/activeEmail.control'/}	
+
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_invest.js'}"></script>
+
+<script>
+    $(function(){
+     
+	  #{list items:pageBean.page, as:'bid'}
+	    $('#loanSchedule'+${bid_index}).css({"width":${bid?.loan_schedule}})
+	  #{/list}
+    })
+
+    function checkLogin(bidId){
+    	
+  	  /** 检查用户是否激活, fronMain.html 中的拦截器*/
+  	  var result = frontJSIntercepter();
+  	  
+  	  if(!result){
+  		  collectCurrentBid(bidId);  
+  	  }			
+     }   
+  
+    function collectCurrentBid(bidId){
+    	var collectBid = #{jsAction @collectBid(':bidId')/}
+    	$.post(collectBid({bidId:bidId}),function(data){
+    		//拦截器，拦截判断。frontMain.html
+			if(checkIntercepterResult(data)){
+				return;
+			}
+    		var arr=eval(data);
+			var result = arr.error.msg;
+			alert(result);
+    	})
+    
+    }
+    
+ // 进度条
+    $(function(){
+    	$(".probar50").map(function(){
+    	    var num=$(this).attr("probar"),
+    	        timeid;
+    	    var str="probar50_",
+    	        i=0;
+    	        var that=$(this);
+    	    var offsetTop=$(this).offset().top-550,
+    	    	fn;
+    	    that.attr("class","probar50 "+str+num);
+    	    $(window).bind("scroll",fn=function(){
+    			if($(window).scrollTop()>offsetTop){
+    				$(window).unbind("scroll",fn)
+    				    timeid=setInterval(function(){
+    				    if(i<=num){
+    				        that.attr("class","probar50 "+str+i);
+    				        that.text(i+"%");
+    				        i++;
+    				    }else{
+    				        clearInterval(timeid);
+    				    }
+    				},10);
+    			}
+    		});
+    	});
+    });
+    
+  
+</script>
+
+<script src="@{'/public/javascripts/laydate/laydate.js'}"></script>
+<script>
+    var apr="";
+    var amount="";
+    var loanSchedule="";
+    var startDate = "";
+ 	var endDate = "";
+ 	var loanType = "";
+ 	var orderType = "";
+ 	var startDate = "";
+ 	var endDate = "";
+ 	var bidPeriod="";
+ 	
+ 	$(function(){
+	    $("#apr td").click(function(){ 
+	    	$("#apr td").removeClass("click");
+		    $(this).addClass("click");
+		      apr = $(this).attr("value"); 
+		      $("#aprtemp").val(apr);
+		      showHomeBids();
+	   });
+	   $("#amount td").click(function(){ 
+	    	$("#amount td").removeClass("click");
+		    $(this).addClass("click");
+		     amount = $(this).attr("value"); 
+		      $("#amounttemp").val(amount);
+		    showHomeBids();
+	   });
+	   $("#loanSchedule td").click(function(){ 
+	    	$("#loanSchedule td").removeClass("click");
+		    $(this).addClass("click");
+		     loanSchedule = $(this).attr("value");  
+		     $("#loanScheduletemp").val(loanSchedule);
+		     showHomeBids();
+	   });
+	   $("#bidPeriod td").click(function(){ 
+	    	$("#bidPeriod td").removeClass("click");
+		    $(this).addClass("click");
+		      bidPeriod = $(this).attr("value"); 
+		      $("#bidPeriodtemp").val(bidPeriod);
+		    showHomeBids();
+	   });
+	   
+    });
+
+	$(function(){
+	   	 //条件查询控制样式
+	 	 var num= '${pageBean?.conditions?.orderType}';
+	
+		  if(num == 0){
+		  	$("#div_0").addClass("xf_wylc_orderdesc_nocheck");
+		    	return;
+		  }
+	
+		  var sum = num/2;
+		  if(sum.toString().indexOf('.') == -1){
+		    var sum2 = num -1;
+		    $("#div_"+sum2).removeClass("xf_wylc_orderdesc_ishot");
+		    $("#div_"+sum2).addClass("xf_wylc_orderdesc_up");
+		    return;
+		  }else{
+		   // $("#div_"+num).removeClass("xf_wylc_orderdesc_up");
+		    $("#div_"+num).addClass("xf_wylc_orderdesc_ishot");
+		  }
+     });
+	     
+	function conditonSearch(num){
+	
+	  var order= '${pageBean?.conditions?.orderType}';
+	  if(order == 0){
+	    $("#orderType").val(num);
+	    $("#bidsSearch").submit();
+	    return;
+	  }
+	  if(order == num){
+	    $("#orderType").val(num + 1);
+	    $("#bidsSearch").submit();
+	     return;
+	  }else{
+	    $("#orderType").val(num);
+	    $("#bidsSearch").submit();
+	     return;
+	  }
+	}
+	
+	    
+	  function showHomeBids(){
+	  
+	    var minLevel = $("#minLevel").val();
+	    
+	     $("#bidsSearch").submit();
+	}	
+	
+	function showCollect(){
+		
+		var pageNum = 1;
+		var pageSize = 10;
+		showCollectBids(pageNum,pageSize);
+	}
+	
+	 function showCollectBids(pageNum,pageSize){
+		 alert(1);
+		$.ajax({
+		  url:"@{queryUserCollectBids()}",
+		  type:"POST",
+		  data:{"pageNum" : pageNum,"pageSize" : pageSize},
+		  success:function(data){
+		  	
+		  	//拦截器，拦截判断。frontMain.html
+			if(checkIntercepterResult(data)){
+				return;
+			}
+		  	
+		  	$("#bidList").html(data);
+		  },
+		  error:function(){alert("对不起，出现错误!");}
+		})
+	}
+	 function showPage(currPage, pageSize){
+	    $("#currPage").val(currPage);
+	    $("#pageSize").val(pageSize);
+	    $("#bidsSearch").submit();
+	}
+</script>

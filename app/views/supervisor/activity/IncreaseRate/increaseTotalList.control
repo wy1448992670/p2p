@@ -1,0 +1,214 @@
+<style>
+	#details table tr td{
+    padding:5px 10px ;
+  }
+  #add_rates table tr td{
+    padding:5px 10px ;
+  }
+  ._btnstyle{
+    background:#169BD5;
+    color:white;
+    height:40px;
+    width:130px;
+    border-radius:5px;
+    border:0;
+  }
+  .marTop10{
+	margin-top:10px;
+  }
+</style>
+
+<div id="details" style="display:none;height:500px;margin:20px;">
+		<table>
+		   <tr><td style="font-weight:bold;">选择加息类型</td>
+			  <td>
+				<select class="xf_membill_selectAge " name="type">
+				  <option class="d_type1" value="1" >全场加息</option>
+				  <option class="d_type2" value="2" >首投加息</option>
+				  <option class="d_type3" value="3" >尾投加息</option>
+				</select>
+			  </td>
+			  </tr>
+			  <tr><td>名称:</td>
+				<td><input type="text" class="search_w d_name" name="name" ></td>
+			  </tr>
+			  <tr><td>加息利率:</td>
+				<td><input type="text"  class="search_w d_rate" name="rate" >%</td>
+			  </tr>
+			  <tr><td>开始时间：</td>
+				<td><input style="width:100%" type="text" class="search_time laydate-icon d_start_time" disabled/>
+				</td>
+				<td>结束时间:</td>
+				<td><input style="width:100%" type="text" class="search_time  laydate-icon d_stop_time" disabled/></td>
+			  </tr>
+		</table>
+	<table style="font-size:18px;"><tr><td>操作记录</td></tr></table>
+	<div style="max-height: 200px;overflow: auto;"><table border="1" class="d_log"></table></div>
+	<tr class="d_log"></tr>
+	<div style="margin-top:30px;"><input onclick="cancel()" class="_btnstyle" value="返回" type="button" /></div>
+</div>
+
+<div id="examine" style="display:none;height:500px;margin:20px;">
+  <input type="hidden" class="firstId" />
+  <div>名称:<span></span></div>
+  <div style="margin-top:20px;"><textarea style="width:500px;height:200px;" placeholder="请输入" class="examineAdvice"></textarea></div>
+  <div style="margin-top:50px;">
+    <input onclick="firstAuditActivity(1)" class="_btnstyle" value="通过" type="button" />
+    <input onclick="firstAuditActivity(0)" class="_btnstyle" value="不通过" type="button" />
+  </div>
+</div>
+<div id="add_rates" style="display:none;height:500px;margin:20px;">
+<form id="ratesform">
+  <table>
+    <tr><td style="font-weight:bold;">选择加息类型</td>
+      <td>
+        <select class="xf_membill_selectAge" name="type">
+          <option class="u_type1" value="1" >全场加息</option>
+          <option class="u_type2" value="2" >首投加息</option>
+          <option class="u_type3" value="3" >尾投加息</option>
+        </select>
+      </td>
+      </tr>
+      <tr><td>名称:</td>
+        <td><input type="text" placeholder="请输入" class="search_w u_name" name="name" ></td>
+      </tr>
+      <tr><td>加息利率:</td>
+        <td><input type="text" placeholder="请输入" class="search_w u_rate" name="rate" >%</td>
+      </tr>
+      <tr><td>开始时间：</td>
+        <td><input style="width:100%" type="text" class="search_time u_start_time" name="startTime" id="startDate" onclick="laydate()"  style="cursor:pointer">
+        </td>
+        <td>结束时间:</td>
+        <td><input style="width:100%" type="text" class="search_time u_stop_time" name="stopTime" id="endDate" onclick="laydate()" style="cursor:pointer"></td>
+      </tr>
+</table>
+  </form>
+  <div style="margin-top:50px;">
+    <input onclick="addOrUpdate(1)" class="_btnstyle" value="确认" type="button" />
+    <input onclick="cancel()" class="_btnstyle" value="取消" type="button" />
+  </div>
+
+</div>
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    <div class="xf_ht_search">
+    	<!-- 保存更新还是添加标识 -->
+    </div>
+	<form action="/supervisor/activity/increaseTotalList" id="fundraiseingList" method="POST" accept-charset="utf-8" enctype="application/x-www-form-urlencoded">
+	<input type="hidden" id="currPage" name="currPage"/>
+  	  <input type="hidden" id="pageSize" name="pageSize"/>
+  	  <input type="hidden" id="orderIndex" name="orderIndex"/>
+  	  <input type="hidden" id="orderStatus" name="orderStatus"/>
+    <div class="xf_ht_search_inon">
+      <div class="xf_ht_search_r">
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">状态</span>
+          <select class="xf_membill_selectAge" name="state">
+            <option class="stateAll"  value="-10" #{if state==-10} selected="selected"#{/if}>全部</option>
+  	        <option value="0" #{if state==0} selected="selected"#{/if}>待审核</option>
+			<option value="1" #{if state==1} selected="selected"#{/if}>初审通过</option>
+  	        <option value="-1" #{if state==-1} selected="selected"#{/if}>初审不通过</option>
+            <option value="2" #{if state==2} selected="selected"#{/if}>复审通过</option>
+            <option value="-2" #{if state==-2} selected="selected"#{/if}>复审不通过</option>
+            <option value="-3" #{if state==-3} selected="selected"#{/if}>已关闭</option>
+          </select>
+        </div>
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">加息类型</span>
+          <select class="xf_membill_selectAge" name="type">
+            <option value="0"  #{if type==0} selected="selected"#{/if}>全部</option>
+            <option value="1"  #{if type==1} selected="selected"#{/if}>全场加息</option>
+  	        <option value="2"  #{if type==2} selected="selected"#{/if}>首投加息</option>
+  	        <option value="3"  #{if type==3} selected="selected"#{/if}>尾投加息</option>
+          </select>
+        </div>
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">加息名称</span>
+  	      <input type="text" placeholder="请输入" class="search_w" name="name" value="${name}" >
+  	    </div>
+	   <div class="xf_ht_search_xl">
+		  <span class="search_timesp">加息开始时间：</span>
+		  <input type="text" value="${startBeginTime}" name="startBeginTime" onclick="laydate()" class="search_time" style="cursor:pointer">
+		  <span>-</span>
+		  <input type="text" value="${startEndTime}" class="search_time"  name="startEndTime" id="startEndTime" onclick="laydate()"  style="cursor:pointer">
+		  
+		  <span class="search_timesp">加息结束时间(不含)：</span>
+		  <input type="text" value="${stopBeginTime}" class="search_time" name="stopBeginTime" id="stopBeginTime" onclick="laydate()" style="cursor:pointer">
+		  <span>-</span>
+		  <input type="text" value="${stopEndTime}" class="search_time" name="stopEndTime" id="stopEndTime" onclick="laydate()" style="cursor:pointer">
+	    </div>
+	    <div class="xf_ht_search_xl">
+		  <input type="hidden" name="isExport" value="0" id="isExport">
+		  <input type="submit" class="search_button" value="搜索">
+		  <input type="submit" class="search_button"  onclick="download();" onmouseout="clearIsExport();" value="下载数据">
+	    </div>
+      </div>
+    </div>
+    </form>
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}编号#{/th}
+		  #{th}加息类型#{/th}
+          #{th}加息利率#{/th}
+          #{th}开始时间#{/th}
+          #{th}结束时间#{/th}
+          #{th}名称#{/th}
+          #{th}总投资金额#{/th}
+		  #{th}加息总利息#{/th}
+		  #{th}已付利息#{/th}
+		  #{th}待付利息#{/th}
+        #{/tr}
+		#{list pageBean?.page}
+			#{tr tr_index:_index}
+			  #{td}${(pageBean?.currPage - 1)*pageBean?.pageSize + _index}#{/td}
+			  #{td}${_?.typename}#{/td}
+			  #{td}<span>${_?.rate?.format("###,##0.00")}</span>%#{/td}
+
+			  #{td}${_?.start_time}#{/td}
+			  #{td}${_?.stop_time}#{/td}
+
+			  #{td class:'v_name'}${_?.name}#{/td}
+			  #{td}${_?.amount}#{/td}
+			  #{td}${_?.total_interest}#{/td}
+			  #{td}${_?.received_interest}#{/td}
+			  #{td}${_?.no_received_interest}#{/td}
+			   #{/tr}
+			   #{/list}
+      #{/table}
+	  <div style="margin:15px 30px">
+		  <div>加息总利息之和：<span>${pageBean?.totalMap?.total_received_interest}</span></div>
+		  <div class="marTop10">总投资金额之和：<span>${totalInvest}</span></div>
+	  </div>
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      <div class="page_warp">
+        #{page currPage:pageBean.currPage,totalCount:pageBean.totalCount,pageSize:pageBean.pageSize,theme:2,style:4/}
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+
+/* 条件搜素查询 */
+function showPage(currPage, pageSize){
+
+     $("#currPage").val(currPage);
+     $("#pageSize").val(pageSize);
+     $("#fundraiseingList").submit();
+}
+
+/* 下载数据 */
+function download(){
+  $("#isExport").val(1);
+  $("#overdueList").submit();
+}
+
+/* 清除下载数据 */
+function clearIsExport(){
+  $('#isExport').val(0);
+}
+</script>

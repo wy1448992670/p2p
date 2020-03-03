@@ -1,0 +1,52 @@
+#{if pageBean?.page != null && pageBean?.page?.size > 0}
+<div class="xf_c_idx_10_arrowLeft" onclick="no();"></div>
+<div class="xf_c_idx_10_slider">
+	<ul class="xf_c_idx_10_sliderUl" id="xf_c_idx_10_sliderUl">
+		#{list pageBean?.page}
+		<li>
+			<a href="@{front.invest.InvestAction.invest(_?.id)}" target="_self"> 
+			<div class="xf_c_idx_10_imgWrap">
+				<div class="xf_c_idx_10_userImg">
+					#{img class:"lazy", data_original:"${_?.imageFilename}", src:"/public/images/loading.gif",alt:"",width:"111",height:"110"}#{/img} 
+				</div>
+				<div class="xf_c_idx_10_zxmbMoney">
+					￥${_?.amount?.format('###,##0.00')} 
+				</div>
+				<div class="xf_c_idx_10_arrowImg">
+					已满标
+					<span class="xf_c_idx_10_cyrs">（${_?.investCount}人参与）</span>
+				</div>
+			</div>
+			</a>
+		</li>
+		#{/list}
+	</ul>
+</div>
+<div class="xf_c_idx_10_arrowRight" onclick="next();"></div>
+
+<script type="text/javascript">
+<!--
+	$(function(){
+		$('img.lazy').lazyload({ 
+		  //effect:'fadeIn' 
+		});
+	});
+
+	var nowPage = ${pageBean?.currPage};
+
+	function next(){
+		if(nowPage > ${pageBean?.totalPageCount})
+			return;
+		nowPage++;
+		fullbid(nowPage);
+	}
+
+	function no(){
+		if(nowPage < 1)
+			return;
+		nowPage--;
+		fullbid(nowPage);
+	}
+//-->
+</script>
+#{/if}

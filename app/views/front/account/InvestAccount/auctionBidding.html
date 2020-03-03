@@ -1,0 +1,220 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle +' | 我的账户   | 投资子账户 | 债权转让管理  | '+debtBussiness?.title+'债权标详情  '/}
+<div class="xf_lczzh_btg">
+			<div class="xf_lczzh_btg_title">${debt?.bid_no}号借款标  债权转让  详情</div>
+			<div class="xf_lczzh_btg_tcon">
+				转让标题：<span class="xf_lczzh_btg_red">${debtBussiness?.title}</span> <br />
+				待收本金转让底价：<span class="xf_lczzh_btg_red">${debt?.transfer_price}</span> 元<br />
+				转让截止时间：<span class="xf_lczzh_btg_red">${debtBussiness?.endTime?.format('yyyy-MM-dd')}</span><br />
+				转让原因：<span class="xf_lczzh_btg_red">${debtBussiness?.transerReason}</span>
+			</div>
+				<div class="xf_lczzh_btg_zrxq">
+				<div class="xf_lczzh_btg_title2">转让的借款标情况</div>
+				<div class="xf_lczzh_btg_tcon2">
+					<table border="0" cellpadding="0" cellspacing="0" width="684" class="xf_membill_zqzr">
+						<tr>
+							<td>借款标编号：${debt?.bid_no}</td>
+							<td>借款人：${debt?.name}</td>
+							<td>借款标类型：${debtBussiness?.invest?.bid?.product?.name}</td>
+						</tr>
+						<tr>
+							<td colspan="3">借款标标题：${debt?.title}</td>
+						</tr>
+						<tr>
+							<td>投标本金：${debtBussiness?.invest?.amount?.format('###,##0.00')} 元</td>
+							<td colspan="2">年利率：${debt?.apr} %</td>
+						</tr>
+						<tr>
+							<td>本息合计应收金额：
+							#{if debt?.receiving_amount != null && debt?.receiving_amount != 0}
+							${debt?.receiving_amount?.format('###,##0.00')}
+							#{/if} 
+							#{else}0#{/else}
+							元</td>
+							<td colspan="2">已收金额：
+							#{if debt?.has_received_amount == null || debt?.has_received_amount ==0}
+							0
+							#{/if}
+							#{else}
+							${debt?.has_received_amount?.format('###,##0.00')}
+							#{/else}
+							 元</td>
+						</tr>
+						<tr>
+							<td>剩余应收款：
+							#{if debt?.remain_received_amount != null && remain_received_amount?.has_received_amount != 0}
+							${debt?.remain_received_amount?.format('###,##0.00')}
+							#{/if}
+							#{else}
+							0
+							#{/else}
+							 元</td>
+							<td>还款日期：${debtBussiness?.invest?.bid?.recentRepayTime?.format('yyyy-MM-dd')}</td>
+							<td>待收本金：
+							#{if debt?.remain_received_corpus != null && debt?.remain_received_corpus != 0}
+							${debt?.remain_received_corpus?.format('###,##0.00')}
+							#{/if}
+							#{else}0#{/else} 
+							元</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			
+			<div class="xf_lczzh_btg_zrxq">
+				<div class="xf_lczzh_btg_title">受让情况</div>
+					<div class="xf_lczzh_btg_tcon2">
+					<table border="0" cellpadding="0" cellspacing="0" width="684" class="xf_membill_zqzr">
+						<tr>
+							<td width="268">转让状态：<span class="xf_lczzh_btg_red">竞拍中</span></td>
+							<td colspan="2">转让方式：
+							#{if debt?.type == 1}
+								定向转让
+							#{/if}
+							#{if debt?.type == 2}
+								竞价转让
+							#{/if}
+							</td>
+						</tr>
+						<tr>
+							<td>待收本金：<span class="xf_lczzh_btg_lv">${debtBussiness?.debtAmount}</span> 元</td>
+							</tr>
+							<tr>
+							<td>
+								竞拍最高价：<span class="xf_lczzh_btg_lv">${debtBussiness?.maxOfferPrice}</span> 元
+							</td>
+							<td>
+								我的出价：<span class="xf_lczzh_btg_lv">${offerPrice}</span> 元
+							</td>
+							<td>
+							#{if debt?.status != 3 && debtBussiness?.status != 4}
+							<a class="xf_accout_cont_imginput" id="increase" >我要加价</a>
+							#{/if}
+							</td>
+						</tr>
+					</table>
+				</div>
+				</div>
+			<div class="xf_lczzh_btg_go">
+			</div>
+					
+		</div>
+		
+		
+		
+		
+			<div class="xf_zqzr_znx_window"   id="xf_mem_acc_sjvip_tcc">
+			<div class="xf_wyjkwszl_4_windowInner xf_vip_tcc_window">
+				<div class="xf_wyjkfb_4_windowClose"></div>
+				<div class="xf_wyjkfb_4_windowColName">
+					加价竞拍
+				</div>
+				<div class="xf_mem_tgxytc xf_mem_vipbox" style="padding-top:0;">
+					<table border="0" cellpadding="0" cellspacing="0" width="322" class="xf_mem_vip_tcc">
+						<tr>
+							<td align="right" width="130">
+								原待收本金：
+							</td>
+							<td>
+								${debtBussiness?.debtAmount} 元
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								竞拍最高价：
+							</td>
+							<td>
+								${debtBussiness?.maxOfferPrice} 元
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								我的竞价：
+							</td>
+							<td>
+								<span class="xf_memvip_qian">${offerPrice}</span>
+								<span class="xf_memvip_span">元</span>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								新的竞价：
+							</td>
+							<td>
+								<input type="text" class="xf_memvip_input" style="width:100px;" name="offerPrice" id="offerPrice" /> <span class="xf_memvip_span">元</span>
+							</td>
+						</tr>
+						#{if debtBussiness?.invest?.bid?.product?.isDealPassword}	
+						<tr>
+							<td align="right">
+								交易密码：
+							</td>
+							<td>
+								<input type="password" class="xf_memvip_input" style="width:100px;" name="dealpwd" id="dealpwd" /> 
+							</td>
+						</tr>
+						#{/if}
+						<tr>
+							<td colspan="2">
+								<a id="confirmIncrease" class="xf_con_inputfbjk" style="float: left; margin-left:50px;" onclick="auctionAgain();">确定</a>
+								
+								<a class="xf_con_inputfbqux" href="javascript:void(0)" style="float: left;">取消</a>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		<script>
+			$(function(){
+			
+			   $("#xf_mem_acc_sjvip_tcc").center().hide();
+			   
+			   $("#increase").click(function(){
+			   		 $("#xf_mem_acc_sjvip_tcc").show();
+			     });
+			     
+			     $(".xf_wyjkfb_4_windowClose").click(function(){
+			     	 $("#xf_mem_acc_sjvip_tcc").hide();
+			     });
+			     
+			      $(".xf_con_inputfbqux").click(function(){
+			     	 $("#xf_mem_acc_sjvip_tcc").hide();
+			     });
+			});
+			
+			
+			function auctionAgain(){
+					var debtAmount = ${debtBussiness?.debtAmount};
+					var offerPrice = $("#offerPrice").val();
+					var dealpwd = $("#dealpwd").val();
+					var patrn=/^\d+$/; 
+					var flag = patrn.exec(offerPrice);
+
+					 if(!flag){
+							alert("对不起！请您输入正整数！");
+						 	return;
+					 }
+
+					
+						if(offerPrice <= ${debtBussiness?.maxOfferPrice}){
+							alert("对不起！您的出价应该高于目前竞拍最高价！");
+					 	    return;
+						}
+					
+					var increaseAuction = #{jsAction @increaseAuction(':debtId',':offerPrice',':dealpwdStr')/}
+			    	$.post(increaseAuction({debtId:${debt?.transer_id},offerPrice:offerPrice,dealpwdStr:dealpwd}),function(data){
+			    		var arr = eval(data);
+						var result = arr.msg;
+						alert(result);
+   	                 })
+   	              $("#xf_mem_acc_sjvip_tcc").hide();
+				}
+			
+		</script>

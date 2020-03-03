@@ -1,0 +1,49 @@
+   <div class="p_zh_xxkbox mb25">
+        <ul class="p_zh_xxkul">
+            <li onClick="bidRecommend()" >优质借款标推荐</li>
+            <li onClick="queryQualityDebts()" >优质债权转让推荐</li>
+        </ul>
+        <div class="xf_con_wyjk_tentultbody" id="loanCommend">
+                    	
+        </div>
+	</div>
+<script type="text/javascript">
+	bidRecommend();
+	
+    function queryQualityDebts() {
+		$.ajax({
+			url : "@{front.account.AccountHome.queryQualityDebts()}",
+			type : "POST",
+			data : {},
+			success : function(data) {
+				if (data.code < 0) { 
+					alert(data.msg);
+					return;
+				}
+				
+			    $("#loanCommend").html(data);
+			},
+			error : function() {
+				alert(data.msg);
+			}
+		});
+	}
+	
+	function bidRecommend(){
+	     $.ajax({
+			url : "@{front.account.AccountHome.queryQualityBids()}",
+			type : "POST",
+			data : {},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+					return;
+				}
+			    $("#loanCommend").html(data);
+			},
+			error : function() {
+				alert(data.msg);
+			}
+		});
+	}
+</script>

@@ -1,0 +1,85 @@
+<html>
+<head>
+<title>欢迎下载 ${currBackstageSet?.platformName}App </title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style>
+#weixin-tip {
+	display: none;
+	position: fixed;
+	left: 0;
+	top: 0;
+	background: rgba(0, 0, 0, 0.8);
+	filter: alpha(opacity = 80);
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+}
+
+#weixin-tip p {
+	text-align: center;
+	margin-top: 10%;
+	padding: 0 5%;
+	position: relative;
+}
+body{background-color:#FFF;background-image: url("/public/images/app-donwload-bg.jpg");background-size: cover;height: 100%;display: block;}
+</style>
+%{
+
+	String ipaPath = constants.Constants.IPA_PATH;
+	String apkPath = constants.Constants.APK_PATH;
+
+}%
+<script language="JavaScript">
+
+	
+	
+	/* 不同项目更换此以下文件path */
+	//IOS 此地址由IOS开发同学提供
+	var ipa_path = "${ipaPath}";
+	//Android 此地址是Apk（apk由Android开发同学提供）文件所在服务器的路径
+	var apk_path = "${apkPath}"; 
+	//qq是否可以扫描默认true，如不行改为false 
+	var isQQok = true; 
+	
+	window.onload = function() {
+		
+		var ua = navigator.userAgent.toLowerCase();
+		
+		// 微信
+		if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+			if (/mac|iphone|ipad|ipod/.test(ua)) {
+		         //  alert("您使用的是ios（苹果）设备！");
+				location.href = "http://a.app.qq.com/o/simple.jsp?pkgname=com.yiyilc";
+	        } else if (/android/.test(ua)) {
+	         //   alert("您使用的是android设备！");
+	        	location.href = apk_path;
+	        }else if(/windows/.test(ua)){
+	   			//alert("您使用的是windows系统设备！");
+	        	alert("您使用的是windows系统设备！暂时不支持");
+	        }else{
+	        //	alert("此二维码不支持 您使用的设备！");
+	        	location.href = apk_path;
+	        }
+		}
+		else if (/mac|iphone|ipad|ipod/.test(ua)) {
+         //  alert("您使用的是ios（苹果）设备！");
+  		  	location.href = ipa_path;
+        } else if (/android/.test(ua)) {
+         //   alert("您使用的是android设备！");
+        	location.href = apk_path;
+        }else if(/windows/.test(ua)){
+   			//alert("您使用的是windows系统设备！");
+        	//alert("您使用的是windows系统设备！暂时不支持");
+        	location.href = apk_path;
+        }else{
+        //	alert("此二维码不支持 您使用的设备！");
+        	location.href = apk_path;
+        }
+      //   alert("系统信息："+ua);
+	}
+	
+</script>
+</head>
+<body style="height: 100%; ">
+</body>
+</html>

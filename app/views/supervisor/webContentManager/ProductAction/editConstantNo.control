@@ -1,0 +1,28 @@
+<div class="xf_ht_ttc" id="editNumberPage" style="display:none;">
+  <div class="xf_ht_jr_obu_width">
+    #{form @editingNumber(), method:'POST', id:'editingNumber' }
+    <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form" width="100%">
+      <tr>
+        <td align="right" valign="middle" width="130">编号类型：</td>
+        <td>
+          <span id="descriptio" ></span>
+	      <input type="hidden" name="key" id="key" class="xf_ht_banner_input"/>
+        </td>
+      </tr>
+      <tr>
+        <td  align="right" valign="middle">字母：</td>
+        <td>
+           <input title="支持同排,时间优先!" type="text" class="xf_ht_banner_input" name="value" id="value"/>
+        </td>
+      </tr>
+      <tr>
+        <td align="right">&nbsp;</td>
+        <td style="padding:20px 0 40px 0;">
+          <input class="xf_ht_tcc_button_ok" type="submit" value="保  存">
+          <input class="xf_ht_tcc_button_on" type="button" id="editnumber_no" value="取  消">
+        </td>
+      </tr>
+    </table>
+    #{/form}
+  </div>
+</div>

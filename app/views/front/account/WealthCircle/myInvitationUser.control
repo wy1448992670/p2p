@@ -1,0 +1,88 @@
+<div class="invitation_code">
+	<h3 class="xf_mem_accout_title">我邀请的会员</h3><!-- 搜索区域 -->
+	<ul class="xf_membill_search clr">
+		<li class="xf_membill_searchLi">
+			<input type="hidden" name="currPage" id="currPage" value="${page?.currPage}"/>
+			<input type="hidden" name="currSize" id="currSize" value="${page?.pageSize}"/>
+			<input type="text" placeholder="受邀人" value="${page?.conditions?.userName}" id="userName" class="xf_membill_shurk_yhm"> 
+			<input type="button" onclick="invitationMemberSearch();" value="搜 索" class="xf_membill_button_yhm">
+		</li>
+	</ul><!-- 搜索结果 -->
+	<div class="xf_membill_search_jg">
+		<table border="0" cellpadding="0" cellspacing="0" width="auto" class="xf_membill_acc_viewcpms">
+			<tbody>
+				<tr>
+					<th align="center" width="41">
+						序号
+					</th>
+					<th width="120">
+						受邀人
+					</th>
+					<th width="110">
+						邀请码
+					</th>
+					<th width="120">
+						注册时间
+					</th>
+					<th width="150">
+						投资总额
+					</th>
+					<th width="100">
+						返佣金额
+					</th>
+					<th width="100">
+						操作
+					</th>
+				</tr>
+				#{list items:page.page,as:'invitation'} 
+				<tr>
+					<td align="center">
+						${invitation_index}
+					</td>
+					<td align="center">
+						${invitation.invited_user_name}
+					</td>
+					<td align="center">
+						${invitation?.invite_code}
+					</td>
+					<td align="center">
+						${invitation.invited_register_time?.format('yyyy-MM-dd')}
+					</td>
+					<td align="center">
+						${invitation.total_invest_amount?.format("###,##0.00")}
+					</td>
+					<td align="center">
+						${invitation?.total_income?.format("###,##0.00")}
+					</td>
+					<td align="center">
+						<a href="javascript:inviteIncomeDetails('${invitation?.invitedUserSign}')" class="xf_membill_cza">返佣明细</a>
+					</td>
+				</tr>
+				#{/list}
+			</tbody>
+		</table>
+	</div>
+	<!-- 清除浮动 -->
+	<div class="clear"></div>
+	<div class="xf_wylc_page xf_membill_view_page1">
+		<!-- 分页器 -->
+		#{page funMethod:"invitationMemberPage",currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:2}#{/page}
+	</div>
+	
+	<div class="xf_mem_cps_tgtj">
+		共${page?.totalCount}个邀请好友
+	</div>
+</div>
+
+<script type="text/javascript">
+	//搜索
+	function invitationMemberSearch() {
+		window.location.href = "invitationMember?userName=" + encodeURIComponent($("#userName").val()) + "&currPage=" + $("#currPage").val() + "&currSize=" + $("#currSize").val();
+	}
+	
+	function invitationMemberPage(currPage,pageSize){
+		$("#currPage").val(currPage);
+		$("#currSize").val(pageSize);
+		invitationMemberSearch();
+	}
+</script>

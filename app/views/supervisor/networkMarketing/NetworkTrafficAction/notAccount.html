@@ -1,0 +1,136 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'有百度账号登录' /}
+<style type="text/css">
+body,p,h1,h2,h3{margin:0;padding:0;}body{background:#fff;font-size:12px;font-family:'Microsoft Yahei',Arial,'\5b8b\4f53';}ul{list-style-type:none;}.l{float:left;}.r{float:right;}.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;}.clearfix{display:inline-block;}* html .clearfix{height:1%;}.no-select{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}.span1{width:960px;}.span2{width:665px;}.span3{width:265px;}.white-simple-header-wrapper{border-bottom:1px solid #e7e7e7;height:64px;margin-top:16px;}div.white-simple-header{margin:0 auto;height:100%;}div.white-simple-header a{text-decoration:none;}div.header a:hover{text-decoration:underline;}.logo{position:relative;margin-top:-10px;z-index:1;}ul{list-style-type:none;}.tabs{background:#fff;width:100%;height:43px;border-bottom:2px solid #f0f0f0;}.tab-list{position:relative;margin:0 auto;height:100%;}.login-container{position:absolute;height:28px;right:0;top:8px;font-size:13px;}.tab-list ul{height:100%;}.tab-list ul li{display:block;float:left;font-size:16px;line-height:41px;padding:0 5px;margin-right:45px;}.tab-list ul li.selected{border-bottom:2px solid #3780d3;}.tab-list ul li.selected a{color:#3780d3;}div.header div.title{color:#8C8C8C;background:url("decorator/logo.png") no-repeat scroll 0 0 transparent;text-indent:-9999em;width:100%;height:48px;}.top-nav{position:relative;width:100%;height:12px;text-align:right;line-height:12px;z-index:2;}a{color:#777;-webkit-transition:color .4s ease,background .4s ease;-moz-transition:color .4s ease,background .4s ease;-o-transition:color .4s ease,background .4s ease;-ms-transition:color .4s ease,background .4s ease;transition:color .4s ease,background .4s ease;text-decoration:none;}a:hover{color:#3780d3;}.header-split{color:#dfdfdf;margin:0 8px 0 12px;}.white-simple-header div.attention{position:static;float:right;}.attention a,div.register a{-webkit-transition:none;-moz-transition:none;-o-transition:none;-ms-transition:none;transition:none;}.white-simple-header div.attention .social{display:block;width:26px;height:26px;float:right;margin-right:7px;}.white-simple-header div.attention a.social-s-wb{background-repeat:no-repeat;background-position:0 0;background-image:url('decorator/ws-layout-4755697c4cfec3a727f8d126df07cbf1.png');-background-image:url('decorator/ws-layout-d357ec69dba18dfd903392751e11786d-ie6.png');background-position:left -0px;}.white-simple-header div.attention a.social-s-wb:hover{background-repeat:no-repeat;background-position:0 0;background-image:url('decorator/ws-layout-4755697c4cfec3a727f8d126df07cbf1.png');-background-image:url('decorator/ws-layout-d357ec69dba18dfd903392751e11786d-ie6.png');background-position:left -46px;}.white-simple-header div.attention a.social-t-wb{background-repeat:no-repeat;background-position:0 0;background-image:url('decorator/ws-layout-4755697c4cfec3a727f8d126df07cbf1.png');-background-image:url('decorator/ws-layout-d357ec69dba18dfd903392751e11786d-ie6.png');background-position:left -92px;}.white-simple-header div.attention a.social-t-wb:hover{background-repeat:no-repeat;background-position:0 0;background-image:url('decorator/ws-layout-4755697c4cfec3a727f8d126df07cbf1.png');-background-image:url('decorator/ws-layout-d357ec69dba18dfd903392751e11786d-ie6.png');background-position:left -138px;}.white-simple-header div.attention a.social-b-tb{margin-right:66px;_margin-right:33px;background-repeat:no-repeat;background-position:0 0;background-image:url('decorator/ws-layout-4755697c4cfec3a727f8d126df07cbf1.png');-background-image:url('decorator/ws-layout-d357ec69dba18dfd903392751e11786d-ie6.png');background-position:left -184px;}.white-simple-header div.attention a.social-b-tb:hover{background-repeat:no-repeat;background-position:0 0;background-image:url('decorator/ws-layout-4755697c4cfec3a727f8d126df07cbf1.png');-background-image:url('decorator/ws-layout-d357ec69dba18dfd903392751e11786d-ie6.png');background-position:left -230px;}.attention-wrap{position:absolute;right:0;top:20px;}.white-simple-header div.attention-wrap span{cursor:pointer;font-size:12px;color:#777;font-weight:normal;line-height:26px;padding-right:18px;}.white-simple-header div.attention-wrap span.arrow-down{border:5px solid #fff;width:0;height:0;line-height:0;padding:0;margin:0;font-size:0;border-top:#777 5px solid;position:absolute;top:10px;right:5px;}.white-simple-header div.attention-wrap .dimensional-trigger{position:absolute;right:0;top:0;background:#fff;border:1px solid #fff;padding:0 3px 3px 5px;z-index:3;}.white-simple-header div.attention-wrap .dimensional-trigger span{background-repeat:no-repeat;background-position:right 6px;background-image:url('decorator/ws-layout-4755697c4cfec3a727f8d126df07cbf1.png');-background-image:url('decorator/ws-layout-d357ec69dba18dfd903392751e11786d-ie6.png');background-position:right -276px;}.white-simple-header div.attention-wrap .dimensional-trigger-active{border-color:#777;border-bottom:none;}.dimensional-code{position:absolute;top:29px;right:0;background:url("decorator/layout/ws/dimensional.png") no-repeat scroll 0 0 transparent;width:166px;height:335px;z-index:1;zoom:1;}div.footer{color:#777;text-align:center;margin:90px auto 0;padding-bottom:45px;height:20px;line-height:20px;clear:both;}div.footer a{padding-left:2px;text-decoration:none;}
+@charset "utf-8";div.report-tip{margin:0 auto;margin-top:10px;width:964px;background:#fef3ce url(decorator/sprite.gif) 5px -340px no-repeat;display:none;overflow:hidden;height:20px;padding:7px 5px 7px 30px;border:1px solid #FB9D39;}div.report-tip a{color:#0B66B9;text-decoration:underline;}div.report-tip-text{float:left;line-height:20px;}div.report-tip-close{float:right;cursor:pointer;background:#fef3ce url(decorator/report_sprite.gif) right -326px;width:25px;height:25px;}div.div-common{height:20px;margin-left:75px;_margin-left:77px;}.gray{color:#999;}h3.title{font-size:14px;}.error-tip{display:none;color:#f00;}div.pact{margin-top:10px;width:670px;height:140px;border:solid 1px #ccc;overflow-x:hidden;overflow-y:auto;padding:5px;}div.pact p{margin-bottom:15px;}div.regi-main{margin:0 auto;width:964px;margin-top:10px;margin-bottom:70px;}div.upper p,div.lower p{height:25px;line-height:25px;margin:15px 0 0 0;padding:0;}label{float:left;width:65px;font-weight:bold;text-align:right;margin-right:10px;font-size:12px;}div.upper p input{padding:2px;height:16px;}table,tr,td,tbody{border:none;margin:0;padding:0;}div.valicode-div td.first lable{margin-right:9px;}div.valicode-div td{padding-right:4px;}div.valicode-div td.first{padding-right:0;}div.valicode-div a{color:#0B66B9;}#SubmitBtn,#SubmitUC{color:#fff;margin-left:75px;width:154px;line-height:22px;height:22px;padding:0 4px;color:#fff;font-weight:bold;border-top:1px #e8ebf5 solid;border-left:1px #e8ebf5 solid;border-right:1px #2e4377 solid;border-bottom:1px #2e4377 solid;}p.submit-p .btn-normal{cursor:pointer;background-color:#4166b4;}span.error{padding-left:10px;color:#f00;visibility:hidden;}#CodeTip{display:block;}span.blog-count{color:#f00;margin:0 1px;}div.baseline{clear:both;height:10px;margin-top:20px;background:url('decorator/sitelist_baseline.gif') repeat-x scroll 0 0 transparent;}div.error{color:#F00;}.mask-layer{background:#000;opacity:.3;filter:alpha(opacity = 30);}.simple-nav-wrap{background:url('decorator/simple_nav_bg.jpg') repeat-x scroll 0 0 transparent;height:30px;}.simple-nav{color:#E0EEFB;width:964px;margin:0 auto;font-weight:bold;font-size:14px;line-height:30px;}.trade-label{line-height:22px;}.trade-wrap,.valicode-div{margin-top:10px;}#Trade label{*width:0;*margin:0;*padding:0;}.valicode-div .first label{margin-right:7px;}
+</style>
+#{include "supervisor/networkMarketing/CPSSpreadAction/networkMarketingLeft.control"/}
+   <div class="xfht_t_j_k_rihgt">
+      <div class="xfht_t_q_y">
+        <div class="xfht_t_j_y_1"></div>
+        <div class="xfht_t_j_y_2">
+          
+          <!-- 编辑流量统计代码 -->
+          <div class="xf_ht_baidu_llsz">
+          <div>
+        <div style="border: 1px solid #CECECE;border-radius: 5px;margin-top:10px;margin-left:35px;margin-right: 35px;">
+<!-- 内容区块开始 -->
+<div class="container" id="PageContainer">
+  <form autocomplete="off" method="post" id="RegForm" action="/web/register/add">
+    <div class="regi-main">
+      <div class="upper">
+        <p>
+          <label for="UserName">用户名：</label>
+          <input type="text" name="userName" id="UserName" style="width:150px">
+        </p>
+        <div id="UserNameTip" class="div-common error-tip" style="display: block;">该用户名已被注册，请您另选一个</div>
+        <div class="div-common gray">中英文均可</div>
+        <p style="margin-top:0">
+          <label for="Password">密码：</label>
+          <input type="password" name="password" id="Password" style="width:150px">
+        </p>
+        <div id="PasswordTip" class="div-common error-tip" style="display: block;">密码不能为空</div>
+        <div class="div-common gray">至少六位</div>
+        <p>
+          <label for="RePassword">重复密码：</label>
+          <input type="password" name="rePassword" id="RePassword" style="width:150px">
+        </p>
+        <div id="RePasswordTip" class="div-common error-tip" style="display: none;"></div>
+        <p>
+          <label for="Email">邮箱：</label>
+          <input type="text" name="email" id="Email" style="width:200px">
+        </p>
+        <div id="EmailTip" class="div-common error-tip" style="display: block;">邮箱不能为空</div>
+        <div class="div-common gray">请输入有效的邮箱地址，密码遗失时凭此领取</div>
+        <p>
+          <label for="Website">网站：</label>
+          <input type="text" name="website" id="Website" style="width:200px">
+        </p>
+        <div id="WebsiteTip" class="div-common error-tip" style="display: block;">网站不能为空</div>
+        <div class="div-common gray">请输入您自己网站的主域名，如：www.mydomain.com。</div>
+        <div class="div-common gray">您也可以输入：sub.domain.com或www.domain.com/dir这样形式的二级域名和子目录。</div>
+        <div class="div-common gray">但不要输入具体的页面路径，如：www.mydomain.com/index.html,这可能导致数据统计不准确。</div>
+        
+        <div class="clearfix trade-wrap">
+          <label class="l trade-label" for="Trade">行业：</label>
+          <div id="Trade" class="trade-select-group l">
+            
+          <span id="tangram-select_group--TANGRAM__4_1_container"><select level="1" id="tangram-select_group--TANGRAM__4_1"><option selected="selected" value="0">请选择...</option><option value="1">音乐影视</option><option value="2">休闲娱乐</option><option value="3">游戏</option><option value="4">网络服务应用</option><option value="5">博客</option><option value="6">网址导航</option><option value="7">计算机软件硬件</option><option value="8">数码及手机</option><option value="9">教学及考试</option><option value="10">医疗保健</option><option value="11">女性时尚</option><option value="12">社交网络和在线社区</option><option value="13">生活服务</option><option value="14">房产家居</option><option value="15">汽车</option><option value="16">交通旅游</option><option value="17">体育运动</option><option value="18">投资金融</option><option value="19">垂直行业</option><option value="20">新闻媒体</option><option value="21">人文艺术</option><option value="22">小说</option><option value="23">人才招聘</option><option value="24">网络购物</option><option value="25">其他</option></select></span></div>
+        </div>
+        <div id="TradeTip" class="div-common error-tip" style="display: block;">请您正确选择网站所属类别</div>
+        
+        <div style="width:300px;" class="valicode-div">
+            <table>
+                <tbody>
+                <tr>
+                    <td class="first"><label for="Valicode">验证码：</label></td>
+                    <td><input type="text" name="valid_code" id="Valicode" style="width:40px" maxlength="4"></td>
+                    <td><img width="48" height="22" alt="验证码" id="ValiImg" src="/web/image/code?tag=reg"></td>
+                    <td><a href="javascript:void(0)" id="ChangeValiCodeA">看不清？</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="CodeTip" class="div-common error-tip" style="visibility: visible;">验证码不能为空</div>
+        <p class="submit-p">
+          <input type="button" value="同意以下协议并注册" id="SubmitBtn" class="btn-normal">
+        </p>
+      </div>
+      <div class="div-common pact">
+       <p>
+                    百度统计使用许可协议</p>
+                <p>
+                    请仔细阅读以下使用许可条款，如果您不同意以下任何一点，请立即停止使用此软件。<br>
+                    您点击“我同意”、完成注册程序和 / 或使用服务，即表示您声明您有资格获得账户，并且您同意受百度统计使用许可协议的约束。百度将本软件的最终使用许可权授予您。但您必须向百度作以下保证：</p>
+                <p>
+                    《百度统计使用许可协议》（以下称《协议》）是您（个人或单一机构团体）与上述百度统计（以下称“软件”或“软件产品”）版权所有人百度（以下称“版权人”或“百度”）之间的法律协议。在您使用本软件产品之前,请务必阅读此《协议》，任何与《协议》有关的软件、电子文档等都应是按本协议的条款而授予您的，同时本《协议》亦适用于任何有关本软件产品的后期发行和升级。您一旦安装、复制、下载、访问或以其它方式使用本软件产品，即表示您同意接受本《协议》各项条款的约束。如您不同意本《协议》的条款，那么，版权所有人百度则不予将本软件产品的使用权授予您。在这种情况下，您不得使用、复制或传播本软件产品。</p>
+                <p>
+                    本软件产品受中华人民共和国著作权法及国际著作权条约和其它知识产权法及条约的保护。<br>
+                    1．版权<br>
+                    本软件产品（包括但不限于本软件产品中所含的任何图象、照片、动画、文字和附加程序）、随附的印刷材料、及本软件产品的任何副本的一切所有权和知识产权，均由版权人百度公司拥有。通过使用本“软件产品”可访问的内容的一切所有权和知识产权均属于各自内容的所有者拥有并可能受适用著作权或其它知识产权法律和条约的保护。本《协议》不授予您使用这些内容的权利。<br>
+                    2．保证<br>
+                    本软件版权人百度公司特此申明对本软件产品之使用不提供任何保证。版权人将不对任何用户保证本软件产品的适用性，不保证无故障产生；亦不对任何用户使用此软件所遭遇到的任何理论上的或实际上的损失承担负责。<br>
+                    由于本软件产品可以通过网络等途径下载、传播，对于从非百度公司指定站点下载的本软件产品以及从非百度公司发行的介质上获得的本软件产品，百度公司无法保证该软件是否感染计算机病毒、是否隐藏有伪装的特洛伊木马程序等黑客软件，也不承担由此引起的直接和间接损害责任。不保证统计数据在一切方面完全准确。本软件的统计数据与百度推广后台统计报告并不具有可比性，百度推广用户实际消费应以百度推广后台统计报告数据为准。<br>
+                    3．账户、密码安全<br>
+                    用户完成注册程序获得账户、密码后，应保护自身的密码安全，并对所有在用户账户下使用的行为包括但不限于用户自身和任何第三方在用户账户下的行为承担全部责任。用户一旦知道账户存在未经用户授权使用的行为，应立即通知百度。用户确认并同意百度公司可以为维护改进服务需要，使用用户的账户和密码登录服务。<br>
+                    4．隐私权<br>
+                    百度尊重并保护软件用户的个人隐私权，您注册的用户名、电子邮件地址等个人资料、网站资料，非经您亲自许可或根据相关法律、法规的强制性规定，以及百度为维护改进软件服务为目的，不会主动地泄露给第三方。具体隐私权政策，详见：http://www.baidu.com/duty/yinsiquan.html<br>
+                    在软件用户使用该软件的过程中，用户应当遵守当地的法律法规，不得自行（且不得允许任何第三方）使用服务以追踪或收集互联网用户的个人身份信息，也不得自行（且不得允许任何第三方）将从您的网站（或该第三方的网站）收集的任何数据与从任何来源获得的任何个人身份信息相联系。<br>
+                    5．尊重国家和他人合法权益<br>
+                    百度公司特别提醒用户，使用互联网必须遵守国家有关的政策和法律，如刑法、国家安全法、保密法、计算机信息系统安全保护条例等，保护国家利益，保护国家安全，对于违法使用互联网络而引起的一切责任，由用户负全部责任。<br>
+                    百度公司一贯尊重他人知识产权、隐私权及其他合法权益，用户也要同样尊重知识产权、隐私权及其他合法权益，不得利用本软件产品对他人的知识产权、隐私权及其他合法权益进行侵害。用户对他人知识产权、隐私权及其他合法权益进行侵害的，应自行承担相应的法律义务。<br>
+                    6．费用<br>
+                    在百度公司对您发出变更费用和支付政策的通知之前，（该通知将可能以电子邮件、系统消息、网站公告或其他方式向您发出），用户可以免费使用。用户收到费用和支付通知后，如不同意继续使用软件服务的，应立即删除该软件。否则，用户将承担相应的未经授权使用他人软件的法律责任。<br>
+                    7．除非您另行书面通知百度公司，否则，您特此向百度公司（包括各关联公司）授予一项有限许可，在演示介绍、营销材料、客户名单和财务报表中使用您的商号、商品商标、服务商标、标识、域名及其他显著品牌特征。<br>
+                    8．其它权利和限制说明<br>
+                    a） 禁止反向工程、反向编译和反向汇编<br>
+                    您不得对本软件产品进行反向工程、反向编译和反向汇编。除非适用法律明文允许上述活动，否则您必须遵守此协议限制。<br>
+                    b） 组件的分隔<br>
+                    本软件产品是被当成一个单一产品而被授予许可使用，不得将各个部分分开用于任何目的行动。<br>
+                    c） 终止<br>
+                    如您未遵守本《协议》的各项条件，版权人可将本《协议》终止。如发生此种情况，则您必须销毁“软件产品”及其各部分的所有副本，并在终止后三（3）个工作日内以书面形式向百度做出销毁证明，否则，用户将承担相应的未经授权使用他人软件的法律责任。<br>
+                    d） 商标<br>
+                    本《协议》不授予您与版权人百度公司所拥有的任何商标或服务商标有关的任何权利。<br>
+                    e） 个别授权<br>
+                    如有任何组织或个人利用本软件以任何方式为公众服务并同时满足其自身特定目的而分发、复制和传播本软件产品，均须得到版权人授权同意后方可进行，否则视为侵权。<br>
+                    f） 授权变更<br>
+                    版权人可能出于任何原因随时对授权进行更改或取消。 我们可能随时取消或暂停您的服务。我们有权在没有任何理由和/或通知的情形下随时终止或暂停对您的授权。授权一旦取消，您使用本软件产品的权利即刻终止。版权人行使修改或取消服务的权利不需对用户或任何第三方负责。<br>
+                    g） 服务条款和其他政策的修改<br>
+                    百度有权利以公告新协议的方式修改、变更本协议条款和服务政策，用户有责任定期查看。如您不接受变更、修改后的协议条款和服务政策的，应立即停止使用本软件，并按照终止条款的规定销毁已下载使用的软件产品。<br>
+                    h） 不可抗力<br>
+                    除中国法律规定不可抗力情形外，下列情况亦属于不可抗力：（1）任何公共的互联网骨干网、网络或服务器停运；（2）您的设备、系统或当地连接服务发生故障；（3）已经预定的维修；或（4）您的服务器所在地区的互联网服务中断；（5）黑客攻击。<br>
+                    9．鉴于受网络环境等各种复杂因素影响，百度统计报告仅供您作为网络推广的参考资料，百度不保证报告的数据完全准确性，百度对您据百度统计报告所作出的商业行为后果不承担法律责任。<br>
+                    10．争议解决地<br>
+                    因本协议或使用本软件产品所引起的您与版权人之间的争议由版权人住所地人民法院管辖审理。<br>
+                    11．本软件产品版权人百度公司对本软件用户许可协议的各项内容拥有最终解释权。</p>
+      </div>
+    </div>
+  </form>
+  </div>
+            <!-- 内容区块结束 -->
+        </div>
+    </div>
+  <script type="text/javascript" src="/web/js/tangram.js?__v=20140528131901"></script></div>
+</div>
+</div>
+</div>

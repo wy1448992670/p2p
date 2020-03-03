@@ -1,0 +1,97 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'产品列表' /} 
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  <!--左-->
+  #{include "supervisor/webContentManager/common/leftBar.control"/}
+  <!--右-->
+  <div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    #{form @productList(), id:'productList'}
+    <input type="hidden" id="currPage" name="currPage"/>
+	<input type="hidden" id="pageSize" name="pageSize"/>
+    <div class="xf_ht_search_inon">
+       <div class="xf_ht_search_r">
+         <div class="xf_ht_search_xl">
+           <input name="keyword" type="text" class="search_w" placeholder="请输入有效名称" value="${pageBean?.conditions?.name}"/>
+         </div>
+         <div class="xf_ht_search_xl">
+           <input type="submit" class="search_button" value="查看">
+         </div>
+       </div>
+     </div>
+     #{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xn_c_content_list",tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}名称#{/th}
+          #{th}添加时间#{/th}
+          #{th}最低信用#{/th}
+          #{th}年利率#{/th}
+          #{th}借款额度#{/th}
+          #{th}审核资料数量#{/th}
+          #{th}状态#{/th}
+          #{th}排序#{/th}
+		  #{th}操作#{/th}
+        #{/tr}
+		#{list pageBean?.page}
+        #{tr tr_index:_index}
+          #{td}${(pageBean?.currPage - 1)*pageBean?.pageSize + _index}#{/td}
+          #{td}${_?.name}#{/td}
+          #{td}${_?.time?.format('yyyy-MM-dd')}#{/td}
+          #{td}#{img width:"25px",height:"25px",src:"${_?.creditImageFilename}",alt:""}#{/img}#{/td}
+          #{td}${_?.minInterestRate}~${_?.maxInterestRate}%#{/td}
+          #{td}${_?.minAmount?.format("###,##0.00")}~${_?.maxAmount?.format("###,##0.00")}#{/td}
+		  #{td}${_?.auditCount}#{/td}
+		  #{td}#{if _?.isUse}上架#{/if}#{else}下架#{/else}#{/td}
+		  #{td}${_?.order}#{/td}
+          #{td}
+            #{a @editProduct(_?.id),class:"xf_ta_onclick"} 编辑 #{/a}
+            #{if !_?.isAgency}
+			  #{if _?.isUse}
+			    #{a @notEnableProduct(_?.id),class:"xf_ta_onclick"}下架 #{/a}
+			  #{/if}
+			  #{else}
+			    #{a @enableProduct(_?.id),class:"xf_ta_onclick"}上架 #{/a}
+			  #{/else}
+			#{/if}
+          #{/td}
+        #{/tr}
+		#{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      #{page currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:4/}
+	  <div class="page_warp_l" style="">
+        #{form @supervisor.webContentManager.ProductAction.addProduct(), id:'addSubmit'}
+          <input type="submit" value="增加" class="xf_htbutton"">
+        #{/form}
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</div>  
+<script type="text/javascript">
+<!--
+	$(function(){
+		/* 高亮显示 */
+		showHighLight(4,4,13);
+		
+		$('#bgTab').find('tr:even').find('td').css('background-color', '#f4f4f4');
+	});
+
+	/* 条件搜素查询 */
+	function showPage(currPage, pageSize){
+	     $("#currPage").val(currPage);
+	     $("#pageSize").val(pageSize);
+	     $("#productList").submit();
+	}
+//-->
+</script>
+

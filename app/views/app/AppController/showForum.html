@@ -1,0 +1,212 @@
+#{extends 'wechat/service/appToShowForum.html' /}
+<title>论坛首页</title>
+<body>
+<!-- banner -->
+<div class="wrapper03" id="wrapper">
+    <div id="scroller">
+<div id="slideBox" class="slideBox">
+    <div class="bd">
+    
+        <ul>
+        	#{list items:homeAds,as:'adsList'}
+            <li>
+                <a class="pic" href="#"><img src="${adsList?.image_filename}" /></a>
+            </li>
+            #{/list}
+        </ul>
+    </div>
+    <div class="hd">
+        <ul></ul>
+    </div>
+</div>
+
+<script type="text/javascript" src="/public/javascripts/TouchSlide.1.1.js"></script>
+<script type="text/javascript">
+    TouchSlide({
+        slideCell:"#slideBox",
+        titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+        mainCell:".bd ul",
+        effect:"leftLoop",
+        autoPage:true,//自动分页
+        autoPlay:true, //自动播放
+        delayTime:500,
+        interTime:3500
+    });
+</script>
+<!-- main -->
+<div class="p-sqnav">
+    <div class="flex">
+    	#{list items:typeList1,as:'typeList'}
+    		<a href="${typeList?.url}?userIdStr=${userId}" class="flex-1">
+            	<i class="bgico ico${typeList.id}"></i><br>
+            <span>${typeList.name}</span>
+        </a>
+    	#{/list}
+        
+    </div>
+    <div class="flex">
+    	#{list items:typeList2,as:'typeList'}
+    		<a href="${typeList?.url}?userIdStr=${userId}" class="flex-1">
+            	<i class="bgico ico${typeList.id}"></i><br>
+            <span>${typeList.name}</span>
+        </a>
+    	#{/list}
+        
+    </div>
+</div>
+
+	<ul class="p-sqlistul" id="indexpro">
+		<div id="main">
+		#{list items:page.page,as:'postsList'}
+			<li onclick="window.location.href='/app/myPostsInfo?id='+${postsList.id}+'&userId=${userId}&showType=1'">
+		        <h5>${postsList?.title} #{if postsList.show_image == 1}<img src="/public/images/p-sqguan.png" alt="" >#{/if}</h5>
+		        <div class="p-sqlaiy flex">
+		            <div class="flex-1">${postsList?.add_time?.format('yyyy-MM-dd')}&nbsp;&nbsp;&nbsp;${postsList?.name}</div>
+		            <div class="">
+		                <span class="p-sqhuif"><i class="bgico"></i>${postsList?.answers_count}</span>
+		                <span class="p-sqliul"><i class="bgico"></i>${postsList?.read_count}</span>
+		            </div>
+		        </div>
+		    </li>
+		#{/list}
+		</div>
+	    
+	    
+	</ul>
+	<div id="pullUp">
+		    #{if page.page.size() > 0}	<span class="pullUpIcon" id="pullUpIcons"></span><span class="pullUpLabel" id="pullShowT">上拉加载更多...</span>#{/if}
+		   	</div>
+</div>
+</div>
+<div class="p-zqinbot">
+    <div class="p-zqcaoz flex">
+        <a href="#" onclick="myUser()" class="p-botyhcen">
+            <i class="bgico ico1" style="margin-top: 15px;"></i>
+            <!-- 有新消息就移除以下类名"none" -->
+            <i class="ico2 #{if count == 0}none#{/if}"></i>
+        </a>
+        <a href="#" onclick="posts()" class="p-botfatie flex-1"><i class="bgico"></i>我要发帖</a>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript">
+
+	var u = navigator.userAgent;
+	var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+	var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+	
+
+	function posts(){
+		
+		if('${userId}' == '') {
+			if(confirm("您还没有登入！")){
+				if(isAndroid){
+					window.control.login();
+				}else{
+					login();
+				}
+			}
+		}else{
+			window.location.href="/app/userPosts?userId=${userId}";
+		}
+	}
+	function myUser(){
+		
+		if('${userId}' == '') {
+			if(confirm("您还没有登入！")){
+				
+				if(isAndroid){
+					window.control.login();
+				}else{
+					login();
+				}
+				
+				
+			}
+		}else{
+			window.location.href="/app/myCommunity?userIdStr=${userId}";
+		}
+	}
+	
+	/* $(function(){
+		if('${flash.error}' !='') {
+		  alert('${flash?.error}');
+		}
+	}); */
+	
+	var myScroll,
+	pullUpEl, pullUpOffset,
+	generatedCount = 0;
+	
+	var currPage = 1;
+	var getUserId = '${userId}';
+	function pullUpAction () {
+	setTimeout(function () {    // <-- Simulate network congestion, remove setTimeout from production!
+		currPage = currPage + 1;
+	
+		$.ajax({
+			url: "@{app.AppController.showForum()}",
+			type: "POST",
+			dataType: "json",
+			data: {
+				"currPage": currPage,
+				"user_id" : getUserId,
+				"Mark": 2
+			},
+			success: function (data) {
+				
+					var arr = eval(data);
+					
+					var list = arr.page.page;
+					
+					if (list.length == 0) {
+						$("#pullUp").removeClass("loading").animate({opacity:'0'},3000);
+						$("#pullShowT").html("没有更多了");
+						$("#pullUpIcons").removeClass("pullUpIcon");
+					} else {
+						
+						for (var i = 0; i < list.length; i++) {
+						
+						
+						
+							var milliseconds = list[i].add_time.time;  //取出json里面的时间，为Object类型，在此转化为毫秒数
+							
+							var date = new Date();
+							
+							date.setTime(milliseconds);
+							
+							var time2 = date.format("yyyy-MM-dd");
+							
+							var addHtml = "";
+							
+							var hrefs="/app/myPostsInfo?id="+list[i].id+"&userId="+getUserId+"&showType=1";
+							var imageShow = "";
+							if(list[i].show_image == 1){
+								imageShow = "<img src='/public/images/p-sqguan.png' alt='' >";
+							}
+							
+							
+							$("#main").append("<li onclick=window.location.href='"+hrefs+"'>"+
+									"<h5>"+list[i].title+imageShow+"</h5>"+
+									"<div class='p-sqlaiy flex'>"+
+									"<div class='flex-1'>"+time2+"&nbsp;&nbsp;&nbsp;"+list[i].name+"</div>"+
+									"<div class=''>"+
+									"<span class='p-sqhuif'><i class='bgico'></i>"+list[i].answers_count+"</span>"+
+									"<span class='p-sqhuif'><i class='bgico'></i>"+list[i].read_count+"</span>"+
+									
+							"</div></div></li>");
+								}
+						myScroll.refresh();
+					}
+					
+				},
+				error: function () {
+				}
+		});
+		
+	}, 300);    // <-- Simulate network congestion, remove setTimeout from production!
+	}
+	
+
+</script>

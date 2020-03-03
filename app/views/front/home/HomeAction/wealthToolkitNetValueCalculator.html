@@ -1,0 +1,76 @@
+
+<h3 class="xf_mem_accout_title">净值计算器</h3>
+<div class="xf_mem_jsq_xyjsq">
+	<div class="xf_mem_jsq_hk_t">
+		<table border="0" cellpadding="0" cellspacing="0" width="739" class="xf_mem_jsq_hk_table">
+			<tr>
+				<td class="xf_mem_jsq_hk_tdl">可用余额：</td>
+				<td class="xf_mem_jsq_hk_tdr">
+				<input class="xf_mem_jsq_hk_input" type="text" id="balance"
+				onkeyup="value=value.replace(/[^\d]/g,'')" 
+				onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d  |^\.]/g,''))"
+				>&nbsp;元</td>
+			</tr>
+			<tr>
+				<td class="xf_mem_jsq_hk_tdl">待收金额：</td>
+				<td class="xf_mem_jsq_hk_tdr">
+				<input class="xf_mem_jsq_hk_input" type="text" id="receive"
+				onkeyup="value=value.replace(/[^\d]/g,'')" 
+				onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d  |^\.]/g,''))"
+				>&nbsp;元</td>
+			</tr>
+			<tr>
+				<td class="xf_mem_jsq_hk_tdl">待还金额：</td>
+				<td class="xf_mem_jsq_hk_tdr">
+				<input class="xf_mem_jsq_hk_input" type="text" id="pay"
+				onkeyup="value=value.replace(/[^\d]/g,'')" 
+				onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d  |^\.]/g,''))"
+				>&nbsp;元</td>
+			</tr>
+		</table>
+	</div>
+	<div class="xf_mem_jsq_xyjsq_go">
+		<a class="xf_con_inputfbjk" onclick="calculate();">计 算</a>
+	</div>
+</div>
+<div class="xf_mem_jsq_xyjsq_bottom xf_mem_jsq_jzjsq_bottom">
+	您最多可以借<span class="xf_memjsq_pirc" id="showResult">0</span>元的借款。
+</div>
+
+<script type="text/javascript">
+<!--
+	$(function(){
+		$("#balance").focus(function(){this.value = "";});
+		$("#receive").focus(function(){this.value = "";});
+		$("#pay").focus(function(){this.value = "";});
+	})
+	
+	function calculate(){
+		var balance = $("#balance").val() * 1;
+		var receive = $("#receive").val() * 1;
+		var pay = $("#pay").val() * 1;
+
+		if(balance < 0 || balance > 100000000){
+			$("#balance").val("可用金额有误!");
+			return;
+		}
+
+		if(receive < 0 || receive > 100000000){
+			$("#receive").val("待收金额有误!");
+			return;
+		}
+		
+		if(pay < 0 || pay > 100000000){
+			$("#pay").val("待付金额有误!");
+			return;
+		}
+		
+		var bailScale = '${bailScale}' * 1;
+		
+		/* 借款金额+保证金<(可用余额+待收-待还)* 70% */
+		var amount = ((balance + receive - pay) * 0.7)/(1 + (bailScale/100));
+		
+		$("#showResult").html(amount <= 0 ? "0" : amount.toFixed(2));
+	}
+//-->
+</script>

@@ -1,0 +1,80 @@
+	<h3 class="xf_mem_accout_title">我的投标记录</h3>
+	<!-- 搜索区域 -->
+	<ul class="xf_membill_search clr">
+		<li>
+			<select id="type" class="xf_membill_selectAge" >   
+		       <option value="0"
+		       #{if page?.conditions?.type == 0}
+                  selected="selected"
+                  #{/if}>全部</option>   
+		       <option value="1"
+		       #{if page?.conditions?.type == 1}
+                  selected="selected"
+                  #{/if}>编号</option>   
+		       <option value="2"
+		       #{if page?.conditions?.type == 2}
+                  selected="selected"
+                  #{/if}>借款人</option>   
+			</select>
+		</li>
+		<li class="xf_membill_searchLi">
+			<input type="text"  name="xf_membill_shurk_yhm" class="xf_membill_shurk_yhm" id="paramter" value="${page?.conditions?.keyWords}">
+			<input type="button" value="搜 索" class="xf_membill_button_yhm" onclick="showInvestRecords(1,10);" >
+		</li>
+	</ul>
+	<!-- 搜索结果 -->
+	<div class="xf_membill_search_jg">
+		<table border="0" cellpadding="0" cellspacing="0" width="auto" class="xf_membill_acc_viewcpms">
+			<tbody>
+				<tr>
+					<th align="center" width="46">序号</th>
+				  	<th width="182" >投标金额</th>
+				  	<th align="center" width="86">借款标编号</th>
+				  	<th width="63">借款人</th>
+				  	<th width="64">借款总额</th>
+				  	<th width="96">年利率</th>
+				  	<th width="104">状态</th>
+				  	<th width="91">操作</th>
+				</tr>
+
+               #{if page?.page?.size()!=0}
+		       #{list items:page.page,as:'invest'}
+			    <tr>
+					<td align="center">${invest_index}</td>
+					<td align="center">${invest?.invest_amount?.format('###,##0.00')}</td>
+					<td align="center">${invest?.no}</td>
+					<td align="center">
+					${invest?.bid_user_name}</td>
+					<td align="center">
+					${invest?.bid_amount?.format('###,##0.00')}</td>
+					<td align="center">${invest?.apr}%</td>
+					<td align="center">
+					#{if invest?.status > 0}	
+						#{if invest.transfer_status == -1 }
+							 已转让出
+						#{/if}
+						#{elseif invest.transfer_status == 1}
+							 转让中
+						#{/elseif}
+						#{else}
+							正常
+						#{/else}
+					#{/if}
+					#{else}
+						已过期
+					#{/else}	
+					</td>
+					<td align="center"><a href="@{front.invest.investAction.invest(invest?.bid_id)}" class="xf_membill_cza" target="_blank">标的详情</a></td>
+				</tr>
+				#{/list}
+			</tbody>
+		</table>
+		<!-- 分页器 -->
+		<div class="xf_wylc_page xf_membill_view_page1">
+			#{page funMethod:"showInvestRecords",currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:2,style:2 /}
+		</div>
+		#{/if}
+		</div>
+		<!-- 清除浮动 -->
+		<div class="clear"></div>
+

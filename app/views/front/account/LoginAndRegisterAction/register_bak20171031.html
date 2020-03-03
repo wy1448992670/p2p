@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	%{
+		business.User currUser = business.User.currUser();
+		business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+		String platUrl = constants.Constants.BASE_URL;
+		java.util.Map<String,java.util.List<business.BottomLinks>> bottomLinks = business.BottomLinks.currentBottomlinks();
+		java.lang.String type1Name = business.NewsType.queryName(1);
+		java.lang.String type2Name = business.NewsType.queryName(2);
+		java.lang.String type4Name = business.NewsType.queryName(4);
+		boolean ipsEnable = constants.Constants.IPS_ENABLE;
+		boolean debtUse = constants.Constants.DEBT_USE;
+	}%
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="/public/stylesheets/newreg/style.css" />
+		<!--<link rel="stylesheet" href="css/media.css" />-->
+	</head>
+	<body>
+		<!--logo行-->
+		<div class="top">
+			<div class="top_skip">
+				<img class="logo" src="/public/images/newreg/long.png" alt="" />
+				<div class="slogan">
+					安心托付，智慧出借，</br>您的财富管家！
+				</div>
+				<ul>
+					<li><a href="/">返回首页</a></li>
+					<li><a href="@{front.home.HomeAction.restAboutUs(16)}">关于我们</a></li>
+					<li><a href="/front/help/index?typeId=13">帮助中心</a></li>
+				</ul>
+				
+			</div>
+			
+		</div>
+		<!--注册块-->
+		<div class="login">
+			<!--<img src="/public/images/newreg/banner.jpg" alt="" />-->
+			<div class="login_main">
+				#{form @front.account.loginAndRegisterAction.registering(), id:'submit',onSubmit:'return register()'}
+				<div class="zc">
+					<input type="hidden" name="userName" id="name" placeholder="用户名">
+					<input class="tel" id="tel"  name="mobile" type="text" value="${flash?.mobile}" placeholder="请输入手机号" />
+					<input class="mm" id="mm" name="password" type="password" placeholder="请输入6到20位数字、字母组成的密码" />
+					 #{if flash.recommendUserName != null && flash.recommendUserName != ''}
+                     	<input class="tjr" type="text" placeholder="推荐人号码（可不填）" name="recommendName" value="${flash?.recommendUserName}" readonly="readonly"/>
+                     #{/if}
+                     #{else}
+                      	<input class="tjr" type="text" placeholder="推荐人号码（可不填）" name="recommendName"/>
+                     #{/else}
+					<input class="yzm_01" type="text" placeholder="请输入验证码" id="code" name="code"/><img class="yzm_src1" onclick="change()" id="img" width="98" height="40"/>
+                    <input type="hidden" name="randomID" id = "randomID" />
+                    
+					<input class="yzm_02" type="text" placeholder="请输入验证码" id="smsCode" name="smsCode"/><input type="button" id="get_yzm" class="yzm_btn" value="获取验证码" onclick="sendCode()" />
+					<p class="yes_no"><input type="checkbox" checked id="agree"/>我同意<a class="open2" href="#" >《亿亿理财用户注册协议》</a></p>
+					<button class="lhb" id="lhb">注册领红包</button>
+					<p class="has"><span>已有账号？</span><a href="/login">立即登录</a></p>
+				#{/form}
+				</div>
+			</div>
+			
+		</div>
+		
+		<!--弹出层-->
+		
+		<div class="pop  pp_car">
+			<div class="con_tit">亿亿理财用户注册协议</div>
+			<div class="con_text">
+				<p>在您注册成为本网站用户前请务必仔细阅读以下条款。若您一旦注册,则您接受本网站的服务必须受以下条款的约束。</p> 
+				<p>本服务协议内容包括以下条款及已经发布的或将来可能发布的各类规则。所有规则为本协议不可分割的一部分,与本协议正文具有同等法律效力。本协议是由您与本网站共同签订的,适用于您在本网站的全部活动。在您注册成为用户时,您已经阅读、理解并接受本协议的全部条款及各类规则,并承诺遵守中国现行的法律、法规、规章及其他政府规定,如有违反而导致任何法律后果的发生,您将以自己的名义独立承担所有相应的法律责任。</p> 
+				<p>本网站有权根据需要不时地制定、修改本协议或各类规则,如本协议及规则有任何变更,本网站将在网站上刊载公告。经修订的协议、规则一经在公布后,立即自动生效。您应不时地注意本协议及附属规则的变更,若您不同意相关变更,本网站有权不经任何告知终止、中止本协议或者限制您进入本网站的全部或者部分板块且不承担任何法律责任。</p> 
+				<p>您只要复选注册页面中的“我已阅读完全理解并同意亿亿理财在线的服务条款和隐私规则”并按照本网站规定的注册程序成功注册为用户,您的行为即表示同意并签署了本服务协议。本服务协议不涉及您与本网站的其他用户之间因网上交易而产生的法律关系及法律纠纷。</p> 
+				  
+				<p>一、使用限制</p> 
+				<p>本网站中的全部内容的版权均属于本网站所有,该等内容包括但不限于文本、数据、文章、设计、源代码、软件、图片、照片及其他全部信息(以下称“网站内容”)。网站内容受中华人民共和国著作权法及各国际版权公约的保护。未经本网站事先书面同意,您承诺不以任何方式、不以任何形式复制、模仿、传播、出版、公布、展示网站内容,包括但不限于电子的、机械的、复印的、录音录像的方式和形式等。您承认网站内容是属于本网站的财产。未经本网站书面同意,您亦不得将本网站包含的资料等任何内容镜像到任何其他网站或者服务器。任何未经授权对网站内容的使用均属于违法行为,本网站将追究您的法律责任。</p> 
+				<p>您承诺合法使用本网站提供的服务及网站内容。禁止在本网站从事任何可能违反中国现行的法律、法规、规章和政府规范性文件的行为或者任何未经授权使用本网站的行为,如擅自进入本网站的未公开的系统、不正当的使用密码和网站的任何内容等。</p> 
+				<p>本网站只接受中国大陆(不包括香港特区、澳门特区及台湾地区)的18周岁以上的具有完全民事行为能力的自然人成为网站用户。如您不符合资格,请勿注册。您必须按照本网站的注册要求提供本人真实、准确、完整的信息，并负责对本人信息及时更新。否则，本网站保留中止或终止您用户资格的权利。由上述原因导致服务无法正常提供，并由此导致的任何直接或间接损失由您自行承担，本网站不承担任何责任。</p> 
+				<p>您注册成功后,不得将本网站的用户名转让给第三方或者授权给第三方使用。您确认,您用您的用户名和密码登陆本网站后在本网站的一切行为均代表您并由您承担相应的法律后果。</p> 
+				<p>您有义务在注册时提供自己的真实资料,并保证诸如电子邮件地址、联系电话、联系地址、邮政编码等内容的有效性及安全性。如您因网上交易与其他用户产生诉讼的,用户有权通过司法部门要求网站提供相关资料。</p>
+				<p>经国家生效法律文书或行政处罚决定确认您存在违法行为,或者本网站有足够事实依据可以认定您存在违法或违反本服务协议的行为的或者您借款逾期未还的,本网站有权在因特网络上公布您的违法、违约行为,并有关将该内容记入任何与您相关的信用资料和档案。</p> 
+				  
+				<p>二、涉及第三方网站</p> 
+				本网站的网站内容可能涉及由第三方所有、控制或者运营的其他网站(以下称“第三方网站”)。本网站不能保证也没有义务保证第三方网站上的信息的真实性和有效性。您确认按照第三方网站的服务协议使用第三方网站,而不是按照本协议。第三方网站不是本网站推荐或者介绍的,第三方网站的内容、产品、广告和其他任何信息均由您自行判断并承担风险,而与本网站无关。</p> 
+				  
+				<p>三、责任限制 </p>
+				<p>在任何情况下,本网站方对您使用本网站服务而产生的任何形式的直接或间接损失均不承担法律责任,包括但不限于资金损失、利润损失、营业中断损失等。因为本网站或者涉及的第三方网站的设备、系统存在缺陷或者因为计算机病毒造成的损失,本网站均不负责赔偿,您的补救措施只能是与本网站终止本协议并停止使用本网站。但是,中国现行法律、法规另有规定的除外。</p> 
+				  
+				<p>四、网站内容监测</p> 
+				<p>本网站没有义务监测网站内容,但是您确认并同意本网站有权不时地根据法律、法规、政府要求披露、修改或者删除必要的、合适的信息,以便更好地使用本网站并保护自身及本网站的其他合法用户。</p> 
+				  
+				<p>五、隐私规则</p> 
+				<p>本网站对于收集到的经认证的个人信息将按照本网站的隐私规则予以保护、使用或者披露。当用户作为借入人借款逾期未还时，本网站及作为借出人的其他用户可以采取发布用户的个人信息的方式追索债权，但本网站对上述行为免责。</p> 
+				<p>1、用户身份限制</p>
+				<p>本网站要求未成年人（年龄18周岁以下人士）、中国大陆以外地区人士及自然人以外的组织等不要向本网站提交任何个人资料。</p>
+				<p>2、涉及的个人资料</p>
+				<p>用户提供给本网站的个人资料及用户同意本网站收集的个人资料的主要目的在于向用户提供一个顺利、有效和度身订造的交易经历。</p>
+				<p>本网站可能自公开来源了解用户的情况，并为其度身订造本网站服务、解决争议并有助确保在本网站进行安全交易。</p>
+				<p>本网站按照用户在本网站网址上的行为自动追踪关于用户的某些资料。本网站利用这些资料进行有关本网站之用户的人口统计、兴趣及行为的内部研究，以更好地了解用户及向用户和本网站的用户社区提供更好的服务。</p>
+				<p>本网站在本网站的某些网页上使用诸如"Cookies"的资料收集装置。</p>
+				<p>如果用户将个人通讯信息（例如：手机短信、电邮或信件）交付给本网站，或如果其他用户或第三方向本网站发出关于用户在本网站上的活动或登录事项的通讯信息，本网站可以将这些资料收集在用户的专门档案中。</p>
+				<p>3、本网站对用户的资料的使用</p>
+				<p>用户同意本网站可使用关于用户的个人资料（包括但不限于本网站持有的有关用户的档案中的资料，及本网站从用户目前及以前在本网站上的活动所获取的其他资料）以解决争议、对纠纷进行调停、有助于确保在本网站进行安全交易，并执行本网站的服务协议。本网站有时候可能调查多个用户以识别问题或解决争议， 特别是本网站可审查用户的资料以区分使用多个用户名或别名的用户。 为禁止用户在本网站上的欺诈、非法或其他刑事犯罪活动，使本网站免受其害，用户同意本网站可通过人工或自动程序对用户的个人资料进行评价。 用户同意本网站可以使用用户的个人资料以改进本网站的推广和促销工作、分析网站的使用率、改善本网站的内容和产品推广形式，并使本网站的网站内容、设计和服务更能符合用户的要求。这些使用能改善本网站的网页，以调整本网站的网页使其更能符合用户的需求，从而使用户在使用本网站服务时得到更为顺利、有效、安全及度身订造的交易体验。</p>
+				<p>用户同意本网站利用用户的资料与用户联络并向用户传递（在某些情况下）针对用户的兴趣而提供的信息，例如：有针对性的广告条、行政管理方面的通知、产品提供以及有关用户使用本网站的通讯。</p>
+				<p>4、本网站对用户的资料的披露</p>
+				<p>虽然本网站采用行业标准惯例以保护用户的个人资料，鉴于技术限制，本网站不能确保用户的全部私人通讯及其他个人资料不会通过本隐私规则中未列明的途径泄露出去。</p>
+				<p>本网站有义务根据有关法律要求向司法机关和政府部门提供用户的个人资料。在用户未能按照与本网站签订的服务协议或者与本网站其他用户签订的借款协议等其他法律文本的约定履行自己应尽的义务时，本网站有权根据自己的判断或者与该笔交易有关的其他用户的合法合理请求披露用户的个人资料。 用户的借款逾期超过30天的，本网站有权对用户提供的及本网站自行收集的用户的个人信息和资料编辑入网站黑名单，并将该黑名单对第三方披露，且本网站有权将用户提交的资料或本网站在公开领域了解的用户的情况与任何第三方进行数据共享，以便网站和第三方催收逾期借款及对用户的其他申请进行审核之用，由此因第三方的行为造成用户损失，本网站不承担法律责任。</p>
+				<p>5、用户对其他用户的资料的使用</p>
+				<p>在本网站提供的交易活动中，用户无权要求本网站提供其他用户的个人资料，除非符合以下条件：</p>
+				<p>（a）用户已向法院起诉其他用户的在本网站活动中的违约行为；</p>
+				<p>（b）接受用户贷款的借款人逾期未归还借款本息并向本网站提供确凿证据；</p>
+				<p>（c）本网站被吊销营业执照、解散、清算、宣告破产或者其他有碍于用户收回借款本息的情形。</p>
+				<p>6、密码的安全性</p>
+				<p>用户须对使用用户的用户名和密码所采取的一切行为负责。因此，用户不应向任何第三方披露用户在本网站的用户名和密码，否则由此造成的损失由用户自行承担。</p>
+				<p>7、信息授权</p>
+				<p>您同意授权本网站采集并使用您的信息，包括但不限于手机号码、身份证号码、银行卡号码多次，授权期限为永久。</p>
+				<p>您同意授权本网站向依法成立的征信机构提供因本业务产生的本人的信息（包括本人在本业务中产生的不良信息，且不再另行告知本人）。</p>
+				<p>您同意授权依法成立的征信机构进行以下事项：</p>
+				<p>（a）同意授权依法成立的征信机构向有关机构采集您的个人信息，可依法整理、保存、加工、使用、提供，并出具个人信用报告。</p>
+				<p>（b）同意授权拥有本人不良信息的信息提供者可以向依法成立的征信机构提供您的不良信息，且不再另行告知您。</p>
+				<p>（c）同意授权依法成立的征信机构向信息提供者采集本人收入、收入、存款、有价证券、商业保险、不动产的信息和纳税数额信息。本网站郑重提示：提供上述信息可能会给本人带来财产或信用损失，以及其他可能的不利后果，包括但不限于：采集这些信息对您的信用评级（评分）、信用报告等结果可能产生的不利影响，以及该等信息被信息使用者依法提供给第三方后被他人不当利用的风险。</p>
+				<p>若您不接受上述授权条款，请您立即停止注册或主动停止使用本网站的服务。</p>
+				<p>六、补偿</p> 
+				<p>就任何第三方提出的,由于您违反本协议及纳入本协议的条款和规则或您违反任何法律、法规或侵害第三方的权利而产生或引起的每一种类和性质的任何索赔、要求、诉讼、损失和损害(实际的、特别的及有后果的),无论是已知或未知的,包括合理的律师费,您同意就此对本网站和(如适用)本网站的母公司、 子公司、关联公司、高级职员、董事、代理人和雇员进行补偿并使其免受损害。</p> 
+				  
+				<p>七、终止</p> 
+				<p>除非本网站终止本协议或者您申请终止本协议且经本网站同意,否则本协议始终有效。在您违反了本协议、相关规则，或相关法律法规、政府部门的要求下，本网站有权在不通知您的情况下在任何时间终止本协议或者限制您使用本网站。</p> 
+				  
+				<p>八、适用法律和管辖</p> 
+				<p>因本网站提供服务所产生的争议均适用中华人民共和国法律,并由中亿云投资有限公司住所地的人民法院管辖。</p> 
+				  
+				<p>九、附加条款</p> 
+				<p>在本网站的某些部分或页面中可能存在除本协议以外的单独的附加服务条款,当这些条款存在冲突时,在该些部分和页面中附加条款优先适用。</p> 
+				  
+				<p>十、条款的独立性</p> 
+				<p>若本协议的部分条款被认定为无效或者无法实施时,本协议中的其他条款仍然有效。 </p>
+			</div>
+			<div class="close_all">
+				<img src="/public/images/newreg/close.png" class="close_img" alt="" />
+			</div>
+			
+		</div>	
+		
+			<!--遮罩层-->
+		<div class="lay">
+			
+			
+		</div>
+		
+		
+		
+		
+		
+		
+		
+		<div class="clear"></div>
+		
+		
+		
+		
+		
+		
+		
+		
+		<!--平台优势-->
+		<div class="advantage">
+			<div class="pty_pic">
+				<img class="ptys" src="/public/images/newreg/ptys.png" alt="" />
+			</div>
+			<div class="pics">
+				<div class="pic pic_01">
+					<img src="/public/images/newreg/slxh.png" alt="" />
+					<p>注册资本亿元，众安保险保障</p>
+				</div>
+				<div class="pic pic_02">
+					<img src="/public/images/newreg/control.png" alt="" />
+					<p>多重保障措施，风险严格把控</p>
+				</div>
+				<div class="pic pic_03">
+					<img src="/public/images/newreg/sy_01.png" alt="" />
+					<p>预期年化收益8%-12%，出借收益更灵活</p>
+					
+				</div>
+				
+				
+			</div>
+		</div>
+			
+			
+			
+			<div class="red_bag">
+				<div class="red_tit">
+					<img src="/public/images/newreg/666.png" alt="" />
+				</div>
+				<div class="red_con">
+					<div class="con con_01">
+						<img src="/public/images/newreg/money_16.png" alt="" />
+						<p>单笔投资</p>
+						<p>满<span>1000元</span>可用</p>
+					</div>
+					<div class="con con_02">
+						<img src="/public/images/newreg/money_50.png" alt="" />
+						<p>单笔投资</p>
+						<p>满<span>10000元</span>可用</p>
+					</div>
+				</div>
+				<div class="red_con">
+					<div class="con con_03">
+						<img src="/public/images/newreg/money_100.png" alt="" />
+						<p>单笔投资</p>
+						<p>满<span>30000元</span>可用</p>
+					</div>
+					<div class="con con_04">
+						<img src="/public/images/newreg/money_500.png" alt="" />
+						<p>单笔投资</p>
+						<p>满<span>80000元</span>可用</p>
+					</div>
+				</div>
+
+				
+				
+			</div>
+			<div class="clear"></div>
+			
+			
+			<div class="flow">
+				<div class="flow_tit">
+					<img src="/public/images/newreg/lclc.png" alt="" />
+				</div>
+			</div>
+			<div class="flow_pic">
+				<div class="flow_all">
+					<div class="step_01 step_first">
+						<img src="/public/images/newreg/mfzc.png" alt="" />
+						<p>30秒快速注册</p>
+					</div>
+					<img class="jt_01" src="/public/images/newreg/jt.png" alt="" />
+					<img class="circle cir_01" src="/public/images/newreg/yuan_01.png" alt="" />
+					<div class="step_01">
+						<img src="/public/images/newreg/aqrz.png" alt="" />
+						<p>实名身份验证</p>
+					</div>
+					<img class="jt_02" src="/public/images/newreg/jt.png" alt="" />
+					<img class="circle cir_02" src="/public/images/newreg/yuan_02.png" alt="" />
+					<div class="step_01">
+						<img src="/public/images/newreg/cztz.png" alt="" />
+						<p>在线快捷支付</p>
+					</div>
+					<img class="jt_03" src="/public/images/newreg/jt.png" alt="" />
+					<img class="circle cir_03" src="/public/images/newreg/yuan_03.png" alt="" />
+					<img class="circle cir_04" src="/public/images/newreg/yuan_04.png" alt="" />
+					<div class="step_01">
+						<img src="/public/images/newreg/hqsy.png" alt="" />
+						<p>历史年化收益12%</p>
+					</div>
+					
+				</div>
+				
+			</div>
+			<div class="xszx">
+				<div class="xszc_pic">
+					<img src="/public/images/newreg/ygyxszx.png" alt="" />
+				</div>
+			</div>
+			<div class="active_xs">
+				<div class="active_all">
+					<img src="/public/images/newreg/xstb.png" alt="" />
+					<div class="text">
+						<p>新手标享年华收益12%</p>
+						<p>(每人享有一次新手标投资机会&nbsp;<span>投资限额50元-5万元</span>)</p>
+					</div>
+				</div>
+			</div>
+			<div class="details">
+				<img class="det" src="/public/images/newreg/active.png" alt="" />
+			
+			</div>
+			<div class="active_con">
+				<p>1、注册成功后用户可在个人账户内查看新手红包详情，新手红包需在有效期内使用；</p>
+				<p>2、新手红包使用时，不直接抵扣投资金额，投资到期后将自动返回本金+红包+收益(本金 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;及红包收益)至账户余额中；</p>
+				<p>3、如有疑问请详询平台在线客服，关注微信订阅号：亿亿理财(ID：yiyilc666)或拨打全 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;国热线：400-6438-0510 ;</p>
+				<p>4、本次活动最终解释权归亿亿理财所有。</p>
+			</div>
+			<div class="login_end">
+				<a href=""><input class="but" type="button" /></a>
+			</div>
+			<div class="end">
+				<p>版权所有&nbsp;沪ICP备15054793号&nbsp;理财有风险，&nbsp;投资需谨慎</p>
+			</div>
+		
+		
+		<!--<div style="height: 3000px;background: #e7bbbb;"></div>-->
+	</body>
+	<script type="text/javascript" src="/public/javascripts/jquery-1.11.1.js" ></script>
+	<script>
+	
+	 function register(){
+		 var reg1=/^[0-9]{11}$/;
+		 var reg2=/^[A-Za-z0-9]{6,20}$/;
+		 if(!reg1.test(tel.value)){
+			alert("请输入11位的手机号码");
+			return false;
+		 }
+		 $("#name").val("zzy"+$("#tel").val());
+	    if(!reg2.test(mm.value)){
+			alert("请输入6-20位的由数字和字母组成的密码");
+			return false;
+		}
+	    if(!$("#agree").is(':checked')){
+			alert("请阅读同意亿亿理财用户注册协议")
+			return false;
+			
+		}
+	    if($("#code").val() == '' || $("#code").val() =="请输入验证码") {
+	    	  alert("请输入验证码");
+	   		  return false;
+	      }
+	    var smsCode = $("#smsCode").val();
+       if(smsCode == ""){
+		   alert("请填写短信校验码");
+          return false;
+       }
+       
+	    $("#submit").submit();
+	 }
+			
+//				获取验证码
+				var countdown = 60;
+
+			function settime() {
+				if(countdown == 0) {
+					$('#get_yzm').attr("disabled", false);
+					$('#get_yzm').val("获取验证码");
+					 $("#get_yzm").attr("onclick", "sendCode();");
+				    $("#get_yzm").attr("style", "cursor:pointer");
+					countdown = 60;
+					return;
+				} else {
+					$('#get_yzm').attr("disabled", true);
+					$('#get_yzm').val("重新发送(" + countdown + ")");
+					countdown--;
+				}
+				setTimeout(function() {
+					settime()
+				}, 1000)
+			}
+
+		
+		     function sendCode(){
+		    	 var mobile = $("#tel").val().trim();
+		     	var code = '';
+		     	var randomId = '';
+		     	if(mobile == ""){
+		     		alert("请输入11位的手机号码");
+		          	return;
+		         }
+		     	
+		     	code = $("#code").val().trim();
+		     	randomID = $("#randomID").val().trim();
+		     	if(code == '') {
+		     		alert("请输入验证码");
+		       		  return;
+		          }
+			     	
+		          var verifyMobile = #{jsAction @front.account.loginAndRegisterAction.verifyMobileForReg(':mobile',':code',':randomID')/}
+		      		$.post(verifyMobile({mobile:mobile,code:code,randomID:randomID}),function(data){
+		      	    if(data.code < 0){
+		      	    	alert(data.msg)
+		      	    	change();
+		      	    }else{
+		      	    	settime();
+		      	    	 $("#get_yzm").attr("onclick", "void(0);");
+						 $("#get_yzm").attr("style", "cursor: default");
+		      		}
+		      	},'json');
+		      }
+		      
+		
+		
+		
+		
+		//			遮罩层
+			$(function(){
+			    	//产品详情
+				$(".open2").bind("click", function() {
+					showDailog();
+			    });
+			    
+				function showDailog() {
+					$(".lay").show();
+					$(".close_all").show();
+					$(".code_fix").show();
+					var dH = $(document).height(); //获取文档的高度
+					$(".lay").css("height", dH); //黑色遮罩层高度设置为文档高度
+					var wW = $(window).width(), //window的宽度
+						wH = $(window).height(), //window的高度
+						pW = $(".pop").width(), //弹出层的宽度
+						pH = $(".pop").height(), //弹出层的高度
+						pL = (wW - pW) / 2, //弹出层距离左边的距离
+						pT = (wH - pH) / 2;
+					$(".pop").show().css({
+						"left": pL + "px",
+						"top": pT + "px"
+					});
+					$(".close").show().css({
+						"left": pL + "px",
+						"top": pT + "px"
+					});
+					
+				}
+					$(window).resize(function() {
+						if($(".pop").is(":visible")) {
+							showDailog();
+						}
+					});
+				$(".md-close,.lay").bind("click", function() {
+					$(".lay").fadeOut();
+					$(".pop,.code_fix").hide();
+				});
+			
+				
+				
+			})
+			
+				$(function(){
+					$(".close_all,.lay,.close_img").on("click",function(){
+						$(".lay,.pop,.close_img").hide();
+					})
+					
+				})
+				$(function(){
+					$(".open2").on("click",function(){
+						$(".close_img,.close_all").css("display","block")
+					})
+					
+					
+				})
+				
+		
+		function change(){
+		    var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+			$.post(setCode({}),function(data){
+			  var arr=eval(data);
+			  var img = arr.img;
+			  $("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img);
+			  $("#randomID").val(img);	
+			});
+		  };
+		  $(function(){
+			    var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+				$.post(setCode({}),function(data){
+					var arr=eval(data);
+					var img = arr.img;
+					$("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img);	
+					$("#randomID").val(img);
+				});
+				 if('${flash.error}' !='') {
+				      alert('${flash?.error}');
+			      if('${flash?.emailUrl}' !='') {
+			        window.open('${flash?.emailUrl}');
+			      }
+			    }
+			});
+		
+		
+	</script>
+</html>

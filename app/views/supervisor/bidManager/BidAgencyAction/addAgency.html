@@ -1,0 +1,139 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'添加合作机构' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include '/supervisor/bidManager/bidManagerLeft.control'/}
+      <div class="xn_c_content">
+        <div class="xf_content_add">
+          <div class="xfht_t_j_y_2">
+            <!--右上-->
+            <div class="xf_ht_obu_fklm">
+           	    添加合作机构
+            </div>
+            <!-- 借款标基本信息 -->
+            <div class="xf_ht_news_content">
+              <div class="xf_ht_news_content_t">
+                 #{form @addingAgency(agency), method:'POST', id:'addingAgency' }
+                 #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xf_ht_news_content_t_t"}
+                   #{tr}
+                     #{td width:"200", align:"right", valign:"middle", style:"padding-right:5px"}机构名称：#{/td}
+                     #{td}<input style="width:160px;" class="xfht_zr_input" type="text" name="agency.name" id="agencyName" onblur="checkName(this);"/>#{/td}
+                   #{/tr}
+                   #{tr}
+                     #{td width:"200", align:"right", valign:"middle", style:"padding-right:5px"}营业执照号：#{/td}
+                     #{td}<input style="width:160px;" class="xfht_zr_input" type="text" name="agency.id_number" id="id_number" onblur="checkIdNumber(this);"/>#{/td}
+                   #{/tr}
+                   #{tr}
+                     #{td width:"200", align:"right", valign:"middle", style:"padding-right:5px"}印章：#{/td}
+                     #{td}#{img src:"${product?.loanImageFilename}",id:"loanImage",alt:"头像",width:"110px",height:"110px"}#{/img}
+                     	 <input type="hidden" name="agency.imageFilenames" id="imageFilename" />
+							  <div>
+							    <input type="file" id="imgFile" name="imgFile"/>
+							    <input type="button" onclick="uploadImage('imgFile','loanImage');" value="上传">
+							  </div>
+                     #{/td}
+                   #{/tr}
+                   #{tr}
+                     #{td width:"95", align:"right", valign:"middle", style:"padding-right:5px"}信用等级：#{/td}
+                     #{td}
+                       <select class="xfht_t_j_td_1_s" name="agency.creditLevel" id="creditLevel">
+                         <option value="0">请选择</option>
+						 <option value="1">AAA</option>
+					     <option value="2">AA</option>
+					     <option value="3">A</option>
+                       </select>
+                     #{/td}
+                   #{/tr}
+                   #{tr}
+                     #{td width:"200", align:"right", valign:"top", style:"padding-right:5px"}机构简介：#{/td}
+                     #{td}
+                       <div class="xf_ht_news_conr">
+                         <textarea class="xf_ht_jr_obttd_textarea" name="agency.introduction" id="introduction"></textarea>
+                       </div>
+                     #{/td}
+                   #{/tr}
+                 #{/table} 
+                 <div class="xf_ht_news_content_button" colspan="4">
+                   <input class="xf_ht_tcc_button_ok" type="submit" value="确   定">
+                   <input class="xf_ht_tcc_button_on" type="button" value="取  消" onclick="javascript:history.go(-1);">
+                 </div>
+                 #{/form}
+              </div>
+           </div>
+        </div>
+     </div>
+  </div>
+</div>
+<script type="text/javascript">
+<!--
+	$(function(){
+		/* 高亮显示 */
+		showHighLight(2, 2, 10);
+		
+		$("#addingAgency").submit(function(){
+			var agencyName = $("#agencyName").val();
+			if($.trim(agencyName) == "" || agencyName == "机构名重复!"){
+				//layer.msg("请填写机构名称!", 1, 5);
+				alert("请填写机构名称!");
+				
+				return false;
+			}
+			
+			var agencyIdNumber = $("#id_number").val();
+			if($.trim(agencyIdNumber) == '' || agencyIdNumber == "营业执照号重复!"){
+				//layer.msg("请填写营业执照号!", 1, 5);
+				alert("请填写营业执照号!");
+				
+				return false;
+			}
+			
+			var imageName = $("#loanImage").attr("src");
+			if(typeof(imageName) == "undefined" || imageName == "" || imageName.indexOf("/public/images/default.png") != -1){
+				alert("请上传印章图片!");
+				
+				return false;
+	        }
+			$("#imageFilename").val(imageName);
+			
+			if($("#creditLevel").val() == 0){
+				//layer.msg("请选择信用级别!", 1, 5);
+				alert("请选择信用级别!");
+			
+				return false;
+			}
+			
+			if($.trim($("#introduction").val()) == ""){
+				//layer.msg("请填写机构简介!", 1, 5);
+				alert("请填写机构简介!");
+				
+				return false;
+			}
+			
+			alert("添加合作机构成功");
+			return true;
+		});
+	});
+
+	function checkName(po){
+		var action = #{jsAction @checkName(':name') /};
+		$.post(action({name:encodeURI(po.value)}), function(data) {
+			if(data) {
+				$(po).css("color","red").val("机构名重复!");
+			}else {
+				$(po).css("color","green");
+			}
+		});
+	}
+	
+	function checkIdNumber(po){
+		var action = #{jsAction @checkIdNumber(':idNumber') /};
+		$.post(action({idNumber:encodeURI(po.value)}), function(data) {
+			if(data) {
+				$(po).css("color","red").val("营业执照号重复!");
+			}else {
+				$(po).css("color","green");
+			}
+		});
+	}
+//-->
+</script>

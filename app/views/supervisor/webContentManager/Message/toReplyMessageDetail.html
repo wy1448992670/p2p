@@ -1,0 +1,50 @@
+<div class="xn_c_ban_jox" id="xf_ht_jr_obu_width" style="display:none; overflow: auto;">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_ht_ptjbk_shok_bottom">
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jbox_znx" width="100%">
+        <tr>
+          <td align="right" width="112">发信人：</td>
+          <td>${msg.senderUserName}</td>
+        </tr>
+        <tr>
+          <td align="right" width="112">发信时间：</td>
+          <td>${msg?.time?.format("yyyy-MM-dd HH:mm:ss")}</td>
+        </tr>
+        <tr>
+          <td align="right" width="112">标题：</td>
+          <td>${msg.title}</td>
+        </tr>
+        <tr>
+          <td align="right" width="112" valign="top">内容：</td>
+          <td>${msg.content}</td>
+        </tr>
+        <!-- 加下划线，然后回复 -->
+        <tr class="xf_jbox_bo_t" style="width: 200px;">
+          <td align="right" width="112">状态：</td>
+          <td><a href="javascript:void(0)" class="xfht_lan">待回复</a></td>
+        </tr>
+        <tr>
+          <td align="right">&nbsp;</td>
+          <td style="padding:20px 0 40px 0;">
+            <input class="xf_ht_tcc_button_ok" type="button" value="回  复">
+            <input class="xf_ht_tcc_button_on" type="button" value="返  回">
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function() {
+    //回复
+    $(".xf_ht_tcc_button_ok").click(function() {
+      layer.closeAll();
+      showReplyPage(${msg.id});
+    });
+		
+    //返回
+    $(".xf_ht_tcc_button_on").click(function() {
+      layer.closeAll();
+    });
+  });
+</script>

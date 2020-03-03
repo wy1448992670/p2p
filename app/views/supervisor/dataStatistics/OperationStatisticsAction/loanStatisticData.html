@@ -1,0 +1,303 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'借款数据统计分析对比' /}
+
+<script type="text/javascript">
+$(function(){
+	/* 高亮显示 */
+	  showHighLight(2, 2, 7);
+})
+</script>
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/dataStatistics/statisticLeft.html"/}
+    <div class="xn_c_content">
+      <div class="xf_ht_tablelist">
+                 <!-- 列表内容 -->
+		    <div  class="xn_c_content_top">
+			    <ul class="s_datacomparelist">
+		         <li>
+		            <dl>
+		                <dt>累计借款总额（${loans?.total_borrow_amount}）</dt>
+		                <dd class="appline">
+		                    <span class="listl">PC端：</span>
+		                    #{if loans?.total_borrow_amount == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.total_borrow_amount_pc / loans?.total_borrow_amount * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">￥${loans?.total_borrow_amount_pc}</span>
+		                </dd>
+		                <dd class="pcline">
+		                    <span class="listl">APP端：</span>
+		                    #{if loans?.total_borrow_amount == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.total_borrow_amount_app / loans?.total_borrow_amount * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">￥${loans?.total_borrow_amount_app}</span>
+		                </dd>
+		                <dd class="wxline">
+		                    <span class="listl">微信端：</span>
+		                    #{if loans?.total_borrow_amount == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.total_borrow_amount_wechat / loans?.total_borrow_amount * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">￥${loans?.total_borrow_amount_wechat}</span>
+		                </dd>
+		            </dl>
+		        </li>
+		         <li>
+		            <dl>
+		                <dt>本月借款总额（${loans?.this_month_borrow_amount}）</dt>
+		                <dd class="appline">
+		                    <span class="listl">PC端：</span>
+		                    #{if loans?.this_month_borrow_amount == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.this_month_borrow_amount_pc / loans?.this_month_borrow_amount * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">￥${loans?.this_month_borrow_amount_pc}</span>
+		                </dd>
+		                <dd class="pcline">
+		                    <span class="listl">APP端：</span>
+		                    #{if loans?.this_month_borrow_amount == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.this_month_borrow_amount_app / loans?.this_month_borrow_amount * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">￥${loans?.this_month_borrow_amount_app}</span>
+		                </dd>
+		                <dd class="wxline">
+		                    <span class="listl">微信端：</span>
+		                    #{if loans?.this_month_borrow_amount == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.this_month_borrow_amount_wechat / loans?.this_month_borrow_amount * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">￥${loans?.this_month_borrow_amount_wechat}</span>
+		                </dd>
+		            </dl>
+		        </li>
+		        <li>
+		            <dl>
+		                <dt>累计借款会员总数（${loans?.total_borrow_user_num}）</dt>
+		                <dd class="appline">
+		                    <span class="listl">PC端：</span>
+		                    #{if loans?.total_borrow_user_num == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.total_borrow_user_num_pc / loans?.total_borrow_user_num * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${loans?.total_borrow_user_num_pc}</span>
+		                </dd>
+		                <dd class="pcline">
+		                    <span class="listl">APP端：</span>
+		                    #{if loans?.total_borrow_user_num == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.total_borrow_user_num_app / loans?.total_borrow_user_num * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${loans?.total_borrow_user_num_app}</span>
+		                </dd>
+		                <dd class="wxline">
+		                    <span class="listl">微信端：</span>
+		                    #{if loans?.total_borrow_user_num == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.total_borrow_user_num_wechat / loans?.total_borrow_user_num * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${loans?.total_borrow_user_num_wechat}</span>
+		                </dd>
+		            </dl>
+		        </li>
+		        <li>
+		            <dl>
+		                <dt>新增借款会员数（${loans?.new_borrow_user_num}）</dt>
+		                <dd class="appline">
+		                    <span class="listl">PC端：</span>
+		                    #{if loans?.new_borrow_user_num == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.new_borrow_user_num_pc / loans?.new_borrow_user_num * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${loans?.new_borrow_user_num_pc}</span>
+		                </dd>
+		                <dd class="pcline">
+		                    <span class="listl">APP端：</span>
+		                    #{if loans?.new_borrow_user_num == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.new_borrow_user_num_app / loans?.new_borrow_user_num * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${loans?.new_borrow_user_num_app}</span>
+		                </dd>
+		                <dd class="wxline">
+		                    <span class="listl">微信端：</span>
+		                    #{if loans?.new_borrow_user_num == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.new_borrow_user_num_wechat / loans?.new_borrow_user_num * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${loans?.new_borrow_user_num_wechat}</span>
+		                </dd>
+		            </dl>
+		        </li>
+		        <li>
+		            <dl>
+		                <dt>已完成借款总额（￥${loans?.finished_borrow_amount}）</dt>
+		                <dd class="appline">
+		                    <span class="listl">PC端：</span>
+		                    #{if loans?.finished_borrow_amount == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.finished_borrow_amount_pc / loans?.finished_borrow_amount * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">￥${loans?.finished_borrow_amount_pc}</span>
+		                </dd>
+		                <dd class="pcline">
+		                    <span class="listl">APP端：</span>
+		                    #{if loans?.finished_borrow_amount == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.finished_borrow_amount_app / loans?.finished_borrow_amount * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">￥${loans?.finished_borrow_amount_app}</span>
+		                </dd>
+		                <dd class="wxline">
+		                    <span class="listl">微信端：</span>
+		                    #{if loans?.finished_borrow_amount == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.finished_borrow_amount_wechat / loans?.finished_borrow_amount * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">￥${loans?.finished_borrow_amount_wechat}</span>
+		                </dd>
+		            </dl>
+		        </li>
+		        <li>
+		            <dl>
+		                <dt>已放款借款标数量（${loans?.released_bids_num}）</dt>
+		                <dd class="appline">
+		                    <span class="listl">PC端：</span>
+		                    #{if loans?.released_bids_num == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.released_bids_num_pc / loans?.released_bids_num * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${loans?.released_bids_num_pc}</span>
+		                </dd>
+		                <dd class="pcline">
+		                    <span class="listl">APP端：</span>
+		                    #{if loans?.released_bids_num == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.released_bids_num_app / loans?.released_bids_num * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${loans?.released_bids_num_app}</span>
+		                </dd>
+		                <dd class="wxline">
+		                    <span class="listl">微信端：</span>
+		                    #{if loans?.released_bids_num == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.released_bids_num_wechat / loans?.released_bids_num * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${loans?.released_bids_num_wechat}</span>
+		                </dd>
+		            </dl>
+		        </li>
+		        <li>
+		            <dl>
+		                <dt>平均年利率（${loans?.average_annual_rate}%）</dt>
+		                <dd class="appline">
+		                    <span class="listl">PC端：</span>
+		                    #{if loans?.average_annual_rate == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.average_annual_rate_pc / loans?.average_annual_rate * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${loans?.average_annual_rate_pc}%</span>
+		                </dd>
+		                <dd class="pcline">
+		                    <span class="listl">APP端：</span>
+		                    #{if loans?.average_annual_rate == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.average_annual_rate_app / loans?.average_annual_rate * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${loans?.average_annual_rate_app}%</span>
+		                </dd>
+		                <dd class="wxline">
+		                    <span class="listl">微信端：</span>
+		                    #{if loans?.average_annual_rate == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.average_annual_rate_wechat / loans?.average_annual_rate * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">${loans?.average_annual_rate_wechat}%</span>
+		                </dd>
+		            </dl>
+		        </li>
+		        <li>
+		            <dl>
+		                <dt>均借款金额（￥${loans?.average_borrow_amount}）</dt>
+		                <dd class="appline">
+		                    <span class="listl">PC端：</span>
+		                    #{if loans?.average_borrow_amount == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.average_borrow_amount_pc / loans?.average_borrow_amount * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">￥${loans?.average_borrow_amount_pc}</span>
+		                </dd>
+		                <dd class="pcline">
+		                    <span class="listl">APP端：</span>
+		                    #{if loans?.average_borrow_amount == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.average_borrow_amount_app / loans?.average_borrow_amount * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">￥${loans?.average_borrow_amount_app}</span>
+		                </dd>
+		                <dd class="wxline">
+		                    <span class="listl">微信端：</span>
+		                    #{if loans?.average_borrow_amount == 0}
+		                      <span class="listbg"><span class="listline" style="width:0%"></span></span>
+		                    #{/if}
+		                    #{else}
+		                      <span class="listbg"><span class="listline" style="width:${loans?.average_borrow_amount_wechat / loans?.average_borrow_amount * 100}%"></span></span>
+		                    #{/else}
+		                    <span class="listr">￥${loans?.average_borrow_amount_wechat}</span>
+		                </dd>
+		            </dl>
+		        </li>
+		    </ul>
+		  </div>                   
+    </div>
+   </div>
+  </div>
+</div>

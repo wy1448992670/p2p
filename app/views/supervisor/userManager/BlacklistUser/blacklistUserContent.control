@@ -1,0 +1,144 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    #{form @blacklistUser(), id:'submit'}
+    <input type="hidden" id="currPage" name="currPage"/>
+    <input type="hidden" id="pageSize" name="pageSize"/>
+    <input type="hidden" id="orderType" name="orderType" value="${page.conditions?.orderType}"/>
+    <div class="xf_ht_search">
+      <div class="xf_ht_search_l">
+        <span id="div_0" onClick="conditonSearch(0)">默认排序</span>
+        <span id="div_1" onClick="conditonSearch(1)">被举报次数 <a id="div_a_1">↑</a></span>
+        <span id="div_3" onClick="conditonSearch(3)">信用等级 <a id="div_a_3">↑</a></span>
+        <span id="div_5" onClick="conditonSearch(5)">账户余额 <a id="div_a_5">↑</a></span>
+      </div>
+    </div>
+    <div class="xf_ht_search_inon">
+      <div class="xf_ht_search_r">
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">会员名：</span>
+          <input name="name" type="text" class="search_w" id="name" value="${page.conditions?.name}" />
+        </div>
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">加入黑名单时间：</span>
+          <input name="beginTime" type="text" id="startDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${page?.conditions?.beginTime}" />
+          <span class="search_timesp">--</span>
+          <input name="endTime" type="text" id="endDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${page?.conditions?.endTime}" />
+        </div>
+        <div class="xf_ht_search_xl">
+          <input type="button" class="search_button" onclick="searchSubmit();" value="搜 索" />
+        </div>
+      </div>
+    </div>
+    #{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table class:"xn_c_content_list1",cellspacing:"0",cellpadding:"0",border:"0",tr_class_odd:"xn_tr_bj",width:"1300px"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}会员名#{/th}
+          #{th}注册时间#{/th}
+          #{th}信用等级#{/th}
+          #{th}充值金额#{/th}
+          #{th}投标数量#{/th}
+          #{th}累计投标总额#{/th}
+          #{th}借款标数量#{/th}
+          #{th}累计借款总额#{/th}
+          #{th}逾期账单数量#{/th}
+          #{th}账户可用余额#{/th}
+          #{th}被举报次数#{/th}
+          #{th}黑名单操作时间#{/th}
+          #{th}操作#{/th}
+        #{/tr}
+        #{list page?.page}
+        #{tr tr_index:_index}
+          #{td}${(page?.currPage - 1) * page?.pageSize + _index}#{/td}
+          #{td}${_?.name}#{/td}
+          #{td}${_?.register_time?.format('yyyy-MM-dd')}#{/td}
+          #{td}#{img src:"${_?.credit_level_image_filename}",alt:"",width:"30px",height:"30px"}#{/img}#{/td}
+          #{td}${_?.recharge_amount?.format("###,##0.00")}#{/td}
+          #{td}${_?.invest_count}#{/td}
+          #{td}${_?.invest_amount?.format("###,##0.00")}#{/td}
+          #{td}${_?.bid_count}#{/td}
+          #{td}${_?.bid_amount?.format("###,##0.00")}#{/td}
+          #{td}${_?.overdue_bill_count}#{/td}
+          #{td}${_?.user_amount?.format("###,##0.00")}#{/td}
+          #{td}${_?.reported_count}#{/td}
+          #{td}${_?.join_time?.format('yyyy-MM-dd')}#{/td}
+          #{td}
+            <span class="xf_ta_onclick" onclick="removeBlacklist('${_?.sign}');">解除黑名单</span>
+            <a class="xf_ta_onclick" href="@{supervisor.userManager.BlacklistUser.simulateLogin(_?.sign)}" target="_blank">模拟登录</a>
+          #{/td}
+        #{/tr}
+        #{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      <div class="page_warp">
+        #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4/}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+function conditonSearch(num){
+  var orderType= ${page.conditions?.orderType};
+  if(orderType == 0){
+    $("#orderType").val(num);
+    $("#submit").submit();
+    return;
+  }
+  var sum = orderType/2;
+  if(sum.toString().indexOf('.') == -1){
+    var sum2 = orderType - 1;
+    $("#orderType").val(num);
+    $("#submit").submit();
+  }else{
+    if(orderType = num){
+      $("#orderType").val(num + 1);
+      $("#submit").submit();
+      return;
+    }else{
+      $("#orderType").val(num);
+      $("#submit").submit();
+      return;
+    }
+  }
+}
+
+$(function(){  
+  /* 高亮显示 */
+  highLight(10);
+  
+  //条件查询控制样式
+  var num= ${page.conditions?.orderType};
+  
+  if(num == 0){
+    $("#div_0").addClass("xf_sea_isshow");
+    return;
+  }
+
+  var sum = num/2;
+  if(sum.toString().indexOf('.') == -1){
+    var sum2 = num -1;
+    $("#div_"+sum2).addClass("xf_sea_isshow");
+    $("#div_a_"+sum2).html("↓");
+    return;
+  }
+
+  $("#div_"+num).addClass("xf_sea_isshow");
+  $("#div_a_"+num).html("↑");
+});
+
+function showPage(currPage, pageSize){
+  $("#currPage").val(currPage);
+  $("#pageSize").val(pageSize);
+  $("#submit").submit();
+}
+
+function searchSubmit(){
+  $("#submit").submit();
+}
+</script>

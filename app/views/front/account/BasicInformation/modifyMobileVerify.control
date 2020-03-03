@@ -1,0 +1,51 @@
+<div class="xf_zqzr_znx_window" id="xf_mem_szansj_tc">
+			<div class="xf_wyjkwszl_4_windowInner xf_mem_aqwtsz_tc">
+				<div class="xf_wyjkfb_4_windowClose"></div>
+				<div class="xf_wyjkfb_4_windowColName">
+					校验手机号码
+				</div>
+				<div class="xf_wyjkfb_aqwt_tclv">
+					系统已经向您下面的手机号码发送了安全校验码，请输入以便校验手机号码
+				</div>
+				<!-- 安全问题设置 -->
+				<div class="xf_mem_aqwtsz_qa">
+					<ul>
+						<li>
+							<div class="xf_mem_aqwtsz_qainput xf_mem_aqwtsz_qainput2">
+								<span class="xf_mem_aqwtsz_titlet">手机号码：</span>
+								<input class="xf_mem_aq_wtszinput" id="telephone" /></div>
+						</li>
+						<li>
+							<div class="xf_mem_aqwtsz_qainput xf_mem_aqwtsz_qainput2">
+								<span class="xf_mem_aqwtsz_titlet">请输入手机校验码：</span>
+								<input class="xf_mem_aq_wtszinput" id"code" /></div>
+						</li>
+						<li class="xf_mem_aqwtsz_lalt2">
+							<a class="xf_con_inputfbjk" id="binding">确认绑定</a>
+							<a class="xf_con_inputfbqux">取 消</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+<script type="text/javascript">
+
+     $(function(){
+          $("#binding").click(function(){
+                var bindMobile = #{jsAction @bindMobile(':code')/}
+				$.post(bindMobile({code:$("#code").val()}),function(data){
+					
+				var arr=eval(data);
+				if(arr.error.code < 0){
+				     alert(arr.error.msg);
+				     return;
+				}
+                alert(arr.error.msg);
+                $("#xf_mem_aqwtsz_tc").hide();            
+          })
+     })
+
+
+
+</script>

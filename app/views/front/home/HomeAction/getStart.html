@@ -1,0 +1,56 @@
+#{extends 'common/frontMain.html' /} 
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+	java.lang.String type5Name = business.NewsType.queryName(5);
+}%
+#{set title:currBackstageSet.seoTitle+'|新手入门' /}
+
+<!-- 内容区域 start -->
+<div class="xf_con_box">
+	<div class="xf_con_mem_nav"></div>
+	<!-- 左边导航区域 -->
+	<div class="xf_con_wyjk_left">
+		<h2 class="xf_con_mem_lefth2">
+			${type5Name}
+		</h2>
+		<ul class="xf_con_wyjk_leftul xf_con_suba_leftul">
+			#{list newsTypes}
+				<li id="xsrm${_?.id}">
+				<a class="xf_mem_l_title" href="@{getStart(_?.id)}">${_?.name}</a>
+				<a class="xf_mem_r_more xf_mem_r_ishot2"></a>
+			</li>
+			#{/list}
+		</ul>
+	</div>
+	<!-- 右侧内容区域 -->
+	<div class="xf_about_box">
+		<div class="xf_about_contet">
+			#{if content == null}
+				还没有添加哦!
+			#{/if}
+			#{else}
+				${content.raw()}
+			#{/else}
+		</div>
+	</div>
+	<!-- 清除浮动 -->
+	<div class="clear"></div>
+	<!-- 财富理财说明 -->
+	<div class="xf_wylc_wylcExp xf_wylc_wylcExptwo">
+		#{include "common/WealthToolbox.control"/}
+		#{include "common/CreditRatingIcons.control"/} 
+		#{include "common/BorrowingIcons.control"/}
+	</div>
+	<!-- 内容区域 end -->
+	<!-- 底部 -->
+
+	<div class="clear"></div>
+</div>
+
+<script type="text/javascript">
+<!--
+	$(function(){
+		$("#xsrm" + ${id}).addClass("xf_con_wyjk_leftliisshow");
+	});
+//-->
+</script>

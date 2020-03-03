@@ -1,0 +1,34 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'借款标详情' /} 
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/billCollectionManager/common/billCollectionManagerLeft.control"/}
+    #{include '/supervisor/bidManager/BidPlatformAction/loanSucceed.control'/}  
+  </div>
+</div>
+<script type="text/javascript">
+   #{if light == '1'}
+	 $(function(){
+	   showHighLight(1, 1, 7);
+	});
+   #{/if}
+   #{elseif light=19}
+     $(function(){
+	   showHighLight(2, 2, 19);
+	 });
+   #{/elseif}
+   #{else}
+     $(function(){
+       showHighLight(2, 2, 16);
+	 });
+   #{/else}
+	
+	function upBid(){
+		window.location.href = "@{supervisor.billCollectionManager.LoanUsers.bidDetail(bid?.upId, light, flag)}"; 
+	}
+	
+	function nextBid(){
+		window.location.href = "@{supervisor.billCollectionManager.LoanUsers.bidDetail(bid?.nextId, light, flag)}"; 
+	}
+</script>
+

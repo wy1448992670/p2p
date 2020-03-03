@@ -1,0 +1,51 @@
+#{extends 'wechat/service/appCommonNext.html' /}
+
+<body>
+<!-- main -->
+<div class="p-myconmuty flex" >
+    <div class="flex-1 p-mylfword">
+        <i class="bgico"></i>
+        <span>${name}</span>
+    </div>
+    #{if type}
+    <div class="p-myrtword" onclick="window.location.href='/app/updateForumName?userId=${userIdStr}'">设置昵称<i class="bgico"></i></div>
+	#{/if}
+</div>
+<ul class="p-mynavitem">
+    <li class="flex" onclick="window.location.href='/app/showMyNews?userId=${userIdStr}'">
+        <div class="flex-1">我的消息</div>
+        <div class="p-myrtword" >&nbsp;#{if count > 0}<i class="iconum">${count}</i>#{/if}<i class="bgico"></i></div>
+    </li>
+    <li class="flex" onclick="window.location.href='/app/myPosts?userId=${userIdStr}'">
+        <div class="flex-1">我的帖子</div>
+        <div class="p-myrtword" >&nbsp;<i class="bgico"></i></div>
+    </li>
+    <li class="flex" onclick="window.location.href='/app/showMyAnswersPosts?userId=${userIdStr}'">
+        <div class="flex-1">我的回帖</div>
+        <div class="p-myrtword" >&nbsp;<i class="bgico"></i></div>
+    </li>
+    <li class="flex" onclick="window.location.href='/app/showMyCollection?userId=${userIdStr}'">
+        <div class="flex-1">我的收藏</div>
+        <div class="p-myrtword" >&nbsp;<i class="bgico"></i></div>
+    </li>
+</ul>
+</body>
+
+<script type="text/javascript">
+	/* $(function(){
+		if('${flash.error}' !='') {
+		  alert('${flash?.error}');
+		  
+		  $.ajax({
+		      url : "@{app.AppController.clesrFlash()}",
+		      type : "POST",
+		      success : function(data) {
+		         
+		      }
+		      
+		    });
+		}
+		
+	}); */
+	
+</script>

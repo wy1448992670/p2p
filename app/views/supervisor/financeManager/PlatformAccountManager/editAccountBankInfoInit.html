@@ -1,0 +1,195 @@
+<div class="xf_ht_jr_obu_width">
+  <div class="xf_fktz_tcc_table">
+  <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form">
+     <input type="hidden" id="accountId" value="${userBankAccounts?.id}" />
+     <tr>
+      <td align="right" width="140">用户名：</td>
+      <td><input readonly="readonly" class="xf_ht_jr_dfk_i_input" type="text" value="${user?.name}"/></td>
+    </tr>
+    <tr>
+      <td align="right" width="140">开户名：</td>
+      <td><input id="accountName" class="xf_ht_jr_dfk_i_input" type="text" value="${userBankAccounts?.accountName}"/></td>
+    </tr>
+   
+   <tr>
+     <td align="right" width="140">银行名称：</td>
+     <td>
+        #{select 'bank', items:bankCodeNameTable, valueProperty:'key', labelProperty:'value', value:userBankAccounts.bankCode, style:'width:185px;padding-left:4px;',class:'xf_membill_selectAge', id:'bankCode' /}
+     </td>
+   </tr>
+   
+    <tr>
+      <td align="right" width="140">银行账号：</td>
+      <td><input id="account" class="xf_ht_jr_dfk_i_input" type="text" value="${userBankAccounts?.account}"/></td>
+    </tr>
+    
+    <tr>
+     <td align="right" width="140">支行所在的省：</td>
+     <td>
+        #{select 'provinceCode', items:provinceCodeNameTable, valueProperty:'key', labelProperty:'value', value:userBankAccounts.provinceCode, style:'width:185px;padding-left:4px;',class:'xf_membill_selectAge', id:'provinceCode' /}
+     </td>
+   </tr>
+   
+   <tr>
+		<td align="right" width="140">支行所在的市：</td>
+		<td>
+			<select id = "city_code" style="width:185px;" class="xf_membill_selectAge">
+				<option>请选择</option>
+			</select>
+		</td>
+  </tr>
+  
+   <tr>
+     <td align="right" width="140">支行名称：</td>
+     <td><input id="branchBankName" class="xf_ht_jr_dfk_i_input" type="text" value="${userBankAccounts?.branchBankName}"/></td>
+   </tr>
+    
+    
+  
+  <tr>
+   <td>&nbsp;</td>
+   <td class="xf_ht_tcc_button">
+     <input class="jbox_ok" type="button" value="修  改" onclick="editBankAccount();">
+     <input class="jbox_on" type="button" value="取  消" onclick="layer.closeAll()">
+   </td>
+ </tr>
+    
+  </table>
+</div>
+</div>
+
+<script type="text/javascript">
+
+  $(function(){
+	 
+	  
+	  var provinceCode = $("#provinceCode").val();
+	  
+	  var cityCode = '${userBankAccounts?.cityCode}';
+	  
+	  if('${userBankAccounts?.provinceCode}' <= 0 ){
+		  $("#provinceCode").prepend("<option value='' selected>请选择</option>");
+	  }
+	  var cityUrl = #{jsAction @supervisor.financeManager.PlatformAccountManager.queryCityCode2NameByProvinceCode(':provinceCode')/}
+	  
+      $.getJSON(cityUrl({provinceCode:provinceCode}),function(data){
+		   var size = data.length;
+		   var temp = '';
+		   $('#city_code').empty();
+		   $('#city_code').append("<option value=''>请选择</option>");
+		   for(var i = 0; i <size;i++){
+		   		temp = "<option value="+data[i].name+">"+data[i].value+"</option>";
+		   		$('#city_code').append(temp);
+		   	}
+		   	
+       	   $("#city_code").val(cityCode);
+  	 }); 
+      
+  });
+  
+  
+  $("#provinceCode").change(function(){
+		var province_code = $("#provinceCode").val();
+ 		var cityUrl = #{jsAction @supervisor.financeManager.PlatformAccountManager.queryCityCode2NameByProvinceCode(':provinceCode')/}
+		   $.getJSON(cityUrl({provinceCode:province_code}),function(data){
+		   var size = data.length;
+		   var temp = '';
+		   $('#city_code').empty();
+		   $('#city_code').append("<option value=''>请选择</option>");
+		   for(var i = 0; i <size;i++){
+		   		temp = "<option value="+data[i].name+">"+data[i].value+"</option>";
+		   		$('#city_code').append(temp);
+		   	}
+		});
+		$("#branchBankName").val("");
+		
+	});
+  
+   $("#bankCode").change(function(){
+	    $("#branchBankName").val("");
+	})
+	
+	$("#city_code").change(function(){
+		  $("#branchBankName").val("");
+	})
+	
+	
+   function editBankAccount(){
+	   
+	   var accountId = $("#accountId").val();
+	   
+	   //开户名
+	   var accountName = $.trim($("#accountName").val());
+	   
+	   //银行编号
+	   var bankCode = $.trim($("#bankCode").val());
+	   
+	   //银行账号
+	   var account = $.trim($("#account").val());
+	   
+	   //支行名称
+	   var branchBankName = $.trim($("#branchBankName").val());
+	   
+	   //支行所在的省
+	   var provinceCode = $.trim($("#provinceCode").val());
+	   
+	   //支行所在的市
+	   var cityCode = $.trim($("#city_code").val());
+	   
+	   
+	   if(accountId <= 0 ){
+		   
+		   alert("数据错误！！");
+		   
+		   return;
+	   }
+	   
+	   if(accountName == ''){
+		   alert("开户名不能为空！！");
+		   return;
+	   }
+	   
+	   if(account == ''){
+		   alert("银行账号不能为空！！");
+		   return;
+	   }
+	   
+	   if(provinceCode != ''){
+		   
+		   if(cityCode == ''){
+			   alert("支行所在的市不能为空！！");
+			   
+			   return;
+		   }
+	   }
+	   
+	   $.ajax({
+		   
+		      url : "@{editBankAccount()}",
+		      type : "POST",
+		      data : {
+		        "accountId" : accountId,
+		        "accountName" : accountName,
+		        "bankCode" : bankCode,
+		        "account" : account,
+		         "branchBankName":branchBankName,
+		        "provinceCode" : provinceCode,
+		        "cityCode":cityCode
+		      },
+		      success : function(data) {
+		    	  
+		        alert(data.msg);
+		        
+		        if (data.code == 0) {
+		          location.reload();
+		        }
+		      },
+		      error : function() {
+		        alert("对不起，出现错误!");
+		      }
+		      
+		    });
+   }
+	
+  
+</script>

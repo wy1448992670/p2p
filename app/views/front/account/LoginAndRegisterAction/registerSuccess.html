@@ -1,0 +1,112 @@
+ #{extends 'common/frontMain.html' /}
+ %{
+  business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+  #{set title:currBackstageSet.seoTitle + '--注册成功' /}
+		<div class="xf_login_centent clr">
+			<div class="xf_login_title xf_login_title2">
+				<span class="xf_login_title_yhdl">注册成功</span>
+			</div>
+			<!-- 注册成功提示 -->
+			<div class="xf_login_centent_l xf_login_centent_l2">
+				<div class="xf_login_centent_rightbj xf_login_centent_rightbj2"></div>
+				<div class="xf_login_inputsr">
+					<ul class="xf_login_inputsrul">
+						<li>
+							<div class="xf_login_inputsrul_l">用户名：</div>
+							<div class="xf_login_inputsrul_r"><input class="xf_login_shurk" type="text" value="${flash?.userName}"></div>
+						</li>
+						*{<li>
+							<div class="xf_login_inputsrul_l">密码：</div>
+							<div class="xf_login_inputsrul_r">
+								<input class="xf_login_shurk" type="password" value="${flash?.password}">
+							</div>
+						</li>}*
+						<li>
+							<div class="xf_login_inputsrul_l">邮箱：</div>
+							<div class="xf_login_inputsrul_r"><input class="xf_login_shurk" type="text" value="${flash?.email}"></div>
+						</li>
+						<li>
+							<div class="xf_login_inputsrul_l">&nbsp;</div>
+							<div class="xf_login_inputsrul_r xf_login_inputsrul_r2">
+								<a href="javascript:void(0);" class="xf_con_inputfbjk" id="xf_con_inputfbjk">激活账户</a>
+								<a href="@{front.account.AccountHome.home()}" class="xf_con_inputfbqux" onclick="goHome()">浏览网站</a>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- 共享登录 -->
+			<div class="xf_login_centent_r">
+				<div class="xf_login_centent_rimg3">
+					<img src="@{'/public/images/login.png'}" width="311" height="313">
+				</div>
+			</div>
+		</div>
+		<!-- 激活用户 -->
+		<div class="xf_zqzrtb_4_window" id="xf_zqzrtb_4_window">
+			<div class="xf_register_4_windowInner">
+				<div class="xf_zqzr_4_windowClose"></div>
+				<div class="xf_wyjkfb_4_windowColName">
+					激活提示
+				</div>
+				<div class="xf_register_4_xxjs">
+					尊敬的会员${flash?.userName}：<br /><br />
+					您的会员账户未激活，请在点击激活按钮后，前往注册邮
+					箱激活您的账户。<br /><br />
+					用户名：${flash?.userName}<br />
+					注册邮箱：${flash?.email}   *{<a href="#" class="xf_register_inxieyi">更换邮箱</a>}*
+				</div>
+				<div class="xf_login_inputsrul_r2 xf_login_inputsrul_r3">
+					<a href="javascript:void(0);" class="xf_con_inputfbjk"  id = "sendMail" onclick="sendMail()">激 活</a>
+					<a href="#" class="xf_con_inputfbqux">取 消</a>
+				</div>
+			</div>
+		</div>
+<script type="text/javascript">
+	$(function(){
+		//激活用户
+		$("#xf_zqzrtb_4_window").center();
+
+		$("#xf_con_inputfbjk").click(function(){				
+			$("#xf_zqzrtb_4_window").show();
+		});
+		$(".xf_zqzr_4_windowClose,.xf_con_inputfbqux").click(function(){
+			$("#xf_zqzrtb_4_window").hide();
+		});
+		
+	});
+	
+	function sendMail(){
+		$.ajax({
+			url : "@{front.account.BasicInformation.activeEmail()}",
+			type : "POST",
+			data : {},
+			success : function(data) {
+			if (data[0].code < 0) {
+				alert(data[0].msg);
+
+				return;
+			}
+			
+			alert(data[0].msg);
+			$("#xf_zqzrtb_4_window").hide();
+			window.open (data[1]) ;
+		},
+	 	error : function() {
+			alert("对不起，出现错误!");
+	 	}
+	});
+		
+		$("#sendMail").attr("onclick","waitToSendEmail()");
+		
+		window.setTimeout(function(){
+			$("#sendMail").attr("onclick","sendMail()");
+			},60000); 
+	}
+	
+	function waitToSendEmail(){
+		alert('请稍后重试');
+	}
+	
+</script>

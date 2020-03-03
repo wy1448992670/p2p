@@ -1,0 +1,36 @@
+<div class="p_zh_b1left">
+    #{img src:"${user?.photo}",id:"image",alt:"用户头像",width:"131",height:"145"}#{/img}
+    <a href="#" title="" class="p_zh_changetx">更换头像</a>
+    <input type="file" name="imgFile" id="imgFile" onchange="upload('imgFile','image');" />
+</div>
+
+<script type="text/javascript">
+    $("#showOrHide").hide();
+    
+    function photo(){
+      $("#showOrHide2").hide();
+      $("#showOrHide").show();
+    }
+    
+	function upload(imgFile, image) {
+		$.ajaxFileUpload({
+			url : '@{front.account.AccountHome.uploadPhoto()}',
+			secureuri : false,
+			fileElementId : 'imgFile',
+			dataType : 'text',
+			success : function(data) {
+				data = $.evalJSON(data);
+				if (data.code < 0) {
+					alert(data.msg);
+	
+					return;
+				}
+				$("#image").attr("src", data.filename);
+				$("#imgFile").val('');
+			},
+			error : function(data, status, e) {
+				alert("上传图片失败");
+			}
+		})
+	}
+</script>

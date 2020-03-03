@@ -1,0 +1,35 @@
+ <div class="xf_ht_ttc" id="xf_ht_off_ttc" style="display:none;">
+   <div class="xf_ht_jr_obu_width">
+     #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xf_ht_jr_obu_form"}
+       #{tr}
+         #{td align:"right", width:"106"}字段名称：#{/td}
+         #{td}
+           <input type="text" class="xf_ht_pro_in_bq" id="fieldName"/>
+           <input type="hidden" id="flag"/>
+           <input type="hidden" id="flag2"/>
+         #{/td}
+       #{/tr}
+       #{tr}
+         #{td align:"right", width:"106"}字段类型：#{/td}
+         #{td}
+           <select id="textType" class="xf_ht_pro_in_bq">
+             <option value="1">单行文本框</option>
+             <option value="2">多行文本框</option>
+           </select>
+         #{/td}
+       #{/tr}
+       #{tr}
+         #{td align:"right", width:"106"}内容：#{/td}
+         #{td}
+           <textarea class="xf_ht_baidu_wkttcc_text" id="fieldContent" style="width:82%;"></textarea>
+         #{/td}
+       #{/tr}
+       #{tr}
+          #{td colspan:"2", class:"xf_ht_pro_tcc_button xf_ht_pro_tcc_button2"}
+            <input class="xf_ht_tcc_button_ok" type="button" value="确  定" onclick="createField();"/>
+            <input class="xf_ht_tcc_button_on" type="button" value="取  消" onclick="closeFrame();" />
+          #{/td}
+       #{/tr}
+     #{/table}
+   </div>
+ </div>

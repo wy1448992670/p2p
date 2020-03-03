@@ -1,0 +1,39 @@
+#{extends 'wechat/common.html' /}
+
+<body>
+	<div class="s_center">
+		<header class="s_header">
+		  <a onclick="self.location=document.referrer;" class="s_goback"></a>
+			<span>站内信详情</span>
+			<a href="@{wechat.account.WechatAccountHome.accountInfo()}" class="icobg"></a>
+		</header>
+		#{if pageBean.page.size() == 1 || pageBean.currPage == 1}
+		  <div class="s_mesgdetail">
+			  <h2>${pageBean.page.get(0).title}</h2>
+			    <article>
+				    <h4>亲爱的${userName}：</h4>
+				    <p>${pageBean.page.get(0).content.raw()}</p>
+				    <div class="articalebtm">
+					    <span>
+						    <br/>${pageBean.page.get(0).time?.format("yyyy-MM-dd HH:mm:ss")}
+					    </span>
+				    </div>
+			    </article>
+		  </div>
+		#{/if}
+		#{else}
+		  <div class="s_mesgdetail">
+			  <h2>${pageBean.page.get(1).title}</h2>
+			    <article>
+				    <h4>亲爱的${userName}：</h4>
+				    <p>${pageBean.page.get(1).content.raw()}</p>
+				    <div class="articalebtm">
+					    <span>
+						    <br/>${pageBean.page.get(1).time?.format("yyyy-MM-dd HH:mm:ss")}
+					    </span>
+				    </div>
+			    </article>
+		  </div>
+		#{/else}
+	</div>
+</body>

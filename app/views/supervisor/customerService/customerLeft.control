@@ -1,0 +1,31 @@
+<div class="xn_c_content_left">
+  <div class="xn_c_content_leftul">
+    <ul>
+    	<li>
+	        <div class="xn_c_li_head_one" id="lab_1">
+				<a class="xn_c_li_head_a" href="@{supervisor.customerService.AuthRecordAction.pageList()}">实名、绑卡失败统计</a>
+	        </div> 
+      	</li>
+      	<li>
+        	<div class="xn_c_li_head_one" id="lab_2">
+				<a class="xn_c_li_head_a" id="hi_2" href="@{supervisor.customerService.AuthRecordAction.userAddress()}">用户所在地查询</a>
+        	</div>
+      	</li>
+    	<li>
+	        <div class="xn_c_li_head_one" id="lab_3">
+	          <a class="xn_c_li_head_a" id="hi_3" href="@{supervisor.customerService.AuthRecordAction.allUser()}">会员列表</a>
+	        </div>
+      	</li>
+      	<li>
+	        <div class="xn_c_li_head_one" id="lab_4">
+	          <a class="xn_c_li_head_a" id="hi_4" href="@{supervisor.customerService.AuthRecordAction.investList()}">投资列表</a>
+	        </div>
+      	</li>
+      	<li>
+	        <div class="xn_c_li_head_one" id="lab_5">
+	          <a class="xn_c_li_head_a" id="hi_5" href="@{supervisor.customerService.AuthRecordAction.allInvest()}">投资账单</a>
+	        </div>
+      	</li>
+     </ul>
+   </div>
+</div>

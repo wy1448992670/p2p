@@ -1,0 +1,129 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    #{form @supervisor.mall.GoodsAction.goodsList(), id:'submit'}
+    <!-- 搜索 -->
+    <div class="xf_ht_search">
+      <div class="xf_ht_search_l">
+        <input type="hidden" id="orderType" name="orderType">
+        <input type="hidden" id="orderStatus" name="orderStatus"/>
+        <input type="hidden" id="currPage" name="currPage"/>
+        <input type="hidden" id="pageSize" name="pageSize"/>
+		<span id="div_0"><a id="tab_0" onClick="conditonSearch(0)">默认排序</a></span>
+		<span id="div_1"><a id="tab_1" onClick="conditonSearch(1)">商品总数<a id="sp1">↑</a></a></span>
+		<span id="div_2"><a id="tab_3" onClick="conditonSearch(2)">商品剩余数<a id="sp2">↑</a></a></span>
+		<span id="div_3"><a id="tab_5" onClick="conditonSearch(3)">兑换积分<a id="sp3">↑</a></a></span>
+		<span id="div_4"><a id="tab_6" onClick="conditonSearch(4)">添加时间<a id="sp4">↑</a></a></span>
+      </div>
+     </div>
+     <div class="xf_ht_search_inon">
+       <div class="xf_ht_search_r">
+         <div class="xf_ht_search_xl">
+           <select name="status" class="xf_membill_selectAge">
+           	<option value="0" selected="selected">请选择</option>
+           	<option value="1" #{if page.conditions?.status == 1} selected="selected" #{/if}>开启</option>
+           	<option value="2" #{if page.conditions?.status == 2} selected="selected" #{/if}>暂停</option>
+           </select>
+         </div>
+         <div class="xf_ht_search_xl">
+           <input name="name" type="text" class="search_w"  value="${page.conditions?.name}" />
+         </div>
+         <div class="xf_ht_search_xl">
+           <input type="submit" class="search_button" value="搜索">
+         </div>
+       </div>
+     </div>
+	#{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xn_c_content_list",tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}商品名称#{/th}
+          #{th}图片#{/th}
+          #{th}商品总数#{/th}
+        
+          #{th}剩余数量#{/th}
+		  #{th}兑换积分#{/th}
+		  #{th}兑换状态#{/th}
+		  #{th}添加时间#{/th}
+		  #{th}操作#{/th}
+        #{/tr}
+		#{list items:page.page, as:'content'}
+        #{tr tr_index:content_index}
+          #{td}${(page?.currPage-1)*page?.pageSize + content_index}#{/td}
+          #{td}${content?.name}#{/td}
+          #{td}<img alt="商品图片" title="${content?.name}" src="${content?.pic_path}" width="50px"/>#{/td}
+          
+          #{td}${content?.max_exchange_count}#{/td}
+          #{td}${content?.surplus}#{/td}
+          #{td}${content?.exchange_scroe}#{/td}
+          #{td}
+          	#{if content?.status == 2} 暂停中 #{/if}
+          	#{else}
+          		#{if content?.surplus > 0} 兑换中 #{/if}
+          		#{else} 兑换完毕 #{/else}
+          	#{/else}	
+          #{/td}
+          #{td}${content?.time?.format('yyyy-MM-dd HH:mm:ss')}#{/td}
+          #{td}
+            <span><a class="xf_ta_onclick" href="@{supervisor.mall.GoodsAction.deleteGoods(content?.id)}">删除</a></span>
+            <span><a class="xf_ta_onclick" href="@{supervisor.mall.GoodsAction.editGoods(content?.id,2)}">编辑</a></span>
+            #{if content?.status == 1}<span><a class="xf_ta_onclick" href="@{supervisor.mall.GoodsAction.stopGoods(content?.id,2)}">暂停</a></span>#{/if}
+            #{else}<span><a class="xf_ta_onclick" href="@{supervisor.mall.GoodsAction.stopGoods(content?.id,1)}">启用</a></span>#{/else}
+          #{/td}
+        #{/tr}
+		#{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4}#{/page}
+      <div class="page_warp_l">
+        #{form @supervisor.mall.GoodsAction.editGoods(0,1), id:'addSubmit'}
+          <input type="submit" value="新增商品" class="xf_htbutton"/>
+        #{/form}
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function() {
+	  var orderType = "${page?.conditions?.orderType}";
+	    $("#orderType").val(orderType);
+	    var orderStatus = "${page?.conditions?.orderStatus}";
+	    $("#orderStatus").val(orderStatus);
+	    var order = $("#div_" + orderType);
+		
+	    /* 初始为默认搜索 */
+		if(orderType == ''){
+			$("#div_0").attr("class", "xf_sea_isshow");
+		}else {
+		  order.attr("class", "xf_sea_isshow");
+		  if(orderStatus == 1){
+		     $("#sp"+orderType).html("↑");
+		  }else{
+		    $("#sp"+orderType).html("↓");
+		  }
+		}
+  })
+  
+  function showPage(currPage, pageSize){
+	    $("#currPage").val(currPage);
+	    $("#pageSize").val(pageSize);
+	    $("#submit").submit();
+	  }
+  
+   function conditonSearch(order){
+	   var orderStatus = "${page?.conditions?.orderStatus}";
+	   var orderType = "${page?.conditions?.orderType}";
+		
+		if(orderStatus == 1 && orderType == order){
+			$("#orderStatus").val(0);
+		}else{
+			$("#orderStatus").val(1);
+		}
+		
+		$("#orderType").val(order);
+		$("#submit").submit();
+   }
+</script>

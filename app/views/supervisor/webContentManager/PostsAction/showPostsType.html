@@ -1,0 +1,98 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'广告条管理' /}
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  #{include "supervisor/webContentManager/common/leftBar.control"/}
+  <!-- 内容区 --> 
+  <div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table class:"xn_c_content_list",cellspacing:"0",cellpadding:"0",border:"0"}
+        #{tr}
+          
+		  #{th}序号#{/th}
+		  #{th}名称#{/th}
+		  
+		  #{th}操作#{/th}
+        #{/tr}
+		#{list items:list, as:"first"}
+        #{tr }
+          
+          #{td}${first_index}#{/td}
+          #{td}${first?.name}#{/td}
+          #{td}
+          #{if first?.status == 0}
+          	<span class="xf_ta_onclick" onClick="updatePostsType('${first?.id}','1')">暂停</span>
+          #{/if}
+          #{else}
+          	<span class="xf_ta_onclick" onClick="updatePostsType('${first?.id}','0')">启用</span>
+          #{/else}
+          	<span class="xf_ta_onclick" onClick="edit(${first?.id})">编辑</span>
+          #{/td}
+         
+        #{/tr}
+        #{/list}
+        
+		
+	
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    
+  </div>
+</div>
+  </div>
+</div>
+<div id="show"></div>
+<script type="text/javascript">
+$(function(){
+	//高亮显示
+	showHighLight(1,6,24);
+});
+
+function updatePostsType(id,status){
+	$.ajax({
+	      url : "@{supervisor.webContentManager.PostsAction.updatePostsType()}",
+	      type : "POST",
+	      data : {
+	    	  idStr:id,
+	    	  statusStr:status
+	      },
+	      success : function(data) {
+	    	
+	        if (data.error.code < 0) {
+	          alert(data.error.msg);
+	          
+	          return;
+	        }
+	        
+	        alert(data.error.msg);
+	        location.reload(); 
+	      }
+	      
+	    });
+  }
+function edit(id){
+	$.ajax({
+	      url : "@{supervisor.webContentManager.PostsAction.queryPostsType()}",
+	      type : "POST",
+	      data : {
+	    	  id:id
+	      },
+	      success : function(data) {
+	    	
+	        $('#show').html(data);
+	        $.layer({
+	          type: 1,
+	          area: ['450', 'auto'],
+	          title: '内容编辑',
+	          page: {dom : '#xf_ht_fkzh_posts'}
+	        });
+	      }
+	      
+	    });
+  }
+  
+</script>

@@ -1,0 +1,405 @@
+#{extends 'wechat/common.html' /}
+<body>
+	<div class="s_main s_center">
+		<header class="s_header">
+			安全设置
+			<a href="@{wechat.account.WechatAccountHome.accountInfo()}" class="icobg"></a>
+		</header>
+		<ul class="s_set">
+			<li>
+				<h3>
+					<span class="tabl">安全手机</span>
+					#{if user?.isMobileVerified}
+					  <span class="red tabm">已绑定</span>
+					  <a href="javascript:void(0)" onclick="SecurityDivSet(1)" class="tabr">修改</a>
+					#{/if}
+					#{else}
+					  <span class="red tabm">未绑定</span>
+					  <a href="javascript:void(0)" onclick="SecurityDivSet(1)" class="tabr">绑定</a>
+					#{/else}
+				</h3>
+				<ul class="s_setbox s_setbox01" id="telephoneSecurity">
+				#{if constants.Constants.CHECK_PIC_CODE}
+					<li>
+						<span class="lil">图形验证码：</span>
+						<span class="lir"><input type="text" class="text textw1" id="code2" name="code2" /><img id="img" class="s_yzm" src="" /></span>
+						
+						<!-- 验证码随机码 -->
+						<input type="hidden" name="randomID" id="randomID" />
+					</li>
+				#{/if}
+					<li>
+						<span class="lil">请输入手机号码：</span>
+						
+						#{if user?.isMobileVerified}
+						  <span class="lir"><input type="text" class="text textw1" id="mobile" value="${user?.mobile}" /><input type="button" id="telephone1" class="getmsg" value="获取验证码" /></span>
+						#{/if}
+					  #{else}
+					    <span class="lir"><input type="text" class="text textw1" id="mobile" /><input type="button" id="telephone1" class="getmsg" value="获取验证码" /></span>
+					  #{/else}
+					</li>
+					<li>
+						<span class="lil">短信验证码：</span>
+						<span class="lir"><input type="text" class="text textw1" id="mobileCode" #{if !constants.Constants.CHECK_MSG_CODE} value="1234" readonly="readonly" #{/if}/></span>
+					</li>
+					<li>
+						<span class="lil"></span>
+						<span class="lir"><input type="button" class="surebtn" onclick="telephoneBinding()" value="确定" /></span>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<h3>
+					<span class="tabl">安全邮箱</span>
+					#{if user?.email != ''}
+					  <span class="tabm">${user?.email}</span>
+					  <a href="javascript:void(0)" onclick="SecurityDivSet(2)" class="tabr">修改</a>
+					#{/if}
+					#{else}
+					  <a href="javascript:void(0)" onclick="SecurityDivSet(2)" class="tabr">添加</a>
+					#{/else}
+				</h3>
+				<ul class="s_setbox" id="mailSecurity">
+					<li>
+						<span class="lil">请输入新邮箱：</span>
+						<span class="lir"><input type="text" class="text textw2" id="newEmail" /></span>
+					</li>
+					<li>
+						<span class="lil"></span>
+						<span class="lir"><input type="button" class="surebtn" onclick="mailUpdate()" value="确定" /></span>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<h3>
+					<span class="tabl">登录密码</span>
+					<span class="tabm">******</span>
+					<a href="javascript:void(0)" onclick="SecurityDivSet(3)" class="tabr">修改</a>
+				</h3>
+				<ul class="s_setbox" id="loginPassSecurity">
+					<li>
+						<span class="lil">请输入新密码：</span>
+						<span class="lir"><input type="password" class="text textw2" id="password" /></span>
+					</li>
+					<li>
+						<span class="lil">确认新密码：</span>
+						<span class="lir"><input type="password" class="text textw2" id="confirmPassword" /></span>
+					</li>
+					<li>
+						<span class="lil"></span>
+						<span class="lir"><input type="button" class="surebtn" onclick="loginPassUpdate()" value="确定" /></span>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<h3>
+					<span class="tabl">交易密码</span>
+					#{if user?.payPassword == null }
+					  <span class="red tabm">未设置</span>
+					#{/if}
+					#{else}
+					  <span class="red tabm"></span>
+					#{/else}
+					#{if user?.payPassword == null }
+					  <a href="javascript:void(0)" onclick="SecurityDivSet(4)" class="tabr">设置</a>
+					#{/if}
+					#{else}
+					  <a href="javascript:void(0)" onclick="SecurityDivSet(5)" class="tabr">修改</a>
+					#{/else}
+				</h3>
+				<ul class="s_setbox" id="dealPassSecurity">
+					<li>
+						<span class="lil">请输入交易密码：</span>
+						<span class="lir"><input type="password" class="text textw2" id="payPasswrod" /></span>
+					</li>
+					<li>
+						<span class="lil">确认交易密码：</span>
+						<span class="lir"><input type="password" class="text textw2" id="confirmPayPasswrod" /></span>
+					</li>
+					<li>
+						<span class="lil"></span>
+						<span class="lir"><input type="button" class="surebtn" onclick="dealPassSet()" value="确定" /></span>
+					</li>
+				</ul>
+				
+				<ul class="s_setbox" id="updateDealPassSecurity">
+					<li>
+						<span class="lil">请输入原交易密码：</span>
+						<span class="lir"><input type="password" class="text textw2" id="oldPwd" /></span>
+					</li>
+					<li>
+						<span class="lil">请输入交易密码：</span>
+						<span class="lir"><input type="password" class="text textw2" id="newPwd" /></span>
+					</li>
+					<li>
+						<span class="lil">确认交易密码：</span>
+						<span class="lir"><input type="password" class="text textw2" id="confirmPwd" /></span>
+					</li>
+					<li>
+						<span class="lil"></span>
+						<span class="lir"><input type="button" class="surebtn" onclick="dealPassUpdate()" value="确定" /></span>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</body>
+
+<script type="text/javascript">
+
+//得到验证码
+$(function(){
+    var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+	$.post(setCode({}),function(data){
+		var arr=eval(data);
+		var img = arr.img;
+		$("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img);	
+		$("#randomID").val(img);
+	});
+});
+
+//改变验证码
+$("#img").click(function(){
+	var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+	$.post(setCode({}),function(data){
+	var arr=eval(data);
+	var img = arr.img;
+	$("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img)	
+	$("#randomID").val(img);
+	});
+});
+
+
+if('${flash.error}' != ''){
+	alert('${flash.error}');
+}
+
+var telephoneMark = false;
+var mailSecurity = false;
+var loginPassSecurity = false;
+var dealPassSecurity = false;
+
+function SecurityDivSet(mark){
+	$(".s_setbox").hide();
+	switch(mark){
+	case 1:
+		if(telephoneMark == false){
+			  telephoneMark = true;
+			  
+			  }else{
+				  telephoneMark = false
+				 }
+			 
+		  if(telephoneMark == true){
+			  $("#telephoneSecurity").show();
+			  
+			  }else{
+				   $("#telephoneSecurity").hide();
+				  }
+		  break;
+	case 2:
+		if(mailSecurity == false){
+			mailSecurity = true;
+			  
+			  }else{
+				  mailSecurity = false
+				 }
+			 
+		  if(mailSecurity == true){
+			  $("#mailSecurity").show();
+			  
+			  }else{
+				   $("#mailSecurity").hide();
+				  }
+		  break;
+	case 3:
+		if(loginPassSecurity == false){
+			loginPassSecurity = true;
+			  
+			  }else{
+				  loginPassSecurity = false
+				 }
+			 
+		  if(loginPassSecurity == true){
+			  $("#loginPassSecurity").show();
+			  
+			  }else{
+				   $("#loginPassSecurity").hide();
+				  }
+		  break;
+	case 4:
+		if(dealPassSecurity == false){
+			dealPassSecurity = true;
+			  
+			  }else{
+				  dealPassSecurity = false
+				 }
+			 
+		  if(dealPassSecurity == true){
+			  $("#dealPassSecurity").show();
+			  
+			  }else{
+				   $("#dealPassSecurity").hide();
+				  }
+		  break;
+	case 5:
+		if(dealPassSecurity == false){
+			dealPassSecurity = true;
+			  
+			  }else{
+				  dealPassSecurity = false
+				 }
+			 
+		  if(dealPassSecurity == true){
+			  $("#updateDealPassSecurity").show();
+			  
+			  }else{
+				   $("#updateDealPassSecurity").hide();
+				  }
+		  break;
+	}
+}
+
+function telephoneBinding(){
+	var mobile = $("#mobile").val();
+	var mobileCode = $("#mobileCode").val();
+	var code2 = $("#code2").val();
+	var randomID = $("#randomID").val();
+	#{if constants.Constants.CHECK_PIC_CODE}
+		if( code2 == ''){
+			alert("请输入图形验证码");
+			return;
+		}
+	#{/if}
+	if(mobile.length == 0){
+		alert("手机号码不能为空");
+		return;
+		
+	}
+
+	if(mobileCode.length == 0){
+		alert("手机验证码不能为空");
+		return;
+		
+	}
+
+	window.location.href = "@{wechat.account.WechatAccountHome.saveMobile()}?code="+ mobileCode+ "&mobile=" + mobile+"&code2=" + code2 + "&randomID=" + randomID;
+}
+
+function mailUpdate(){
+	var email = $("#newEmail").val();
+
+	if(email.length == 0){
+		alert("邮箱不能为空");
+		return;
+		
+		}
+
+	window.location.href = "@{wechat.account.WechatAccountHome.saveEmail()}?email="+ email;
+}
+
+function loginPassUpdate(){
+	var password = $("#password").val();
+	var confirmPassword = $("#confirmPassword").val();
+
+	if(password.length == 0){
+		alert("新密码不能为空");
+		return;
+		
+		}
+
+	if(confirmPassword.length == 0){
+		alert("确认新密码不能为空");
+		return;
+		
+		}
+		
+    var loginPass = #{jsAction @wechat.account.WechatAccountHome.savePassword(':password', ':confirmPassword')/}
+	$.post(loginPass({password:password, confirmPassword:confirmPassword}),function(data){
+	    var arr = eval(data);
+          
+	    if(arr.error.code < 0){
+	        alert(arr.error.msg);
+	        return;
+	    } 
+	    
+	    alert(arr.error.msg);
+	    window.location.href = "@{wechat.account.WechatAccountHome.loginOut()}";
+	});
+}
+
+function dealPassSet(){
+	var payPasswrod = $("#payPasswrod").val();
+	var confirmPayPasswrod = $("#confirmPayPasswrod").val();
+
+	if(payPasswrod.length == 0){
+		alert("交易密码不能为空");
+		return;
+		
+		}
+
+	if(confirmPayPasswrod.length == 0){
+		alert("确认交易密码不能为空");
+		return;
+		
+		}
+
+	window.location.href = "@{wechat.account.WechatAccountHome.addPayPassword()}?payPasswrod="+ payPasswrod+ "&confirmPayPasswrod=" + confirmPayPasswrod;
+}
+
+function dealPassUpdate(){
+	var oldPwd = $("#oldPwd").val();
+	var newPwd = $("#newPwd").val();
+	var confirmPwd = $("#confirmPwd").val();
+
+	if(oldPwd.length == 0){
+		alert("原交易密码不能为空");
+		return;
+		
+		}
+
+	if(newPwd.length == 0){
+		alert("交易密码不能为空");
+		return;
+		
+		}
+
+	if(confirmPwd.length == 0){
+		alert("确认交易密码不能为空");
+		return;
+		
+		}
+
+	if(confirmPwd != newPwd){
+		alert("两次输入密码不一致");
+		return;
+		
+		}
+
+	window.location.href = "@{wechat.account.WechatAccountHome.savePayPassword()}?oldPwd="+ oldPwd+ "&newPwd=" + newPwd+"&confirmPwd="+confirmPwd;
+}
+
+$("#telephone1").click(function(){
+	var mobileFi = $("#mobile").val().trim();
+	var code2 = $("#code2").val();
+	var randomID = $("#randomID").val();
+	if(!mobileFi.isMobileNum()) {
+		alert("请输入正确的手机号码");
+		return;
+	}
+	var verifyMobile = #{jsAction @front.account.LoginAndRegisterAction.verifyMobile(':mobile',':code',':randomID')/}
+	$.post(verifyMobile({mobile:mobileFi, code:code2, randomID:randomID}),function(data){
+	    var arr = eval(data);
+          
+	    if(arr.error.code < 0){
+	        alert(arr.error.msg);
+	        return;
+	    } 
+	    
+	    teleCodeTimer("telephone1");
+	});
+})
+</script>
+
+
+

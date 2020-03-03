@@ -1,0 +1,57 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'编辑流量统计代码' /}
+<div class="xfht_t_j_k"> 
+<!--左-->
+#{include "supervisor/networkMarketing/CPSSpreadAction/networkMarketingLeft.control"/}
+  <div class="xn_c_content">
+    <div class="xf_content_add">
+      <div class="xfht_t_j_y_2">
+      <!-- 编辑流量统计代码 -->
+        <div class="xf_ht_baidu_llsz">
+        #{form @saveNetworkTraffic(), id:'submit'}
+        <input type="hidden" name="code" id="code"/>
+          <table border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="288" valign="top" align="right">百度流量统计代码：</td>
+              <td><textarea class="xf_ht_baidu_llsz_text" id="textCode" style="width: 500px;">${backstageSet?.baiduCode}</textarea></td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td><input class="xf_ht_tcc_button_ok" type="button" onClick="saveInfo()" value="保 存"></td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>
+                <div class="xf_ht_baidu_xt">当百度流量统计代码获取异常时，请在此重新输入代码。<br />
+                                            代码获取来源：请登录<span class="xfht_t_sh_1"><a href="http://tongji.baidu.com/web/welcome/login" target="_blank">百度流量统计系统</a></span>复制即可。
+                </div>
+              </td>
+            </tr>
+          </table>
+        #{/form}
+      </div>
+    </div>
+    <div class="xfht_t_j_y_3"></div>
+  </div>
+</div>
+</div>
+<script type="text/javascript">
+$(function(){
+	 /* 高亮显示 */
+	showHighLight(2,2,5);
+})
+
+function saveInfo(){
+  var content = $("#textCode").val().replaceAll("script","#s");
+  content = content.replaceAll("https","#h")
+  content = content.replaceAll("document","#doc")
+  $("#code").val(content);
+  
+  if($("#code").val() == ''){
+     alert("内容不能为空 ");
+     return;
+  }
+  
+  $("#submit").submit();
+ }
+</script>

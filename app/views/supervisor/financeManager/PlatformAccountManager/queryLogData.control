@@ -1,0 +1,297 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+  <!-- 搜索 -->
+  #{form @supervisor.financeManager.PlatformAccountManager.queryLogData(), id:'submit'}
+  <div class="xf_ht_search">
+    <input type="hidden" id="currPage" name="currPage"/>
+    <input type="hidden" id="pageSize" name="pageSize"/>
+  </div>
+  <div class="xf_ht_search_inon">
+    <div class="xf_ht_search_r">
+	    <div class="xf_ht_search_xl">
+	      <span class="search_timesp">申请时间：</span>
+	      <input type="text" class="search_time" name="startDate" id="startDate" onclick="laydate()" class="laydate-icon" style="cursor:pointer" value="${page?.conditions?.beginTime}">
+	      <span class="search_timesp">--</span>
+	      <input type="text" class="search_time" name="endDate" id="endDate" onclick="laydate()" class="laydate-icon" style="cursor:pointer" value="${page?.conditions?.endTime}">
+	    </div>
+     
+	    <div class="xf_ht_search_xl">
+	      <span class="search_timesp">用户名：</span>
+	      <input type="text" class="search_w" name="username" id="username" value="${page?.conditions?.username}" />
+	    </div> 
+        <div class="xf_ht_search_xl">
+	      <span class="search_timesp">流水号：</span>
+	      <input type="text" class="search_w" name="orderNumm" id="orderNumm" value="${page?.conditions?.orderNum}" />
+	    </div> 
+	    <div class="xf_ht_search_xl">
+	      <span class="search_timesp">状态：</span>
+	      <input type="text" class="search_w" name="status" id="status" value="${page?.conditions?.status}" />
+	    </div>
+	    <div class="xf_ht_search_xl">
+	      <span class="search_timesp">类型：</span>
+	      <input type="text" class="search_w" name="type" id="type" value="${page?.conditions?.type}" />
+	    </div>  
+	   *{ <div class="xf_ht_search_xl">
+	   <span class="search_timesp">关键字：</span>
+	      <input type="text" class="search_w" name="key" id="key" value="${page?.conditions?.key}" />
+	    </div>
+	    }*
+	    <div class="xf_ht_search_xl">
+	      <input type="submit" class="search_button" onclick="search();" value="搜索">
+	    </div>
+    </div>
+  </div>
+  #{/form}
+  <!-- 列表内容 -->
+  <div class="xn_c_content_top">
+    #{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+    #{tr}
+      #{th}序号#{/th}
+      #{th}用户名#{/th}
+      #{th}流水号#{/th}
+      #{th}回调时间#{/th}
+      #{th}类型#{/th}
+      #{th}状态#{/th}
+      #{th}操作#{/th}
+    #{/tr}
+    #{list page.page}
+    #{tr tr_index:_index}
+      #{td}${(page?.currPage - 1)*page?.pageSize + _index}#{/td}
+      #{td}
+      #{if _?.user_name == null}
+     	--	
+      #{/if}
+      #{else}
+      ${_?.user_name}
+      #{/else}
+      #{/td}
+      #{td}${_?.orderNum}#{/td}
+      #{td}${_?.return_time}#{/td}
+      #{td}  
+      #{if _?.type == 'REGISTER'}
+      	开户
+      #{/if}
+      #{if _?.type == 'RECHARGE'}
+      	充值
+      #{/if}
+      #{if _?.type == 'BIDCREATE'}
+      	标的发布
+      #{/if}
+      #{if _?.type == 'INVEST'}
+      	投标
+      #{/if}
+      #{if _?.type == 'AUTO_INVEST'}
+      	自动投标
+      #{/if}
+      #{if _?.type == 'WITHDRAW'}
+      	提现
+      #{/if}
+      #{if _?.type == 'BID_AUDIT_SUCC'}
+      	满标审核
+      #{/if}
+      #{if _?.type == 'BID_AUDIT_FAIL'}
+      	流标
+      #{/if}
+      #{if _?.type == 'APPLY_CREDIT'}
+      	提高信用额度
+      #{/if}
+      #{if _?.type == 'APPLY_VIP'}
+      	申请VIP
+      #{/if}
+      #{if _?.type == 'DEBTOR_TRANSFER'}
+      	债权转让
+      #{/if}
+      #{if _?.type == 'DEBTOR_TRANSFER_CONFIRM'}
+      	债权转让成交
+      #{/if}
+      #{if _?.type == 'ADVANCE'}
+      	垫付
+      #{/if}
+      #{if _?.type == 'REPAYMENT'}
+      	还款
+      #{/if}
+      #{if _?.type == 'QUERY_AMOUNT'}
+      	余额查询
+      #{/if}
+      #{if _?.type == 'QUERY_BANKS'}
+      	获取银行列表
+      #{/if}
+      #{if _?.type == 'UNFREEZE'}
+      	解冻保证金
+      #{/if}
+      #{if _?.type == 'AUTO_REPAYMENT_SIGNATURE'}
+      	自动还款签约
+      #{/if}
+      #{if _?.type == 'AUTO_INVEST_SIGNATURE'}
+      	自动投标签约
+      #{/if}
+      #{if _?.type == 'USER_BIND_CARD'}
+      	用户绑卡
+      #{/if}
+      #{if _?.type == 'CASH_AUDIT'}
+      	提现复核
+      #{/if}
+      #{if _?.type == 'USRFREEZE'}
+      	资金冻结
+      #{/if}
+       #{if _?.type == 'LOANS'}
+      	放款
+      #{/if}
+      #{if _?.type == 'ADVANCE_CONFIRM'}
+      	垫付成交
+      #{/if}
+      #{if _?.type == 'ADVANCE_REPAYMENT'}
+      	垫付还款
+      #{/if}
+      #{if _?.type == 'TRANSFER'}
+      	转账
+      #{/if}
+      #{if _?.type == 'GRANTCPS'}
+      	CPS推广奖励发放
+      #{/if}
+      #{if _?.type == 'AWARD'}
+      	投标奖励
+      #{/if}
+      #{if _?.type == 'BID_FEE'}
+      	借款管理费
+      #{/if}
+      #{if _?.type == 'GRANT_INVITATION'}
+      	佣金发放
+      #{/if}      
+      #{if _?.type == 'OVER_BIDINVEST'}
+      	投资超标
+      #{/if}
+      #{if _?.type == 'USER_ACCOUNT_PAY'}
+      	用户支付
+      #{/if}      
+      #{if _?.type == 'AGENTRECHARGE'}
+      	代理充值
+      #{/if}      
+      #{if _?.type == 'LOGIN_ACCOUNT'}
+      	用户登入
+      #{/if}      
+      #{if _?.type == 'QUERY_BINDED_CARDS'}
+      	查询用户绑定银行卡列表
+      #{/if}      
+      #{if _?.type == 'OFFLINE_REPAYMENT'}
+      	线下收款(登记担保方)
+      #{/if}                       
+      #{/td}
+      #{td}
+      #{if _?.status == 2}
+      	成功
+      #{/if}
+      #{else}
+      		失败
+      #{/else}
+      #{/td}
+      #{td}
+      <span > <a onclick="details('${_?.id}')" class="xf_ta_onclick">查看回调参数</span>
+      <span>  <a onclick="detailsTwo('${_?.orderNum}');" class="xf_ta_onclick">查看提交参数</a></span>
+      <span>  <a onclick="supplement('${_?.id}')" class="xf_ta_onclick">补单</a></span>
+      #{/td}
+    #{/tr}
+    #{/list}
+    #{/table}
+  </div>
+  <!-- 列表底部 -->
+  <div class="xn_c_content_bottom">
+    <div class="page_warp">
+    #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4}#{/page}
+    </div>
+  </div>
+  </div>
+</div>
+ 
+<!-- 详情-弹出层 -->
+<div class="xn_c_ban_jox xn_c_ban_jox_fktz" id="xf_ht_xq_ttc1" style="display:none; width:500px; >
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_fktz_tcc_table">
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form" width="100%" id ="dataInfo">
+        <tr>
+          <td align="right"  width="140">用户名：</td>
+          <td><span id="xqamount"></span></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top" width="140">流水号：</td>
+          <td><span id="xqbankInfo"></span></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="xf_ht_tcc_button">
+            <input class="jbox_ok" type="button" value="确  定" onclick="layer.closeAll()">
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!--  -->
+  </div>
+</div>
+<div id="msg" style="display:none;">
+
+</div>
+<script type="text/javascript">
+$(function(){
+	//高亮显示
+	showHighLight(7,7,71);
+});
+
+/* 搜索 */
+function search(){
+  $("#submit").submit();
+}
+function showPage(currPage, pageSize){
+    $("#currPage").val(currPage);
+    $("#pageSize").val(pageSize);
+    $("#submit").submit();
+  }
+  
+  
+ 
+  function supplement(id){
+   var listAction = #{jsAction @supervisor.financeManager.PlatformAccountManager.singleSupplement(":id") /};
+    $.post(listAction({id:id}), function(data) {
+    	$.post(data.url, data,  function(data1){
+    		alert("操作成功, 请核对结果!");
+    		
+    	})
+    	
+      });
+  }
+
+  
+    /* 详情 */
+  function details(orderNum){
+   var listAction = #{jsAction @supervisor.financeManager.PlatformAccountManager.lookForRarkInfo(":orderNum") /};
+    $.post(listAction({orderNum:orderNum}), function(data) {
+    	$("#dataInfo").html(data);
+    	$.layer({
+        type: 1,
+        area: ['1000', 'auto'],
+        title: '回调参数详情',
+        page: {dom : '#xf_ht_xq_ttc1'}
+      });
+    });
+    
+  }
+
+  /* 详情 */
+  function detailsTwo(orderNum){
+   var listAction = #{jsAction @supervisor.financeManager.PlatformAccountManager.lookForSendRarkInfo(":orderNum") /};
+    $.post(listAction({orderNum:orderNum}), function(data) {
+    	$("#dataInfo").html(data);
+    	$.layer({
+        type: 1,
+        area: ['1200', 'auto'],
+        title: '提交参数详情',
+        page: {dom : '#xf_ht_xq_ttc1'}
+      });
+    });
+    
+  }
+  
+
+</script>

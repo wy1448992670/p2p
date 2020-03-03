@@ -1,0 +1,20 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'优惠券管理' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  		#{include '/supervisor/activity/OperatingActivitiesLeft.control'/}
+  		#{include 'supervisor/systemSettings/RedPackageAction/redPackagePageContent.control'/}
+      </div>
+</div>
+ <script>
+ $(function(){
+	//高亮显示
+	var couponFlag=${couponFlag};
+	if('2'==couponFlag){
+		showHighLight(1,10,101);
+	}else{
+		showHighLight(1,8,81);
+	}
+	
+ })
+ </script>

@@ -1,0 +1,19 @@
+	<h3>还款明细</h3>
+	<table cellpadding="0" cellspacing="0" border="0" width="100%" class="s_noborder">
+		<tr>
+			<td width="10%">期数</td>
+			<td width="23%">月还本息</td>
+			<td width="23%">月还本金</td>
+			<td width="23%">月还利息</td>
+			<td width="21%">本息余额</td>
+		</tr>
+	#{list items:payList}
+		<tr>
+			<td>${_index}</td>
+			<td>${_?.monPay?.format('###,##0.00')}</td>
+			<td>${_?.monPayAmount?.format('###,##0.00')}</td>
+			<td>${_?.monPayInterest?.format('###,##0.00')}</td>
+			<td>${_?.stillPay?.format('###,##0.00')}</td>
+		</tr>
+	#{/list}
+	</table>

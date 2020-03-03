@@ -1,0 +1,110 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    #{form @partner(), id:'partnersearch'}
+    <!-- 搜索 -->
+    <div class="xf_ht_search_inon">
+      <div class="xf_ht_search_r">
+        <div class="xf_ht_search_xl">
+          <input id="keywords" name="partnerName" type="text" class="search_w" placeholder="请输入关键词" value="" />
+        </div>
+        <div class="xf_ht_search_xl">
+          <input type="submit" class="search_button" value="搜索">
+        </div>
+      </div>
+    </div>
+	#{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xn_c_content_list",tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}名称#{/th}
+          #{th}所在位置#{/th}
+          #{th}分辨率#{/th}
+          #{th}建议文件大小#{/th}
+		  #{th}文件格式#{/th}
+		  #{th}广告链接#{/th}
+		  #{th}排序#{/th}
+		  #{th}操作#{/th}
+        #{/tr}
+		#{list items:partners, as:'partner'}
+        #{tr  tr_index:partner_index}
+          #{td}${partner_index}#{/td}
+          #{td}${partner?.name}#{/td}
+          #{td}${partner?.location}#{/td}
+          #{td}${partner?.resolution}#{/td}
+		  #{td}${partner?.fileSize}#{/td}
+		  #{td}${partner?.fileFormat}#{/td}
+		  #{td}${partner?.url}#{/td}
+		  #{td}${partner?.order}#{/td}
+          #{td}
+            <span class="xf_ta_onclick" onClick="edit('${partner?.id}')">编辑</span>
+            <span class="xf_ta_onclick" onClick="deletePartner('${partner?.id}')">删除</span>
+          #{/td}
+        #{/tr}
+		#{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      <input class="xf_ggnr_help_input" type="button" id="addPartner" onClick="addPartnerContent()" value="添加合作伙伴">
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  function deletePartner(id){
+    var deletPartner = #{jsAction @deletPartner(':idStr')/}
+    $.post(deletPartner({idStr:id}),function(data){
+      var arr=eval(data);
+		
+      if(arr.error.code < 0){
+        alert(arr.error.msg);
+        
+        return;
+      }
+		
+      alert(arr.error.msg);
+      location.reload();
+    });
+  }
+      
+  function edit(adsId){
+    $.ajax({
+      url : "@{partnerEditor(adsId)}",
+      type : "POST",
+      data : {
+        adsId : adsId
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+          
+          return;
+        }
+        $('#show').html(data);
+        $.layer({
+          type: 1,
+          area: ['500', 'auto'],
+          title: '合作伙伴编辑',
+          page: {dom : '#xf_ht_fkzh_tt'}
+        });
+      },
+      error : function() {
+        alert(data.msg);
+      }
+    });
+  }
+		
+  function addPartnerContent(){
+    $.layer({
+      type: 1,
+      area: ['500', 'auto'],
+      title: '添加合作伙伴',
+      page: {dom : '#xf_ht_fkzh_tt_add'}
+    });
+  }	
+	 
+  function commit(){
+    $("#partnersearch").submit();
+  }
+</script>

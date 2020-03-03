@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/yystyle.css'}" />	
+<script type="text/javascript" src="@{'/public/javascripts/jquery-2.1.0.min.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/yyjs.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/jquery.roundabout2.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/jquery.easing.1.3.js'}"></script>
+<title>优质标推荐再不投就晚了</title>
+</head>
+
+<body>
+
+<div class="y_bdtop">
+	<ul class="y_bdtopul clr">
+		<li>
+			<div class="y_jd">
+				<div class="progress" pro="${bid?.loanSchedule.intValue()}">
+					<div class="progress-cover"><span></span>%</div>
+					<div class="left-bar">
+						<div class="half-circle"></div>
+					</div>
+					<div class="right-bar">
+						<div class="half-circle"></div>
+					</div>
+				</div>
+			</div>
+			<article class="y_bdjd">借款进度</article>
+		</li>
+		<li>
+			<div class="y_bdlv">
+				<article class="y_qxco"><span>${bid?.period}</span>${bid?.strPeriodUnit}</article>
+			</div>
+			<article class="y_bdjd">借款期限</article>
+		</li>
+		<li>
+			<div class="y_bdlv">
+				<article class="y_lvco"><span>${bid.apr}</span>%</article>
+			</div>
+			<article class="y_bdjd">年利率</article>
+		</li>
+	</ul>
+</div>
+
+
+<script type="text/javascript">
+	$(function(){
+		$(".progress").map(function(){
+			var _this = this,
+				leftBar = $(_this).find(".left-bar").children(".half-circle"),
+				rightBar = $(_this).find(".right-bar").children(".half-circle"),
+				text = $(_this).children(".progress-cover").children("span"),
+				num = $(_this).attr("pro"),
+				timeid,
+				i = 0;
+			timeid = setInterval(function(){
+				if(num <= 50){
+					if(i < num){
+						rightBar.css("transform","rotate("+3.6*i+"deg)");
+						text.text(i);
+						i++;
+					}else{
+						rightBar.css("transform","rotate("+3.6*num+"deg)");
+						text.text(num);
+						clearInterval(timeid);
+					}
+				}else{
+					if(i <= 50){
+						rightBar.css("transform","rotate("+3.6*i+"deg)");
+						text.text(i);
+						i++;
+					}else if(i > 50 && i < num){
+						rightBar.css("transform","rotate("+3.6*50+"deg)");
+						left.css("transform","rotate("+3.6*(i-50)+"deg)");
+						text.text(i);
+						i++;
+					}else{
+						rightBar.css("transform","rotate("+3.6*(num-50)+"deg)");
+						text.text(num);
+						clearInterval(timeid);
+					}
+				}
+			},50);
+		})
+	});
+	$(document).ready(function() { 
+	$('.y_bdtopul').roundabout({
+		easing: 'easeOutInCirc',
+		duration: 600
+	});
+	$(".y_bdtopul>li").click(function(){
+		$(this).addClass("scale").siblings().removeClass("scale");
+	})
+	
+	
+});
+
+	window.onload = showTime;
+	 function showTime(){
+				    var endTime ="${bid?.investExpireTime?.format('yyyy/MM/dd HH:mm:ss')}";
+				      
+				     time_end = new Date(endTime);//结束的时间
+				      
+			          var tt = time_end.getTime();
+				      var now = new Date().getTime();
+		              var cha = tt-now;
+		              var SysSecond=parseInt(cha);
+				 console.log(SysSecond)
+				 	 if (SysSecond > 0) { 
+				 	 
+ 	                  int_day=Math.floor(SysSecond/86400000);
+                    SysSecond-=int_day*86400000;
+                    int_hour=Math.floor(SysSecond/3600000);
+                    SysSecond-=int_hour*3600000;
+                    int_minute=Math.floor(SysSecond/60000);
+                    SysSecond-=int_minute*60000;
+                    int_second=Math.floor(SysSecond/1000);
+          
+                  if(int_hour<10){
+           	       int_hour="0"+int_hour;
+			          }
+			 
+                 if(int_minute<10){
+         		       int_minute="0"+int_minute;
+		              }
+		     
+     		       if (int_second<10){
+          	      int_second="0"+int_second;
+                     }
+			       $('.overtime').html(''+int_day + '天' + int_hour + '时' + int_minute + '分' + int_second + '秒' );
+		       }else{
+		    	 $('.overtime').html('0秒');
+		       }
+			setTimeout('showTime()',1000); 
+	     }
+</script>
+
+<div class="y_bdmain">
+	<ul class="y_bdcen">
+		<li class="y_ble">
+			<article class="fl">${bid.title}</article>
+			<span class="fr">${bid?.product?.name}</span>
+		</li>
+		<li>
+			<span class="fl">借款金额</span>
+			<span class="fr"><span class="y_hf18">${bid.amount}</span>元</span>
+		</li>
+		<li>
+			<span class="fl">还款方式</span>
+			<span class="fr">${bid?.repayment?.name}</span>
+		</li>
+		<li>
+			<span class="fl">投标剩余时间</span>
+			<span class="fr overtime">22:07:11</span>
+		</li>
+	</ul>
+</div>
+<div class="y_bdfot">
+	<a href="@{front.account.LoginAndRegisterAction.appReg(recommend)}" class="y_bda">一起赚钱吧</a>
+	<footer class="y_fot"><span>下载晓风APP，开启财富之旅<i class="y_bg"></i></span></footer>
+</div>
+</body>
+</html>

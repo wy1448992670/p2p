@@ -1,0 +1,61 @@
+<div class="xn_c_ban_jox" id="xf_ht_js_obu_width" style="display:none;">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_ht_ptjbk_shok_bottom">
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jbox_znx" width="100%">
+        <tr>
+          <td align="right" width="112">会员名：</td>
+          <td>${msg.senderUserName}</td>
+        </tr>
+        <tr>
+          <td align="right" width="112">拒收原因：</td>
+          <td>
+          	<textarea id="reason" class="xf_ht_jr_halp_textarea"></textarea>
+          	<span>最多可输入100字</span>
+          </td>
+        </tr>
+        <tr>
+          <td align="right">&nbsp;</td>
+          <td style="padding:20px 0 40px 0;">
+            <input class="xf_ht_tcc_button_ok" type="button" value="加入拒收">
+            <input class="xf_ht_tcc_button_on" type="button" value="返  回">
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function() {
+    //拒收
+    $(".xf_ht_tcc_button_ok").click(function() {
+      var reason = $("#reason").val();
+      if ("" == $("#reason").val() || reason.length > 100) {
+        alert("拒收原因需在1~100字之间!");
+				
+        return;
+      }
+			
+      $.ajax({
+        url : "@{reject()}",
+        type : "POST",
+        data : {
+          "userId" : ${msg.senderUserId},
+          "reason":reason
+        },
+        success : function(data) {
+          alert(data.msg);
+          layer.closeAll();
+        },
+        error : function() {
+          alert("对不起，出现错误!");
+        }
+      });
+
+    });
+
+    //返回
+    $(".xf_ht_tcc_button_on").click(function() {
+      layer.closeAll();
+    });
+  });
+</script>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	    <link rel="stylesheet" type="text/css" href="/public/stylesheets/newreg/media-100.css"/>
+	    <!--<link rel="stylesheet" href="css/zyyapp.css" />-->
+	    <!--<link rel="stylesheet" type="text/css" href="css/css.css"/>-->
+	   <style>
+	   		
+	   		
+	   </style>
+	</head>
+	<body>
+		<div class="big">
+			<img src="/public/images/appreg/tuiguang_01_01.jpg" alt="" />
+			<img src="/public/images/appreg/tuiguang_01_02.jpg" alt="" />
+			<img src="/public/images/appreg/tuiguang_01_03.jpg" alt="" />
+			<img src="/public/images/appreg/tuiguang_01_04.jpg" alt="" />
+			<img src="/public/images/appreg/tuiguang_01_05.jpg" alt="" />
+			<img src="/public/images/appreg/tuiguang_01_06.jpg" alt="" />
+			<img src="/public/images/appreg/tuiguang_01_07.jpg" alt="" />
+			#{form @front.account.loginAndRegisterAction.appRegMobile(), id:'appReg',class:'all'}
+				<input type="hidden" name="name" id="name" placeholder="用户名">
+				<input type="hidden" name="recommendName" value="推荐人：${recommendName}">
+		    	<input type="text" id="tel" class="tel" placeholder="请输入手机号" name="mobile"/>
+				<input type="password" id="pw" placeholder="请输入登录密码" name="password"/>
+				<p class="stip">密码由6-20位的数字、字母组成</p>
+				<input type="text" class="yzm_01" placeholder="请输入验证码" name="smsCode"/><input type="button" id="get_yzm" class="yzm_02" value="获取验证码" onclick="sendCode()"/>
+				<p class="yes_no">
+					<input type="checkbox" id="agree" checked />我同意
+					<a class="open2" href="#" >《亿亿理财用户注册协议》</a> 
+				
+				</p>
+				<div id=reg class="zc">注册领红包</div>
+				<span class="had">已有账户</span>
+			<a class="down_load" href="@{app.AppController.download()}">下载APP</a>
+			#{/form}
+			
+				
+			<!--遮罩层-->
+		<div class="lay">
+			
+			
+		</div>
+		<!--弹出层-->
+		
+				
+			
+			
+			
+		</div>
+	    <div class="pop  pp_car">
+			<div class="con_tit">亿亿理财用户注册协议</div>
+			<div class="con_text">
+				<p class="p_one">
+					在您注册成为本网站用户前请务必仔细阅读以下条款。若您一旦注册,则您接受本网站的服务必须受以下条款的约束。
+				</p>
+				<p>本服务协议内容包括以下条款及已经发布的或将来可能发布的各类规则。所有规则为协议不可分割的一部分,与协议正文具有同等法律效力。本协议是由您与本网站共同签订的,适用于您在本网站的全部活动。在您注册成为用户时,您已经阅读、理解并接受本协议的全部条款及各类规则,并承诺遵守中国现行的法律、法规、规章及其他政府规定,如有违反而导致任何法律后果的发生,您将以自己的名义独立承担所有相应的法律责任。</p>
+				<p>本网站有权根据需要不时地制定、修改本协议或各类规则,如本协议及规则有任何变更,本网站将在网站上刊载公告,经修订的协议、规则一经在公布后,立即自动生效。您应不时地注意本协议及附属规则地变更,若您不同意相关变更,本网站有权不经任何告知终止、中止本协议或者限制您进入本网站的全部或者部分板块且不承担任何法律责任。</p>
+				<p>您只要复选注册页面中的“我已阅读完全理解并同意亿亿理财在线的服务条款和隐私规则”并按照本网站规定的注册程序成功注册为用户,您的行为既表示同意并签署了本服务协议。本服务协议不涉及您与本网站的其他用户之间因网上交易而产生的法律关系及法律纠纷。</p>
+				<p>一、使用限制</p>
+				<p>本网站中的全部内容的版权均属于本网站所有,该等内容包括但不限于文本、数据、文章、设计、源代码、软件、图片、照片及其他全部信息(以下称“网站内容”)。网站内容受中华人民共和国著作权法及各国际版权公约的保护。未经本网站事先书面同意,您承诺不以任何方式、不以任何形式复制、模仿、传播、出版、公布、展示网站内容,包括但不限于电子的、机械的、复印的、录音录像的方式和形式等。您承认网站内容是属于本网站的财产。未经本网站书面同意,您亦不得将本网站包含的资料等任何内容镜像到任何其他网站或者服务器。任何未经授权对网站内容的使用均属于违法行为,本网站将追究您的法律责任。</p>
+				<p>您承诺合法使用本网站提供的服务及网站内容。禁止在本网站从事任何可能违反中国现行的法律、法规、规章和政府规范性文件的行为或者任何未经授权使用本网站的行为,如擅自进入本网站的未公开的系统、不正当的使用密码和网站的任何内容等。</p>
+				<p>本网站只接受中国大陆(不包括香港特区、澳门特区及台湾地区)的18周岁以上的具有完全民事行为能力的自然人成为网站用户。如您不符合资格,请勿注册。本网站保留中止或终止您用户资格的权利。</p>
+				<p>您注册成功后,不得将本网站的用户名转让给第三方或者授权给第三方使用。您确认,您用您的用户名和密码登陆本网站后在本网站的一切行为均代表您并由您承担相应的法律后果。</p>
+				<p>您有义务在注册时提供自己的真实资料,并保证诸如电子邮件地址、联系电话、联系地址、邮政编码等内容的有效性及安全性。如您因网上交易与其他用户产生诉讼的,用户有权通过司法部门要求网站提供相关资料。</p>
+				<p>经国家生效法律文书或行政处罚决定确认您存在违法行为,或者本网站有足够事实依据可以认定您存在违法或违反本服务协议的行为的或者您借款逾期未还的,本网站有权在因特网络上公布您的违法、违约行为,并有关将该内容记入任何与您相关的信用资料和档案。</p>
+				<p>二、涉及第三方网站</p>
+				<p>本网站的网站内容可能涉及由第三方所有、控制或者运营的其他网站(以下称“第三方网站”)。本网站不能保证也没有义务保证第三方网站上的信息的真实性和有效性。您确认按照第三方网站的服务协议使用第三方网站,而不是按照本协议。第三方网站不是本网站推荐或者介绍的,第三方网站的内容、产品、广告和其他任何信息均由您自行判断并承担风险,而与本网站无关。</p>
+				<p>三、责任限制</p>
+				<p>在任何情况下,本网站方对您使用本网站服务而产生的任何形式的的直接或间接损失均不承担法律责任,包括但不限于资金损失、利润损失、营业中断损失等。因为本网站或者涉及的第三方网站的设备、系统存在缺陷或者因为计算机病毒造成的损失,本网站均不负责赔偿,您的补救措施只能是与本网站终止本协议并停止使用本网站。但是,中国现行法律、法规另有规定的除外。</p>
+				<p>四、网站内容监测</p>
+				<p>本网站没有义务监测网站内容,但是您确认并同意本网站有权不时地根据法律、法规、政府要求透露、修改或者删除必要的、合适的信息,以便更好地运营本网站并保护自身及本网站的其他合法用户。</p>
+				<p>五、个人信息的使用</p>
+				<p>本网站对于收集到的经认证的个人信息将按照本网站的隐私规则予以保护。</p>
+				<p>六、补偿</p>
+				<p>就任何第三方提出的,由于您违反本协议及纳入本协议的条款和规则或您违反任何法律、法规或侵害第三方的权利而产生或引起的每一种类和性质的任何索赔、要求、诉讼、损失和损害(实际的、特别的及有后果的),无论是已知或未知的,包括合理的律师费,您同意就此</p>
+				
+			</div>
+			
+			
+		</div>	
+		<div class="close_all">
+			<img src="/public/images/appreg/close.png" class="close_img" alt="" />
+		</div>
+		
+		
+	</body>
+	<script type="text/javascript" src="/public/javascripts/jquery-1.11.1.js" ></script>
+	<script>
+//				获取验证码
+				var countdown = 60;
+
+			function settime() {
+				if(countdown == 0) {
+					$('#get_yzm').attr("disabled", false);
+					$('#get_yzm').val("获取验证码");
+					
+				    $("#get_yzm").attr("onclick", "sendCode();");
+				    $("#get_yzm").attr("style", "cursor:pointer");
+					countdown = 60;
+					return;
+				} else {
+					$('#get_yzm').attr("disabled", true);
+					$('#get_yzm').val("重新发送(" + countdown + ")");
+					countdown--;
+				}
+				setTimeout(function() {
+					settime()
+				}, 1000)
+				
+				
+			}
+			
+			function sendCode() {
+				  var mobile = $("#tel").val();
+				  if(mobile == "") {
+				    alert("请输入手机号码后，再获取验证码");
+				    return;
+				  }
+				  
+				  $.ajax({
+					  url : "@{front.account.loginAndRegisterAction.sendSmsCode()}",
+					  type : "POST",
+					  data : {
+						  "mobile" : mobile,
+						  'send' : true
+					  },
+					  dataType:'json',
+					  success : function(data) {
+						  if(data.code < 0){
+							  alert(data.msg);
+						  }else{
+							  settime();
+								 $("#get_yzm").attr("onclick", "void(0);");
+								 $("#get_yzm").attr("style", "cursor: default");
+						  }
+						},
+					  error : function() {
+					    alert("对不起，出现错误!");
+					  }
+					 });
+				}
+
+			
+			$("#get_yzm").on("click",function(){
+				$("#get_yzm").css("background-image","url(/public/images/appreg/yzm_noclick.png)");
+				
+			})
+			$("#login").on("click",function(){
+				$("#login").css("background-image","url(/public/images/appreg/end_click.png)");
+				
+			})
+//			遮罩层
+			$(function(){
+			    	//产品详情
+				$(".open2").bind("click", function() {
+					showDailog();
+			    });
+			    
+				function showDailog() {
+					$(".lay").show();
+					$(".close_all").show();
+					$(".code_fix").show();
+					var dH = $(document).height(); //获取文档的高度
+					$(".lay").css("height", dH); //黑色遮罩层高度设置为文档高度
+					var wW = $(window).width(), //window的宽度
+						wH = $(window).height(), //window的高度
+						pW = $(".pop").width(), //弹出层的宽度
+						pH = $(".pop").height(), //弹出层的高度
+						pL = (wW - pW) / 2.25,       //弹出层距离左边的距离
+						pT = (wH - pH) / 2;
+					$(".pop").show().css({
+						"left": pL + "px",
+						"top": pT + "px"
+					});
+					$(".close").show().css({
+						"left": pL + "px",
+						"top": pT + "px"
+					});
+					
+				}
+					$(window).resize(function() {
+						if($(".pop").is(":visible")) {
+							showDailog();
+						}
+					});
+				$(".md-close,.lay").bind("click", function() {
+					$(".lay").fadeOut();
+					$(".pop,.code_fix").hide();
+				});
+			
+				
+				
+			})
+			
+				$(function(){
+					$(".close_all,.lay,.close_img").on("click",function(){
+						$(".lay,.pop,.close_img").hide();
+					})
+					
+				})
+				$(function(){
+					$(".open2").on("click",function(){
+						$(".close_img,.close_all").css("display","block")
+					})
+					
+					
+				})
+				
+				
+			function isPC() {
+				var userAgentInfo = navigator.userAgent;
+				var Agents = new Array("Android", "iPhone", "SymbianOS",
+						"Windows Phone", "iPad", "iPod");
+				var flag = true;
+				for (var v = 0; v < Agents.length; v++) {
+					if (userAgentInfo.indexOf(Agents[v]) > 0) {
+						flag = false;
+						break;
+					}
+				}
+				return flag;
+			}
+
+
+			$(function(){
+				$('#reg').click(function(){
+					
+					if($(this).attr('disabled') == 'disabled'){
+						return;
+					}
+					$(this).attr('disabled','disabled');
+					
+					$("#name").val("zzy"+$("#tel").val());
+					
+					var reg1=/^[0-9]{11}$/;
+					var reg2=/^[A-Za-z0-9]{6,20}$/;
+					var tel=document.getElementById("tel");
+					var pw=document.getElementById("pw");
+//					alert(tel.value);
+					if(!reg1.test(tel.value)){
+						alert("请输入11位的手机号码");
+							return;	
+					}
+					if(!reg2.test(pw.value)){
+						alert("请输入6-20位的由数字和字母组成的密码");
+						return;
+					}
+					if(!$("#agree").is(':checked')){
+						alert("请阅读同意亿亿理财用户注册协议")
+						return;
+						
+					}
+					
+					
+					$.ajax({
+						  url : "@{front.account.loginAndRegisterAction.appRegMobile()}",
+						  type : "POST",
+						  data : $('#appReg').serialize(),
+						  dataType:'json',
+						  success : function(data) {
+							  if(data.code < 0){
+								  alert(data.msg);
+								  $('#reg').removeAttr('disabled');
+							  }else{
+								  alert('注册成功');
+								  if(isPC()){
+									  location.href = 'https://www.yiyilc.com/';
+								  }else{
+									  location.href = '@{app.AppController.download()}';
+								  }
+							  }
+							},
+						  error : function() {
+						    alert("对不起，出现错误!");
+						  }
+						 });
+					
+				});
+			});
+			
+			
+			
+			
+				
+		</script>
+	
+	
+	
+</html>

@@ -1,0 +1,74 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'亿亿公益' /}
+
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist"> 
+    #{include 'supervisor/publicBenefit/left.control'/}
+    <script type="text/javascript" src="@{'public/javascripts/kindeditor-4.1.7/kindeditor.js'}"></script>
+  <link rel="stylesheet" src="@{'public/javascripts/kindeditor-4.1.7/themes/default/default.css'}" />
+  <script charset="utf-8" src="@{'public/javascripts/kindeditor-4.1.7/kindeditor-min.js'}"></script>
+  <script charset="utf-8" src="@{'public/javascripts/kindeditor-4.1.7/lang/zh_CN.js'}"></script>
+  <script   type="text/javascript">  
+    var editor;
+    KindEditor.ready(function(K) {
+      editor = K.create('#TextArea3', {
+         cssPath :"@{'public/javascripts/kindeditor-4.1.7/plugins/code/prettify.css'}",
+         uploadJson : '@{FileUpload.uploadImage2()}',
+      allowFileManager : true,
+      allowUpload: true
+      });
+    });
+  </script>
+    <!--右-->
+  	#{form @benefitEdit(),method:'POST',id:'submitadd'}
+  <div class="xn_c_content" style="width: 1084px;">
+    <div class="xf_content_add">
+    <div class="xfht_t_j_y_2">
+    <!--右上-->
+    <div class="xf_ht_obu_fklm">亿亿公益账户概览</div>
+    
+    <div class="xf_ht_news_content">
+    <div class="xf_ht_news_content_t" style="margin:60px;padding-bottom:100px;">
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_news_content_t_t" style="margin:auto;">
+        <tr>
+          <td width="220" align="right" valign="middle" style="padding-right:5px;">开启时间：</td>
+          <td>
+            2017年4月1日
+          </td>
+        </tr>
+        <tr>
+          <td width="220" align="right" valign="middle" style="padding-right:5px;">累计募捐（用户和平台）：</td>
+          <td>
+            ${result.total_donate}元
+          </td>
+        </tr>
+        <tr>
+          <td width="220" align="right" valign="middle" style="padding-right:5px;">累计募捐笔数（仅用户）：</td>
+          <td>
+            ${result.total_num}笔
+          </td>
+        </tr>
+        <tr>
+          <td width="220" align="right" valign="middle" style="padding-right:5px;">累计实际捐款（使用）：</td>
+          <td>
+            ${result.used_donate}元
+          </td>
+        </tr>
+        <tr>
+          <td width="220" align="right" valign="middle" style="padding-right:5px;">账户剩余：</td>
+          <td>
+            ${result.rem_donate}元
+          </td>
+        </tr>
+      </table>
+    </div>
+   
+    </div>
+    </div>
+    </div>
+  </div>
+  #{/form}
+  </div>
+</div>
+<script type="text/javascript">
+</script>

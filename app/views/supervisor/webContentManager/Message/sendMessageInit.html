@@ -1,0 +1,563 @@
+#{extends 'common/supervisor.html' /} #{set title:'发送站内信' /}
+<script charset="utf-8" src="@{'public/javascripts/kindeditor-4.1.7/kindeditor-min.js'}"></script>
+<script type="text/javascript">  
+  var editor;
+  var editor2;
+  var editor3;
+  
+  KindEditor.ready(function(K) {
+    editor = K.create('#tab1_content', {
+    cssPath :"@{'public/javascripts/kindeditor-4.1.7/plugins/code/prettify.css'}",
+    uploadJson : '@{FileUpload.uploadImage2()}',
+    allowFileManager : true,
+    allowUpload: true,
+    syncType:'auto'
+    });
+    
+  
+  });
+  
+  
+</script>
+
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  <!--左-->
+  #{include "supervisor/webContentManager/common/leftBar.control"/}
+  <!--右-->
+  <div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <div style="background: #fff; max-width: 1084px; margin:0 auto;">
+      <div class="xf_ht_search">
+        <div class="xf_ht_search_l">
+          <span class="xf_sea_isshow" id="div_0"><a id="tab_0">发送站内信</a></span>
+          <span id="div_1"><a  id="tab_1">群发站内信</a></span>
+          <span id="div_2"><a  id="tab_2">快捷站内信</a></span>
+        </div>
+      </div>
+      <!-- tab0 -->
+      <div class="xf_content_add" id="tab0">
+        <div class="xfht_t_j_y_2">
+          <div class="xf_ht_news_content">
+          <div class="xf_ht_news_content_t">
+            <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_news_content_t_t">
+              <tr>
+                <td align="right">发件人：</td>
+                <td>${supervisorName}</td>
+              </tr>
+              <tr>
+                <td align="right">选择站内信模板：</td>
+                <td>
+                  <select id="select1" class="xfht_t_j_td_1_s" name="select1" onchange="templateDidSelect1(this);">
+                    <option value="-1">请选择</option>
+                    #{list templates}
+                    <option value="${_?.id}">${_?.scenarios}</option>
+                    #{/list}
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">收件人：</td>
+                <td>
+                  <input id="tab1_receiver_names" class="xfht_zr_input" type="text" style="width:360px;" /> 
+                  <a href="javascript:usersWillSelect();" class="xfht_lan" style="font-size:12px;padding-left:10px;">在会员列表中选择</a>
+                  <div class="xf_ht_news_span_two">多个收件人用逗号“，”隔开，超过10人的发送请使用群发功能。</div>
+                </td>
+              </tr>
+              <tr>
+                <td width="200" align="right" valign="middle" style="padding-right:5px;">标题：</td>
+                <td>
+                  <input id="tab1_title" class="xfht_zr_input" type="text" style="width:600px;">
+                </td>
+              </tr>
+              <tr>
+                <td width="200" align="right" valign="top" style="padding-right:5px;">内容编辑：</td>
+                <td>
+                  <div class="xf_ht_news_conr">
+                    <textarea id="tab1_content" class="xf_ht_jr_obttd_textarea"></textarea>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="xf_ht_news_content_button" colspan="4">
+            <input class="xf_ht_tcc_button_ok" type="button" onclick="sendMessage();" value="发  送">
+          </div>
+          </div>
+        </div>
+      </div>
+      <!-- tab1 -->
+      <div class="xf_content_add" id="tab1" style="display: none;">
+        <div class="xfht_t_j_y_2">
+          <div class="xf_ht_news_content">
+          <div class="xf_ht_news_content_t">
+            <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_news_content_t_t">
+              <tr>
+                <td align="right">发件人：</td>
+                <td>${supervisorName}</td>
+              </tr>
+              <tr>
+                <td align="right">选择站内信模板：</td>
+                <td>
+                  <select class="xfht_t_j_td_1_s" name="select2" onchange="templateDidSelect2(this);">
+                    <option value="-1">请选择</option>
+                    #{list templates}
+                    <option value="${_?.id}">${_?.scenarios}</option>
+                    #{/list}
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">收件人：</td>
+                <td>
+                  <input id="tab2_names" class="xfht_zr_input" type="text" style="width:360px;" placeholder="请选择收件人" readonly="readonly"/> 
+                  <input id="tab2_receiver_names" class="xfht_zr_input" type="text" style="width:360px;display: none;" />
+                  <a href="javascript:usersWillSelect();" class="xfht_lan" style="font-size:12px;padding-left:10px;">在会员列表中选择</a>
+                </td>
+              </tr>
+              <tr>
+                <td width="200" align="right" valign="middle" style="padding-right:5px;">标题：</td>
+                <td>
+                  <input id="tab2_title" class="xfht_zr_input" type="text" style="width:600px;">
+                </td>
+              </tr>
+              <tr>
+                <td width="200" align="right" valign="top" style="padding-right:5px;">内容编辑：</td>
+                <td>
+                  <div class="xf_ht_news_conr">
+                    <textarea id="tab2_content" class="xf_ht_jr_obttd_textarea"></textarea>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="xf_ht_news_content_button" colspan="4">
+            <input class="xf_ht_tcc_button_ok" type="button" onclick="sendMessage2();" value="发  送">
+          </div>
+          </div>
+        </div>
+      </div>
+      <!-- tab2 -->
+      <div class="xf_content_add" id="tab2" style="display: none;">
+        <div class="xfht_t_j_y_2">
+          <div class="xf_ht_news_content">
+          <div class="xf_ht_news_content_t">
+            <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_news_content_t_t">
+              <tr>
+                <td align="right">发件人：</td>
+                <td>${supervisorName}</td>
+              </tr>
+              <tr>
+                <td align="right">选择站内信模板：</td>
+                <td>
+                  <select id="select3" class="xfht_t_j_td_1_s" name="select3" onchange="templateDidSelect3(this);">
+                    <option value="-1">请选择</option>
+                    #{list templates}
+                    <option value="${_?.id}">${_?.scenarios}</option>
+                    #{/list}
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">收件人：</td>
+                <td>
+                  <table border="0" cellspacing="0" cellpadding="0" >
+                    <tr>
+                      <td><input name="user_group_type" type="radio" value="-1" checked="checked" class="xf_ht_radio_z">全部会员(${usersCount?.all_user_count})</td>
+                      <td><input name="user_group_type" type="radio" value="-2" class="xf_ht_radio_z">全部借款会员(${usersCount?.loan_user_count})</td>
+                      <td><input name="user_group_type" type="radio" value="-3" class="xf_ht_radio_z">全部理财会员(${usersCount?.invest_user_count})</td>
+                      <td><input name="user_group_type" type="radio" value="-4" class="xf_ht_radio_z">全部未激活会员(${usersCount?.loan_user_count})</td>
+                    </tr>
+                    <tr>
+                      <td><input name="user_group_type" type="radio" value="-5" class="xf_ht_radio_z">全部复合会员(${usersCount?.complex_user_count})</td>
+                      <td><input name="user_group_type" type="radio" value="-6" class="xf_ht_radio_z">全部黑名单会员(${usersCount?.black_user_count})</td>
+                      <td><input name="user_group_type" type="radio" value="-7" class="xf_ht_radio_z">一周内注册新会员(${usersCount?.new_user_count})</td>
+                      <td></td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td width="200" align="right" valign="middle" style="padding-right:5px;">标题：</td>
+                <td>
+                  <input id="tab3_title" class="xfht_zr_input" type="text" style="width:600px;">
+                </td>
+              </tr>
+              <tr>
+                <td width="200" align="right" valign="top" style="padding-right:5px;">内容编辑：</td>
+                <td>
+                  <div class="xf_ht_news_conr">
+                    <textarea id="tab3_content" class="xf_ht_jr_obttd_textarea"></textarea>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="xf_ht_news_content_button" colspan="4">
+            <input class="xf_ht_tcc_button_ok" type="button" onclick="sendGroupMessage();" value="发  送">
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+</div>
+<!--选择会员-弹出层 -->
+<div id="xf_ht_xzhy_ttc">
+</div>
+<script type="text/javascript">
+  var g_index = 0;
+  var g_receiverNames;
+  var g_receiverNames2;
+  var g_selectedNames;
+    
+  $(function() {
+    /* 高亮显示 */
+    showHighLight(3,3,7);
+    
+    $("#div_0").click(function(){
+       $(this).siblings('span').removeClass("xf_sea_isshow");
+       $(".xf_content_add").hide();
+       $("#tab0").show();
+       $(this).addClass("xf_sea_isshow");
+       g_index = 0;
+    });
+    $("#div_1").click(function(){
+      $(this).siblings('span').removeClass("xf_sea_isshow");
+      $(".xf_content_add").hide();
+      $("#tab1").show();
+      $(this).addClass("xf_sea_isshow");
+      g_index = 1;
+      //创建编辑器
+      editor2 = KindEditor.create('#tab2_content', {
+  	    cssPath :"@{'public/javascripts/kindeditor-4.1.7/plugins/code/prettify.css'}",
+  	    uploadJson : '@{FileUpload.uploadImage2()}',
+  	    allowFileManager : true,
+  	    allowUpload: true,
+  	    syncType:'auto'
+  	    });
+      
+    });
+    $("#div_2").click(function(){
+      $(this).siblings('span').removeClass("xf_sea_isshow");
+      $(".xf_content_add").hide();
+      $("#tab2").show();
+      $(this).addClass("xf_sea_isshow");
+      g_index = 2;
+      //创建编辑器
+      editor3 = KindEditor.create('#tab3_content', {
+    	    cssPath :"@{'public/javascripts/kindeditor-4.1.7/plugins/code/prettify.css'}",
+    	    uploadJson : '@{FileUpload.uploadImage2()}',
+    	    allowFileManager : true,
+    	    allowUpload: true,
+    	    syncType:'auto'
+    	    });
+      
+    });
+  });
+  
+  function templateDidSelect1(template) {
+    var id = $(template).val();
+        
+    if (id == "-1") {
+      $("#tab1_title").val("");
+      //$("#tab1_content").val("");
+        editor.html("");    
+      return;
+    }
+        
+    $.ajax({
+      url : "@{queryTemplate()}",
+      type : "POST",
+      data : {
+        "id" : id
+      },
+      success : function(data) {
+        $("#tab1_title").val(data.title);
+        //$("#tab1_content").html(data.replacedContent);
+        editor.html(data.replacedContent);
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+    
+  function templateDidSelect2(template) {
+    var id = $(template).val();
+        
+    if (id == "-1") {
+      $("#tab2_title").val("");
+      //$("#tab2_content").val("");
+      editor2.html("");      
+      return;
+    }
+        
+    $.ajax({
+      url : "@{queryTemplate()}",
+      type : "POST",
+      data : {
+        "id" : id
+      },
+      success : function(data) {
+        $("#tab2_title").val(data.title);
+        //$("#tab2_content").val(data.replacedContent);
+        editor2.html(data.replacedContent);
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+    
+  function templateDidSelect3(template) {
+    var id = $(template).val();
+        
+    if (id == "-1") {
+      $("#tab3_title").val("");
+      //$("#tab3_content").val("");
+      editor3.html("");    
+      return;
+    }
+        
+    $.ajax({
+      url : "@{queryTemplate()}",
+      type : "POST",
+      data : {
+        "id" : id
+      },
+      success : function(data) {
+        $("#tab3_title").val(data.title);
+        //$("#tab3_content").val(data.replacedContent);
+        editor3.html(data.replacedContent);
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+    
+  //即将显示选择用户弹窗
+  function usersWillSelect() {
+    if (0 == g_index) {
+      var names = $("#tab1_receiver_names").val().trim();
+            
+      if ("" == names) {
+        g_receiverNames = new Array();
+        g_selectedNames = new Array();
+      } else {
+        g_receiverNames = names.split(",");
+        g_selectedNames = names.split(",");
+      }
+    } else {
+      var names = $("#tab2_receiver_names").val().trim();
+            
+      if ("" == names) {
+        g_receiverNames2 = new Array();
+        g_selectedNames = new Array();
+      } else {
+        g_receiverNames2 = names.split(",");
+        g_selectedNames = names.split(",");
+      }
+    }
+
+    selectUsersInit(1, 10);
+  }
+    
+  //显示选择用户弹窗
+  function selectUsersInit(currPage, pageSize) {
+    $.ajax({
+      url : "@{selectUsersInit()}",
+      type : "POST",
+      data : {
+        "currPage" : currPage,
+        "pageSize" : pageSize,
+        "keyword" : $("#keyword").val()
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+
+          return;
+        }
+
+        var ttc = $("#xf_ht_xzhy_ttc");
+        ttc.html(data);
+        var index =$.layer({
+          type: 1,
+          area: ['800px', 'auto'],
+          title: '选择会员',
+          page: {dom : '#xf_ht_xzhy_ttc'}
+        });
+        if(index > 1){
+          index = index - 1;
+          $("#xubox_shade"+index).remove();
+        }
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+    
+  //选择用户弹窗已提交
+  function usersDidSelect(userNames) {
+    if (0 == g_index) {
+      g_receiverNames = clone(userNames);
+      var names = g_receiverNames.join(",");
+      $("#tab1_receiver_names").val(names);
+    } else {
+      g_receiverNames2 = clone(userNames);
+      var names = g_receiverNames2.join(",");
+      $("#tab2_receiver_names").val(names);
+            
+      if (g_receiverNames2.length > 0) {
+        var tmp = "已导入" + g_receiverNames2[0] + "等" + g_receiverNames2.length + "人";
+        $("#tab2_names").val(tmp);
+      } else {
+        $("#tab2_names").val("请选择收件人");
+      }
+    }
+  }
+
+
+  //发送站内信
+  function sendMessage() {
+    var receiverNames = $("#tab1_receiver_names").val().trim();
+        
+    if ("" == receiverNames) {
+      alert("请输入收信人名称!");
+            
+      return;
+    }
+        
+    if (receiverNames.split(",").length > 10) {
+      alert("超过10人的发送请使用群发功能");
+            
+      return;
+    }
+        
+    var title = $("#tab1_title").val().trim();
+        
+    if ("" == title || title.length > 100) {
+    	alert("站内信标题需在1~100字之间!");
+            
+      return;
+    }
+        
+    var content = editor.html();
+
+    content = replaceAllHTML(content);
+    
+    $.ajax({
+      url : "@{sendMessage()}",
+      type : "POST",
+      data : {
+        "receiverNames" : receiverNames,
+        "title" : title,
+        "content" : content 
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+
+          return;
+        }
+
+        alert(data.msg);
+        window.location.href = "@{supervisor.webContentManager.Message.outboxMessages()}";
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+    
+  //群发站内信
+  function sendMessage2() {
+    var receiverNames = $("#tab2_receiver_names").val().trim();
+    if (receiverNames == "") {
+      alert("请输入收信人名称!");
+            
+      return;
+    }
+        
+    var title = $("#tab2_title").val().trim();
+    if ("" == title || title.length > 100) {
+    	alert("站内信标题需在1~100字之间!");
+            
+      return;
+    }
+        
+    var content = editor2.html();
+   
+
+    content = replaceAllHTML(content);
+    
+    $.ajax({
+      url : "@{sendMessage()}",
+      type : "POST",
+      data : {
+        "receiverNames" : receiverNames,
+        "title" : title,
+        "content" : content 
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+
+          return;
+        }
+
+        alert(data.msg);
+        window.location.href = "@{supervisor.webContentManager.Message.outboxMessages()}";
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+    
+  //发送快捷站内信
+  function sendGroupMessage() {
+    var title = $("#tab3_title").val().trim();
+    if ("" == title || title.length > 100) {
+    	alert("站内信标题需在1~100字之间!");
+            
+      return;
+    }
+        
+    var content = editor3.html();
+   
+    var userGroupType =  $('input:radio:checked').val().trim();
+
+    content = replaceAllHTML(content);
+    
+    $.ajax({
+      url : "@{sendGroupMessage()}",
+      type : "POST",
+      data : {
+        "userGroupType" : userGroupType,
+        "title" : title,
+        "content" : content
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+
+          return;
+        }
+
+        alert(data.msg);
+        window.location.href = "@{supervisor.webContentManager.Message.outboxMessages()}";
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+  
+</script>

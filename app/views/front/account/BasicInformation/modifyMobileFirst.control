@@ -1,0 +1,65 @@
+<!-- 安全问题设置 -->
+<div class="xf_zqzr_znx_window" id="xf_mem_aqwtsz_tc">
+	<div class="xf_wyjkwszl_4_windowInner xf_mem_aqwtsz_tc">
+		<div class="xf_wyjkfb_4_windowColName">
+			安全问题校验
+		</div>
+		<div class="xf_wyjkfb_aqwt_tclv">
+			您正在进行重要操作，系统需要校验您的安全问题。
+		</div>
+		<!-- 安全问题设置 -->
+		<div class="xf_mem_aqwtsz_qa">
+			#{form @bindMobile(), id:'submit'}
+			<ul>
+				<li>
+					<div class="xf_mem_aqwtsz_qaname"><span class="xf_mem_aqwtsz_xx">*</span>安全问题1：${user?.questionName1}</div>
+					<div class="xf_mem_aqwtsz_qainput">输入答案：<input class="xf_mem_aq_wtszinput" name="answer1" id="answer1"></div>
+				</li>
+				<li>
+					<div class="xf_mem_aqwtsz_qaname"><span class="xf_mem_aqwtsz_xx">*</span>安全问题2：${user?.questionName2}</div>
+					<div class="xf_mem_aqwtsz_qainput">输入答案：<input class="xf_mem_aq_wtszinput" name="answer2" id="answer2"></div>
+				</li>
+				<li>
+					<div class="xf_mem_aqwtsz_qaname"><span class="xf_mem_aqwtsz_xx">*</span>安全问题3：${user?.questionName3}</div>
+					<div class="xf_mem_aqwtsz_qainput">输入答案：<input class="xf_mem_aq_wtszinput" name="answer3" id="answer3"></div>
+				</li>
+				<li class="xf_mem_aqwtsz_lalt2">
+					<a class="xf_con_inputfbjk" onClick="sure()">确 认</a>
+					<a class="xf_con_inputfbqux" onclick="colse();">取消</a>
+					<a class="xf_con_input_text" id="findAnswer">忘了问题答案？</a>
+				</li>
+			</ul>
+			#{/form}
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+			$("#findAnswer").click(function(){
+			     showDiv($("#xf_mem_szansj_tc"));
+			  });
+			  
+	  function colse(){
+		$("#xf_mem_aqwtsz_tc").hide();
+        $(".xf_mem_shzdjkb_box_tcc").hide();
+	  }
+
+	  function sure(){
+	      if($("#answer1").val() == ''){
+	          alert("安全问题1回答不能为空！");
+	          return;
+	      }
+	      
+	      if($("#answer2").val() == ''){
+	          alert("安全问题2回答不能为空！");
+	          return;
+	      }
+	      
+	      if($("#answer3").val() == ''){
+	          alert("安全问题3回答不能为空！");
+	          return;
+	      }
+	  
+	      $("#submit").submit();
+	  }
+</script>

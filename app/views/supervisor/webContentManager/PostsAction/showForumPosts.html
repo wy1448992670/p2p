@@ -1,0 +1,231 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'广告条管理' /}
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  #{include "supervisor/webContentManager/common/leftBar.control"/}
+  <!-- 内容区 --> 
+  <div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    #{form @showForumPosts(), id:'submit'}
+    <!-- 搜索 -->
+    <div class="xf_ht_search">
+	      <div class="xf_ht_search_l">
+	        <input type="hidden" id="orderType" name="orderType">
+	        <input type="hidden" id="orderStatus" name="orderStatus"/>
+	        <input type="hidden" id="currPage" name="currPage"/>
+	        <input type="hidden" id="pageSize" name="pageSize"/>
+			<span id="div_0"><a id="tab_0" onClick="conditonSearch(0)">默认排序</a></span>
+			<span id="div_1"><a id="tab_1" onClick="conditonSearch(1)">浏览次数<a id="sp1">↑</a></a></span>
+			<span id="div_2"><a id="tab_3" onClick="conditonSearch(2)">添加时间<a id="sp2">↑</a></a></span>
+			<span id="div_3"><a id="tab_5" onClick="conditonSearch(3)">显示时间<a id="sp3">↑</a></a></span>
+			<span id="div_4"><a id="tab_7" onClick="conditonSearch(4)">只看显示<a id="sp4">↑</a></a></span>
+	      </div>
+	     </div>
+	     <div class="xf_ht_search_inon">
+	       <div class="xf_ht_search_r">
+	         
+	         <div class="xf_ht_search_xl">
+	         	<select name="postsType" id="postsType" class="xf_membill_selectAge">
+	         		
+		         	<option value="0">全部</option>
+		         	#{list items:typeList, as:'typeList'}
+		         		<option value="${typeList?.id}">${typeList?.name}</option>
+		         	#{/list}
+		         </select>
+	           <input name="title" type="text" class="search_w" id="title" value="${title}" />
+	         </div>
+	         <div class="xf_ht_search_xl">
+	           <input type="submit" class="search_button" value="搜索">
+	         </div>
+	         
+	       </div>
+	       <div class="xf_ht_search_xl" style="float: right;" >
+	       	   
+	           <input type="button" class="search_button" value="添加" onclick="addPosts()">
+	         </div>
+	     </div>
+		#{/form}
+	    <!-- 列表内容 -->
+	    <div class="xn_c_content_top" style="width: ">
+	    	
+	      #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xn_c_content_list",tr_class_odd:"xn_tr_bj"}
+	        #{tr}
+	          #{th}序号#{/th}
+	          #{th width:"30%"}标  题#{/th}
+	          #{th}添加时间#{/th}
+	          #{th}显示时间#{/th}
+	          #{th}浏览次数#{/th}
+			  #{th}回复次数#{/th}
+			  #{th}是否置顶#{/th}
+			  #{th}所属类别#{/th}
+			  #{th}是否显示#{/th}
+			  #{th}作者#{/th}
+			  #{th}操作#{/th}
+	        #{/tr}
+			#{list items:page.page, as:'content'}
+		        #{tr tr_index:content_index}
+		          #{td}${(page?.currPage-1)*page?.pageSize + content_index}#{/td}
+		          #{td}${content?.title}#{/td}
+		          #{td}${content?.add_time?.format('yyyy-MM-dd')}#{/td}
+		          #{td}${content?.show_time?.format('yyyy-MM-dd')}#{/td}
+				  #{td}${content?.read_count}#{/td}
+				  #{td}${content?.answers_count}#{/td}
+				  #{td}<input name="checkbox" type="checkbox" id="test"  
+		                #{if content.rId}
+		                checked="checked"
+		                onmouseup="updateRid('${content?.id}')"
+		                #{/if}
+		                #{else}
+		                onmouseup="updateRid('${content?.id}')"
+		                #{/else}
+		                />
+		                <label for="checkbox"></label>
+		                <input type="hidden"  id="rIdHidden_${content?.id}" 
+		                #{if content.rId}
+		                 value="0"
+		                #{/if}
+		                #{else}
+		                 value="1"
+		                #{/else}/>
+		             #{/td}
+				  #{td}${content?.typeName}#{/td}
+				  #{td}
+				  	<input name="checkbox" type="checkbox" id="test"  
+		                #{if content.status == 0}
+		                checked="checked"
+		                onmouseup="updatePostsStatue('${content?.id}','1')"
+		                #{/if}
+		                #{else}
+		                onmouseup="updatePostsStatue('${content?.id}','0')"
+		                #{/else}
+		                />
+		                <label for="checkbox"></label>
+		                
+		                <input type="hidden"  id="statusHidden_${content?.id}" 
+		                #{if content.status == 0}
+		                 value="1"
+		                #{/if}
+		                #{else}
+		                 value="0"
+		                #{/else}/>
+		          #{/td}
+		          #{td} ${content?.userName} #{/td}
+		          #{td}
+		          
+		          	
+		            <span><a class="xf_ta_onclick" href="@{supervisor.webContentManager.PostsAction.showUserQuestions(content?.id)}">回复评论</a></span>
+		            <span><a class="xf_ta_onclick" href="@{supervisor.webContentManager.PostsAction.editPostsContent(content?.id)}">编辑</a></span>
+		            <span><a class="xf_ta_onclick" href="@{supervisor.webContentManager.PostsAction.deletePosts(content?.id)}">删除</a></span>
+		          #{/td}
+		        #{/tr}
+			#{/list}
+	      #{/table}
+	    </div>
+	    <!-- 列表底部 -->
+	    <div class="xn_c_content_bottom">
+	      #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4}#{/page}
+	      </div>
+	    </div>
+	  </div>
+	</div>
+  </div>
+
+
+<script type="text/javascript">
+
+
+$(function() {
+	//高亮显示
+	showHighLight(1,6,23);
+	
+	$("#postsType").val('${postsType}');
+	
+	  var orderType = "${page?.conditions?.orderType}";
+	    $("#orderType").val(orderType);
+	    var orderStatus = "${page?.conditions?.orderStatus}";
+	    $("#orderStatus").val(orderStatus);
+	    var order = $("#div_" + orderType);
+		
+	    /* 初始为默认搜索 */
+		if(orderType == ''){
+			$("#div_0").attr("class", "xf_sea_isshow");
+		}else {
+		  order.attr("class", "xf_sea_isshow");
+		  if(orderStatus == 1){
+		     $("#sp"+orderType).html("↑");
+		  }else{
+		    $("#sp"+orderType).html("↓");
+		  }
+		}
+	    
+	    
+});
+
+
+function showPage(currPage, pageSize){
+    $("#currPage").val(currPage);
+    $("#pageSize").val(pageSize);
+    $("#submit").submit();
+  }
+
+function conditonSearch(order){
+   var orderStatus = "${page?.conditions?.orderStatus}";
+   var orderType = "${page?.conditions?.orderType}";
+	
+	if(orderStatus == 1 && orderType == order){
+		$("#orderStatus").val(0);
+	}else{
+		$("#orderStatus").val(1);
+	}
+	
+	$("#orderType").val(order);
+	$("#submit").submit();
+}
+
+function updateRid(id){
+	var rId = $("#rIdHidden_"+id).val();
+	$.ajax({
+		url:"@{supervisor.webContentManager.PostsAction.updatePostsrId()}",
+		type:"POST",
+		data:{id:id,rId:rId},
+		success:function(data){
+			
+			if (data.error.code < 0) {
+	          alert(data.error.msg);
+	          
+	          return;
+	        }
+	        
+			$("#rIdHidden_"+id).val(data.upId);
+	        alert(data.error.msg);
+	      
+		}
+	});
+}
+function updatePostsStatue(id){
+	
+	var status = $("#statusHidden_"+id).val();
+	$.ajax({
+		url:"@{supervisor.webContentManager.PostsAction.updatePostsStatue()}",
+		type:"POST",
+		data:{id:id,status:status},
+		success:function(data){
+			
+			if (data.error.code < 0) {
+	          alert(data.error.msg);
+	          
+	          return;
+	        }
+			$("#statusHidden_"+id).val(data.upStatus);
+	        alert(data.error.msg);
+	      
+		}
+	});
+}
+
+function addPosts(){
+
+	window.location.href="@{supervisor.webContentManager.PostsAction.addPosts()}";
+}
+</script>

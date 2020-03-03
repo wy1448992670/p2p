@@ -1,0 +1,133 @@
+<div class="xn_c_ban_jox xn_c_ban_jox_ptsh">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xfht_t_j_y_s_y xfht_t_CPS_tg2">
+      <div class="xfht_t_jk_zt3 xf_ht_obu_ss">
+        <div class="xfht_t_jk_ss_k" style="padding: 0">
+          <input type="hidden" id="orderType" name="orderType"/>
+          <input type="hidden" id="currPage" name="currPage"/>
+          <input name="textfield" type="text" class="xfht_t_jk_zt_rj3" id="servicer" value="${page?.conditions?.keyword}" title="请输入名字或邮箱或手机" />
+          <input type="hidden" value="${bidId}" id="bid">
+          <a id="search" class="xf_ht_jkbgl_page_prev xf_ht_dfp">搜索</a>
+        </div>
+      </div>
+    </div>
+    <div class="xf_ht_ures_view_tcc">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="xf_con_mem_r_b_table">
+        <tr>
+          <th width="40px"></th>
+          <th width="40px">序号</th>
+          <th width="40px">客服</th>
+          <th width="80px">权限组</th>
+          <th width="120px">管理会员数</th>
+          <th width="80px">手机1</th>
+          <th width="80px">邮箱</th>
+        </tr>
+        #{list items:page.page, as:'loanUser'}
+        <tr>
+          <td><input type="radio" name="id" value="${loanUser?.sign}" /></td>
+          <td>${loanUser_index}</td>
+          <td>${loanUser?.name}</td>
+          <td>${loanUser?.right_group}</td>
+          <td>${loanUser?.customer_user_count}</td>
+          <td>${loanUser?.mobile1}</td>
+          <td>${loanUser?.email}</td>
+        </tr>
+        #{/list}
+      </table>
+    </div>
+    <div class="xn_c_content_bottom" style="border: 0px;">
+      <div class="page_warp">
+        #{page funMethod:"showPageSupervisor",currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4 /}
+      </div>
+    </div>
+    <div class="xf_ht_shmx_button xf_ht_ssjt">
+      <input style="width:100px" class="xf_ht_baidu_button_ok" type="button" onClick="assign()" value="分配此借款标">
+      <input class="xf_ht_baidu_button_ok" type="button" onClick="assignAll()" value="分配此会员所有借款标">
+      <input class="xf_ht_tcc_button_on" type="button" onClick="cancle()" value="取 消">
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+function cancle(){
+  layer.closeAll();
+}
+   
+$("#search").click(function(){
+  showPageSupervisor(1,5);
+}) 
+
+function showPageSupervisor(currPage, pageSize) {
+  $("#currPage").val(currPage);
+  $("#pageSize").val(pageSize);
+  $.ajax({
+    url : "@{loanUserAssign()}",
+    type : "POST",
+    data : {
+      "currPage" : currPage,
+      "pageSize" : pageSize,
+      "keyword"  : $("#servicer").val(),
+      "bidId"    : '${bidId}',
+      "type"     : ${type}
+    },
+    success : function(data) {
+      if (data.code < 0) {
+        alert(data.msg);
+        return;
+      }
+      $("#kefu").html(data);
+    },
+    error : function() {
+      alert(data.msg);
+    }
+  });
+}
+   
+function assign(){
+  var id = $("input[name='id']:checked");
+  if(id.length <= 0){
+    alert("请选择客服！");
+    return;
+  }
+  var sign = id.val();
+  var assignBid = #{jsAction @assignBid(':typeStr',':tosSupervisorIdStr',':bidIdStr')/}
+  $.post(assignBid({typeStr:'${type}',tosSupervisorIdStr:sign,bidIdStr:'${bidId}'}),function(data){
+    if(data.error.code < 0){
+      alert(data.error.msg);
+      return;
+    }
+    alert(data.error.msg);
+    window.location.reload();
+  });
+}
+       
+function assignAll(){
+  var id = $("input[name='id']:checked");
+  if(id.length > 1){
+    alert("勾选客服无效，只能分配给一个管理员");
+    return;
+  }
+  if(id.length <= 0){
+    alert("请选择客服！");
+    return;
+  }
+  var sign = id.val();
+  var type = ${type};
+
+  /*
+  if(type == 1){
+    alert("对不起！已有借款标单独分配出去，不能进行分配此会员所有标的操作");
+    return;
+  }
+  */
+  var assignUser = #{jsAction @assignUser(':typeStr',':tosSupervisorIdStr',':bidIdStr')/}
+  $.post(assignUser({typeStr:'${type}',tosSupervisorIdStr:sign,bidIdStr:'${bidId}'}),function(data){
+    if(data.code < 0){
+      alert(data.error.msg);
+      return;
+    }
+    alert(data.error.msg);
+    window.location.reload();
+  });
+}
+</script>

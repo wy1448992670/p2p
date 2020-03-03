@@ -1,0 +1,132 @@
+#{extends 'wechat/service/appCommon.html' /}
+
+
+<body>
+
+<!-- main -->
+<div class="p-yykanb">
+	
+    <div class="p-sstop">
+    	<form action="@{app.AppController.forumSearch()}" id="submitF" method="post">
+    		<input type="hidden" name="showType" value="1"/>
+    		<input type="hidden" name="user_id" value="${userId}"/>
+    		<input type="text" name="content" id="content" value="${content}" placeholder="请输入帖子标题或正文关键字进行搜索">
+        	<a  class="p-ssbtn" onclick="submitF()"><i class="bgico" style="margin-top: 20px"></i></a>
+    	</form>
+        
+    </div>
+  <div class="wrapper05" id="wrapper">
+    <div id="scroller">
+	    <ul class="p-sqlistul">
+	    	#{list items:page.page,as:'postsList'}
+	        <li onclick="window.location.href='/app/myPostsInfo?id='+${postsList.id}+'&userId=${userId}&showType=1'">
+	            <h5>${postsList?.title} #{if postsList.show_image == 1}<img src="/public/images/p-sqguan.png" alt="">#{/if}</h5>
+	            <div class="p-sqlaiy flex">
+	                <div class="flex-1">${postsList?.add_time?.format('yyyy-MM-dd')}&nbsp;&nbsp;&nbsp;${postsList?.name}</div>
+	                <div class="">
+	                    <span class="p-sqhuif"><i class="bgico"></i>${postsList?.answers_count}</span>
+	                    <span class="p-sqliul"><i class="bgico"></i>${postsList?.read_count}</span>
+	                </div>
+	            </div>
+	        </li>
+	        #{/list}
+	    </ul>
+    	<div id="pullUp">
+		    #{if page.page.size() > 0}	<span class="pullUpIcon" id="pullUpIcons"></span><span class="pullUpLabel" id="pullShowT">上拉加载更多...</span>#{/if}
+		   	</div>
+</div>
+</div></div>
+<div class="p-xtbotcon opcity0">
+        <div>
+            <a class="p-xtfatie" href="/app/userPosts?userId=${userId}&postsType=4">发&nbsp;&nbsp;帖</a>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+	function submitF(){
+		var content = $("#content").val();
+		if(content.trim() == ""){
+			alert("查询不能为空");
+			return false;
+		}
+		$("#submitF").submit();
+	}
+	
+	var myScroll,
+	pullUpEl, pullUpOffset,
+	generatedCount = 0;
+	
+	var currPage = 1;
+	var getUserId = '${userId}';
+	function pullUpAction () {
+		var contents = $("#content").val();
+
+	setTimeout(function () {    // <-- Simulate network congestion, remove setTimeout from production!
+		currPage = currPage + 1;
+	
+		$.ajax({
+			url: "@{app.AppController.forumSearch()}",
+			type: "POST",
+			dataType: "json",
+			data: {
+				"currPage": currPage,
+				"user_id": getUserId,
+				"showType": 1,
+				"content": contents,
+				"Mark": 2
+			},
+			success: function (data) {
+				
+					var arr = eval(data);
+					
+					var list = arr.page.page;
+					
+					if (list.length == 0) {
+						$("#pullUp").removeClass("loading").animate({opacity:'0'},3000);
+						$("#pullShowT").html("没有更多了");
+						$("#pullUpIcons").removeClass("pullUpIcon");
+					} else {
+						
+						for (var i = 0; i < list.length; i++) {
+						
+						
+						
+							var milliseconds = list[i].add_time.time;  //取出json里面的时间，为Object类型，在此转化为毫秒数
+							
+							var date = new Date();
+							
+							date.setTime(milliseconds);
+							
+							var time2 = date.format("yyyy-MM-dd");
+							
+							var addHtml = "";
+							
+							var hrefs="/app/myPostsInfo?id="+list[i].id+"&userId="+getUserId+"&showType=1";
+							var imageShow = "";
+							if(list[i].show_image == 1){
+								imageShow = "<img src='/public/images/p-sqguan.png' alt='' >";
+							}
+							
+							
+							$("#main").append("<li onclick=window.location.href='"+hrefs+"'>"+
+									"<h5>"+list[i].title+imageShow+"</h5>"+
+									"<div class='p-sqlaiy flex'>"+
+									"<div class='flex-1'>"+time2+"&nbsp;&nbsp;&nbsp;"+list[i].name+"</div>"+
+									"<div class=''>"+
+									"<span class='p-sqhuif'><i class='bgico'></i>"+list[i].answers_count+"</span>"+
+									"<span class='p-sqhuif'><i class='bgico'></i>"+list[i].read_count+"</span>"+
+									
+							"</div></div></li>");
+								}
+						myScroll.refresh();
+					}
+					
+				},
+				error: function () {
+				}
+		});
+		
+	}, 300);    // <-- Simulate network congestion, remove setTimeout from production!
+	}
+</script>

@@ -1,0 +1,47 @@
+
+
+				<table border="0" cellpadding="0" cellspacing="0" width="100%" class="xf_zqzr_viewcpms">
+                    <tbody>
+                        <tr>
+                            <th>序号</th>
+                            <th>竞拍人</th>
+                            <th>竞拍出价</th>
+                            <th>竞拍时间</th>
+                            <th>竞拍状态</th>
+                        </tr>
+					#{list items:page.page, as:'records'}
+                        <tr>
+                            <td>${records_index}</td>
+                            <td>${records?.name?.asterisk()}</td>
+                            <td>${records?.offer_price?.format("###,##0.00")}元</td>
+                            <td>${records?.time?.format('yyyy-MM-dd HH:mm:ss')}</td>
+                            <td>
+							#{if records?.status==0}
+									正常
+									#{/if}
+									#{if records?.status==1}
+									成交
+									#{/if}
+									#{if records?.status==2}
+									待接受
+									#{/if}
+									#{if records?.status==3}
+									待确认
+									#{/if}
+									#{if records?.status==-1}
+									失败
+									#{/if}
+							</td>
+                        </tr>
+                        #{/list}
+                    </tbody>
+                </table>
+                		<div class="xf_wylc_page">
+		    <!-- 分页器 -->
+						#{page funMethod:"showDebtAuctionRecords",currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:2,style:2 /}
+	                    </div>
+	                    
+	                    
+	                    
+	                    
+	                    

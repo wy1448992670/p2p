@@ -1,0 +1,158 @@
+#{extends 'common/frontMain.html' /}
+#{set title:'通过邮箱找回用户名' /}
+<div class="xf_login_centent clr">
+			<div class="xf_register_email">
+				<ul class="xf_register_email_ul clr" id="xf_wyjkview_xxk">
+					<li class="xf_con_wyjk_r_liishot xf_con_wyjk_r_liwyhm" id="findByEamil">邮箱找回用户名</li>
+					<li id="findBytele" onClick="pageTele()">手机找回用户名</li>
+				</ul>
+				#{form @saveUsernameByEmail(), id:'emailSubmit'}
+				<div class="xf_con_wyjk_tentultbody" id="emailDiv">
+					<ul class="xf_login_inputsrul xf_login_inputsrul_zhyhm">
+					    *{<li>
+					    #{if flash.error}
+					      ${flash?.error}
+					    #{/if}
+					    </li>}*
+						<li>
+							<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">请输入注册时填写的邮箱：</div>
+							<div class="xf_login_inputsrul_r">
+							<input class="xf_login_shurk" type="text" id="email" name="email" value="${flash.email}">
+							<span class="xf_register_intext" id="s_eamil"></span>
+							</div>
+						</li>
+						<li>
+							<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">验证码：</div>
+							<div class="xf_login_inputsrul_r"> 
+							<input class="xf_login_yzm" type="text" name="code" id="code" value="${flash.code}">
+							<input type="hidden" name="randomID" id="randomID" />
+							<img src="" class="xf_login_yzmimg" onclick="change()" id="img" width="75px" height="28px">
+							<a href="javascript:void(0);" onclick="change()" class="xf_login_inputspan">刷新</a>
+							<span class="xf_register_intext" id="s_emailCode"></span>
+							</div>
+						</li>
+						<li>
+							<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">&nbsp;</div>
+							<div class="xf_login_inputsrul_r">
+								<a onClick="emailSubmit()" class="xf_con_inputfbjk">确定</a>
+							</div>
+						</li>
+					</ul>
+				</div>
+				#{/form}
+			</div>
+		</div>
+		<!-- 底部阴影 -->
+<div class="xf_login_kjyy"></div>
+<script type="text/javascript">
+   /* $(document).keyup(function(event){
+			  if(event.keyCode == 13){
+			     emailSubmit();
+			 }
+	});*/
+
+    $(function(){
+         var setCode = #{jsAction @setCode()/}
+		 $.post(setCode({}),function(data){
+			var arr=eval(data);
+			var img = arr.img;
+			$("#img").attr("src","@{getImg()}?id="+img);	
+			$("#randomID").val(img);
+		 });
+    })
+   /* 
+    function emailCode(){
+		var setCode = #{jsAction @setCode()/}
+		$.post(setCode({}),function(data){
+		var arr=eval(data);
+		var img = arr.img;
+		$("#emailImg").attr("src","@{getImg()}?id="+img)	
+		$("#emailCode").val(img);
+	});
+   }
+   
+    var blugCode = false;
+     $(document).ready(function(){
+        $("#emailRandomID").blur(function(){ 
+	       if(this.value == ""){
+	           $("#s_emailCode").html("验证码不能为空");
+	           return;
+		 }else{
+	        var listAction = #{jsAction @front.account.LoginAndRegisterAction.codeReturn(':codeImg') /};
+	   		var codeImg =  $("#emailCode").val();
+	   		$.post(listAction({codeImg:codeImg}), function(data) {
+	   			var arr = eval(data);
+				var results = arr.randomID;
+				var code = $("#emailRandomID").val();
+	   			if(results.toLowerCase() != code.toLowerCase()){
+			           $("#s_emailCode").html("验证码输入错误");
+			           blugCode = true;
+				}else{ 
+		               $("#s_emailCode").html(""); 
+		               blugCode = false;
+		          }
+	   		});		
+		   }
+       });
+      });
+    */
+    function emailSubmit(){
+        var email = $("#email").val();
+		 
+       if(email == ""){
+        	alert("请填写邮箱地址");
+        	return;
+       }else if(!(email).isEmail()){
+        	alert("请填写正确的邮箱地址");
+        	return;
+       }
+     
+        if($("#code").val() == ''){
+            alert("请输入验证码");
+        //    location.reload();
+            return;
+        } 
+       /* 
+        if(blug == true){
+            $("#s_emailCode").html("");
+            $("#s_emailCode").html("该邮箱不存在");
+            return;
+        }
+        
+        if(blugCode == true){
+        	$("#s_emailCode").html("");
+        	$("#s_emailCode").html("验证码输入错误");
+        	location.reload();
+        	return;
+        }
+       */ 
+        $("#emailSubmit").submit();
+    }
+    /*
+    blug = false;
+    $(document).ready(function(){
+	   $("#email").blur(function(){ 
+		     if(this.value == ""){
+		           $("#s_eamil").html("请输入邮箱");
+		           return;
+			 }else{
+		     var hasEmailExist = #{jsAction @hasEmailExist(':email')/}
+			 $.post(hasEmailExist({email:$("#email").val()}),function(data){
+				 var arr=eval(data);
+				 var results = arr.result;
+				 if(results == 0){
+			           $("#s_eamil").html("该邮箱不存在");
+			           blug = true;
+				}else{ 
+		               $("#s_eamil").html(""); 
+		               blug = false;
+		            }
+		          });
+			   }
+	       });
+       });
+    */   
+    function pageTele(){
+        window.location.href = "@{findBackUsernameByTele()}";
+    }
+</script>

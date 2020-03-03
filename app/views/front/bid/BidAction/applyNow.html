@@ -1,0 +1,70 @@
+ %{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle + '|申请' + product?.name/}
+
+	
+<div class="xf_c_wyjkfb_1_wrap">
+	<div class="xf_c_wyjkfb_1_location">
+		<a href="@{index()}">我要借款 </a> > <a href="@{detail(product?.id)}" class="xf_c_wyjkfb_1_locNow">${product?.name}</a> > <span class="xf_c_wyjkfb_1_locNow">发布</span>
+	</div>
+	<div class="xf_c_wyjkfb_2_aside">
+		#{include 'front/bid/BidAction/applyNowLeft.control'/}
+		<!--侧边栏结束-->
+	</div>
+	<div class="xf_c_wyjkfb_3_content">
+		<!--内容区开始-->
+		<div class="xf_c_wyjkfb_3_colName">
+			发布${product?.name}
+		</div> 
+		<div class="xf_c_wyjkfb_3_cont">
+			#{include 'front/bid/BidAction/applyNowWrite.html'/}
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>	
+
+
+<div class="xf_c_wyjk_2_jkcpLjsq" id="rechargeWin" style="display: none;">
+	<div class="s_boxbg"></div>
+	<div class="s_nomoney">
+		<span class="s_closebtn" onclick='$("#rechargeWin").hide();'>×</span>
+		<p class="sure-message">亲，您的平台账户余额不足，<br/>请及时充值。</p>
+		<a href="@{front.account.FundsManage.rechargePay()}" target="_blank" class="s_confirmbtns btn-sure">确定</a>
+		<a href="#" onclick='$("#rechargeWin").hide();' class="s_confirmbtns btn-cancel">取消</a>
+	</div>						
+</div>
+
+
+#{if code > 0}
+	#{include 'front/bid/BidAction/loanSucceed.control'/}
+#{/if}
+#{elseif code < 0}
+		<script type="text/javascript">				
+		#{if code == -999}
+			$("#rechargeWin").show();
+		#{/if}
+		#{elseif code == -998}
+			#{if payTypeInvest == 3}
+				$("#rechargeWin").show();
+			#{/if}
+		#{/elseif}
+		#{elseif code == -1000}
+			if (confirm('${flash?.msg}')) {
+				#{if constants.Constants.IPS_ENABLE}
+					window.location.href = "@{front.account.FundsManage.rechargePayIps()}";
+				#{/if}
+				#{else}
+					window.location.href = "@{front.account.FundsManage.rechargePay()}";
+				#{/else}
+			}
+		#{/elseif}
+		#{else}
+			alert('${flash?.msg}');
+		#{/else}
+		</script>
+#{/elseif}
+
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_bid.js'}"></script>
+

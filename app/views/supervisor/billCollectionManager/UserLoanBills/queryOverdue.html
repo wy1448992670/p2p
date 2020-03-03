@@ -1,0 +1,143 @@
+<div class="xn_c_ban_jox xn_c_ban_jox_yqzt" style="height: 400px; overflow: auto;">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_ht_jr_obu_l">
+      ${overdue?.bill_no}号借款账单 逾期处理<span class="xf_ht_red">（${overdue?.overdue_mark == 0 ? "未逾期" : "逾期"}）</span>
+    </div>
+    <div class="xf_ht_damem_hy_box">
+      <div class="xf_ht_damem_hy">
+        <table class="xf_ht_damem_hy_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td colspan="3">借款人： ${overdue?.name}</td>
+          </tr>
+          <tr>
+            <td>本期应还金额：${overdue?.principal_interest_amount?.format("###,##0.00")} 元</td>
+            <td>历史逾期账单数：  ${overdue?.overdue_count}</td>
+            <td>逾期应还金额： ${overdue?.ovdedue_fine} 元</td>
+          </tr>
+          <tr>
+            <td colspan="3">合计本期应还：<span class="xf_ht_red">${overdue?.total_pay_amount?.format("###,##0.00")}</span> 元</td>
+          </tr>
+        </table>
+      </div>
+      <div class="xf_ht_damem_hy">
+        <table class="xf_ht_damem_hy_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td colspan="2">
+              <span class="xf_ht_hs">借款人联系方式：</span>
+            </td>
+          </tr>
+          <tr class="xf_ht_tryq_bj">
+            <td>手机：${overdue?.mobile}</td>
+            <td>邮箱： ${overdue?.email}</td>
+          </tr>
+          <tr>
+            <td colspan="2"><span class="xf_ht_hs">直亲联系人：</span></td>
+          </tr>
+          <tr class="xf_ht_tryq_bj">
+            <td>手机： ${overdue?.immediate_family_mobile}</td>
+            <td>邮箱： ${overdue?.immediate_family_email}</td>
+          </tr>
+        </table>
+      </div>
+      <div class="xf_ht_damem_hy_bott">
+        <div class="xf_ht_damem_hy_bott_t clr">
+          <div class="xf_ht_damem_hy_bott_l">催收情况</div>
+          <div class="xf_ht_damem_hy_bott_r"><a href="@{supervisor.billCollectionManager.UserLoanBills.detail(overdue?.bid_id)}">借款标详情</a></div>
+        </div>
+        <div class="xf_ht_damem_hy_bott_ul clr">
+          <a href="javascript:void(0)" class="xf_ht_damem_hy_bott_ulin" onClick="sendStation('${overdue?.name}','${overdue?.user_id}','${overdue?.sign}')">发站内信（${overdue?.notice_count_message}）</a>
+          <a href="javascript:void(0)" class="xf_ht_damem_hy_bott_ulin" onClick="sendMail('${overdue?.name}','${overdue?.user_id}','${overdue?.sign}')">发邮件（${overdue?.notice_count_mail}）</a>
+          <a href="javascript:void(0)" class="xf_ht_damem_hy_bott_ulin" onClick="Mobile('${overdue?.sign}')">电话通知收款（${overdue?.notice_count_telephone}）</a>
+        </div>
+      </div>
+      <div class="xf_ht_damem_hy_bott">
+        <div class="xf_ht_damem_hy_bott_t clr">
+          <div class="xf_ht_damem_hy_bott_l">逾期情况</div>
+          <div class="xf_ht_damem_hy_bott_r"><a href="@{supervisor.billCollectionManager.UserLoanBills.detail(overdue?.bid_id)}" class="xf_ht_hs">借款标详情</a></div>
+        </div>
+        <div class="xf_ht_damem_hy_bott_ta">
+          <table class="xf_ht_damem_hy_bott_table" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td align="right" width="140">本期账单还款日期：</td>
+              <td><input class="xfht_zr_input" type="text" value="${overdue?.repayment_time?.format('yyyy-MM-dd')}" readonly="readonly"></td>
+            </tr>
+            <tr>
+              <td align="right">本期账单已逾期：</td>
+              <td><input class="xfht_zr_input" type="text" value="${overdue?.overdue_time}" readonly> 天</td>
+            </tr>
+            <tr>
+              <td align="right">已产生逾期罚款：</td>
+              <td><input class="xfht_zr_input" type="text" value="${overdue?.ovdedue_fine}" readonly> 元</td>
+            </tr>
+            <tr>
+              <td align="right">是否标记为逾期：</td>
+              <td><input class="xf_ht_jkbgl_page_prev" type="button" onClick="markOverdue('${overdue?.sign}')" value="标记为逾期"></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+function sendStation(name,userId,billId){
+  $("#stationName").html(name);
+  $("#sendToStationId").val(userId);
+  $("#billId").val(billId);
+  
+  $.layer({
+    type: 1,
+    area: ['40%', 'auto'],
+    title: '发站内信',
+    page: {dom : '#xf_ht_mememail_station'}
+  });
+}
+     
+function sendMail(name,userId,billId){
+  $("#mailName").html(name);
+  $("#sendToMailId").val(userId);
+  $("#mailBillId").val(billId);
+  
+  $.layer({
+    type: 1,
+    area: ['40%', 'auto'],
+    title: '发邮件',
+    page: {dom : '#xf_ht_mememail_mail'}
+  });
+}
+     
+function Mobile(billId){
+  var updateBillCollectionByMobile = #{jsAction @updateBillCollectionByMobile(':typeStr',':billIdStr')/}
+  $.post(updateBillCollectionByMobile({typeStr:'3',billIdStr:billId}),function(data){
+    var arr=eval(data);
+      
+    if(arr.error.code < 0){
+      alert(arr.error.msg);
+      return;
+    }
+      
+    alert("电话催收已标记");
+    location.reload();
+  });
+}
+     
+function cancle(){
+  $("#xf_ht_jkbxq_ttc").hide();
+}
+     
+function markOverdue(billId){
+  var markOverdue = #{jsAction @markOverdue(':billIdStr')/}
+  $.post(markOverdue({billIdStr:billId}),function(data){
+    var arr=eval(data);
+     
+    if(arr.error.code < 0){
+      alert(arr.error.msg);
+      return;
+    }
+     
+    alert(arr.error.msg);
+    location.reload();
+  });
+}
+</script>

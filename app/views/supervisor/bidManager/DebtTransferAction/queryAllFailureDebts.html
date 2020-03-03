@@ -1,0 +1,176 @@
+   <div class="xfht_t_q_y">
+      <div class="xfht_t_j_y_1"></div>
+      <div class="xfht_t_j_y_2">
+      <!--右上-->
+        <div class="xfht_t_j_y_kb">
+          <div class="xfht_t_j_y_n1"></div>
+          <div class="xfht_t_j_y_n2"> 
+            <!--上-->
+            <div class="xfht_t_j_y_s_y">
+              <div class="xfht_t_jk_zt1">
+                <select name="select" id="select" class="xfht_t_j_td_1">
+                  <option>全部</option>
+                  <option>编号</option>
+                  <option>债权人</option>
+                </select>
+              </div>
+              <div class="xfht_t_jk_zt2">
+                <div class="xfht_t_jk_zt_wz">时间范围：</div>
+                <div class="xfht_t_jk_zt_rj">
+                  <input name="textfield" type="text" class="xfht_t_jk_zt_rj1" id="textfield" value="2014-01-01" />
+                </div>
+                <div class="xfht_t_j_zt_x">__</div>
+                <div class="xfht_t_jk_zt_rj">
+                  <input name="textfield" type="text" class="xfht_t_jk_zt_rj1" id="textfield" value="2014-01-01" />
+                </div>
+              </div>
+              <div class="xfht_t_jk_zt3">
+                <div class="xfht_t_jk_ss_k">
+                  <input name="textfield" type="text" class="xfht_t_jk_zt_rj3" id="textfield" value="请输入关键词" />
+                </div>
+                <div class="xfht_t_jk_ss_wz"><a href="#">搜&nbsp;&nbsp;索</a></div>
+              </div>
+            </div>
+            <!--下-->
+            <div class="xfht_t_j_y_x_y">
+              <div class="xfht_t_j_y_x_k">
+                <div class="xfht_t_j_y_x_wt">
+                  <div class="xfht_t_y_x_wz_1"><a href="#">默认排序</a></div>
+                </div>
+                <div class="xfht_t_j_y_x_wt">
+                  <div class="xfht_t_y_x_wz"><a href="#">申请时间</a></div>
+                </div>
+                <div class="xfht_t_j_y_x_wt">
+                  <div class="xfht_t_y_x_wz"><a href="#">借款额度</a></div>
+                </div>
+                <div class="xfht_t_j_y_x_wt">
+                  <div class="xfht_t_y_x_wz"><a href="#">信用等级</a></div>
+                </div>
+                 <div class="xfht_t_j_y_x_wt">
+                  <div class="xfht_t_y_x_wz"><a href="#">逾期账单</a></div>
+                </div>
+                 <div class="xfht_t_j_y_x_wt">
+                  <div class="xfht_t_y_x_wz"><a href="#">转让时间</a></div>
+                </div>
+                
+               
+              </div>
+               <div class="xfht_t_j_y_y">
+            </div>
+          </div>
+          <div class="xfht_t_j_y_n3"></div>
+        </div>
+        <!--右下-->
+        <div class="xfht_t_j_y_yx_k">
+    <div class="xfht_t_j_y_yx_nei">
+        <div class="xfht_t_table_left">
+            <table class="xfht_t_table_orderUL" width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td class="xfht_t_table_th">序号</td>
+              </tr>
+              #{list items:page.page,as : 'debt'}
+              <tr><td class="xfht_t_table_td">1</td></tr>
+              #{/list}
+            </table>
+        </div>
+        <div class="xfht_t_table_center">
+            <table width="1000" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                    <th height="40" align="center" valign="middle" bgcolor="#f4f4f4">编号</th>
+                    <th height="40" align="center" valign="middle" bgcolor="#f4f4f4">债权人</th>
+                    <th height="40" align="center" valign="middle" bgcolor="#f4f4f4">信用等级</th>
+                    <th height="40" align="center" valign="middle" bgcolor="#f4f4f4">转让标借款金额</th>
+                    <th height="40" align="center" valign="middle" bgcolor="#f4f4f4">年利率</th>
+                    <th height="40" align="center" valign="middle" bgcolor="#f4f4f4">借款期限</th>
+                    <th height="40" align="center" valign="middle" bgcolor="#f4f4f4">已还期数</th>
+                    <th height="40" align="center" valign="middle" bgcolor="#f4f4f4">剩余期数</th>
+                    <th height="40" align="center" valign="middle" bgcolor="#f4f4f4">剩余金额</th>
+                    <th height="40" align="center" valign="middle" bgcolor="#f4f4f4">逾期账单</th>
+                    <th height="40" align="center" valign="middle" bgcolor="#f4f4f4">待收本金</th>
+                    <th height="40" align="center" valign="middle" bgcolor="#f4f4f4">转让底价</th>
+                     <th height="40" align="center" valign="middle" bgcolor="#f4f4f4">转让方式</th>
+                      <th height="40" align="center" valign="middle" bgcolor="#f4f4f4">竞拍人数</th>
+                     <th height="40" align="center" valign="middle" bgcolor="#f4f4f4">失败时间</th>
+              </tr>
+              #{list items:page.page, as :'debt'}
+               <tr>
+                <td height="40" align="center" valign="middle" bgcolor="#f4f4f4">${debt?.no}</td>
+                <td height="40" align="center" valign="middle" bgcolor="#f4f4f4">${debt?.name}</td>
+                <td height="40" align="center" valign="middle" bgcolor="#f4f4f4">${debt?.credit_level_id}</td>
+                <td height="40" align="center" valign="middle" bgcolor="#f4f4f4">${debt?.bid_amount?.format("###,##0.00")}</td>
+                <td height="40" align="center" valign="middle" bgcolor="#f4f4f4">${debt?.apr}</td>
+                <td height="40" align="center" valign="middle" bgcolor="#f4f4f4">
+                	#{if debt?.period_unit ==-1}
+                	${debt?.period}年
+                	#{/if}
+                	#{if debt?.period_unit ==0}
+                	${debt?.period}月
+                	#{/if}
+                	#{if debt?.period_unit ==1}
+                	${debt?.period}日
+                	#{/if}
+                </td>
+                <td height="40" align="center" valign="middle" bgcolor="#f4f4f4">${debt?.has_payback_period}</td>
+                <td height="40" align="center" valign="middle" bgcolor="#f4f4f4">
+               #{if debt?.period_unit ==-1}
+                	  ${debt?.period*12 - debt?.has_payback_period}
+                #{/if}
+                  #{if debt?.period_unit ==0}
+                	 ${debt?.period - debt?.has_payback_period}
+                #{/if}
+                #{if debt?.period_unit ==1}
+                 ${1 - debt?.has_payback_period}
+                  #{/if}
+              </td>
+                <td height="40" align="center" valign="middle" bgcolor="#f4f4f4" > ${debt?.receiving_amount - debt?.has_received_amount?.format("###,##0.00")}</td>
+                <td height="40" align="center" valign="middle" bgcolor="#f4f4f4">
+              	  ${debt?.overdue_payback_period}
+                </td>
+                <td height="40" align="center" valign="middle" bgcolor="#f4f4f4">${debt?.remain_received_corpus}</td>
+                <td height="40" align="center" valign="middle" bgcolor="#f4f4f4">${debt?.transfer_price}</td>
+                <td height="40" align="center" valign="middle" bgcolor="#f4f4f4">
+                #{if debt?.type ==1}
+                                 定向转让
+                #{/if}
+                 #{if debt?.type ==2}
+                                 竞价转让
+                #{/if}
+                <td height="40" align="center" valign="middle" bgcolor="#f4f4f4" >${debt?.join_times}</td>
+                </td>
+                 <td height="40" align="center" valign="middle" bgcolor="#f4f4f4" >${debt?.failure_time?.format('yyyy-MM-dd HH:mm:ss')}</td>
+              </tr>
+              #{/list}
+            </table>
+        </div>
+        <div class="xfht_t_table_right">
+            <table class="xfht_t_table_orderUL" width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr><td class="xfht_t_table_th">操作</td></tr>
+             #{list items:page.page,as : 'debt'}
+              <tr>
+                <td class="xfht_t_table_td">
+                  <div class="xfht_t_sh_1">
+                    <a href="@{transferDetails(debt?.id)}">详情</a>
+                  </div>
+                </td>
+              </tr>
+            #{/list}
+            </table>
+        </div>
+    </div>
+    
+   <div class="xfht_t_j_y_yx_fy">
+   <div class="xfht_t_j_y_yx_fy_1">
+  #{page funMethod:"showAllFailureDebts",currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:2,style:4 /}
+   
+   </div>
+   
+   </div>
+    </div>
+        
+      </div>
+      <div class="xfht_t_j_y_3"></div>
+    </div>
+    
+    
+    </div>
+<script  type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>

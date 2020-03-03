@@ -1,0 +1,17 @@
+<div class="xf_bjbz_banner">
+	#{if ads[0]?.is_link_enabled}
+	#{if ads[0]?.target == 2}
+		<a href="${ads[0]?.url}" target="_blank">
+			#{img src:"${ads[0]?.image_filename}",alt:"", width:"1000",height:"125px"}#{/img}
+		</a>
+	#{/if}
+	#{else}
+		<a href="${ads[0]?.url}"/>
+			#{img src:"${ads[0]?.image_filename}",alt:"", width:"1000",height:"125px"}#{/img}
+		</a>
+	#{/else}
+	#{/if}
+	#{else}
+		#{img src:"${ads[0]?.image_filename}",alt:"", width:"1000",height:"125px"}#{/img}
+	#{/else}
+</div>

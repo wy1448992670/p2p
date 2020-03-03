@@ -1,0 +1,216 @@
+  <style>
+  	.xf_ht_search_l span{
+  		width:96px;
+  	}
+  </style>
+  <div class="xf_ht_tablelist" >
+    <!-- 搜索 -->
+    <!-- <div class="xf_ht_search_inon" style="border:0px;">
+       <div class="xf_ht_search_r">
+         <div class="xf_ht_search_xl">
+           <input id="keyword" type="text" class="search_w"  placeholder="请输入用户名" value="${pageBean?.conditions?.key}"/>
+         </div>
+         <div class="xf_ht_search_xl">
+           <input class="search_button" type="button" onclick="search();" value="搜索">
+         </div>
+       </div>
+    </div> -->
+    <input type="hidden" id="orderType" name="orderType" value="${pageBean.conditions?.orderType}"/>
+    <!-- 搜索 -->
+    
+    <div class="xf_ht_search" style="margin-top:6px;">
+      <div class="xf_ht_search_l">
+        <span id="div__0" onClick="conditonSearch(0, this)">默认排序</span>
+        <span id="div__1" onClick="conditonSearch(1, this)">累计充值金额 <a id="div__a_1">↑</a></span>
+        <span id="div__3" onClick="conditonSearch(3, this)">累计投标金额 <a id="div__a_3">↑</a></span>
+        <span id="div__5" onClick="conditonSearch(5, this)">累计投标数量 <a id="div__a_5">↑</a></span>
+        <span id="div__7" onClick="conditonSearch(7, this)">累计借款金额 <a id="div__a_7">↑</a></span>
+        <span id="div__9" onClick="conditonSearch(9, this)">累计借款标数量 <a id="div__a_9">↑</a></span>
+        <span id="div__11" onClick="conditonSearch(11, this)">信用等级 <a id="div__a_11">↑</a></span>
+        <span id="div__13" onClick="conditonSearch(13, this)">累计审核科目数 <a id="div__a_13">↑</a></span>
+        <span id="div__15" onClick="conditonSearch(15, this)">累计收益 <a id="div__a_15">↑</a></span>
+        <span id="div__23" onClick="conditonSearch(23, this)">账户余额 <a id="div__a_23">↑</a></span>
+      </div>
+    </div>
+    <div class="xf_ht_search_inon">
+      <div class="xf_ht_search_r">
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">会员名：</span>
+          <input name="name" type="text" placeholder="会员名/手机/邮箱" class="search_w" id="keyword" value="${pageBean?.conditions?.key}" />
+        </div>
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">注册时间：</span>
+          <input name="beginTime" type="text" id="beginTime" class="search_time" onclick="laydate()" style="cursor: pointer" value="${pageBean?.conditions?.beginTime}"/>
+          <span class="search_timesp">--</span>
+          <input name="endTime" type="text" id="endTime" class="search_time" onclick="laydate()" style="cursor: pointer" value="${pageBean?.conditions?.endTime}"/>
+        </div>
+        <div class="xf_ht_search_xl">
+          <input type="button" class="search_button" onclick="search();" value="搜 索" />
+        </div>
+        
+      </div>
+    </div>
+  
+    
+    <!-- 列表内容 -->
+    <div style=" overflow: auto; width:1000px;height:350px;">
+	    <div class="xn_c_content_top" style="width:1500px; margin-left:10px;margin-right:10px; overflow: auto;" >
+	      #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xn_c_content_list",tr_class_odd:"xn_tr_bj"}
+	        #{tr}
+	          #{if radio == 0}#{th}<input type="checkbox" name="check_all" onclick="checkAll()" value="-1"/>#{/th}#{/if}
+			  #{th}序号#{/th}
+			  #{th}用户名#{/th}
+			  #{th}注册时间#{/th}
+			  #{th}信用等级#{/th}
+			  #{th}充值总额#{/th}
+			  #{th}投标总数#{/th}
+			  #{th}投标总额#{/th}
+			  #{th}借款总数#{/th}
+			  #{th}借款总额#{/th}
+			  #{th}绑定邮箱#{/th}
+			  #{th}是否激活#{/th}
+			  #{th}绑定手机#{/th}
+			  #{th}审核科目数#{/th}
+			  #{th}是否黑名单#{/th}
+			  #{th}账户余额#{/th}
+			  #{th}最后登录时间#{/th}
+			  #{th}状态#{/th}
+	        #{/tr}
+			#{list pageBean.page, as:'user'}
+	        #{tr tr_index:content_index, class:"xselect", uid:"${user?.id}"}
+	          #{if radio == 0}#{td}<input type="checkbox" name="check_box" class="xf_mem_znx_wdtr_checkbox" value="${user?.name}" />#{/td}#{/if}
+			  #{td}${(pageBean?.currPage - 1) * pageBean?.pageSize + user_index}#{/td}
+			  #{td}${user?.name}#{/td}
+			  #{td}${user?.register_time?.format("yyyy-MM-dd")}#{/td}
+			  #{td}#{img src:"${user?.credit_level_image_filename}",alt:"",width:"20",height:"20"}#{/img}#{/td}
+			  #{td}${user?.recharge_amount?.format("###,##0.00")}#{/td}
+			  #{td}${user?.invest_count}#{/td}
+			  #{td}${user?.invest_amount?.format("###,##0.00")}#{/td}
+			  #{td}${user?.bid_count}#{/td}
+			  #{td}${user?.bid_amount?.format("###,##0.00")}#{/td}
+			  #{td}${user?.email}#{/td}
+			  #{td}#{if user?.is_activation == true}是#{/if}#{else}否#{/else}#{/td}
+			  #{td}${user?.mobile}#{/td}
+			  #{td}${user?.audit_item_count}#{/td}
+			  #{td}#{if user?.is_blacklist == true}是#{/if}#{else}否#{/else}#{/td}
+			  #{td}${user?.user_amount?.format("###,##0.00")}#{/td}
+			  #{td}${user?.last_login_time?.format("yyyy-MM-dd")}#{/td} 
+			  #{td}${user.is_allow_login ? "锁定" : "正常"}#{/td}
+	        #{/tr}
+			#{/list}
+	      #{/table}
+	    </div>
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom" style="border:0px;width:740px;">
+      #{page funMethod:"selectUsersInit",currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:4/}
+      #{if radio == 0}<div class="page_warp_l">
+          <input type="button" value="确  定" onclick="submit();" class="xf_htbutton"/>
+          <input type="button" id="cancel" value="取  消" class="xf_htbutton"/>
+      </div>#{/if}
+    </div>
+  </div>
+<script type="text/javascript">
+  $(function() {
+    //取消
+	$("#cancel").click(function() {
+	  layer.closeAll();
+	});
+    init();
+  });
+
+  //初始化
+  function init() {
+	  $('input:checkbox[name=check_box]').each(function(){
+      if (g_selectedNames.inArray($(this).val())) {
+        $(this).attr("checked", "checked");
+      }
+    });
+  }
+	
+  //搜索
+  function search() {
+    selectUsersInit(1, 30);
+  }
+  
+  $(function(){  
+	  /* 高亮显示 */
+	  highLight(1);
+	  
+	  //条件查询控制样式
+	  var num= ${pageBean.conditions?.orderType};
+	  if(num == 0){
+	    $("#div__0").addClass("xf_sea_isshow");
+	    return;
+	  }
+		
+	  var sum = num/2;
+	  if(sum.toString().indexOf('.') == -1){
+	    var sum2 = num -1;
+	    
+	    $("#div__"+sum2).addClass("xf_sea_isshow");
+	    $("#div__a_"+sum2).html("↓");
+	    return;
+	  }
+
+		
+	  $("#div__"+num).addClass("xf_sea_isshow");
+	  $("#div__a_"+num).html("↑");
+	});
+  
+  function conditonSearch(num, obj){
+	 // $(obj).addClass("xf_sea_isshow");
+	  var orderType= ${pageBean.conditions?.orderType};
+	  if(orderType == 0){
+	    $("#orderType").val(num);
+	    search();
+	    return;
+	  }
+	  var sum = orderType/2;
+	  if(sum.toString().indexOf('.') == -1){
+	    var sum2 = orderType - 1;
+	    $("#orderType").val(num);
+	    search();
+	    return;
+	  }else{
+	    if(orderType == num){
+	      $("#orderType").val(num + 1);
+	      search();
+	      return;
+	    }else{
+	      $("#orderType").val(num);
+	      search();
+	      return;
+	    }
+	  }
+	}
+
+  //确定提交
+  function submit() {
+	  $('input:checkbox[name=check_box]').each(function(){
+		  var name = $(this).val();
+		  var isSelected = this.checked;
+	
+		  if (isSelected) {
+		    g_selectedNames.removeObject(name);
+		    g_selectedNames.push(name);
+		    
+		  } else {
+		    g_selectedNames.removeObject(name);
+		  }
+	  });	
+
+	  if (g_selectedNames.length == 0) {
+	      alert("请选择至少一个会员");
+				
+	      return;
+	    }
+	 
+	  if(g_selectedNames.length > 200){
+		  alert("每次不得超过200人!");
+		  return;
+	  }
+    usersDidSelect(g_selectedNames);
+    layer.closeAll();
+}
+</script>

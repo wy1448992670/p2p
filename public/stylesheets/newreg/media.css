@@ -1,0 +1,55 @@
+    @media only screen and (min-width: 1920px), only screen and (min-device-width:1920px) {
+    html body .login {
+         width: 1903px;
+         height: 644.244px;
+         float: left;
+     }
+    
+   }
+   
+    @media only screen and (max-width: 1920px), only screen and (max-device-width:1920px) {
+    html body .login {
+         width: 1903px;
+         height: 644.244px;
+     }
+    
+   }
+   
+   @media only screen and (max-width: 1440px), only screen and (max-device-width:1440px) {
+    html body  .login{
+         width: 1423px;
+           height: 481.744px;
+           float: left;
+     }
+  }
+     @media only screen and (max-width: 1366px), only screen and (max-device-width:1366px) {
+    html body  .login{
+         width: 1349px;
+         height: 456.6927px;
+         float: left;
+     }
+    
+     
+   }
+     @media only screen and (max-width: 1360px), only screen and (max-device-width:1360px) {
+    html body  .login{
+          width: 1343px;
+          height:454.6614px;
+          float: left;
+          
+     }
+     
+     
+   }
+     @media only screen and (max-width: 1280px), only screen and (max-device-width:1280px) {
+     html body .login {
+         width: 1263px;
+         height: 427.578px;
+         float: left;
+         
+     }
+    
+     
+     
+   }
+    

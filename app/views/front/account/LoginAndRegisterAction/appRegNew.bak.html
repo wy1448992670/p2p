@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>免费注册</title>
+    <link rel="stylesheet" href="https://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+    <style type="text/css">
+    	body{background-color:#FFF;max-width: 668px;height: 100%;display: block;margin:auto;padding:0 16px;min-width: 360px;}
+    	.logo{width: 150px;height: 150px;border-radius:26px;display: block;margin: 80px auto auto auto;}
+    	form{margin: 66px auto 0 auto;/* max-width: 70%; */}
+    	.form-line{border-bottom: 1px solid #ebebeb;}
+    	.form-line label{padding:20px 23px;font-size: 24px;font-weight: normal;margin-bottom: 0;}
+    	.form-line .input{border: none; margin-left: 12px;width: 450px;font-size: 22px;font-weight: 200;outline: none;}
+    	form .sb-btn{border: none;background-color: #ff1e1d;width: 100%;height: 60px;line-height: 60px;margin-top: 50px;border-radius:20px;color: #fefefe;font-size: 26px;}
+    	form .vcode{border: none;background-color: #fff;font-size: 22px;float: right;margin-top: 22px;padding:0 20px;color: #888;border-left: 1px solid #CCC;}
+    	
+    	.download{margin-top: 50px;font-size: 26px;text-align: center;}
+    	.download a{color: #666;font-weight: 200}
+    	.footer{margin-top: 145px;text-align: center;font-size: 24px;color: #999;font-weight: 200}
+    	.qrcode{height: 120px;left: -8px;position: absolute;top: 38px;width: 120px;border: 1px solid #ff1e1d;padding:8px;display: none;}
+    	.cert{color:#ff1e1d;font-size: 16px;font-weight: normal;position: absolute;top: 23px;left: 46px;background: #FFF;display: none;}
+    	@media (max-width: 768px) {
+    		.logo{width: 90px;height: 90px;border-radius:16px;}
+    		.form-line label{font-size: 16px;padding:10px 3px;}
+    		.form-line .input{font-size: 16px;width: 260px;margin-left: 3px;}
+    		form .sb-btn{font-size: 16px;height: 50px;line-height: 50px;}
+    		.download{font-size: 16px;}
+    		.footer{font-size: 14px;}
+    		.footer{margin-top: 95px;}
+    		form .vcode{margin-top:10px;font-size: 16px;}
+    	}
+    </style>
+  </head>
+<body>
+<img alt="" src="/public/images-new/logo.jpg" class="logo">
+#{form @front.account.loginAndRegisterAction.appRegMobile(), id:'appReg'}
+<input type="hidden" name="name" id="name" placeholder="用户名">
+<input type="hidden" name="recommendName" value="推荐人：${recommendName}">
+  <div class="form-line clearfix">
+  	<label>手机号</label>
+  	<input type="tel" id="mobile" name="mobile" class="input" placeholder="请输入手机号">
+  </div>
+  <div class="form-line clearfix">
+  	<label>密&nbsp;&nbsp;&nbsp;码</label>
+  	<input type="password" id="password" name="password" class="input" placeholder="由6-20位的数字，字母组成">
+  </div>
+  <div class="form-line clearfix">
+  	<label>验证码</label>
+  	<input type="tel" name="smsCode" class="input" placeholder="请输入验证码" style="width: 140px;">
+  	<button type="button" id="sendSmsCode" onclick="sendCode()" class="vcode">获取验证码</button>
+  </div>
+  <button type="button" class="sb-btn" id="reg">立即注册</button>
+ #{/form}
+ 
+ <div class="download">
+ 	<a href="@{app.AppController.download()}" style="margin-right: 40px;position: relative;" class="app_download">APP下载
+ 	<img alt="" src="/public/images-new/qr-donwload.png" class="qrcode"><label class="cert">︿</label></a>
+ 	<a href="@{front.home.HomeAction.home}" style="margin-left: 40px;">官网首页</a>
+ </div>
+
+<div class="footer">
+	<p>版权所有 &copy; 亿亿理财安全系统 沪ICP备案15054793号</p>
+</div>
+
+</body>
+<script src="@{'/public/javascripts/jquery-2.0.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/common.js'}"></script>
+<script type="text/javascript">
+var remain = 60;
+
+function countDown() {
+  if (remain == 0) {
+    remain = 60;
+    $("#sendSmsCode").html("点击发送");
+    $("#sendSmsCode").attr("onclick", "sendCode();");
+    $("#sendSmsCode").attr("style", "cursor:pointer");
+
+    return;
+  }
+
+  $("#sendSmsCode").html("" + remain-- + "秒后重发");
+  setTimeout("countDown()",1000);
+}
+function sendCode() {
+	  var mobile = $("#mobile").val();
+	  if(mobile == "") {
+	    alert("请输入手机号码后，再获取验证码");
+	    return;
+	  }
+	  
+	  $.ajax({
+		  url : "@{sendSmsCode()}",
+		  type : "POST",
+		  data : {
+			  "mobile" : mobile,
+			  'send' : true
+		  },
+		  dataType:'json',
+		  success : function(data) {
+			  if(data.code < 0){
+				  alert(data.msg);
+			  }else{
+				  countDown();
+				  $("#sendSmsCode").attr("onclick", "void(0);");
+				  $("#sendSmsCode").attr("style", "cursor: default");
+			  }
+			},
+		  error : function() {
+		    alert("对不起，出现错误!");
+		  }
+		 });
+	}
+
+function isPC() {
+	var userAgentInfo = navigator.userAgent;
+	var Agents = new Array("Android", "iPhone", "SymbianOS",
+			"Windows Phone", "iPad", "iPod");
+	var flag = true;
+	for (var v = 0; v < Agents.length; v++) {
+		if (userAgentInfo.indexOf(Agents[v]) > 0) {
+			flag = false;
+			break;
+		}
+	}
+	return flag;
+}
+$(".app_download").hover(function(){
+	if(isPC()){
+		$(".qrcode").show();
+		$(".cert").show();
+		var b = browser();
+		if("Chrome" == b){
+			$(".cert").css({"top":"23px"});
+		}
+		else if("FF" == b){
+			$(".cert").css({"top":"22px"});
+		}
+		else{
+			$(".cert").css({"top":"21px"});
+		}
+	}
+},function(){
+	$(".qrcode").hide();
+	$(".cert").hide();
+});
+function browser(){
+    var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+    var isOpera = userAgent.indexOf("Opera") > -1;
+    console.log(userAgent)
+    if (isOpera) {
+        return "Opera"
+    }; //判断是否Opera浏览器
+    if (userAgent.indexOf("Firefox") > -1) {
+        return "FF";
+    } //判断是否Firefox浏览器
+    if (userAgent.indexOf("Chrome") > -1){
+	  return "Chrome";
+	 }
+    if (userAgent.indexOf("Safari") > -1) {
+        return "Safari";
+    } //判断是否Safari浏览器
+    console.log(userAgent)
+    if (userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && !isOpera) {
+        return "IE";
+    }; //判断是否IE浏览器
+}
+
+$(function(){
+	
+	$('#reg').click(function(){
+		if($(this).attr('disabled') == 'disabled'){
+			return;
+		}
+		$(this).attr('disabled','disabled');
+		
+		$("#name").val("zzy"+$("#mobile").val());
+		
+		$.ajax({
+			  url : "@{front.account.LoginAndRegisterAction.appRegMobile()}",
+			  type : "POST",
+			  data : $('#appReg').serialize(),
+			  dataType:'json',
+			  success : function(data) {
+				  if(data.code < 0){
+					  alert(data.msg);
+					  $('#reg').removeAttr('disabled');
+				  }else{
+					  alert('注册成功');
+					  //location.href = 'http://appstore.qiwangyun.com/lab/sp2p_Test/download.html';
+					  if(isPC()){
+						  location.href = 'https://www.yiyilc.com/';
+					  }else{
+						  location.href = '@{app.AppController.download()}';
+					  }
+				  }
+				},
+			  error : function() {
+			    alert("对不起，出现错误!");
+			  }
+			 });
+		
+	});
+	
+	
+	
+
+		//导航js
+		$('.p_hebtn').click(function() {
+			if ($('.p_nav').is(':hidden')) {
+				$(this).children('span').children('i').animate({
+					'top' : '17px'
+				}, 100, function() {
+					$('.p_hebtn').children('span').addClass('click');
+					$('.p_nav').slideDown();
+				});
+			} else {
+				$(this).children('.p_hxtop').children('i').animate({
+					'top' : '13px'
+				}, 500);
+				$(this).children('.p_hxbot').children('i').animate({
+					'top' : '21px'
+				}, 500);
+				$('.p_hebtn').children('span').removeClass('click');
+				$('.p_nav').slideUp();
+			}
+			;
+		});
+
+		//边距处理
+		$('.p_ft_link div:last a').css('border-right', 'none');
+		//最小高度处理
+		var heit = $(window).height();
+		$('.p_minheight').css('min-height', heit - 201 + 'px');
+
+		//注册 按钮  js
+		$('.p_zc_icon').click(function() {
+			var ico = $(this).children('i'), num = ico.position().left;
+			if (num == 23) {
+				$('#password').attr('type', 'password');
+				ico.animate({
+					left : 0
+				}, 180, function() {
+					$(this).addClass('clicked');
+					$('.p_zc_icon').addClass('clicked');
+				});
+			} else {
+				$('#password').attr('type', 'text');
+				$('.p_zc_icon').removeClass('clicked');
+				ico.animate({
+					left : '23px'
+				}, 180, function() {
+					$(this).removeClass('clicked');
+				});
+			}
+			;
+		});
+		//通用选项卡 xxk
+		function tab(li, tabox, name) {
+			li.eq(0).addClass(name);
+			tabox.eq(0).show();
+			li.click(function() {
+				$(this).addClass(name).siblings().removeClass(name);
+				tabox.hide().eq($(this).index()).show();
+			})
+		}
+		tab($(".p_lctop div"), $(".p_lctabox"), "on");
+
+	})
+</script>
+</html>

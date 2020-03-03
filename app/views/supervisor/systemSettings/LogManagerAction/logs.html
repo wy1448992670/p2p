@@ -1,0 +1,95 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'操作日志' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/systemSettings/common/leftBar.control"/}
+    <div class="xn_c_content">
+      <div class="xf_content_add">
+        <div class="xfht_t_j_y_2">
+          <div class="xfht_t__aqsz_sjcsh">
+            <div class="xfht_cshgl_top">
+              <span class="xf_ht_top_h1">欢迎您，${supervisor?.level == 1 ? "超级" : "普通"}管理员管理员</span><br />你的安全云盾编号为：
+              <span class="xf_ht_hs">${supervisor?.ukey}</span>，与软件注册码授权一致，可以进行数据库操作。<br />
+              <span class="xf_ht_red">提醒：数据库操作具有一定专业性，数据不可逆性，请谨慎操作！</span>
+            </div>
+            <div class="xf_ht_search_inon">
+              <div class="xf_ht_search_r">
+                <div class="xf_ht_search_xl">
+                  <select class="xf_membill_selectAge" name="keywordType" id="keywordType">
+                    <option value="0">全部</option>
+                    <option value="1">IP</option>
+                    <option value="2">操作内容</option>
+                    <option value="3">管理员名字</option>
+                  </select>
+                </div>
+                <div class="xf_ht_search_xl">
+                  <span class="search_timesp">时间范围：</span>
+                  <input type="text" class="search_time" id="beginTime" value='${page.conditions.beginTime}' style="cursor:pointer"
+                    onclick="laydate()">
+                  <span class="search_timesp">--</span>
+                  <input type="text" class="search_time" id="endTime" value='${page.conditions.endTime}' style="cursor:pointer"
+                    onclick="laydate()">  
+                </div>
+                <div class="xf_ht_search_xl">
+                  <input type="text" class="search_w" id="keyword" value="${page?.conditions?.keyword}" placeholder="请输入关键字">
+                </div>
+                <div class="xf_ht_search_xl">
+                  <input type="button" class="search_button" onclick="search();" value="搜索">
+                </div>
+              </div>
+            </div>
+            <div class="xf_htgl_jgone xf_ht_aqsz_cshsj_box">
+              <h3 class="xf_htgl_jgtitle">数据库操作记录</h3>
+              <div class="xf_ht_aqsz_cshsj">
+              #{table class:"xf_con_mem_r_b_table", width:"100%", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+                #{tr}
+                  #{th}序号#{/th}
+                  #{th}时间#{/th}
+                  #{th}IP#{/th}
+                  #{th}操作内容#{/th}
+                  #{th}操作人#{/th}
+                  #{th}管理员等级#{/th}
+                #{/tr}
+                #{list page.page}      
+                #{tr tr_index:_index}
+                  #{td}${(page?.currPage - 1)*page?.pageSize + _index}#{/td}
+                  #{td}${_?.time?.format("yyyy-MM-dd HH:mm:ss")}#{/td}
+                  #{td}${_?.ip}#{/td}
+                  #{td}${_?.descrption}#{/td}
+                  #{td}${_?.supervisor_name}#{/td}
+                  #{td}${_?.supervisor_level == 1 ? "超级" : "普通"}管理员#{/td}
+                #{/tr}
+                #{/list}
+                #{/table}
+              </div>
+            </div>
+            <div class="xf_ht_shmx_button xf_ht_ssjt">
+              #{page currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:1,style:4}keywordType=${page.conditions.keywordType}&keyword=${page.conditions.keyword}&beginTime=${page.conditions.beginTime}&endTime=${page.conditions.endTime}
+              #{/page}
+              <div class="page_warp_l"> 统计：共记录<span class="xf_ht_czrz_list_font">${page.conditions.days}</span>天操作日志</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>  
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    /* 高亮显示 */
+	showHighLight(6,6,15);
+  });
+  
+  /**
+   * 搜索
+   */
+  function search() {
+    var keywordType = $("#keywordType option:selected").val();
+    var keyword = encodeURIComponent($("#keyword").val());
+    var beginTime = $("#beginTime").val();
+    var endTime = $("#endTime").val();
+    
+    window.location.href = "logs?keywordType=" + keywordType + "&keyword=" + keyword + "&beginTime=" + beginTime + "&endTime=" + endTime;
+  }
+</script>

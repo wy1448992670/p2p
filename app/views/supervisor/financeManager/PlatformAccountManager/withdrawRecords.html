@@ -1,0 +1,103 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'提现记录' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include 'supervisor/financeManager/common/financeManageLeft.control'/}
+		<div class="xn_c_content">
+		  <div class="xf_ht_tablelist">
+		    <!-- 搜索 -->
+		    #{form @withdrawRecords(), id:'form'}
+		    <div class="xf_ht_search_inon">
+		      <div class="xf_ht_search_r">
+		        <div class="xf_ht_search_xl">
+		          <span class="search_timesp">用户名：</span>
+		          <input name="name" type="text" class="search_w" id="name" value="${page.conditions?.name}" />
+		        </div>
+		        <div class="xf_ht_search_xl">
+				      <select name="status" class="xfht_t_j_td_1">
+		            <option value="0">全部</option>
+		            <option value="1" #{if page?.conditions?.status == 1} selected="selected" #{/if}>成功</option>
+		            <option value="2" #{if page?.conditions?.status == 2} selected="selected" #{/if}>失败</option>
+		          </select>
+				    </div>
+		        <div class="xf_ht_search_xl">
+		          <span class="search_timesp">申请时间：</span>
+		          <input name="startDate" type="text" id="startDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${page?.conditions?.startDate}" />
+		          <span class="search_timesp">--</span>
+		          <input name="endDate" type="text" id="endDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${page?.conditions?.endDate}" />
+		        </div>
+		        <div class="xf_ht_search_xl">
+		          <input type="hidden" name="isExport" value="0" id="isExport">
+				  <input type="submit" class="search_button" onclick="search();" value="搜索">
+				  <input type="submit" class="search_button" onmouseout="clearIsExport();" onclick="download();" value="下载数据">
+		        </div>
+		      </div>
+		    </div>
+		    #{/form}
+		    <!-- 列表内容 -->
+		    <div class="xn_c_content_top">
+		      #{table class:"xn_c_content_list",cellspacing:"0",cellpadding:"0",border:"0",tr_class_odd:"xn_tr_bj"}
+		        #{tr}
+		          #{th}序号#{/th}
+		          #{th}用户名#{/th}
+		          #{th}提现金额（元）#{/th}
+		          #{th}申请时间#{/th}
+		          #{th}付款时间#{/th}
+		          #{th}状态#{/th}
+		        #{/tr}
+		        #{list page?.page}
+		        #{tr tr_index:_index}
+		          #{td}${(page?.currPage - 1) * page?.pageSize + _index}#{/td}
+		          #{td}${_?.name}#{/td}
+		          #{td}${_?.amount.format('###,##0.00')}元#{/td}
+		          #{td}${_?.time?.format("yyyy-MM-dd HH:mm")}#{/td}
+		          #{td}${_?.pay_time?.format("yyyy-MM-dd HH:mm")}#{/td}
+		          #{td}
+		          #{if _?.status == 2}
+							成功
+		          #{/if}
+		          #{else}
+							失败
+		          #{/else}
+		          #{/td}
+		        #{/tr}
+		        #{/list}
+		      #{/table}
+		    </div>
+		    <!-- 列表底部 -->
+		    <div class="xn_c_content_bottom">
+		      <div class="page_warp">
+		        #{page currPage:page?.currPage,pageSize:page?.pageSize,totalCount:page?.totalCount,theme:1,style:4}name=${page?.conditions?.name}&status=${page?.conditions?.status}&startDate=${page?.conditions?.startDate}&endDate=${page?.conditions?.endDate}
+		        #{/page}
+		      </div>
+		    </div>
+		  </div>
+		</div>
+  </div>
+</div> 
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_mg_bill.js'}"></script>
+<script>
+
+/* 搜索 */
+function search(){
+  $("#isExport").val(0);
+  $("#form").submit();
+}
+
+/* 下载数据 */
+function download(){
+  $("#isExport").val(1);
+  $("#form").submit();
+}
+
+/* 清除下载数据 */
+function clearIsExport(){
+  $('#isExport').val(0);
+}
+
+
+	$(function(){
+		//高亮显示
+		showHighLight(4,4,27);
+	})
+</script>

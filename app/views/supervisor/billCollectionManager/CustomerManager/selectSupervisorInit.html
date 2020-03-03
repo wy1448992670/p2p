@@ -1,0 +1,92 @@
+<div class="xn_c_ban_jox xn_c_ban_jox_ptsh">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xfht_t_j_y_s_y xfht_t_CPS_tg2">
+      <div class="xfht_t_jk_zt3 xf_ht_obu_ss">
+        <div class="xfht_t_jk_ss_k" style="padding:0px;">
+          <input type="text" class="xfht_t_jk_zt_rj3" id="keyword" placeholder="账号/真实姓名/手机1/邮箱" value="${pageBean?.conditions?.keyword}" />
+          <a href="javascript:searchSupervisors();" class="xf_ht_jkbgl_page_prev xf_ht_dfp">搜索</a>
+        </div>
+      </div>
+    </div>
+    <div class="xf_ht_ures_view_tcc">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="xf_con_mem_r_b_table">
+        <tr>
+          <th><input type="checkbox" name="check_all" onclick="checkAll()" value="-1"/></th>
+          <th>序号</th>
+          <th>账号</th>
+          <th>真实姓名</th>
+          <th>性别</th>
+          <th>手机1</th>
+          <th>邮箱</th>
+          <th>管理员类型</th>
+          <th>权限组</th>
+        </tr>
+        #{list pageBean?.page}
+        <tr>
+          <td><input name="check_box" type="checkbox" value="${_?.sign2}"/></td>
+          <td>${_index}</td>
+          <td>${_?.name}</td>
+          <td>${_?.reality_name}</td>
+          <td>
+          #{if _?.sex == 1}男#{/if}
+          #{if _?.sex == 2}女#{/if}
+          #{if _?.sex == 3}保密#{/if}
+          </td>
+          <td>${_?.mobile1}</td>
+          <td>${_?.email}</td>
+          <td>#{if _?.level == 0} 普通管理员 #{/if} #{if _?.level == 1} 超级管理员#{/if}</td>
+          <td>${_?.right_group}</td>
+        </tr>
+        #{/list}
+      </table>
+    </div>
+    <div class="xf_ht_zd_content">提醒：客服人员只能从网站管理员中进行选择，如无合适选择目标，请先添加管理员，再进行选择。</div>
+    <div class="xf_ht_shmx_button xf_ht_jobx_page">
+      <div class="page_warp">
+         #{page funMethod:"selectSupervisorInit",currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:4 /}
+     </div>
+    </div>
+    <div class="xf_ht_tcc_button_box xf_ht_tcc_button_box_oktwo">
+        <input class="xf_ht_tcc_button_ok" type="button" onclick="submit();" value="确  定"> 
+        <input class="xf_ht_tcc_button_on" type="button" value="取  消" onclick="closeThis();">
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+	  $('input:checkbox[name=check_box]').each(function() {
+      	if (g_selectedSigns.inArray($(this).val())) {
+       	  $(this).attr("checked","checked");
+      	}
+    });
+  });
+
+  function closeThis(){
+	  layer.close(layer_index);
+  }
+  
+  //搜索
+  function searchSupervisors() {
+    selectSupervisorInit(1, 4);
+  }
+
+  //确定提交
+  function submit() {
+	  var isSelected = false;
+	  var sign = '';
+	  
+	  $('input:checkbox[name=check_box]').each(function(){
+		  sign = $(this).val();
+		  isSelected = this.checked;
+	      
+	      if(isSelected) {
+	        g_selectedSigns.push(sign);
+	      } else {
+	    	g_selectedSigns.removeObject(sign);  
+	      }  
+	  });	
+    supervisorsDidSelect(g_selectedSigns);
+    parent.layer.close(layer_index);
+  }
+</script>

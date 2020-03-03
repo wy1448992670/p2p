@@ -1,0 +1,199 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'应付款投资账单统计表' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/financeManager/common/financeManageLeft.control"/}
+    <div class="xn_c_content">
+    <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    #{form @payableBills(), id:'submit'}
+    <div class="xf_ht_search">
+      <input type="hidden" id="currPage" name="currPageStr"/>
+          <input type="hidden" id="pageSize" name="pageSizeStr"/>
+      <div class="xf_ht_search_l">
+      <input type="hidden" id="orderType" name="orderType" value="${page.conditions?.orderType}"/>
+      <span id="div_0"><a id="tab_0" onClick="conditonSearch(0)">默认排序<a id="sp0"></a></a></span>
+      <span id="div_1"><a id="tab_1" onClick="conditonSearch(1)">正常付款率<a id="sp1">↑</a></a></span>
+      <span id="div_3"><a id="tab_3" onClick="conditonSearch(3)">逾期账单数量<a id="sp3">↑</a></a></span>
+      <span id="div_5"><a id="tab_5" onClick="conditonSearch(5)">未收占比<a id="sp5">↑</a></a></span>
+      </div>
+    </div>
+    <div class="xf_ht_search_inon">
+      <div class="xf_ht_search_r">
+      <div class="xf_ht_search_xl">
+        <select id="year" name="yearStr"  class="xf_membill_selectAge">
+        <option value="0" #{if page.conditions?.year == 0} selected="selected" #{/if}>全部</option>
+        </select>
+      </div>
+      <div class="xf_ht_search_xl">
+        <select id="month" name="monthStr" class="xf_membill_selectAge">
+        <option value="0" #{if page.conditions?.month == 0} selected="selected" #{/if}>全部</option>
+        <option value="1" #{if page.conditions?.month == 1} selected="selected" #{/if}>1</option>
+        <option value="2" #{if page.conditions?.month == 2} selected="selected" #{/if}>2</option>
+        <option value="3" #{if page.conditions?.month == 3} selected="selected" #{/if}>3</option>
+        <option value="4" #{if page.conditions?.month == 4} selected="selected" #{/if}>4</option>
+        <option value="5" #{if page.conditions?.month == 5} selected="selected" #{/if}>5</option>
+        <option value="6" #{if page.conditions?.month == 6} selected="selected" #{/if}>6</option>
+        <option value="7" #{if page.conditions?.month == 7} selected="selected" #{/if}>7</option>
+        <option value="8" #{if page.conditions?.month == 8} selected="selected" #{/if}>8</option>
+        <option value="9" #{if page.conditions?.month == 9} selected="selected" #{/if}>9</option>
+        <option value="10" #{if page.conditions?.month == 10} selected="selected" #{/if}>10</option>
+        <option value="11" #{if page.conditions?.month == 11} selected="selected" #{/if}>11</option>
+        <option value="12" #{if page.conditions?.month == 12} selected="selected" #{/if}>12</option>
+        </select>
+      </div>
+      <div class="xf_ht_search_xl">
+        <input type="hidden" name="isExport" value="0" id="isExport">
+		<input type="submit" class="search_button" onclick="search();" value="搜索">
+		<input type="submit" class="search_button" onmouseout="clearIsExport();" onclick="download();" value="下载数据">
+      </div>
+      </div>
+    </div>
+    #{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+      #{tr}
+        #{th}序号#{/th}
+        #{th}年#{/th}
+        #{th}月#{/th}
+        #{th}应付账单数#{/th}
+        #{th}应付金额#{/th}
+        #{th}实际已付账单数#{/th}
+        #{th}实际已付金额#{/th}
+        #{th}正常付款账单数#{/th}
+        #{th}正常付款率#{/th}
+        #{th}本金垫付账单数#{/th}
+        #{th}垫付总额#{/th}
+        #{th}垫付占比#{/th}
+        #{th}未付账单数#{/th}
+        #{th}未付总额#{/th}
+        #{th}未付占比#{/th}
+      #{/tr}
+      #{list items:page.page, as:'payableBill'}
+      #{tr tr_index:_index}
+        #{td}${(page?.currPage - 1)*page?.pageSize + payableBill_index}#{/td}
+        #{td}${payableBill?.year}#{/td}
+        #{td}${payableBill?.month}#{/td}
+        #{td}${payableBill?.payables_bills}#{/td}
+        #{td}${payableBill?.payables_amount?.format("###,##0.00")}#{/td}
+        #{td}${payableBill?.has_paid_bills}#{/td}
+        #{td}${payableBill?.has_paid_amount?.format("###,##0.00")}#{/td}
+        #{td}${payableBill?.normal_paid_bills}#{/td}
+        #{td}${payableBill?.ontime_complete_rate}%#{/td}
+        #{td}${payableBill?.principal_advances_bills}#{/td}
+        #{td}${payableBill?.principal_advances_amount?.format("###,##0.00")}#{/td}
+        #{td}${payableBill?.principal_advances_rate}%#{/td}
+        #{td}${payableBill?.nopaid_bills}#{/td}
+        #{td}${payableBill?.nopaid_amount}#{/td}
+        #{td}${payableBill?.nopaid_rate}%#{/td}
+      #{/tr}
+      #{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      <div class="page_warp">
+      #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4}#{/page}
+      </div>
+    </div>
+    </div>
+  </div>
+  </div>
+</div>
+<div id="show"></div>
+<script type="text/javascript">
+
+/* 搜索 */
+function search(){
+  $("#isExport").val(0);
+  $("#submit").submit();
+}
+
+/* 下载数据 */
+function download(){
+  $("#isExport").val(1);
+  $("#submit").submit();
+}
+
+/* 清除下载数据 */
+function clearIsExport(){
+  $('#isExport').val(0);
+}
+
+$(function(){
+	  var mydate = new Date();
+	  var now = mydate.getFullYear();
+	  var before = now -5;
+	  var html = "";
+	  
+	  for(var  c = now ;c >= before;c--){
+		   html += '<option ';
+
+		   if('${page?.conditions?.year}' == c)
+			   html += 'selected="selected"';
+
+		   html += ' value="'+c+'">'+c+'</option>';
+	  }
+
+	  $("#year").append(html);
+	});
+
+  window.onload=function(){
+   /* 高亮显示 */
+   showHighLight(3,3,12);
+ }
+ 
+  function conditonSearch(num){
+	  var orderType= ${page.conditions?.orderType};
+	  if(orderType == 0){
+	    $("#orderType").val(num);
+	    $("#submit").submit();
+	    return;
+	  }
+	  var sum = orderType/2;
+	  if(sum.toString().indexOf('.') == -1){
+	    var sum2 = orderType - 1;
+	    $("#orderType").val(num);
+	    $("#submit").submit();
+	    return;
+	  }else{
+	    if(orderType == num){
+	      $("#orderType").val(num + 1);
+	      $("#submit").submit();
+	      return;
+	    }else{
+	      $("#orderType").val(num);
+	      $("#submit").submit();
+	      return;
+	    }
+	  }
+	}
+  
+  $(function(){  
+    //条件查询控制样式
+    var num= ${page.conditions?.orderType};
+    if(num == 0){
+      $("#div_0").addClass("xf_sea_isshow");
+      
+      return;
+    }
+    var sum = num/2;
+    if(sum.toString().indexOf('.') == -1){
+      var sum2 = num -1;
+      $("#div_"+sum2).addClass("xf_sea_isshow");
+      $("#sp"+sum2).html("↓");
+      
+      return;
+    }
+    $("#div_"+num).addClass("xf_sea_isshow");
+    
+  });
+   
+  function showPage(currPage, pageSize){
+    $("#currPage").val(currPage);
+    $("#pageSize").val(pageSize);
+    $("#submit").submit();
+  }
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_mg_bill.js'}"></script>

@@ -1,0 +1,36 @@
+%{
+	boolean  ipsEnable = constants.Constants.IPS_ENABLE;
+	boolean debtUse = constants.Constants.DEBT_USE;
+	boolean isMsg = constants.Constants.IS_MSG;
+}%
+
+<div class="p_left_navbox">
+#{if user != null && user.financeType == 1}  
+     #{include "front/account/AccountHome/homeInvestLeft.control"/}
+#{/if}
+#{else}
+  	 #{include "front/account/AccountHome/homeLoanLeft.control"/}
+#{/else}
+</div>
+
+<script>
+	function count(){
+				var countMessage = #{jsAction @front.account.Message.countMessage()/}
+	      		$.post(countMessage(),function(data){
+    					var unreadSystemMsgCount = data.unreadSystemMsgCount;
+    					var unreadInboxMsgCount = data.unreadInboxMsgCount;
+    					var userBidQuestions = data.userBidQuestions;
+    					if(typeof(unreadSystemMsgCount) != "undefined"){
+    						$("#child_2").html("系统消息【"+unreadSystemMsgCount+"】");
+    					}
+    					
+    					if(typeof(unreadInboxMsgCount) != "undefined"){
+    						$("#child_3").html("收件箱【"+unreadInboxMsgCount+"】");
+    					}
+    					
+    					if(typeof(userBidQuestions) != "undefined"){
+    						$("#child_6").html("借款提问【"+userBidQuestions+"】");
+    					}
+    	          })
+	}
+</script>

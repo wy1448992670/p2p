@@ -1,0 +1,120 @@
+#{extends 'wechat/service/appCommon.html' /}
+<body>
+#{if page.page.size() > 0}
+<div class="p-xtmain " >
+	<div class="flex p-kbtop opcity0" style="padding-bottom: 0px;padding-top: 0px">
+        
+    </div>
+    <div class="p-xtabox">
+    	<div class="" id="wrapper" style="bottom: .5rem;top: 0rem">
+    	<div class="p-038box">
+	<!-- main -->
+	<ul class="p-mynavitem p-mymessage">
+		<div id="main">
+			#{list items:page.page,as:'postsList'}
+			    <li class="flex" onclick="window.location.href='/app/myPostsInfo?id='+${postsList.id}+'&userId=${userId}&showType=1'">
+			        <!-- 如果有新消息就加上类名'cur',没有新消息就移除类名'cur' -->
+			        <div class="flex-1 p-myxxleft ">
+			            <h6><strong>${postsList?.title}</strong><span>${postsList?.add_time?.format('yyyy-MM-dd HH:mm:ss')}</span></h6>
+			            <div>#{if postsList.content.length() > 10}${postsList?.content?.substring(0,8)}...#{/if}#{else}${postsList?.content}#{/else}</div>
+			        </div>
+			        <div class="p-myrtword">&nbsp;<i class="bgico"></i></div>
+			    </li>
+		    #{/list}
+		 </div>
+	</ul>
+	<div id="pullUp">
+    	<span class="pullUpIcon" id="pullUpIcons"></span><span class="pullUpLabel" id="pullShowT">上拉加载更多...</span>
+   	</div>
+	</div></div></div></div>
+	<div class="p-xtbotcon opcity0" >
+	        <div>
+	            <a class="p-xtfatie" href="#">发&nbsp;&nbsp;帖</a>
+	        </div>
+	    </div>
+#{/if}
+#{else}
+<div class="p-norecord">暂无记录</div>
+#{/else}
+</body>
+
+<script type="text/javascript">
+	$(function(){
+		if('${flash.error}' !='') {
+		  alert('${flash?.error}');
+		}
+	});
+
+	var myScroll,
+	pullUpEl, pullUpOffset,
+	generatedCount = 0;
+	
+	var currPage = 1;
+	var getUserId = '${userId}';
+	function pullUpAction () {
+	setTimeout(function () {    // <-- Simulate network congestion, remove setTimeout from production!
+		currPage = currPage + 1;
+	
+		$.ajax({
+			url: "@{app.AppController.showMyCollection()}",
+			type: "POST",
+			dataType: "json",
+			data: {
+				"currPage": currPage,
+				"userId":getUserId,
+				"Mark": 2
+			},
+			success: function (data) {
+				
+					var arr = eval(data);
+					
+					var list = arr.page.page;
+					
+					if (list.length == 0) {
+						$("#pullUp").removeClass("loading").animate({opacity:'0'},3000);
+						$("#pullShowT").html("没有更多了");
+						$("#pullUpIcons").removeClass("pullUpIcon");
+					} else {
+					
+						for (var i = 0; i < list.length; i++) {
+							
+							var milliseconds = list[i].add_time.time;  //取出json里面的时间，为Object类型，在此转化为毫秒数
+							
+							var date = new Date();
+							
+							date.setTime(milliseconds);
+							
+							var time2 = date.format("yyyy-MM-dd HH:mm:ss");
+							
+							var hrefs="/app/myPostsInfo?id="+list[i].id+"&userId="+getUserId+"&showType=1";
+							
+							var showS = "";
+							if(list[i].content.length > 10){
+								showS = list[i].content.substring(0,8)+"...";
+							}else{
+								showS = list[i].content;
+							}
+							
+							
+							$("#main").append("<li class='flex' onclick=window.location.href='"+hrefs+"'>"+
+									
+									"<div class='flex-1 p-myxxleft'>"+
+									"<h6><strong>"+list[i].title+"</strong><span>"+time2+"</span></h6>"+
+									"<div>"+showS+"</div></div><div class='p-myrtword'>&nbsp;<i class='bgico'></i></div></li>"
+									
+									);
+								}
+						myScroll.refresh();
+					}
+					
+				},
+				error: function () {
+				}
+				
+		});
+		
+		
+	}, 300);    // <-- Simulate network congestion, remove setTimeout from production!
+	}
+	
+</script>

@@ -1,0 +1,286 @@
+#{extends 'wechat/common.html' /}
+
+<body>
+	<div class="s_main s_center">
+		<header class="s_header">
+			利率计算器
+			<a href="@{wechat.account.WechatAccountHome.accountInfo()}" class="icobg"></a>
+		</header>
+		<ul class="s_countertype">
+			<li><a href="@{wechat.others.InterestCalculator.wealthToolkitCreditCalculator()}">信用计算器</a></li>
+			<li><a href="@{wechat.others.InterestCalculator.wealthToolkitRepaymentCalculator()}">还款计算器</a></li>
+			<li><a href="@{wechat.others.InterestCalculator.wealthToolkitNetValueCalculator()}">净值计算器</a></li>
+			<li><a class="clicked" href="@{wechat.others.InterestCalculator.wealthToolkitAPRCalculator()}">利率计算器</a></li>
+		</ul>
+		<div class="s_centerbox">
+			<table width="100%" cellpadding="0" cellspacing="0" class="s_countertab">
+				<tr>
+					<td align="right" width="32%">投标金额：</td>
+					<td width="68%">
+						<input class="border" type="text" id="amount" onkeyup="value=value.replace(/[^\d]/g,'')" 
+					onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d  |^\.]/g,''))" />
+							&nbsp;&nbsp;元
+					</td>
+				</tr>
+				<tr>
+					<td align="right">年利率：</td>
+					<td>
+						<input class="border" type="text" id="apr" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{2}).*/g, '$1')"
+					onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d  |^\.]/g,''))" />
+							&nbsp;&nbsp;%
+					</td>
+				</tr>
+				<tr>
+					<td align="right">投标期限：</td>
+					<td>
+						<input class="border" type="text" id="period" onkeyup="value=value.replace(/[^\d]/g,'')"
+					onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d  |^\.]/g,''))"
+					onblur="checkPeriod()"></input>&nbsp;&nbsp;
+						<select id="periodUnit" onchange="test()"> 
+							<option value="-1">年</option>
+							<option value="0">月</option>
+							<option value="1">日</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="right">还款方式：</td>
+					<td>
+					  <select name="xf_memhkjsq_selectAge" class="border width02" id="repaymentType">   
+						#{list rtypes}
+							#{if _?.isUse}
+							 <option value="${_?.id}">${_?.name}</option>  
+							#{/if}
+						#{/list}
+					</td>
+				</tr>
+				<tr>
+					<td align="right">投标奖励：</td>
+					<td>
+						<span >
+						<input class="border width03" type="text" id="bonus" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{2}).*/g, '$1')"
+				onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d  |^\.]/g,''))" />
+						<label>&nbsp;&nbsp;元</label></span>
+					</td>
+				</tr>
+				<tr>
+				<td align="right"></td>
+				<td>
+				<span ><input class="border width04" type="text" id="awardScale"onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{2}).*/g, '$1')"
+				onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d  |^\.]/g,''))" />
+				    <label>&nbsp;&nbsp;%</label></span>
+				</td>
+				</tr>
+			</table>
+		</div>
+		<div class="s_counterbtn">
+			<input type="button" value="计算" onclick="calculate();"/>
+		</div>
+		<div class="s_counterout">
+			<h3>计算结果</h3>
+			<table cellpadding="0" cellspacing="0" border="0" width="100%">
+				<tr>
+					<td align="right" width="33%">投标总额：</td>
+					<td width="42%" align="center" id="totalAmount">0.00</td>
+					<td width="25%">元</td>
+				</tr>
+				<tr>
+					<td align="right">总计利息：</td>
+					<td align="center" id="sumInterest">0.00</td>
+					<td>元</td>
+				</tr>
+				<tr>
+					<td align="right">投标奖励：</td>
+					<td align="center" id="award">0.00</td>
+					<td>元</td>
+				</tr>
+				<tr>
+					<td align="right" id="monthText"></td>
+					<td align="center" id="monthSum">0.00</td>
+					<td>元</td>
+				</tr>
+				
+			</table>
+			<div class="s_counterall">
+				<span id="sumEarningText"></span><br/><strong id="sumEarning">0.00</strong>元
+			</div>
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript">
+	$(function(){
+    $(".s_counterout").hide();
+		
+		$("#showResult").hide();
+
+		$("#apr").focus(function(){
+			this.value = "";
+		});
+		
+		$("#amount").focus(function(){
+			this.value = "";
+		});
+		
+		$("#period").focus(function(){
+			this.value = "";
+		});
+
+		$("#awardScale").focus(function(){
+			this.value = "";
+			$("#bonus").val("");
+		});
+
+		$("#bonus").focus(function(){
+			this.value = "";
+			$("#awardScale").val("");
+		}); 
+	})
+	
+	/* 投标期限为天只能为一次性还款 */
+	function test(){
+		var periodUnitVal = $("#periodUnit").val() * 1;
+		var repaymentType = $("#repaymentType");
+		
+		repaymentType.html("");
+		if(1 == periodUnitVal){
+			#{list rtypes}
+				#{if _?.isUse && _?.id == 3}
+					repaymentType.append("<option value=${_?.id}>${_?.name}</option>");
+				#{/if}
+			#{/list}
+		}else{
+			#{list rtypes}
+				#{if _?.isUse}
+					repaymentType.append("<option value=${_?.id}>${_?.name}</option>");
+				#{/if}
+			#{/list}
+		}
+	}
+	
+	/* 当投标期限选择为日时，只能为30天以下（包括30） */
+	function checkPeriod(){
+		var periodUnit = $("#periodUnit");
+		var period = $("#period");
+		var periodVal = period.val();
+
+		if(1 == periodUnit.val() &&　periodVal > 30){
+			alert("天标借款期限不能大于30天！");
+		}
+	}
+	
+	function calculate(){
+		$(".s_counterout").hide(); // 计算结果层
+		var amount = $("#amount").val() * 1;
+		var apr = $("#apr").val() * 1;
+		var period = $("#period").val() * 1;
+		var periodUnit = $("#periodUnit").val() * 1;
+		var repaymentType = $("#repaymentType").val() * 1;
+		var awardScale = $("#awardScale").val() * 1;
+		var bonus = $("#bonus").val() * 1;
+
+		if(amount <= 0 || amount > 100000000 || isNaN(amount)){
+			$("#amount").val("金额有误!");
+			$("#showResult").hide();
+			return;
+		}
+			
+		if(apr > 100 || apr <= 0 || isNaN(apr)){
+			$("#apr").val("年利率有误!");
+			$("#showResult").hide();
+			return;
+		}
+		
+		if(period < 1 || period > 1000 || isNaN(period)){
+			$("#period").val("期限有误!");
+			$("#showResult").hide();
+			return;
+		}
+		
+		if(1 == periodUnit &&　period > 30){
+			alert("天标借款期限不能大于30天！");
+			return ;
+		}
+
+		var award = 0;
+		
+		if(awardScale > 100 || awardScale < 0){
+			$("#awardScale").val("奖励比例有误!");
+			return;
+		}else if(awardScale != 0){
+			award = amount * awardScale / 100;
+		}
+
+		if(bonus < 0 || bonus > amount){
+			$("#bonus").val("固定奖励有误!");
+			return;
+		}else if(bonus != 0){
+			award = bonus;
+		}
+
+		var interest = 0; // 年、月、日 年利率
+		var monthApr = apr / 12 / 100; // 月利率
+		var rperiod = 0; // 还款期数
+		
+		/* 根据借款期限算出利息 */
+		switch(periodUnit){
+			/* 年 */
+			case -1:
+				interest = apr/100*period*amount;
+				rperiod = period * 12; 
+				break;
+			/* 月 */
+			case 0: 
+				interest = apr/12/100*period*amount;
+				rperiod = period; 
+				break;
+			/* 日 */
+			case 1: 
+				interest = apr/360/100*period*amount;
+				rperiod = 1; 
+				break;
+		}
+		
+		var monthSum = 0;
+		var monthText = $("#monthText");
+		
+		/* 根据还款方式算出利息 */
+		switch(repaymentType){
+			/* 按月还款、等额本息 */
+			case 1: 
+				monthSum = (amount * monthApr * Math.pow((1 + monthApr), rperiod)) / (Math.pow((1 + monthApr), rperiod) - 1); 
+				interest = monthSum * rperiod - amount;
+				monthText.html("月还本息:"); 
+				break;
+				
+			/* 按月付息、一次还款 */
+			case 2:
+				monthText.html("月还利息:"); 
+				monthSum = interest / rperiod;
+			 	break;
+			 	
+			/* 一次还款 */
+			case 3: 
+				monthText.html("应还本息:");
+				monthSum = interest + amount;
+				break;
+		}
+
+		/* 年化收益、总收益 */
+		var listAction = #{jsAction @aprCalculator(':amount', ':apr',':repaymentType',':award',':rperiod') /};
+		$.post(listAction({amount:amount, apr:apr,repaymentType:repaymentType,award:award,rperiod:rperiod}), function(data) {
+			var serviceFee = data.managementRate * interest;
+			$("#sumEarningText").html("总收益(扣除" + serviceFee.toFixed(2) + "元服务费)："); // 总收益提示
+			$("#sumEarning").html((amount + interest + award - serviceFee).toFixed(2)); // 总收益
+		});
+		
+		$("#totalAmount").html(amount); //金额
+		$("#sumInterest").html(interest.toFixed(2)); //总计利息
+		$("#award").html(award.toFixed(2)); //投标奖励
+		$("#monthSum").html(monthSum.toFixed(2)); // 每月还款
+		$("#sumEarning").html(); 
+		
+		$(".s_counterout").show(); // 计算结果层
+	}
+</script>
+

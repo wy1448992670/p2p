@@ -1,0 +1,177 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle +' | 我的账户   | 投资子账户 | 债权转让管理  | '+debtBussiness?.title+'债权标详情  '/}
+	
+	
+		<div class="xf_lczzh_btg">
+			<div class="xf_lczzh_btg_title">${debt?.bid_no}号借款标  债权转让  详情</div>
+			<div class="xf_lczzh_btg_tcon">
+				转让标题：<span class="xf_lczzh_btg_red">${debtBussiness?.title}</span> <br />
+				待收本金转让底价：<span class="xf_lczzh_btg_red">${debt?.transfer_price?.format('###,##0.00')}</span> 元<br />
+				转让截止时间：<span class="xf_lczzh_btg_red">${debt?.end_time?.format('yyyy-MM-dd')}</span><br />
+				转让原因：<span class="xf_lczzh_btg_red">${debtBussiness?.transerReason}</span>
+			</div>
+			<div class="xf_lczzh_btg_zrxq">
+				<div class="xf_lczzh_btg_title2">转让的借款标情况</div>
+				<div class="xf_lczzh_btg_tcon2">
+					<table border="0" cellpadding="0" cellspacing="0" width="684" class="xf_membill_zqzr">
+						<tr>
+							<td>借款标编号：${debt?.bid_no}</td>
+							<td>借款人：${debt?.name}</td>
+							<td>借款标类型：${debtBussiness?.invest?.bid?.product?.name}</td>
+						</tr>
+						<tr>
+							<td colspan="3">借款标标题：${debt?.title}</td>
+						</tr>
+						<tr>
+							<td>投标本金：${debtBussiness?.invest?.amount?.format('###,##0.00')} 元</td>
+							<td colspan="2">年利率：${debt?.apr} %</td>
+						</tr>
+						<tr>
+							<td>本息合计应收金额：
+							#{if debt?.receiving_amount != null && debt?.receiving_amount != 0}
+							${debt?.receiving_amount?.format('###,##0.00')}
+							#{/if} 
+							#{else}0#{/else}
+							元</td>
+							<td colspan="2">已收金额：
+							#{if debt?.has_received_amount == null || debt?.has_received_amount ==0}
+							0
+							#{/if}
+							#{else}
+							${debt?.has_received_amount?.format('###,##0.00')}
+							#{/else}
+							 元</td>
+						</tr>
+						<tr>
+						<td>剩余应收款：
+							#{if debt?.remain_received_amount != null && remain_received_amount?.has_received_amount != 0}
+							${debt?.remain_received_amount?.format('###,##0.00')}
+							#{/if}
+							#{else}
+							0
+							#{/else}
+							 元</td>
+							
+							<td>还款日期：${debtBussiness?.invest?.bid?.recentRepayTime?.format('yyyy-MM-dd')}</td>
+							<td>待收本金：
+							#{if debt?.remain_received_corpus != null && debt?.remain_received_corpus != 0}
+							${debt?.remain_received_corpus?.format('###,##0.00')}
+							#{/if}
+							#{else}0#{/else} 
+							元</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="xf_lczzh_btg_zrxq" >
+				<div class="xf_lczzh_btg_title2">竞拍情况</div>
+				<div class="xf_lczzh_btg_tcon2 xf_lczzh_btg_tcon3" id="AuctionsRecords">
+				
+					
+				</div> 
+				<div class="xf_lczzh_btg_datetime">
+					竞拍剩余时间：<span class="xf_lczzh_datetime_sj" id="endTime"></span> <br>
+					目前最高竞价：<span class="xf_lczzh_datetime_sj">
+					#{if debtBussiness?.maxOfferPrice == null}
+					0
+					#{/if}
+					#{else}
+					${debtBussiness?.maxOfferPrice?.format('###,##0.00')}
+					#{/else}
+					</span> 元
+				</div>
+			</div>
+			#{if debt?.status != 4}
+			#{if debt?.type != 1}
+			<div class="xf_lczzh_btg_go3">
+				<a class="xf_con_inputfbjk"  onclick="firstDeal('${debt?.sign}');">成 交</a>
+			</div>
+			#{/if}
+			#{/if}
+			#{else}
+			<div class="xf_lczzh_btg_dqzt">
+				此债权已经初步成交，等待对方确认成交
+			</div>
+			#{/else}
+		</div>
+		
+		
+		
+		<script type="text/javascript">
+		
+		$(function(){
+			showTime();
+			
+	        var pageNum=1;
+			var debtId = "${debt?.sign}";
+			showAuctionRecords(pageNum, debtId);
+		})
+		
+		
+		function showAuctionRecords(pageNum,debtId){
+				
+				$.ajax({
+					url:"@{ajaxViewAuctionRecords()}",
+					type:"POST",
+					data: {"pageNum" : pageNum,  "sign":debtId},
+			    	success:function(data){$("#AuctionsRecords").html(data);},
+			    	error:function(){alert("对不起，出现错误!");}
+				
+				})
+			
+			}
+		
+		function showTime(){
+			 var endTime ="${debt?.end_time?.format('yyyy/MM/dd HH:mm:ss')}";
+			 var dateEnd = new Date(endTime);
+			 var endTime = dateEnd.getTime();
+			 var now = new Date().getTime();
+			 
+			 var SysSecond = endTime-now
+			 if(SysSecond > 0){
+			 	 int_day=Math.floor(SysSecond/86400000);
+                      SysSecond-=int_day*86400000;
+                      int_hour=Math.floor(SysSecond/3600000);
+                      SysSecond-=int_hour*3600000;
+                      int_minute=Math.floor(SysSecond/60000);
+                      SysSecond-=int_minute*60000;
+                      int_second=Math.floor(SysSecond/1000);
+            
+                    if(int_hour<10){
+             	       int_hour="0"+int_hour;
+			          }
+			 
+                   if(int_minute<10){
+           		       int_minute="0"+int_minute;
+		              }
+		     
+       		       if (int_second<10){
+            	      int_second="0"+int_second;
+                       }
+             
+               var timeStr = int_day+'天'+int_hour+'小时'+int_minute+'分'+int_second+'秒';
+               $("#endTime").html(timeStr);
+               
+			 }else{
+			 	var timeStr = '00天00小时00分00秒'
+                $("#endTime").html(timeStr);
+			 }
+			setTimeout('showTime()',1000);  
+		}
+
+		function firstDeal(sign){
+			var cancle = #{jsAction @front.account.InvestAccount.firstDealDebt(':sign')/}
+
+			$.post(cancle({sign:sign}),function(data){
+				
+				var arr=eval(data);
+				var result = arr.error.msg;
+				alert(result);
+				window.location.reload();
+			})
+
+		}
+</script>

@@ -1,0 +1,58 @@
+@charset "utf-8";
+.xn_c_content{min-height: auto;}
+.audit_box{float: left; padding: 25px 20px 60px; width: 1138px; background: #fff; font-size: 14px; color: #666;}
+.zq_h{padding-left:20px; height: 35px; line-height: 35px; background: #F4F4F4; border-left: 3px solid #205B93; color: #333; font-size: 14px;}
+.xsb_yn input{vertical-align: text-bottom;}
+.zq_item{margin-bottom: 15px; height: 32px; line-height: 32px;}
+.zq_item>dt{float: left; display: inline-block; width: 132px; text-align: right;}
+.zq_item>dd{float: left; display: inline-block;}
+.zq_item .dd_inp{display: inline-block; padding: 0 10px; width: 264px; line-height: 30px; border: 1px solid #DDDDDD;}
+.zq_btn1{padding: 0 0 15px 53px; border-bottom: 1px dashed #DDDDDD;}
+.zq_btn1>a{display: block; width: 77px; height: 37px; line-height: 37px; background: url("/public/images/debt/zq_btn1.png") no-repeat; text-align: center; color: #fff; cursor: pointer;}
+.zq_btn1 a:hover,.zq_btn1 a:focus{text-decoration: none;}
+.zq_btn2{padding-top: 50px; text-align: center;}
+.zq_btn2>a{display: inline-block; margin-left: 60px; width: 140px; height: 39px; line-height: 39px; background: url("/public/images/debt/zq_btn2.png") no-repeat; text-align: center; color: #fff; cursor: pointer;}
+.zq_btn2>a:first-child{margin-left: 0;}
+.zq_btn2 a:hover,.zq_btn2 a:focus{text-decoration: none;}
+.audit_tickling{padding: 16px 65px 26px;}
+.audit_tickling li{margin-top: 20px; line-height: 20px;}
+.audit_tickling li:first-child{margin-top: 0;}
+.audit_tickling li span{padding-right: 8px;}
+.zq_schedule{margin: 30px 0; width: 490px; height: 6px; background: #F4F4F4; border: 1px solid #F4F4F4; border-radius: 3px;}
+.zq_schedule>em{display: block; height: 6px; background: #205B93; border-radius: 3px;}
+.schedule_txt{margin: 24px 0 0 10px; line-height: 20px; color: #333; font-size: 14px;}
+.invest_tab{width: 100%;}
+.tz_th tr{background: #F8F8F8;}
+.invest_tab th,.invest_tab td{padding:0 10px; height: 46px; border: 1px solid #DDDDDD; font-size: 14px; color: #666; text-align: center;}
+.fail_case{margin: 30px auto 20px; width: 882px;}
+.fail_case textarea{padding: 15px; width: 850px; height: 127px; background: #F8F8F8; border: 1px solid #DDDDDD; color: #333;}
+/*不通过按钮弹窗*/
+.pop_mask{display: none; position: fixed; top: 0; left: 0; z-index: 5; width: 100%; height: 100%; background: #000; opacity: .4;}
+.notGo_pop{display: none; position: fixed; top: 30%; left: 50%; margin-left: -248px; width: 446px; z-index: 6; padding: 0 25px 37px; background: #fff;}
+.notGo_pop h5{line-height: 50px; color: #666; font-size: 14px;}
+.notGo_pop textarea{padding: 10px; width: 424px; height: 137px; background: #F8F8F8; border: 1px solid #DDDDDD; font-size: 14px;}
+.notGo_pop .zq_btn2{padding-top: 35px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

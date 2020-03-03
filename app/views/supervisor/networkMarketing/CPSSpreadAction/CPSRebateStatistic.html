@@ -1,0 +1,137 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'CPS推广会员佣金发放统计' /}
+ <div class="xfht_t_j_k"> 
+<!--左-->
+#{include "supervisor/networkMarketing/CPSSpreadAction/networkMarketingLeft.control"/}    
+<!--右-->
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    #{form @supervisor.networkMarketing.CPSSpreadAction.CPSRebateStatistic(), id:'submit'}
+    <input type="hidden" id="currPage" name="currPage"/>
+	<input type="hidden" id="pageSize" name="pageSize"/>
+    <div class="xf_ht_search">
+      <div class="xf_ht_search_r">
+        <div class="xf_ht_search_xl">
+          <select class="xf_membill_selectAge" id="year" name="year">
+            <option value="0" #{if page.conditions?.year == 0} selected="selected"} #{/if}>
+				全部
+			</option>
+			
+          </select>
+		  <select class="xf_membill_selectAge" id="month" name="month">
+            <option value="0" #{if page.conditions?.month == 0} selected="selected" #{/if}>
+	          --请选择--
+            </option>
+			<option value="1" #{if page.conditions?.month == 1} selected="selected" #{/if}>
+				1月
+			</option>
+			<option value="2" #{if page.conditions?.month == 2} selected="selected" #{/if}>
+				2月
+			</option>
+			<option value="3" #{if page.conditions?.month == 3} selected="selected" #{/if}>
+				3月
+			</option>
+			<option value="4" #{if page.conditions?.month == 4} selected="selected" #{/if}>
+				4月
+			</option>
+			<option value="5" #{if page.conditions?.month == 5} selected="selected" #{/if}>
+				5月
+			</option>
+			<option value="6" #{if page.conditions?.month == 6} selected="selected" #{/if}>
+				6月
+			</option>
+			<option value="7" #{if page.conditions?.month == 7} selected="selected" #{/if}>
+				7月
+			</option>
+			<option value="8" #{if page.conditions?.month == 8} selected="selected" #{/if}>
+				8月
+			</option>
+			<option value="9" #{if page.conditions?.month == 9} selected="selected" #{/if}>
+				9月
+			</option>
+			<option value="10" #{if page.conditions?.month == 10} selected="selected" #{/if}>
+				10月
+			</option>
+			<option value="11" #{if page.conditions?.month == 11} selected="selected" #{/if}>
+				11月
+			</option>
+			<option value="12" #{if page.conditions?.month == 12} selected="selected" #{/if}>
+				12月
+			</option>
+          </select>
+        </div>
+        <div class="xf_ht_search_xl">
+            <input type="submit" class="search_button" value="搜  索">
+        </div>
+      </div>
+    </div>
+    #{/form}
+	<!-- 列表内容 -->
+	<div class="xn_c_content_top">
+      #{table class:"xn_c_content_list",cellspacing:"0",cellpadding:"0",border:"0",tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}年#{/th}
+          #{th}月#{/th}
+          #{th}CPS会员数#{/th}
+          #{th}推广注册会员数#{/th}
+          #{th}推广充值会员数#{/th}
+          #{th}推广会员理财总金额#{/th}
+          #{th}推广会员借款总金额#{/th}
+          #{th}推广会员管理费收入#{/th}
+          #{th}佣金金额#{/th}
+        #{/tr}
+        #{list page?.page}
+        #{tr tr_index:_index}
+          #{td}${(page?.currPage - 1) * page?.pageSize + _index}#{/td}
+          #{td}${_?.year}#{/td}
+          #{td}${_?.month}#{/td}
+          #{td}${_?.cps_count}#{/td}
+          #{td}${_?.recommend_count}#{/td}
+          #{td}${_?.recharge_count}#{/td}
+          #{td}${_?.invest_amount?.format("###,##0.00")}#{/td}
+          #{td}${_?.bid_amount?.format("###,##0.00")}#{/td}
+          #{td}${_?.manage_fee?.format("###,##0.00")}#{/td}
+          #{td}${_?.cps_amount?.format("###,##0.00")}#{/td}
+        #{/tr}
+        #{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+        <div class="page_warp">
+          #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4/}
+        </div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+$(function(){
+	//高亮显示
+	showHighLight(1,1,2);
+	
+	  var mydate = new Date();
+	  var now = mydate.getFullYear();
+	  var before = now -5;
+	  var html = "";
+	  
+	  for(var  c = now ;c >= before;c--){
+		   html += '<option ';
+
+		   if('${page?.conditions?.year}' == c)
+			   html += 'selected="selected"';
+
+		   html += ' value="'+c+'">'+c+'</option>';
+	  }
+
+	  $("#year").append(html);
+	});
+
+function showPage(currPage, pageSize){
+  $("#currPage").val(currPage);
+  $("#pageSize").val(pageSize);
+  $("#submit").submit();
+}
+</script>

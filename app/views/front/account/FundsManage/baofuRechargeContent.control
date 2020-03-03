@@ -1,0 +1,213 @@
+
+<!-- 连连支付支持 -->
+<div class="xf_mem_acc_titlebox" id="payTypes">
+	<ul class="xf_mem_accout_titleUL clr">
+		#{if user?.user_type == 1}
+	    <li id="pay_1" Onclick="payTypes(1)">
+			<div class="xf_mem_zjgl_img">
+				认证支付
+			</div>
+		</li>
+		#{/if}
+	    <li id="pay_2" Onclick="payTypes(2)">
+			<div class="xf_mem_zjgl_img">
+				网关支付
+			</div>
+		</li>
+		
+	</ul>
+</div>
+#{if bank == null}
+<div class="none" id="LLSelectBankSpan" style="width: 100%;background: #f0f0f0;border-radius:3px;height: 35px;"><span style="font-size: 18px;font-weight: bold;margin-left: 10px;">选择银行卡</span></div><br/>
+<div class="xf_mem_acc_titlebox" id="LLSelectBank">
+	<ul class="xf_mem_accout_titleUL clr">
+	  *{ #{if bank != null}
+	    #{if bank?.bank_code == 0} 
+	     <li value="0" class="xf_mem_img_ishowt" id="lbank_0" onClick="LLselectBank(0)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_01.png'}" alt="">
+			</div>
+		</li>
+		#{/if}
+		#{if bank?.bank_code == 1} 
+		<li id="lbank_1" class="xf_mem_img_ishowt" onClick="LLselectBank(1)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_02.png'}" alt="">
+			</div>
+		</li>
+	   #{/if}
+		#{if bank?.bank_code == 2} 
+		<li id="lbank_2" class="xf_mem_img_ishowt" onClick="LLselectBank(2)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_03.png'}" alt="">
+			</div>
+		</li>
+	   #{/if}
+		#{if bank?.bank_code == 3} 
+		<li id="lbank_3" class="xf_mem_img_ishowt" onClick="LLselectBank(3)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_04.png'}" alt="">
+			</div>
+		</li>
+	   #{/if}
+		#{if bank?.bank_code == 4} 
+		<li id="lbank_4" class="xf_mem_img_ishowt" onClick="LLselectBank(4)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_05.png'}" alt="">
+			</div>
+		</li>
+	   #{/if}
+		#{if bank?.bank_code == 5} 
+		<li id="lbank_5" class="xf_mem_img_ishowt" onClick="LLselectBank(5)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_06.png'}" alt="">
+			</div>
+		</li>
+	   #{/if}
+		#{if bank?.bank_code == 6} 
+		<li id="lbank_6" class="xf_mem_img_ishowt" onClick="LLselectBank(6)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_08.png'}" alt="">
+			</div>
+		</li>
+	   #{/if}
+		#{if bank?.bank_code == 7} 
+		<li id="lbank_7" class="xf_mem_img_ishowt" onClick="LLselectBank(7)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_10.png'}" alt="">
+			</div>
+		</li>
+	    #{/if}
+		#{if bank?.bank_code == 8} 
+		<li id="lbank_8" class="xf_mem_img_ishowt" onClick="LLselectBank(8)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_12.png'}" alt="">
+			</div>
+		</li>
+	   #{/if}
+		#{if bank?.bank_code == 9} 
+		<li id="lbank_9" class="xf_mem_img_ishowt" onClick="LLselectBank(9)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_13.png'}" alt="">
+			</div>
+		</li>
+	   #{/if}
+		#{if bank?.bank_code == 10} 
+		<li id="lbank_10" class="xf_mem_img_ishowt" onClick="LLselectBank(10)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_14.png'}" alt="">
+			</div>
+		</li>
+	   #{/if}
+		#{if bank?.bank_code == 11} 
+		<li id="lbank_11" class="xf_mem_img_ishowt" onClick="LLselectBank(11)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_15.png'}" alt="">
+			</div>
+		</li>
+	   #{/if}
+		#{if bank?.bank_code == 12} 
+		<li id="lbank_12" class="xf_mem_img_ishowt" onClick="LLselectBank(12)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_16.png'}" alt="">
+			</div>
+		</li>
+	   #{/if}
+		#{if bank?.bank_code == 13} 
+		<li id="lbank_13" class="xf_mem_img_ishowt" onClick="LLselectBank(13)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_20.png'}" alt="">
+			</div>
+		</li>
+	   #{/if}
+	   #{/if} }*
+	  
+		<li value="0" id="lbank_0" onClick="LLselectBank(0)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_01.png'}" alt="">
+			</div>
+		</li>
+		<li id="lbank_1" onClick="LLselectBank(1)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_02.png'}" alt="">
+			</div>
+		</li>
+		<li id="lbank_2" onClick="LLselectBank(2)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_03.png'}" alt="">
+			</div>
+		</li>
+		<li id="lbank_3" onClick="LLselectBank(3)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_04.png'}" alt="">
+			</div>
+		</li>
+		<li id="lbank_4" onClick="LLselectBank(4)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_05.png'}" alt="">
+			</div>
+		</li>
+		<li id="lbank_5" onClick="LLselectBank(5)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_06.png'}" alt="">
+			</div>
+		</li>
+		<li id="lbank_6" onClick="LLselectBank(6)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_08.png'}" alt="">
+			</div>
+		</li>
+		<li id="lbank_7" onClick="LLselectBank(7)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_10.png'}" alt="">
+			</div>
+		</li>
+		
+		<li id="lbank_8" onClick="LLselectBank(8)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_11.png'}" alt="">
+			</div>
+		</li>
+		
+		
+		<li id="lbank_9" onClick="LLselectBank(9)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_13.png'}" alt="">
+			</div>
+		</li>
+		<li id="lbank_10" onClick="LLselectBank(10)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_19.png'}" alt="">
+			</div>
+		</li>
+		<li id="lbank_11" onClick="LLselectBank(11)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_15.png'}" alt="">
+			</div>
+		</li>
+		<li id="lbank_12" onClick="LLselectBank(12)">
+			<div class="xf_mem_zjgl_img">
+				<img src="@{'/public/images/banks/bank_16.png'}" alt="">
+			</div>
+		</li>
+		
+	</ul>
+</div>	
+#{/if}
+<div id="llRenZhengDiv" class="none">
+	<!--<table border="0" cellpadding="0" cellspacing="0" width="738" class="xf_mem_zjgl_cz" style="margin-left: -164px;">						
+		<tr>
+			<td align="right" style="padding-right:2px;">银行卡号： </td>
+			<td><input type="text" value="${bank?.account?.safeBankAccount()}" readonly="readonly"></td>
+			<input type="hidden" id="card_no" name="card_no" #{if bank?.account != null && bank?.account != ""} value="${bank?.account}" readonly="readonly"#{/if}>
+		</tr>
+	</table>-->
+	<div style="margin-bottom:6px;" id="bank_hidden">
+	<span>银行卡号： </span>
+	<select name="card_no" id="card_no">
+		#{list items:banks,as:'bank'}
+		<option value="${bank?.account}" type="${bank?.bankType}" isProtocol="${bank?.isProtocol}" bankId="${bank?.id}">${bank?.account?.safeBankAccount()}</option>
+		#{/list}
+	</select>
+	</div>
+</div>	

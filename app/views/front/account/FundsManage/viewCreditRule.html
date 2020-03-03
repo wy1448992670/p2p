@@ -1,0 +1,65 @@
+		<div class="xf_zqzr_znx_window" id="xf_mem_zchkjf_windowtest" style="z-index:99999">
+			<div class="xf_wyjkwszl_4_windowInner xf_hmd_wdxydj_window">
+				<div class="xf_wyjkfb_4_windowClose" id="close"></div>
+				<div class="xf_wyjkfb_4_windowColName">
+					查看等级规则
+				</div>
+				<!-- 搜索结果 -->
+				<div class="xf_mem_xydj_search">
+					<div class="xf_mem_xydj_xy">
+						<table border="0" cellpadding="0" cellspacing="0" width="565" class="xf_mem_xydj_viewcpms">
+							<tbody>
+								<tr>
+									<th align="center" width="42">序号</th>
+								  	<th width="77">信用等级名称</th>
+								  	<th align="center" width="97">等级图标</th>
+								  	<th width="68">最低信用积分</th>
+								  	<th width="138">最低审核科目数量</th>
+								  	<th width="138">是否允许逾期扣分</th>
+								  	<th width="148">必审科目</th>
+								  	<th width="148">信贷建议</th>
+								</tr>
+								#{if CreditLevels != null}
+							#{list items:CreditLevels,as:'creditLevels'}
+								<tr>
+									<td align="center">${creditLevels_index}</td>
+									<td align="left">${creditLevels?.name}</td>
+									<td align="center">#{img src:"${creditLevels?.image_filename}",alt:"",width:"30px",height:"30px"}#{/img}</td>
+									<td align="center">${creditLevels?.min_credit_score}</td>
+									<td align="center">${creditLevels?.min_audit_items}</td>
+									<td align="center">
+									#{if creditLevels.is_allow_overdue}
+									    是
+									#{/if}
+									#{else}
+									    否
+									#{/else}
+									</td>
+									<td align="center">${creditLevels?.must_items}</td>
+									<td align="center">${creditLevels?.suggest}</td>
+								</tr>
+								#{/list}
+								#{/if}
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<!-- 分页器 -->
+				<div class="xf_xydj_a_bq xf_xydj_a_bq2">
+					<a class="xf_con_inputfbjk" id="close1">关 闭</a>
+				</div>
+			</div>
+		</div>
+<script type="text/javascript">
+         showDiv($("#xf_mem_zchkjf_windowtest"));
+     
+     $("#close").click(function(){
+         $("#xf_mem_zchkjf_windowtest").hide();
+     
+     })
+     
+     $("#close1").click(function(){
+         $("#xf_mem_zchkjf_windowtest").hide();
+     
+     })
+</script>

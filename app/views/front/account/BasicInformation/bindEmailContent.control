@@ -1,0 +1,72 @@
+					<div class="xf_mem_Account xf_mem_shzdjkb_box">
+					<h3 class="xf_mem_accout_title">修改安全邮箱</h3>
+					<div class="xf_xgaq_email">
+						<div class="xf_xgaq_email_two">
+							<div class="xf_xgaq_email_onebox">
+								安全邮箱：<input class="xf_email_youx" id="email"><span class="xf_xgaq_email_yx3">
+								未激活，点击<a class="xf_xgaq_email_jh" id="activating">激活</a></span>
+								<input type="hidden" id="emailUrl">
+							</div>
+						</div>
+						</div>
+						</div>
+<script type="text/javascript">
+     $(function(){
+         var tag = 0; 
+     
+         $("#activating").click(function(){
+         	
+         	var email = $("#email").val();
+		 
+	       if(email == ""){
+	        	alert("请输入邮箱");
+	        	return;
+	       }
+	       
+	       if(!(email).isEmail()){
+	        	alert("请输入正确的邮箱");
+	        	return;
+	       }
+         	
+            var saveEmail = #{jsAction @saveEmail(':email')/}
+			$.post(saveEmail({email:$("#email").val()}),function(data){
+			var arr=eval(data);
+			if(arr.error.code < 0){
+				 if(arr.error.code == -10) {
+				 	if(confirm(arr.error.msg)) {
+				 		$.ajax({
+							url : "@{front.account.BasicInformation.activeEmail()}",
+							type : "POST",
+							data : {},
+							success : function(data) {
+							if (data[0].code < 0) {
+								alert(data[0].msg);
+							}
+							
+							alert(data[0].msg);
+							window.open (data[1]) ;
+							},
+						 	error : function() {
+								alert("对不起，出现错误!");
+						 	}
+						})
+				 	}
+				 }else{
+				 	alert(arr.error.msg);
+					 if(arr.error.code = -11){
+						 location.href = "@{front.account.BasicInformation.modifyEmail()}";
+					 }
+				 }
+				 
+			     return;
+			}
+			
+			alert("安全邮箱绑定成功，系统将使用新的邮箱，请及时激活");
+			window.open(arr.emailUrl);
+			
+            $("#xf_mem_szansj_tc").hide();            
+          });
+        
+         });
+     })
+</script>

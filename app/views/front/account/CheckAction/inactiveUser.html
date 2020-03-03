@@ -1,0 +1,74 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet?.seoTitle + ' | 我的账户   | 基本设置  | 安全邮箱设置'/}
+<!-- 内容区域 start -->
+	<div class="xf_con_box">
+		<div class="xf_con_mem_nav"></div>
+		<!-- 左边导航区域 -->
+		#{include "front/account/AccountHome/homeLeft.control"/}
+		<!-- 右侧内容区域 -->
+		<!-- 未激活 -->
+		<div class="xf_mem_Account xf_mem_shzdjkb_box" id="divHidden">
+			<div class="xf_mem_shzdjkb_box_tcc">遮盖层</div>
+				<h3 class="xf_mem_accout_title">安全邮箱</h3>
+				<div class="xf_register_4_xxjs">
+					尊敬的会员
+					<span id="userName1">${user?.name?.asterisk()}</span>
+					：
+					<br />
+					<br />
+					您的会员账户未激活，请在点击激活按钮后，前往注册邮 箱激活您的账户。
+					<br />
+					<br />
+					用户名： 
+					<span id="userName2">${user?.name?.asterisk()}</span>
+					<br />
+					注册邮箱：
+					<span id="email">${user?.email}</span> 
+				</div>
+				<div class="xf_login_inputsrul_r2 xf_login_inputsrul_r3">
+					<a class="xf_con_inputfbjk" onclick="acitveEmail();">激 活</a>
+					<a class="xf_con_inputfbqux" onclick="cancel();">取 消</a>
+				</div>
+			</div>
+		</div>
+		<!-- 清除浮动 -->
+		<div class="clear"></div>
+	</div>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript">
+    $(function(){
+		/* 高亮显示 */
+		showHighLightFront(33);
+		showHighLightFront2(7, 6);
+    	
+    });
+    
+    /* 激活 */
+    function acitveEmail() {
+ 		$.ajax({
+ 			url : "@{front.account.BasicInformation.activeEmail()}",
+ 			type : "POST",
+ 			data : {},
+ 			success : function(data) {
+ 			
+ 			alert(data[0].msg);
+ 			
+ 			if (data[0].code < 0) 
+ 				return;
+ 			
+ 			$("#email_box").hide();
+ 			window.open(data[1]) ;
+ 		},
+ 	 	error : function() {
+ 			alert("对不起，出现错误!");
+ 	 	}
+ 	});
+    }
+    
+    function cancel(){
+    	window.location.href=http_path+"/front/account/home";
+    }
+</script>

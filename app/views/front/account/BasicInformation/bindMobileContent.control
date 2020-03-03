@@ -1,0 +1,184 @@
+			<div class="xf_mem_Account xf_mem_shzdjkb_box">
+					<h3 class="xf_mem_accout_title">
+						#{if user?.mobile == null || user?.mobile == '' || !user?.isMobileVerified}
+							绑定安全手机
+						#{/if}
+						#{else}
+							修改安全手机
+						#{/else}
+						
+					</h3>
+						<!-- 未激活 -->
+						<div class="xf_xgaq_email_two">
+							#{if checkMsgCode}
+							<div class="p_x31301">
+							<span class="xf_jbzl_stitle p_x31302">图形验证码：</span>
+				<input type="text" class="login_in_y" name="captcha" id="captcha">
+				<input id="randomID" name="randomID" value="${randomId}" type="hidden" />
+            	<span class="login_yzimg p_x31305"><img id="captchaImage" src="@{Application.captcha(randomId)}" style="width: 60px;height: 30px;" alt="验证码" onclick="refreshCaptcha();"></span>
+            	<input type="button" class="login_sx" onclick="refreshCaptcha()" id="m3" value="刷新"></input></div>
+            				#{/if}
+							<div class="xf_xgaq_email_onebox p_x31306">
+								<span class="xf_jbzl_stitle p_x31302">安全手机 ：</span><input class="xf_email_youx" id="mobile"><span class="xf_xgaq_email_yx3">未校验，点击<a onclick="sendCode();" class="xf_xgaq_email_jh" id="test">校验手机</a></span>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				
+				<div class="xf_zqzr_znx_window" id="xf_mem_szansj_tc">
+			<div class="xf_wyjkwszl_4_windowInner xf_mem_aqwtsz_tc">
+				<div class="xf_wyjkfb_4_windowClose"></div>
+				<div class="xf_wyjkfb_4_windowColName">
+					校验手机号码
+				</div>
+				<div class="xf_wyjkfb_aqwt_tclv">
+					系统已经向您下面的手机号码发送了安全校验码，请输入以便校验手机号码
+				</div>
+				<!-- 安全问题设置 -->
+				<div class="xf_mem_aqwtsz_qa">
+					<ul>
+						<li>
+							<div class="xf_mem_aqwtsz_qainput xf_mem_aqwtsz_qainput2">
+								<span class="xf_mem_aqwtsz_titlet">手机号码：</span>
+								<input class="xf_mem_aq_wtszinput" id="telephone" disabled="true" /></div>
+						</li>
+						<li>
+							<div class="xf_mem_aqwtsz_qainput xf_mem_aqwtsz_qainput2">
+								<span class="xf_mem_aqwtsz_titlet">请输入手机校验码：</span>
+								<input class="xf_mem_aq_wtszinput" id="code" 
+								#{if !constants.Constants.CHECK_MSG_CODE}
+									value="1234" title="演示站点任意输入"
+								#{/if}
+								/>
+							</div>
+						</li>
+						<li class="xf_mem_aqwtsz_lalt2">
+							<a class="xf_con_inputfbjk" id="binding">确认绑定</a>
+							<a class="xf_con_inputfbqux" id = "cBinding">取 消</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+				
+<script type="text/javascript">
+
+
+	function refreshCaptcha() {
+    $.ajax({
+	  url : "@{Application.randomID()}",
+	  type : "POST",
+	  data : {
+	  },
+	  success : function(randomID) {
+	    $("#captchaImage").attr("src","@{Application.captcha()}?id="+randomID);
+		  $("#randomID").val(randomID);
+		},
+	  error : function() {
+	    alert("对不起，出现错误!");
+	  }
+	 });
+  }
+  var remain = 60;
+
+function countDown() {
+  if (remain == 0) {
+    remain = 60;
+    $("#test").html("校验手机");
+    $("#test").attr("onclick", "sendCode();");
+    $("#test").attr("style", "cursor:pointer");
+
+    return;
+  }
+
+  $("#test").html("" + remain-- + "秒后重发");
+  setTimeout("countDown()",1000);
+}
+  function sendCode(){
+  	var mobile = $("#mobile").val().trim();
+   	var captcha = '';
+   	var randomID = '';
+   	
+   	 if(mobile == ''){
+ 		 alert("请输入手机号码");
+  		return;
+	 }
+   
+   	if(!mobile.isMobileNum()){
+  		alert("请输入正确的手机号码");
+   		return;
+   	}
+   	
+   	if(${checkMsgCode}){
+   		captcha = $("#captcha").val().trim();
+   		randomID = $("#randomID").val().trim();
+   		
+   		if(captcha == ''){
+   			alert("请输入图形验证码");
+   			return;
+   		}
+   	}
+   	
+   	var verifyMobile = #{jsAction @front.account.LoginAndRegisterAction.verifyMobile(':mobile',':captcha',':randomID')/}
+	$.post(verifyMobile({mobile:mobile,captcha:captcha,randomID:randomID}),function(data){
+    	var arr = eval(data);
+      
+    	if(arr.error.code < 0){
+        	alert(arr.error.msg);
+        	return;
+   	 	}else{
+  	 		countDown();
+			$("#test").attr("onclick", "void(0);");
+			$("#test").attr("style", "cursor: default");
+   	 		
+   	 	$("#xf_mem_szansj_tc").center(); 
+           	$("#xf_mem_szansj_tc").show();
+           	$("#telephone").val(mobile);
+           	
+   	 	}
+	});
+  }
+  		
+     $(function(){
+         $("#cBinding").click(function(){
+         	 $("#xf_mem_szansj_tc").hide();
+         }); 
+          
+         $("#test").click(function(){
+         	
+			
+         });
+         
+         $("#binding").click(function(){
+            if($("#telephone").val().trim() == ''){
+	      		 alert("请输入手机号码");
+	       		return;
+	   		 }
+	    
+	    	if(!$("#telephone").val().trim().isMobileNum()){
+	      		 alert("请输入正确的手机号码");
+	       		return;
+	    	}
+	    	
+	    	if($("#code").val().trim() == ''){
+	      		 alert("请输入验证码");
+	       		return;
+	    	}
+         
+            var saveMobile = #{jsAction @saveMobile(':code', ':mobile')/}
+			$.post(saveMobile({code:$("#code").val(), mobile:$("#telephone").val()}),function(data){
+				
+			var arr=eval(data);
+			if(arr.error.code < 0){
+			     alert(arr.error.msg);
+			     return;
+			}
+            alert(arr.error.msg);
+            $("#xf_mem_szansj_tc").hide();
+            window.location.href="@{front.account.BasicInformation.modifyMobile()}"            
+          });
+        });
+         
+     })
+</script>

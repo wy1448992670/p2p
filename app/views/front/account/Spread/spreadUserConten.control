@@ -1,0 +1,117 @@
+<div class="xf_mem_Account xf_mem_shzdjkb_box">
+	<h3 class="xf_mem_accout_title">
+		我成功推广的会员
+	</h3><!-- 搜索区域 -->
+	<ul class="xf_membill_search clr">
+		<li>
+			<select id="type" name="xf_wylc_selectAge" class="xf_membill_selectAge">
+				<option value="0"
+					#{if page?.conditions?.type == 0}
+						selected="selected"
+					#{/if}
+				>
+					全部
+				</option>
+				<option value="1"
+					#{if page?.conditions?.type == 1}
+						selected="selected"
+					#{/if}
+				>
+					有效的会员
+				</option>
+				<option value="2"
+					#{if page?.conditions?.type == 2}
+						selected="selected"
+					#{/if}
+				>
+					无效的会员
+				</option>
+			</select>
+		</li>
+		<li class="xf_membill_searchLi">
+			<input type="hidden" name="currPage" id="currPage" value="${page?.currPage}"/>
+			<input type="hidden" name="currSize" id="currSize" value="${page?.pageSize}"/>
+			<input type="text" placeholder="请输入关键词" value="${page?.conditions?.key}" id="key" class="xf_membill_shurk_yhm"> 
+			<input type="button" onclick="search();" value="搜 索" class="xf_membill_button_yhm">
+		</li>
+	</ul><!-- 搜索结果 -->
+	<div class="xf_membill_search_jg">
+		<table border="0" cellpadding="0" cellspacing="0" width="auto" class="xf_membill_acc_viewcpms">
+			<tbody>
+				<tr>
+					<th align="center" width="46">
+						序号
+					</th>
+					<th width="182">
+						会员名
+					</th>
+					<th align="left" width="86">
+						注册时间
+					</th>
+					<th width="63">
+						借款交易额
+					</th>
+					<th width="64">
+						投资交易额
+					</th>
+					<th width="96">
+						是否有效会员
+					</th>
+					<th width="104">
+						CPS奖金
+					</th>
+				</tr>
+				#{list items:page.page,as:'spreadUser'} 
+				<tr>
+					<td align="center">
+						${spreadUser_index}
+					</td>
+					<td align="left">
+						${spreadUser.name}
+					</td>
+					<td align="center">
+						${spreadUser.time?.format('yyyy-MM-dd')}
+					</td>
+					<td align="center">
+						${spreadUser?.bid_amount?.format("###,##0.00")}
+					</td>
+					<td align="center">
+						${spreadUser.invest_amount?.format("###,##0.00")}
+					</td>
+					<td align="center">
+						#{if spreadUser.is_active == true} 是 #{/if} #{else} 否 #{/else}
+					</td>
+					<td align="center">
+						${spreadUser?.cps_award?.format("###,##0.00")}
+					</td>
+				</tr>
+				#{/list}
+			</tbody>
+		</table>
+	</div>
+	<!-- 清除浮动 -->
+	<div class="clear"></div>
+	<div class="xf_wylc_page xf_membill_view_page1">
+		<!-- 分页器 -->
+		#{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:2}key=${page?.conditions?.key}&type=${page?.conditions?.type}
+		#{/page}
+	</div>
+	
+	<div class="xf_mem_cps_tgtj">
+		共推广会员<b>${cpsCount?.cps_count}</b>名，其中有效会员<b>${cpsCount?.active_count}</b>名，无效会员<b>
+		${cpsCount?.unactive_count}</b> 名，产生CPS奖金<b class="xf_mem_cps_red"><span id="commission_amount">${totalCpsIncome}</span></b>元。
+	</div>
+</div>
+
+<script type="text/javascript">
+	//搜索
+	function search() {
+		window.location.href = "spreadUser?key=" + encodeURIComponent($("#key").val()) + "&type=" + $("#type").val() + "&currPage=" + $("#currPage").val() + "&currSize=" + $("#currSize").val();
+	}
+	
+	function showPage(currPage,pageSize){
+		$("#currPage").val(currPage);
+		$("#currSize").val(pageSize);
+		search()
+}
+</script>

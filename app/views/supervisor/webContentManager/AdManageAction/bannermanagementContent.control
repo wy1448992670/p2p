@@ -1,0 +1,126 @@
+<style>
+.b_nav_{margin-bottom:12px;}
+.b_nav_ a{color:#333;padding:3px;}
+.b_nav_ a.selected{color:#369;border:1px solid #369;}
+</style>
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+  
+  <div class="xf_ht_search">
+   	<div class="xf_ht_search_l">
+		<div class="b_nav_">
+			<span id="div_APPBanner"  onclick="showBanner("APPBanner");" ><a href="?tag=APPBanner"}">appBanner</a></span>
+			<span id="div_借款APPBanner"  onclick="showBanner("借款APPBanner");" ><a href="?tag=借款APPBanner"}">借款appBanner</a></span>
+			<span id="div_app插屏"  onclick="showBanner("app插屏");" ><a href="?tag=app插屏"}">app插屏</a></span>
+			<span id="div_pcBanner"  onclick="showBanner("pcBanner");" ><a href="?tag=pcBanner"}">pcBanner</a></span>
+			<span id="div_pc宣传位"  onclick="showBanner("pc宣传位");" ><a href="?tag=pc宣传位"}">pc宣传位</a></span>
+			<span id="div_公告"  onclick="showBanner("公告");" ><a href="?tag=公告"}">公告</a></span>
+			<span id="div_其他"  onclick="showBanner("其他");" ><a href="?tag=其他"}">其他</a></span>
+		</div>
+	</div>
+  </div>
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table border:"0",cellspacing:"0",cellpadding:"0",class:"xn_c_content_list",tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}广告条编号#{/th}
+          #{th}所在位置#{/th}
+          #{th}分辨率#{/th}
+          #{th}建议文件大小#{/th}
+          #{th}文件格式#{/th}
+		  #{th}广告链接#{/th}
+		  #{th}状态#{/th}
+		  #{th}操作#{/th}
+        #{/tr}
+		#{list items:ads, as:'ads'}
+        #{tr tr_index:ads_index}
+          #{td}${ads_index}#{/td}
+          #{td}${ads?.no}#{/td}
+          #{td}${ads?.location}#{/td}
+          #{td}${ads?.resolution}#{/td}
+          #{td}${ads?.fileSize}#{/td}
+		  #{td}${ads?.fileFormat}#{/td}
+		  #{td}${ads?.url}#{/td}
+		  #{td}#{if ads.status}启用#{/if}#{else}暂停#{/else}#{/td}
+		  #{td}<a class="xf_ta_onclick" href="javascript:void(0)" onClick="edit('${ads?.id}')">编辑</a>
+              #{if ads.status}
+                <a class="xf_ta_onclick" onClick="updateBanner('${ads?.id}','1')">暂停</a>
+              #{/if}
+              #{else}
+                <a class="xf_ta_onclick" onClick="updateBanner('${ads?.id}','0')">启用</a>
+              #{/else}
+              <a class="xf_ta_onclick" href="javascript:void(0)" onClick="updateBannerTop('${ads?.id}')">置顶</a>
+		  #{/td}
+        #{/tr}
+		#{/list}
+      #{/table}
+    </div>
+  </div>
+</div>
+<div id="show"></div>
+<script type="text/javascript">
+	
+	$(function(){
+		var tag= '${tag}';
+		$("#div_" + tag).addClass("xf_sea_isshow");
+	}) 
+	function showBanner(tag){
+		$("#div_" + tag).addClass("xf_sea_isshow");
+	}
+	  function edit(adsId){
+	    $.ajax({
+	      url : "@{supervisor.webContentManager.AdManageAction.queryAds(adsId)}",
+	      type : "POST",
+	      data : {
+	        adsId : adsId
+	      },
+	      success : function(data) {
+	        if (data.code < 0) {
+	          alert(data.msg);
+	          
+	          return;
+	        }
+	        $('#show').html(data);
+	        $.layer({
+	          type: 1,
+	          area: ['450', 'auto'],
+	          title: '广告条编辑',
+	          page: {dom : '#xf_ht_fkzh_ttc'}
+	        });
+	      },
+	      error : function() {
+	        alert(data.msg);
+	      }
+	    });
+	  }
+
+	  function updateBanner(id,status){
+	    var updateBanner = #{jsAction @updateBanner(':idStr',':statusStr')/}
+	    $.post(updateBanner({idStr:id,statusStr:status}),function(data){
+	      var arr=eval(data);
+			 
+	      if(arr.error.code < 0){
+	        alert(arr.error.msg);
+	        
+	        return;
+	      }
+	        
+	      alert(arr.error.msg);
+	        location.reload();  
+	    });
+	  }
+	  function updateBannerTop(id){
+	    $.post("/supervisor/webContentManager/updateBanner", {"idStr":id, "isTop":1},function(data){
+			 
+	      if(data.code < 0){
+	        alert(data.msg);
+	        
+	        return;
+	      }
+	        
+	      alert(data.msg);
+	        location.reload();  
+	    });
+	  }
+</script>

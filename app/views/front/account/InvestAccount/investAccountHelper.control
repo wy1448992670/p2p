@@ -1,0 +1,12 @@
+<div class="xf_mem_Account xf_mem_passage">
+	<h3 class="xf_mem_accout_title">投资专家团 <a class="xf_mem_pass_right" href="@{front.wealthinfomation.WealthInfomationAction.newsList(11)}">more+</a></h3>
+	<div class="xf_mem_Explanation clr">
+		<ul>
+		#{list items:news,as :'news'}
+			<li>
+				<a href="@{front.wealthinfomation.WealthInfomationAction.newDetails(news?.id)}" target="_blank">${news_index}、${news?.title} (${news?.read_count})></a>
+			</li>
+		#{/list}	
+		</ul>
+	</div>
+</div>

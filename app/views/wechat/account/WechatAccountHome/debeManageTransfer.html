@@ -1,0 +1,185 @@
+#{extends 'wechat/common.html' /}
+
+<body>
+	<div class="s_main s_center">
+		<header class="s_header">
+		  <a onclick="javascript:history.go(-1)" class="s_goback"></a>
+			债权转让
+			<a href="@{wechat.account.WechatAccountHome.accountInfo()}" class="icobg"></a>
+		</header>
+		<ul class="s_zrchooseway">
+			<li class="clicked">竟价转让</li>
+			<li>定向转让</li>
+		</ul>
+		<div class="s_zqzrfixed">
+			<table cellpadding="0" cellspacing="0" width="100%">
+			  <tr>
+					<td width="143" align="right">借款标标题：</td>
+					<td>${title}</td>
+				</tr>
+				<tr>
+					<td width="143" align="right">转让方式：</td>
+					<td>竞价转让</td>
+				</tr>
+				<tr>
+					<td align="right">转让标题：</td>
+					<td><input type="text" id="biddingTitle" /></td>
+				</tr>
+				<tr>
+					<td align="right" class="valign">待收本金转让底价：</td>
+					<td>
+						<input type="text" id="biddingAmount"/>&nbsp;元
+						<p class="notice">注：待收本金为${stillReceiveAmount}元</p>
+					</td>
+				</tr>
+				<tr>
+					<td align="right">转让期限：</td>
+					<td>
+						<select id="biddingPeriod">
+							<option value="0">请选择</option>
+							<option value="1">1天</option>
+							<option value="2">2天</option>
+							<option value="3">3天</option>
+							<option value="4">4天</option>
+							<option value="5">5天</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="right" valign="top">转让原因：</td>
+					<td>
+						<textarea id="biddingReason"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td align="right"></td>
+					<td><input type="button" value="确认申请" class="surebtn" onclick="redirectTransfer(2)" /></td>
+				</tr>
+			</table>
+		</div>
+		<div class="s_zqzrfixed" style="display:none;">
+			<table cellpadding="0" cellspacing="0" width="100%">
+			  <tr>
+					<td width="143" align="right">借款标标题：</td>
+					<td>${title}</td>
+				</tr>
+				<tr>
+					<td width="143" align="right">转让方式：</td>
+					<td>定向转让</td>
+				</tr>
+				<tr>
+					<td align="right" >转让标题：</td>
+					<td><input type="text" id="redirectTitle" /></td>
+				</tr>
+				<tr>
+					<td align="right" class="valign">待收本金转让底价：</td>
+					<td>
+						<input type="text" id="redirectAmount" />&nbsp;元
+						<p class="notice">注：待收本金为${stillReceiveAmount}元</p>
+					</td>
+				</tr>
+				<tr>
+					<td align="right">受让会员用户名：</td>
+					<td>
+						<input type="text" id="redirectName" />
+					</td>
+				</tr>
+				<tr>
+					<td align="right">转让期限：</td>
+					<td>
+						<select id="redirectPeriod">
+							<option value="0">请选择</option>
+							<option value="1">1天</option>
+							<option value="2">2天</option>
+							<option value="3">3天</option>
+							<option value="4">4天</option>
+							<option value="5">5天</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="right" valign="top">转让原因：</td>
+					<td>
+						<textarea id="redirectReason"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td align="right"></td>
+					<td><input type="button" value="确认申请" class="surebtn" onclick="redirectTransfer(1)" /></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript">
+$(function(){
+	$(".s_zrchooseway li").click(function(){
+		var index=$(this).index();
+		$(this).addClass("clicked").siblings().removeClass("clicked");
+		$(".s_zqzrfixed").hide().eq(index).show();
+	});
+});
+
+function redirectTransfer(num){
+	var specifiedUserName = '';
+	var transferTitle = '';
+	var period = '';
+	var transferReason = '';
+	var price = '';
+	var type = num;
+	var sign = '${sign}';
+	
+  if(num == '1'){
+	  
+	  specifiedUserName = $("#redirectName").val();
+	  transferTitle = $("#redirectTitle").val();
+	  period = $("#redirectPeriod").val();
+	  transferReason = $("#redirectReason").val();
+	  price = $("#redirectAmount").val();
+	  if(specifiedUserName == ''){
+		  alert("对不起，请输入债权定向转让人姓名");
+	    return;
+		  }
+	  
+ }else{
+	 
+	  transferTitle = $("#biddingTitle").val();
+	  period = $("#biddingPeriod").val();
+	  transferReason = $("#biddingReason").val();
+	  price = $("#biddingAmount").val();
+	 }
+
+	 if(transferTitle == ''){
+	      alert("对不起，标题不能为空");
+	      return;
+			 }
+
+	 if(period == ''){
+	      alert("对不起，期限不能为空");
+	      return;
+			 }
+
+	 if(transferReason == ''){
+	      alert("对不起，转让原因不能为空");
+	      return;
+			 }
+
+	 if(price == ''){
+	      alert("对不起，转让低价不能为空");
+	      return;
+			 }
+
+  var action = #{jsAction @wechat.account.WechatAccountHome.confirmTransfer(':sign',':specifiedUserName',':transferTitle', ':period',':transferReason',':price', ':type') /};
+	$.post(action({sign:sign, specifiedUserName:specifiedUserName, transferTitle:transferTitle, period:period, transferReason:transferReason, price:price, type:type}), function(data) {
+		if(data.error.code < 0){
+			alert(data.error.msg);
+			return;
+		}
+		
+		alert("债权转让申请已提交");  
+		self.location=document.referrer; //返回上一级并刷新页面			
+	});
+	
+}
+	</script>

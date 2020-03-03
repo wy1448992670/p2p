@@ -1,0 +1,113 @@
+
+<!-- 回复站内信 -->
+<div class="xf_wyjkwszl_4_windowInner xf_zqzr_znxback_window">
+	<div class="xf_wyjkfb_4_windowClose" onclick="closeReplyWindow()"></div>
+	<div class="xf_wyjkfb_4_windowColName">回复</div>
+	<div class="xf_zqzr_znx_windowCot">
+		<table border="0" cellpadding="0" cellspacing="0" width="426"
+			class="xf_zqzr_znx_teot">
+			<tr>
+				<td align="right">发给：</td>
+				<td>
+				#{if msg.senderUserId > 0}
+				${msg.senderUserName}
+				#{/if}
+				#{else}
+				supervisor
+				#{/else}
+				</td>
+			</tr>
+			<tr>
+				<td width="50" align="right"><span class="xf_zqzr_znx_title">标题：</span>
+				</td>
+				<td><input id="title" class="xf_zqzr_wszl" type="text"></td>
+			</tr>
+			<tr>
+				<td align="right" valign="top"><span class="xf_zqzr_znx_title">内容：</span>
+				</td>
+				<td>
+					<div class="xf_zqzr_znx_text_hfbox">
+						<textarea id="content" class="xf_zqzr_znx_text_hf" name="xf_zqzr_znx_text_hf"></textarea>
+						<div class="xf_zqzr_znx_text_hfbox_t">
+							发件人：
+							#{if msg.senderUserId > 0}
+							${msg.senderUserName}
+							#{/if}
+							#{else}
+							supervisor
+							#{/else}
+							<br /> 
+							发送时间：${msg?.time?.format("yyyy-MM-dd HH:mm:ss")}<br /> 
+							收件人：${msg.receiverUserName}<br />
+							标题：${msg.title}
+						</div>
+						<div class="xf_zqzr_znx_text_hfbox_c" style="height:50px; overflow : auto">
+							${msg.content}</div>
+					</div></td>
+			</tr>
+			<tr>
+				<td colspan="2" class="xf_con_znx_hf_span_two"><a
+					class="xf_con_inputfbjk" href="javascript:replyMessage();">发送</a> 
+					<span class="xf_con_zqzr_znx">您还可以输入
+					<span class="xf_con_zqzr_znxsz" id="remainingCharNum">1000</span>字</span></td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+	$(function() {
+		$("#content").bind("keyup", function() {
+			var maxLimit = 1000;
+
+			if ($(this).val().length > maxLimit) {
+				$(this).val($(this).val().substring(0, maxLimit));
+			}
+
+			$("#remainingCharNum").html(maxLimit - $(this).val().length);
+		});
+	});
+	
+	function closeReplyWindow() {
+		$("#xf_zqzr_tgxyed_window").hide();
+	}
+
+	function replyMessage() {
+		var title = $("#title").val().trim();
+		if ("" == title) {
+			alert("请输入标题!");
+
+			return;
+		}
+
+		var content = $("#content").val().trim();
+		if ("" == content) {
+			alert("请输入内容!");
+
+			return;
+		}
+
+		$.ajax({
+			url : "@{replyMsg()}",
+			type : "POST",
+			data : {
+				"msgId" : g_msgId,
+				"title" : title,
+				"content" : content
+			},
+			success : function(data) {
+				alert(data.msg);
+
+				if (data.code < 0) {
+					return;
+				}
+
+				$("#xf_zqzr_tgxyed_window").hide();
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+</script>

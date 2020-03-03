@@ -1,0 +1,310 @@
+<div class="xn_c_content">
+  <div class="xf_content_add">
+    <div class="xfht_t_j_y_2">
+	  <!--右上-->
+	  <div class="xf_ht_obu_fklm">
+	    <input type="button" value="下一个（${item?.countUpId}）" class="xf_ht_jkbgl_sh_view" 
+	      #{if item?.countUpId == 0} disabled="disabled" #{/if} onclick="upBid();" />
+		<input type="button" value="上一个（${item?.countNextId}）" class="xf_ht_jkbgl_sh_view" 
+		  #{if item?.countNextId == 0} disabled="disabled" #{/if} onclick="nextBid();" />
+		<input type="button" value="返回" class="xf_ht_jkbgl_sh_view" onclick="back();" />
+	  </div>
+	  <!-- 审核明细 -->
+	    <div class="xf_ht_jkbgl_viewwarp">
+		  <div class="xf_ht_jkbgl_top">
+			会员[${item?.userName}]资料审核情况统计表
+		  </div>
+		  <div class="xf_con_mem_r_bottom xf_ht_jkbgl_bottom">
+		    <div class="xf_ht_shmx_one">
+		                  合计资料：<span class="xf_ht_xhmx_s_red" id="sumCount"></span> 份，
+                                        未提交：<span class="xf_ht_xhmx_s_red" id="uncommitted"></span> 份，
+                                        审核中：<span class="xf_ht_xhmx_s_red" id="auditing"></span> 份，
+                                        通过审核：<span class="xf_ht_xhmx_s_red" id="audited"></span> 份，
+                                        过期失效：<span class="xf_ht_xhmx_s_red" id="expired"></span> 份，
+                                        未通过：<span class="xf_ht_xhmx_s_red" id="notPass"></span> 份。
+			</div>
+			<div class="xf_ht_shmx_three clr">
+			  #{form @auditDetail(), id:'auditDetail'}
+              <input type="hidden" id="currPage" name="currPage"/>
+       		  <input type="hidden" id="pageSize" name="pageSize"/>
+       		  <input type="hidden" name="signUserId" value="${signUserId}"/>
+			  <div class="xf_ht_shmx_two_r clr">
+				<span class="xf_ht_shmx_two_r_l">按借款标类型查看：</span>
+				  <select name="productId" class="xfht_t_j_td_1" id="productId">   
+				    <option value="0">全部</option>
+			        #{list products}
+			          <option value="${_?.id}"
+			       	    #{if _?.id == pageBean?.conditions?.productId }
+			       	      selected="selected"
+			       	    #{/if}
+			       	  >${_?.name}
+			       	  </option>
+			        #{/list}   
+				  </select>
+				  <span class="xf_ht_shmx_two_r_l">是否必审：</span>
+				  <select name="productType" class="xfht_t_j_td_1" id="productType">   
+			        <option value="10" id="type010">全部</option>
+			        <option value="1" id="type01">必须</option>
+			        <option value="0" id="type00">可选</option>
+			      </select>
+				</div>
+				<div class="xf_ht_shmx_four">
+				  <div class="xf_ht_shmx_two_r clr">
+					<span class="xf_ht_shmx_two_r_l">按审核状态查看：</span>
+					<select name="status" class="xfht_t_j_td_1">   
+				      <option value="10" id="type10">全部</option>   
+				      <option value="0" id="type0">未提交</option>   
+				      <option value="1" id="type1">审核中</option>
+				      <option value="2" id="type2">通过审核</option>
+				      <option value="3" id="type3">过期失效</option>   
+				      <option value="-1" id="type-1">未通过</option> 
+					</select>
+					<div class="xfht_t_jk_zt2">
+					  <div class="xfht_t_jk_zt_wz">
+						时间范围：
+					  </div>
+					  <div class="xfht_t_jk_zt_rj">
+					    <input type="text" name="startDate" id="startDate" class="xfht_t_jk_zt_rj1" onclick="laydate()" class="laydate-icon" style="cursor:pointer" /> 
+					  </div>
+					    <div class="xfht_t_j_zt_x">
+							__
+						</div>
+						<div class="xfht_t_jk_zt_rj">
+							<input type="text" name="endDate" id="endDate" class="xfht_t_jk_zt_rj1" onclick="laydate()" class="laydate-icon" style="cursor:pointer" /> 
+					  </div>
+					</div>
+					<input type="submit" value="查看" class="xf_ht_jkbgl_page_fh">
+				  </div>
+				</div>
+				#{/form}
+				<div class="xn_c_content_top">
+				  #{if pageBean?.page == null || pageBean?.page?.size == 0}
+				  	暂无数据
+				  #{/if}
+				  #{else}
+				  #{table class:"xf_con_mem_r_b_table xf_con_table_view", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+					#{tr}
+					  #{th}序号#{/th}
+					  #{th}编号#{/th}
+					  #{th}名称#{/th}
+					  #{th}状态#{/th}
+					  #{th}格式#{/th}
+				      #{th}有效期(月)#{/th}
+					  #{th}提交时间#{/th}
+					  #{th}审核时间#{/th}
+					  #{th}到期时间#{/th}
+					  #{th}有效期状态#{/th}
+					  #{th}信用积分#{/th}
+					  #{th}可见状态#{/th}
+					  #{th}是否关联超额借款#{/th}
+					  #{th}关联标#{/th}
+					  #{th}操作#{/th}
+					#{/tr}
+					#{list pageBean?.page}
+					#{tr tr_index:_index}
+					  #{td}${_index}#{/td}
+				      #{td}${_?.no}#{/td}
+				      #{td}${_?.name}#{/td}
+				      #{td}${_?.strStatus}#{/td}
+				      #{td}
+						#{if _?.type == 1}
+							图片文件
+						#{/if}
+						#{elseif _?.type == 2}
+							文本文件
+						#{/elseif}
+						#{elseif  _?.type == 3}
+							视频文件
+						#{/elseif}
+						#{elseif  _?.type == 4}
+							音频文件
+						#{/elseif}
+						#{else}
+							表格文件
+					    #{/else}
+				      #{/td}
+					  #{td}${_?.period}#{/td}
+					  #{td}${_?.time?.format('yyyy-MM-dd')}#{/td}
+					  #{td}
+					  #{if _?.status != 1 && _?.status != 4}
+					   ${_?.audit_time?.format('yyyy-MM-dd')}
+					  #{/if}
+					  #{/td}
+					  #{td}${_?.expire_time?.format('yyyy-MM-dd')}#{/td}
+					  #{td}
+						#{if _?.status == 0 || _?.status == 1}
+							无效
+						#{/if}
+						#{elseif _?.status == 2}
+							有效
+						#{/elseif}
+						#{elseif _?.status == 3 || _?.status == -1}
+							失效
+						#{/elseif}
+					  #{/td}
+					  #{td}${_?.credit_score}#{/td}
+					  #{td}
+						#{if _?.is_visible}
+							可见
+						#{/if}
+						#{else}
+							 不可见
+						#{/else}
+			    	  #{/td}
+			    	  #{td}
+			    		#{if _?.is_over_borrow}是#{/if}
+			    	    #{else}否#{/else}
+					  #{/td}
+				      #{td}
+					    #{list items:_?.productNames, as : 'name'}
+						  #{img src:"${name}",alt:"",width:"20",height:"20"}#{/img}
+					    #{/list}
+				      #{/td}
+				      #{td}
+				        <div class="xfht_t_sh_1">
+				          #{if _?.status == 1}
+                            <a style="cursor: pointer;" onclick="showaudititem('${_?.mark}', '${_?.signUserId}');">审核</a>
+                          #{/if}
+                          #{elseif _?.status == 0}
+						    ---
+					      #{/elseif}
+					       #{else}
+					        <a style="cursor: pointer;" onclick="showitem('${_?.mark}', '${_?.signUserId}');">查看</a>
+					      #{/else}
+                        </div>
+				      #{/td}
+				    #{/tr}
+				    #{/list}
+				  #{/table}
+				  #{/else}
+				</div>
+				<!-- 分页 -->
+				<div class="xfht_t_j_y_yx_fy">
+				  <div class="xf_ht_page">
+					<div class="page_warp">
+					  #{page currPage:pageBean?.currPage,totalCount:pageBean?.totalCount,pageSize:pageBean?.pageSize,theme:2,style:4/}
+					</div>
+				  </div>
+				</div>
+			</div>
+			</div>
+			<div class="xf_jkb_btowarp">
+			  <div class="xf_jkb_bto">
+				<input type="button" value="上一个（${item?.countUpId}）" class="xf_ht_jkbgl_sh_view" 
+				  #{if item?.countUpId == 0} disabled="disabled" #{/if} onclick="upBid();" />
+				<input type="button" value="下一个（${item?.countNextId}）" class="xf_ht_jkbgl_sh_view" 
+				  #{if item?.countNextId == 0} disabled="disabled" #{/if} onclick="nextBid();" />
+				<input type="button" value="返回" class="xf_ht_jkbgl_sh_view" onclick="back();" />
+			  </div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 查看资料弹出层 -->
+<div id="showitem" class="xn_c_ban_jox xn_c_ban_jox_ptsh" style="height: 400px; overflow: auto; display: none;">
+</div>
+<!-- 审核资料弹出层 -->
+<div id="audititem" class="xn_c_ban_jox xn_c_ban_jox_ptsh" style="height: 400px; overflow: auto; display: none;">
+</div>
+<script type="text/javascript">
+<!--
+	/* 查看弹出层 */
+	function showitem(mark, signUserId){
+		var action = #{jsAction @supervisor.bidManager.UserAuditItemAction.showitem(':mark',':signUserId') /};
+		$.post(action({mark:mark, signUserId:signUserId}), function(data) {
+			$("#showitem").html(data);
+	        $.layer({
+	          type: 1,
+	          area: ['608', 'auto'],
+	          title: '查看资料',
+	          page: {dom : '#showitem'}
+	        });
+		});		
+	}
+
+	/* 审核弹出层 */
+	function showaudititem(mark, signUserId){
+		var action = #{jsAction @supervisor.bidManager.UserAuditItemAction.audititem(':mark',':signUserId') /};
+		$.post(action({mark:mark, signUserId:signUserId}), function(data) {
+			$("#audititem").html(data);
+	        $.layer({
+	          type: 1,
+	          area: ['608', 'auto'],
+	          title: '审核资料',
+	          page: {dom : '#audititem'}
+	        });
+		});	
+	}
+	
+	/* 条件搜素查询 */
+	function showPage(currPage, pageSize){
+         $("#currPage").val(currPage);
+         $("#pageSize").val(pageSize);
+         $("#auditDetail").submit();
+    }
+	
+	$(function(){
+		/* 高亮显示 */
+		showHighLight(4, 4, 16);
+					
+		/* 给搜索条件赋记录值 */
+		var status = "${pageBean?.conditions?.status}";
+		var startDate = "${pageBean?.conditions?.startDate}";
+		var endDate = "${pageBean?.conditions?.endDate}";
+		var type = "${pageBean?.conditions?.type}";
+
+		switch(parseInt(type)){
+			case 10:$("#type010").attr("selected","selected");break;
+			case 1:$("#type01").attr("selected","selected");break;
+			case 0:$("#type00").attr("selected","selected");break;
+		}
+		
+		switch(parseInt(status)){
+			case 10:$("#type10").attr("selected","selected");break;
+			case 0:$("#type0").attr("selected","selected");break;
+			case 1:$("#type1").attr("selected","selected");break;
+			case 2:$("#type2").attr("selected","selected");break;
+			case 3:$("#type3").attr("selected","selected");break;
+			case -1:$("#type-1").attr("selected","selected");break;
+		}
+		
+		$("#startDate").val(startDate);
+		$("#endDate").val(endDate);
+		
+		$("#sumCount").html("${auditStatistics?.sumCount}");
+		$("#uncommitted").html("${auditStatistics?.uncommitted}");
+		$("#auditing").html("${auditStatistics?.auditing}");
+		$("#audited").html("${auditStatistics?.audited}");
+		$("#expired").html("${auditStatistics?.expired}");
+		$("#notPass").html("${auditStatistics?.notPass}");
+
+		/* 选了产品，才能选择必选和可选 */
+		var type2 = $("#productType");
+		if ($("#productId").val() == 0)
+			type2.attr("disabled","disabled");
+		
+		$("#productId").change(function(){
+			if($(this).val() == 0){
+				type2.attr("disabled","disabled");
+			}else{
+				type2.removeAttr("disabled");
+			}
+		});
+	});
+
+	/* 上一个 */
+	function upBid(){
+		window.location.href = "@{auditDetail(item?.upId)}"; 
+	}
+
+	/* 下一个  */
+	function nextBid(){
+		window.location.href = "@{auditDetail(item?.nextId)}"; 
+	}
+
+	/* 返回 */
+	function back(){
+		window.location.href = "@{userAuditItemList()}"; 
+	}
+//-->
+</script>

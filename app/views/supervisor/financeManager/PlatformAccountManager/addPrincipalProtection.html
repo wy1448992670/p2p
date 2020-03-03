@@ -1,0 +1,98 @@
+#{extends 'common/supervisor.html' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_conten
+    <!--右-->
+    <div class="xfht_t_j_k_rihgt">
+      <div class="xfht_t_q_y">
+        <div class="xfht_t_j_y_1"></div>
+        <div class="xfht_t_j_y_2">
+          <!--右上-->
+          <div class="xf_ht_obu_fklm">
+            本金保障账户概览
+          </div>
+          
+          <!--右下-->
+          <div class="xfht_t_j_y_yx_k">
+            <table class="xfht_t_table_bjbz" width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="300" align="right" style="padding-right:18px;">本金保障账户开启时间：</td>
+                <td><input type="text" class="xfht_zr_input"></td>
+              </tr>
+              <tr>
+                <td align="right" style="padding-right:18px;">本金保障账户已运行：</td>
+                <td><span class="xfht_zr_s_font">333</span>天<span class="xfht_zr_s_font">12</span>小时<span class="xfht_zr_s_font">45</span>分<span class="xfht_zr_s_font">59</span>秒</td>
+              </tr>
+              <tr>
+                <td align="right" style="padding-right:18px;">本金保障账户总收入：</td>
+                <td><input type="text" class="xfht_zr_input"> 元</td>
+              </tr>
+              <tr>
+                <td align="right" style="padding-right:18px;">本金保障账户总支出：</td>
+                <td><input type="text" class="xfht_zr_input"> 元</td>
+              </tr>
+              <tr>
+                <td align="right" style="padding-right:18px;">本金保障账户共垫付投资账单：</td>
+                <td>
+                  <span class="xfht_zr_s_font">3303</span>笔，合计<span class="xfht_zr_s_font">4530.00</span>元
+                </td>
+              </tr>
+              <tr>
+                <td align="right" style="padding-right:18px;">本金保障账户余额：</td>
+                <td><input type="text" class="xfht_zr_input"> 元</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>
+                  <input class="xf_ht_tcc_button_ok" type="button" value="添加保障金" id="xf_ht_tjbzj">
+                </td>
+              </tr>
+            </table>
+          </div>
+
+        </div>
+        <div class="xfht_t_j_y_3"></div>
+      </div>
+    </div>
+  </div>
+
+<!-- 添加保障金-弹出层 -->
+<div class="xf_ht_ttc" id="xf_ht_fkzh_ttc">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_ht_jr_obu_title clr">
+      <div class="xf_ht_jr_obu_l">添加保障金</div>
+      <div class="xf_ht_jr_obu_r">&nbsp;</div>
+    </div>
+    <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form xf_ht_jr_obu_formsz">
+      <tr>
+        <td width="132" align="right" valign="middle" class="xf_ht_jr_obttd_l">操作金额：</td>
+        <td>
+          <input class="xf_ht_fk_input_t" type="text">
+        </td>
+      </tr>
+      <tr>
+        <td align="right" valign="top" class="xf_ht_jr_obttd_l">备注：</td>
+        <td>
+          <textarea class="xf_ht_jr_obttd_input" name="xf_ht_jr_obttd_input"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td align="right" valign="top" class="xf_ht_jr_obttd_l">&nbsp;</td>
+        <td class="xf_ht_tcc_button_two">
+          <input class="xf_ht_tcc_button_ok" type="button" value="确  定">
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function(){
+    $("#xf_ht_fkzh_ttc").center();
+    $("#xf_ht_tjbzj").click(function(){
+      $("#xf_ht_fkzh_ttc").show();
+    });
+    $(".xf_ht_jr_obu_r").click(function(){
+      $(this).parents(".xf_ht_ttc").hide();
+    });
+  });
+</script>
+</html>

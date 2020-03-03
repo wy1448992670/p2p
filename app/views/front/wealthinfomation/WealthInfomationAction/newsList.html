@@ -1,0 +1,85 @@
+#{extends 'common/frontMain.html' /} 
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{set title:currBackstageSet.seoTitle+'|财富资迅|列表' /}
+<div class="xf_cfzx_list_type" id="xf_wyjkview_xxk">
+ #{form @newsList(),id:'submitother'}
+    <input type="hidden" id="currPage" name="currPage"/>
+    <input type="hidden" id="pageSize" name="pageSize"/>
+     <input type="hidden" id="typeId" name="typeId" value="${typeId}"/>
+	<ul class="xf_con_mem_r_tentul clr">
+		#{list items:types, as:'type'}
+		<li id="li${type_index + 6}" class="xf_con_wyjk_r_liNoborder">
+			<a href="@{newsList(type?.id)}">${type?.name}</a>
+		</li>
+		#{/list}
+	</ul>
+	<div class="xf_con_wyjk_tentultbody">
+		<div class="xf_mem_rzqzr_tab">
+			<div class="xf_cfzx_top_img">
+				
+				#{if ads[0]?.is_link_enabled}
+				#{if ads[0]?.target == 2}
+					<a href="${ads[0]?.url}" target="_blank">
+						#{img src:"${ads[0]?.image_filename}",alt:""}#{/img}
+					</a>
+				#{/if}
+				#{else}
+					<a href="${ads[0]?.url}"/>
+						#{img src:"${ads[0]?.image_filename}",alt:""}#{/img}
+					</a>
+				#{/else}
+				#{/if}
+				#{else}
+					#{img src:"${ads[0]?.image_filename}",alt:""}#{/img}
+				#{/else}
+				
+			</div>
+			<ul class="xf_cfzx_list_ul">
+				#{list items:newsList.page, as:'news'}
+				<li>
+					<div class="xf_cfzx_list_ul_t">
+						<a href="@{newDetails(news?.id)}" target="_blank">${news?.title}</a>
+					</div>
+					<div class="xf_cfzx_list_ul_c" limit="100">
+						${news?.content?.raw()}
+					</div>
+					<div class="xf_cfzx_list_ul_o">
+						<a href="@{newDetails(news?.id)}" target="_blank" class="xf_cfzx_list_ul_more">
+						<img src="@{'public/images/cfzx_more.jpg'}">
+						</a>
+						<span class="xf_cfzx_list_ul_oreder">${news?.start_show_time?.format('yyyy-MM-dd')}</span>
+						<span class="xf_cfzx_list_ul_oreder">阅读次数：${news?.read_count}</span>
+					</div>
+				</li>
+				#{/list}
+			</ul>
+			#{/form}
+			<div class="xf_wylc_page xf_membill_view_page1" style="width:100%">
+				#{page pageTitle:"财富咨询列表", currPage:newsList.currPage,totalCount:newsList.totalCount,pageSize:newsList.pageSize,theme:2,style:2}
+				#{/page}
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+	     $(".xf_cfzx_list_ul_c").limit();
+	     
+	     var url = location.search;
+	     var strs= new Array();
+	     strs = url.split("=");
+	     
+	     $("#li" + strs[1]).removeClass("xf_con_wyjk_r_liishot");
+	     $("#li" + strs[1]).addClass("xf_con_wyjk_r_liishot");
+	})
+</script>
+<script>
+    function showPage(currPage, pageSize){
+         $("#currPage").val(currPage);
+         $("#pageSize").val(pageSize);
+         $("#submitother").submit();
+    }
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_wealth.js'}"></script>

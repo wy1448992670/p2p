@@ -1,0 +1,102 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'邮件通道' /} 
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/systemSettings/common/leftBar.control"/}
+    <div class="xn_c_content">
+      <div class="xf_content_add">
+         #{form @saveMail(), id:'submit'}
+        <div class="xfht_t_j_y_2">
+          <!--右上-->
+          <div class="xf_ht_obu_fklm"> 免费邮件发送通道设置</div>
+          <!-- 短信通道 -->
+          <div class="xf_htgl_jg_tongdao">
+            <table border="0" cellspacing="0" cellpadding="0" class="xf_htgl_jg_tableone_table">
+            <tr>
+              <td width="280" align="right">邮箱登录网址：</td>
+              <td>
+              <input class="xfht_zr_input xfht_zr_input_shoping" type="text" id="emailWebsite" name="emailWebsite" value="${backstageSet?.emailWebsite}">
+              </td>
+            </tr>
+            <tr>
+              <td width="280" align="right">Email：</td>
+              <td>
+              <input class="xfht_zr_input xfht_zr_input_shoping" type="text" id="mailAccount" name="mailAccount" value="${backstageSet?.mailAccount}">
+              </td>
+            </tr>
+            <tr>
+              <td width="280" align="right">密码：</td>
+              <td>
+              <input class="xfht_zr_input xfht_zr_input_shoping" type="password" id="mailPassword" name="mailPassword" value="${backstageSet?.mailPassword}">
+              </td>
+            </tr>
+            <tr>
+              <td width="280" align="right">POP3服务器：</td>
+              <td>
+              <input class="xfht_zr_input xfht_zr_input_shoping" type="text" id="POP3Server" name="POP3Server" value="${backstageSet?.POP3Server}">
+              </td>
+            </tr>
+            <tr>
+              <td width="280" align="right">SMTP服务器：</td>
+              <td>
+              <input class="xfht_zr_input xfht_zr_input_shoping" type="text" id="STMPServer" name="STMPServer" value="${backstageSet?.STMPServer}">
+              </td>
+            </tr>
+            <tr>
+              <td width="280" align="right">&nbsp;</td>
+              <td>
+              <input type="checkbox" name="isChargesChannels" #{if backstageSet.isChargesChannels == '1'} checked="checked"#{/if}#{else}#{/else}>  开启收费邮件广告通道
+              </td>
+            </tr>
+            </table>
+          </div>
+          <div class="xf_htgl_jgsix_hyg">
+            <input class="xf_ht_tcc_button_ok" type="button"  onClick="submits()" value="确  定">
+          </div>
+        </div>
+        #{/form}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    /* 高亮显示 */
+	showHighLight(5,5,14);
+  });
+  
+  function submits(){
+    if($("#emailWebsite").val() == ''){
+      alert("邮箱登录网址不能为空");
+      
+      return;
+    }
+          
+    if($("#mailAccount").val() == ''){
+      alert("Email不能为空");
+      
+      return;
+    }
+          
+    if($("#mailPassword").val() == ''){
+    
+      alert("密码不能为空");
+      return;
+    }
+          
+    if($("#POP3Server").val() == ''){
+      alert("POP3服务器不能为空");
+      
+      return;
+    }
+          
+    if($("#STMPServer").val() == ''){
+      alert("SMTP服务器不能为空");
+      
+      return;
+    }
+          
+    $("#submit").submit();
+  }
+</script>   

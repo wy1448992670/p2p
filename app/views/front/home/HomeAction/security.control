@@ -1,0 +1,65 @@
+<div class="xf_c_idx_11_secureWrap">
+		<!--安全保障 start-->
+		<div class="xf_c_idx_11_secureHeader">
+			<span class="xf_c_idx_11_secureNum">4</span><span
+				class="xf_c_idx_11_secureBig">大</span><span
+				class="xf_c_idx_11_secureAq">安全</span><span
+				class="xf_c_idx_11_secureBz">保障</span>
+		</div>
+		<div class="xf_c_idx_11_secureContent">
+			
+			#{list items:adsEnsure,as:'ensure'}
+				#{if ensure?.isLinkEnabled}
+				#{if ensure?.target == 2}
+				<a href="${ensure?.url}" target="_blank" #{if ensure_isLast} class="xf_c_idx_11_secureMtbd" #{/if}>
+					#{if ensure_isLast}
+					#{img class:"lazy", data_original:"${ensure?.imageFileName}", src:"/public/images/loading.gif",alt:"",width:"210",height:"115"}#{/img}
+					#{/if}
+					#{else}
+					#{img class:"lazy", data_original:"${ensure?.imageFileName}", src:"/public/images/loading.gif",alt:"",width:"210",height:"115"}#{/img}
+					#{/else}
+				</a>
+				#{/if}
+				#{else}
+				<a href="${ensure?.url}" #{if ensure_isLast} class="xf_c_idx_11_secureMtbd" #{/if}/>
+					#{if ensure_isLast}
+					#{img class:"lazy", data_original:"${ensure?.imageFileName}", src:"/public/images/loading.gif",alt:"",width:"210",height:"115"}#{/img}
+					#{/if}
+					#{else}
+					#{img class:"lazy", data_original:"${ensure?.imageFileName}", src:"/public/images/loading.gif",alt:"",width:"210",height:"115"}#{/img}
+					#{/else}
+				</a>
+				#{/else}
+				#{/if}
+				#{else}
+					#{if ensure_isLast}
+					#{img class:"lazy", data_original:"${ensure?.imageFileName}", src:"/public/images/loading.gif",alt:"",width:"210",height:"115"}#{/img}
+					#{/if}
+					#{else}
+					#{img class:"lazy", data_original:"${ensure?.imageFileName}", src:"/public/images/loading.gif",alt:"",width:"210",height:"115"}#{/img}
+					#{/else}
+				#{/else}
+	*{		<a  
+			#{if adsEnsure_index == 4}
+			class="xf_c_idx_11_secureMtbd"
+			#{/if}
+			#{else}
+			class="xf_c_idx_11_secureBjbz"
+			#{/else}
+			
+			#{if adsEnsure?.isLinkEnabled}
+			 href = "${adsEnsure?.url}"
+			 #{if adsEnsure == 1}
+			 target = " _self"
+			#{/if}
+			#{else}
+			 target =  " _blank"
+			#{/else}
+			#{/if}
+			 > 
+			 #{img src:"${adsEnsure?.imageFileName}",alt:"",width:"210",height:"115"}#{/img}
+			 </a>}*
+			#{/list}
+		</div>
+		<!--安全保障 ends-->
+	</div>

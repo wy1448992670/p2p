@@ -1,0 +1,148 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    <input type="hidden" id="currPage" name="currPage"/>
+	<input type="hidden" id="pageSize" name="pageSize"/>
+    <div class="xf_ht_search_inon">
+       <div class="xf_ht_search_r">
+         <div class="xf_ht_search_xl">
+           <input name="mobile" type="text" class="search_w" placeholder="账户" value="${mobile}"/>
+         </div>
+         <div class="xf_ht_search_xl">
+           <input name="borrow_no" type="text" class="search_w" placeholder="编号" value="${borrow_no}"/>
+         </div>
+         
+         <div class="xf_ht_search_xl">
+          <span class="search_timesp">借款性质：</span>
+          
+          <select name="loan_property_id" style="width:100px;">
+          	<option value="">全部</option>
+          	#{list items:constants.UserTypeEnum.getEnumList(), as:'item'}
+              <option value="${item?.code}"  ${loan_property_id == item?.code+"" ? "selected" : ""}  >${item?.name}</option>
+            #{/list}
+          </select>
+         </div>
+         
+         <div class="xf_ht_search_xl">
+          <span class="search_timesp">地区：</span> 
+          <select name="apply_area" style="width:150px;">
+          	<option value="">全部</option>
+          	 #{list items:new models.t_agencies().fetchEnumList(), as:'item'} 
+               <option value="${item?.id}"  #{if the_area == item?.id+"" } selected #{/if}>${item?.name}</option>
+             #{/list}
+          </select>
+         </div>
+         
+          <div class="xf_ht_search_xl">
+          <span class="search_timesp">状态： </span>
+          <select name="apply_status" style="width:100px;">
+          	<option value="">全部</option>
+          	#{list items:models.t_enum_map.getEnumListByTypeName("t_borrow_apply.status"), as:'item'}
+                <option value="${item?.enum_code}"  #{if apply_status == item?.enum_code+"" } selected #{/if} >${item?.enum_name}</option>
+             #{/list}
+          </select>
+         </div>
+         
+         <div class="xf_ht_search_xl">
+           <input type="submit" class="search_button" value="查看">
+         </div>
+       </div>
+     </div>
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xn_c_content_list",tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}账户#{/th}
+          #{th}真实姓名#{/th}
+          #{th}编号#{/th}
+          #{th}注册时间#{/th}
+          #{th}申请时间#{/th}
+          #{th}申请项目#{/th}
+          #{th}申请金额#{/th}
+          #{th}申请地区#{/th}
+          #{th}分配地区#{/th}
+          #{th}借款期限#{/th}
+		  #{th}借款用途#{/th}
+		  #{th}借款性质#{/th}
+		  #{th}初审员#{/th}
+		  #{th}初审时间#{/th}
+		   #{th}复审员#{/th}
+		  #{th}复审时间#{/th}
+		  #{th}状态#{/th}
+		  #{th}是否上标#{/th}
+		  #{th}操作#{/th}
+        #{/tr}
+		#{list pageBean?.page}
+        #{tr tr_index:_index}
+          #{td}${(pageBean?.currPage - 1)*pageBean?.pageSize + _index}#{/td}
+          #{td}${_?.mobile}#{/td} 
+          #{td}${_?.reality_name}#{/td} 
+          #{td}${_?.borrow_no}#{/td}
+          #{td}${_?.user_time?.format("yyyy-MM-dd HH:mm:ss")}#{/td}
+          #{td}${_?.apply_time?.format("yyyy-MM-dd HH:mm:ss")}#{/td}
+          
+          #{td}
+         	#{if _?.product_id == 1 } 信亿贷#{/if}
+		    #{if _?.product_id == 2 } 房亿贷#{/if}
+		    #{if _?.product_id == 3 } 农亿贷#{/if}
+          #{/td} 
+          
+		  #{td}${_?.apply_amount}#{/td}
+		  #{td}${_?.apply_area_name}#{/td}
+		  #{td}${_?.allot_area_name}#{/td}
+		  #{td}${_?.period}#{/td}
+		  #{td}${_?.loan_purpose_name}#{/td}
+		  
+		  #{td}
+		    #{if _?.loan_property_id == 1 } 个人借款#{/if}
+		    #{if _?.loan_property_id == 2 } 企业借款#{/if}
+		    #{if _?.loan_property_id == 3 } 个体工商户借款#{/if}
+		  #{/td} 
+		  
+		  #{td}${_?.audit_admin_name }#{/td}
+		  #{td}${utils.DateUtil.dateToString(_?.audit_time) }#{/td}
+		  #{td}${_?.recheck_admin_name }#{/td}
+		  #{td}${utils.DateUtil.dateToString(_?.recheck_time) }#{/td}
+		  #{td}${_?.apply_status_name  }#{/td}
+		  #{td}  
+		   		#{if _?.approve_amount != 0 }
+		   			${(_?.bid_amount / _?.approve_amount * 100).format("0.00")}%
+		   		#{/if}
+		   		#{else} 0 #{/else}
+		   #{/td}
+          #{td} 
+         	 <span><a href="@{supervisor.bidManager.BidApplicationAction.applicationDetailView()}?apply_id=${_?.id}&apply_status=${_?.apply_status}&view=${view}", class="xf_ta_onclick">详情</a></span> &nbsp; &nbsp; 
+             #{if view==1}
+	             #{if _?.apply_status == 1} 
+	             	<a href="@{supervisor.bidManager.BidApplicationAction.applicationCheckView()}?apply_id=${_?.id}&apply_status=${_?.apply_status}&view=${view}" > 分配 </a>
+	             #{/if}
+
+	             #{if _?.apply_status == 3} 
+	             	<a href="@{supervisor.bidManager.BidApplicationAction.applicationCheckView()}?apply_id=${_?.id}&apply_status=${_?.apply_status}&view=${view}"> 初审  </a>  <!-- 已提交 就是待初审 的状态 -->
+	             #{/if}
+	             #{if _?.apply_status == 4} 
+	             	<a href="@{supervisor.bidManager.BidApplicationAction.applicationCheckView()}?apply_id=${_?.id}&apply_status=${_?.apply_status}&view=${view}"> 复审  </a> <!-- 已初审 就是待复审 的状态 -->
+	             #{/if}
+	             #{if _?.apply_status == 5} 
+	             	<a href="@{supervisor.bidManager.BidAgencyAction.addAgencyBid()}?borrow_apply_id=${_?.id}"> 一次性上标  </a> &nbsp; &nbsp; 
+	             	<a href="@{supervisor.bidManager.BidAgencyAction.addAgencyBid()}?borrow_apply_id=${_?.id}&is_split_bid=true">分标 </a> &nbsp; &nbsp; 
+	             	<a href="@{supervisor.bidManager.BidApplicationAction.applicationCheckView()}?apply_id=${_?.id}&apply_status=${_?.apply_status}&view=${view}"> 取消借款  </a> <!-- 已复审状态 可以取消借款 -->
+	             #{/if}
+             #{/if}
+             #{if view==2}
+             	 #{if _?.apply_status == 2} 
+	             	<a href="@{supervisor.bidManager.BidApplicationAction.applicationCheckView()}?apply_id=${_?.id}&apply_status=${_?.apply_status}&view=${view}"> 提交</a> <!-- 已分配 就是待提交状态-->
+	             #{/if}
+             #{/if}
+          #{/td}
+        #{/tr}
+		#{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      #{page currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:4/}
+    </div>
+    </div>
+    </div>

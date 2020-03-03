@@ -1,0 +1,87 @@
+		<!-- 后期补充-正常还款积分明细 -->
+		<div class="xf_zqzr_znx_window" id="xf_mem_zchkjf_window">
+			<div class="xf_wyjkwszl_4_windowInner xf_hmd_wdxydj_window">
+				<div class="xf_wyjkfb_4_windowClose" id="close"></div>
+				<div class="xf_wyjkfb_4_windowColName">
+					成功投标积分明细
+				</div>
+        		<!-- 搜索区域 -->
+				<ul class="xf_memzjgl_wdxydji clr">
+					<li class="xf_membill_searchLi">
+						<input type="text" id="sucLoanKey" value="${page?.conditions?.key}" class="xf_membill_shurk_yhm">
+					</li>
+					<li>
+						<input type="button" id="sucLoanSerach" value="搜 索" class="xf_membill_button_yhm xf_membill_button_yhm2">
+					</li>
+				</ul>
+				<!-- 搜索结果 -->
+				<div class="xf_mem_xydj_search">
+					<table border="0" cellpadding="0" cellspacing="0" width="565" class="xf_mem_xydj_viewcpms">
+						<tbody>
+							<tr>
+								<th align="center" width="42">序号</th>
+							  	<th width="77">借款编号</th>
+							  	<th align="center" width="197">借款标题</th>
+							  	<th align="center" width="197">借款人</th>
+							  	<th width="48">得分</th>
+							  	<th width="148">审核时间</th>
+							</tr>
+							#{list items:page.page,as:'loan'}
+							<tr>
+								<td align="center">${loan_index}</td>
+								<td align="left">${loan?.bid_no}</td>
+								<td align="center">${loan?.title}</td>
+								<td align="center">${loan?.name?.asterisk()}</td>
+								<td align="center">${loan?.score}</td>
+								<td align="center">${loan?.invest_time?.format('yyyy-MM-dd')}</td>
+							</tr>
+							#{/list}
+						</tbody>
+					</table>
+				</div>
+				<!-- 分页器 -->
+				<div class="xf_wylc_page xf_memxydj_view">
+				#{page pageTitle:"成功投标积分明细", funMethod:"showPageInvest",currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:2,style:2 /}
+				</div>
+				<div class="xf_xydj_a_bq xf_xydj_a_bq2">
+					<a href="#" class="xf_con_inputfbjk" id="close1">关 闭</a>
+				</div>
+			</div>
+		</div>
+<script type="text/javascript">
+     $(function(){
+         showDiv($("#xf_mem_zchkjf_window"));
+     })
+     
+     $("#close").click(function(){
+         $("#xf_mem_zchkjf_window").hide();
+     
+     })
+     
+     $("#close1").click(function(){
+         $("#xf_mem_zchkjf_window").hide();
+     
+     })
+     
+     $("#sucLoanSerach").click(function(){
+          showPageInvest('1');
+     })
+     
+     function showPageInvest(currPage){
+         var values = $("#sucLoanKey").val();
+         $.ajax({
+			url : "@{creditDetailInvest()}",
+			type : "POST",
+			data : {
+			   "currPage" : currPage,
+			   "key"  : values
+			},
+			success : function(data) {
+			    $("#very").html(data);
+			},
+			error : function() {
+				alert("对不起，查询数据出现错误");
+			}
+		});
+     }
+</script>

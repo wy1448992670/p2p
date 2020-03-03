@@ -1,0 +1,39 @@
+<div class="xn_c_content_left">
+  <div class="xn_c_content_leftul">
+    <ul>
+      <li>
+        <div class="xn_c_li_head_one" id="lab_1">
+          <a class="xn_c_li_head_a" href="@{supervisor.publicBenefit.UserDonate.donateList()}">捐款明细</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one" id="lab_2">
+          <a class="xn_c_li_head_a" href="@{supervisor.publicBenefit.UserDonate.benefitList()}">亿亿公益</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one" id="lab_3">
+          <a class="xn_c_li_head_a" href="@{supervisor.publicBenefit.UserDonate.benefitAccount()}">公益账户</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one" id="lab_4">
+          <a class="xn_c_li_head_a" href="@{supervisor.publicBenefit.UserDonate.benefitEdit()}">创建公益项目</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one" id="lab_5">
+          <a class="xn_c_li_head_a" href="@{supervisor.publicBenefit.UserDonate.benefitRateEdit()}">编辑活动规则</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="xn_c_con_leftbutton">
+    <div class="xn_c_con_enimg">导航点击</div>
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){
+	$('#mg_donate').toggleClass("top_span_01");
+});
+</script>

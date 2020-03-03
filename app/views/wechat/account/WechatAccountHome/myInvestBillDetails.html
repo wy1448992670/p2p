@@ -1,0 +1,45 @@
+#{extends 'wechat/common.html' /}
+
+<body>
+	<div class="s_main s_center">
+		<header class="s_header">
+		  <a onclick="javascript:history.go(-1)" class="s_goback"></a>
+			投资账单详情
+		</header>
+		<div class="s_biaobox s_biaobox3">
+			<h3>本期账单明细</h3>
+			<ul>
+				<li>账单编号：<span class="blue">${investDetail?.invest_number}</span></li>
+				<li>借款账单生成日期：<span class="blue">${investDetail?.audit_time?.format('yyyy-MM-dd')}</span></li>
+				<li>本期账单应收金额：<span class="blue">￥${investDetail?.should_received_amount}元</span></li>
+				<li>还款到期时间：<span class="blue">${investDetail?.receive_time?.format('yyyy-MM-dd')}</span></li>
+				<li>还款方式：${investDetail?.repayment_type}</li>
+				<li>账单状态：
+				  #{if investDetail?.invest_status == -1 || investDetail?.invest_status == 0 || investDetail?.invest_status == -5}
+					   未逾期
+					#{/if}
+					#{elseif investDetail?.invest_status == -7}
+					#{/elseif}
+					#{else}
+					   逾期
+					#{/else}
+				</li>
+			</ul>
+		</div>
+		<div class="s_biaobox s_biaobox3">
+			<h3>借款标详细信息</h3>
+			<ul>
+				<li>借款标标题：${investDetail?.title}</li>
+				<li>借款总额：<span class="blue">￥ ${investDetail?.amount?.format('###,##0.00')}元</span></li>
+				<li>借款本息合计：<span class="blue">￥ ${investDetail?.loan_principal_interest?.format('###,##0.00')}元</span></li>
+				<li>借款期数：<span class="blue">${investDetail?.loan_periods}期</span></li>
+				<li>年利率：<span class="blue">${investDetail?.apr}%</span></li>
+				<li>已还期数：<span class="blue">${investDetail?.has_payed_periods}期</span></li>
+				<li>剩余期限：<span class="blue">${investDetail?.loan_periods - investDetail?.has_payed_periods}期</span></li>
+			</ul>
+		</div>
+	</div>
+</body>
+
+
+

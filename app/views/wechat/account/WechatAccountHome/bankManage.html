@@ -1,0 +1,204 @@
+#{extends 'wechat/common.html' /}
+<body>
+	<div class="s_center">
+		<header class="s_header">
+			<span>银行卡管理</span>
+			<a href="@{wechat.account.WechatAccountHome.accountInfo()}" class="icobg"></a>
+		</header>
+		<ul class="s_addbank" id="bankListDiv">
+		  #{list items:banks, as:'bank'}  
+		    <li>
+				  <div class="lil">
+					   银行名称：${bank?.bankName}<br/>
+					   账号：${bank?.account}<br/>
+					  收款人：${bank?.accountName}
+				  </div>
+				<span class="lir">
+					<a href="javascript:void(0)" onclick="toBankedit('${bank?.id}', '${bank?.bankName}', '${bank?.account}', '${bank?.accountName}')"><i class="icobg"></i></a>
+				</span>
+			 </li>
+	   #{/list}
+		</ul>
+		
+		<ul class="s_addbank" id="bankeditDiv">
+			<li>
+				<div class="lil">
+					银行名称 ：<input type="text" id="bankName" maxlength="10"/><br/>
+					账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号  ：<input type="text" id="account" /><br/>
+					收&nbsp;&nbsp;款&nbsp;&nbsp;人：<input type="text" id="accountName" maxlength="15"/>
+				</div>
+				<span class="lir">
+					<a href="javascript:void(0)" onclick="saveBank()">保存</a>
+				</span>
+			</li>
+		</ul>
+		
+		<a href="javascript:void(0);" onclick="addBank()" class="s_addbtnbtn"><i>+</i>添加银行卡</a>
+		
+		<ul class="s_addbank" id="bankeaddDiv">
+			<li>
+				<div class="lil">
+					<table cellpadding="0" cellspacing="0" width="100%" class="s_addbanktab">
+						<tr>
+							<td>银行名称 ：</td>
+							<td><input type="text" id="addBankName" maxlength="10" /></td>
+						</tr>
+						<tr>
+							<td>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号 ：</td>
+							<td><input type="text" id="addAccount" /></td>
+						</tr>
+						<tr>
+							<td>收&nbsp;&nbsp;款&nbsp;人 ：</td>
+							<td><input type="text" id="addAccountName" maxlength="15"/></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input class="s_banksub" type="button" href="javascript:void(0)" onclick="addSubmit()" value="确定" /></td>
+						</tr>
+					</table>
+				</div>
+			</li>
+		</ul>
+	</div>
+</body>
+
+<script type="text/javascript">
+if('${flash.error}' != ''){
+  alert('${flash.error}');
+}
+
+
+$("#bankeditDiv").hide();
+$("#bankeaddDiv").hide();
+
+var bankId = "";
+
+function toBankedit(id, bankName, account, accountName){
+	bankId = id;
+	
+	$("#bankListDiv").hide();
+  $("#bankeditDiv").show();
+
+	$("#bankName").val(bankName);
+	$("#account").val(account);
+	$("#accountName").val(accountName);
+}
+
+function saveBank(){
+  var bankName = $("#bankName").val().trim();
+  var account = $("#account").val().replace(/\ +/g,"");
+  var accountName = $("#accountName").val().trim();
+  
+  var re1 = new RegExp("^([\u4E00-\uFA29]|[\uE7C7-\uE7F3])*$");
+    if (!re1.test(accountName)){
+	    alert("收款人名称只能为汉字");
+	    return;
+     } 
+	
+	if(bankName.length == 0){
+		alert("银行名称不能为空");
+		return;
+	}
+		
+	if(bankName.length > 10){
+		alert("银行名称不能超过10个字符");
+		return;
+	}
+
+	if(account.length == 0){
+		alert("账号不能为空");
+		return;
+	}
+
+    if(isNaN(account)){
+		alert("银行账号只能为数字");
+		return;
+	}
+
+  if(account.length != 16 && account.length != 19 && account.length != 22){
+		alert("银行账号格式错误，应该是16,19或者22位数字！");
+		return;
+	}
+
+  if(accountName.length > 15){
+		alert("收款人名称不能超过15个字符");
+		return;
+	}
+
+	var listAction = #{jsAction @wechat.account.WechatAccountHome.saveBank(':editAccountId', ':editBankName', ':editAccount', ':editAccountName') /};
+	$.post(listAction({editAccountId:bankId,editBankName:bankName,editAccount:account,editAccountName:accountName}), function(data) {
+		var arr = eval(data);
+
+		if(arr.error.code < 0){
+       alert(arr.error.msg);
+       return ;
+			}
+     alert(arr.error.msg);
+     window.location.reload();
+		})
+}
+
+function addBank(){
+	$("#bankeaddDiv").show();
+}
+
+function addSubmit(){
+	var addBankName = $("#addBankName").val().trim();
+	var addAccount = $("#addAccount").val().replace(/\ +/g,"");
+	var addAccountName = $("#addAccountName").val().trim();
+    var re1 = new RegExp("^([\u4E00-\uFA29]|[\uE7C7-\uE7F3])*$");
+    if (!re1.test(addAccountName)){
+	    alert("收款人名称只能为汉字");
+	    return;
+     } 
+     
+	if(addBankName.length == 0){
+		alert("银行名称不能为空");
+		return;
+	}
+	
+	if(addBankName.length > 10){
+		alert("银行名称不能超过10个字符");
+		return;
+	}
+
+    if(addAccount.length == 0){
+	   alert("账号不能为空");
+	   return;
+	}
+
+    if(isNaN(addAccount)){
+	   alert("银行账号只能为数字");
+	   return;
+	}
+
+    if(addAccount.length != 16 && addAccount.length != 19 && addAccount.length != 22){
+		alert("银行账号格式错误，应该是16,19或者22位数字！");
+		return;
+	}
+
+	if(addAccountName.length == 0){
+		alert("收款人不能为空");
+		return;
+	}
+	
+	if(addAccountName.length > 15){
+		alert("收款人名称不能超过15个字符");
+		return;
+	}
+	
+	var listAction = #{jsAction @wechat.account.WechatAccountHome.addBank(':addBankName', ':addAccount', ':addAccountName') /};
+	$.post(listAction({addBankName:addBankName,addAccount:addAccount,addAccountName:addAccountName}), function(data) {
+		var arr = eval(data);
+
+		if(arr.error.code < 0){
+       alert(arr.error.msg);
+       return ;
+			}
+		
+     alert(arr.error.msg);
+     window.location.reload();
+		})
+}
+</script>
+

@@ -1,0 +1,123 @@
+<div class="xn_c_ban_jox xn_c_ban_jox_ptsh">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xfht_t_j_y_s_y xfht_t_CPS_tg2">
+      <div class="xfht_t_jk_zt3 xf_ht_obu_ss">
+        <div class="xfht_t_jk_ss_k">
+          <span class="xfht_t_lespan">客服：</span>
+          <input name="textfield" type="text" class="xfht_t_jk_zt_rj3" id="servicer" value="${page.conditions?.keyword}" title="请输入名字或邮箱或手机" />
+          <a id="search" class="xf_ht_jkbgl_page_prev xf_ht_dfp">搜索</a>
+        </div>
+      </div>
+    </div>
+    <div class="xf_ht_ures_view_tcc">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="xf_con_mem_r_b_table">
+        <tr>
+          <th width="40px"></th>
+          <th width="40px">序号</th>
+          <th width="40px">客服</th>
+          <th width="80px">权限组</th>
+          <th width="80px">管理会员数</th>
+          <th width="80px">手机</th>
+          <th width="80px">邮箱</th>
+        </tr>
+        #{list items:page.page, as:'loanUser'}
+        <tr>
+          <td><input type="radio" name="id" value="${loanUser?.sign}" /></td>
+          <td>${loanUser_index}</td>
+          <td>${loanUser?.name}</td>
+          <td>${loanUser?.right_group}</td>
+          <td>${loanUser?.customer_user_count}</td>
+          <td>${loanUser?.mobile1}</td>
+          <td>${loanUser?.email}</td>
+        </tr>
+        #{/list}
+      </table>
+    </div>
+    <div class="xf_ht_shmx_button xf_ht_ssjt">
+      #{if type == "1"}
+      <input class="xf_ht_baidu_button_ok" type="button" onClick="assignBid()" value="重新分配此借款标">
+      #{/if}
+      #{elseif type== "2"}
+      <input class="xf_ht_baidu_button_ok" type="button" onClick="assignAll()" value="重新分配此会员所有借款标">
+      #{/elseif}
+      <div class="page_warp">
+        #{page funMethod:"showPage",currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4 /}
+      </div>
+    </div>
+  </div>
+</div>
+  
+<script type="text/javascript">
+function cancle(){
+  $("#kefucc").hide();
+}
+
+$("#search").click(function(){
+  showPage(1,5);
+})
+function showPage(currPage, pageSize) {
+  $.ajax({
+    url : "@{supervisor.billCollectionManager.LoanUsers.queryAllSupervisors()}",
+    type : "POST",
+    data : {
+      "currPage" : currPage,
+      "pageSize" : pageSize,
+      "keyword"  : $("#servicer").val(),
+      "bidId"    : '${bidId}',
+      "type"     : 1
+    },
+    success : function(data) {
+      if (data.code < 0) {
+        alert(data.msg);
+        return;
+      }
+      $("#kefucc").html(data);
+    },
+    error : function() {
+      alert(data.msg);
+    }
+  });
+}
+
+function assignAll(){
+  var id = $("input[name='id']:checked");
+  if(id.length <= 0){
+    alert("请选择客服！");
+    return;
+  }
+  var sign = id.val();
+  var type = ${type};
+    
+  var assignUser = #{jsAction @supervisor.billCollectionManager.ToAssignLoanUsers.assignUserAgain(':typeStr',':tosSupervisorIdStr',':userIdStr')/}
+  $.post(assignUser({typeStr:'${type}',tosSupervisorIdStr:sign,userIdStr:'${userId}'}),function(data){
+    if(data.code < 0){
+      alert(data.msg);
+      return;
+    }
+    alert(data.error.msg);
+    window.location.reload();
+  });
+}
+
+function assignBid(){
+  var id = $("input[name='id']:checked");
+  if(id.length > 1){
+    alert("勾选客服无效，只能分配给一个管理员");
+    return;
+  }
+  if(id.length <= 0){
+    alert("请选择客服！");
+    return;
+  }
+  var sign = id.val();
+  var assignBid = #{jsAction @supervisor.billCollectionManager.ToAssignLoanUsers.assignBid(':typeStr',':tosSupervisorIdStr',':bidIdStr')/}
+  $.post(assignBid({typeStr:'${type}',tosSupervisorIdStr:sign,bidIdStr:'${bidId}'}),function(data){
+    if(data.code < 0){
+      alert(data.msg);
+      return;
+    }
+    alert(data.error.msg);
+    window.location.reload();
+  });
+}    
+</script>

@@ -1,0 +1,337 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'广告条管理' /}
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  #{include "supervisor/webContentManager/common/leftBar.control"/}
+  
+  <script type="text/javascript" src="@{'public/javascripts/kindeditor-4.1.7/kindeditor.js'}"></script>
+  <link rel="stylesheet" src="@{'public/javascripts/kindeditor-4.1.7/themes/default/default.css'}" />
+  <script charset="utf-8" src="@{'public/javascripts/kindeditor-4.1.7/kindeditor-min.js'}"></script>
+  <script charset="utf-8" src="@{'public/javascripts/kindeditor-4.1.7/lang/zh_CN.js'}"></script>
+  <script   type="text/javascript">  
+    var editor;
+    KindEditor.ready(function(K) {
+      editor = K.create('#TextArea3', {
+         cssPath :"@{'public/javascripts/kindeditor-4.1.7/plugins/code/prettify.css'}",
+         uploadJson : '@{FileUpload.uploadImage2()}',
+      allowFileManager : true,
+      allowUpload: true
+      });
+    });
+  </script>
+  #{form @addContent(),method:'POST',id:'submitadd'}
+  <div class="xn_c_content" style="width: 1084px;">
+    <div class="xf_content_add">
+    <div class="xfht_t_j_y_2">
+    <!--右上-->
+    <div class="xf_ht_obu_fklm">添加内容</div>
+    <!-- 借款标基本信息 -->
+    <div class="xf_ht_news_content">
+    <div class="xf_ht_news_content_t">
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_news_content_t_t">
+        <tr>
+          <td width="120" align="right" valign="middle" style="padding-right:5px;">类别：</td>
+          <td>
+            <select class="xfht_t_j_td_1_s" id="parentSelect2" onChange="addChildSelect()" name="select">
+              <option value="0" >-请选择-</option>
+          #{list items:types, as:'type'}
+          <option value="${type?.id}">${type?.name}</option>
+          #{/list}
+            </select>
+            <select id="addChildShow" class="xfht_t_j_td_1_s" name="typeId" onChange="test()">
+              <option value="0">-请选择-</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td width="120" align="right" valign="middle" style="padding-right:5px;">标题：</td>
+          <td>
+            <input class="xfht_zr_input" type="text" style="width:600px;" name="title" id="title" maxlength="30">
+          </td>
+        </tr>
+        <tr>
+          <td width="120" align="right" valign="middle" style="padding-right:5px;">显示时间：</td>
+          <td>
+            <input class="xfht_zr_input" type="text" style="width:160px;" name="beginTime" id="startShowTime" class="laydate-icon" onclick="laydate()" style="cursor:pointer">
+            <span class="xfht_news_zz_span">作者：</span> 
+            <input class="xfht_zr_input" type="text" style="width:160px;" name="author" id="author">
+          </td>
+        </tr>
+        <tr>
+          <td width="120" align="right" valign="top" style="padding-right:5px;">内容编辑：</td>
+          <td>
+            <div class="xf_ht_news_conr">
+              <textarea class="xf_ht_jr_obttd_textarea" id="TextArea3"></textarea>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td width="120" align="right" valign="top" style="padding-right:5px;">SEO内链关键词：</td>
+          <td>
+            <input class="xfht_zr_input" type="text" style="width:600px;" id="keyword" name="keyword" ><br />
+            <div class="xf_ht_news_span_two">不超过5个关键词，为本文的主题词，用逗号隔开</div>
+          </td>
+        </tr>
+        <tr>
+          <td width="120" align="right" valign="top" style="padding-right:5px;">关键词描述：</td>
+          <td>
+            <input class="xfht_zr_input" type="text" style="width:600px;" id="description" name="description" ><br />
+            <div class="xf_ht_news_span_two">为本文的关键词描述，多个用逗号隔开</div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="xf_ht_news_content_b">
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_news_content_t_b">
+        <tr>
+          <td width="34" align="center" valign="middle"><input id="index"  name="locationPc" type="checkbox" value="1" /></td>
+          <td>
+           <input type="hidden" id="content" name="content" />
+           <span style="position: relative; vertical-align:middle;">&nbsp;&nbsp;
+                <input class='upload_btn' type="button" value="上传图片" style="display:inline-block; *margin-top:-28px !important;"> &nbsp;&nbsp;
+                <input type="file" class="upload_file" name="imgFile" id="imgFile" style="left:-70px;*top:4px !important; *left:10px !important!" onchange="uploadImageType('imgFile','image');" />
+              </span>
+            <span  style="padding:0 20px;*padding:0 20px 0 80px !important; *vertical-align:-5px !important; ">推荐至首页</span>
+             #{img src:"${news?.imageFilename}",id:"image",name:"image",alt:"",width:"30",height:"30"}#{/img}
+              
+              <span style="color:#999;" id="imageResolution"></span>
+              <input type="hidden" name="filename" id="filename" />
+              
+           </td>
+        </tr>
+        <tr>
+          <td width="34" align="center" valign="middle"><input id="index2"  name="locationPc" type="checkbox" value="8" /></td>
+           <td>
+              <span style="position: relative; vertical-align:middle;">&nbsp;&nbsp;
+                <input class='upload_btn' type="button" value="上传图片" style="display:inline-block; *margin-top:-28px !important;"> &nbsp;&nbsp;
+                <input type="file" class="upload_file" name="imgFile" id="imgFile2" style="left:-70px;*top:4px !important; *left:10px !important!" onchange="uploadImageType('imgFile2','image2');" />
+              </span>
+           <span style="padding:0 20px;*padding:0 20px 0 80px !important; *vertical-align:-5px !important; ">APP端官方活动</span>
+             #{img src:"${news?.imageFilename2}",id:"image2",name:"image2",alt:"",width:"30",height:"30"}#{/img}
+             
+              <span style="color:#999;" id="imageResolution"></span>
+              <input type="hidden" name="filename2" id="filename2" />
+            </td>
+        </tr>
+        <tr>
+          <td width="34" align="center" valign="middle">
+            <input type="checkbox" id="effect"  name="locationPc" value="2">
+          </td>
+          <td>推荐跑马灯效果区</td>
+        </tr>
+        <tr>
+          <td align="center" valign="middle">
+            <input id="headlines"  name="locationPc" type="checkbox" value="4"/>
+          </td>
+          <td>推荐为首页头条</td>
+        </tr>
+        <tr>
+          <td align="center" valign="middle">&nbsp;</td>
+          <td>浏览次数设置：<input class="xfht_zr_input" type="text" style="width:80px;" name="readCount" id="readCount">
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="xf_ht_news_content_button" colspan="4">
+      <input class="xf_ht_tcc_button_ok" type="button" value="确定" onClick="contentAdd()">
+    </div>
+    </div>
+    </div>
+    </div>
+  </div>
+  #{/form}
+  </div>
+</div>
+<!-- 内容区域end -->
+<script type="text/javascript">
+$(function(){
+  showHighLight(1,1,1);
+})
+
+$("#hiddenTime").hide();
+    
+function addChildSelect(){
+  var op = $("#parentSelect2 option:selected");
+  var parentId = op.val();
+         
+  var typeList = #{jsAction @typeList(':parentId')/}
+  $.post(typeList({parentId:parentId}),function(data){
+    var arr=eval(data);
+     
+    var childList;
+    var length = arr.length;
+    for(var i = 0; i < length; i ++){
+    	if(arr[i].id != 31)
+      childList = childList + "<option value='"+arr[i].id+"'>"+arr[i].name+"</option>";
+    }
+    $("#addChildShow").html(childList);
+  });
+}
+
+function test(){
+	var child = $("#addChildShow");
+	var childVal = child.val();
+	
+	if(16 == childVal || 19 == childVal){
+		var newsCount = #{jsAction @newsCount(':typeId')/}
+		$.post(newsCount({typeId:childVal}),function(data){
+			if(data > 0){
+				alert("该类别下只能添加一条新闻,请先删除原先的新闻再添加！");
+				this.focus();
+			}
+		});
+	}
+}
+      
+var flag=false;   
+function checkOrder(){
+  var typeId = $("#addChildShow").val();
+  var order = $("#orderSet").val();
+  var ajaxJudgeOrder = #{jsAction @ajaxJudgeOrder(':typeId',':order')/}
+  $.post(ajaxJudgeOrder({typeId:typeId,order:order}),function(data){
+    flag = eval(data.msg);
+    if(flag){
+      alert("对不起！该序号已经存在！");
+        
+      return;
+    }
+      
+  });
+}
+    
+function contentAdd(){
+  var words, splits, lenth;
+  var descriptions, splits_, lenth_;
+  words = $("#keyword").val(); 
+  descriptions = $("#description").val();
+  
+  splits = words.split(",");
+  //splits_ = descriptions.split(",");
+  
+  lenth = splits.length;
+  //lenth_ = splits_.length;
+  
+  var parentSelect2 = $("#parentSelect2").val();
+  var typeId = $("#addChildShow").val();
+  var title = $("#title").val();
+  var startShowTime = $("#startShowTime").val();
+  var author = $("#author").val();
+  var content = editor.html();
+  content = replaceAllHTML(content);
+  var readCount = $("#readCount").val();
+
+  $("#filename").val($("#image").attr("src"));
+  $("#filename2").val($("#image2").attr("src"));
+ 
+  if(content.length > 20000){
+    alert("对不起,新闻内容字数不能超过20000个字符");
+    return ;
+  }
+  
+  $("#content").val(encodeURIComponent(content));
+    
+  if(parentSelect2 == 0){
+    alert("对不起！请选择类别!");
+      
+    return ;
+  }
+  if($.trim(title) == ''){
+    alert("对不起！标题不能为空!");
+      
+    return ;
+  }
+  if($.trim(author) == ''){
+    alert("对不起！作者不能为空!");
+      
+    return ;
+  }
+  if($.trim(content) == ''){  
+    alert("对不起！新闻内容不能为空!");
+      
+    return ;
+  }
+  if($.trim(words) == ''){
+    alert("对不起！关键字不能为空！");
+      
+    return;
+  }
+  if(lenth > 5){
+    alert("关键字不能超过5个词！");
+      
+    return;
+  }
+   
+ /*  if($.trim(descriptions) == ''){
+	alert("对不起！关键字不能为空！"); 
+	 return;
+  }
+  if(lenth_ > 5){
+	alert("关键字不能超过5个词！"); 
+	return;
+  } */
+	  
+/*   for(var i = 0; i < lenth; i++){
+    var wordLenth = splits[i].length;
+    if(wordLenth > 10 ){
+      alert("每个关键词不超过10个字符");
+      return;
+    } 
+  } */
+  
+/*   for(var i = 0; i < lenth_; i++){
+	    var descriptionLenth = splits_[i].length;
+	    if(descriptionLenth > 10 ){
+	      alert("每个关键词不超过10个字符");
+	      return;
+	    } 
+   } */
+  
+  if(typeId == 12){
+    if($("#index").is(':checked')){
+      var filename = $("#filename").val();
+      
+      if(typeof(filename) == 'undefined' || '' == filename || filename.indexOf("/public/images/default.png") != -1){
+        alert("对不起！请选择上传图片！(成功故事推荐至首页必须上传图片)");
+        return;
+      }
+    }
+  }
+
+  if($("#index").get(0).checked == true){
+    if($("#filename").val() == "" || $("#filename").val() == null || $("#filename").val() == "/public/images/default.png"){
+      alert("对不起！请选择上传图片！");
+      
+      return;
+    }
+  }
+
+  if($("#index2").get(0).checked == true){
+	if($("#filename2").val() == "" || $("#filename2").val() == null || $("#filename2").val() == "/public/images/default.png"){
+	   alert("对不起！请上传APP端活动图片！");
+	      
+	      return;
+	    }
+	  }
+  
+  var patrn=/^\d+$/; 
+  if($.trim(readCount) != ''){ 
+    var flag1 = patrn.exec(readCount);
+    if(!flag1){
+      alert("对不起！浏览次数请您输入正确格式的数字！");
+        
+      return;
+    }
+  }
+
+
+  $("#submitadd").submit();
+} 
+</script>
+<script>
+  var flagtemp = true;
+  function chkRadio(id) {
+    id.checked = flagtemp;
+    flagtemp = !flagtemp;
+  }
+</script>

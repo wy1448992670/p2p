@@ -1,0 +1,394 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    #{form @redTypeList(), id:'redTypeList'}
+    <div class="xf_ht_search">
+	  <input type="hidden" id="currPage" name="currPage" value="${currPage}"/>
+	  <input type="hidden" id="pageSize" name="pageSize" value="${pageSize}"/>
+	  <input type="hidden" id="orderIndex" name="orderIndex"/>
+	  <input type="hidden" id="orderStatus" name="orderStatus"/>
+      <div class="xf_ht_search_l">
+        <span id="order0"><a title="默认排序" onclick="orderSearch(0);">默认排序  </a></span>
+	    <span id="order1"><a title="满标时间" onclick="orderSearch(1);">添加时间  <a id="sp1">↑</a></a></span>
+      </div>
+    </div>
+    <div class="xf_ht_search_inon">
+      <div class="xf_ht_search_r">
+	    <div class="xf_ht_search_xl">
+		  <span class="search_timesp">添加时间：</span>
+		  <input type="text" class="search_time" name="start" onclick="laydate()" class="laydate-icon" style="cursor:pointer" value="${start}">
+		  <span class="search_timesp">--</span>
+		  <input type="text" class="search_time" name="end"  onclick="laydate()" class="laydate-icon" style="cursor:pointer" value="${end}">  
+	    </div>
+	    <div class="xf_ht_search_xl">
+        	${couponName}类型
+          <select class="xf_membill_selectAge" name="name">
+				<option value="0" #{if name == '0' } selected="selected" #{/if}>全部</option>
+				<option value="1" #{if name == '1' } selected="selected" #{/if}>注册</option>
+				<option value="11" #{if name == '11' } selected="selected" #{/if}>回款</option>
+					<option value="3" #{if name == '3' } selected="selected" #{/if}>投资</option>
+				#{if couponFlag == '1' }
+					<option value="2" #{if name == '2' } selected="selected" #{/if}>充值</option>
+				
+					<option value="4" #{if name == '4' } selected="selected" #{/if}>积分</option>
+					<option value="10" #{if name == '10' } selected="selected" #{/if}>积分兑换</option>
+				#{/if}
+				<option value="5" #{if name == '5' } selected="selected" #{/if}>实名认证</option>
+				<option value="6" #{if name == '6' } selected="selected" #{/if}>添加银行卡</option>
+				<option value="7" #{if name == '7' } selected="selected" #{/if}>累计投资</option>
+				<option value="8" #{if name == '8' } selected="selected" #{/if}>生日</option>
+				<option value="9" #{if name == '9' } selected="selected" #{/if}>自定义</option>
+		  </select>
+        </div>
+	    <div class="xf_ht_search_xl">
+	    	名称
+	      <input type="text" class="search_w" name="type" value="${type}" />
+	    </div>
+	    <div class="xf_ht_search_xl">
+		  <input type="submit" class="search_button" value="搜索">
+	    </div>
+      </div>
+    </div>
+    #{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0",width:"1300px", tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+		  #{th}类型#{/th}
+          #{th}名称#{/th}
+          #{th}添加时间#{/th}
+          #{th}获得条件#{/th}
+          #{if couponFlag==2}
+          #{th}${couponName}年化利率（%）#{/th}
+          #{/if}
+          #{if couponFlag==1}
+          #{th}${couponName}金额#{/th}
+          #{/if}
+          #{th}最低投资金额#{/th}
+          #{th}标的限制#{/th}
+          #{th}有效期#{/th}
+          #{th}新手是否可用#{/th}
+          #{th}通知方式#{/th}
+          #{th}状态#{/th}
+          #{th}操作#{/th}
+        #{/tr}
+		#{list pageBean?.page}
+		#{tr tr_index:_index}
+		  #{td}${(pageBean?.currPage - 1)*pageBean?.pageSize + _index}#{/td}
+		  #{td}
+		  	#{if _.name == '1'}
+	      		注册
+	      	#{/if}
+	      	#{if _.name == '2'}
+	      		充值
+	      	#{/if}
+	      	#{if _.name == '3'}
+	      		投资
+	      	#{/if}
+	      	#{if _.name == '4'}
+	      		积分
+	      	#{/if}
+	      	#{if _.name == '5'}
+	      		实名认证
+	      	#{/if}
+	      	#{if _.name == '6'}
+	      		添加银行卡
+	      	#{/if}
+	      	#{if _.name == '7'}
+	      		累计投资
+	      	#{/if}
+	      	#{if _.name == '8'}
+	      		生日
+	      	#{/if}
+	      	#{if _.name == '9'}
+	      		自定义
+	      	#{/if}
+	      	#{if _.name == '10'}
+	      		积分兑换
+	      	#{/if}
+	      	#{if _.name == '11'}
+	      		回款
+	      	#{/if}
+		  #{/td}
+		  #{td}${_?.typeName}#{/td}
+		  #{td}${_?.time?.format('yyyy-MM-dd')}#{/td}
+		  #{td}${_?.obtain_money.format('###,##0.00')}#{/td}
+		  #{td}${_?.money.format('###,##0.00')}#{/td}
+		  #{td}${ _?.validity_money.format('###,##0.00')}#{/td}
+		  #{td}
+		  	#{if _?.bid_period == 0}
+		  		无限制
+		  	#{/if}
+		  	#{else}
+		  		${_?.bid_period}
+		  		 #{if _.bid_period_unit == -1}
+			      	年
+			      #{/if}
+			      #{if _.bid_period_unit == 0}
+			      	个月
+			      #{/if}
+			      #{if _.bid_period_unit == 1}
+			      	天
+			      #{/if}
+		  	#{/else}
+		  #{/td}
+		  #{td}${ _.validity_time}
+	      #{if _.validate_unit == 0}
+	      	小时
+	      #{/if}
+	      #{if _.validate_unit == 1}
+	      	天
+	      #{/if}
+	      #{/td}
+		  #{td}
+		  	#{if _?.is_new_user == 1}
+		  		是
+		  	#{/if}
+		  	#{else}
+		  		否
+		  	#{/else}
+		  #{/td}
+	      #{td}
+				#{if _.notice_box == true}
+					站内信&nbsp;&nbsp;
+				#{/if}
+				#{if _.notice_message == true}
+					短信&nbsp;&nbsp;
+				#{/if}
+				#{if _.notice_email == true}
+					 邮件&nbsp;&nbsp;
+				#{/if}
+		  #{/td}
+	      #{td}
+	      	#{if _.status == true}
+					启用中
+				#{/if}
+				#{else}
+					禁用中
+				#{/else}
+	      #{/td}
+	      #{td }
+	      	#{if _?.status == true}
+				<span><a onclick="disableRedType('${_?.sign}')" class="xf_ta_onclick">禁用</a></span>
+			#{/if}
+			#{else}
+				<span><a onclick="enableRedType('${_?.sign}')" class="xf_ta_onclick">启用</a></span>
+			#{/else}
+	      		<span><a onclick="deleteRedType('${_?.sign}')" class="xf_ta_onclick">删除</a></span>
+	      		<span><a onclick=" editRedPacketsInit('${_?.sign}')" class="xf_ta_onclick">编辑</a></span>
+	      #{/td}
+	    #{/tr}
+	    #{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      <div class="page_warp">
+      #{page currPage:pageBean.currPage,totalCount:pageBean.totalCount,pageSize:pageBean.pageSize,theme:2,style:4/}
+      </div>
+      <div class="xf_ht_news_content_button" colspan="4">
+        <input class="xf_ht_tcc_button_ok" type="button"  onclick="AddHots()" value="新增">
+      </div>
+    </div>
+  </div>
+</div>
+ <!--选择会员-弹出层 -->
+<div id="xf_ht_xzhy_ttc">
+</div>
+<!--增加红包-弹出层 -->
+<div id="xf_ht_xzhy_hot">
+</div>
+<!--红包详情-弹出层 -->
+<div id="xf_ht_xzhy_detail">
+</div>
+<!--红包编辑-弹出层 -->
+<div id="xf_ht_xzhy_edit">
+</div> 
+<script type="text/javascript">
+<!--
+  $(function(){
+  //高亮显示
+  	var couponFlag=${couponFlag};
+	if('2'==couponFlag){
+		showHighLight(1,10,101);
+	}else{
+		showHighLight(1,8,81);
+	}
+
+	
+	var orderIndex = "${orderIndex}";
+	$("#orderIndex").val(orderIndex);
+	var orderStatus = "${orderStatus}";
+	$("#orderStatus").val(orderStatus);
+	var order = $("#order" + orderIndex);
+
+  	/* 初始为默认搜索 */
+   if(orderIndex == ''){
+	  $("#order0").attr("class", "xf_sea_isshow");
+	  $("#sp0").html("↓");
+   }else {
+     order.attr("class", "xf_sea_isshow");
+     if(orderStatus == 1){
+       $("#sp"+orderIndex).html("↑");
+     }else{
+       $("#sp"+orderIndex).html("↓");
+     }
+  }
+  
+  });
+  /* 条件搜素查询 */
+  function showPage(currPage, pageSize){
+    $("#currPage").val(currPage);
+    $("#pageSize").val(pageSize);
+    $("#redTypeList").submit();
+  }
+	
+  /* 排序搜索 */
+  function orderSearch(order){
+    var orderStatus = "${orderStatus}";
+	var orderIndex = "${orderIndex}";
+	
+	if(orderStatus == 1 && orderIndex == order){
+		$("#orderStatus").val(0);
+	}else{
+		$("#orderStatus").val(1);
+	}
+	
+	$("#orderIndex").val(order);
+	$("#readyReleaseList").submit();
+	
+	$("#redTypeList").submit();
+  }
+	
+ //添加红包类型
+ function AddHots(){
+  $.ajax({
+    url : "@{supervisor.systemSettings.RedPackageAction.toAddDetails()}",
+    type : "POST",
+    success : function(data) {
+      if (data.code < 0) {
+        alert(data.msg);
+
+        return;
+      }
+        
+  		var ttc = $("#xf_ht_xzhy_hot");
+        ttc.html(data);
+        var index =$.layer({
+          type: 1,
+          area: ['800px', 'auto'],
+          title: '新增${couponName}类型',
+          page: {dom : '#xf_ht_xzhy_hot'}
+        });
+    },
+    error : function() {
+      alert("对不起，出现错误!");
+    }
+  });
+}
+
+ //编辑
+ function editRedPacketsInit(sign){
+  $.ajax({
+    url : "@{supervisor.systemSettings.RedPackageAction.details()}",
+    type : "POST",
+    data : {
+      "sign" : sign
+    },
+    success : function(data) {
+      if (data.code < 0) {
+        alert(data.msg);
+        return;
+      }
+        
+      var ttc = $("#xf_ht_xzhy_edit");
+        ttc.html(data);
+        var index =$.layer({
+          type: 1,
+          area: ['800px', 'auto'],
+          title: '${couponName}详情',
+          page: {dom : '#xf_ht_xzhy_edit'}
+        });
+    },
+    error : function() {
+      alert("对不起，出现错误!");
+    }
+  });
+}
+
+	//禁用
+	function disableRedType(sign){
+		$.ajax({
+		    url : "@{supervisor.systemSettings.RedPackageAction.disableRedType()}",
+		    type : "POST",
+		    data : {
+		      "sign" : sign
+		    },
+		    success : function(data) {
+		      if (data.code < 0) {
+		        alert(data.msg);
+		
+		        return;
+		      }else{
+		      	alert("操作成功!");
+		      	location.href ="@{supervisor.systemSettings.RedPackageAction.redTypeList}";
+		      }
+		    },
+		    error : function() {
+		      alert("对不起，出现错误!");
+		    }
+		  });
+	}
+	
+	//启用
+	function enableRedType(sign){
+		$.ajax({
+		    url : "@{supervisor.systemSettings.RedPackageAction.enableRedType()}",
+		    type : "POST",
+		    data : {
+		      "sign" : sign
+		    },
+		    success : function(data) {
+		    	
+		      if (data.code < 0) {
+		        alert(data.msg);
+		        return;
+		      }else{
+		      	alert("操作成功!");
+		      	location.href ="@{supervisor.systemSettings.RedPackageAction.redTypeList}";
+		      }
+		    },
+		    error : function() {
+		      alert("对不起，出现错误!");
+		    }
+		  });
+	}
+	
+	//删除
+	function deleteRedType(sign){
+	 if(confirm("删除后不能恢复请谨慎操作！")){
+        	$.ajax({
+		    url : "@{supervisor.systemSettings.RedPackageAction.deleteRedType()}",
+		    type : "POST",
+		    data : {
+		      "sign" : sign
+		    },
+		    success : function(data) {
+		      if (data.code < 0) {
+		        alert(data.msg);
+		
+		        return;
+		      }else{
+		      	alert("操作成功!");
+		      	location.href ="@{supervisor.systemSettings.RedPackageAction.redTypeList}";
+		      }
+		    },
+		    error : function() {
+		      alert("对不起，出现错误!");
+		    }
+		  });
+     }
+	}
+//-->
+</script>

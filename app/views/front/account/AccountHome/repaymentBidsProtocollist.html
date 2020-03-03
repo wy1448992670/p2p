@@ -1,0 +1,45 @@
+<div class="xf_wyjkwszl_4_windowInner xf_ckht_znxback_window">
+	<div class="xf_wyjkfb_4_windowClose"></div>
+	<div class="xf_wyjkfb_4_windowColName">
+		查看合同
+	</div>
+	<div class="xf_zqzr_znx_windowCot">
+		<table border="0" cellpadding="0" cellspacing="0" width="240" class="xf_zqzr_znx_teot">
+			<tr>
+				<td width="70">
+					<input type = "hidden" id = "bidId" />
+					<input type = "hidden" id = "type" />
+					<div id="divPact">
+					</div>
+					<div id="divIntermediary">
+					</div>
+					<div id="guarantee" >
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+ <script type="text/javascript">
+ 	$(function(){
+ 		$("#xf_mem_protocolistwindow").center();
+ 		
+ 		$(".xf_wyjkfb_4_windowClose").click(function(){
+ 			$("#xf_mem_protocolistwindow").hide();
+ 		});
+ 	});
+ 	
+ 	function pact(index){
+ 		var bidId = $("#bidId").val();
+ 	 	var type = $("#type").val();
+ 	 	
+		if(1 == index){
+			window.open('@{front.account.AccountHome.pact()}?sign=' + bidId + '&type=' + type);
+		}else if(2 == index){
+			window.open('@{front.account.AccountHome.intermediaryAgreement()}?sign=' + bidId + '&type=' + type);
+		}else{
+			window.open('@{front.account.AccountHome.guaranteeBid()}?sign=' + bidId + '&type=' + type);
+		}
+ 	}	
+ </script>

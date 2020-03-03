@@ -1,0 +1,96 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'删除操作日志' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/systemSettings/common/leftBar.control"/}
+    <div class="xn_c_content">
+      <div class="xf_content_add">
+        <div class="xfht_t_j_y_2">
+          <div class="xfht_t__aqsz_sjcsh">
+            <div class="xfht_cshgl_top">
+              <span class="xf_ht_top_h1">欢迎您，${supervisor?.level == 1 ? "超级" : "普通"}管理员管理员</span><br /> 你的安全云盾编号为：
+              <span class="xf_ht_hs">${supervisor?.ukey}</span>，与软件注册码授权一致，可以进行数据库操作。<br />
+              <span class="xf_ht_red">提醒：数据库操作具有一定专业性，数据不可逆性，请谨慎操作！</span>
+            </div>
+            <div class="xfht_cahgl_cengter">
+              <a class="xf_ht_damem_hy_bott_ulin" href="javascript:deleteLogs(1);" id="xf_dfk_fkzh_tcc1">删除一周前记录</a>
+              <a class="xf_ht_damem_hy_bott_ulin" href="javascript:deleteLogs(2);" id="xf_dfk_fkzh_tcc2">删除一个月前记录</a>
+              <a class="xf_ht_damem_hy_bott_ulin" href="javascript:deleteLogs(0);" id="xf_dfk_fkzh_tcc3">删除全部</a>
+            </div>
+            <div class="xf_htgl_jgone xf_ht_aqsz_cshsj_box">
+              <h3 class="xf_htgl_jgtitle">数据库操作记录</h3>
+              <div class="xf_ht_aqsz_cshsj">
+              #{table class:"xf_con_mem_r_b_table", width:"100%", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+                #{tr}
+                  #{th}序号#{/th}
+                  #{th}时间#{/th}
+                  #{th}IP#{/th}
+                  #{th}操作内容#{/th}
+                  #{th}操作人#{/th}
+                  #{th}管理员等级#{/th}
+                #{/tr}
+                #{list page.page}      
+                #{tr tr_index:_index}
+                  #{td}${(page?.currPage - 1)*page?.pageSize + _index}#{/td}
+                  #{td}${_?.time?.format("yyyy-MM-dd HH:mm:ss")}#{/td}
+                  #{td}${_?.ip}#{/td}
+                  #{td}${_?.descrption}#{/td}
+                  #{td}${_?.supervisor_name}#{/td}
+                  #{td}${_?.supervisor_level == 1 ? "超级" : "普通"}管理员#{/td}
+                #{/tr}
+                #{/list}
+                #{/table}
+              </div>
+            </div>
+            <div class="xf_ht_shmx_button xf_ht_ssjt">
+              #{page currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:1,style:4}#{/page}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+$(function() {
+   /* 高亮显示 */
+  showHighLight(6,6,16);
+ });
+  
+function deleteLogs(type) {
+  var message = "";
+  
+  if(type == 1){
+    message = "确定删除一周前记录?";
+  }  
+  
+  if(type == 2){
+    message = "确定删除一个月前记录?";
+  } 
+  
+  if(type == 0){
+    message = "确定删除全部?";
+  } 
+  
+  if(confirm(message)){
+    $.ajax({
+      url : "@{deleteLogs()}",
+      type : "POST",
+      data : {
+        "type" : type
+      },
+      success : function(data) {
+        alert(data.msg);
+        
+        if (0 == data.code) {
+          location.reload();
+        }
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+ }
+</script>

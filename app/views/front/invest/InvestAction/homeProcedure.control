@@ -1,0 +1,85 @@
+<!--理财流程开始-->
+<div class="xf_c_wyjk_1_wyjkWrap">
+	<div class="xf_c_wyjk_1_jklc">
+		<!--借款中的标 start-->
+		<div class="xf_c_wyjk_1_jklcHeader">
+			<span class="xf_c_wyjk_1_jklcTitle">投标流程</span>
+		</div>
+		<div class="xf_c_wyjk_1jklcContent">
+			<div class="xf_c_wyjk_1jklcLeft">
+				<ul class="xf_c_wyjk_1_jklcUl">
+					<li>
+						<div class="xf_c_wyjk_1_jklcItems">
+							<div class="xf_c_idx_3_lcRregister"></div>
+							<div class="xf_c_wyjk_1_jklcLinks xf_c_wyjk_1_wylcjklc">
+								<span>免费注册</span>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="xf_c_wyjk_1_jklcArrow"></div>
+					</li>
+					<li>
+						<div class="xf_c_wyjk_1_jklcItems">
+							<div class="xf_c_idx_3_chooseLoan"></div>
+							<div class="xf_c_wyjk_1_jklcLinks xf_c_wyjk_1_wylcjklc">
+								<span>选择借款标</span>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="xf_c_wyjk_1_jklcArrow"></div>
+					</li>
+					<li>
+						<div class="xf_c_wyjk_1_jklcItems">
+							<div class="xf_c_idx_3_startInv"></div>
+							<div class="xf_c_wyjk_1_jklcLinks xf_c_wyjk_1_wylcjklc">
+								<span >开始投资<br />50元开始投资</span>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="xf_c_wyjk_1_jklcArrow"></div>
+					</li>
+					<li>
+						<div class="xf_c_wyjk_1_jklcItems">
+							<div class="xf_c_idx_3_mbjx"></div>
+							<div class="xf_c_wyjk_1_jklcLinks xf_c_wyjk_1_wylcjklc">
+								<span>满标计息<br />超10%</span>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="xf_c_wyjk_1_jklcArrow"></div>
+					</li>
+					<li>
+						<div class="xf_c_wyjk_1_jklcItems">
+							<div class="xf_c_idx_3_fqsh"></div>
+							<div class="xf_c_wyjk_1_jklcLinks xf_c_wyjk_1_wylcjklc">
+								<span >分期收回成本</span>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="xf_c_wyjk_1_jklcArrow"></div>
+					</li>
+					<li>
+						<div class="xf_c_wyjk_1_jklcItems">
+							<div class="xf_c_idx_3_gsylc"></div>
+							<div class="xf_c_wyjk_1_jklcLinks xf_c_wyjk_1_wylcjklc">
+								<span>高收益投资<br />超10%年收益</span>
+							</div>
+						</div>
+					</li>
+					<div class="clear"></div>
+				</ul>
+			</div>
+			<div class="xf_c_wylc_1jklcRight">
+							<a  class="xf_c_wylc_lljsq" title="利率计算器" href="@{front.home.HomeAction.wealthToolkit(4)}" target="_blank">利率计算器</a>
+						</div>
+			<div class="clear"></div>
+		</div>
+		<!--借款中的标 ends-->
+	</div>
+</div>
+<!--理财流程结束-->

@@ -1,0 +1,58 @@
+<div class="xn_c_ban_jox xn_c_ban_jox_ptsh">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xfht_t_j_y_s_y xfht_t_CPS_tg2">
+      <div class="xfht_t_jk_zt3 xf_ht_obu_ss">
+        <div class="xfht_t_jk_ss_k">
+          <input id="keyword" type="text" class="xfht_t_jk_zt_rj3"  title="科目编号/科目名称" value="${pageBean?.conditions?.keyword}"/>
+          <a onclick="pointsDetail(1, 5);" class="xf_ht_jkbgl_page_prev xf_ht_dfp">搜索</a>
+        </div>
+      </div>
+    </div>
+    <div class="xf_ht_ures_view_tcc">
+      #{table width:"100%", border:"0", cellspacing:"0", cellpadding:"0", class:"xf_con_mem_r_b_table"}
+        #{tr}
+          #{th width:"40px"}序号#{/th}
+          #{th width:"60px"}科目编号#{/th}
+          #{th width:"60px"}审核科目名称#{/th}
+          #{th width:"60px"}文件格式#{/th}
+          #{th width:"60px"}有效期（月）#{/th}
+          #{th width:"60px"}审核周期（工作日）#{/th}
+          #{th width:"60px"}信用积分#{/th}
+          #{th width:"60px"}审核费用（元）#{/th}
+          #{th width:"60px"}信用额度（元）#{/th}
+        #{/tr}
+        #{list pageBean?.page}
+        #{tr tr_index:content_index}
+          #{td}${_index}#{/td}
+          #{td}${_?.no}#{/td}
+          #{td}${_?.name}#{/td}
+          #{td}
+            #{if _?.type == 1}图片文件#{/if}
+            #{if _?.type == 2}文本文件#{/if}
+            #{if _?.type == 3}视频文件#{/if}
+            #{if _?.type == 4}音频文件#{/if}
+            #{if _?.type == 5}表格文件#{/if}
+          #{/td}
+          #{td}${_?.period}#{/td}
+          #{td}${_?.auditCycle}#{/td}
+          #{td}${_?.creditScore}#{/td}
+          #{td}${_?.auditFee}#{/td}
+          #{td}${_?.creditScore * creditToMoney}#{/td}
+        #{/tr}
+        #{/list}
+      #{/table}
+    </div>
+    <div class="xf_ht_shmx_button xf_ht_jobx_page">
+      <div class="page_warp">
+        #{page funMethod:"pointsDetail",currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:4/}
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function() {
+    $("#cancel").click(function() {
+      layer.closeAll();
+    });
+  });
+</script>

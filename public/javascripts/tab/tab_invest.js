@@ -1,0 +1,3 @@
+$(function(){
+	$('#invests').toggleClass("click");
+});

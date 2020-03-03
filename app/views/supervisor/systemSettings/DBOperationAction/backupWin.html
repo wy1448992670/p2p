@@ -1,0 +1,50 @@
+<!-- 备份数据-弹出层 -->
+<div class="xf_ht_ttc" id="xf_ht_fkzh_ttc4" style="display:none">
+  <div class="xf_ht_jr_obu_width xf_ht_jr_aqsz_width">
+    <div id="backup_hint" class="xf_ht_aqsz_csh_tcc1">提醒：此备份只对数据库文件进行操作，不包含软件相关设置参数。
+    </div>
+    <div class="xf_ht_aqsz_csh_input">
+      <input id="btn_backup" class="xf_ht_tcc_button_ok" type="button" onclick="backup();" value="确  定">
+      <input class="xf_ht_tcc_button_on" type="button" value="取  消" id="close_backup">
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $("#close_backup").click(function() {
+    layer.closeAll();
+    //$(this).parents(".xf_ht_ttc").hide();
+  });
+  
+  function backup() {
+    $("#backup_hint").html("正在备份数据，请勿关闭此页面");
+    $("#btn_backup").css("cursor", "default");
+    $("#btn_backup").attr("disabled", "disabled");
+    
+    $.ajax({
+      url : "@{backup()}",
+      type : "POST",
+      data : {
+      },
+      success : function(data) {
+        $("#backup_hint").html(data.msg);
+        $("#btn_backup").css("cursor", "pointer");
+        $("#btn_backup").removeAttr("disabled");
+        alert(data.msg);
+        
+        if (data.code == 0) {
+          layer.closeAll();
+          location.reload();
+        }
+        
+      },
+      error : function() {
+        $("#backup_hint").html("备份数据失败");
+        $("#btn_backup").css("cursor", "pointer");
+        $("#btn_backup").removeAttr("disabled");
+        alert("备份数据失败");
+        layer.closeAll();
+      }
+    });
+  }
+</script>

@@ -1,0 +1,185 @@
+#{extends 'common/supervisor.html' /} #{set title:'邀请码设置' /}
+<div class="xfht_t_j_k"> 
+<!--左-->
+#{include "supervisor/networkMarketing/CPSSpreadAction/networkMarketingLeft.control"/}
+  <div class="xn_c_content">
+  <style type="text/css">
+			.xf_ht_gl_jgone_botton ul{width:100%;}
+			.xf_ht_gl_jgone_botton ul li{line-height:35px;padding-left:180px;margin-bottom: 15px;}
+			.xf_ht_gl_jgone_botton ul li .span1{display:inline-block;width:200px;text-align:right;}
+			.xf_ht_gl_jgone_botton ul li .span2{display:inline-block;width:200px;text-align:right; color: red;}
+			.xf_ht_gl_jgone_botton ul li input{height:21px;margin-left:15px;margin-right:5px;padding-left:10px;}
+  </style>
+    <div class="xf_content_add">
+      <div class="xfht_t_j_y_2">
+      <!--右上-->
+        <div class="xf_ht_obu_fklm">
+                            财富圈邀请码设置
+        </div>
+        <!-- 财富圈邀请码设置 -->
+        <div class="xf_ht_gl_jgone_botton">
+						<ul>
+							<li><span class="span1">邀请码生成金额</span><input type="text" id="amount" onblur="checkAmount();" value="${ds.invite_code_amount}" />元<span class="span2" id = "spamount"></span></li>
+							<li><span class="span1">返佣年利率</span><input type="text" id="rate" onblur="checkRate();" value="${ds.invite_income_rate}" />%
+								<span id = "sprate" class="span2"></span>
+								<div style = "text-align: center;">
+									例：当年利率设1.2%时，被邀请人投资10000元，邀请人可获得10000*1.2%/12=10元/月
+								</div>
+							</li>
+							<li><span class="span1">受邀人理财手续费折扣</span><input type="text" id="discount" onblur="checkDiscount();" value="${ds.invited_user_discount}" />%
+								<span id = "spdiscount" class="span2"></span>
+								<div style = "text-align: center; width: 500px;">
+									例：50%换算后为5折，以此类推
+								</div>
+							</li>
+						
+						</ul>
+						<ul>
+							<li>
+								<span class="span1">有效期限</span>
+								<input type="radio" #{if ds.invite_code_period != 0} checked="checked" #{/if} name = "invitation_type" value ="0"/> 
+								<input type="text" id ="period" onblur="checkPeriod();" #{if ds.invite_code_period != 0} value="${ds.invite_code_period}" #{/if}/> 月
+						    	<span id = "spperiod" class="span2"></span>
+						    </li>
+						
+						</ul>
+						<ul>
+							<li><span class="span1"></span><input type="radio" #{if ds.invite_code_period == 0} checked="checked" #{/if} name = "invitation_type" value = "1" onclick="cleaning();"/>永久</li>
+						</ul>
+		</div>
+		<div class="xf_htgl_jgsix">
+            <input class="xf_ht_tcc_button_ok" style="position: relative; top: 10px; left: 417px;" type="button" onclick="saveInvitationCode();" value="保存">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+	//正整数正则表达式
+	var reInt =/^[1-9]\d*$/;
+					
+	//正浮点数正则表达式
+	//var reFlo = /^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$/;
+	var reFlo =/^[0-9]{1,20}\.[0-9]{1}|[0-9]{1,20}$/;
+	
+	$(function(){
+		//高亮显示
+		showHighLight(3,3,8);
+	})
+	
+	function checkAmount(){
+		var amount = $("#amount").val();
+		if (!amount.match(reInt)){
+			$("#spamount").html("金额需为正整数,且为100倍数");
+			return false;
+		}
+		if (amount % 100 != 0){
+			$("#spamount").html("金额需为正整数,且为100倍数");
+			return false;
+		}
+		$("#spamount").html("");
+		return true;
+	}
+	
+	function checkRate(){
+		var rate = $("#rate").val();
+		if (!rate.match(reFlo)){
+			$("#sprate").html("只允许输入1位小数且不大于12");
+			return false;
+		}
+		
+		
+		if (rate > 12){
+			$("#sprate").html("只允许输入1位小数且不大于12");
+			return false;
+		}
+		
+		if (rate.indexOf(".") > 0){
+			if(rate.split(".")[1].length > 1){
+				$("#sprate").html("只允许输入1位小数且不大于12");
+				return false;
+			}
+		}
+		
+		$("#sprate").html("");
+		return true;
+	}
+	
+	function checkDiscount(){
+		var discount = $("#discount").val();
+		if (!discount.match(reInt)){
+			$("#spdiscount").html("只能输入正整数，不能超过99");
+			return false;
+		}
+		if (discount > 99){
+			$("#spdiscount").html("只能输入正整数，不能超过99");
+			return false;
+		}
+		$("#spdiscount").html("");
+		return true;
+	}
+	
+	function checkPeriod(){
+		var type = $("input[name='invitation_type']:checked").val();
+		if (type == 1){
+			$("#spperiod").html("");
+			return true;
+		}
+		if (type == 0){
+			var period = $("#period").val();
+			if (!period.match(reInt)){
+				$("#spperiod").html("只能输入正整数");
+				return false;
+			}
+		}
+		$("#spperiod").html("");
+		return true;
+	}
+	function cleaning(){
+		$("#spperiod").html("");
+	}
+	
+	function saveInvitationCode(){
+		if (!checkAmount()){
+			return false;	
+		}
+		if (!checkRate()){
+			return false;
+		}
+		if (!checkDiscount()){
+			return false;
+		}
+		if (!checkPeriod()){
+			return false;
+		}
+		
+		var amount = $("#amount").val();
+		var rate = $("#rate").val();
+		var discount = $("#discount").val();
+		var type = $("input[name='invitation_type']:checked").val();
+		var period = $("#period").val();
+		if (type == 1){
+			period = 0;
+		}
+		$.ajax({
+			url : "@{supervisor.networkMarketing.WealthCircleAction.saveInvitationCode()}",
+			type : "POST",
+			data : {
+			"amount" : amount,
+			"rate" : rate,
+			"discount" : discount,
+			"period" : period
+			},
+			success : function(data) {
+				alert(data.msg);
+			},
+	        error : function(data) {
+	            //如请求错将错误信息输出到当前页面
+	            document.write(data.responseText);
+	            return;
+		    }
+		});
+	}
+	
+</script>

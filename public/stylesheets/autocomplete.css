@@ -1,0 +1,36 @@
+.bigautocomplete-layout{
+	display: none;
+	background-color: #FFFFFF;
+	border: 1px solid #BCBCBC;
+	position: absolute;
+	max-height: 220px;
+	overflow-x:hidden;
+	overflow-y:auto; 
+	z-index:99999;	
+}
+.bigautocomplete-layout table{
+	border-collapse: collapse !important;
+    border-spacing: 0 !important;	
+	background: none repeat scroll 0 0 #FFFFFF !important;
+	width: 100% !important;
+	cursor: default !important;
+}
+.bigautocomplete-layout table,tr,td{
+	border: 0px;
+	padding: 2px;
+}
+
+.bigautocomplete-layout table tr{
+	background: none repeat scroll 0 0 #FFFFFF;
+}
+
+.bigautocomplete-layout .ct{
+	background: none repeat scroll 0 0 #D2DEE8 !important;
+}
+.bigautocomplete-layout div{
+	word-wrap:break-word;
+	word-break:break-all;
+	padding:1px 5px;
+}
+/*6.29*/
+.c_layout{top:254px !important; left:130px !important;}

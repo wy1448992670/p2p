@@ -1,0 +1,72 @@
+%{
+	business.BackstageSet currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /}
+#{set title:'我的账户 | 我的邀请码 | 我邀请的会员'/}
+
+<div class="xf_con_box">
+	<div class="xf_con_mem_nav"></div>
+	<!-- 左边导航区域 -->
+	#{include "front/account/AccountHome/homeLeft.control"/}
+	<!-- 右侧内容区域 -->
+	<div class="xf_mem_Account xf_mem_shzdjkb_box">
+        <h3 class="xf_mem_accout_title">财富圈邀请流程</h3>
+    	<div class="invitation_process">
+            <div class="process_show">
+                <img src="@{'/public/images/circle_lclc.png'}" alt="邀请流程" />
+            </div>
+      	#{include "front/account/WealthCircle/memberInfo.control"/}
+        </div>
+        #{include "front/account/WealthCircle/myInvitationUser.control"/}  
+    </div>
+	<div class="clear"></div>
+</div>
+
+<!--返佣明细-->
+<div class="s_nomoney s_tixiantab s_txtabone" style="display:none;" id="inviteIncomeDetails">
+</div>
+
+<script src="@{'/public/javascripts/laydate/laydate.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript">
+
+
+$(function(){
+	/* 高亮显示 */
+	showHighLightFront(51);
+	showHighLightFront2(8, 8);
+});
+
+function inviteIncomeDetails(invitedUserSign) {
+	$.ajax({
+	  url : "@{front.account.WealthCircle.myInvitationUserDetails()}",
+	  type : "GET",
+	  async : false,
+	  data : {
+	    "currPage" : 1,
+	    "pageSize" : 5,
+	    "beginTime" : "",
+	    "endTime" : "",
+	    "invitedUserSign" : invitedUserSign
+	  },
+	  success : function(data) {
+	    if (data.code < 0) {
+	      alert(data.msg);
+	      return;
+	    }
+	    $("#inviteIncomeDetails").html(data);
+	  },
+	  error : function() {
+	    alert(data.msg);
+	  }
+	});
+	  
+	showDiv($("#inviteIncomeDetails"));
+}
+
+function showPage(currPage, pageSize){
+   $("#currPage").val(currPage);
+   $("#pageSize").val(pageSize);
+   $("#submits").submit();
+ }
+</script>

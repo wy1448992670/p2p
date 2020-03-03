@@ -1,0 +1,37 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'未激活会员列表' /}
+
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist"> 
+    #{include 'supervisor/userManager/userLeft.control'/}
+    <!--右-->
+    #{include 'supervisor/userManager/InactiveUser/inactiveUserContent.control'/} 
+  </div>
+</div>
+<!--弹出层-->
+<div class="xn_c_ban_jox xn_c_ban_jox_hyxq" id="xf_ht_fkzh_ttc" style="display: none;"></div>
+#{include 'supervisor/userManager/commonPage/allUserEmail.control'/}
+#{include 'supervisor/userManager/commonPage/allUserResetPassword.control'/}
+#{include 'supervisor/userManager/commonPage/allUserSendMsg.control'/}
+#{include 'supervisor/userManager/commonPage/allUserStationLetter.control'/}
+
+<script type="text/javascript">   
+/* 高亮显示 */
+(10, 7, 'lab_usr_', null);
+
+function activeUser(id){
+  if(confirm("确定激活吗？")){
+    var activeUser = #{jsAction @supervisor.userManager.InactiveUser.activeUser(':sign')/}
+    $.post(activeUser({sign:id}),function(data){
+      var arr=eval(data);
+            
+      if(arr.error.code < 0){
+        alert(arr.error.msg);
+        reutrn;
+      }
+      alert(arr.error.msg);
+      location.reload();
+    });
+  }     
+}
+</script>

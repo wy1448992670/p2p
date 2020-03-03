@@ -1,0 +1,1 @@
+ALTER TABLE `t_user_recharge_details` ADD COLUMN `unique_key`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `payment_gateway_id`;

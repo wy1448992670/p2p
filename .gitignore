@@ -1,0 +1,15 @@
+/.classpath
+/eclipse
+/.settings/
+/logs
+/bin
+/data
+/precompiled
+/tmp
+/test-result/
+/public/pact/*/
+/src
+/test/localtest
+/public/userPact/**/*
+!/public/userPact/*
+/public/upload/**/*

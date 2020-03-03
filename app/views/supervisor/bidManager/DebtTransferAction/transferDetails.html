@@ -1,0 +1,546 @@
+#{extends 'common/supervisor.html' /}
+%{
+	business.BackstageSet currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{set title:'债权转让标详情页面' /}
+ <!-- 头部end -->
+ <!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+     <div class="xn_c_contentlist">
+    	#{include 'supervisor/bidManager/bidManagerLeft.control' /}
+     <div class="xn_c_content">
+     <div class="xf_content_add">
+     <div class="xfht_t_j_y_2">
+     <!--右上-->
+     <div class="xf_ht_obu_fklm">
+        <input type="button" value="下一个（${countFront}）" class="xf_ht_jkbgl_sh_view" onclick = "javascript:window.location.href='@{back(debt?.sign ,debt?.status, type)}'"
+          #{if countFront==0}  disabled="disabled"   #{/if}  >
+        <input type="button" value="上一个（${countAfter}）" class="xf_ht_jkbgl_sh_view"  onclick = "javascript:window.location.href='@{ahead(debt?.sign ,debt?.status, type)}'"
+          #{if countAfter==0}  disabled="disabled"    #{/if}  >
+        <input type="button" value="返回" class="xf_ht_jkbgl_sh_view" onclick="javascript:history.go(-1);">
+      </div>
+   <!-- 审核详情 -->
+   <div class="xfht_t_j_y_2">
+   <!-- 详情上 -->
+   <div class="xf_ht_dfk_view">
+   <div class="xf_ht_dfk_view_l">
+   <div class="xf_sh_title_warp">
+   <h3 class="xf_sh_title">${debt?.title}</h3>
+   <div class="xf_sh_order">编号：${currBackstageSet?.agenciesNumber}${debt?.id}</div>
+   </div>
+   <div class="xf_sh_jkje_warp">
+      <ul>
+       <li>
+         <div class="xf_sh_jkje_je">
+              <span class="xf_sh_jkje4">￥</span>
+              <span class="xf_sh_jkje_pirce">${debt?.map?.receive_corpus}</span>
+              <span class="xf_sh_jkje4">元</span>
+          </div>
+          <div class="xf_sh_con1">待收本金</div>
+       </li>
+       <li>
+          <div class="xf_sh_jkje_je">
+            <span class="xf_sh_jkje4">￥</span>
+            <span class="xf_sh_jkje_pirce">${debt?.transferPrice?.format('###,##0.00')}</span>
+            <span class="xf_sh_jkje4">元</span>
+          </div>
+          <div class="xf_sh_con2">拍卖底价</div>
+       </li>
+       #{if debt?.status != 0}
+        <li>
+          <div class="xf_sh_jkje_je">
+            <span class="xf_sh_jkje_pirce">${debt?.maxOfferPrice?.format('###,##0.00')}</span>
+            <span class="xf_sh_jkje4">元</span>
+          </div>
+          <div class="xf_sh_con3">目前拍价</div>
+        </li>
+        #{/if}
+     </ul>
+  </div>
+  <div class="xf_sh_title_bj" style="word-break : break-all;">
+     ${debt?.transerReason}
+  </div>
+   <div class="xf_sh_table_viewmx">
+     <div class="xf_sh_table_viewmx_l">
+         #{table width:"100%", border:"0", cellspacing:"0" ,cellpadding:"0", class:"xf_sh_jd_l"}
+      
+          #{tr} 
+            #{td width:"76" ,align:"right"} 借款金额： #{/td}
+            #{td}${debt?.invest?.bid?.amount?.format('###,##0.00')} #{/td}
+        #{/tr} 
+         #{tr} 
+            #{td align:"right"}投标本金： #{/td}
+            #{td}${debt?.invest?.amount?.format('###,##0.00')} #{/td}
+         #{/tr} 
+         #{tr} 
+           #{td align:"right"}年利率：#{/td}
+           #{td}${debt?.invest?.bid?.apr}%#{/td}
+        #{/tr} 
+         #{tr} 
+           #{td align:"right"}逾期情况：#{/td}
+           #{td}
+            #{if debt?.invest?.bid?.hasOverdue == true}有逾期 #{/if} #{else}无逾期 #{/else}
+           #{/td}
+         #{/tr} 
+         #{tr} 
+             #{td align:"right"}还款日期：#{/td}
+            #{td}${debt?.map?.receive_time}#{/td}
+         #{/tr} 
+       #{/table}
+   </div>
+   <div class="xf_sh_table_viewmx_r">
+   	 #{table width:"100%", border:"0", cellspacing:"0" ,cellpadding:"0", class:"xf_sh_jd_l"}
+        #{tr}
+         #{td align:"right", wdith:"70"}本息合计应收金额：#{/td}
+          #{td}${debt?.map?.receive_money} 元#{/td}
+        #{/tr}
+       #{tr}
+         #{td align:"right"}已收金额：#{/td}
+          #{td}<span class="xf_sh_hspan">${debt?.map?.has_receive_money} 元</span>#{/td}
+        #{/tr}
+       #{tr}
+          #{td align:"right"}剩余应收款：#{/td}
+         #{td}<span class="xf_sh_hspan">${debt?.map?.remain_receive_money } 元</span>#{/td}
+        #{/tr}
+       #{tr}
+          #{td align:"right"}待收本金：#{/td}
+          #{td}${debt?.map?.receive_corpus} 元#{/td}
+        #{/tr}
+     #{/table}
+   </div>
+   </div>
+   </div>
+   <div class="xf_ht_dfk_view_r">
+   <div class="xf_ht_mem_img">
+        #{img src:"${debt?.invest?.user?.photo}",alt:"",title:"会员头像"}#{/img}
+   </div>
+   <div class="xf_ht_mem_input clr">
+       <input class="xf_ht_mem_input_button" type="button" value="发送站内信" onclick="showLetter();">
+   </div>
+   <div class="xf_ht_mem_jsxs">
+   	   #{table width:"100%", border:"0", cellspacing:"0" ,cellpadding:"0", class:"xf_sh_jd_l2"}
+        #{tr}
+           #{td align:"left" ,width:"70"}会员名称：#{/td}
+           #{td}${debt?.invest?.user?.name}#{/td}
+         #{/tr}
+         #{tr}
+           #{td align:"left"}信用等级：#{/td}
+          #{td}#{img src:"${debt?.invest?.user?.myCredit?.imageFilename}",alt:"",width:"25px",height:"25px"}#{/img}#{/td}
+          #{/tr}
+        #{tr}
+           #{td align:"left"}信用积分：#{/td}
+           #{td}${debt?.invest?.user?.creditScore}分#{/td}
+          #{/tr}
+        #{tr}
+           #{td align:"left"}信贷记录：#{/td}
+           #{td}${historySituationMap?.successBidCount}次成功，${historySituationMap?.flowBids}次流标#{/td}
+          #{/tr}
+         #{tr}
+           #{td align:"left"}还款记录：#{/td}
+           #{td}${historySituationMap?.normalRepaymentCount}次正常，${historySituationMap?.overdueRepaymentCount}次逾期已还#{/td}
+          #{/tr}
+      #{/table}
+     </div>
+     </div>
+     </div>
+                <!-- 详情中 -->
+  <div class="xf_con_mem_r_content" id="xf_wyjkview_xxk">
+     #{if status == 1 || status == 2}
+  <div class="xf_ht_zc_datetime">
+          剩余时间：
+    <span class="xf_ht_zc_datetime_lvhz">
+    <span class="xf_ht_zc_datetime_lv"><span id="day"></span></span>天<span class="xf_ht_zc_datetime_lv"><span id="hour"></span></span>小时<span class="xf_ht_zc_datetime_lv"><span id="minute"></span></span>分<span class="xf_ht_zc_datetime_lv"><span id="second"></span></span>秒
+    </span>
+   </div>
+      #{/if}
+    <ul class="xf_con_mem_r_tentul clr">
+	<li class="xf_con_wyjk_r_liishot" onclick="show();">竞拍记录</li>
+    <li>转让标详情</li>
+   </ul>
+  <div class="xf_ht_Tab xf_ht_Tab_border" id="auctionRecords"></div>
+  <div class="xf_ht_Tab xf_ht_Tab_border">
+  <div class="xf_ht_tab_view">
+  	 #{table width:"100%", border:"0", cellspacing:"0" ,cellpadding:"0", class:"xf_con_view_table"}
+      #{tr}
+         #{td class:"xf_pcir_ltitle"}借款人<br />基本资料#{/td}
+         #{td align:"left"}
+         	#{table width:"100%", border:"0", cellspacing:"0" ,cellpadding:"0", class:"xf_view_table_lm"}
+            #{tr}
+               #{td}真实姓名：${debt?.invest.bid?.user?.realityName}#{/td}
+               #{td}性别：${debt?.invest.bid?.user?.sex}#{/td}
+               #{td}年龄：${debt?.invest.bid?.user?.age}#{/td}
+             #{/tr}
+             #{tr}
+               #{td}身份证号：${debt?.invest?.bid?.user?.idNumber}#{/td}
+               #{td}户口所在地：${debt?.invest?.bid?.user?.provinceName}${debt?.invest?.bid?.user?.cityName}#{/td}
+               #{td}文化程度：${debt?.invest?.bid?.user?.educationName}#{/td}
+            #{/tr}
+             #{tr}
+               #{td}婚姻情况：${debt?.invest?.bid?.user?.maritalName}#{/td}
+               #{td}购房情况：${debt?.invest?.bid?.user?.houseName}#{/td}
+               #{td}购车情况：${debt?.invest?.bid?.user?.carName}#{/td}
+             #{/tr}
+           #{/table}
+         #{/td}
+       #{/tr}
+       #{tr}
+           #{td class:"xf_pcir_ltitle"}
+             	借款详情对借款用途还款能力的详细说明
+           #{/td}
+           #{td align:"left"}${debt?.invest?.bid?.description}#{/td}
+       #{/tr}
+       #{tr}
+          #{td class:"xf_pcir_ltitle"}投标奖励#{/td}
+          #{td align:"left"}
+           #{if debt?.invest.bid?.bonusType == 0}
+			不设置奖励
+			#{/if}
+			#{if debt?.invest.bid?.bonusType == 1}
+			按固定奖金${debt?.invest.bid?.bonus}元进行奖励
+			#{/if}
+			#{if debt?.invest.bid?.bonusType == 2}
+			按借款总额${debt?.invest.bid?.awardScale}%进行奖励
+			#{/if}
+           #{/td}
+         #{/tr}
+        #{/table}
+       </div>
+       </div>
+       </div>
+       <!-- 详情下 -->
+       <div class="xf_con_mem_r_bottom" id="xf_con_mem_r_Tab">
+         #{table width:"100%", border:"0", cellspacing:"0" ,cellpadding:"0", class:"xf_con_mem_r_b_table"}
+            #{tr}
+               #{th colspan:"5",class:"xf_mem_r_b_title_th"}
+                 <div class="xf_mem_r_b_title">
+                 	  风控审核管理
+                   <b class="xf_mem_r_b_title_x"></b>
+                 </div>
+               #{/th}
+             #{/tr}
+              #{tr}
+                 #{th}序号#{/th}
+                 #{th}审核科目#{/th}
+                 #{th}状态#{/th}
+                 #{th}操作#{/th}
+                 #{th}CBO风控体系审核#{/th}
+               #{/tr}
+              #{list uItems}
+               #{tr}
+				#{td align:"center"}
+					${_index}
+				#{/td}
+				#{td align:"center"}
+					${_?.auditItem?.name}
+				#{/td}
+				#{td align:"center"}
+					${_?.strStatus}
+				#{/td}
+				#{td align:"center", width:"90"}
+				  <a onclick="showitem('${_?.mark}','${debt?.invest?.bid?.signUserId}');" class="xf_ta_onclick">查看</a>
+				#{/td}
+				#{if _index == 1}
+				#{td valign:"top", rowspan:"${uItems?.size}" ,class:"xf_wylc_l_memhyA_zh"}
+					${debt?.invest?.bid?.auditSuggest}
+				#{/td}
+				#{/if}
+			#{/tr}
+          #{/list}
+         #{/table}
+      </div>
+     <div style="display:none" id="nothrough" class="xn_c_ban_jox xn_c_ban_jox_qxsz">
+      </br></br>
+      <span class="xf_ht_mem_sapn_l">审核结果：不通过</pspan> </br> </br> </br> 
+      <span class="xf_ht_mem_sapn_l" style="vertical-align: top">不通过原因：</span>                      
+      <textarea  class="xf_ht_jr_obttd_textarea xf_ht_jr_obttd_textarea2" rows="5" cols="100" name="nothroughReason" id="nothroughReason"></textarea></br>
+      <input class="xf_ht_tcc_button_ok" type="button" value="确定" onclick="auditDebtNoPass('${debt?.sign}',${debt?.type});">
+	  <input class="xf_ht_tcc_button_ok" type="button" value="取消" onclick="hideDiv();">
+     </div>
+     #{if debt?.status == 0 || debt?.status ==-1}
+     <div id="audit">
+     <div class="xf_ht_tab_view_zqbzr" style="overflow:hidden; margin:20px 22px;">
+       <div class="xf_ht_ptjk_sh xf_ht_ptjk_sh_zqzr" style="margin:0 0 10px 0;">
+        <input type="checkbox" name="quality"  value="1" id="quality" />  
+                            设为优质标                      
+           <span class="xf_ht_ptjk_sh_span"> 注：当勾选此项后，此借款将作为优质标推荐给平台用户</span>
+      	</div>
+	   <input class="xf_ht_tcc_button_ok" type="button" value="审核结果 :">
+       <input class="xf_ht_tcc_button_ok" type="button" value="通过" onclick="auditDebt('${debt?.sign}',${debt?.type});">
+       <input class="xf_ht_tcc_button_ok" type="button" value="不通过" onclick="showDiv();">
+      </div>
+      
+      </div>
+      #{/if}
+      <div class="xf_jkb_btowarp">
+      <div class="xf_jkb_bto">
+         <input class="xf_ht_jkbgl_sh_view" type="button" value="上一个（${countFront}）"
+         onclick = "javascript:window.location.href='@{back(debt?.sign ,debt?.status, type)}'"
+         #{if countFront==0}
+         disabled="disabled"
+         #{/if}
+         >
+         <input class="xf_ht_jkbgl_sh_view" type="button" value="下一个（${countAfter}）"
+           onclick = "javascript:window.location.href='@{ahead(debt?.sign ,debt?.status, type)}'"
+    	   #{if countAfter==0}
+     	   disabled="disabled"
+           #{/if}
+          >
+         <input class="xf_ht_jkbgl_sh_view" type="button" value="返回" onclick="javascript:history.go(-1);">
+      </div>
+      </div>
+      </div>
+      </div>
+      </div>
+      </div>
+      </div>
+    </div>
+   
+ <div  id="itemImage" class="xn_c_ban_jox xn_c_ban_jox_ptsh" style="height: 400px; overflow: auto; display: none;"></div>
+		
+<!-- 后期补充债权转让-发送站内信 -->
+ <div class="xn_c_ban_jox xn_c_ban_jox_fdx" id="sendLetter" style="display: none;">
+ <div class="xf_ht_jr_obu_width">
+ <div class="xf_ht_jr_obu_l">
+      发送站内信
+ </div>
+ <div class="xn_c_ban_fdxwarp">
+     #{table  border:"0", cellspacing:"0" ,cellpadding:"0" ,class:"xf_ht_jr_obu_form xf_ht_jr_obu_formsz"}
+    
+       #{tr}
+          #{td width:"132", align:"right" ,valign:"middle", class:"xf_ht_jr_obttd_l"}发 给：#{/td}
+          #{td}
+           <span class="xf_zqzr_znx_r">${debt?.invest?.user?.name}</span>
+          #{/td}
+       #{/tr}
+         #{tr}
+			#{td align:"right"}
+				<span class="xf_zqzr_znx_title">标 题：</span>
+			#{/td}
+			#{td}
+			<input  width="800" height="800" type="text" id="title"/>
+			#{/td}
+		#{/tr}
+         #{tr}
+          #{td align:"right" ,valign:"top" ,class:"xf_ht_jr_obttd_l"}内 容：#{/td}
+         #{td}
+           <textarea class="xf_ht_jr_obttd_textarea xf_ht_jr_obttd_textarea2" cols=40 rows=10 id="content" onKeyUp="checkLetter()" onblur="checkLetter()"></textarea>
+          #{/td}
+        #{/tr}
+        #{tr}
+          #{td align:"right" ,valign:"top", class:"xf_ht_jr_obttd_l"}&nbsp;#{/td}
+          #{td class:"xf_ht_tcc_button_two xf_ht_tcc_fsznx"}
+            	<input class="jbox_ok" type="button" onclick="sendLetter();" value="发  送">
+                <input class="jbox_on" type="button" onclick="hideLetter()" value="取  消"></br>
+          #{/td}
+        #{/tr}
+       #{tr}
+        #{td}#{/td}
+        #{td}<span class="xf_con_zqzr_znx">您还可以输入<span style="color:green" id="showLetterLength">1000</span>字</span>#{/td}
+         #{/tr}
+      #{/table}
+        </div>
+        </div>
+</div>
+		
+ <script>
+	$(function(){
+		showHighLight(3, 3, ${type});
+
+         show();
+	});
+ 
+  function showLetter(){
+   	$("#sendLetter").show();
+   	$.layer({
+          type: 1,
+          area: ['608', 'auto'],
+          title: '发送站内信',
+          page: {dom : '#sendLetter'}
+        });
+ }
+function hideLetter(){
+	 $("#sendLetter").hide();
+	 layer.closeAll();
+}
+	    
+ function sendLetter(){
+   	var signUserId = '${debt?.invest?.userIdSign}';
+   	var title = $("#title").val();
+   	var content = $("#content").val();
+   	
+   	if(title.replace(/\s+/g,"") == "" || null == title.replace(/\s+/g,"")){
+		//layer.msg("对不起！发送标题不能为空！", 2, 5);
+		alert("对不起！发送标题不能为空！");
+   		return ;
+   	}
+   	if(content.replace(/\s+/g,"") == "" || null == content.replace(/\s+/g,"")){
+   		//layer.msg("对不起！发送内容不能为空！", 2, 5);
+   		alert("对不起！发送标题不能为空！");
+   		return ;
+   	}
+   	var listAction = #{jsAction @supervisor.bidManager.BidPlatformAction.sendMessages(':signUserId', ':title', ':content') /};
+	   $.post(listAction({signUserId:signUserId, title:title, content:content}), function(data) {
+		   //layer.msg(data, 2, 1, function(){hideLetter();});
+		   alert(data);
+		   hideLetter();
+       });
+  }
+
+ function checkLetter() //textarea输入长度处理 
+{ 
+	var content = $("#content").val();
+	var len;//记录剩余字符串的长度 
+	
+	if(content.length>=1000)//textarea控件不能用maxlength属性，就通过这样显示输入字符数了 
+	{ 
+		//layer.msg("对不起！信件内容过于冗余！", 2, 5);
+		alert("对不起！信件内容过于冗余！");
+	} 
+	else 
+	{ 
+		len=1000-content.length; 
+	} 
+		var show=len; 
+		document.getElementById("showLetterLength").innerText=show; 
+} 
+</script> 
+    
+<script>
+function showRecords(pageNum,debtId){
+	debtId = ${debt?.id};
+	$.ajax({
+		url:"@{viewDebtAllAuctionRecords()}",
+		type:"POST",
+		data: {"pageNum" : pageNum,  "debtId":debtId},
+    	success:function(data){$("#auctionRecords").html(data);},
+    	error:function(){alert("对不起，出现错误!");}
+	
+	})
+}
+			
+function show(){
+     var pageNum=1;
+	 var debtId = ${debt?.id};
+	 showRecords(pageNum, debtId);
+}
+			
+			
+ function auditDebt(sign,type){
+       var qualityStatus = $('input:checkbox:checked').val();
+       if(typeof(qualityStatus) == "undefined"){
+       	qualityStatus = 0;
+         }
+        var audit = #{jsAction @audit(':sign',':type',':qualityStatus')/}
+        $.post(audit({sign:sign,type:type,qualityStatus:qualityStatus}),function(data){
+  		var arr=eval(data);
+	    var result = arr.error.msg;
+	    //layer.msg(result, 2, 1);
+	    alert(result);
+	    window.location.href="@{DebtTransferPending()}";
+	    })
+	    
+ }
+               
+function auditDebtNoPass(sign,type){
+        var status = ${debt?.status};
+		var nothroughReason = encodeURI($("#nothroughReason").val().replace(/\s+/g,""));
+		if(nothroughReason == ""){
+			//layer.msg("对不起！原因不能为空！", 2, 5);
+			alert("对不起！原因不能为空！");
+			return;
+		}
+        var notThrough = #{jsAction @notThrough(':sign',':type',':nothroughReason')/}
+        
+        $.post(notThrough({sign:sign,type:type,nothroughReason:nothroughReason}),function(data){
+ 		var arr=eval(data);
+		var result = arr.error.msg;
+		//layer.msg(result, 2, 1);
+		alert(result);
+		if(status == 0){
+       		window.location.href="@{DebtTransferPending()}";
+       	}
+       	if(status == -1){
+       		window.location.href="@{nopassAssignedClaims()}";
+       	}
+        })	
+       
+}
+</script>
+			
+<script>
+showTime();
+				
+ function showTime(){
+	 var endTime =" ${debt?.endTime?.format('yyyy-MM-dd HH:mm:ss')}".replace(/-/g,"/");
+     var date = new Date(endTime);
+     var tt = date.getTime();
+     var now = new Date().getTime();
+     var cha = tt-now;
+     var SysSecond=parseInt(cha);
+	 
+	 if (SysSecond > 0) { 
+           int_day=Math.floor(SysSecond/86400000);
+           SysSecond-=int_day*86400000;
+           int_hour=Math.floor(SysSecond/3600000);
+           SysSecond-=int_hour*3600000;
+           int_minute=Math.floor(SysSecond/60000);
+           SysSecond-=int_minute*60000;
+           int_second=Math.floor(SysSecond/1000);
+ 
+         if(int_hour<10){
+  	       int_hour="0"+int_hour;
+          }
+ 
+          if(int_minute<10){
+  		       int_minute="0"+int_minute;
+          }
+    
+         if(int_second<10){
+   	        int_second="0"+int_second;
+           }
+          
+	       $("#day").html(int_day);
+	       $("#hour").html(int_hour);
+	       $("#minute").html(int_minute);
+	       $("#second").html(int_second);
+	       }else{
+	       
+	       	   $("#day").html("00");
+		       $("#hour").html("00");
+		       $("#minute").html("00");
+		       $("#second").html("00");
+	       }
+	setTimeout('showTime()',1000); 
+ }
+</script>
+		
+<script>
+		
+function showDiv(){
+	$("#nothrough").show();
+	$("#audit").hide();
+}
+
+function hideDiv(){
+	$("#nothrough").hide();
+	$("#audit").show();
+}
+		
+</script>
+	
+<script>
+	
+/* 查看弹出层 */
+function showitem(mark,signUserId){
+	var listAction = #{jsAction @front.invest.InvestAction.showitem(':mark',':signUserId') /};
+	$.post(listAction({mark:mark,signUserId:signUserId}), function(data) {
+	$("#itemImage").html(data);
+	$.layer({
+        type: 1,
+        area: ['608', 'auto'],
+        title: '查看资料',
+        page: {dom : '#itemImage'}
+      });
+	});		
+}
+</script>

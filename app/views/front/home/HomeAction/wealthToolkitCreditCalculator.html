@@ -1,0 +1,57 @@
+
+<h3 class="xf_mem_accout_title">信用计算器</h3>
+<div class="xf_mem_jsq_xyjsq">
+	<div class="xf_mem_jsq_xyjsq_t">
+		亲，以下有哪些材料，您可以提供？提供的材料越多，借款额度越高哦！
+	</div>
+	<table border="0" cellpadding="0" cellspacing="0" width="739" class="xf_mem_jsq_xyjsq_table">
+		#{list auditItems}
+			#{if _index % 3 == 1}
+			<tr>
+				<td width="33%">
+				<input type="checkbox" class="xf_mem_jsq_xyjsq_radio" name="creditScore" value="${_?.creditScore}">
+				<span class="xf_mem_xyjsq_span">${_index}、${_?.name}</span>
+				</td>
+			#{/if}
+			#{elseif _index % 3 == 0 }
+				<td width="33%">
+				<input type="checkbox" class="xf_mem_jsq_xyjsq_radio" name="creditScore" value="${_?.creditScore}">
+				<span class="xf_mem_xyjsq_span">${_index}、${_?.name}</span>
+				</td>
+			</tr>
+			#{/elseif}
+			#{else}
+				<td width="33%">
+				<input type="checkbox" class="xf_mem_jsq_xyjsq_radio" name="creditScore" value="${_?.creditScore}">
+				<span class="xf_mem_xyjsq_span">${_index}、${_?.name}</span>
+				</td>
+			#{/else}
+		#{/list}
+	</table>
+	<div class="xf_mem_jsq_xyjsq_go"> 
+		<a class="xf_con_inputfbjk" onclick="showCreditScore();">查看</a>
+	</div>
+	<div class="xf_mem_jsq_xyjsq_bottom">
+		您可以获得<span class="xf_memjsq_pirc" id="score">0</span>的信用积分。<br />
+		您一共可以借<span class="xf_memjsq_pirc" id="amount">0</span>元的借款。
+	</div>
+</div>
+
+	
+<script type="text/javascript">
+<!--
+
+	function showCreditScore(){
+		var creditScore = 0;
+		
+		$('input[name="creditScore"]:checked').each(function(){ 
+			creditScore += $(this).val() * 1;
+	 	}); 
+
+		/* 计算积分 */
+		$("#score").html(creditScore); 
+		/* 计算额度 */
+		$("#amount").html(creditScore * ${amountKey});
+	}
+//-->
+</script>

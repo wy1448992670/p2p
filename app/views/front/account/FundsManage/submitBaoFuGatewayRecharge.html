@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>宝付网关支付跳转中...</title>
+</head>
+<body>
+<form action="${args.payUrl}" id="frm1" method="post">
+   <input type="hidden" name="MemberID" value="${args.MemberID}"/>
+   <input type="hidden" name="TerminalID" value="${args.TerminalID}"/>
+   <input type="hidden" name="InterfaceVersion" value="${args.InterfaceVersion}"/>
+   <input type="hidden" name="KeyType" value="${args.KeyType}"/>
+   <input type="hidden" name="PayID" value="${args.PayID}"/>
+   <input type="hidden" name="TradeDate" value="${args.TradeDate}"/>
+   <input type="hidden" name="TransID" value="${args.TransID}"/>
+   <input type="hidden" name="OrderMoney" value="${args.OrderMoney}"/>
+   <input type="hidden" name="ProductName" value="${args.ProductName}"/>
+   <input type="hidden" name="Amount" value="${args.Amount}"/>
+   <input type="hidden" name="Username" value="${args.Username}"/>
+   <input type="hidden" name="AdditionalInfo" value="${args.AdditionalInfo}"/>
+   <input type="hidden" name="PageUrl" value="${args.PageUrl}"/>
+   <input type="hidden" name="ReturnUrl" value="${args.ReturnUrl}"/>
+   <input type="hidden" name="Signature" value="${args.Signature}"/>
+   <input type="hidden" name="NoticeType" value="${args.NoticeType}"/>
+</form>
+<script language="javascript">
+ document.getElementById("frm1").submit();
+</script>
+</body>
+</html>

@@ -1,0 +1,397 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'积分规则' /}
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+	<div class="xn_c_contentlist">
+		#{include "supervisor/networkMarketing/CPSSpreadAction/networkMarketingLeft.control"/}
+	    <div class="xn_c_content">
+	        <div class="xf_content_add">
+	            <div class="xfht_t_j_y_2">
+	                <!--右上-->
+	                <div class="xf_ht_obu_fklm">
+	                	积分获取规则
+	                </div>
+	                <div class="xf_htgl_jgone xf_ht_fff_sz">
+	                    <h3 class="xf_htgl_jgtitle">
+	                    	签到送积分
+	                    </h3>
+	                    <div class="xf_ht_gl_jgone_botton">
+	                        <table border="0" cellspacing="0" cellpadding="0" width="100%">
+	                            <tr>
+	                                <td align="center">
+	                                	连续1天签到积：
+	                                	<input class="xfht_zr_input" type="text" style="width:80px;" id="day1" value="${map.day1}" onkeyup="value=value.replace(/[^\d]/g, '')">
+	                                	分
+	                                </td>
+	                                <td align="center">
+	                                	连续2天签到积：
+	                                	<input class="xfht_zr_input" type="text" style="width:80px;" id="day2" value="${map.day2}" onkeyup="value=value.replace(/[^\d]/g, '')">
+	                                	分
+	                                </td>
+	                            </tr>
+	                            <tr>
+	                                <td align="center">
+	                                	连续3天签到积：
+	                                	<input class="xfht_zr_input" type="text" style="width:80px;" id="day3" value="${map.day3}" onkeyup="value=value.replace(/[^\d]/g, '')">
+	                                	分
+	                                </td>
+	                                <td align="center">
+	                                	连续4天签到积：
+	                                	<input class="xfht_zr_input" type="text" style="width:80px;" id="day4" value="${map.day4}" onkeyup="value=value.replace(/[^\d]/g, '')">
+	                                	分
+	                                </td>
+	                            </tr>
+	                            <tr>
+	                                <td align="center">
+	                                	连续5天签到积：
+	                                	<input class="xfht_zr_input" type="text" style="width:80px;" id="day5" value="${map.day5}" onkeyup="value=value.replace(/[^\d]/g, '')">
+	                                	分
+	                                </td>
+	                                <td align="center">
+	                                	连续6天签到积：
+	                                	<input class="xfht_zr_input" type="text" style="width:80px;" id="day6" value="${map.day6}" onkeyup="value=value.replace(/[^\d]/g, '')">
+	                                	分
+	                                </td>
+	                            </tr>
+	                            <tr>
+	                                <td align="center">
+	                                	连续7天签到积：
+	                                	<input class="xfht_zr_input" type="text" style="width:80px;" id="day7" value="${map.day7}" onkeyup="value=value.replace(/[^\d]/g, '')">
+	                                	分
+	                                </td>
+	                                <td align="center">
+	                                	连续大于7天每天签到积：
+	                                	<input class="xfht_zr_input" type="text" style="width:80px;" id="day_more" value="${map.day_more}" onkeyup="value=value.replace(/[^\d]/g, '')">
+	                                	分
+	                                </td>
+	                            </tr>
+	                        </table>
+	                    </div>
+	                    <h3 class="xf_htgl_jgtitle ">
+	                    	投标送积分
+	                    	<label style="margin-right: 100px;margin-left: 100px">
+		                    	<input type="radio" value="1" #{if map.invest_status == '1'} checked="checked"#{/if} name="invest_status">开
+	                    	</label>
+	                    	<label>
+		                    	<input type="radio" value="0" #{if map.invest_status == '0'} checked="checked"#{/if} name="invest_status"/>关
+	                    	</label>
+	                    </h3>
+	                    <div class="xf_ht_gl_jgone_botton">
+	                        <table border="0" cellspacing="0" cellpadding="0" width="100%">
+	                            <tr>
+	                                <td align="center">
+	                                	每投标一次积：
+	                                	投资收益 X
+	                                    <input type="text" class="xfht_zr_input" style="width:100px;margin:0 5px 0 10px" id="invest_score" value="${map.invest_score}" onkeyup="value=value.replace(/[^\d]/g, '')">
+	                                	分
+	                                </td>
+	                            </tr>
+	                        </table>
+	                    </div>
+	                   
+	                    <h3 class="xf_htgl_jgtitle ">
+	                    	实名认证送积分
+	                    	<label style="margin-right: 100px;margin-left: 75px">
+		                    	<input type="radio" value="1" #{if map.auth_status == '1'} checked="checked"#{/if} name="auth_status">开
+	                    	</label>
+	                    	<label>
+		                    	<input type="radio" value="0" #{if map.auth_status == '0'} checked="checked"#{/if} name="auth_status"/>关
+	                    	</label>
+	                    </h3>
+	                    <div class="xf_ht_gl_jgone_botton">
+	                        <table border="0" cellspacing="0" cellpadding="0" width="100%">
+	                            <tr>
+	                                <td align="center">
+	                                	成功实名认证积:
+	                                    <input type="text" class="xfht_zr_input" style="width:100px;margin:0 5px 0 10px" id="auth_score" value="${map.auth_score}" onkeyup="value=value.replace(/[^\d]/g, '')">
+	                                	分
+	                                </td>
+	                            </tr>
+	                        </table>
+	                    </div>
+	                    <h3 class="xf_htgl_jgtitle ">
+	                    	添加银行卡送积分
+	                    	<label style="margin-right: 100px;margin-left: 65px">
+		                    	<input type="radio" value="1" #{if map.bank_status == '1'} checked="checked"#{/if} name="bank_status">开
+	                    	</label>
+	                    	<label>
+		                    	<input type="radio" value="0" #{if map.bank_status == '0'} checked="checked"#{/if} name="bank_status"/>关
+	                    	</label>
+	                    </h3>
+	                    <div class="xf_ht_gl_jgone_botton">
+	                        <table border="0" cellspacing="0" cellpadding="0" width="100%">
+	                            <tr>
+	                                <td align="center">
+	                                	成功添加银行卡积：
+	                                    <input type="text" class="xfht_zr_input" style="width:100px;margin:0 5px 0 10px" id="bank_score" value="${map.bank_score}" onkeyup="value=value.replace(/[^\d]/g, '')">
+	                                	分
+	                                </td>
+	                            </tr>
+	                        </table>
+	                    </div>
+	                    <h3 class="xf_htgl_jgtitle ">
+	                    	首投送积分:
+	                    	<label style="margin-right: 100px;margin-left: 100px">
+		                    	<input type="radio" value="1" #{if map.first_status == '1'} checked="checked"#{/if} name="first_status">开
+	                    	</label>
+	                    	<label>
+		                    	<input type="radio" value="0" #{if map.first_status == '0'} checked="checked"#{/if} name="first_status"/>关
+	                    	</label>
+	                    </h3>
+	                    <div class="xf_ht_gl_jgone_botton">
+	                        <table border="0" cellspacing="0" cellpadding="0" width="100%">
+	                            <tr>
+	                                <td align="center">
+	                                	首次投资积：
+	                                    <input type="text" class="xfht_zr_input" style="width:100px;margin:0 5px 0 10px" name="first_score"
+	                                    	id="first_score" value="${map.first_score}" onkeyup="value=value.replace(/[^\d]/g, '')">
+	                                	分
+	                                </td>
+	                            </tr>
+	                        </table>
+	                    </div>
+	                    <h3 class="xf_htgl_jgtitle ">
+	                    	成功推荐用户添加银行卡
+	                    	<label style="margin-right: 100px;margin-left: 30px">
+		                    	<input type="radio" value="1" #{if map.recomm_bank_status == '1'} checked="checked"#{/if} name="recomm_bank_status">开
+	                    	</label>
+	                    	<label>
+		                    	<input type="radio" value="0" #{if map.recomm_bank_status == '0'} checked="checked"#{/if} name="recomm_bank_status"/>关
+	                    	</label>
+	                    </h3>
+	                    <div class="xf_ht_gl_jgone_botton">
+	                        <table border="0" cellspacing="0" cellpadding="0" width="100%">
+	                            <tr>
+	                                <td align="center">
+	                                	每成功推荐1人绑卡积:
+	                                    <input type="text" class="xfht_zr_input" style="width:100px;margin:0 5px 0 10px" id="recomm_bank_score" value="${map.recomm_bank_score}" onkeyup="value=value.replace(/[^\d]/g, '')">
+	                                	分
+	                                </td>
+	                            </tr>
+	                        </table>
+	                    </div>
+	                    
+	                    <h3 class="xf_htgl_jgtitle ">
+	                    	成功推荐用户首投
+	                    	<label style="margin-right: 100px;margin-left: 30px">
+		                    	<input type="radio" value="1" #{if map.recomm_invest_status == '1'} checked="checked"#{/if} name="recomm_invest_status">开
+	                    	</label>
+	                    	<label>
+		                    	<input type="radio" value="0" #{if map.recomm_invest_status == '0'} checked="checked"#{/if} name="recomm_invest_status"/>关
+	                    	</label>
+	                    </h3>
+	                    <div class="xf_ht_gl_jgone_botton">
+	                        <table border="0" cellspacing="0" cellpadding="0" width="100%">
+	                            <tr>
+	                                <td align="center">
+	                                	推荐1人首投积:
+	                                    <input type="text" class="xfht_zr_input" style="width:100px;margin:0 5px 0 10px" id="recomm_invest_score" value="${map.recomm_invest_score}" onkeyup="value=value.replace(/[^\d]/g, '')">
+	                                	分
+	                                </td>
+	                            </tr>
+	                        </table>
+	                    </div>
+	                </div>
+	                <div class="xf_htgl_jgsix_hyg">
+	                    <input class="xf_ht_tcc_button_ok" type="button" onclick="save()" id="xf_dfk_fkzh_tcc3" value="保存">
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+</div>
+<script type="text/javascript">
+  $(function() {
+    showHighLight(8,8,19);
+  })
+  function save() {
+    var day1 = $("#day1").val();
+    var day2 = $("#day2").val();
+    var day3 = $("#day3").val();
+    var day4 = $("#day4").val();
+    var day5 = $("#day5").val();
+    var day6 = $("#day6").val();
+    var day7 = $("#day7").val();
+    var day_more = $("#day_more").val();
+    
+    var invest_score = $("#invest_score").val();
+    var auth_score = $("#auth_score").val();
+    var bank_score = $("#bank_score").val();
+    var first_score = $("#first_score").val();
+    var recomm_bank_score = $("#recomm_bank_score").val();
+    var recomm_invest_score = $("#recomm_invest_score").val();
+    
+    
+    if ("" == day1.trim()) {
+      alert("请填写连续签到1天积分");
+      return;
+    }
+
+    if(!checkNumVal(day1)){
+    	alert("连续1天积分必须为数字");
+    	return;
+    }
+    
+    if ("" == day2.trim()) {
+       alert("请填写连续签到2天积分");
+       return;
+     }
+
+     if(!checkNumVal(day2)){
+     	alert("连续2天积分必须为数字");
+     	return;
+     }
+     if ("" == day3.trim()) {
+       alert("请填写连续签到3天积分");
+       return;
+     }
+
+     if(!checkNumVal(day3)){
+     	alert("连续3天积分必须为数字");
+     	return;
+     }
+     if ("" == day4.trim()) {
+       alert("请填写连续签到4天积分");
+       return;
+     }
+
+     if(!checkNumVal(day4)){
+     	alert("连续4天积分必须为数字");
+     	return;
+     }
+     if ("" == day5.trim()) {
+       alert("请填写连续签到5天积分");
+       return;
+     }
+
+     if(!checkNumVal(day5)){
+     	alert("连续5天积分必须为数字");
+     	return;
+     }
+     if ("" == day6.trim()) {
+       alert("请填写连续签到6天积分");
+       return;
+     }
+
+     if(!checkNumVal(day6)){
+     	alert("连续6天积分必须为数字");
+     	return;
+     }
+     if ("" == day7.trim()) {
+       alert("请填写连续签到7天积分");
+       return;
+     }
+
+     if(!checkNumVal(day7)){
+     	alert("连续7天积分必须为数字");
+     	return;
+     }
+     if ("" == day_more.trim()) {
+       alert("请填写连续大于7天每天签到积分");
+       return;
+     }
+
+     if(!checkNumVal(day_more)){
+     	alert("连续连续大于7天每天签到必须为数字");
+     	return;
+     }
+     
+     if ("" == invest_score.trim()) {
+       alert("请填写投标送积分");
+       return;
+     }
+
+     if(!checkNumVal(invest_score)){
+     	alert("投标送积分必须为数字");
+     	return;
+     }
+     if ("" == auth_score.trim()) {
+       alert("请填写实名认证送积分");
+       return;
+     }
+
+     if(!checkNumVal(auth_score)){
+     	alert("实名认证送积分必须为数字");
+     	return;
+     }
+     if ("" == bank_score.trim()) {
+       alert("请填写添加银行卡送积分");
+       return;
+     }
+     if(!checkNumVal(bank_score)){
+     	alert("添加银行卡送积分必须为数字");
+     	return;
+     }
+     if ("" == first_score.trim()) {
+       alert("请填写首投送积分");
+       return;
+     }
+     if(!checkNumVal(first_score)){
+     	alert("首投送积分必须为数字");
+     	return;
+     }
+     if ("" == recomm_bank_score.trim()) {
+       alert("请填写成功推荐用户添加银行卡送积分");
+       return;
+     }
+     if(!checkNumVal(recomm_bank_score)){
+     	alert("成功推荐用户添加银行卡送积分必须为数字");
+     	return;
+     }
+     if ("" == recomm_invest_score.trim()) {
+       alert("请填写成功推荐用户首投送积分");
+       return;
+     }
+     if(!checkNumVal(recomm_invest_score)){
+     	alert("成功推荐用户首投送积分必须为数字");
+     	return;
+     }
+     
+    $.ajax({
+      url : "@{supervisor.scoreManager.ScoreAction.saveScoreRule()}",
+      type : "POST",
+      data : {
+        "day1" : day1,
+        "day2" : day2,
+        "day3" : day3,
+        "day4" : day4,
+        "day5" : day5,
+        "day6" : day6,
+        "day7" : day7,
+        "day_more" : day_more,
+        "invest_score" : invest_score,
+        "auth_score" : auth_score,
+        "bank_score" : bank_score,
+        "first_score" : first_score,
+        "recomm_bank_score" : recomm_bank_score,
+        "recomm_invest_score" : recomm_invest_score,
+        "invest_status" :$('input:radio[name="invest_status"]:checked').val(),
+        "auth_status" :$('input:radio[name="auth_status"]:checked').val(),
+        "bank_status" :$('input:radio[name="bank_status"]:checked').val(),
+        "first_status" :$('input:radio[name="first_status"]:checked').val(),
+        "recomm_bank_status" :$('input:radio[name="recomm_bank_status"]:checked').val(),
+        "recomm_invest_status" :$('input:radio[name="recomm_invest_status"]:checked').val()
+      },
+      success : function(data) {
+        alert(data.msg);
+        location.reload();
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+  
+  function checkNumVal(res)
+  {
+	  // 数字校验
+      var patrn=/^([1-9]\d*|0)(\.\d*[1-9])?$/;
+      var flag = patrn.exec(res);
+      if(!flag){
+      	return false;
+      }else{
+    	  return true;
+      }
+      
+  }
+</script>

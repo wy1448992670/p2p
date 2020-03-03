@@ -1,0 +1,92 @@
+<div class="xf_wylc_sousoulist">
+						<ul class="xf_c_idx_4_items xf_c_wylc_items">
+						#{list items:page.page, as:'loan'}
+							<li>
+								<div class="xf_c_idx_4_itemsWrap">
+									<div class="xf_c_idx_4_imgWrap">
+										<div class="xf_c_idx_4_userImg">
+											#{img src:"${loan?.bid_image_filename}",alt:"",align:"absmiddle"}#{/img}
+										</div>
+										<div class="xf_c_idx_4_arrowImg"></div>
+									</div>
+									<div class="xf_c_idx_4_tableWrap xf_c_wylc_tableWrap">
+										<div class="xf_c_idx_4_colTitle xf_wylc_colTitle">
+											<span class="xf_c_wylc_colIco"></span>
+											<span class="xf_c_idx_4_loanTitle xf_c_wylc_loanTitle"><a href="wylc_view.html">${loan?.title}</a></span>
+											<span class="xf_wylc_lcpocd">编号：${loan?.bid_no}</span>
+											<span class="xf_c_idx_4_loanProgres">
+												<span class="xf_c_idx_4_progText">进度：</span>
+												<span class="xf_c_idx_4_proWrap"><span id="loanSchedule${loan_index}" class="xf_c_idx_4_proPer">${loan?.loan_schedule}</span>
+						                 </span> </span>
+										</div>
+										<div class="xf_c_idx_4_data">
+											<ul class="xf_c_idx_4_dataul">
+												<li><div>年利率</div><div class="xf_c_idx_4_nhsy">${loan?.apr}</div></li>
+												<li><div>借款金额</div><div class="xf_c_idx_4_jkje">￥${loan?.amount?.format('###,##0.00')}</div></li>
+												<li><div>还款期限</div><div class="xf_c_idx_4_hkqx">
+												#{if loan?.period_unit ==-1}
+												  ${loan?.period}年
+												#{/if}
+												#{if loan?.period_unit ==0}
+												  ${loan?.period}个月
+												#{/if}
+												#{if loan?.period_unit ==1}
+												  ${loan?.period}天
+												#{/if}
+												</div></li>
+												<li><div>还款日期</div><div class="xf_c_idx_4_hkqx">等待定夺</div></li>
+												<li class="xf_c_idx_4_last"><div>信用等级</div><div class="xf_c_idx_4_xydj">
+												#{img src:"${loan?.credit_level_image_filename}"}#{/img}</div></li>
+												<div class="clear"></div>
+											</ul>
+										</div>
+										<div class="xf_c_idx_4_tableBttom">
+											<span class="xf_c_idx_4_hxjeWrap">还需金额：<span class="xf_c_idx_4_hxje">￥${(loan?.amount - loan?.has_invested_amount)?.format('###,##0.00')}元</span></span>
+											<span class="xf_c_idx_4_hkfsWrap">还款方式：${loan?.repayment_type_name}</span>
+											<span class="xf_c_idx_4_hkfsWrap2">投标奖励：
+											#{if loan?.bonus_type == 0}
+											     不设置奖励
+											#{/if}
+											#{if loan?.bonus_type == 1}
+											     按固定奖金${loan?.bonus}进行奖励
+											#{/if}
+											#{if loan?.bonus_type == 2}
+											     按借款总额${loan?.award_scale}%进行奖励
+											#{/if}
+											</span>
+										</div>
+									</div>
+									<div class="xf_wylc_tableWrap_cz">
+										<b class="">火</b>
+										<a onClick="collectCurrentBid(${loan?.id})">加入收藏</a>
+										<a href="@{front.invest.investAction.invest(loan?.id)}">查看详细</a>
+									</div>
+								</div>
+							</li>
+						#{/list}
+						</ul>
+						<div class="xf_wylc_page">
+							  #{page
+	                          funMethod:"loanListFetch",currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:2,style:2
+	                         /}
+						</div>
+					</div>
+<script type="text/javascript">
+  //显示标 的进度
+	$(function(){
+		#{list items:page.page, as:'loan'}
+		 $('#loanSchedule'+${loan_index}).css({"width":${loan?.loan_schedule}})
+		#{/list}
+	})
+	
+	function collectCurrentBid(bidId){
+    	var collectBid = #{jsAction @front.invest.investAction.collectBid(':bidId')/}
+    	$.post(collectBid({bidId:bidId}),function(data){
+    	
+    		var arr=eval(data);
+			var result = arr.error.msg;
+			alert(result);
+    	})
+    
+    }
+</script>

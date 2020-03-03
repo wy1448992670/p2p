@@ -1,0 +1,101 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'平台协议模板' /} 
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  <!--左-->
+  #{include "supervisor/webContentManager/common/leftBar.control"/}
+  <!--右-->
+  <div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    <div class="xf_ht_search">
+      <div class="xf_ht_search_l">
+      </div>
+     </div>
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xn_c_content_list",tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}标题#{/th}
+          #{th}创建时间#{/th}
+		  #{th}操作#{/th}
+        #{/tr}
+		#{list pacts}
+        #{tr tr_index:_index}
+          #{td}${_index}#{/td}
+          #{td}${_?.title}#{/td}
+		  #{td}${_?.time?.format("yyyy-MM-dd")}#{/td}
+          #{td}
+            <span class="xf_ta_onclick" onClick="edit(${_?.id});">编辑</span>
+            #{if _?.is_use == true}
+              <span class="xf_ta_onclick" onClick="enable(${_?.id}, false);" id="enable${_?.id}">暂停</span>
+			#{/if}
+			#{else}
+              <span class="xf_ta_onclick" onClick="enable(${_?.id}, true);" id="enable${_?.id}">启用</span>
+			#{/else}
+          #{/td}
+        #{/tr}
+		#{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    </div>
+    </div>
+  </div>
+</div>
+</div>
+#{form @supervisor.webContentManager.TemplateAction.viewPact(),method:'GET', id:'viewPact'}
+      <input type="hidden" name="pactId" id="pactId">
+ #{/form}
+<script type="text/javascript">
+
+function edit(id) {
+    $("#pactId").val(id);
+    $("#viewPact").submit();
+  }
+
+  $(function() {
+    /* 高亮显示 */
+    showHighLight(5,5,22);
+  });
+	
+	
+  /**
+    * 暂停/启用
+    * @param id
+    */
+  function enable(id, status) {
+    $.ajax({
+      url : "@{updatePactStatus()}",
+      type : "POST",
+      data : {
+        "id" : id,
+        "status" : status
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+					
+          return;
+        }
+			
+        if (status) {
+          $("#enable"+id).html("暂停");
+	      $("#enable"+id).attr("href","javascript:enable("+id+", false)");
+	      window.location.reload();
+        } else {
+          $("#enable"+id).html("启用");
+          $("#enable"+id).attr("href","javascript:enable("+id+", true)");
+          window.location.reload();
+        }
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+
+
+</script>

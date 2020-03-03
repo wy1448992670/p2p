@@ -1,0 +1,246 @@
+<!-- 申请超额借款 -->
+<div class="xf_wyjkwszl_4_windowInner xf_zqzr_znxback_window">
+	<div class="xf_wyjkfb_4_windowClose" onclick='$("#over_borrow_window").hide(300).html("");'></div>
+	<div class="xf_wyjkfb_4_windowColName">
+		提高信用额度
+	</div>
+	<div class="xf_zqzr_znx_windowCot">
+		<table border="0" cellpadding="0" cellspacing="0" width="426" class="xf_zqzr_znx_teot">
+			<tr>
+				<td width="121" align="right">
+					<span class="xf_zqzr_znx_title">提高信用额度： </span>
+				</td>
+				<td>
+					<input  id="over_amount" class="xf_zqzr_wszl p_text" type="text" onkeyup="value=value.replace(/[^\d]/g,'')" value="请输入您想要提高的额度数值" />
+					<!--  <label >请输入您想要提高的额度数值</label>-->
+				</td>
+			</tr>
+			<tr>
+				<td align="right">
+					<span class="xf_zqzr_znx_title">申&nbsp;请&nbsp;原&nbsp;因 ：</span>
+				</td>
+				<td>
+					<textarea id="reason" class="xf_zqzr_wszl_text" name="xf_zqzr_wszl_text"></textarea>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="xf_mem_tgxytc">
+		<div class="xf_mem_tgxytc_title">
+			<span class="xf_mem_tgyxtc_t">可提交审核资料：</span>
+			<a class="xf_mem_tgyxtc_c" onclick="auditItemsWillSelect();">从审核科目库中选择...</a>
+		</div>
+		<div style="height:120px;overflow:auto;">
+			<table id="table_audit_items" border="0" cellpadding="0" cellspacing="0" width="423" class="xf_mem_tgxyed_teot">
+				<tr>
+					<th>序号</th>
+					<th>审核科目</th>
+					<th>上传情况</th>
+					<th>审核状态</th>
+					<th>操作</th>
+				</tr>
+			</table>
+		</div>
+		<div class="xf_mem_tgxytc_inputgo">
+			<a id="xf_con_inputfbjk" class="xf_con_inputfbjk" onclick="applyForOverBorrow();">提交申请</a>
+			<a class="xf_con_inputfbqux" onclick='$("#over_borrow_window").hide(300).html("");'>取 消</a>
+		</div>
+	</div>
+</div>
+
+
+
+<script type="text/javascript">
+	var g_auditItems = [];
+	var g_selectItems = [];
+	$('#reason').maxLength(150);
+	/**
+	 * 申请超额借款
+	 */
+	function applyForOverBorrow() {
+		var amount = $("#over_amount").val().trim();
+		
+		if ("" == amount) {
+			alert("请输入额度");
+			$("#amount").focus();
+			
+			return;
+		}
+		
+		if (amount > 10000000) {
+			alert("超额借款最多只能申请1000 0000万");
+			$("#amount").focus();
+			
+			return;
+		}
+		
+		var reason = $("#reason").val();
+		
+		if ("" == reason) {
+			alert("请输入原因");
+			$("#reason").focus();
+			
+			return;
+		}
+		
+		if (0 == g_auditItems.length) {
+			alert("请选择审核资料");
+			
+			return;
+		}
+		
+		var jsonAuditItems = $.toJSON(g_auditItems);
+
+		$.ajax({
+			url : "@{applyForOverBorrow()}",
+			type : "POST",
+			data : {
+				"amount" : amount,
+				"reason" : reason,
+				"jsonAuditItems" : jsonAuditItems
+			},
+			success : function(data) {
+				
+				var code = data.code;
+				if (code == -999) {
+					 // 费用不足
+					showRechargeWin();
+					return ;
+				}
+				alert(data.msg);				
+				if (data.code == 0) {
+					$("#over_borrow_window").hide(300);
+				}
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+	
+	/**
+	 * 显示申请超额借款审核资料页面
+	 */
+	function selectAuditItemsInit() {
+		$.ajax({
+			url : "@{selectAuditItemsWin()}",
+			type : "POST",
+			data : {
+			},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+
+					return;
+				}
+				
+				var ttc = $("#audit_items_window");
+				ttc.html(data);
+				showDiv(ttc);
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+	
+	/**
+	 * 将要弹出弹窗
+	 */
+	function auditItemsWillSelect() {
+		g_selectItems = clone(g_auditItems);
+		selectAuditItemsInit();
+	}
+	
+	/**
+	 * 弹窗已提交
+	 */
+	function auditItemsDidSelect(auditItems) {
+		g_auditItems = clone(auditItems);
+		refreshSelectedAuditItems();
+	}
+	
+	/**
+	 * 刷新选择的审核资料列表
+	 */
+	function refreshSelectedAuditItems() {
+ 		$("#table_audit_items tr:not(:first)").remove();
+		
+		for ( var i = 0; i < g_auditItems.length; i++) {
+			var item = g_auditItems[i];
+			
+			var rowHtml = "";
+    		rowHtml += "<tr id='tr_" + item.id + "'>";
+    		rowHtml += "<td>" + (i+1) + "</td>";
+    		rowHtml += "<td>" + item.name + "</td>";
+    		
+    		if (undefined == item.filename || "" == item.filename) {
+				rowHtml += "<td>" + "未上传" + "</td>";
+    			rowHtml += "<td>" + "" + "</td>";
+			} else {
+				rowHtml += "<td>" + "已上传" + "</td>";
+    			rowHtml += "<td>" + "上传未付款" + "</td>";
+			}
+    		
+    		rowHtml += "<td><a class='xf_mem_tgxyed_cza' onclick='submitAuditItemInit(\"" + item.mark + "\")'>上传</a> <a class='xf_mem_tgxyed_cza' onclick='deleteAuditItem(" + item.id + ")'>删除</a></td>"; 
+    		rowHtml += "</tr>"; 
+    		
+    		$("#table_audit_items").append(rowHtml);
+		}
+	}
+	
+	/**
+	 * 删除审核资料
+	 */
+	function deleteAuditItem(itemId) {
+		if (!confirm("确认要删除？")) {
+            return;
+        }
+		
+		g_auditItems.removeObjectById(itemId);
+		refreshSelectedAuditItems();
+	}
+	
+	/**
+	 * 提交审核资料页面
+	 */
+	function submitAuditItemInit(mark) {
+		$.ajax({
+			url : "@{submitAuditItemWin()}",
+			type : "POST",
+			data : {
+				"mark" : mark
+			},
+			success : function(data) {
+				showDiv($("#submit_audit_item_window").html(data));
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+	
+	/**
+	 * 审核资料已提交
+	 */
+	function auditItemDidSubmit(itemId, filename) {
+ 		var item = g_auditItems.findObjectById(itemId);
+		item.filename = filename;
+		refreshSelectedAuditItems();
+	}
+	$(function(){
+		$(".p_text").bind({ 
+	         focus:function(){ 
+			    if (this.value == this.defaultValue){
+					this.value="";
+					}
+				},
+			blur:function(){
+				if (this.value == ""){ 
+	                this.value = this.defaultValue; 
+	            }
+	        } 
+	    }); 
+	})
+	
+</script>

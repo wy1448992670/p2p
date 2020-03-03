@@ -1,0 +1,234 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/yystyle.css'}" />	
+<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/shzt.css'}" />	
+<script type="text/javascript" src="/public/javascripts/wechat/iscroll.js"></script>
+<script type="text/javascript" src="@{'/public/javascripts/jquery-2.1.0.min.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/yyjs.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/shzt.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/jquery.roundabout2.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/jquery.easing.1.3.js'}"></script>
+
+
+<script type="text/javascript" src="@{'/public/javascripts/common.js'}"></script>
+
+
+<title>积分明细</title>
+</head>
+
+<body>
+	<ul class="flex p-xtxxkul p-xtmain">
+		<li class="flex-1 cur">积分收入</li>
+		<li class="flex-1" onclick="showScore()">积分消耗</li>
+	</ul>
+	<div class="p-xtabox">
+		<ul class="p-jifenitem">
+		<div id="wrapper">
+		  <div id="scroller">
+		   <div id="main">
+		
+		   	#{list items:page.page,as:'record'}
+			    <li class="flex">
+			        <dl class="flex-1">
+			            <dt>
+			            #{if record?.type == 1}
+			            	注册送积分
+			            #{/if}
+		            	#{if record?.type == 2}
+		            		签到送积分
+			            #{/if}
+		            	#{if record?.type == 3}
+		            		投标送积分
+			            #{/if}
+		            	#{if record?.type == 4}
+		            		抽奖送积分
+			            #{/if}
+		            	#{if record?.type == 5}
+		            		积分兑换礼品
+			            #{/if}
+	            		#{if record?.type == 6}
+	            			积分兑换红包
+	            		#{/if}
+            			#{if record?.type == 7}
+            				还款送积分
+            			#{/if}
+            			#{if record?.type == 8}
+            				借款送积分
+            			#{/if}
+			            </dt>
+			            <dd>${record?.time?.format('yyyy-MM-dd HH:mm')}</dd>
+			        </dl>
+			        <div class="red">+${record?.scroe}</div>
+			    </li>
+		    #{/list}
+		    
+		    </div>
+				<div id="pullUp">
+		    		<div></div>
+		    	</div>
+		  </div>
+		  </div>
+		    
+		</ul>
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+var user_id = "${user_id}";
+function showScore()
+{
+	window.location.href="/app/mallScroeExpend?user_id="+user_id;
+}
+
+var currPage = 1;
+var myScroll, pullUpEl, pullUpOffset;
+
+function pullUpAction() {
+	setTimeout(function () {
+		currPage = currPage + 1;
+		$.ajax({
+			url: "@{app.AppController.mallScroeEarnings()}",
+			type: "POST",
+			dataType: "json",
+			data: {
+				"currPage": currPage,
+				"user_id": user_id,
+				"Mark": 2
+			},
+			success: function (data) {
+					var arr = eval(data);
+					var list = arr.page.page;
+					if (list.length == 0) {
+						$("#pullUp").children("div").removeClass("s_onloading").addClass("s_nodata").html("没有更多了").animate({opacity:'0'},3000);
+					} else {
+						for (var i = 0; i < list.length; i++) {
+							var type = list[i].type;
+							var scroe = list[i].scroe;
+							
+							var milliseconds = list[i].time.time;  //取出json里面的时间，为Object类型，在此转化为毫秒数
+							var date = new Date();
+							date.setTime(milliseconds);
+							var time = date.format("yyyy-MM-dd hh:mm:ss");
+							
+							var typeMark = "";
+							if(type == 1){
+								typeMark = "注册送积分";  
+							}else if(type == 2){
+								typeMark = "签到送积分";  
+							}else if(type == 3){
+								typeMark = "投标送积分";  
+							}else if(type == 4){
+								typeMark = "抽奖送积分";  
+							}else if(type == 5){
+								typeMark = "积分兑换礼品";  
+							}else if(type == 6){
+								typeMark = "积分兑换红包";  
+							}else if(type == 7){
+								typeMark = "还款送积分";  
+							}else if(type == 8){
+								typeMark = "借款送积分";  
+							}
+								
+							var addHtml = "";
+						    addHtml +=  "<li class=\"flex\">";
+						    addHtml +=  "<dl class=\"flex-1\">";
+						    addHtml +=  "<dt>"+typeMark+"</dt>";
+						    addHtml +=  "<dd>"+time+"</dd>"
+				    		addHtml +=  "</dl>";
+						    addHtml +=  "<div class=\"red\">"+scroe+"</div>";
+						    addHtml +=  "</li>";
+						    
+							$("#main").append(addHtml);
+								}
+						myScroll.refresh();
+					}
+				},
+				error: function () {
+				}
+		});
+		//myScroll.refresh(); // 数据加载完成后，调用界面更新方法 Remember to refresh when contents are loaded (ie: on ajax completion)
+	}, 1000); // <-- Simulate network congestion, remove setTimeout from production!
+}
+
+function loaded() {
+	pullUpEl = document.getElementById('pullUp');
+	pullUpOffset = pullUpEl.offsetHeight;
+
+	myScroll = new iScroll('wrapper', {
+		scrollbarClass: '',
+		/* 重要样式  myScrollbar*/
+		useTransition: false,
+		/* 此属性不知用意，本人从true改为false */
+		//topOffset: pullDownOffset,
+		onRefresh: function () {
+				if (pullUpEl.className.match('loading')) {
+					pullUpEl.className = '';
+					var $s = $(pullUpEl);
+					$s.children("div").removeClass("s_onloading");
+				}
+			},
+			onScrollMove: function () {
+				if (this.y < (this.maxScrollY - 5) && !pullUpEl.className.match('flip')) {
+					pullUpEl.className = 'flip';
+					this.maxScrollY = this.maxScrollY;
+				} else if (this.y > (this.maxScrollY + 5) && pullUpEl.className.match('flip')) {
+					pullUpEl.className = '';
+					this.maxScrollY = pullUpOffset;
+					//this.maxScrollY = this.maxScrollY;
+				}
+			},
+			onScrollEnd: function () {
+				if (pullUpEl.className.match('flip')) {
+					pullUpEl.className = 'loading';
+					var $s = $(pullUpEl);
+					$s.children("div").html("").addClass("s_onloading");
+					pullUpAction(); // Execute custom function (ajax call?)
+				}
+			}
+	});
+
+	setTimeout(function () {
+		document.getElementById('wrapper').style.left = '0';
+	}, 800);
+}
+
+//初始化绑定iScroll控件 
+document.addEventListener('touchmove', function (e) {
+	e.preventDefault();
+}, false);
+document.addEventListener('DOMContentLoaded', loaded, false);
+
+</script>
+<style type="text/css" media="all">
+#wrapper {
+	position:absolute; z-index:1;
+	top:60px; 
+	bottom:3px; 
+	left:0;
+	width:100%;
+/* 	background:#555; */
+	overflow:auto;
+}
+
+#scroller {
+	position:relative;
+/*	-webkit-touch-callout:none;*/
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+
+	float:left;
+	width:100%;
+	padding:0;
+}
+
+#pullUp {
+	 height: 36px;
+}
+
+</style>

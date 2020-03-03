@@ -1,0 +1,293 @@
+#{extends 'wechat/common.html' /} #{set title:'债权详情' /}
+<div class="s_main s_center">
+	<header class="s_header">
+	  <a onclick="javascript:history.go(-1)" class="s_goback"></a>
+		债权转让
+		<a href="@{wechat.account.WechatAccountHome.accountInfo}" class="icobg"></a>
+	</header>
+	<div class="s_detailtop">
+		<h3>债权编号：${debt?.no}</h3>
+		<p class="s_biaoreson">
+			${debt?.title}
+		</p>
+		<div class="s_biaostate">
+			<span>
+				状态：<span class="blue">
+				#{if debt?.status == 1}
+					竞拍中
+				#{/if}
+				#{elseif debt?.status == 2}
+					等待认购
+				#{/elseif}
+				#{elseif debt?.status == 3}
+					已成功
+				#{/elseif}
+				#{elseif debt?.status == 4}
+					等待确认
+				#{/elseif}
+				#{elseif debt?.status == -2}
+					流拍
+				#{/elseif}
+				#{elseif debt?.status == -3}
+					流拍
+				#{/elseif}
+				#{elseif debt?.status == -5}
+					流拍
+				#{/elseif}
+				
+				</span>
+			</span>
+			
+		</div>
+		
+	</div>
+	<div class="s_biaobox s_biaotime">
+		<i class="icobg"></i>
+		#{if debt?.status == 1 || debt?.status == 2 || debt?.status == 4}
+				<span id="day"></span>天<span id="hours"></span>小时<span
+					id="minutes"></span>分<span
+					id="seconds"></span>秒
+		#{/if} 
+		#{else}
+			已结束
+		#{/else}
+	</div>
+	<div class="s_biaoms">
+		${debt?.transerReason}
+	</div>
+	<div class="s_biaobox s_zqdata">
+		<h3>借款标类型：
+		<i class="biaotype type-xin">
+		<img src="${small_image_filename}" />
+		</i>
+		</h3>
+		<ul class="s_biaodata">
+			<li>借款金额：<span class="blue">￥${debt?.invest?.bid?.amount?.format("###,##0.00")}</span></li>
+			<li>投标本金：<span class="blue">￥${debt?.invest?.amount?.format("###,##0.00")}</span></li>
+			<li>年 利 率：<span class="blue">${debt?.invest?.bid?.apr}%</span></li>
+			<li>本息合计应收金额：<span class="blue">￥${debt?.map?.receive_money}</span></li>
+			<li>已收本息合计：<span class="blue">￥${debt?.map?.has_receive_money}</span></li>
+			<li>待收本金：<span class="blue">￥ ${debt?.map?.receive_corpus}</span></li>
+			<li>剩余应收本息合计：<span class="blue">￥ ${debt?.map?.remain_receive_money}</span></li>
+			<li>逾期情况：
+			#{if debt?.invest?.bid?.hasOverdue == true}
+				有逾期
+			#{/if}
+			#{else}
+				无逾期
+			#{/else}
+			</li>
+			<li>还款日期： ${debt?.map?.receive_time}</li>
+		</ul>
+	</div>
+	<ul class="s_biaobox s_biaotb">
+		<li>转让人：<span class="blue">${debt?.invest?.user?.name}</span></li>
+		<li>拍卖底价：<span class="blue">￥#{format money:debt.transferPrice}#{/format}</span></li>
+		<li>目前最高竞价：<span class="blue">￥#{format money:debt?.maxOfferPrice}#{/format}</span></li>
+		<!-- 确认竞拍 -->
+		#{include 'wechat/service/TransferAction/confirmAuction.html' /}
+		
+	</ul>
+	<div class="s_biaodetail">
+		<h3>借款详细资料<i class="arrow"></i></h3>
+		<div class="s_biaodetaimain">
+			<ul>
+				<li>用户名:${debt?.invest?.user?.name}&nbsp;&nbsp;#{img width:"25",height:"25",src:"${debt?.invest?.user?.myCredit?.imageFilename}",alt:""}#{/img}</li>
+				<li>借贷记录：${debtUserhistorySituationMap?.successBidCount}次成功，${debtUserhistorySituationMap?.flowBids}次流标</li>
+				<li>还款记录：${debtUserhistorySituationMap?.normalRepaymentCount}次正常，${debtUserhistorySituationMap?.overdueRepaymentCount}次逾期已还</li>
+			</ul>
+			<h4>基本资料：</h4>
+			<ul class="ultable">
+				<li>
+					<span>真实姓名：${debt?.invest?.bid?.user?.realityName?.asterisk()}</span>
+					<span>性别：${debt?.invest?.bid?.user?.sex}</span>
+				</li>
+				<li>
+					<span>婚姻情况：${debt?.invest?.bid?.user?.maritalName}</span>
+					<span>年龄：${debt?.invest?.bid?.user?.age}</span>
+				</li>
+				<li>
+					<span>购车情况：${debt?.invest?.bid?.user?.carName}</span>
+					<span>身份证号码：${debt?.invest.bid?.user?.idNumber?.asterisk()}</span>
+				</li>
+				<li>
+					<span>文化程度：${debt?.invest?.bid?.user?.educationName}</span>
+					<span>户口所在地：${debt?.invest?.bid?.user?.provinceName}${debt?.invest?.bid?.user?.cityName}</span>
+				</li>
+				<li>
+					<span>购房情况：${debt?.invest?.bid?.user?.houseName}</span>
+					<span></span>
+				</li>
+			</ul>
+			<h4>借款描叙：</h4>
+			<p>
+				${debt?.invest?.bid?.description}
+			</p>
+		</div>
+	</div>
+	
+	<div class="s_biaodetail">
+		<h3>必须审核科目资料<i class="arrow"></i></h3>
+		<div class="s_biaodetaimain">
+		<table width="100%" cellpadding="0" cellspacing="0" class="s_shtab">
+				#{if uItems?.size() == 0}
+				<tr>
+					<td align="center"><span style="color: red">暂无数据</span></td>
+				</tr>
+				#{/if} 
+				#{else}
+					%{int num = 0;}%
+					#{list uItems} 
+						#{if _?.status == 2}
+						<tr>
+							<td width="47%">${_?.auditItem?.name}</td>
+							<td width="31%">${_?.strStatus}</td>
+							<td align="right" width="22%">#{if _?.isVisible} <a
+								class="s_openbtn"
+								onclick="showitemNow('${_?.mark}','${debt?.invest?.bid?.signUserId}');">查看</a>
+								#{/if} #{else}不可见 #{/else}
+							</td>
+						</tr>
+						#{/if}
+						#{else}
+							%{num++;}%
+						#{/else}
+						#{if num == uItems?.size()}
+							<tr>
+								<td align="center"><span style="color: red">暂无数据</span></td>
+							</tr>
+						#{/if}
+					#{/list}
+				#{/else}
+			</table>
+		</div>
+	</div>
+	<div class="s_biaodetail">
+		<h3>CBO风控体系审核<i class="arrow"></i></h3>
+		<div class="s_biaodetaimain">${debt?.invest?.bid?.auditSuggest}</div>
+	</div>
+	<div class="s_biaodetail">
+		<h3>投标奖励<i class="arrow"></i></h3>
+		<div class="s_biaodetaimain">
+		#{if debt?.invest.bid?.bonusType == 0}
+			不设置奖励
+		#{/if}
+		#{elseif debt?.invest.bid?.bonusType == 1}
+			按固定奖金${debt?.invest.bid?.bonus}元进行奖励
+		#{/elseif}
+		#{elseif debt?.invest.bid?.bonusType == 2}
+		按借款总额${debt?.invest.bid?.awardScale}%进行奖励
+		#{/elseif}
+		</div>
+	</div>
+	<!-- 竞拍记录 -->
+	#{include 'wechat/service/TransferAction/queryTransferAuctionRecords.html' /}
+</div>
+
+<!-- 查看审核科目资料 -->
+#{include 'wechat/service/TransferAction/queryAuditItems.html' /}
+<script type="text/javascript">
+	$(function () {
+		var code = "${flash.code}";
+		if (code != '' && code != 'undefined') {	
+			var msg = "${flash.msg}";
+			if (msg != '' && msg != 'undefined') {
+				alert(msg);
+				//%{flash.put("code","");flash.put("msg","");}%
+				if (code > 0) {
+					//竞拍成功，跳转到我的债权转让管理页面
+					//window.location.href="@{wechat.account.WechatAccountHome.debeManage(2)}";
+					return;
+				}
+			}
+		} else {
+			var msg = "${flash.msg}";
+			if (msg != '' && msg != 'undefined') {
+				alert(msg);
+				//%{flash.put("code","");flash.put("msg","");}%
+			}
+		}
+	})
+
+// 	$("div[class='s_biaodetail'] h3").click(function () {
+// 		$("div[class='s_biaodetail'] h3").not($(this)).removeClass("clicked");
+// 		if ($(this).hasClass("clicked")) {
+// 			$(this).removeClass("clicked");
+// 		} else {
+// 			$(this).addClass("clicked");
+// 		}
+	
+// 		var $sbt = $(this).nextAll("div");
+		
+// 		if ($("#wrapper").is($sbt)) {
+// 			$(".s_biaodetaimain").removeClass("show");
+// 			if ($sbt.is(":visible")) {	
+// 				//$sbt.removeClass("show");
+// 				$sbt.css({display:"none"});
+// 			} else {
+// 				//$sbt.addClass("show");
+// 				$sbt.css({display:"block"});
+// 			}
+// 		} else {
+// 			$(".s_biaodetaimain").not($sbt).removeClass("show");
+// 			//$("#wrapper").removeClass("show");
+// 			$("#wrapper").css({display:"none"});
+// 			if ($sbt.hasClass("show")) {	
+// 				$sbt.removeClass("show");
+// 			} else {
+// 				$sbt.addClass("show");
+// 			}
+// 		}
+// 	});
+	var now = ${new java.util.Date().getTime()};
+	showTime();
+	function showTime() {
+		var endTime = "${debt?.endTime?.format('yyyy/MM/dd HH:mm:ss')}";
+		time_end = new Date(endTime);//结束的时间
+		var tt = time_end.getTime();
+		var cha = tt - now;
+		var SysSecond = parseInt(cha);
+		if (SysSecond > 0) {
+			int_day = Math.floor(SysSecond / 86400000);
+			SysSecond -= int_day * 86400000;
+			int_hour = Math.floor(SysSecond / 3600000);
+			SysSecond -= int_hour * 3600000;
+			int_minute = Math.floor(SysSecond / 60000);
+			SysSecond -= int_minute * 60000;
+			int_second = Math.floor(SysSecond / 1000);
+			if (int_hour < 10) {
+				int_hour = "0" + int_hour;
+			}
+	
+			if (int_minute < 10) {
+				int_minute = "0" + int_minute;
+			}
+	
+			if (int_second < 10) {
+				int_second = "0" + int_second;
+			}
+	
+			$("#day").html(int_day);
+			$("#hours").html(int_hour);
+			$("#minutes").html(int_minute);
+			$("#seconds").html(int_second);
+		} else {
+	
+			$("#day").html("00");
+			$("#hours").html("00");
+			$("#minutes").html("00");
+			$("#seconds").html("00");
+		}
+		
+		if(cha > 0) {
+			setTimeout('showTime()', 1000);
+			now = now + 1000;
+		}
+	}
+</script>
+<style type="text/css">
+.s_biaodetail{position:relative;}
+.show {
+	display: block;
+}
+</style>

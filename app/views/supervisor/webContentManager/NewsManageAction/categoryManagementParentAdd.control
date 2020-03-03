@@ -1,0 +1,61 @@
+<div class="xf_ht_ttc" id="xf_ht_fkzh_ttc_thl" style="display:none;">
+  <div class="xf_ht_jr_obu_width">
+    #{form @addCategory(), id:'addCategorySubmit'}
+    <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form" width="100%">
+      <tr>
+        <td align="right" valign="middle" width="130">选择上级类别：</td>
+        <td>
+          <select id="select" class="xfht_t_j_td_1" name="parentId">
+          #{list items:types, as:"type"}
+            <option value="${type?.id}">${type?.name}</option>
+          #{/list}
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td align="right" valign="top">类别名称：</td>
+        <td>
+          <input type="text" class="xfht_zr_input" maxlength="8" style="width:188px;" id="name" name="name">
+        </td>
+      </tr>
+      <tr>
+        <td align="right">排序：</td>
+        <td>
+          <input type="text" class="xfht_zr_input" style="width:188px;" id="order" name="order">
+        </td>
+      </tr>
+      <tr>
+        <td align="right">&nbsp;</td>
+        <td style="padding:20px 0 40px 0;">
+          <input class="xf_ht_tcc_button_ok" type="button"  onClick="addCategory()"  value="确  定">
+          <input class="xf_ht_tcc_button_on" type="button" onClick="childCancle()" value="取  消">
+        </td>
+      </tr>
+    </table>
+    #{/form}
+  </div>
+</div>
+<script type="text/javascript">
+  function childCancled(){
+    layer.closeAll();
+  }
+    
+  function addCategory(){
+    if($("#name").val() == ''){
+      alert("类别名称不能为空");
+      
+      return;
+    }
+    if($("#order").val() == ''){
+      alert("排序不能为空");
+      
+      return;
+    }
+    if(isNaN($("#order").val())){
+      alert("排序只能为数字");
+      
+      return;
+    }
+    $("#addCategorySubmit").submit();
+  }
+</script>

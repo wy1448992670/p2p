@@ -1,0 +1,69 @@
+
+			<div class="xf_wyjkwszl_4_windowInner xf_hmd_znxback_window">
+				<div class="xf_wyjkfb_4_windowClose"></div>
+				<div class="xf_wyjkfb_4_windowColName">
+					添加黑名单
+				</div>
+				<div class="xf_zqzr_znx_windowCot">
+					<table border="0" cellpadding="0" cellspacing="0" width="426" class="xf_zqzr_znx_teot">
+						<tr>
+							<td width="70" align="right">
+								<span class="xf_zqzr_znx_title">用户名： </span>
+								<input type = "hidden" id = "bidId" />
+							</td>
+							<td>
+								<span class="xf_zqzr_znx_r" id="zqzrusername"></span>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" valign="top">
+								<span class="xf_zqzr_znx_title">原&nbsp;&nbsp;&nbsp;因：</span>
+							</td>
+							<td>
+								<textarea class="xf_zqzr_wszl_text" name="reason" id="reason"></textarea>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="xf_zqzr_znx_title">&nbsp;</span>
+							</td>
+							<td class="xf_zqzr_znx_title_td xf_zqzr_znx_title_tdtcc">
+								<a class="xf_con_inputfbjk"  onClick = "addBlackList()">确 定</a>
+								<a class="xf_con_inputfbqux" >取 消</a>
+								
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+	
+		
+	
+     <script type="text/javascript">
+     	$(function(){
+     		$("#xf_mem_hmdwindow").center();
+     		$(".xf_wyjkfb_4_windowClose").click(function(){
+     		
+     			$("#xf_mem_hmdwindow").hide();
+     		})
+     		
+     		$(".xf_con_inputfbqux").click(function(){
+     		
+     			$("#xf_mem_hmdwindow").hide();
+     		})
+     		
+     		
+     	
+     	})
+     	
+     	function addBlackList(){
+     		  var addBlack = #{jsAction @addBlack(':bidId',':reason')/}
+			  $.post(addBlack({bidId:$("#bidId").val(),reason:encodeURI($("#reason").val())}),function(data){
+			  var arr=eval(data);
+			  var result = arr.error.msg;
+			  alert(result);
+			  $("#xf_mem_hmdwindow").hide();
+		      });
+     			
+     		}
+     </script>

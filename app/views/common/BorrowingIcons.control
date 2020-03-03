@@ -1,0 +1,17 @@
+<!-- 借款图标说明 -->
+<!--<div class="xf_con_wylc_cfgjx">
+	<div class="xf_con_wyjk_cfgjx_t">
+		<b>&nbsp;</b>
+		<span>借款图标说明</span>
+	</div>
+	<ul class="xf_wylc_jktbsm" id="products">
+		#{list products}
+			<li>
+				<div>
+					#{img class:"lazy", data_original:"${_?.smallImageFilename}", src:"/public/images/loading.gif",title:"${_?.name}",width:"30px",height:"30px"}#{/img}
+				</div>
+				<div class="xf_wylc_jktbsm_text font_onetwo">${_?.name}</div>
+			</li>
+		#{/list}
+	</ul>
+</div>-->

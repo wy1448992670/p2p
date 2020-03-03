@@ -1,0 +1,252 @@
+<div class="xf_bjbz_banner">
+	#{img src:"${ads[0]?.image_filename}",alt:"",width:"1000"}#{/img}
+</div>
+<!-- 官方公告top -->
+<div class="xf_cfzx_gfgg clr">
+	<div class="xf_cfzx_gfgg_left">
+		<div class="xf_cfzx_gfgg_left_l" id="focus">
+		<ul>
+		#{list items:homeNews, as:'homeNewsImage'}
+		 <li>
+			<a href="javascript:detail(${homeNewsImage?.id});">#{img src:"${homeNewsImage?.image_filename}",alt:"",class:"xf_cfzx_gfgg_left_limg"}#{/img}
+			</a>
+			<div class="xf_cfzx_gfgg_left_ltitle">${homeNewsImage?.title}</div>
+			</li>
+	    #{/list}
+	    </ul>
+		</div>
+		<div class="xf_cfzx_gfgg_left_r">
+			<ul class="xf_cfzx_gfgg_left_rul">
+			 #{list items:headlines, as:'headNews'}
+				<li>
+					<div class="xf_cfzx_gfgg_left_r_t">
+						<a href="javascript:detail(${headNews?.id});">${headNews?.title.raw()}</a>
+					</div>
+					<div class="xf_cfzx_gfgg_left_r_c">
+						${headNews?.content.raw()}
+				    </div>
+				</li>
+			#{/list}
+			</ul>
+		</div>
+		<div class="clr"></div>
+		<div class="xf_cfzx_gfgg_left_b">
+			<span class="xf_cfzx_gfgg_left_bsapn">Ta在投资：</span>会员ludexin2013发布了借款金额
+			¥30,000,年息12%借款中...
+		</div>
+	</div>
+	<div class="xf_cfzx_gfgg_right">
+		<div class="xf_cfzx_gfgg_right_t">
+		    #{if types?.size > 0}
+			<div class="xf_cfzx_gfgg_right_t_l">${types?.get(0)?.name}</div>
+			<div class="xf_cfzx_gfgg_right_t_r">
+				<a href="javascript:newsList(${types?.get(0)?.id});">更多</a>
+			</div>
+			#{/if}
+		</div>
+		#{list items:newsNotice, as:'newsNoticeInfo'}
+		<div class="xf_cfzx_gfgg_right_ishot clr">
+			<div class="xf_cfzx_gfgg_right_isr">
+				<div class="xf_cfzx_gfgg_right_is_t">
+					<a href="javascript:detail(${newsNoticeInfo?.id});">${newsNoticeInfo?.title}</a>
+				</div>
+				<div class="xf_cfzx_gfgg_right_is_c">
+					${newsNoticeInfo?.content}<a href="#">【全文】</a>
+				</div>
+			</div>
+		</div>
+		#{/list}
+	</div>
+</div>
+<!-- 互联网金融 -->
+<div class="xf_cfzx_gfgg clr">
+	<div class="xf_cfzx_gfgg_right xf_cfzx_gfgg_right_two">
+		<div class="xf_cfzx_gfgg_right_t">
+		    #{if types?.size > 1}
+			<div class="xf_cfzx_gfgg_right_t_l">${types?.get(1)?.name}</div>
+			<div class="xf_cfzx_gfgg_right_t_r">
+				<a href="javascript:newsList(${types?.get(1)?.id});">更多</a>
+			</div>
+			#{/if}
+		</div>
+		<ul class="xf_cfzx_gfgg_right_ul">
+		#{list items:lt1, as:'leftNews1'}
+			<li><a href="javascript:detail(${leftNews1?.id});"> <b class="xf_cfzx_gfgg_right_lb">·</b> <span
+					class="xf_cfzx_gfgg_right_lspan">${leftNews1?.title}</span> <span
+					class="xf_cfzx_gfgg_right_rspan">${leftNews1?.start_show_time?.format('yyyy-MM-dd')}</span> </a></li>
+		#{/list}
+		</ul>
+	</div>
+	<div class="xf_cfzx_gfgg_right xf_cfzx_gfgg_right_thr">
+		<div class="xf_cfzx_gfgg_right_t">
+		    #{if types?.size > 2}
+			<div class="xf_cfzx_gfgg_right_t_l">${types?.get(2)?.name}</div>
+			<div class="xf_cfzx_gfgg_right_t_r">
+				<a href="javascript:newsList(${types?.get(2)?.id});">更多</a>
+			</div>
+			#{/if}
+		</div>
+		<ul class="xf_cfzx_gfgg_right_ul">
+		#{list items:lt2, as:'leftNews2'}
+			<li><a href="javascript:detail(${leftNews2?.id});"> <b class="xf_cfzx_gfgg_right_lb">·</b> <span
+					class="xf_cfzx_gfgg_right_lspan">${leftNews2?.title}</span> <span
+					class="xf_cfzx_gfgg_right_rspan">${leftNews2?.start_show_time?.format('yyyy-MM-dd')}</span> </a></li>
+		#{/list}			
+		</ul>
+	</div>
+	<div class="xf_cfzx_gfgg_right xf_cfzx_gfgg_right_fur">
+		<div class="xf_cfzx_gfgg_right_t">
+		    #{if types?.size > 3}
+			<div class="xf_cfzx_gfgg_right_t_l">${types?.get(3)?.name}</div>
+			<div class="xf_cfzx_gfgg_right_t_r">
+				<a href="javascript:newsList(${types?.get(3)?.id});">更多</a>
+			</div>
+			#{/if}
+		</div>
+		<div class="xf_cfzx_gfgg_right_table">
+			<table border="0" cellpadding="0" cellspacing="0" width="100%">
+				<tr>
+					<th>排名</th>
+					<th>用户名</th>
+					<th>投资金额</th>
+					<th>收益率</th>
+				</tr>
+				<tr>
+					<td align="center"><span class="xf_cfzx_gfgg_order">1</span>
+					</td>
+					<td align="center">n**y</td>
+					<td align="center"><span class="xf_cfzx_gfgg_tzje">￥8.888.444.44</span>
+					</td>
+					<td align="center">-</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+<!--本金保障banner-->
+<div class="xf_bjbz_banner_two">
+	#{img src:"${ads[1]?.image_filename}",alt:"",width:"1000"}#{/img}
+</div>
+<!-- 借款技巧 -->
+<div class="xf_cfzx_gfgg clr">
+	<div class="xf_cfzx_gfgg_left">
+		<div class="xf_cfzx_gfgg_right xf_cfzx_gfgg_right_two">
+			<div class="xf_cfzx_gfgg_right_t">
+			    #{if types?.size > 4}
+				<div class="xf_cfzx_gfgg_right_t_l">${types?.get(4)?.name}</div>
+				<div class="xf_cfzx_gfgg_right_t_r">
+					<a href="javascript:newsList(${types?.get(4)?.id});">更多</a>
+				</div>
+				#{/if}
+			</div>
+			<ul class="xf_cfzx_gfgg_right_ul">
+			#{list items:lb1, as:'downNews1'}
+				<li><a href="javascript:detail(${downNews1?.id});"> <b class="xf_cfzx_gfgg_right_lb">·</b> <span
+				    class="xf_cfzx_gfgg_right_lspan">${downNews1?.title}</span> <span
+					class="xf_cfzx_gfgg_right_rspan">${downNews1?.start_show_time?.format('yyyy-MM-dd')}</span> </a>
+			    </li>
+			    #{/list}
+			</ul>
+		</div>
+		<div class="xf_cfzx_gfgg_right xf_cfzx_gfgg_right_thr">
+			<div class="xf_cfzx_gfgg_right_t">
+			    #{if types?.size > 5}
+				<div class="xf_cfzx_gfgg_right_t_l">${types?.get(5)?.name}</div>
+				<div class="xf_cfzx_gfgg_right_t_r">
+					<a href="javascript:newsList(${types?.get(5)?.id});">更多</a>
+				</div>
+				#{/if}
+			</div>
+			<ul class="xf_cfzx_gfgg_right_ul">
+				#{list items:lb2, as:'downNews2'}
+				<li><a href="javascript:detail(${downNews2?.id});"> <b class="xf_cfzx_gfgg_right_lb">·</b> <span
+				    class="xf_cfzx_gfgg_right_lspan">${downNews2?.title}</span> <span
+					class="xf_cfzx_gfgg_right_rspan">${downNews2?.start_show_time?.format('yyyy-MM-dd')}</span> </a>
+			    </li>
+			    #{/list}
+			</ul>
+		</div>
+		<div class="clr"></div>
+		<div class="xf_cfzx_gfgg_left_b xf_cfzx_gfgg_left_b_img">
+			#{img src:"${ads[2]?.image_filename}",alt:"",width:"1000"}#{/img}
+		</div>
+	</div>
+	<div class="xf_cfzx_gfgg_right xf_cfzx_gfgg_right_fare">
+		<div class="xf_cfzx_gfgg_right_t">
+		    #{if types?.size > 6}
+			<div class="xf_cfzx_gfgg_right_t_l">${types?.get(6)?.name}</div>
+			<div class="xf_cfzx_gfgg_right_t_r">
+				<a href="javascript:newsList(${types?.get(6)?.id});">更多</a>
+			</div>
+			#{/if}
+		</div>
+		<ul class="xf_cfzx_gfgg_rightcg_ul">
+		#{list items:rb1, as:'success'}
+			<li class="xf_cfzx_gfgg_right_ishot clr">
+				<div class="xf_cfzx_gfgg_right_isl">
+					<a href="javascript:detail(${success?.id});">#{img src:"${success?.image_filename}",alt:""}#{/img}
+					</a>
+				</div>
+				<div class="xf_cfzx_gfgg_right_isr">
+					<div class="xf_cfzx_gfgg_right_is_c">
+						<a href="#">${success?.title}</a>
+					</div>
+				</div>
+			</li>
+		#{/list}
+		</ul>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function() {
+		var sWidth = $("#focus").width();
+		var len = $("#focus ul li").length;
+		var index = 0;
+		var picTimer;
+		var btn = "<div class='btnBg'></div><div class='btn'>";
+
+		btn += "</div><div class='preNext pre'></div><div class='preNext next'></div>";
+		$("#focus").append(btn);
+
+		$("#focus .pre").click(function() {
+			index -= 1;
+			if (index == -1) {
+				index = len - 1;
+			}
+			showPics(index);
+		});
+		$("#focus .next").click(function() {
+			index += 1;
+			if (index == len) {
+				index = 0;
+			}
+			showPics(index);
+		});
+		$("#focus ul").css("width", sWidth * (len));
+		$("#focus").hover(function() {
+			clearInterval(picTimer);
+		}, function() {
+			picTimer = setInterval(function() {
+				showPics(index);
+				index++;
+				if (index == len) {
+					index = 0;
+				}
+			}, 2800);
+		}).trigger("mouseleave");
+		function showPics(index) {
+			var nowLeft = -index * sWidth;
+			$("#focus ul").stop(true, false).animate({
+				"left" : nowLeft
+			}, 300);
+		}
+	});
+	
+	function detail(newsId) {
+		window.location.href = "newDetails?id=" + newsId;
+	}
+	
+	function newsList(newsId){
+	    window.location.href = "newsList?id=" + newsId;
+	}
+</script>

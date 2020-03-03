@@ -1,0 +1,239 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'客服管理' /}
+
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/billCollectionManager/common/billCollectionManagerLeft.control"/}
+    <div class="xn_c_content">
+      <div class="xf_ht_tablelist">
+        <!-- 搜索 -->
+        #{form @supervisor.billCollectionManager.CustomerManager.customers(), id:'customerSearch'}
+        <input type="hidden" id="currPage" name="currPage"/>
+        <input type="hidden" id="pageSize" name="pageSize"/>
+        <div class="xf_ht_search_inon">
+          <div class="xf_ht_search_r">
+            <div class="xf_ht_search_xl">
+              <select name="lockType" id="lockType" name="lockType" class="xf_membill_selectAge">
+                <option value="0">-请选择-</option>
+                <option value="1" #{if pageBean?.conditions?.lockType==1}selected="selected"#{/if}>正常</option>
+                <option value="2" #{if pageBean.conditions.lockType==2}selected="selected"#{/if}>锁定</option>
+              </select>
+            </div>
+            <div class="xf_ht_search_xl">
+              <select name="keywordType" id="keywordType" name="keywordType" class="xf_membill_selectAge">
+                <option value="0">-请选择-</option>
+                <option value="1" #{if pageBean?.conditions?.keywordType==1}selected="selected"#{/if}>编号</option>
+                <option value="2" #{if pageBean?.conditions?.keywordType==2}selected="selected"#{/if}>姓名</option>
+                <option value="3" #{if pageBean?.conditions?.keywordType==3}selected="selected"#{/if}>手机</option>
+                <option value="4" #{if pageBean?.conditions?.keywordType==4}selected="selected"#{/if}>邮箱</option>
+              </select>
+            </div>
+            <div class="xf_ht_search_xl">
+              <input name="keyword" id="keyword" placeholder="请输入关键词" type="text" class="search_w" id="textfield" name="keyword" value="${pageBean?.conditions?.keyword}" />
+            </div>
+            <div class="xf_ht_search_xl">
+              <input type="button" class="search_button" onclick="search();" value="搜 索" />
+            </div>
+          </div>
+        </div>
+        #{/form}
+        <!-- 列表内容 -->
+        <div class="xn_c_content_top">
+          #{table class:"xn_c_content_list",cellspacing:"0",cellpadding:"0",border:"0",tr_class_odd:"xn_tr_bj"}
+            #{tr}
+              #{th}序号#{/th}
+              #{th}客服座席编号#{/th}
+              #{th}姓名#{/th}
+              #{th}管理员账号#{/th}
+              #{th}权限组#{/th}
+              #{th}手机1#{/th}
+              #{th}邮箱#{/th}
+              #{th}管理会员数#{/th}
+              #{th}状态#{/th}
+              #{th}操作#{/th}
+            #{/tr}
+            #{list pageBean?.page}
+            #{tr tr_index:_index}
+              #{td}${(pageBean?.currPage - 1)*pageBean?.pageSize + _index}#{/td}
+              #{td}${_?.customer_num}#{/td}
+              #{td}${_?.reality_name}#{/td}
+              #{td}${_?.name}#{/td}
+              #{td}${_?.right_group}#{/td}
+              #{td}${_?.mobile1}#{/td}
+              #{td}${_?.email}#{/td}
+              #{td}${_?.customer_user_count}#{/td}
+              #{td}
+                #{if _?.is_allow_login}正常#{/if}
+                #{else}锁定#{/else}
+              #{/td}
+              #{td}
+                <a class="xf_ta_onclick" href="javascript:editSupervisorInit('${_?.sign}');">编辑</a> 
+                #{if _?.is_allow_login == true}
+                <a class="xf_ta_onclick" href="javascript:enable('${_?.sign}', false)" id="enable${_?.sign}">锁定</a>
+                #{/if}
+                #{else}
+                <a class="xf_ta_onclick" href="javascript:enable('${_?.sign}', true)" id="enable${_?.sign}">启用</a>
+                #{/else}
+                *{<a class="xf_ta_onclick" href="#">模拟登录</a>}* 
+                <a class="xf_ta_onclick" href="javascript:resetPassword('${_?.sign}');">密码重置</a>
+              #{/td}
+            #{/tr}
+            #{/list}
+          #{/table}
+        </div>
+        <!-- 列表底部 -->
+        <div class="xn_c_content_bottom">
+          <div class="page_warp_l">
+            <input type="button" class="xf_htbutton" onclick="addCustomerInit();" value="添加客服">
+          </div>
+          <div class="page_warp">
+            #{page currPage:pageBean.currPage,totalCount:pageBean.totalCount,pageSize:pageBean.pageSize,theme:2,style:4}
+            #{/page}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 添加客服-弹出层 -->
+<div id="xf_ht_tjkf_ttc" style="display: none;">
+</div>
+
+<!--管理员列表-弹出层 -->
+<div id="xf_ht_supervisors_ttc" style="display: none;">
+</div>
+
+<!-- 编辑管理员-弹出层 -->
+<div id="xf_ht_bjgly_ttc" style="display: none;">
+</div>
+
+<!-- 设置管理员权限组-弹出层 -->
+<div id="xf_ht_szqxz_ttc" style="display: none;">
+</div>
+
+<script type="text/javascript">
+var p2p;
+var pt = 1;
+var layer_index;
+
+$(function() {
+  /* 高亮样式 */
+  showHighLight(2, 2, 18);
+});
+  
+//添加管理员
+function addCustomerInit() {
+  $.ajax({
+    url : "@{addCustomerInit()}",
+    type : "POST",
+    data : {
+    },
+    success : function(data) {
+      if (data.code < 0) {
+        alert(data.msg);
+          
+        return;
+      }
+      
+      $("#xf_ht_tjkf_ttc").html(data);
+      $.layer({
+        type: 1,
+        area: ['900px', 'auto'],
+        title: '添加客服',
+        page: {dom : '#xf_ht_tjkf_ttc'}
+      });
+    },
+    error : function() {
+      alert("对不起，出现错误!");
+    }
+  });
+}
+  
+//编辑管理员
+function editSupervisorInit(sign) {
+  $.ajax({
+    url : "@{supervisor.systemSettings.supervisorAction.editSupervisorInit()}",
+    type : "POST",
+    data : {
+      "sign" : sign
+    },
+    success : function(data) {
+      if (data.code < 0) {
+        alert(data.msg);
+          
+        return;
+      }
+      
+      $("#xf_ht_bjgly_ttc").html(data);
+      $.layer({
+        type: 1,
+        area: ['38%', 'auto'],
+        title: '编辑管理员',
+        page: {dom : '#xf_ht_bjgly_ttc'}
+      });
+    },
+    error : function() {
+      alert("对不起，出现错误!");
+    }
+  });
+}
+  
+//锁定/启用
+function enable(sign, isAllowLogin) {
+  $.ajax({
+    url : "@{supervisor.systemSettings.supervisorAction.enable()}",
+    type : "POST",
+    data : {
+      "sign" : sign,
+      "isAllowLogin" : isAllowLogin
+    },
+    success : function(data) {
+      if (data.code < 0) {
+        alert(data.msg);
+          
+        return;
+      }
+      
+      if (isAllowLogin) {
+        $("#enable"+sign).html("锁定");
+        $("#enable"+sign).attr("href","javascript:enable('"+sign+"', false)");
+      } else {
+        $("#enable"+sign).html("启用");
+        $("#enable"+sign).attr("href","javascript:enable('"+sign+"', true)");
+      }
+    },
+    error : function() {
+      alert("对不起，出现错误!");
+    }
+  });
+}
+  
+//重置客服密码
+function resetPassword(sign) {
+  $.ajax({
+    url : "@{resetPassword()}",
+    type : "POST",
+    data : {
+      "sign" : sign
+    },
+    success : function(msg) {
+      alert(msg);
+    },
+    error : function() {
+      alert("对不起，出现错误!");
+    }
+  });
+}
+
+//搜索
+function search() {
+  window.location.href = "customers?lockType=" + $("#lockType").val() + "&keywordType=" + $("#keywordType").val() + "&keyword=" + encodeURIComponent($("#keyword").val());
+}
+
+function showPage(currPage, pageSize){
+	  $("#currPage").val(currPage);
+	  $("#pageSize").val(pageSize);
+	  $("#customerSearch").submit();
+	}
+</script>

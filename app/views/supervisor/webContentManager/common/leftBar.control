@@ -1,0 +1,103 @@
+<div class="xn_c_content_left">
+  <div class="xn_c_content_leftul">
+    <ul>
+      <li>
+        <div class="xn_c_li_head_one">
+          <!-- 展开样式：xn_c_li_bg_jian -->
+          <div class="xn_c_li_bg" id="lab_1"></div>新闻资讯管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_1">
+          <!-- 当前样式：xn_c_li_head_ishow -->
+          <a id="mg_1" class="xn_c_li_head_twoli" href="@{supervisor.webContentManager.NewsManageAction.contentManagement()}">内容管理</a>
+          <a id="mg_2" class="xn_c_li_head_twoli" href="@{supervisor.webContentManager.NewsManageAction.categoryManagement()}">类别管理</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_2"></div>广告内容管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_2">
+          <a id="mg_3" class="xn_c_li_head_twoli" href="@{supervisor.webContentManager.AdManageAction.bannermanagement()}">广告条管理</a>
+          <a id="mg_4" class="xn_c_li_head_twoli" href="@{supervisor.webContentManager.AdManageAction.security()}">4大安全保障</a>
+          <a id="mg_5" class="xn_c_li_head_twoli" href="@{supervisor.webContentManager.AdManageAction.partner()}">合作伙伴</a>
+          <a id="mg_6" class="xn_c_li_head_twoli" href="@{supervisor.webContentManager.AdManageAction.bottomLinkManager()}">底部链接管理</a>                    
+        </div>
+      </li>
+      <li> 
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_3"></div>站内信管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_3">
+          <a id="mg_7" class="xn_c_li_head_twoli" href="@{supervisor.webContentManager.Message.sendMessageInit()}">发送站内信</a>
+          <a id="mg_8" class="xn_c_li_head_twoli" href="@{supervisor.webContentManager.Message.toReplyMessages()}">待回复站内信</a>
+          <a id="mg_9" class="xn_c_li_head_twoli" href="@{supervisor.webContentManager.Message.repliedMessages()}">已回复站内信</a>
+          <a id="mg_10" class="xn_c_li_head_twoli" href="@{supervisor.webContentManager.Message.deletedMessages()}">已删除站内信</a>
+          <a id="mg_11" class="xn_c_li_head_twoli" href="@{supervisor.webContentManager.Message.outboxMessages()}">发送记录</a>
+          <a id="mg_12" class="xn_c_li_head_twoli" href="@{supervisor.webContentManager.Message.rejectedUsers()}">拒收名单</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_4"></div>借款产品管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_4">
+          <a id="mg_13" class="xn_c_li_head_twoli" href="@{supervisor.webContentManager.productAction.productList()}">借款标产品列表</a>
+          <a id="mg_14" class="xn_c_li_head_twoli" href="@{supervisor.webContentManager.productAction.audtiItemList()}">审核科目库管理</a>
+          <a id="mg_15" class="xn_c_li_head_twoli" style="cursor: default;">信用等级管理</a>
+        <div class="xn_c_li_head_three">
+          <a id="mg_16" href="@{supervisor.webContentManager.CreditLevelManager.creditLevelList}" class="xn_c_li_three_twli"> · 信用等级列表</a>
+          <a id="mg_17" href="@{supervisor.webContentManager.CreditLevelManager.creditRuleSetInit}" class="xn_c_li_three_twli"> · 信用规则设置</a>
+        </div>
+          <a id="mg_18" class="xn_c_li_head_twoli" href="@{supervisor.webContentManager.productAction.constantList()}">借款标常量设置</a>
+       
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_5"></div>系统通知模板管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_5">
+          <a id="mg_19" class="xn_c_li_head_twoli" href="@{supervisor.webContentManager.TemplateAction.emailTemplates()}">邮件模板列表</a>
+          <a id="mg_20" class="xn_c_li_head_twoli" href="@{supervisor.webContentManager.TemplateAction.smsTemplates}">短信模板列表</a>
+          <a id="mg_32" class="xn_c_li_head_twoli" href="@{supervisor.webContentManager.TemplateAction.smsBlacklistTemplates}">短信黑名单</a>
+          <a id="mg_21" class="xn_c_li_head_twoli" href="@{supervisor.webContentManager.TemplateAction.stationTemplates}">站内信模板列表</a>
+          <a id="mg_22" class="xn_c_li_head_twoli" href="@{supervisor.webContentManager.TemplateAction.platformProtocol}">平台协议模板列表</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_6"></div>亿亿社区管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_6">
+          <a id="mg_23" class="xn_c_li_head_twoli" href="@{supervisor.webContentManager.PostsAction.showForumPosts()}">内容管理</a>
+          <a id="mg_24" class="xn_c_li_head_twoli" href="@{supervisor.webContentManager.PostsAction.showPostsType()}">类别管理</a>
+    
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_7"></div>活动中心管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_7">
+          <a id="mg_30" class="xn_c_li_head_twoli" href="@{supervisor.webContentManager.ActivityCenterAction.activityCenter()}">活动中心</a>
+          
+    
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_8"></div>银行卡限额管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_8">
+          <a id="mg_31" class="xn_c_li_head_twoli" href="/supervisor/webContentManager/payLimit">限额设置</a>
+          
+    
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="xn_c_con_leftbutton">
+    <div class="xn_c_con_enimg">导航点击</div>
+  </div>
+</div>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_mg_web.js'}"></script>

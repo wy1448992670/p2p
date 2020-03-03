@@ -1,0 +1,281 @@
+    @media only screen and (min-width: 1920px), only screen and (min-device-width:1920px) {
+    html body .main {
+         width: 1903px;
+         height: 650px;
+     }
+    
+   }
+   
+    @media only screen and (max-width: 1920px), only screen and (max-device-width:1920px) {
+    html body .main {
+         width: 1920px;
+         height: 650px;
+     }
+    
+   }
+   
+   @media only screen and (max-width: 1440px), only screen and (max-device-width:1440px) {
+    html body  .main{
+         width: 1440px;
+           height: 487.5px;
+     }
+  }
+     @media only screen and (max-width: 1366px), only screen and (max-device-width:1366px) {
+    html body  .main{
+         width: 1366px;
+         height: 462.447px;
+     }
+    
+     
+   }
+     @media only screen and (max-width: 1360px), only screen and (max-device-width:1360px) {
+    html body  .main{
+          width: 1360px;
+          height:460.41px;
+          
+     }
+     
+     
+   }
+     @media only screen and (max-width: 1280px), only screen and (max-device-width:1280px) {
+     html body .main {
+         width: 1280px;
+         height: 433.33px;
+         
+     }
+    
+     
+     
+   }
+   
+   
+   *{
+					margin: 0;padding: 0;
+					
+					
+				}
+				a{
+					text-decoration: none;
+					
+				}
+				li{
+					list-style: none;
+				}
+				
+				
+				.top{
+					width: 100%;
+					height: 80px;
+					min-width: 1170px;
+					/*background: #999;*/
+					
+					
+				}
+				.top_skip{
+					width: 1140px;
+					height: 80px;
+					margin: 0 auto;
+					position: relative;
+					/*line-height: 80px;*/
+					
+				}
+				.logo{
+					margin-top: 10px;
+					display: inline-block;
+					
+					
+				}
+				.slogan{
+					display: inline-block;
+					font-size: 14px;
+					color: #666;
+					position: absolute;
+					top: 20px;
+					left: 200px;
+					
+				}
+				.top_skip ul{
+					/*width: 600px;*/
+					height: 16px;
+					float: right;
+					margin-top: 30px;
+					/*background: #f45;*/
+					font-size: 0;
+					
+					
+				}
+				.top_skip ul li{
+					display: inline-block;
+					width: 105px;
+					height: 16px;
+					line-height: 16px;
+					text-align: center;
+					/*background: #000;*/
+					font-size: 0;
+					
+				}
+				.top_skip ul li:nth-child(2){
+					border-right: 1px solid #666;
+					border-left: 1px solid #666;
+					box-sizing: border-box;
+					
+					
+				}
+				.top_skip ul li a{
+					font-size: 16px;
+					color: #666;
+				}
+				.top_skip ul li a:hover{
+					color: #333;
+					
+					
+				}
+				
+				
+				
+				input{
+					font-size: 16px;
+					color: #999;
+					padding-left: 10px;
+					border: 1px solid #e0e0e0;
+					
+				}
+				
+				
+				
+				.main{
+					width: 1440px;
+					height: 487.5px;
+					margin: 0 auto;
+					position: relative;
+					background: url(/public/images/newlogin/banner.jpg) no-repeat;
+					background-size: cover;
+					
+					
+				}
+				
+				.register{
+					width: 440px;
+					height: 353px;
+					/*background: #000;*/
+					position: absolute;
+					/*top: 6%;*/
+					left: 56.5%;
+					padding-top: 77px;
+					background: url(/public/images/newlogin/zc.png);
+					/*text-align: center;*/
+					
+					
+					
+					
+				}
+				.tel,.pw,.login{
+					width: 310px;
+					height: 42px;
+					margin-left: 58.5px;
+					
+					
+				}
+				.tel,.pw,.yzm{
+					color: #333;
+				}
+				
+				
+				.tel,.pw{
+					margin-top: 20px;
+					
+					
+				}
+				.login{
+					border: none;
+					background: #ff384f;
+					border-radius: 10px;
+					font-size: 20px;
+					font-family: "微软雅黑";
+					color: #fff;
+					width: 320px;
+					outline: none;
+				}
+				.login:hover{
+					background: #e53247;
+					
+					
+				}
+				
+				
+				.yzm{
+					width: 196px;
+					height: 42px;
+					
+				}
+				.yzm_all{
+					width: 320px;
+					height: 42px;
+					/*background: #4f5;*/
+					margin: 0 auto;
+					font-size: 0;
+					margin-top: 20px;
+					
+				}
+				.pic_yzm{
+					width: 100px;
+					height: 42px;
+					margin-left: 10px;
+					float: right;
+					
+				}
+				.dp_all{
+					width: 320px;
+					height: 42px;
+					line-height: 42px;
+					margin-left: 59px;
+					
+					
+				}
+				.dp{
+					width: 15px;
+					float: left;
+					margin-top: 12px;
+					margin-right: 10px;
+				}
+				.once{
+					width: 320px;
+					height: 12px;
+					line-height: 12px;
+					/*background: #ccc;*/
+					margin: 0 auto;
+					margin-top: 12px;
+					
+				}
+				.once span{
+					font-size: 12px;
+					color: #666;
+					
+				}
+				
+				.once a{
+					float: right;
+					color: #3b65ff;
+					font-size: 12px;
+					
+				}
+				
+				.con{
+					font-size: 12px;
+					color: #666;
+					
+				}
+				.end{
+					text-align: center;
+					font-size: 14px;
+					color: #666;
+					margin-top: 16px;
+					margin-bottom: 16px;
+				}
+    .yzm_btn{
+	width: 100px;
+	height: 40px;
+	background: #ff384f;
+	color: #fff;
+	border: none;
+	margin-left: 10px;

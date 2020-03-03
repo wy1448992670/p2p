@@ -1,0 +1,99 @@
+<style>
+	.number{
+		width:50px;
+		text-align:center;
+		border:0;
+	}
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+	}
+	 
+	input[type="number"] {
+		-moz-appearance: textfield;
+	}
+	table.commTablePaddingSmall tr td{
+		padding:15px 0;
+	}
+</style>
+<div class="xn_c_content" style="background:white">
+    <div class="contextPadding">
+	 		<h3 class="xf_htgl_jgtitle _xf_htgl_jgtitle2">
+	 			<div >
+		 			<span>亿美贷服务费配置：</span>
+			 		<span class="right">
+		 				<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAYAAADtj3ZXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABvSURBVChTY8ADOIB4PhALgHkkgsVA/B+IdwMxC0iAWFADxCCNMDwdiIkCAUCMrBGGM4AYLzAA4s9AjE3zbyB2AWKsQAKIHwMxNo0w/B6INYAYBYBC9jgQY9OAjq8DMUoMwEKWWAyPAfSQJRIzTAcA6ihCThQ5Z/oAAAAASUVORK5CYII=" />
+		 			</span>
+	 			</div>
+	 		</h3>
+		<div style="padding:30px 0 30px 20px">
+				  <table style="text-align:center;" class="commTablePaddingSmall" width="90%" border="1">
+						<tr>
+							<td width="200">借款期限T</td>
+							<td>1月</td>
+							<td>2月</td>
+							<td>3月</td>
+							<td>4月</td>
+							<td>5月</td>
+							<td>6月</td>
+							<td>7月</td>
+							<td>8月</td>
+							<td>9月</td>
+							<td>10月</td>
+							<td>11月</td>
+							<td>12月</td>
+						</tr>
+						<tr>
+							<td width="">服务费收取比例X(百分比)</td>
+							 #{if serviceCostRateList}
+								
+								#{list items:serviceCostRateList, as:'serviceCostRate'}
+								<td width=""><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" value="${serviceCostRate?.service_cost_rate}"/>%</td>
+								#{/list}
+							#{/if}
+							#{else}
+								<td width=""><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+								<td width=""><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+								<td width=""><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+								<td width=""><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+								<td width=""><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+								<td width=""><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+								<td width=""><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+								<td width=""><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+								<td width=""><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+								<td width=""><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+								<td width=""><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+								<td width=""><input class="number rateIsNull" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{1}).*/g, '$1')" type="number" />%</td>
+							#{/else}
+						</tr>
+				 </table>
+					<div  style="margin:30px 0;font-size:15px;"></div>
+					<div class="hiddenContext ">
+						<div style="text-align:center;">
+							 <input id="serviceSubmit" style="width:160px;height:40px;" class="btnStyle" type="button" value="提交">
+						</div>
+					</div>	
+			 </div>
+	</div>
+	
+</div>
+<script type="text/javascript">
+	$('._xf_htgl_jgtitle2').click(function(){
+		$(this).next().toggle(100);
+	})
+	
+	// 亿美贷服务费配置
+	$('#serviceSubmit').click(function(){
+		
+		var paramenter = [];
+		$('.number').each(function(i,e){
+			paramenter.push($(e).val());
+		});
+		console.log(paramenter);
+		console.log({orgId: $('[name=orgId]').val(),serviceCostRate: JSON.stringify(paramenter)});
+		$.post('@{supervisor.ymd.SettingAction.createServiceCostRate}',{serviceCostRate: JSON.stringify(paramenter)},function(res){
+			alert(res.msg);
+			location.reload(true);
+		});
+	});
+</script>

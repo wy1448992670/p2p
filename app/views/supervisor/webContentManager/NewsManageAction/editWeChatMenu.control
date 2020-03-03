@@ -1,0 +1,27 @@
+<div class="xf_ht_ttc" id="xf_ht_fkzh_ttc_wechatMenu" style="display:none;">
+  <div class="xf_ht_jr_obu_width">
+    #{form @wechat.others.WeChatFrontGateway.editMenu()}
+    <input type="hidden" id="weChatMenuId" name="weChatMenuId">
+    <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form" width="100%">
+      <tr>
+        <td align="right" valign="top">名称：</td>
+        <td>
+          <textarea  class="xf_ht_jr_obttd_textarea" style="width:275px;" id="weChatMenuName" name="weChatMenuName"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td align="right">&nbsp;</td>
+        <td style="padding:20px 0 40px 0;">
+          <input class="xf_ht_tcc_button_ok" type="submit"  value="确  定">
+          <input class="xf_ht_tcc_button_on" type="button" onClick="parentAddCancle()" value="取  消">
+        </td>
+      </tr>
+    </table>
+    #{/form}
+  </div>
+</div>
+<script type="text/javascript">
+  function parentAddCancle(){
+    layer.closeAll();
+  }
+</script>

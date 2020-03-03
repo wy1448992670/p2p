@@ -1,0 +1,133 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'账单列表' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/billCollectionManager/common/billCollectionManagerLeft.control"/}
+    <div class="xn_c_content">
+      <div class="xf_ht_tablelist">
+      	#{form @billList(), id:'billList'}
+       	 	<input type="hidden" id="currPage" name="currPage"/>
+        	<input type="hidden" id="pageSize" name="pageSize"/>
+        #{/form}
+        <!-- 列表内容 -->
+        <div class="xn_c_content_top">
+        	<div style="text-align:center;">
+        	<br/>
+        	<font color="red">此操作仅限制于测试使用，在开发模式下(dev)，正式上线务必改为生产模式(prod)!</font>
+        	<br/><br/>
+        	</div>
+        	<table class="xn_c_content_list" border="1" bordercolor="blue">
+        		<tr>
+        			<th>标的编号</th>
+        			<th>标题</th>
+        			<th>还款日</th>
+        			<th>还款本金</th>
+        			<th>还款利息</th>
+        			<th>还款状态</th>
+        			<th>代偿(本金垫付)订单号</th>
+        			<th>还款订单号</th>
+        			<th>期数</th>
+        			<th>实际还款时间</th>
+        			<th>实际还款本金</th>
+        			<th>实际还款利息</th>
+        			<th>逾期标记</th>
+        			<th>逾期时间</th>
+        			<th>逾期罚款</th>
+        			<th>坏账时间</th>
+        			<th>内信次数</th>
+        			<th>邮件次数</th>
+        			<th>电话次数</th>
+        			<th>操作</th>
+        		</tr>
+        		#{list page?.page}
+        		<tr>
+	        		<td>${_?.bid_id}</td>
+					<td>${_?.title}</td>
+					<td>${_?.repayment_time}</td>
+					<td>${_?.repayment_corpus}</td>
+					<td>${_?.repayment_interest}</td>
+					<td>
+						#{if _?.status == -1}
+							未还款
+						#{/if}
+						#{elseif _?.status == -2}
+							本金垫付还款
+						#{/elseif}
+						#{elseif _?.status == -3}
+							逾期还款
+						#{/elseif}
+						#{elseif _?.status == 0}
+							正常还款
+						#{/elseif}
+					</td>
+					<td>${_?.mer_bill_no}</td>
+					<td>${_?.repayment_bill_no}</td>
+					<td>${_?.periods}</td>
+					<td>${_?.real_repayment_time}</td>
+					<td>${_?.real_repayment_corpus}</td>
+					<td>${_?.real_repayment_interest}</td>
+					<td>
+						#{if _?.overdue_mark == -1}
+							系统标记逾期
+						#{/if}
+						#{elseif _?.overdue_mark == -2}
+							标记逾期
+						#{/elseif}
+						#{elseif _?.overdue_mark == -3}
+							标记坏账
+						#{/elseif}
+						#{elseif _?.overdue_mark == 0}
+							未标记逾期
+						#{/elseif}
+					</td>
+					<td>${_?.mark_overdue_time}</td>
+					<td>${_?.overdue_fine}</td>
+					<td>${_?.mark_bad_time}</td>
+					<td>${_?.notice_count_message}</td>
+					<td>${_?.notice_count_mail}</td>
+					<td>${_?.notice_count_telphone}</td>
+					<td><a class="xf_ta_onclick" onclick="myOverdue(${_?.id});">修改时间</a></td>
+				</tr>
+				#{/list}
+        	</table>
+        	<div style="text-align:center;">
+        		<br/>
+        		<font color="red">逾期比较耗资源，请耐心等待，是否成功都会返回一个结果，请不要您狂点</font>
+        		<br/><br/>
+        		<a href="@{supervisor.billCollectionManager.MyOverdue.startOverdue()}">开始逾期</a>
+        	</div>
+        </div>
+        <!-- 列表底部 -->
+        <div class="xn_c_content_bottom">
+          <div class="page_warp">
+            #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4}#{/page}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+	function showPage(currPage, pageSize){
+	 	$("#currPage").val(currPage);
+	  	$("#pageSize").val(pageSize);
+	  	$("#billList").submit();
+	}
+	
+	function myOverdue(id){
+		var day = prompt("输入逾期天数，点击确定开始修改时间!", 10);
+		
+		if(day) {
+			if (/[^\d]/.test(day)) {
+				alert("请输入数字");
+				
+				return false;
+			}
+
+			var action = #{jsAction @supervisor.billCollectionManager.MyOverdue.updateTime(':id',':day') /};
+			$.post(action({id:id, day:day}), function(data) {
+				alert(data);
+			});	
+		} 
+	}
+</script>

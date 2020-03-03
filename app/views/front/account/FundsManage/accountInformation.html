@@ -1,0 +1,55 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /}
+#{set title:currBackstageSet.seoTitle + ' | 我的账户   | 资金管理  | 账户信息'/}
+
+<div class="xf_con_box">
+	<div class="xf_con_mem_nav"></div>
+	<!-- 左边导航区域 -->
+	#{include "front/account/AccountHome/homeLeft.control"/}
+	<!-- 账户总览 -->
+	#{include "front/account/FundsManage/accountInformationOverview.control"/}
+	<!-- 账户信息 -->
+	#{include "front/account/FundsManage/accountInformationDetail.control"/}
+	<!-- 最近交易记录 -->
+	#{include "front/account/FundsManage/accountInformationTransactionRecords.control"/}
+	<!-- 银行卡管理 -->
+	#{include "front/account/FundsManage/accountInformationBankManage.control"/}
+	<!-- 清除浮动 -->
+	<div class="clear"></div>
+</div>
+<!-- 银行卡弹窗 -->
+#{include "front/account/FundsManage/accountInformationBank.control"/}
+<!-- vip申请 -->
+#{include "front/account/AccountHome/homeVipApply.control"/}
+#{include "front/account/AccountHome/homeVipContent.control"/}
+<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/autocomplete.css'}" />
+<link rel="stylesheet" href="/public/stylesheets/thisPage/inverstBidUserinfo.css?v=1.0" />
+<script type="text/javascript">
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/autocomplete.js'}"></script>
+<script type="text/javascript">
+<!--
+	$(function(){
+		/* 高亮显示 */
+		showHighLightFront(25);
+		showHighLightFront2(7, 5);
+	});
+//-->
+
+	
+function getBankNameByCityCodeAndBankCode(city_code, bank_code){
+	var url = "/dict/queryBankCode2NameByCondition?cityCode=" + city_code +"&bankCode=" + bank_code;
+	$.getJSON(url,function(data){
+		if (data.size != 0){
+	        $("#branchBankName").bigAutocomplete(data);
+		}
+		else{
+			$("#branchBankName").bigAutocomplete(null);
+		}
+		});
+}
+
+</script>

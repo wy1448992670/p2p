@@ -1,0 +1,194 @@
+#{if (bid?.status > 2 || bid?.status < 1) || bid?.amount == bid?.hasInvestedAmount}
+	<div class="xf_wylc_memmer_r left">
+           	借款状态：
+		${bid?.strStatus}
+	</div>
+    
+	<div class="xf_cps_top_r">
+		<div class="xf_wylc_erweima">
+			<img src="@{Application.images}?uuid=${bid?.qr_code}" class="xf_wylc_erweima_img" alt="二维码" title="二维码">
+			<span class="xf_wylc_erweima_text">
+				扫一扫<br />
+				用手机浏览
+			</span>
+		</div>
+	</div>
+#{/if}
+#{else}
+${flash?.is_risk}
+#{form @front.invest.investAction.confirmInvest(bid?.sign, uuid), method:'POST', id:'confirmInvest'}
+		<div class="xf_wylc_memmer_r left">
+		
+			<input type="hidden" id = "investLocation"/>
+			<span>剩余时间：</span><br /> <span class="xf_wylc_l_memhyA"><span id="day"></span><span
+				class="font_onetwo">天</span><span id="hours"></span><span class="font_onetwo">小时</span><span id="minutes"></span><span
+				class="font_onetwo">分</span><span id="seconds"></span><span class="font_onetwo">秒</span> </span><br />
+			 借款状态：
+			 ${bid?.strStatus}
+			 <br /> 
+			
+			#{if bid?.minInvestAmount > 0}
+				最低投标金额：${bid?.minAllowInvestAmount?.format('###,##0.00')}元<br /> 
+				#{if bid?.status > 0 && bid?.status < 3 && bid?.amount > bid?.hasInvestedAmount}
+				我要投标：<input type="text" class="xf_wylc_tbje" id="investAmount" name="investAmount"> 元<br />
+				#{/if}
+			#{/if}
+			#{else}
+			最多可购买份数：${((bid?.amount-bid?.hasInvestedAmount)/bid?.averageInvestAmount)?.format('0')}份<br /> 
+			我要投标：
+			<input class="xf_wylc_tbje" type="button" style="width:24px;" value="-" id="plus"/>
+			<input type="text" class="xf_wylc_tbje" style="width:60px;" id="investAmount" name="investAmount" value="1">
+			 <input class="xf_wylc_tbje" type="button" style="width:24px;" value="+"  id="add"/>份<br /> 
+			#{/else}
+			#{if !ipsEnable}
+				#{if bid?.product?.isDealPassword == true}	
+			              交易密码：<input type="password" class="xf_wylc_tbje" id="dealpwd" name="dealpwd" onMouseOver="checkPwdDel();"><br />  
+			      #{if user != null && user.payPassword == null}
+			      <a href="@{front.account.BasicInformation.modifyPassword()}" class="xf_ta_onclick">您未设置交易密码！点击此处设置交易密码</a>
+			      #{/if}
+			    #{/if}
+			#{/if}
+			#{if bid?.status > 0 && bid?.status < 3 && bid?.amount > bid?.hasInvestedAmount}
+			   <a class="xf_con_inputfbjk" onclick="investApplyNow();" >确认投标</a>
+			#{/if}
+		</div>
+	#{/form}
+	
+	<div class="xf_cps_top_r">
+		<div class="xf_wylc_erweima">
+			<img src="@{Application.images}?uuid=${bid?.qr_code}" class="xf_wylc_erweima_img" alt="二维码" title="二维码">
+			<span class="xf_wylc_erweima_text">
+				扫一扫<br />
+				用手机浏览
+			</span>
+		</div>
+	</div>
+	<script>
+		$(function(){
+			
+			$("#add").click(function(){	
+				var investAmount = $("#investAmount").val();
+				var patrn=/^([1-9]\d*)$/; 
+				var patrn1=/^([0-9]\d*)$/; 
+			    var flag = patrn1.exec(investAmount);
+			    var copy = ${bid?.amount - bid?.hasInvestedAmount}/${bid?.averageInvestAmount};
+				if(!flag){
+					alert("对不起！请您输入正整数！");
+				 	return;
+		        }
+					
+			    $("#investAmount").val(parseInt($("#investAmount").val())+1);//加
+			    if($("#investAmount").val() > copy){
+			    	$("#investAmount").val(copy);
+			    }
+			    	
+			});
+			
+			$("#plus").click(function(){
+				var investAmount = $("#investAmount").val();
+				var patrn=/^([1-9]\d*)$/;
+			    var flag = patrn.exec(investAmount);
+				if(!flag){
+					alert("对不起！请您输入正整数！");
+				 	return;
+		         }		
+			    $("#investAmount").val(parseInt($("#investAmount").val())-1);//减
+			    if($("#investAmount").val() < 1){
+			    	$("#investAmount").val(1);
+			    }	
+			});
+		
+			$("#confirmInvest").keydown(function(e){
+			  if(e.keyCode == 13){
+			   	investApplyNow();
+			   	
+			   	return false;
+			  }
+			});
+		})
+	
+  	 function investApplyNow(){
+		 /** 检查用户是否激活, fronMain.html 中的拦截器*/
+	 	 var result = frontJSIntercepter();
+	  
+	    if(!result){
+      	   confirmInvest(); 
+	    }		  		
+	 }
+	
+	function confirmInvest(){
+	
+		var investAmount = $("#investAmount").val();
+		var minInvestAmount = ${bid?.minAllowInvestAmount};
+		var maxInvestAmount = ${bid?.amount - bid?.hasInvestedAmount};
+		var averageInvestAmount = ${bid?.averageInvestAmount};
+		
+		var patrn=/^([1-9]\d*)$/;
+		var flag = patrn.exec(investAmount);
+		
+		var isDealPassword = ${bid?.product?.isDealPassword};
+		
+		if(!${ipsEnable} && isDealPassword == true){
+			if($("#dealpwd").val().replace(/\s+/g,"") == "" || null ==$("#dealpwd").val().replace(/\s+/g,"")){
+				alert("对不起！请输入交易密码!");
+				return;
+			}
+		}
+		
+		if(minInvestAmount > 0){
+			
+			if(investAmount.replace(/\s+/g,"") == "" || null == investAmount.replace(/\s+/g,"")){
+			    alert("对不起！投标金额不能为空！");
+			    return;
+		    }
+		    if(!flag){
+				alert("对不起！请您输入正整数！");
+			 	return;
+		   }
+			if(investAmount < minInvestAmount){
+				alert("对不起！您的投标金额少于最低投标金额！");
+				return;
+			}
+			if(investAmount > maxInvestAmount){
+				alert("对不起！您的投标金额超过了剩余投标金额！");
+				return;
+			}
+		}
+		
+		if(averageInvestAmount > 0){
+			var maxInvestcopys = ${bid?.amount - bid?.hasInvestedAmount}/${bid?.averageInvestAmount};
+			
+			if(investAmount.replace(/\s+/g,"")== "" || null == investAmount.replace(/\s+/g,"")){
+			    alert("对不起！投标份数不能为空！");
+			    return;
+		    }
+		    if(!flag){
+				alert("对不起！请您输入正整数！");
+				return;
+		    }
+			if(investAmount <= 0){
+				alert("对不起！您的投标份数不能小于0！");
+			    return;
+			}
+			if(investAmount > maxInvestcopys){
+				alert("对不起！您最多只能投"+maxInvestcopys+"份!");
+			    return;
+			}
+		}
+		
+		$("#confirmInvest").submit();
+	}
+	
+	function checkPwdDel(){
+		var str = "请输入交易密码";
+		#{if bid?.product?.isDealPassword == true}	
+		
+			#{if user != null && user.payPassword == null}
+			 str = "您还未设置交易密码,请设置交易密码";
+        	#{/if}
+		#{/if}
+
+		$("#dealpwd").attr("title",str);
+	}
+</script>
+#{/else}

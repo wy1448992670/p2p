@@ -1,0 +1,257 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'实名、绑卡失败统计' /} 
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include '/supervisor/customerService/customerLeft.control'/}
+  <div class="xn_c_content">
+	  <div class="xf_ht_tablelist">
+		<!-- 搜索 -->
+		#{form @pageList(), id:'submit'}
+		<div class="xf_ht_search">
+		  <input type="hidden" id="currPage" name="currPageStr"/>
+          <input type="hidden" id="pageSize" name="pageSizeStr"/>
+		  <div class="xf_ht_search_l">
+			<input type="hidden" id="orderType" name="orderType" value="${page.conditions?.orderType}"/>
+			<span id="div_0"><a id="tab_0" onClick="conditonSearch(0)">默认<a id="sp0"></a></a></span>
+			<span id="div_1"><a id="tab_1" onClick="conditonSearch(1)">操作失败时间<a id="sp1">↑</a></a></span>
+		  </div>
+		</div>
+		<div class="xf_ht_search_inon">
+		  <div class="xf_ht_search_r">
+			<div class="xf_ht_search_xl">
+				操作失败时间：
+			  <input type="text" class="search_time" name="start" id="start" value="${page.conditions?.start}" onclick="laydate()" class="laydate-icon" style="cursor:pointer">
+			  <span class="search_timesp">--</span>
+			  <input type="text" class="search_time" name="end" id="end" value="${page.conditions?.end}" onclick="laydate()" class="laydate-icon" style="cursor:pointer">  
+		    </div>
+		    <div class="xf_ht_search_xl">
+				用户名/联系电话：
+				<input type="text" class="search_w" id="key" name="keyword" value="${page.conditions?.keyword}">
+			</div>
+			
+			<div class="xf_ht_search_xl">
+				跟踪状态：
+			  <select id="select" name="status" class="xf_membill_selectAge">
+				<option value="-2" #{if page.conditions.status == -2} selected="selected" #{/if}>全部</option>
+				<option value="0" #{elseif page.conditions.status == 0} selected="selected" #{/elseif}>未跟踪</option>
+				<option value="1" #{elseif page.conditions.status == 1} selected="selected" #{/elseif}>需再跟踪</option>
+				<option value="2" #{elseif page.conditions.status == 2} selected="selected" #{/elseif}>已跟踪</option>
+				<option value="-1" #{elseif page.conditions.status == -1} selected="selected" #{/elseif}>用户放弃</option>
+			  </select>
+			</div>
+			
+			<div class="xf_ht_search_xl">
+				<input type="submit" class="search_button" value="搜索">
+			</div>
+		  </div>
+		</div>
+		#{/form}
+		<!-- 列表内容 -->
+		<div class="xn_c_content_top">
+		  #{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+			#{tr}
+			  #{th}序号#{/th}
+			  #{th}用户名#{/th}
+			  #{th}联系电话#{/th}
+			  #{th}操作#{/th}
+			  #{th}操作失败时间#{/th}
+			  #{th}跟踪状态#{/th}
+			  #{th}操作#{/th}
+			  #{th}回访记录#{/th}
+			#{/tr}
+			#{list items:page.page, as:'uas'}
+			#{tr tr_index:_index}
+			  #{td}${(page?.currPage - 1)*page?.pageSize + uas_index}#{/td}
+			  #{td}${uas?.name}#{/td}
+			  #{td}${uas?.mobile}#{/td}
+			  #{td}
+			  	#{if uas?.type == 1}
+			  		实名认证
+			  	#{/if}
+			  	#{else}添加银行卡#{/else}
+			  #{/td}
+			  #{td}${uas?.actionTime?.format('yyyy-MM-dd HH:mm:ss')}#{/td}
+			  #{td}
+			  	#{if uas?.status == 0}
+			  		未跟踪
+			  	#{/if}
+			  	#{if uas?.status == 1}
+			  		需再跟踪
+			  	#{/if}
+			  	#{if uas?.status == 2}
+			  		已跟踪
+			  	#{/if}
+			  	#{if uas?.status == -1}
+			  		用户放弃
+			  	#{/if}
+			  #{/td}
+			  #{td}
+			  	<span><a onclick="modifyRecordInit(${uas?.id});" class="xf_ta_onclick">操作</a></span>
+			  #{/td}
+			  #{td}<div class="m_record_div" style="text-align: left;">${uas?.record}</div>#{/td}
+			#{/tr}
+			#{/list}
+		  #{/table}
+		</div>
+		<!-- 列表底部 -->
+		<div class="xn_c_content_bottom">
+		  <div class="page_warp">
+			#{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4}#{/page}
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </div>
+</div>
+<div id="show"></div>
+
+<!-- 付款通知-弹出层 -->
+<div class="xn_c_ban_jox xn_c_ban_jox_fktz" id="xf_ht_fkzh_ttc" style="display:none; width:500px;">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_fktz_tcc_table">
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form" width="100%">
+        <tr>
+          <td align="right" width="140">选择状态：</td>
+          <td>
+          		<select id="m_status" class="xf_membill_selectAge">
+          			<option value="0">未跟踪</option>
+          			<option value="1">需再跟踪</option>
+          			<option value="2">已跟踪</option>
+          			<option value="-1">用户放弃</option>
+          		</select>
+          </td>
+        </tr>
+        <tr>
+          <td align="right" width="140">回访记录：</td>
+          <td> <textarea class="xf_ht_baidu_wkttcc_text xf_ht_baidu_wkttcc_text6" style="max-width:300px;max-height:150px;"  id="m_record"></textarea> </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="xf_ht_tcc_button">
+          	<input type="hidden" id="m_id">
+            <input class="jbox_ok" type="button" value="确  定" onclick="modifyRecord();">
+            <input class="jbox_on" type="button" value="取  消" onclick="layer.closeAll()">
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+
+function conditonSearch(num){
+	  var orderType= ${page.conditions?.orderType};
+	  if(orderType == 0){
+	    $("#orderType").val(num);
+	    $("#submit").submit();
+	    return;
+	  }
+	  var sum = orderType/2;
+	  if(sum.toString().indexOf('.') == -1){
+	    var sum2 = orderType - 1;
+	    $("#orderType").val(num);
+	    $("#submit").submit();
+	    return;
+	  }else{
+	    if(orderType == num){
+	      $("#orderType").val(num + 1);
+	      $("#submit").submit();
+	      return;
+	    }else{
+	      $("#orderType").val(num);
+	      $("#submit").submit();
+	      return;
+	    }
+	  }
+	}
+
+	$(function() {
+		/* 高亮显示 */
+		highLight(1);
+	});
+
+	$(function(){	
+    	/* 高亮显示 */
+		showHighLight(1,1,0);
+		//条件查询控制样式
+		var num= ${page.conditions?.orderType};
+    	if(num == 0){
+      		$("#div_0").addClass("xf_sea_isshow");
+      
+     		return;
+   	 	}
+    	var sum = num/2;
+    	if(sum.toString().indexOf('.') == -1){
+      		var sum2 = num -1;
+      		$("#div_"+sum2).addClass("xf_sea_isshow");
+      		$("#sp"+sum2).html("↓");
+      		return;
+    	}
+    	$("#div_"+num).addClass("xf_sea_isshow");
+  });
+  
+  function showPage(currPage, pageSize){
+    $("#currPage").val(currPage);
+    $("#pageSize").val(pageSize);
+    $("#submit").submit();
+  }
+  
+  /* 回访弹出层 */
+  function modifyRecordInit(id){
+    var listAction = #{jsAction @modifyRecordInit(':id') /};
+    $.post(listAction({id:id}), function(data) {
+      var msg = data.error.msg;
+      if(msg.length > 0){
+        alert(msg);
+        return;
+      }
+	  
+      var actions = data.actions;
+      var status = actions.status;
+      $("#m_status").find("option[value='" + status + "']").attr("selected",true);
+      
+      $("#m_record").val(actions.record);
+      $("#m_id").val(id);
+      $.layer({
+        type: 1,
+        area: ['600', 'auto'],
+        title: '回访记录',
+        page: {dom : '#xf_ht_fkzh_ttc'}
+      });
+      //$("#xf_ht_fkzh_ttc").show();
+    });
+  }
+
+  /* 付款通知 */
+  function modifyRecord(){
+    var id = $("#m_id").val();
+    var status = $("#m_status").val();
+    var record = $("#m_record").val();
+    
+    if(id == "" || status == ""){
+      $("#xf_ht_fkzh_ttc").hide();
+      return;
+    }
+    
+    var listAction = #{jsAction @modifyRecord(':id',':status',':record') /};
+    $.post(listAction({id:id,status:status,record:record}), function(data) {
+      alert(data.msg);
+      layer.closeAll();
+      location.reload();
+      //$("#xf_ht_fkzh_ttc").hide();
+    });
+  }
+  
+  $(function(){
+	  var d=$(".m_record_div");
+	  $.each(d,function (index,domEle){
+		  var text = $(this).html();
+		  if(text.length > 25){
+			  $(this).html(text.substring(0,25) + '<br />' + text.substring(25,text.length));
+		  }
+	  });
+   });
+</script>

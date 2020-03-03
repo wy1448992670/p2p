@@ -1,0 +1,74 @@
+#{extends 'common/frontMain.html' /}
+ %{
+  business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{set title: currBackstageSet.seoKeywords + '完善账号信息' /}
+<div class="xf_login_centent clr">
+<div class="xf_login_centent_rightbj"></div>
+	<div class="xf_login_title xf_login_title2">
+		#{if obj}
+			<span class="xf_login_title_yhdl"><img src="${obj?.get('picurl')}" width="30px" height="30px"  style="vertical-align: middle;"/></span ><span class="xf_login_title_yhdl"  style="vertical-align: middle;">Hi,${obj?.get('nickname')}, 欢迎使用${obj?.get('title')}帐号登录 ${currBackstageSet?.platformName}</span>
+		#{/if}	
+	</div>
+	<div class="xf_register_email">
+		<ul class="xf_register_email_ul clr" id="xf_wyjkview_xxk">
+			<li onClick="byNew()">创建新账号</li>
+			<li class="xf_con_wyjk_r_liishot xf_con_wyjk_r_liwyhm">已有本平台账号</li>
+		</ul>
+		#{form @front.quicklogin.QuickLogin.quickLogining(), id:'submit'}
+		<input type="hidden" name="obj" value="${obj}"/>
+		<input type="hidden" name="bindKey" value="${obj?.get('bindKey')}"/>
+		<input type="hidden" name="bindVal" value="${obj?.get('bindVal')}"/>
+		<div class="xf_con_wyjk_tentultbody">
+			<ul class="xf_login_inputsrul xf_login_inputsrul_zhyhm">
+				<li>
+					<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">用户名：</div>
+					<div class="xf_login_inputsrul_r">
+						<input type="text" id="name" name="name"
+								value="${flash?.name}" class="xf_login_shurk">
+					</div>
+				</li>
+				<li>
+					<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">密码：</div>
+					<div class="xf_login_inputsrul_r">
+						<input type="password" id="password" value="${flash?.password}" class="xf_login_shurk">
+						<input type="hidden" id="submit_password" name="password" value=""/>
+					</div>
+				</li>
+				<li>
+					<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">验证码：</div>
+					<div class="xf_login_inputsrul_r">
+						<input class="xf_login_yzm" type="text" name="code" id="code" value="${flash.code}">
+						<input type="hidden" name="randomID" id="randomID" />
+						<img src="" class="xf_login_yzmimg" id="img" onClick="change()" width="75px" height="28px">
+						<a href="javascript:void(0);" onClick="change()" class="xf_login_inputspan">刷新</a>
+					</div>
+				</li>
+				<li>
+					<div class="xf_login_inputsrul_l xf_login_inputsrul_lyhm">&nbsp;</div>
+					<div class="xf_login_inputsrul_r">
+						<a href="javascript:void(0);" onClick="login()" class="xf_con_inputfbjk">绑定账号</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+		#{/form}
+	</div>
+</div>
+<!-- 底部阴影 -->
+<div class="xf_login_kjyy"></div>
+<script type="text/javascript">
+	 $(function(){
+         var setCode = #{jsAction @front.account.LoginAndRegisterAction.setCode()/}
+		 $.post(setCode({}),function(data){
+			var arr=eval(data);
+			var img = arr.img;
+			$("#img").attr("src","@{front.account.LoginAndRegisterAction.getImg()}?id="+img);	
+			$("#randomID").val(img);
+		 });
+     })
+	function byNew(){
+		 $('#submit').attr('action',"@{front.quicklogin.QuickLogin.quickRegist}");
+		 $('#submit').submit();
+    }
+</script>

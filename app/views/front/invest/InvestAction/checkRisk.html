@@ -1,0 +1,202 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle +' | '+'风险评测'/}
+
+<!--start:风险评测-->
+<div class="risk_cp_box">
+    <h2>风险测评</h2>
+    <div class="question_box">
+        <div class="rubric_box">
+            <p class="rubric_tit">1.您的年龄在以下哪个范围内？</p>
+            <div class="rubric_option">
+                <label><input name="answer1" type="radio" value="10" />A.39岁以下</label>
+                <label><input name="answer1" type="radio" value="8" />B.40-49岁</label>
+                <label><input name="answer1" type="radio" value="5" />C.50-59岁</label>
+                <label><input name="answer1" type="radio" value="3" />D.60-69岁</label>
+                <label><input name="answer1" type="radio" value="0" />E.70岁以上</label>
+            </div>
+        </div>
+        <div class="rubric_box">
+            <p class="rubric_tit">2.您有过几年的投资经验？</p>
+            <div class="rubric_option">
+                <label><input name="answer2" type="radio" value="10" />A.10年以上</label>
+                <label><input name="answer2" type="radio" value="8" />B.6-10年</label>
+                <label><input name="answer2" type="radio" value="5" />C.3-5年</label>
+                <label><input name="answer2" type="radio" value="3" />D.1-2年</label>
+                <label><input name="answer2" type="radio" value="0" />E.无</label>
+            </div>
+        </div>
+        <div class="rubric_box">
+            <p class="rubric_tit">3.您是否有过投资经验？</p>
+            <div class="rubric_option">
+                <label><input name="answer3" type="radio" value="10" />A.有投资贵金属、外汇、期货、期权等高风险衍生品经验</label>
+                <label><input name="answer3" type="radio" value="8" />B.有投资股票、股票型基金的经验</label>
+                <label><input name="answer3" type="radio" value="5" />C.有购买过银行的理财产品、债券、基金</label>
+                <label><input name="answer3" type="radio" value="3" />D.存银行的定期或活期</label>
+                <label><input name="answer3" type="radio" value="0" />E.从未有过投资经历</label>
+            </div>
+        </div>
+        <div class="rubric_box">
+            <p class="rubric_tit">4.您的收入主要来自于</p>
+            <div class="rubric_option">
+                <label><input name="answer4" type="radio" value="10" />A.工资、劳务报酬</label>
+                <label><input name="answer4" type="radio" value="8" />B.个体或企业生产经营所得</label>
+                <label><input name="answer4" type="radio" value="5" />C.利息、股息、转让等金融性资产收入</label>
+                <label><input name="answer4" type="radio" value="3" />D.出租、出售房地产等非金融性资产收入</label>
+                <label><input name="answer4" type="radio" value="0" />E.无固定收入</label>
+            </div>
+        </div>
+        <div class="rubric_box">
+            <p class="rubric_tit">5.您的家庭目前全年收入状况如何？</p>
+            <div class="rubric_option">
+                <label><input name="answer5" type="radio" value="10" />A.30万元以上</label>
+                <label><input name="answer5" type="radio" value="8" />B.10-30万元</label>
+                <label><input name="answer5" type="radio" value="5" />C.5-10万元</label>
+                <label><input name="answer5" type="radio" value="3" />D.1-5万元</label>
+                <label><input name="answer5" type="radio" value="0" />E.1万元以下</label>
+            </div>
+        </div>
+        <div class="rubric_box">
+            <p class="rubric_tit">6.您投资的主要目的是什么？选择最符合您的一个描述：</p>
+            <div class="rubric_option">
+                <label><input name="answer6" type="radio" value="10" />A.关心长期的高回报。</label>
+                <label><input name="answer6" type="radio" value="8" />B.倾向长期的成长。</label>
+                <label><input name="answer6" type="radio" value="5" />C.获得一定的增值。</label>
+                <label><input name="answer6" type="radio" value="3" />D.确保资产的安全性。</label>
+                <label><input name="answer6" type="radio" value="0" />E.资产保值。</label>
+            </div>
+        </div>
+        <div class="rubric_box">
+            <p class="rubric_tit">7.当您进行投资时，您能接受一年内损失多少？</p>
+            <div class="rubric_option">
+                <label><input name="answer7" type="radio" value="10" />A.我能承受25％以上亏损</label>
+                <label><input name="answer7" type="radio" value="8" />B.我能承受10-20％的亏损</label>
+                <label><input name="answer7" type="radio" value="5" />C.我最多只能承受5-10%的亏损</label>
+                <label><input name="answer7" type="radio" value="3" />D.我最多只能承受5%以下的亏损</label>
+                <label><input name="answer7" type="radio" value="0" />E.我几乎不能承受任何亏损</label>
+            </div>
+        </div>
+    </div>
+    <div class="rubric_btn_box clr">
+        <a href="javascript:history.back(-1)" class="left">返回</a>
+        <em id="rubricBtn" class="left">提交</em>
+    </div>
+</div>
+<!--end:风险评测-->
+<!--start:是否提交弹框-->
+<div class="bomb_bg" style="display: none;"></div>
+<div class="ifputin_box">
+    <p>是否需要提交评价?</p>
+    <div class="judge_btn_box">
+        <em class="judge_btn_l left">取消</em>
+        <em class="judge_btn_r right">确定</em>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+
+		$(function(){	
+			$("a").limit();
+			//$("#xf_wyjkfb_4_window").hide();
+			//hide隐藏，center展示	
+			$(".xf_wyjkfb_4_windowClose,#xf_wyjkfb_4_windowCancle,#xf_con_inputfbqux").click(function(){				
+				$("#xf_wyjkfb_4_window").center();
+				$("#xf_wyjkfb_4_window").hide(500);
+			});
+
+			
+			
+			//竞拍成功
+			$("#xf_zqzrtb_4_window").center();
+
+			$("#xf_con_inputfbjk").click(function(){				
+				$("#xf_wyjkfb_4_window").hide("fast",function(){
+					$("#xf_wyjkfb_4_window").show();
+					
+				});
+			});
+			$(".xf_zqzr_4_windowClose").click(function(){
+				$("#xf_zqzrtb_4_window").hide();
+			});
+		});
+		
+		
+	</script>
+	
+<!-- *{登录弹框层}* -->	
+#{include 'front/invest/InvestAction/login.control'/}		
+	
+ *{激活弹框层}* 
+#{include 'front/invest/InvestAction/activeEmail.control'/}	
+
+<script type="text/javascript">
+//提交判断是否全选
+$(function(){
+    $("#rubricBtn").click(function(){
+        var bombBg = $('.bomb_bg'),
+            ifPutin = $('.ifputin_box'),
+            judgeBtnL = $('.judge_btn_l'),
+            judgeBtnR = $('.judge_btn_r'),
+            fullB = true,
+            cpLetter = [],//选项值数组
+            iLetter = '',
+            cpScore = 0,//测评分数
+            cpGrade = '';//测评等级
+
+        $.each($(".rubric_option"),function(i,item){
+            if(!$(this).find("input:checked").size()){
+                alert("您的题目还没做完！");
+                fullB = false;
+                return false;
+            }
+
+            var iScore = $(this).find('input:checked').val();
+
+                iLetter = $.trim($(this).find('input:checked').parent('label').text()).substring(0,1);
+
+            cpScore += Number(iScore);
+
+            cpLetter.push(iLetter);
+
+        });
+
+//        题目全部选择
+        if(fullB){
+            bombBg.css('display','block');
+            ifPutin.css('display','block');
+
+            judgeBtnL.on('click',function(){
+                bombBg.css('display','none');
+                ifPutin.css('display','none');
+            });
+
+            judgeBtnR.off().on('click',function(){
+                cpScore = Number(cpScore);
+
+                if(0 <= cpScore && cpScore <= 3){
+                    cpGrade = '安全型';
+                }else if(4 <= cpScore && cpScore <= 24){
+                    cpGrade = '保守型';
+                }else if(25 <= cpScore && cpScore <= 44){
+                    cpGrade = '稳健型';
+                }else if(45 <= cpScore && cpScore <= 62){
+                    cpGrade = '积极型';
+                }else if(63 <= cpScore && cpScore <= 70){
+                    cpGrade = '进取型';
+                }
+
+               // alert('测评分数为：' + cpScore +' ; 测评等级：' + cpGrade + ' ; 选项值数组：' + cpLetter);
+               $.post("/front/invest/risk-save", {"riskResult":cpGrade, "riskAnswer":JSON.stringify(cpLetter)}, function(){
+	            		location.href = "/front/invest/risk-result";
+            		})
+            });
+        }
+
+    })
+})
+
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_invest.js'}"></script>

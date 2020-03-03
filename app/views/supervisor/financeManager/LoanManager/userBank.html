@@ -1,0 +1,103 @@
+<div class="xf_ht_jr_obu_width">
+	<div class="xf_ht_jr_obu_title clr">
+		<div class="xf_ht_jr_obu_l">
+			放款账户
+		</div>
+		<div class="xf_ht_jr_obu_r">
+			&nbsp;
+		</div>
+	</div>
+	
+	<table border="0" cellspacing="0" cellpadding="0"
+		class="xf_ht_jr_obu_form">
+		<tr>
+			<td align="right" valign="middle" class="xf_ht_jr_obttd_l">
+				绑定账号：
+			</td>
+			<td>
+				<span class="xf_ht_fk_span" id="xf_ht_fk_span">
+					#{if null == bank}
+						未绑定
+					#{/if}
+					#{else}
+						${bank?.bankName}(${bank?.subAccount})
+					#{/else}
+				</span>
+			</td>
+		</tr>
+		#{if bid?.status == 3}
+		<tr>
+			<td width="132" align="right" valign="middle"
+				class="xf_ht_jr_obttd_l">
+				用户账户列表：
+			</td>
+			<td>
+				<select class="xf_ht_jr_dfk_i" name="bankId" id="selectBankId" >
+					<option value="0">请选择</option>
+					#{list banks}
+						<option value="${_?.id}"
+							#{if _?.id == bank?.id}
+								selected="selected"
+							#{/if}
+						>${_?.bankName}(${_?.subAccount})</option>
+					#{/list}
+				</select>
+				
+			</td>
+		</tr>
+		#{/if}
+		<tr>
+			<td align="right" valign="middle" class="xf_ht_jr_obttd_l">
+				收款人：
+			</td>
+			<td>
+				<span class="xf_ht_fk_span">${bid.userName}</span>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="xf_ht_tcc_button">
+				<input class="xf_ht_tcc_button_ok" type="button" value="确  定" onclick="releaseAudit();">
+				<input class="xf_ht_tcc_button_on" type="button" value="取  消">
+			</td>
+		</tr>
+	</table>
+</div>
+
+#{form @releaseAudit(bid?.sign), method:'POST', id:'releaseAudit'}
+	<input type="hidden" name="bankId" id="bankId" value="0"/>
+#{/form}
+
+<script type="text/javascript">
+<!--
+	$(function(){
+		$(".xf_ht_jr_obu_r").click(function(){
+	      $(this).parents(".xf_ht_ttc").hide();
+	    });
+
+	    $(".xf_ht_tcc_button_on").click(function(){
+	        $(this).parents(".xf_ht_ttc").hide();
+	      });
+
+	     $("#selectBankId").change(function(){
+		     var text = $(this).find("option:selected").text()
+			 $("#xf_ht_fk_span").html(text);
+			 $("#bankId").val(this.value);
+		 }); 
+	});
+
+
+	function releaseAudit(){
+		 if($("#bankId").val() * 1 == 0){
+			 alert("未绑定银行卡!");
+
+			 return;
+		 }
+
+		 if(!confirm("涉及到资金交易,请您再次确认!"))
+		 	return;
+
+		 /* 放款代码 */
+		$("#releaseAudit").submit(); 
+	}
+//-->
+</script>

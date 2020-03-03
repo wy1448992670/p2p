@@ -1,0 +1,95 @@
+				<div class="xf_wylc_memmer_r left">
+						<span>剩余时间：</span><br />
+						<span class="xf_wylc_l_memhyA"><span id="day"></span><span class="font_onetwo">天</span><span id="hour"></span><span class="font_onetwo">小时</span><span id="minutes"></span><span class="font_onetwo">分</span><span id="seconds"></span><span class="font_onetwo">秒</span></span><br />
+						竞拍状态：
+						#{if debt?.status == 1}
+							竞拍中
+						#{/if}
+						#{if debt?.status == 2}
+							等待认购
+						#{/if}
+						#{if debt?.status == 3}
+							已成功
+						#{/if}
+						#{if debt?.status == 4}
+							等待确认
+						#{/if}
+						#{if debt?.status == -2}
+							流拍
+						#{/if}
+						#{if debt?.status == -3}
+							流拍
+						#{/if}
+						#{if debt?.status == -5}
+							流拍
+						#{/if}
+						<br />
+						本息合计：#{format money:debt.debtAmount}#{/format}元<br />
+						拍卖底价：#{format money:debt.transferPrice}#{/format}元<br />
+						目前拍价：<span class="xf_zqzr_jpjg">#{format money:debt?.maxOfferPrice}#{/format}</span> 元<br /><br />
+						#{if debt.status == 1 && new java.util.Date() < debt?.endTime}
+						<a class="xf_con_inputfbjk" onclick="showDivDebt();">我要竞拍</a>
+						#{/if}
+					</div>
+					
+					
+					<div class="xf_cps_top_r">
+			<div class="xf_wylc_erweima">
+				<img src="@{Application.images}?uuid=${debt?.qr_code}" class="xf_wylc_erweima_img" alt="二维码" title="二维码">
+				<span class="xf_wylc_erweima_text">
+					扫一扫<br />
+					用手机浏览
+				</span>
+			</div>
+		</div>
+					
+		<script>
+				
+				showTime();
+				
+				 function showTime(){
+				 		
+				      var endTime =" ${debt?.endTime?.format('yyyy/MM/dd HH:mm:ss')}";
+				      var date = new Date(endTime);
+			          var tt = date.getTime();
+				      var now = new Date().getTime();
+		              var cha = tt-now;
+		              var SysSecond=parseInt(cha);
+				 
+				 	 if (SysSecond > 0) { 
+				 	 
+   	                  int_day=Math.floor(SysSecond/86400000);
+                      SysSecond-=int_day*86400000;
+                      int_hour=Math.floor(SysSecond/3600000);
+                      SysSecond-=int_hour*3600000;
+                      int_minute=Math.floor(SysSecond/60000);
+                      SysSecond-=int_minute*60000;
+                      int_second=Math.floor(SysSecond/1000);
+            
+                    if(int_hour<10){
+             	       int_hour="0"+int_hour;
+			          }
+			 
+                   if(int_minute<10){
+           		       int_minute="0"+int_minute;
+		              }
+		     
+       		       if (int_second<10){
+            	      int_second="0"+int_second;
+                       }
+             
+  			       $("#day").html(int_day);
+  			       $("#hour").html(int_hour);
+  			       $("#minutes").html(int_minute);
+  			       $("#seconds").html(int_second);
+  		       }else{
+  		       
+  		       	   $("#day").html("00");
+  			       $("#hour").html("00");
+  			       $("#minutes").html("00");
+  			       $("#seconds").html("00");
+  		       }
+			setTimeout('showTime()',1000); 
+	     }
+				
+		</script>

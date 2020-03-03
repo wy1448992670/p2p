@@ -1,0 +1,179 @@
+
+
+
+<style>
+	.tableOuter tr td >input{
+		text-align:center;
+	}
+</style>
+<div id="reason" style="display:none;padding:20px;">
+		<textarea class="reasonText" style="width:100%;border-radius:3px;height:100px"></textarea>
+		<div style="margin-top:10px;text-align:center;">
+		<button style="color:white;background:#5C90CB;border:0;border-radius:5px;width:107px;height:30px;" onclick="operationSubmit(2)">确认</button>
+		<button style="color:white;background:#5C90CB;border:0;border-radius:5px;width:107px;height:30px;"  onclick="hideReason()" >取消</button>
+		</div>
+</div> 
+
+	<div style="padding:30px;" class="xn_c_content_top">
+  		<div style="border: 1px solid #AEAEAE" class="">
+    <div class="z_title" style="border-bottom: 1px solid #AEAEAE;background:#F2F2F2;">
+      <em>${models.t_enum_map.getEnumCodeMapByTypeName("t_borrow_apply.status")?.get(borrowApply.status)?.enum_name}</em>
+    </div>
+    
+    	
+    <div class="outer" style="font-size:16px;">
+    #{form @applicationCheck(borrow_apply,operation), method:'POST', id:'applicationCheck'}
+    <input type="hidden" id="operation" name='operation' value="0" />
+	<input type="hidden" name='borrow_apply.id' value="${borrowApply.id}" />
+	<input type="hidden" name='borrow_apply.status' value="${borrowApply.status}" />
+	<input type="hidden" name='apply_id' value="${borrowApply.id}" />
+	<input type="hidden" name='apply_status' value="${borrowApply.status}" />
+	<input type="hidden" name='view' value="${view}" />
+	<input type="hidden" name="borrow_apply.reason"   /> 
+		
+    
+      <table class="tableOuter" width="100%" >
+        <tbody>
+          <tr>
+            <td width="8%">用户名： </td>
+            <td width="26%">${user.name}</td>
+            <td width="9%">申请金额（元）： </td>
+            <td>${borrowApply.apply_amount}</td>
+          </tr>
+          <tr>
+            <td>注册时间： </td>
+            <td>${user.time}</td>
+            <td>申请地区： </td>
+            <td>${borrowApply.apply_area_name}</td>
+          </tr>
+          <tr>
+            <td>申请时间： </td>
+            <td>${borrowApply.apply_time}</td>
+            <td>借款期限： </td>
+            <td>${borrowApply.period}个月</td>
+          </tr>
+          <tr>
+            <td>申请项目： </td>
+            <td>${borrowApply.product_name}</td>
+            <td>借款用途： </td>
+            <td>${borrowApply.loan_purpose_name}</td>
+          </tr>
+          <tr>
+            <td>借款人分配至： </td>
+            <td>
+%{	if(authority==1 || borrowApply.status!=1){	}%
+			${borrowApply?.allot_area_name}<br/>
+%{	}else {	}%
+			<select class="xf_ht_jr_dfk_i" name="borrow_apply.allot_area" style="padding-bottom: 5px;padding-left: -50px;">
+					<option value="">请选择</option>
+					#{list new models.t_agencies().fetchEnumList() }
+						<option value=${_?.id} #{if borrow_apply?.allot_area!=null && borrow_apply?.allot_area==_?.id }selected="selected"#{/if}>
+							${_?.name}
+						</option>
+					#{/list}
+			</select>
+%{	}	}%
+			</td>
+			
+%{	if( authority == 1){	}%
+			<td>借款性质： </td>
+		    <td>${borrowApply.loan_property_name}</td>
+		  </tr>
+	%{	if(borrowApply.status!=1){	}%
+		  <tr>
+		    <td >审批金额： </td>
+		    <td>${borrowApply.approve_amount}</td>
+		  </tr>
+	%{	}	}%
+%{	}else if(authority == 2 || authority==3){	}%
+	%{	if(borrowApply.status==1){	}%
+			<td>借款性质： </td>
+		    <td>${borrowApply.loan_property_name}</td>
+		  </tr>
+	%{	}else if(borrowApply.status==2||borrowApply.status==3||borrowApply.status==4){	}%
+			<td>借款性质： </td>
+		    <td>
+		    	<select class="xf_ht_jr_dfk_i" name="borrow_apply.loan_property_id" style="padding-bottom: 5px;padding-left: -50px;">
+					#{list constants.UserTypeEnum.getEnumList()}
+						<option value=${_?.code} #{if _?.code == borrowApply.loan_property_id}selected="selected"#{/if}>
+							${_?.name}
+						</option>
+					#{/list}
+				</select>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>审批金额： </td>
+		    <td><input type="text" name="approve_amount"  value="${borrowApply.approve_amount}"><span style="color:#0044FC;font-size: 10px;margin-left: 10px;">更改</span></td>
+		  </tr>
+	%{	}	}%
+%{	}	}%
+%{	if( authority == 1 && borrowApply.status==7){	}%
+		  <tr>
+			<td>不通过原因：</td>
+			<td>${borrowApply.reason}</td>
+		  </tr>	
+%{	}	}%
+
+			<tr>
+		%{	if(authority == 2 && borrowApply.status==2){	}%
+				<td><input type="button" class="xf_ht_tcc_button_ok" onclick="operationSubmit(1);" value="确认提交"/></td>
+		%{	}else if(authority == 3 && borrowApply.status==1){	}%
+				<td><input type="button" class="xf_ht_tcc_button_ok" onclick="operationSubmit(1);" value="确认分配"/></td>
+		%{	}else if(authority == 3 && (borrowApply.status==3 || borrowApply.status==4)){	}%
+				<td><input type="button" class="xf_ht_tcc_button_ok" onclick="operationSubmit(1);" value="确认提交"/></td>
+		%{	}else if(authority == 3 && (borrowApply.status==5)){	}%
+				<td><input type="button" class="xf_ht_tcc_button_ok" onclick="operationSubmit(1);" value="借款取消"/></td>
+		%{	}	}%
+		%{	if(authority == 3 && (borrowApply.status==3 || borrowApply.status==4)){	}%
+				<td><input type="button" class="xf_ht_tcc_button_ok" onclick="refuseReason();" value="审核不通过"/></td>
+				<td><input type="button" class="xf_ht_tcc_button_ok" onclick="operationSubmit(3);" value="退回"/><td>
+		%{	}	}%
+			</tr>
+        </tbody>
+
+      </table>
+      #{/form}
+    </div>
+  </div>
+  <!-- 实名信息 -->
+  #{include 'supervisor/webContentManager/ProductAction/loanContent.control'/}
+</div>
+<script>
+	function hideReason(){
+		layer.closeAll();
+	}
+	
+	function operationSubmit(operation){
+		$('#operation').val(operation);
+		if(operation==2){
+			var str = $('.reasonText').val();
+			if($.trim(str)==''){
+				layer.alert('请填写理由');
+				return false;
+			}
+			$('[name="borrow_apply.reason"]').val(str);
+		}
+		$('#applicationCheck').submit();
+	}
+	
+	function refuseReason(){
+		$.layer({
+          type: 1,
+          area: ['800px', 'auto'],
+          title: '拒绝原因',
+          page: {dom : '#reason'}
+        });
+	
+	}
+	
+	$(function(){
+		/* 高亮显示 */
+	%{	if(view==1){		}%
+		showHighLight(4,4,16);
+	%{	}else{	}%
+		showHighLight(4,4,17);
+	%{	}	}%
+	});
+	
+</script>

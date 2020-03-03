@@ -1,0 +1,75 @@
+
+  <div class="xf_ht_tablelist" >
+    <!-- 搜索 -->
+    <div class="xf_ht_search_inon" style="border:0px;">
+       <div class="xf_ht_search_r">
+         <div class="xf_ht_search_xl">
+           <input id="keyword" class="xfht_zr_input" type="text" placeholder="请输入用户名" value="${pageBean?.conditions?.key}">
+         </div>
+         <div class="xf_ht_search_xl">
+           <input class="xf_ht_jkbgl_page_fh" type="button" title="请输入有效用户名" onclick="usersWillSelect(1, 10);" value="搜索">
+         </div>
+       </div>
+    </div>
+    <!-- 列表内容 -->
+    <div style=" overflow: auto; width:780px;">
+	    <div class="xn_c_content_top" style="width:1500px; margin-left:10px;margin-right:10px; overflow: auto;" >
+	      #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xn_c_content_list",tr_class_odd:"xn_tr_bj"}
+	        #{tr}
+			  #{th}序号#{/th}
+			  #{th}用户名#{/th}
+			  #{th}真实姓名/企业名称#{/th}
+			  #{th}注册时间#{/th}
+			  #{th}信用等级#{/th}
+			  #{th}充值总额#{/th}
+			  #{th}投标总数#{/th}
+			  #{th}投标总额#{/th}
+			  #{th}借款总数#{/th}
+			  #{th}借款总额#{/th}
+			  #{th}绑定邮箱#{/th}
+			  #{th}是否激活#{/th}
+			  #{th}绑定手机#{/th}
+			  #{th}审核科目数#{/th}
+			  #{th}是否黑名单#{/th}
+			  #{th}账户余额#{/th}
+			  #{th}最后登录时间#{/th}
+			  #{th}状态#{/th}
+	        #{/tr}
+			#{list pageBean.page, as:'user'}
+	        #{tr tr_index:content_index, title:"请点击用户名选择"}
+			  #{td}${user_index}#{/td}
+			  #{td}
+			    <a style="cursor: pointer;" onclick="setUser('${user?.sign}','${user?.name}',true,'${user.is_add_base_info}', '${user?.reality_name}', '${user?.id_number}', '${user?.bank}');layer.closeAll();">${user?.name}</a> 
+			  #{/td}
+			  #{td}#{if user?.reality_name != null && user?.id_number != null && user?.bank > 0}${user?.reality_name}#{/if}#{if user?.bank > 0}/已绑卡#{/if}#{/td}
+			  #{td}${user?.register_time?.format("yyyy-MM-dd")}#{/td}
+			  #{td}#{img src:"${user?.credit_level_image_filename}",alt:"",width:"25",height:"25"}#{/img}#{/td}
+			  #{td}${user?.recharge_amount?.format("###,##0.00")}#{/td}
+			  #{td}${user?.invest_count}#{/td}
+			  #{td}${user?.invest_amount?.format("###,##0.00")}#{/td}
+			  #{td}${user?.bid_count}#{/td}
+			  #{td}${user?.bid_amount?.format("###,##0.00")}#{/td}
+			  #{td}${user?.email}#{/td}
+			  #{td}#{if user?.is_activation == true}是#{/if}#{else}否#{/else}#{/td}
+			  #{td}${user?.mobile}#{/td}
+			  #{td}${user?.audit_item_count}#{/td}
+			  #{td}#{if user?.is_blacklist == true}是#{/if}#{else}否#{/else}#{/td}
+			  #{td}${user?.user_amount?.format("###,##0.00")}#{/td}
+			  #{td}${user?.last_login_time?.format("yyyy-MM-dd")}#{/td} 
+			  #{td}${user.is_allow_login ? "锁定" : "正常"}#{/td}
+	        #{/tr}
+			#{/list}
+	      #{/table}
+	    </div>
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom" style="border:0px;width:740px;">
+      #{page currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:4/}
+    </div>
+  </div>
+<script type="text/javascript">
+	/* 条件搜素查询 */
+	function showPage(currPage, pageSize){
+		usersWillSelect(currPage, pageSize);
+    }
+</script>

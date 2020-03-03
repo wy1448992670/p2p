@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+<head>
+  <title>#{get 'title' /}</title>
+  <meta name="keywords" content="${currBackstageSet?.seoKeywords}" />
+  <meta name="description" content="${currBackstageSet?.seoDescription}" />
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+  <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/site.css'}" />
+	<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/reset.css'}" />
+	<script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
+	<script type="text/javascript" src="@{'/public/javascripts/layer/layer.min.js'}"></script>
+	<script type="text/javascript" src="@{'/public/javascripts/common.js'}"></script>		
+</head>
+<body>
+#{doLayout /}
+</body>
+</html>

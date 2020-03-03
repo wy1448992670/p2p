@@ -1,0 +1,38 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /}
+#{set title:'我的账户 | 我的财富圈 | 我的邀请码'/}
+
+<!-- 内容区域 start -->
+	<div class="xf_con_box">
+		<div class="xf_con_mem_nav"></div>
+		<!-- 左边导航区域 -->
+		#{include "front/account/AccountHome/homeLeft.control"/}
+		<!-- 右侧内容区域 -->
+		<div class="xf_mem_Account xf_mem_shzdjkb_box">
+            <h3 class="xf_mem_accout_title">财富圈邀请流程</h3>
+        	<div class="invitation_process">
+                <div class="process_show">
+                    <img src="/public/images/circle_lclc.png" alt="邀请流程" />
+                </div>
+          		#{include "front/account/WealthCircle/wealthInfo.control"/}
+            </div>
+            
+            #{include "front/account/WealthCircle/myInvitationCode.control"/}
+	            
+	    </div>
+		<!-- 清除浮动 -->
+		<div class="clear"></div>
+	</div>
+<!-- 内容区域 end -->
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript">
+
+    $(function(){
+		/* 高亮显示 */
+		showHighLightFront(50);
+		showHighLightFront2(8, 8);
+    	
+    });
+</script>

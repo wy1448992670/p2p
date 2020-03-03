@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+%{
+		business.User currUser = business.User.currUser();
+		business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+		String platUrl = constants.Constants.BASE_URL;
+		java.util.Map<String,java.util.List<business.BottomLinks>> bottomLinks = business.BottomLinks.currentBottomlinks();
+		java.lang.String type1Name = business.NewsType.queryName(1);
+		java.lang.String type2Name = business.NewsType.queryName(2);
+		java.lang.String type4Name = business.NewsType.queryName(4);
+		boolean ipsEnable = constants.Constants.IPS_ENABLE;
+		boolean debtUse = constants.Constants.DEBT_USE;
+	}%
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	<style>
+				a{
+					text-decoration: none;
+					
+				}
+				li{
+					list-style: none;
+				}
+				
+				
+				.top{
+					width: 100%;
+					height: 80px;
+					min-width: 1170px;
+					/*background: #999;*/
+					
+					
+				}
+				.top_skip{
+					width: 1140px;
+					height: 80px;
+					margin: 0 auto;
+					position: relative;
+					/*line-height: 80px;*/
+					
+				}
+				.logo{
+					margin-top: 10px;
+					display: inline-block;
+					
+					
+				}
+				.slogan{
+					display: inline-block;
+					font-size: 14px;
+					color: #666;
+					position: absolute;
+					top: 20px;
+					left: 200px;
+					
+				}
+				.top_skip ul{
+					/*width: 600px;*/
+					height: 16px;
+					float: right;
+					margin-top: 30px;
+					/*background: #f45;*/
+					font-size: 0;
+					
+					
+				}
+				.top_skip ul li{
+					display: inline-block;
+					width: 105px;
+					height: 16px;
+					line-height: 16px;
+					text-align: center;
+					/*background: #000;*/
+					font-size: 0;
+					
+				}
+				.top_skip ul li:nth-child(2){
+					border-right: 1px solid #666;
+					border-left: 1px solid #666;
+					box-sizing: border-box;
+					
+					
+				}
+				.top_skip ul li a{
+					font-size: 16px;
+					color: #666;
+				}
+				.top_skip ul li a:hover{
+					color: #333;
+					
+					
+				}
+				
+				
+				
+				input{
+					font-size: 16px;
+					color: #999;
+					padding-left: 10px;
+					border: 1px solid #e0e0e0;
+					
+				}
+				
+				
+				
+				.main{
+					width: 100%;
+					height: 650px;
+					margin: 0 auto;
+					position: relative;
+					overflow: hidden;
+				}
+                .main_img{
+                    position: absolute;
+                    top: 0;
+                    left: 50%;
+                    margin-left: -960px;
+                    width: 1920px;
+                    height: 650px;
+                }
+                .main_img>img{
+                    width: 100%;
+                    height: 100%;
+                }
+				.register{
+					width: 440px;
+					height: 413px;
+					/*background: #000;*/
+					position: absolute;
+					/*top: 6%;*/
+					left: 56.5%;
+					padding-top: 77px;
+					background: url(/public/images/newlogin/zc1.png);
+					/*text-align: center;*/
+					
+					
+					
+					
+				}
+				.tel,.pw,.login{
+					width: 310px;
+					height: 42px;
+					margin-left: 58.5px;
+					
+					
+				}
+				.tel,.pw,.yzm{
+					color: #333;
+				}
+				
+				
+				.tel,.pw{
+					margin-top: 20px;
+					
+					
+				}
+				.login{
+					border: none;
+					background: #ff384f;
+					border-radius: 10px;
+					font-size: 20px;
+					font-family: "微软雅黑";
+					color: #fff;
+					width: 320px;
+					outline: none;
+				}
+				.login:hover{
+					background: #e53247;
+					
+					
+				}
+				
+				
+				.yzm{
+					width: 196px;
+					height: 42px;
+					
+				}
+				.yzm_all,.p_yzm_all{
+					width: 320px;
+					height: 42px;
+					/*background: #4f5;*/
+					margin: 0 auto;
+					font-size: 0;
+					margin-top: 20px;
+					
+				}
+				.pic_yzm{
+					width: 100px;
+					height: 42px;
+					margin-left: 10px;
+					float: right;
+					
+				}
+                .p_yzm_all .gain_yzm{
+                    width: 111px;
+                    line-height: 42px;
+                    border: 1px solid #E0E0E0;
+                    border-left: 0;
+                    background: #fff;
+                    float: right;
+                    color: #333;
+                    font-size: 16px;
+                    outline: none;
+                    cursor: pointer;
+                }
+				.dp_all{
+					width: 320px;
+					height: 42px;
+					line-height: 42px;
+					margin-left: 59px;
+					
+					
+				}
+				.dp{
+					width: 15px;
+					float: left;
+					margin-top: 12px;
+					margin-right: 10px;
+				}
+				.once{
+					width: 320px;
+					height: 12px;
+					line-height: 12px;
+					/*background: #ccc;*/
+					margin: 0 auto;
+					margin-top: 12px;
+					
+				}
+				.once span{
+					font-size: 12px;
+					color: #666;
+					
+				}
+				
+				.once a{
+					float: right;
+					color: #3b65ff;
+					font-size: 12px;
+					
+				}
+				
+				.con{
+					font-size: 12px;
+					color: #666;
+					
+				}
+				.end{
+					text-align: center;
+					font-size: 14px;
+					color: #666;
+					margin-top: 16px;
+					margin-bottom: 16px;
+				}
+			</style>
+	</head>
+	<body>
+		<div class="top">
+			<div class="top_skip">
+
+				<div class="slogan">
+					安心托付，智慧出借，</br>您的财富管家！
+				</div>
+				<ul>
+					<li><a href="/">返回首页</a></li>
+					<li><a href="@{front.home.HomeAction.restAboutUs(16)}">关于我们</a></li>
+					<li><a href="/front/help/index?typeId=13">帮助中心</a></li>
+				</ul>
+				
+			</div>
+			
+		</div>
+		<div class="main" id="main">
+			<div class="main_img"><img src="/public/images/newlogin/banner1.png" alt=""/></div>
+			#{form @front.account.loginAndRegisterAction.loginingCode(), id:'submit'}
+			<div class="register" id="register">
+				<input class="tel" id="tel" type="text" placeholder="请输入手机号码" name="name"/>
+				<input class="pw" id="pw" type="password" placeholder="请输入密码" name="password"/>
+				<p class="yzm_all">
+					<input type="hidden" name="randomID" id="randomID" />
+					<input class="yzm" type="text" placeholder="请输入验证码" name="code" id="code"/>
+					<img src="" id="img" alt="" onclick="change()" class="pic_yzm">
+				</p>
+				<p class="p_yzm_all">
+					<input class="yzm" type="text" placeholder="请输入验证码" id="smsCode" name="smsCode"/>
+					<input type="button" id="get_yzm" value="获取验证码" onclick="sendCode()" class="gain_yzm"/>
+				</p>
+				<p class="dp_all"><img class="dp" src="/public/images/newlogin/icon.png" alt="" /><span class="con">您的信息将通过128位SGC加密保护数据传输安全</span></p>
+				<button class="login" id="login">登 录</button>
+
+			</div>
+			#{/form}
+		</div>
+		<p class="end">版权所有&nbsp;&nbsp;沪ICP备15054793号&nbsp;&nbsp;网贷有风险，决策需谨慎</p>
+	</body>
+	<script type="text/javascript" src="/public/javascripts/jquery-1.11.1.js" ></script>
+	<script type="text/javascript">
+		$(function(){
+		    var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+			$.post(setCode({}),function(data){
+				var arr=eval(data);
+				var img = arr.img;
+				$("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img);	
+				$("#randomID").val(img);
+			});
+			 if('${flash.error}' !='') {
+			      alert('${flash?.error}');
+		      if('${flash?.emailUrl}' !='') {
+		        window.open('${flash?.emailUrl}');
+		      }
+		    }
+		});
+</script>
+	<script>
+				var yz=document.getElementById("login"); 
+				yz.onclick=function(){
+					var reg1=/^[0-9]{11}$/;
+					var reg2=/^[A-Za-z0-9]{6,20}$/;
+					if(!reg1.test(tel.value)){
+						alert("请输入11位的手机号码");
+					}
+				    if(!reg2.test(pw.value)){
+						alert("请输入6-20位的由数字和字母组成的密码");
+					}
+				
+					
+				}
+		        $(function(){
+		        	var he=$("#main").height();
+//		        	alert($("#main").height())
+//					alert((he-353)/2);
+					var he=(he-430)/2;
+		        	$("#register").css("position","absolute").css("top",he);
+
+		        	 if('${currUser?.name}' == '' && '${loginOrRegister}' == '') {
+	        	      var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+	        	      $.post(setCode({}),function(data){
+	        	        var arr=eval(data);
+	        	        var img = arr.img;
+	        	        $("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img)	
+	        			$("#randomID").val(img);
+	        		  });
+	        		}
+		        })
+		        
+		function change(){
+		    var setCode = #{jsAction @front.account.LoginAndRegisterAction.setCode()/}
+			$.post(setCode({}),function(data){
+			  var arr=eval(data);
+			  var img = arr.img;
+			  $("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img);
+			  $("#randomID").val(img);	
+			});
+		  };
+		
+		//  获取验证码
+		var countdown = 60;
+
+		function settime() {
+			if(countdown == 0) {
+				$('#get_yzm').attr("disabled", false);
+				$('#get_yzm').val("获取验证码");
+				 $("#get_yzm").attr("onclick", "sendCode();");
+			    $("#get_yzm").attr("style", "cursor:pointer");
+				countdown = 60;
+				return;
+			} else {
+				$('#get_yzm').attr("disabled", true);
+				$('#get_yzm').val("重新发送(" + countdown + ")");
+				countdown--;
+			}
+			setTimeout(function() {
+				settime()
+			}, 1000)
+		}
+		function sendCode(){
+	    	 var mobile = $("#tel").val().trim();
+	     	var code = '';
+	     	var randomId = '';
+	     	if(mobile == ""){
+	     		alert("请输入11位的手机号码");
+	          	return;
+	         }
+	     	
+	     	code = $("#code").val().trim();
+	     	randomID = $("#randomID").val().trim();
+	     	if(code == '') {
+	     		alert("请输入验证码");
+	       		  return;
+	          }
+		     	
+	          var verifyMobile = #{jsAction @front.account.loginAndRegisterAction.verifyMobileForLogin(':mobile',':code',':randomID')/}
+	      		$.post(verifyMobile({mobile:mobile,code:code,randomID:randomID}),function(data){
+	      	    if(data.code < 0){
+	      	    	alert(data.msg)
+	      	    	change();
+	      	    }else{
+	      	    	settime();
+	      	    	 $("#get_yzm").attr("onclick", "void(0);");
+					 $("#get_yzm").attr("style", "cursor: default");
+	      		}
+	      	},'json');
+	      }
+	</script>
+</html>

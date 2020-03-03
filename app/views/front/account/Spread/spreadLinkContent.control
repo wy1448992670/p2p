@@ -1,0 +1,76 @@
+<script type="text/javascript" src="@{'/public/javascripts/ZeroClipboard.js'}"></script>
+
+<!-- 右侧内容区域 我的借款账单 -->
+<div class="xf_mem_Account xf_mem_shzdjkb_box">
+	<h3 class="xf_mem_accout_title">我的推广链接</h3>
+	<div class="xf_cps_top">
+		<div class="xf_cps_top_l">
+			<div class="xf_cps_top_lurl">
+				<span class="xf_cps_top_url" limit="50"style="text-overflow:ellipsis;white-space:nowrap; overflow:hidden;">${user?.spreadLink}</span>
+				<input type="hidden" value="${user?.spreadLink}" id="spread_link" />
+			</div>
+			<div class="xf_cps_top_linput clr">
+				<div class="xf_cps_top_linput_l">
+					<a id="copy_link_a">复制链接</a>
+				</div>
+				<div class="xf_cps_top_linput_r">
+					<div class="xf_wylc_contet_fx">
+						<div class="bdsharebuttonbox">
+							<span class="xf_gengduo">分享至：</span>
+							<a title="分享到QQ空间" href="#" class="bds_qzone" data-cmd="qzone"></a><a title="分享到新浪微博" href="#" class="bds_tsina" data-cmd="tsina"></a><a title="分享到腾讯微博" href="#" class="bds_tqq" data-cmd="tqq"></a><a title="分享到人人网" href="#" class="bds_renren" data-cmd="renren"></a><a title="分享到微信" href="#" class="bds_weixin" data-cmd="weixin"></a><a href="#" class="bds_more" data-cmd="more"></a><span class="xf_gengduo">更多</span></div>
+						<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdUrl" : "${user?.spreadLink}","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="xf_cps_top_r">
+			<div class="xf_wylc_erweima xf_wylc_erweima3">
+				<img src="@{Application.images}?uuid=${user?.qrcode}" class="xf_wylc_erweima_img" alt="二维码" title="二维码">
+				<span class="xf_wylc_erweima_text">
+					扫一扫<br />
+					用手机浏览
+				</span>
+			</div>
+		</div>
+	</div>		
+	<div class="xf_cps_conter">
+		CPS推广简介
+	</div>	
+	<div class="xf_cps_conter2 xf_cps_conter2t">
+		CPS：
+	</div>	
+	<div class="xf_cps_conter_nr xf_cps_conter_nr2">
+		*{CPS就是指个人直销代理推广的意思。
+		会员通过把自己的推广链接放在自己的空间，网站，朋友圈等方式进行代理推广，由此链接产生的会员交易额计入会员的直销代理成绩。按照代理成绩进行结算。}*
+		CPS就是指个人推广的意思。会员通过把自己的推广链接放在自己的短信，QQ，朋友圈等方式进行推广，由此链接产生的会员交易额计入会员的个人账户成绩。按照成绩进行计算。
+	</div>
+	<div class="clear"></div>
+	<div class="xf_cps_conter2">
+		CPS结算方式：
+	</div>
+	<div class="xf_cps_conter_nr">
+	#{if backstageSet.cpsRewardType == 1 }
+	按会员有效个数结算。<br />
+	每个有效会员奖金：<span class="xf_cps_conter_nrjq">${backstageSet.rewardForCounts}</span> 元
+	#{/if}
+	#{else}
+	按会员交易额产生的管理费进行比例结算<br />
+		每个有效会员交易额的比例：<span class="xf_cps_conter_nrjq">${backstageSet.rewardForRate}</span> %
+	#{/else}
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function(){
+	  $(".xf_cps_top_lurl").limit();
+		ZeroClipboard.setMoviePath("@{'/public/javascripts/ZeroClipboard.swf'}");
+		var clip = new ZeroClipboard.Client();
+		clip.setHandCursor(true);
+		clip.addEventListener("mouseUp", function(client) {
+			alert("复制链接成功！");
+		});
+		clip.setText($("#spread_link").val());
+		clip.glue('copy_link_a');
+	});
+</script>
+

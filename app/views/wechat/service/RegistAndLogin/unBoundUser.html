@@ -1,0 +1,83 @@
+#{extends 'wechat/common.html'/} 
+#{set title : '解绑账户' /}
+<div class="s_main s_center">
+	<header class="s_header"> 解绑账户 </header>
+	<div class="s_bindnotice">如果您已绑定了晓风网贷的账户，您可直接在此“解绑”您的账户。</div>
+	<div class="s_fffbg">
+		<div class="s_bindbody">
+			<form id="form1" method="post"
+				action="@{wechat.service.RegistAndLogin.unBoundUsering}">
+				<div class="s_bindinput">
+					<label><i class="icobg ico01"></i></label> <input id="name"
+						name="name" type="text" value="${flash?.name}"
+						placeholder="请输入用户名" />
+				</div>
+				<div class="s_bindinput">
+					<label><i class="icobg ico02"></i></label> <input id="password"
+						name="password" type="password" value="${flash?.password}"
+						placeholder="请输入密码" />
+				</div>
+				<div class="s_bindinput">
+					<label><i class="icobg ico03"></i></label> <input id="code" name="code" type="text"
+						class="shorttext" placeholder="请输入验证码" /> 
+					<!-- 加密openId -->
+					<input type="hidden" name="openId" value="${openId}">
+					<!-- 验证码随机码 -->
+					<input type="hidden" name="randomID" id="randomID" /> <img
+						class="s_yzm" id="img" src="" name="img" alt="" />
+				</div>
+				<div class="s_bindinput">
+					<span id="errorInfo"
+						style="color: red;font-size:12px;">${flash?.error}</span>
+				</div>
+				<input id="submit" name="submit" type="submit" value="解绑"
+					class="s_bindbtn" />
+			</form>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+
+	//得到验证码
+	$(function(){
+	    var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+		$.post(setCode({}),function(data){
+			var arr=eval(data);
+			var img = arr.img;
+			$("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img);	
+			$("#randomID").val(img);
+		});
+	});
+	
+	//改变验证码
+	$("#img").click(function(){
+		var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+		$.post(setCode({}),function(data){
+		var arr=eval(data);
+		var img = arr.img;
+		$("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img)	
+		$("#randomID").val(img);
+		});
+	});
+	
+	$("#submit").click(function(){
+		$("#errorInfo").empty();
+		if($("#name").val() == ''){
+			$("#errorInfo").html("请输入用户名");
+			return false;
+		 } 
+
+		if($("#password").val() == ''){
+			$("#errorInfo").html("请输入密码");
+			return false;
+		} 
+
+		if($("#code").val() == ''){
+			$("#errorInfo").html("请输入验证码");
+			return false;
+		}  
+
+		$("#form1").submit();
+	});
+
+</script>

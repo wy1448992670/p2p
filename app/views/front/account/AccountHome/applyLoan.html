@@ -1,0 +1,587 @@
+<style>
+.jk_InputTitle{
+	font-size:12px;
+	color:#666666;
+	margin-left: 20px;
+}
+.clearFloat{
+	clear:both;
+}
+.jk_input{
+    height: 38px;
+    border: 1px solid #CCCCCC;
+    line-height: 38px;
+    border-radius: 2px;
+}
+.contTxt{
+	height: 38px;
+    box-sizing: border-box;
+    border: 0;
+    width: 100;
+}
+	input[type="checkbox"]:checked {
+		background: url(/public/images/jk/checked.png)no-repeat;
+		background-size: cover;
+		border: none;
+	}
+	input[type="checkbox"] {
+		-webkit-appearance: none;
+		background: #fff;
+		height: 16px;
+		vertical-align: middle;
+		width: 16px;
+		border-radius: 50%;
+		outline: none;
+		border: 1px solid #CCCCCC;
+		/*margin: -3px 8px 0 4px;*/
+	}
+	.agreement{
+		color: #445AFF;
+		cursor:pointer;
+		display:table-cell;
+		/*padding-left:10px;*/
+		font-size:12px;
+	}
+	.marTop{
+		margin-top:5px;
+	}
+	.select_type{	
+		border-bottom: 2px solid;
+		padding-bottom: 15px;
+	}
+	.is_sel{
+		cursor:pointer;
+	}
+	.apply {
+		margin-top:17px;
+		font-size:16px;
+		width:100%;
+		height:57px;
+		border-radius:4px;
+		color:white;
+		border:0;
+		background: -webkit-linear-gradient(left, #6163FE , #686DFE); /* Safari 5.1 - 6.0 */
+		background: -o-linear-gradient(right, #6163FE, #686DFE); /* Opera 11.1 - 12.0 */
+		background: -moz-linear-gradient(right, #6163FE, #686DFE); /* Firefox 3.6 - 15 */
+		background: linear-gradient(to right, #6163FE , #686DFE); /* 标准的语法（必须放在最后） */
+		
+}
+ul .jk_right li{
+	float:left;
+	width:33%;
+	color:#555AFF;
+	font-size:15px;
+}
+a{
+	color:#445AFF;
+}
+.leftTitle{
+	font-size:32px;
+	color:#555AFF;
+	font-weight:bold;
+}
+.p_navul>li>a{
+	font-size:20px;
+}
+
+/*弹出协议*/
+.lay{
+	width: 100%;
+    height: 100%;
+    display: none;
+    background-color: #000;
+    position: absolute;
+    z-index: 400;
+    left: 0;
+    top: 0;
+    opacity: 0.6;
+}
+.pop {
+    width: 61.33%;
+    height: 660px;
+    border-radius: 10px;
+    display: none;
+    position: fixed;
+    z-index: 450;
+    left: 0;
+    top: 50px!important;
+    background: white;
+}
+
+.close_all {
+    width: 61.3%;
+    height: 0;
+    text-align: center;
+    z-index: 9999;
+    position: fixed;
+     background: #000; 
+     opacity: 0.6; 
+    top: 50px;
+    display: none;
+}
+.close_all img {
+    cursor: pointer;
+    float: right;
+}
+.con_tit {
+    width: 100%;
+    font-weight: bold;
+    text-align: center;
+    font-size: 28px;
+    margin-top: 60px;
+    margin-bottom: 50px;
+}
+.con_text {
+    width: 80%;
+    height: 460px;
+    overflow: auto;
+    margin: 0 auto;
+    /*font-size: 26px;*/
+}
+.p_navul>li>a{
+	width:auto;color:#8A8A8A;
+	font-size:16px;
+}
+</style>
+<div class="lay"></div>
+		<!--弹出层-->
+		<div class="pop pp_car">
+			<div class="con_tit"></div>
+			<div class="con_text" id="context">
+				
+			</div>
+			<div class="close_all ">
+				<img src="/public/images/reg20171208/close.png" class="close_img" alt="" />
+			</div>
+			
+		</div>	
+		<!--遮罩层-->
+	<div style="display:none;">
+		<div class="service">${service}</div>
+		<div class="authorization">${authorization}</div>
+		<div class="manage">${manage}</div>
+	</div>
+	<!-- top -->
+	<div class="p_headbox">
+	        <div class="p_head clr">
+	            <div class="p_logobox" style="padding-top:20px;">
+	                *{<a href="#" class="p_logo">
+					<img style="height:49px;width:168px;" src="/public/images/jk/jk_logo.png" alt="">
+					</a>}*
+	            </div>
+	            <div class="p_navbox">
+				
+	                <ul class="p_navul clr">
+	                    <li ><a style="width:auto;color:#8A8A8A;" id="index" href="@{front.home.HomeAction.LoanIndex()}" title="" >借款首页</a></li>
+	                    <li ><a style="width:auto;color:#5D5CFE;font-weight:bold;" id="bid" href="@{front.account.AccountHome.applyLoan()}?pageFinanceType=0" >申请借款<i></i></a></li>
+	                    <li ><a style="width:auto;color:#8A8A8A;" id="invests" href="@{front.account.AccountHome.home()}?pageFinanceType=0" title="">我的借款账户<i></i></a></li>
+	                </ul>
+	            </div>
+	        </div>
+    	</div>	
+		
+<div class="p_main clr">
+	<div style="display:inline-block;padding:50px 0;background:white;border-radius:4px;margin-top:60px;">
+	  <form id="" >
+	   
+	    <input type="hidden" name="userTypeId" value="1" />
+	     <input type="hidden" name="productId" value="1" />
+		<ul>
+			<li style="float:left;width:439px;text-align:center;padding:0 0 70px 0;border-right:1px solid #DDE6FF;margin-top:13px;">
+			
+				<div>
+					<img src="/public/images/jk/xin.png" alt="" />
+				</div>
+				<div class="leftTitle" >信亿贷</div>
+				<div style="color:#555AFF;font-size:20px;margin-top:24px;">
+					<div>凭借身份证或企业营业执照申请</div>
+					<div>额度1千-100万</div>
+				</div>
+			</li>
+			<li class="jk_right" style="float:left;width:360px;margin:0 100px" type="1">
+				<ul style="width: 100%;display:inline-block;" >
+					<li>
+						<span class="select_type is_sel" flag="1">个人借款</span>
+					</li>
+					<li style="text-align: center;">
+						<span class="is_sel" flag="2">企业借款</span>
+					</li>
+					<li style="text-align: right;">
+						<span class="is_sel" flag="3">个体工商户借款</span>
+					</li>
+				</ul>
+				<div class="clearFloat jk_input" style="margin-top:35px;" >
+					<span class="jk_InputTitle" >借款金额</span>
+					<span style="border-right: 1px solid;padding: 3px 0;margin: 0 20px;color: #CCCCCC;"></span>
+					<input class="contTxt" name="applyAmount" placeholder="请输入借款金额" >
+				</div>
+				
+				<div class="clearFloat jk_input" style="margin-top:16px" >
+					<span class="jk_InputTitle" >申请地区</span>
+					<span style="border-right: 1px solid;padding: 3px 0;margin: 0 20px;color: #CCCCCC;"></span>
+					<select name="agencyId" style="border:0;color:#999999;width:200px;">
+						<option value="" >--请选择--</option>
+					 	#{list items:agency, as:'ag'  }
+					 		<option value="${ag.id}" > ${ag.name}</opoption>
+					 	#{/list}
+					<select>
+				</div>
+				<div class="clearFloat jk_input" style="margin-top:16px" >
+					<span class="jk_InputTitle" >借款期限</span>
+					<span style="border-right: 1px solid;padding: 3px 0;margin: 0 20px;color: #CCCCCC;"></span>
+					<select name="period" style="border:0;width:200px;">
+						<option value = "">--请选择-- </option>
+						<option value = "1">1个月 </option>
+						<option value = "2">2个月 </option>
+						<option value = "3">3个月 </option>
+						<option value = "4">4个月 </option>
+						<option value = "5">5个月 </option>
+						<option value = "6">6个月 </option>
+						<option value = "7">7个月 </option>
+						<option value = "8">8个月 </option>
+						<option value = "9">9个月 </option>
+						<option value = "10">10个月 </option>
+						<option value = "11">11个月 </option>
+						<option value = "12">12个月 </option>
+					<select>
+				</div>
+				<div class="clearFloat jk_input" style="margin-top:16px" >
+					<span class="jk_InputTitle" >借款用途</span>
+					<span style="border-right: 1px solid;padding: 3px 0;margin: 0 20px;color: #CCCCCC;"></span>
+					<select name="purposeId" style="border:0;width:200px;">
+						<option value="" >--请选择--</option>
+						#{list items:purpose, as:'pur'}
+					 	<option value="${pur.id}" > ${pur.name}</opoption>
+					 	#{/list}
+					<select>
+				</div>
+				<div style="margin-top:16px;">
+					<div style="display:table-cell;font-size:11px;">
+						<input class="agree" type="checkbox" style="margin-right:3px;" /><span>阅读并同意</span>
+					</div>
+
+					<div class="agreement" >
+						<div><a class="open2" onclick="agreement(1)">《借款人服务协议》</a><a  class="open2" onclick="agreement(2)">《电子签章自动签署授权协议》</a></div>
+						<div class="marTop"><a  class="open2" onclick="agreement(3)">《咨询与管理服务协议》</a></div>
+					</div>
+				</div>
+				<input class="apply" type="button" value="立即申请" />
+			</li>
+		</ul>
+	</form>
+	</div>
+	<div style="display:inline-block;padding:50px 0;background:white;border-radius:4px;margin-top:40px;">
+	 <form id="" >	
+		<input type="hidden" name="userTypeId" value="1" />
+		<input type="hidden" name="productId" value="2" />
+		<ul>
+			<li style="float:left;width:439px;text-align:center;padding:0 0 70px 0;border-right:1px solid #DDE6FF;margin-top:13px;">
+				<div>
+					<img src="/public/images/jk/house.png" alt="" />
+				</div>
+				<div class="leftTitle">房亿贷</div>
+				<div style="color:#FA6905;font-size:20px;margin-top:24px;">
+					<div>凭借房产证申请，额度1千 -100万</div>
+				</div>
+			</li>
+		
+			<li class="jk_right" style="float:left;width:360px;margin:0 100px" type="2">
+				<ul style="width: 100%;display:inline-block;" >
+					<li >
+						<span class="select_type is_sel" flag="1">个人借款</span>
+					</li>
+					<li  style="text-align: center;">
+						<span class="is_sel" flag="2" >企业借款</span>
+					</li>
+					<li style="text-align: right;">
+						<span class="is_sel" flag="3" >个体工商户借款</span>
+					</li>
+				</ul>
+				<!--  userTypeList, productTypeList, purpose, agency -->
+				<div class="clearFloat jk_input" style="margin-top:35px;" >
+					<span class="jk_InputTitle" >借款金额</span>
+					<span style="border-right: 1px solid;padding: 3px 0;margin: 0 20px;color: #CCCCCC;"></span>
+					<input class="contTxt" name="applyAmount" placeholder="请输入借款金额" >
+				</div>
+				
+				<div class="clearFloat jk_input" style="margin-top:16px" >
+					<span class="jk_InputTitle" >申请地区</span><!-- userTypeList, productTypeList, purpose, agency -->
+					<span style="border-right: 1px solid;padding: 3px 0;margin: 0 20px;color: #CCCCCC;"></span>
+					<select name="agencyId" style="border:0;color:#999999;width:200px;">
+						<option value="" >--请选择--</option>
+					 	#{list items:agency, as:'ag'  }
+					 		<option value="${ag.id}" > ${ag.name}</opoption>
+					 	#{/list}
+					<select>
+				</div>
+				<div class="clearFloat jk_input" style="margin-top:16px" >
+					<span class="jk_InputTitle" >借款期限</span>
+					<span style="border-right: 1px solid;padding: 3px 0;margin: 0 20px;color: #CCCCCC;"></span>
+					<select name="period" style="border:0;width:200px;">
+						<option value = "">--请选择-- </option>
+						<option value = "1">1个月 </option>
+						<option value = "2">2个月 </option>
+						<option value = "3">3个月 </option>
+						<option value = "4">4个月 </option>
+						<option value = "5">5个月 </option>
+						<option value = "6">6个月 </option>
+						<option value = "7">7个月 </option>
+						<option value = "8">8个月 </option>
+						<option value = "9">9个月 </option>
+						<option value = "10">10个月 </option>
+						<option value = "11">11个月 </option>
+						<option value = "12">12个月 </option>
+					<select>
+				</div>
+				<div class="clearFloat jk_input" style="margin-top:16px" >
+					<span class="jk_InputTitle" >借款用途</span>
+					<span style="border-right: 1px solid;padding: 3px 0;margin: 0 20px;color: #CCCCCC;"></span>
+					<select name="purposeId" style="border:0;width:200px;">
+						<option value="" >--请选择--</option>
+						#{list items:purpose, as:'pur'}
+					 		<option value="${pur.id}" > ${pur.name}</opoption>
+					 	#{/list}
+					<select>
+				</div>
+				<div style="margin-top:16px;">
+					<div style="display:table-cell;font-size:11px;">
+						<input class="agree" type="checkbox" style="margin-right:3px;" /><span>阅读并同意</span>
+					</div>
+
+					<div class="agreement" >
+						<div><a class="open2" onclick="agreement(1)">《借款人服务协议》</a> <a class="open2" onclick="agreement(2)">《电子签章自动签署授权协议》</a></div>
+						<div class="marTop"><a class="open2" onclick="agreement(3)">《咨询与管理服务协议》</a></div>
+					</div>
+				</div>
+				<input class="apply" type="button" value="立即申请" />
+			</li>
+		</ul>
+	  </form>
+	</div>
+	
+	<div style="display:inline-block;padding:50px 0;background:white;border-radius:4px;margin:40px 0 60px;">
+	 <form id="" >
+		<input type="hidden" name="userTypeId" value="1" />
+		<input type="hidden" name="productId" value="3" />
+		<ul>
+			<li style="float:left;width:439px;text-align:center;padding:0 0 70px 0;border-right:1px solid #DDE6FF;margin-top:13px;">
+				<div>
+					<img src="/public/images/jk/nong.png" alt="" />
+				</div>
+				<div class="leftTitle">农亿贷</div>
+				<div style="color:#FFB400;font-size:20px;margin-top:24px;">
+					<div>从事于农林畜牧行业有关的企业或个人</div>
+					<div>额度1千-100万</div>
+				</div>
+			</li>
+		
+			<li class="jk_right" style="float:left;width:360px;margin:0 100px" type="3">
+				<ul style="width: 100%;display:inline-block;">
+					<li >
+						<span class="select_type is_sel" flag="1">个人借款</span>
+					</li>
+					<li style="text-align: center;">
+						<span class="is_sel" flag="2">企业借款</span>
+					</li>
+					<li style="text-align: right;">
+						<span class="is_sel" flag="3">个体工商户借款</span>
+					</li>
+				</ul>
+				<div class="clearFloat jk_input" style="margin-top:35px;" >
+					<span class="jk_InputTitle" >借款金额</span>
+					<span style="border-right: 1px solid;padding: 3px 0;margin: 0 20px;color: #CCCCCC;"></span>
+					<input class="contTxt" name="applyAmount" placeholder="请输入借款金额" >
+				</div>
+				
+				<div class="clearFloat jk_input" style="margin-top:16px" >
+					<span class="jk_InputTitle" >申请地区</span>
+					<span style="border-right: 1px solid;padding: 3px 0;margin: 0 20px;color: #CCCCCC;"></span>
+					<select name="agencyId" style="border:0;color:#999999;width:200px;">
+						<option value="" >--请选择--</option>
+					 	#{list items:agency, as:'ag'  }
+					 		<option value="${ag.id}" > ${ag.name}</opoption>
+					 	#{/list}
+					<select>
+				</div>
+				<div class="clearFloat jk_input" style="margin-top:16px" >
+					<span class="jk_InputTitle" >借款期限</span>
+					<span style="border-right: 1px solid;padding: 3px 0;margin: 0 20px;color: #CCCCCC;"></span>
+					<select name="period" style="border:0;width:200px;">
+						<option value = "">--请选择-- </option>
+						<option value = "1">1个月 </option>
+						<option value = "2">2个月 </option>
+						<option value = "3">3个月 </option>
+						<option value = "4">4个月 </option>
+						<option value = "5">5个月 </option>
+						<option value = "6">6个月 </option>
+						<option value = "7">7个月 </option>
+						<option value = "8">8个月 </option>
+						<option value = "9">9个月 </option>
+						<option value = "10">10个月 </option>
+						<option value = "11">11个月 </option>
+						<option value = "12">12个月 </option>
+					<select>
+				</div>
+				<div class="clearFloat jk_input" style="margin-top:16px" >
+					<span class="jk_InputTitle" >借款用途</span>
+					<span style="border-right: 1px solid;padding: 3px 0;margin: 0 20px;color: #CCCCCC;"></span>
+					<select name="purposeId" style="border:0;width:200px;">
+						<option value="" >--请选择--</option>
+						#{list items:purpose, as:'pur'}
+					 		<option value="${pur.id}" >${pur.name}</opoption>
+					 	#{/list}
+					<select>
+				</div>
+				<div style="margin-top:16px;">
+					<div style="display:table-cell;font-size:11px;">
+						<input class="agree" type="checkbox" style="margin-right:3px;" /><span>阅读并同意</span>
+					</div>
+
+					<div class="agreement" >
+						<div><a class="open2" onclick="agreement(1)">《借款人服务协议》</a> <a class="open2" onclick="agreement(2)">《电子签章自动签署授权协议》</a></div>
+						<div class="marTop"><a class="open2" onclick="agreement(3)">《咨询与管理服务协议》</a></div>
+					</div>
+				</div>
+				<input class="apply" type="button" value="立即申请" />
+			</li>
+		</ul>
+	  </form>	
+	</div>
+</div>
+<script>
+	$(function(){
+		$('.apply').click(function(){
+			var formTxt = ''; //表单内容
+			var t = $(this);
+			 //  1.信亿贷 2.房亿贷 3.农亿贷
+			var type = t.closest('li').attr('type'); 
+			var applyAmount = t.closest('form').find('[name=applyAmount]').val();
+			if(!$.trim(applyAmount)){
+				alert('请输入借款金额');
+				return false;
+			}
+			if(isNaN(applyAmount)){
+				alert('借款金额请输入数字');
+				return false;
+			}
+			
+			var agencyId = t.closest('form').find('[name=agencyId]').val();
+			if(!$.trim(agencyId)){
+				alert('请选择申请地区');
+				return false;
+			}
+			var purposeId = t.closest('form').find('[name=purposeId]').val();
+			if(!$.trim(purposeId)){
+				alert('请选择借款用途');
+				return false;
+			}
+			 
+			var period = t.closest('form').find('[name=period]').val();
+			if(!$.trim(period)){
+				alert('请选择借款期限');
+				return false;
+			}
+			 
+			var isAgree = t.prev().find('.agree').is(':checked');
+			if(!isAgree){
+				alert('请阅读协议并同意');
+				return false;
+			}
+			formTxt += t.closest('form').serialize();
+			console.log(formTxt);
+  
+			var url = "@{front.account.AccountHome.borrowApplySubmit()}";
+			
+			$.ajax({
+				url : url,
+				type : "POST",
+				data : formTxt,
+				success : function(data) {
+					if (data.code < 0) {
+				          alert(data.msg);
+				          return;
+				    } 
+					if (data.code == 0) {
+			        	alert("申请成功！");
+			        	location.reload(); 
+					} 
+				} ,
+				error : function() {
+					alert("对不起，出现错误!");
+				} 
+			});
+			 
+		})
+		
+			// 用户类型事件
+	   $('.is_sel').click(function(){
+			var t = $(this);
+			var type = t.closest('.jk_right').attr('type');
+			// 1. 个人借款 2.企业借款 3.个体工商户借款
+			t.closest('form').find('[name=userTypeId]').val(t.attr('flag'));
+			
+			$('.jk_right').each(function(i,e){
+				if($(e).attr('type')==type){
+					$(e).find('span').removeClass('select_type');
+				}
+			})
+			 t.addClass('select_type');
+	   })
+	   
+	   $(".close_all,.lay,.close_img").on("click",function(){
+						$(".lay,.pop,.close_img").hide();
+					})
+		$(".open2").on("click",function(){
+						$(".close_img,.close_all").css("display","block")
+					})			
+		$(".open2").bind("click", function() {
+					showDailog();
+			    });
+  
+	})
+	  // 协议显示区分
+	function agreement(type=1){
+		var agreementTitle = '';
+		var agreementHTML = '';
+		if(type==1){
+			agreementTitle+='《借款人服务协议》';
+			agreementHTML+='service' 
+		}else if(type==2){
+			agreementTitle+='《电子签章自动签署授权协议》';
+			agreementHTML+='authorization';
+		}else if(type==3){
+			agreementTitle+='《咨询与管理服务协议》';
+			agreementHTML+='manage';
+		}else{
+			agreementTitle+='《借款人服务协议》';
+			agreementHTML+='credit' 
+		}
+		
+		$('.con_tit').text(agreementTitle)
+		$('#context').html($('.'+agreementHTML).text());
+	}
+	  
+		function showDailog() {
+					$(".lay").show();
+					$(".close_all").show();
+					$(".code_fix").show();
+					var dH = $(document).height(); //获取文档的高度
+					$(".lay").css("height", dH); //黑色遮罩层高度设置为文档高度
+					var wW = $(window).width(), //window的宽度
+						wH = $(window).height(), //window的高度
+						pW = $(".pop").width(), //弹出层的宽度
+						pH = $(".pop").height(), //弹出层的高度
+						pL = (wW - pW) / 2, //弹出层距离左边的距离
+						pT = (wH - pH) / 2;
+					$(".pop").show().css({
+						"left": pL + "px",
+						"top": pT + "px"
+					});
+					$(".close").show().css({
+						"left": pL + "px",
+						"top": pT + "px"
+					});
+					
+				}
+</script>
+#{extends 'common/frontMenuApply.html' /} 

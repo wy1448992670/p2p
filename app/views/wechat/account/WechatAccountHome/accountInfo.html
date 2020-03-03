@@ -1,0 +1,136 @@
+#{extends 'wechat/common.html' /}
+<body>
+	<div class="s_center">
+		<header class="s_header1">
+			<span><a href="@{wechat.account.WechatAccountHome.baseInfo()}">基本资料</a></span>
+			<a href="/wechat/home/home" class="icobg"></a>
+		</header>
+		<div class="s_accounttop">
+			<div class="s_user">
+			  <div class="userl">
+					#{img src:"${user?.photo}",alt:"",class:"userhead"}#{/img}<br/>
+					<span class="s_username" limit="5">${user?.name}</span><img src="${user?.myCredit?.imageFilename}" alt="" class="safedegree" />
+				</div>
+				<div class="userr">
+					账户总额：￥${accountInfo?.user_account?.format('###,##0.00')}<br/>
+					冻结金额：￥${accountInfo?.freeze?.format('###,##0.00')}<br/>
+					可用余额：￥${(accountInfo?.user_account-accountInfo?.freeze)?.format('###,##0.00')}
+					<div class="userlink">
+						<!--后台可通过类名“have”，切换样式-->
+						<a href="@{wechat.account.WechatAccountHome.message()}" class="icobg ico01 have">
+						  #{if unReadCount == 0}
+						  #{/if}
+						  #{else}
+						  <i class="num">
+						    ${unReadCount}
+						  </i>
+						  #{/else}
+						</a>
+						<a class="icobg ico02 have" onclick="isActive(1)"></a>
+						<a href="@{wechat.account.WechatAccountHome.securitySet}" class="icobg ico03 have"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<ul class="s_accountlink">
+			<li>
+				<a onclick="isActive(2)">
+					<span><i class="icobg ico01"></i>充值</span>
+					<i class="arrow"></i>
+				</a>
+			</li>
+			<li>
+				<a onclick="isActive(3)">
+					<span><i class="icobg ico02"></i>提现</span>
+					<i class="arrow"></i>
+				</a>
+			</li>
+			<li>
+				<a href="@{wechat.account.WechatAccountHome.dealRecord}">
+					<span><i class="icobg ico03"></i>交易记录</span>
+					<i class="arrow"></i>
+				</a>
+			</li>
+		</ul>
+		<ul class="s_accountlink">
+			<li>
+				<a href="@{wechat.account.WechatAccountHome.myLoanBids('0', '','1','')}">
+					<span><i class="icobg ico04"></i>我的借款标</span>
+					<i class="arrow"></i>
+				</a>
+			</li>
+			<li>
+				<a href="@{wechat.account.WechatAccountHome.myLoanBills}">
+					<span><i class="icobg ico05"></i>我的借款账单</span>
+					<i class="arrow"></i>
+				</a>
+			</li>
+			<li>
+				<a href="@{wechat.account.WechatAccountHome.uploadAuthDatas}">
+					<span><i class="icobg ico06"></i>上传认证资料</span>
+					<i class="arrow"></i>
+				</a>
+			</li>
+		</ul>
+		<ul class="s_accountlink">
+			<li>
+				<a href="@{wechat.account.WechatAccountHome.myInvestBids}">
+					<span><i class="icobg ico07"></i>我的理财标</span>
+					<i class="arrow"></i>
+				</a>
+			</li>
+			<li>
+				<a href="@{wechat.account.WechatAccountHome.myInvestBills}">
+					<span><i class="icobg ico08"></i>我的投资账单</span>
+					<i class="arrow"></i>
+				</a>
+			</li>
+			<li>
+				<a href="@{wechat.account.WechatAccountHome.debeManage('1')}">
+					<span><i class="icobg ico09"></i>债权转让管理</span>
+					<i class="arrow"></i>
+				</a>
+			</li>
+		</ul>
+		<input type="button" value="退出当前账号" class="s_loadout" onclick="loginOut()"></input>
+	</div>
+</body>
+
+<script type="text/javascript">
+$(".s_username").limit();
+
+if('${flash.error}' != ''){
+	alert('${flash.error}');
+  }
+
+function loginOut(){
+	window.location.href = "@{wechat.account.WechatAccountHome.loginOut()}";
+}
+
+function isActive(num){
+	var listAction = #{jsAction @wechat.account.WechatAccountHome.checkUserStatusAndActiveEmail() /};
+	$.post(listAction(), function(data) {
+    var status = data.status * 1;
+
+		if(status == '-2'){
+			
+			var info = data.email;
+			
+			alert("您账号未激活\n邮箱已经发送到您的:"+info+"请激活！");
+			return;
+			}
+
+		switch(num){
+		case 1:
+			window.location.href= "@{wechat.account.WechatAccountHome.bankManage()}";
+			break;
+		case 2:
+			window.location.href= "@{wechat.account.WechatAccountHome.recharge()}";
+			break;
+		case 3:
+			window.location.href= "@{wechat.account.WechatAccountHome.withdraw()}";
+			break;
+		}
+	});	
+}
+</script>

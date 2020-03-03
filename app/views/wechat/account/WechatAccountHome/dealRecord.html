@@ -1,0 +1,282 @@
+#{extends 'wechat/common.html' /}
+#{set title: '交易记录' /}
+<script src="/public/javascripts/wechat/jquery-1.9.1.min.js"></script>
+	<link href="/public/stylesheets/wechat/mobiscroll.custom-2.5.0.min.css" rel="stylesheet" type="text/css" />
+	<script src="/public/javascripts/wechat/mobiscroll.custom-2.5.0.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+	    $(function(){
+	        $("#startDate").mobiscroll().date();
+	        $("#endDate").mobiscroll().date();
+			
+			var currYear = (new Date()).getFullYear();  
+	
+	      	//初始化日期控件
+			var opt = {
+				preset: 'date', //日期，可选：date\datetime\time\tree_list\image_text\select
+				theme: 'default', //皮肤样式，可选：default\android\android-ics light\android-ics\ios\jqm\sense-ui\wp light\wp
+				display: 'modal', //显示方式 ，可选：modal\inline\bubble\top\bottom
+				mode: 'scroller', //日期选择模式，可选：scroller\clickpick\mixed
+				lang:'zh',
+				dateFormat: 'yyyy-mm-dd', // 日期格式
+				setText: '确定', //确认按钮名称
+				cancelText: '取消',//取消按钮名籍我
+				dateOrder: 'yyyymmdd', //面板中日期排列格式
+				dayText: '日', monthText: '月', yearText: '年', //面板中年月日文字
+				showNow: false,  
+           		nowText: "今",  
+            	startYear:currYear - 10, //开始年份  
+            	endYear:currYear + 100 //结束年份  
+            	//endYear:2099 //结束年份
+			};
+	        
+			$("#startDate").mobiscroll(opt);
+			$("#endDate").mobiscroll(opt);
+	    });
+    </script>
+
+<body>
+	<div class="s_center">
+	#{form @wechat.account.WechatAccountHome.dealRecord(), id:'submit'}
+		<header class="s_header">
+			<span>交易记录</span>
+			<a href="@{wechat.account.WechatAccountHome.accountInfo()}" class="icobg"></a>
+		</header>
+		<div class="s_recordtop">
+		  <span>
+		  
+			<input name="beginTime" value="${page.conditions?.dateBegin}" type="text" id="startDate"  />
+			-- 
+			<input name="endTime" value="${page.conditions?.dateEnd}" type="text" id="endDate" onchange="optionCheck()" />
+			</span>
+			<select onchange="optionCheck()" name="type" id="type">
+				<option value="0"
+		       #{if page?.conditions?.type == 0}
+                selected="selected"
+               #{/if}
+		       >全部</option>   
+		       <option value="1"
+		       #{elseif page?.conditions?.type == 1}
+                selected="selected"
+               #{/elseif}
+		       >充值</option>   
+		       <option value="2"
+		       #{elseif page?.conditions?.type == 2}
+                selected="selected"
+               #{/elseif}
+		       >提现</option>
+		       <option value="3"
+		       #{elseif page?.conditions?.type == 3}
+                selected="selected"
+               #{/elseif}
+		       >服务费</option> 
+		       <option value="4"
+		       #{elseif page?.conditions?.type == 4}
+                selected="selected"
+               #{/elseif}
+		       >账单还款</option> 
+		       <option value="5"
+		       #{elseif page?.conditions?.type == 5}
+                selected="selected"
+               #{/elseif}
+		       >账单收入</option> 
+		       <option value="6"
+		       #{elseif page?.conditions?.type == 6}
+                selected="selected"
+               #{/elseif}
+		       >其他</option> 
+			</select>
+		</div>
+		<ul class="s_record">
+		<div id="wrapper">
+		  <div id="scroller">
+		   <div id="main">
+		  #{list items:page.page,as:'dealRecord'}
+			<li>
+				<table width="100%" cellpadding="0" cellspacing="0">
+					<tr>
+						<td colspan="2">交易科目：${dealRecord?.name}</td>
+					</tr>
+					#{if dealRecord.type == 1 || dealRecord.type == 2}
+					<tr>
+					  #{if dealRecord?.type == 1}
+						  <td width="50%">交易类型：收入</td>
+						#{/if}
+						#{elseif dealRecord?.type == 2}
+						  <td width="50%">交易类型：支出</td>
+						#{/elseif}
+							<td width="50%" align="right"><strong>
+							 #{if dealRecord?.type == 1}
+							   +￥${dealRecord?.amount?.format("###,##0.00")}</strong></td>
+							 #{/if}
+							 #{elseif dealRecord?.type == 2}
+							   -￥${dealRecord?.amount?.format("###,##0.00")}</strong></td>
+							 #{/elseif}
+							 #{else}
+							   0
+							 #{/else}
+					</tr>
+					#{/if}
+					<tr>
+						<td colspan="2">操作时间：${dealRecord?.time?.format('yyyy-MM-dd HH:mm:ss')}</td>
+					</tr>
+				</table>
+			</li>
+			#{/list}
+			</div>
+			<div id="pullUp">
+	    	<div></div>
+	   	</div>
+		  </div>
+		  </div>	 
+		</ul>
+		#{/form}
+	</div>
+</body>
+
+<script type="text/javascript">
+function optionCheck(){
+	$("#submit").submit();
+}
+</script>
+
+<script type="text/javascript">
+var currPage = 1;
+var myScroll, pullUpEl, pullUpOffset;
+
+function pullUpAction() {
+	setTimeout(function () {
+		currPage = currPage + 1;
+		var type = $("#type").val();
+		var beginTime = $("#startDate").val();
+		var endTime = $("#endDate").val();
+		$.ajax({
+			url: "@{wechat.account.WechatAccountHome.dealRecord()}",
+			type: "POST",
+			dataType: "json",
+			data: {
+				"currPage": currPage,
+				"beginTime": beginTime,
+				"endTime": endTime,
+				"type": type,
+				"Mark": 2
+			},
+			success: function (data) {
+					var arr = eval(data);
+					var list = arr.page.page;
+					if (list.length == 0) {
+						$("#pullUp").children("div").removeClass("s_onloading").addClass("s_nodata").html("没有更多了").animate({opacity:'0'},3000);
+						
+					} else {
+						for (var i = 0; i < list.length; i++) {
+							var type2 = list[i].type;
+							var add = "";
+							var typeMark = "交易类型：支出";
+							var milliseconds = list[i].time.time;  //取出json里面的时间，为Object类型，在此转化为毫秒数
+							var date = new Date();
+							date.setTime(milliseconds);
+							var time2 = date.format("yyyy-MM-dd hh:mm:ss");
+							var amount = amountFormat(list[i].amount);
+							var addHtml = "";
+							if(type2 == 1){
+								  add = "+";
+								  typeMark = "交易类型：收入";
+								}
+								
+							if(type2 == 2){
+								  add = "-";
+								  typeMark = "交易类型：支出";
+								}
+								
+							if(type2 == 1 || type2 == 2){
+							   addHtml =  "<tr><td>"+typeMark+"</td><td width='50%' align='right'><strong>"+add+"￥"+amount+"</strong></td></tr>";
+							}
+							$("#main").append("<li>"+
+							"<table width='100%' cellpadding='0' cellspacing='0'>"+
+						   "<tr><td colspan='2'>交易科目："+list[i].name+"</td></tr>"+addHtml+
+								"<tr><td colspan='2'>操作时间："
+									+time2+"</td></tr></table></li>");
+								}
+						myScroll.refresh();
+					}
+				},
+				error: function () {
+				}
+		});
+		//myScroll.refresh(); // 数据加载完成后，调用界面更新方法 Remember to refresh when contents are loaded (ie: on ajax completion)
+	}, 1000); // <-- Simulate network congestion, remove setTimeout from production!
+}
+
+function loaded() {
+	pullUpEl = document.getElementById('pullUp');
+	pullUpOffset = pullUpEl.offsetHeight;
+
+	myScroll = new iScroll('wrapper', {
+		scrollbarClass: '',
+		/* 重要样式  myScrollbar*/
+		useTransition: false,
+		/* 此属性不知用意，本人从true改为false */
+		//topOffset: pullDownOffset,
+		onRefresh: function () {
+				if (pullUpEl.className.match('loading')) {
+					pullUpEl.className = '';
+					var $s = $(pullUpEl);
+					$s.children("div").removeClass("s_onloading");
+				}
+			},
+			onScrollMove: function () {
+				if (this.y < (this.maxScrollY - 5) && !pullUpEl.className.match('flip')) {
+					pullUpEl.className = 'flip';
+					this.maxScrollY = this.maxScrollY;
+				} else if (this.y > (this.maxScrollY + 5) && pullUpEl.className.match('flip')) {
+					pullUpEl.className = '';
+					this.maxScrollY = pullUpOffset;
+					//this.maxScrollY = this.maxScrollY;
+				}
+			},
+			onScrollEnd: function () {
+				if (pullUpEl.className.match('flip')) {
+					pullUpEl.className = 'loading';
+					var $s = $(pullUpEl);
+					$s.children("div").html("").addClass("s_onloading");
+					pullUpAction(); // Execute custom function (ajax call?)
+				}
+			}
+	});
+
+	setTimeout(function () {
+		document.getElementById('wrapper').style.left = '0';
+	}, 800);
+}
+
+//初始化绑定iScroll控件 
+document.addEventListener('touchmove', function (e) {
+	e.preventDefault();
+}, false);
+document.addEventListener('DOMContentLoaded', loaded, false);
+
+</script>
+<style type="text/css" media="all">
+#wrapper {
+	position:absolute; z-index:1;
+	top:110px; bottom:10px; left:0;
+	width:100%;
+/* 	background:#555; */
+	overflow:auto;
+}
+
+#scroller {
+	position:relative;
+/*	-webkit-touch-callout:none;*/
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+
+	float:left;
+	width:100%;
+	padding:0;
+}
+
+#pullUp {
+	 height: 80px;
+}
+
+</style>
+

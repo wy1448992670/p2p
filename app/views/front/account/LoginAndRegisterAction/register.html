@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		%{
+			business.User currUser = business.User.currUser();
+			business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+			String platUrl = constants.Constants.BASE_URL;
+			java.util.Map<String,java.util.List<business.BottomLinks>> bottomLinks = business.BottomLinks.currentBottomlinks();
+			java.lang.String type1Name = business.NewsType.queryName(1);
+			java.lang.String type2Name = business.NewsType.queryName(2);
+			java.lang.String type4Name = business.NewsType.queryName(4);
+			boolean ipsEnable = constants.Constants.IPS_ENABLE;
+			boolean debtUse = constants.Constants.DEBT_USE;
+		}%
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="/public/stylesheets/reg20171208.css" />
+		<!--<link rel="stylesheet" href="css/media.css" />-->
+	</head>
+	<body>
+		<!--logo行-->
+		<div class="top">
+			<div class="top_skip">
+
+				<div class="slogan">
+					<!-- 安心托付，智慧	出借，</br>您的财富管家！ -->
+				</div>
+				<ul>
+					<li><a href="/">返回首页</a></li>
+					<li><a href="@{front.home.HomeAction.restAboutUs(16)}">关于我们</a></li>
+					<li><a href="/front/help/index?typeId=13">帮助中心</a></li>
+				</ul>
+			</div>
+		</div>
+		<!--注册块-->
+		<div class="login">
+			<!--<img src="/public/images/reg20171208/banner.jpg" alt="" />-->
+			<div class="login_main">
+				#{form @front.account.loginAndRegisterAction.registering(), id:'submit',onSubmit:'return register()'}
+				<input type="hidden" name="financeType" value="1"/>
+				<div class="zc">
+				<input type="hidden" name="userName" id="name" placeholder="用户名">
+					<input class="tel" id="tel" type="text" name="mobile" placeholder="请输入手机号" />
+					<input class="mm" id="mm" name="password" type="password" placeholder="请输入6到20位数字、字母组成的密码" />
+					 #{if flash.recommendUserName != null && flash.recommendUserName != ''}
+                     	<input class="tjr" type="text" placeholder="推荐人号码（可不填）" name="recommendName" value="${flash?.recommendUserName}" readonly="readonly"/>
+                     #{/if}
+                     #{else}
+                      	<input class="tjr" type="text" placeholder="推荐人号码（可不填）" name="recommendName"/>
+                     #{/else}
+					<input class="yzm_01" type="text" placeholder="请输入验证码" id="code" name="code"/><img class="yzm_src1" onclick="change()" id="img" width="98" height="40"/>
+                    <input type="hidden" name="randomID" id = "randomID" />
+					<input class="yzm_02" type="text" placeholder="请输入验证码" id="smsCode" name="smsCode"/><input type="button" id="get_yzm" class="yzm_btn" value="获取验证码" onclick="sendCode()" />
+					<p class="yes_no"><input type="checkbox"  id="agree"/>我同意<a class="open2" href="#" >《亿亿理财用户注册协议》</a></p>
+					<button class="lhb" id="lhb">注册领红包</button>
+					<p class="has"><span>已有账号？</span><a href="/login">立即登录</a></p>
+				#{/form}
+				</div>
+			</div>
+
+		</div>
+
+		<!--弹出层-->
+
+		<div class="pop  pp_car">
+			<div class="con_tit">亿亿理财用户注册协议</div>
+			<div class="con_text">
+				#{include 'front/account/LoginAndRegisterAction/register.control'/}
+
+			</div>
+			<div class="close_all">
+				<img src="/public/images/reg20171208/close.png" class="close_img" alt="" />
+			</div>
+
+		</div>
+
+			<!--遮罩层-->
+		<div class="lay">
+
+		</div>
+
+		<div class="clear"></div>
+
+
+
+		<!--平台优势-->
+		<div class="advantage">
+			<div class="pty_pic">
+				<img class="ptys" src="/public/images/reg20171208/ptys.png" alt="" />
+			</div>
+			<div class="pics">
+				<div class="pic pic_01">
+					<img src="/public/images/reg20171208/slxh.png" alt="" />
+					<p>注册资本亿元</p>
+				</div>
+				<div class="pic pic_02">
+					<img src="/public/images/reg20171208/control.png" alt="" />
+					<p>多重保障措施，风险严格把控</p>
+				</div>
+				<div class="pic pic_03">
+					<img src="/public/images/reg20171208/sy_01.png" alt="" />
+					<p>合同约定年化利率8-12%，出借收益更灵活</p>
+				</div>
+			</div>
+		</div>
+
+			<div class="red_bag">
+				<div class="red_tit">
+					<img src="/public/images/reg20171208/666.png" alt="" />
+				</div>
+				<div class="red_con">
+					<div class="con con_01">
+						<img src="/public/images/reg20171208/money_16.png" alt="" />
+						<p>单笔出借</p>
+						<p>满<span>1000元</span>可用</p>
+                        <p class="s_p">(≥1个月标的可用)</p>
+					</div>
+					<div class="con con_02">
+						<img src="/public/images/reg20171208/money_50.png" alt="" />
+						<p>单笔出借</p>
+						<p>满<span>10000元</span>可用</p>
+                        <p class="s_p">(≥3个月标的可用)</p>
+					</div>
+				</div>
+				<div class="red_con">
+					<div class="con con_03">
+						<img src="/public/images/reg20171208/money_100.png" alt="" />
+						<p>单笔出借</p>
+						<p>满<span>30000元</span>可用</p>
+                        <p class="s_p">(≥3个月标的可用)</p>
+					</div>
+					<div class="con con_04">
+						<img src="/public/images/reg20171208/money_500.png" alt="" />
+						<p>单笔出借</p>
+						<p>满<span>80000元</span>可用</p>
+                        <p class="s_p">(≥4个月标的可用)</p>
+					</div>
+				</div>
+
+
+
+			</div>
+			<div class="clear"></div>
+            <!--start:京东E卡-->
+            <div class="card_feed_box">
+                <h3 class="com_tit"><img src="/public/images/reg20171208/card_feed_tit.png" alt="首投即送京东E卡"/></h3>
+                <div class="card_feed_surface"><img src="/public/images/reg20171208/card_feed_img.png" alt="京东E卡规则表"/></div>
+                <p class="cf_p">用户完成新手任务即可获得1000积分（可在积分商城兑换20元话费）</p>
+            </div>
+            <!--end:京东E卡-->
+			<div class="flow_box">
+			<div class="xszx" style="display: none">
+				<div class="xszc_pic">
+					<img src="/public/images/reg20171208/ygyxszx.png" alt="" />
+				</div>
+			</div>
+			<div class="active_xs" style="display: none">
+				<div class="active_all">
+					<img src="/public/images/reg20171208/profit_img.png" alt="" />
+					<div class="text">
+						<p>新手标年化收益12%</p>
+						<p>(每人享有一次新手标投资机会&nbsp;<span>投资限额50元-2万元</span>)</p>
+					</div>
+				</div>
+			</div>
+			<div class="details_box">
+                <div class="details">
+                    <img class="det" src="/public/images/reg20171208/active.png" alt="" />
+                </div>
+                <div class="active_con">
+                    <p>1、注册成功后立即获得新手红包，可在【我的亿亿】-【我的红包】中查看红包使用详情， 红包需在有效期内进行使用；</p>
+                    <p>2、首投任意金额即返20元话费奖励活动适用于平台所有未进行过投资用户，且参与标的不 包括新手标；</p>
+                    <p>3、20元话费将在客服确认用户有效后，3个工作日内联系用户进行发放；</p>
+                    <p>4、活动解释权归亿亿理财所有，如有疑问请详询平台在线客服，关注微信订阅号 （ID:yiyilc666）或拨打全国热线：400-6438-0510。</p>
+                </div>
+                <div class="login_end">
+                    <a href=""><input class="but" type="button" /></a>
+                </div>
+			</div>
+			<div class="end">
+				<p>版权所有&nbsp;沪ICP备案15054793号&nbsp;网贷有风险，决策需谨慎</p>
+			</div>
+
+
+		<!--<div style="height: 3000px;background: #e7bbbb;"></div>-->
+	</body>
+	<script type="text/javascript" src="/public/javascripts/jquery-1.11.1.js" ></script>
+	<script>
+	 function register(){
+		 var reg1=/^[0-9]{11}$/;
+		 var reg2=/^[A-Za-z0-9]{6,20}$/;
+		 if(!reg1.test(tel.value)){
+			alert("请输入11位的手机号码");
+			return false;
+		 }
+		 $("#name").val("tzr"+$("#tel").val());
+	    if(!reg2.test(mm.value)){
+			alert("请输入6-20位的由数字和字母组成的密码");
+			return false;
+		}
+	    if(!$("#agree").is(':checked')){
+			alert("请阅读同意亿亿理财用户注册协议")
+			return false;
+
+		}
+	    if($("#code").val() == '' || $("#code").val() =="请输入验证码") {
+	    	  alert("请输入验证码");
+	   		  return false;
+	      }
+	    var smsCode = $("#smsCode").val();
+       if(smsCode == ""){
+		   alert("请填写短信校验码");
+          return false;
+       }
+
+	    $("#submit").submit();
+	 }
+
+//				获取验证码
+				var countdown = 60;
+
+			function settime() {
+				if(countdown == 0) {
+					$('#get_yzm').attr("disabled", false);
+					$('#get_yzm').val("获取验证码");
+					 $("#get_yzm").attr("onclick", "sendCode();");
+				    $("#get_yzm").attr("style", "cursor:pointer");
+					countdown = 60;
+					return;
+				} else {
+					$('#get_yzm').attr("disabled", true);
+					$('#get_yzm').val("重新发送(" + countdown + ")");
+					countdown--;
+				}
+				setTimeout(function() {
+					settime()
+				}, 1000)
+			}
+
+
+		     function sendCode(){
+		    	 var mobile = $("#tel").val().trim();
+		     	var code = '';
+		     	var randomId = '';
+		     	if(mobile == ""){
+		     		alert("请输入11位的手机号码");
+		          	return;
+		         }
+
+		     	code = $("#code").val().trim();
+		     	randomID = $("#randomID").val().trim();
+		     	if(code == '') {
+		     		alert("请输入验证码");
+		       		  return;
+		          }
+
+		          var verifyMobile = #{jsAction @front.account.loginAndRegisterAction.verifyMobileForReg(':mobile',':code',':randomID')/}
+		      		$.post(verifyMobile({mobile:mobile,code:code,randomID:randomID}),function(data){
+		      	    if(data.code < 0){
+		      	    	alert(data.msg)
+		      	    	change();
+		      	    }else{
+		      	    	settime();
+		      	    	 $("#get_yzm").attr("onclick", "void(0);");
+						 $("#get_yzm").attr("style", "cursor: default");
+		      		}
+		      	},'json');
+		      }
+		//			遮罩层
+			$(function(){
+			    	//产品详情
+				$(".open2").bind("click", function() {
+					showDailog();
+			    });
+
+				function showDailog() {
+					$(".lay").show();
+					$(".close_all").show();
+					$(".code_fix").show();
+					var dH = $(document).height(); //获取文档的高度
+					$(".lay").css("height", dH); //黑色遮罩层高度设置为文档高度
+					var wW = $(window).width(), //window的宽度
+						wH = $(window).height(), //window的高度
+						pW = $(".pop").width(), //弹出层的宽度
+						pH = $(".pop").height(), //弹出层的高度
+						pL = (wW - pW) / 2, //弹出层距离左边的距离
+						pT = (wH - pH) / 2;
+					$(".pop").show().css({
+						"left": pL + "px",
+						"top": pT + "px"
+					});
+					$(".close").show().css({
+						"left": pL + "px",
+						"top": pT + "px"
+					});
+
+				}
+					$(window).resize(function() {
+						if($(".pop").is(":visible")) {
+							showDailog();
+						}
+					});
+				$(".md-close,.lay").bind("click", function() {
+					$(".lay").fadeOut();
+					$(".pop,.code_fix").hide();
+				});
+
+
+
+			})
+
+				$(function(){
+					$(".close_all,.lay,.close_img").on("click",function(){
+						$(".lay,.pop,.close_img").hide();
+					})
+
+				})
+				$(function(){
+					$(".open2").on("click",function(){
+						$(".close_img,.close_all").css("display","block")
+					})
+
+
+				})
+
+
+		function change(){
+		    var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+			$.post(setCode({}),function(data){
+			  var arr=eval(data);
+			  var img = arr.img;
+			  $("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img);
+			  $("#randomID").val(img);
+			});
+		  };
+		  $(function(){
+			    var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+				$.post(setCode({}),function(data){
+					var arr=eval(data);
+					var img = arr.img;
+					$("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img);
+					$("#randomID").val(img);
+				});
+				 if('${flash.error}' !='') {
+				      alert('${flash?.error}');
+			      if('${flash?.emailUrl}' !='') {
+			        window.open('${flash?.emailUrl}');
+			      }
+			    }
+			});
+
+	</script>
+	<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1261677866'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1261677866%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+</html>

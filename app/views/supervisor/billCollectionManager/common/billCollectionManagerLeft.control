@@ -1,0 +1,65 @@
+<div class="xn_c_content_left">
+  <div class="xn_c_content_leftul">
+    <ul>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_1"></div>我的会员账单
+        </div>
+        <div class="xn_c_li_head_two" id="hi_1">
+          <a>借款会员账单管理</a>
+          <div class="xn_c_li_head_three">
+            <a id="mg_1" href="@{supervisor.billCollectionManager.UserLoanBills.thisMonthMaturityBills()}" class="xn_c_li_three_twli"> · 本月到期账单</a>
+            <a id="mg_2" href="@{supervisor.billCollectionManager.UserLoanBills.overdueBills()}" class="xn_c_li_three_twli"> · 逾期账单</a>
+            <a id="mg_3" href="@{supervisor.billCollectionManager.UserLoanBills.paidBills()}" class="xn_c_li_three_twli"> · 已还款账单列表</a>
+          </div>
+          <a>会员借款标管理</a>
+          <div class="xn_c_li_head_three">
+            <a id="mg_4" href="@{supervisor.billCollectionManager.UserBidAction.repaymentingList()}" class="xn_c_li_three_twli"> · 还款中借款标列表</a>
+            <a id="mg_5" href="@{supervisor.billCollectionManager.UserBidAction.repaymentList()}" class="xn_c_li_three_twli"> · 已完成借款标列表</a>
+            <a id="mg_6" href="@{supervisor.billCollectionManager.UserBidAction.badList()}" class="xn_c_li_three_twli"> · 坏账借款标列表</a>
+          </div>
+          <a id="mg_7" class="xn_c_li_head_twoli" href="@{supervisor.billCollectionManager.LoanUsers.loanUserManager()}">借款会员列表</a>
+          <a id="mg_8" class="xn_c_li_head_twoli" href="@{supervisor.billCollectionManager.BadBillUsers.BadBillUserManager()}">坏账会员管理</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_2"></div>部门账单管理
+        </div>
+        <div class="xn_c_li_head_two" id="hi_2">
+          <a id="mg_9" class="xn_c_li_head_twoli" href="@{supervisor.billCollectionManager.ToAssignLoanUsers.toAssignUsers()}">待分配借款标会员管理</a>
+          <a>会员借款账单管理</a>
+          <div class="xn_c_li_head_three">
+            <a id="mg_10" href="@{supervisor.billCollectionManager.UserLoanBills.thisMonthMaturityBillDept()}" class="xn_c_li_three_twli"> · 本月到期账单</a>
+            <a id="mg_11" href="@{supervisor.billCollectionManager.UserLoanBills.overdueBillDept()}" class="xn_c_li_three_twli"> · 逾期账单</a>
+            <a id="mg_12" href="@{supervisor.billCollectionManager.UserLoanBills.paidBillDept()}" class="xn_c_li_three_twli"> · 已还款账单列表</a>
+          </div>
+          <a>会员借款标管理</a>
+          <div class="xn_c_li_head_three">
+            <a id="mg_13" href="@{supervisor.billCollectionManager.UserBidAction.repaymentingListToDep()}" class="xn_c_li_three_twli"> · 还款中借款标列表</a>
+            <a id="mg_14" href="@{supervisor.billCollectionManager.UserBidAction.repaymentListToDep()}" class="xn_c_li_three_twli"> · 已完成借款标列表</a>
+            <a id="mg_15" href="@{supervisor.billCollectionManager.UserBidAction.badListToDep()}" class="xn_c_li_three_twli"> · 坏账借款标列表</a>
+          </div>
+          <a id="mg_16" class="xn_c_li_head_twoli" href="@{supervisor.billCollectionManager.LoanUsers.deptLoanUserManager()}">已分配的借款会员管理</a>
+          <a id="mg_19" class="xn_c_li_head_twoli" href="@{supervisor.billCollectionManager.LoanUsers.deptLoanBidManager()}">已分配的借款标管理</a>
+          <a id="mg_17" class="xn_c_li_head_twoli" href="@{supervisor.billCollectionManager.LoanUsers.deptBadLoanUserManager()}">坏账会员管理</a>
+          <a id="mg_18" class="xn_c_li_head_twoli" href="@{supervisor.billCollectionManager.CustomerManager.customers()}">客服管理</a>
+        </div>
+      </li>
+      #{if constants?.Constants?.DEV_PROD}
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_3"></div>手动逾期
+        </div>
+        <div class="xn_c_li_head_two" id="hi_3">
+          <a id="mg_19" class="xn_c_li_head_twoli" href="@{supervisor.billCollectionManager.MyOverdue.billList()}">账单列表</a>
+		</div>
+      </li>
+      #{/if}
+    </ul>
+  </div>
+  <div class="xn_c_con_leftbutton">
+    <div class="xn_c_con_enimg">导航点击</div>
+  </div>
+</div>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_mg_account.js'}"></script>

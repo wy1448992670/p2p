@@ -1,0 +1,185 @@
+%{ business.BackstageSet currBackstageSet = business.BackstageSet.getCurrentBackstageSet(); }% #{extends 'common/frontMain.html'
+/} #{set title:currBackstageSet.seoTitle +' | 我的账户 | 个体工商户认证 | 个体工商户认证' /}
+
+
+<link rel="stylesheet" href="../../../../../public/stylesheets/companyAuth.css">
+<!-- 内容区域 start -->
+<div class="xf_con_box">
+    <div class="xf_con_mem_nav"></div>
+    <!-- 左边导航区域 -->
+    #{include "front/account/AccountHome/homeLeft.control"/}
+
+    <!-- 右侧内容区域 -->
+    <!-- 个体工商户认证-->
+    <div class="xf_mem_Account auth_height">
+        <h3 class="xf_mem_accout_title">个体工商户认证</h3>
+        <div class="sub_open">
+    	#{if user.user_type == 0 || user.user_type == 3}
+            <div>
+                <div class="tit">企业名称</div>
+                <div class="sub_info_item clr">
+                    <input type="text" name="companyName" value="${user?.authReview?.company_name}" maxlength="30" #{if user?.authReview?.status == 2}disabled="disabled"#{/if} class="right sub_open_inp" />
+                </div>
+            </div>
+            <div>
+                <div class="tit">统一社会信用代码</div>
+                <div class="sub_info_item clr">
+                    <input type="text" name="creditCode" value="${user?.authReview?.credit_code}" maxlength="25" #{if user?.authReview?.status == 2}disabled="disabled"#{/if} class="right sub_open_inp" />
+                </div>
+            </div>
+            <div>
+                <div class="tit">开户行</div>
+                <div class="sub_info_item clr">
+                    <input type="text" name="bankName" value="${user?.authReview?.bank_name}" maxlength="30" #{if user?.authReview?.status == 2}disabled="disabled"#{/if} class="right sub_open_inp" />
+                </div>
+            </div>
+            <div>
+                <div class="tit">经营者银行账户</div>
+                <div class="sub_info_item clr">
+                    <input type="text" name="bankNo" value="${user?.authReview?.bank_no}" maxlength="25" #{if user?.authReview?.status == 2}disabled="disabled"#{/if} class="right sub_open_inp" />
+                </div>
+            </div>
+            <div>
+                <div class="tit">经营者银行账户真实姓名</div>
+                <div class="sub_info_item clr">
+                    <input type="text" name="realName" value="${user?.authReview?.real_name}" maxlength="30" #{if user?.authReview?.status == 2}disabled="disabled"#{/if} class="right sub_open_inp" />
+                </div>
+            </div>
+            <!-- 认证状态 -->
+            #{if user?.authReview?.status == 0}
+        	<div class="sub_info_item clr authentication">认证中...</div>
+            #{/if}
+            #{elseif user?.authReview?.status == 1}
+            <div class="sub_info_item clr auth_fail">认证失败，请重新填写！</div>
+            #{/elseif}
+            <!-- 按钮状态 -->
+        	#{if user?.authReview == null}
+            <a href="javascript:;" class="xf_con_inputfbjk" id="submitBtn">申请开户</a>
+        	#{/if}
+        	#{elseif user?.authReview?.status == 0}
+        	<a href="javascript:;" class="xf_con_inputfbjk" id="submitBtn">重新提交</a>
+			#{/elseif}
+			#{elseif user?.authReview?.status == 1}
+        	<a href="javascript:;" class="xf_con_inputfbjk" id="submitBtn">重新认证</a>
+			#{/elseif}
+			#{elseif user?.authReview?.status == 2}
+			<div class="sub_info_item clr authentication">认证成功</div>
+			<!-- <a href="javascript:;" class="xf_con_inputfbjk bg_gray">认证成功</a> -->
+			#{/elseif}
+        #{/if}
+        #{elseif user.user_type == 1}
+        	<div class="_user">该账户为个人账户，不能做个体工商户认证！</div>
+        #{/elseif}
+		#{elseif user.user_type == 2}
+			<div class="_user">该账户为企业账户，不能做个体工商户认证！</div>
+		#{/elseif}
+        </div>
+        <!--end:个体工商户认证-->
+    </div>
+    <!-- 清除浮动 -->
+    <div class="clear"></div>
+</div>
+<!-- 内容区域 end -->
+
+
+<!-- <script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script> -->
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript">
+    var g_index = 1;
+
+    $(function () {
+
+        count();
+    });
+
+    $(function () {
+        /* 高亮显示 */
+        showHighLightFront(53);
+        showHighLightFront2(10, 53);
+
+    });
+
+    /* 前台选中样式 */
+    function showHighLightFront(index) {
+
+        $("#child" + index).css({
+            'background-color': '#d0ebdd',
+            'color': '#195a9b'
+        });
+    }
+
+    /* 前台选项卡样式 */
+    function showHighLightFront2(maxIndex, nowIndex) {
+        var li = $("#li_" + nowIndex)
+        console.log(li);
+
+        //var lab = $("#lab_" + nowIndex);
+        var more = $("#more_" + nowIndex);
+        var tg = $("#tg_" + nowIndex);
+
+        li.attr('class', 'xf_con_wyjk_leftliisshow');
+        more.attr('class', 'xf_mem_r_more xf_mem_r_jian');
+
+        if (null != tg) {
+            if (tg.is(":visible")) {
+                tg.hide();
+            } else {
+                tg.show();
+            }
+        }
+    }
+   
+    $('#submitBtn').click(function(){
+    	var companyName = $('input[name="companyName"]').val();
+    	if($.trim(companyName) == ''){
+    		alert("请输入企业名称！");
+    		return;
+    	}
+    	var creditCode = $('input[name="creditCode"]').val();
+    	if($.trim(creditCode) == ''){
+    		alert("请输入统一社会信用代码！");
+    		return;
+    	}
+    	var bankName = $('input[name="bankName"]').val();
+    	if($.trim(bankName) == ''){
+    		alert("请输入开户行！");
+    		return;
+    	}
+    	var bankNo = $('input[name="bankNo"]').val();
+    	if($.trim(bankNo) == ''){
+    		alert("请输入经营者银行账户！");
+    		return;
+    	}
+    	//判断经营者银行账户是否纯数字组成
+    	var numPattern = /^[0-9]*[0-9]$/g;
+    	if(!bankNo.match(numPattern)){
+    		alert("经营者银行账户输入错误！");
+    		return;
+    	}
+    	var realName = $('input[name="realName"]').val();
+    	if($.trim(realName) == ''){
+    		alert("经营者银行账户真实姓名！");
+    		return;
+    	}
+    	var result = confirm("是否提交申请开户？");
+    	if(result){
+    		var addOrUpdateAuthReview = #{jsAction @addOrUpdateAuthReview(':companyName',':creditCode',':bankName',':bankNo',':realName',':authType')/}
+    		$.post(addOrUpdateAuthReview({
+    			companyName: companyName,
+    			creditCode: creditCode,
+    			bankName: bankName,
+    			bankNo: bankNo,
+    			realName: realName,
+    			authType: 1
+    		}),function(data){
+    			var data = eval(data);
+				if(data.code < 0){
+			    	alert(data.msg);
+			    	return;
+				}
+				alert("提交成功！");
+				window.location.reload();
+    		});
+    	}
+    });
+</script>

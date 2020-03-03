@@ -1,0 +1,71 @@
+ <!--可选资料-弹出层 -->
+<div class="xf_ht_ttc" id="saudtitems" style="display:none; overflow: auto; height:395px; margin-top: 15px;">
+  <div class="xf_ht_jr_obu_width xf_ht_jkbsh_width">
+    <div class="xf_ht_ures_view_tcc">
+      #{table width:"100%", border:"0", cellspacing:"0", cellpadding:"0", class:"xf_con_mem_r_b_table"}
+        #{tr}
+          #{th}选择#{/th}
+          #{th}序号#{/th}
+          #{th}编号#{/th}
+          #{th}名称#{/th}
+          #{th}格式#{/th}
+          #{th}有效期(月)#{/th}
+          #{th}审核期(日)#{/th}
+          #{th}信用积分#{/th}
+          #{th}创建时间#{/th}
+        #{/tr}
+        #{list auditItems}
+          #{tr}
+            #{td}
+			  <input type="checkbox" name="product.selectAuditId" value="${_?.id}" id="sid${_index}"
+				#{if null != goods}
+					#{list items : goods?.selectAuditItem, as : 'sid' }
+						#{if _?.id == sid?.auditItemId }	
+							checked="checked"
+						#{/if}
+					#{/list}
+					
+					#{list items : goods?.requiredAuditItem, as : 'rid' }
+						#{if _?.id == rid?.auditItemId}
+							disabled = "disabled"
+						#{/if}
+					#{/list}
+		      #{/if}
+			/>
+		    <input type="hidden"  value="${_?.name}" id="sname${_index}"/>
+          #{/td}
+          #{td}${_index}#{/td}
+          #{td}${_?.no}#{/td}
+          #{td}${_?.name}#{/td}
+          #{td}
+              #{if _?.type == 1 }
+				图片文件
+			  #{/if}
+			  #{elseif _?.type == 2}
+				文本文件
+			  #{/elseif}
+			  #{elseif _?.type == 3}
+				视频文件
+			  #{/elseif}
+			  #{elseif _?.type == 4}
+				音频文件
+			  #{/elseif}
+			  #{else}
+				表格文件
+			  #{/else}
+          #{/td}
+          #{td}${_?.period}#{/td}
+          #{td}${_?.auditCycle}#{/td}
+          #{td}${_?.creditScore}#{/td}
+          #{td}${_?.time?.format('yyyy-MM-dd')}#{/td}
+        #{/tr}
+        #{/list}
+        #{tr}
+          #{td colspan:"9", align:"center"}
+            <input style="float: none;display: inline" class="xf_ht_tcc_button_ok" type="button" onclick="showSName('${auditItems.size}')" value="确定"/>
+          #{/td}
+        #{/tr}
+      #{/table}
+    </div>
+  </div>
+</div> 

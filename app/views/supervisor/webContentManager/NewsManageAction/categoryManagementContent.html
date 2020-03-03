@@ -1,0 +1,226 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table class:"xn_c_content_list",cellspacing:"0",cellpadding:"0",border:"0"}
+        #{tr}
+          *{#{th}&nbsp;#{/th}}*
+		  #{th}序号#{/th}
+		  #{th}类别#{/th}
+		  #{th}描述#{/th}
+		  #{th}操作#{/th}
+        #{/tr}
+		#{list items:types, as:"first"}
+        #{tr class:"xn_tr_bj_ht"}
+          *{#{td}&nbsp;#{/td}}*
+          #{td}${first_index}#{/td}
+          #{td}${first?.name}#{/td}
+          #{td}${first?.description}#{/td}
+          #{td}
+            <span class="xf_ta_onclick" onClick="parentEdit('${first?.id}','${first?.name}','${first?.description}','${first?.order}')">编辑</span>
+            *{
+            #{if first.status}
+              <span class="xf_ta_onclick" onClick="hide('${first?.id}')">隐藏</span>
+			#{/if}
+			#{else}
+			  <span class="xf_ta_onclick" onClick="show('${first?.id}')">显示</span>
+			#{/else}
+            <span class="xf_ta_onclick" onClick="parentAdd('${first?.id}','${first?.name}','${first.order}')">增加子类</span>
+            }*
+          #{/td}
+        #{/tr}
+        #{list items:first.childTypes, as:"second"}
+          #{tr class:"xn_tr_bj_zj"}
+          *{#{td}<input type="checkbox" name="catagoryId" id="cotagory" value="${second?.id}">#{/td}}*
+          #{td}${first_index}.${second_index}#{/td}
+          #{td}${second.name}#{/td}
+          #{td}${second?.description}#{/td}
+          #{td}
+            <span class="xf_ta_onclick" onClick="childEdit('${second?.id}','${first?.name}','${second?.name}','${second?.order}')">编辑</span>
+            *{
+            #{if second.status}
+              <span class="xf_ta_onclick" onClick="hide('${second?.id}')">隐藏</span>
+			#{/if}
+			#{else}
+			  <span class="xf_ta_onclick" onClick="show('${second?.id}')">显示</span>
+			#{/else}
+			}*
+          #{/td}
+          #{/tr}
+        #{/list}
+		#{/list}
+	<!-- 以下是微信菜单 
+		#{list items:menus, as:"first"}
+        #{tr class:"xn_tr_bj_ht"}
+          *{#{td}&nbsp;#{/td}}*
+          #{td}${types.size() + first_index}#{/td}
+          #{td}${first?.name}#{/td}
+          #{td}#{/td}
+          #{td}
+            <span class="xf_ta_onclick" onClick="editMenu('${first?.id}', '${first?.name}')">编辑</span>
+          #{/td}
+        #{/tr}
+        #{list items:first.childMenus, as:"second"}
+          #{tr class:"xn_tr_bj_zj"}
+          #{td}${types.size() + first_index}.${second_index}#{/td}
+          #{td}${second.name}#{/td}
+          #{td}#{/td}
+          #{td}
+            <span class="xf_ta_onclick" onClick="editMenu('${second?.id}', '${second?.name}')">编辑</span>
+          #{/td}
+          #{/tr}
+        #{/list}
+		#{/list}-->	
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    *{<div class="xn_c_content_bottom">
+      <input type="checkbox" name="allSelect" id="allSelect" onClick="allSelected()">全选
+      <div class="page_warp">
+        <input class="xf_htbutton" type="button" value="增加" onclick="addChild()">
+        <input class="xf_htbutton" type="button" onclick="deleteSubcategory();" value="删除">
+      </div>
+    </div>}*
+  </div>
+</div>
+<script type="text/javascript">
+  function parentEdit(id,name,description,order){
+    $("#parentName").val(name);
+    $("#parentDescription").val(description);
+    $("#parentOrder").val(order);
+    $("#parentId").val(id);
+    $.layer({
+      type: 1,
+      area: ['500', 'auto'],
+      title: '编辑类别',
+      page: {dom : '#xf_ht_fkzh_ttc'}
+    });
+  }
+     
+  function childEdit(id,parentName,childName,order){
+    $("#childParentName").val(parentName);
+    $("#childName").val(childName);
+    $("#childOrder").val(order);
+    $("#childId").val(id);
+    $.layer({
+      type: 1,
+      area: ['500', 'auto'],
+      title: '编辑子类别',
+      page: {dom : '#xf_ht_fkzh_ttc_child'}
+    });
+  }
+     
+  function hide(id){
+    var hideType = #{jsAction @hideType(':typeIdStr')/}
+    $.post(hideType({typeIdStr:id}),function(data){
+      var arr=eval(data);
+			
+      if(arr.error.code < 0){
+        alert(arr.error.msg);
+      
+        return;
+      }
+			
+      alert(arr.error.msg);
+      location.reload();
+	 });
+  }
+     
+  function show(id){
+    var showType = #{jsAction @showType(':typeIdStr')/}
+    $.post(showType({typeIdStr:id}),function(data){
+      var arr=eval(data);
+			
+      if(arr.error.code < 0){
+        alert(arr.error.msg);
+        
+        return;
+      }
+			
+      alert(arr.error.msg);
+      location.reload();
+    });
+  }
+     
+  function parentAdd(id,name,order){
+    $("#parentAddName").val(name);
+    $("#parentAddOrder").val('');
+    $("#parentAddId").val(id);
+    $.layer({
+      type: 1,
+      area: ['500', 'auto'],
+      title: '增加子类',
+      page: {dom : '#xf_ht_fkzh_ttc_parentadd'}
+    });
+  }
+     
+  function addChild(){
+    $.layer({
+      type: 1,
+      area: ['500', 'auto'],
+      title: '增加类别',
+      page: {dom : '#xf_ht_fkzh_ttc_thl'}
+    });
+  }
+  
+  function deleteSubcategory() {
+  	var arr = new Array();
+    $('input[name="catagoryId"]:checked').each(function(){
+      arr.push($(this).val());
+    });
+    
+    if (arr.length < 1) {
+		alert("请选择要删除的子类别");
+		
+		return;
+	}
+    
+    $.ajax({
+      url : "@{supervisor.webContentManager.NewsManageAction.deleteSubcategory()}",
+      type : "POST",
+      data : {
+        "ids" : arr.join(",")
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+          
+          return;
+        }
+      	
+      	alert(data.msg);
+      	location.reload();
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+
+  function allSelected(){
+  	$("input[name='catagoryId']").each(function(){
+  		if(this.checked)
+  			 this.checked = false;
+  		else
+  			 this.checked = true;
+  	});
+  }
+  
+  function editMenu(id, name) {
+	  $("#weChatMenuId").val(id);
+	  $("#weChatMenuName").val(name);
+	  $.layer({
+	      type: 1,
+	      area: ['500', 'auto'],
+	      title: '编辑微信菜单类别',
+	      page: {dom : '#xf_ht_fkzh_ttc_wechatMenu'}
+	    });
+  }
+  
+  $(function () {
+		var info = "${flash.info}";
+		if (info != '' && info != 'undefined') {
+				alert(info);
+		}
+	})
+</script>

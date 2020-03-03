@@ -1,0 +1,251 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'借款中的借款标详情' /} 
+#{if (bid?.status == 1 || bid?.status == 2) && bid?.amount > bid?.hasInvestedAmount}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include '/supervisor/bidManager/bidManagerLeft.control'/} 
+      <div class="xn_c_content">
+        <div class="xf_content_add">
+          <div class="xfht_t_j_y_2">
+            <!--右上-->
+            <div class="xf_ht_obu_fklm">
+              #{include '/supervisor/bidManager/BidPlatformAction/lastAndNext.control'/} 
+            </div>
+            <!-- 审核详情 -->
+            <div class="xfht_t_j_y_2">
+              #{include '/supervisor/bidManager/BidPlatformAction/detailTop.control'/} 
+              <div class="xf_con_mem_r_bottomtwo">
+                 <div class="xf_con_mem_r_h3">
+                <!--    	综合评定： -->
+                 </div>
+                 #{table width:"100%", border:"0", cellspacing:"0", cellpadding:"0", class:"xf_ht_memcz_table"}
+             <!--       #{tr}
+                     #{td align:"right", width:"133"}<span class="xf_s_sz">审核进度：</span>#{/td}
+                     #{td}
+                       <div class="xf_jd_ds">
+                         <div class="xf_jd_sj" id="showAuditScheduleDown"></div>
+                       </div>
+                     #{/td}
+                   #{/tr}
+                   #{tr}
+                     #{td align:"right"}#{/td}
+                     #{td}
+                        <input type="checkbox" id="quality" class="xf_ht_radio"
+		                  #{if bid?.isQuality}
+		               	    checked="checked"
+		                  #{/if}
+		                 > 设为优质标 <span class="xf_ht_ptjk_sh_span"> 注：当勾选此项后，此借款将作为优质标推荐给平台用户</span>
+                     #{/td}
+                   #{/tr}
+                    #{tr}
+                     #{td align:"right"}#{/td}
+                     #{td}
+                         <input type="checkbox" id="hot" class="xf_ht_radio"
+		                   #{if bid?.isHot}
+		                     checked="checked"
+		                   #{/if}
+		                 > 标记为“火”<span class="xf_ht_ptjk_sh_span">注：当勾选此项后，此借款将在借款列表中置顶</span>
+                     #{/td}
+                   #{/tr} -->
+                   #{if bid?.status == 1}
+                   #{tr}
+                     #{td}#{/td}
+                     #{td class:"xf_ht_shmx_button"}
+                       #{form @advanceLoanToFundraise(bid?.sign), method:'POST', id:'auditPass'} 
+                       <!--   <input type="hidden" name="suggest" id="suggest"  value="bid?.auditSuggest"/> -->
+                       #{/form}
+                       <input class="xf_ht_tcc_button_ok" type="button" value="通  过"
+                         onclick="advanceLoanToFundraise()";
+                       />
+                       <input class="xf_ht_tcc_button_on" type="button" value="不通过"
+                         onclick="loanNotPass();"
+                       />
+                     #{/td}
+                   #{/tr}
+                   #{/if}
+                   *{ 借款中 }*
+                   #{elseif bid?.status == 2}
+                   #{tr}
+                     #{td}#{/td}
+                     #{td class:"xf_ht_shmx_button"}
+				       #{form @fundraiseToPeviewNotThrough(bid?.sign), method:'POST', id:'notPass'}#{/form}
+                       <input class="xf_ht_tcc_button_on" type="button" value="不通过" onclick="fundraiseToPeviewNotThrough();" />
+                     #{/td}
+                   #{/tr}
+                   #{/elseif}
+                 #{/table}
+             </div>
+             <div class="xf_jkb_btowarp">
+               <div class="xf_jkb_bto">
+                 #{include '/supervisor/bidManager/BidPlatformAction/lastAndNext.control'/} 
+               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 不通过-弹出层 -->
+<div class="xn_c_ban_jox xn_c_ban_jox_qxsz" style="display: none;" id="showNotPassBox">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_ht_damem_hy_box">
+      <div class="xf_ht_jbox_table">
+        #{form @advanceLoanToPeviewNotThrough(bid?.sign), method:'POST', id:'loanNotPass'}
+        #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xf_htgl_jg_tableone_table"}
+          #{tr}
+            #{td}审核结果：#{/td}
+            #{td}提前借款审核不通过#{/td}
+          #{/tr}
+          #{tr}
+            #{td}不通过原因：#{/td}
+            #{td}<textarea class="xf_ht_jr_obttd_textarea xf_ht_jr_obttd_textarea2" name="suggest" id="through"></textarea>#{/td}
+          #{/tr}
+        #{/table}
+        #{/form}
+      </div>
+      <div class="jbox_tan_ondiv jbox_tan_width4">
+        <input class="jbox_ok" type="button" value="确 定" onclick="loanNotPass();">
+        <input class="jbox_on" type="button" value="取 消 " onclick="closeNotPassBox();">
+      </div>
+     </div>
+  </div>
+</div>
+<script type="text/javascript">
+
+var maxlimit = 300;
+
+$("#showSuggestLength").html(maxlimit - $("#setSuggest").val().length);
+
+function LimitSuggest(obj){
+     if (obj.value.length > maxlimit){
+    	obj.value = obj.value.substring(0, maxlimit);
+     }
+     
+     $("#showSuggestLength").html(maxlimit - obj.value.length);
+}
+
+    $(function(){
+    	/* 高亮显示 */
+		showHighLight(1, 1, 2);
+
+		var q = ${bid?.isQuality};
+		var h = ${bid?.isHot};
+		
+		/* 设置优质标 */
+		$("#quality").click(function(){
+			if(q) q = false;
+			else q = true;
+			var listAction = #{jsAction @siteQuality(':bidId',':status') /};
+			$.post(listAction({bidId:${bid?.id},status:q}), function(data) {
+				//layer.msg(msg, 1, 6);
+				var arr=eval(data);
+				if(arr.error.code < 0){
+                  alert(arr.error.msg);
+				}
+				$("#quality").attr("checked", q);
+			});
+		});
+		
+		/* 设置火标 */
+		$("#hot").click(function(){
+			if(h) h = false;
+			else h = true;
+			 var listAction = #{jsAction @siteHot(':bidId',':status') /};
+			 $.post(listAction({bidId:${bid?.id},status:h}), function(data) {
+			    //layer.msg(msg, 1, 6);
+			    var arr=eval(data);
+				if(arr.error.code < 0){
+                  alert(arr.error.msg);
+				}
+				$("#hot").attr("checked", h);
+			});
+		});  
+    });
+
+	/* 提前借款审核通过 */
+	function advanceLoanToFundraise(){
+	    //var setSuggest = $.trim($("#setSuggest").val());
+	/* 	
+		if(setSuggest == ""){
+			//layer.msg("请填写审核意见!", 1, 5);
+			alert("请填写审核意见!");
+			
+			return;
+		}  */
+		
+		//$("#suggest").val(setSuggest);
+		
+		 var msg = "确认通过此项目标的吗?"; 
+		 if (confirm(msg)==true){ 
+			 $("#auditPass").submit();
+		 }else{ 
+		     return false; 
+		 } 
+ 		
+	}
+
+
+	
+	
+	
+	/* 提前借款审核不通过验证 */
+	function loanNotPass(){
+/* 		if($.trim($("#through").val()) == ""){
+			//layer.msg("请填写不通过原因!", 2, 5);
+			alert("请填写不通过原因!");
+			
+			return;
+		} */
+		 var msg = "您即将操作标不通过选项，可能导致重新上传标的，您确认这样做吗？"; 
+		 if (confirm(msg)==true){ 
+				$("#loanNotPass").submit();
+		 }else{ 
+		     return false; 
+		 } 
+	
+	}
+		
+	/* 提前借款审核不通过弹框 */
+	function showNotPassBox(){
+		$.layer({
+          type: 1,
+          area: ['500', 'auto'],
+          title: '审核资料',
+          page: {dom : '#showNotPassBox'}
+        });
+	}
+
+	/* 借款中不通过确认 */
+	function fundraiseToPeviewNotThrough(){
+		$.layer({
+		    shade: [0],
+		    area: ['auto','auto'],
+		    dialog: {
+		        msg: '将会返还借款人，投资人的资金，请您再次确认!',
+		        btns: 2,                    
+		        type: 4,
+		        btn: ['好的','算了'],
+		        yes: function(){
+				    $("#notPass").submit();
+		        }, no: function(){
+		        	return false;
+		        }
+		    }
+		});
+	}
+	
+	/* 关闭审核不通过弹框 */
+	function closeNotPassBox(){
+		layer.closeAll();
+	}
+	
+	function upBid(){
+		window.location.href = "@{fundraiseingDetail(bid?.upId)}"; 
+	}
+	
+	function nextBid(){
+		window.location.href = "@{fundraiseingDetail(bid?.nextId)}"; 
+	}
+</script>
+#{/if}

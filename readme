@@ -1,0 +1,5 @@
+1. 在部署项目的时候当我们需要通过文件夹的方式访问系统： http://www.xxx.com/sp2p 那么就需要进行以下调整
+   1.1 conf/application.conf文件中   http.path=/sp2p  test.application.baseUrl=http://www.xxx.com
+   1.2 public/javascripts/common.js文件中 var http_path = 'http://www.xxx.com/sp2p';
+   1.3 如果是eclipse开发:".classpath.backup"文件改为".classpath",eclipse/*.backup把.backup删除
+   

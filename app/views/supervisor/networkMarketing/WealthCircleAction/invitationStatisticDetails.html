@@ -1,0 +1,126 @@
+<div class="xf_meminvite_detail">
+	<div class="xf_ht_glylist_ss">
+		<ul class="xf_meminvite_search clr">
+			<li class="xf_meminvite_searchLi">
+				<input type="hidden" name="currPage" id="currPageDetail" value="${page?.currPage}"/>
+				<input type="hidden" name="currSize" id="currSizeDetail" value="${page?.pageSize}"/>
+				<input type="hidden" name="year" id="yearDetail" value="${page?.conditions?.year}"/>
+				<input type="hidden" name="month" id="monthDetail" value="${page?.conditions?.month}"/>
+ 				<div class="xf_ht_search_xl">
+ 					<input class="search_w" type="text" name="userName" id="userName" placeholder="用户名" value="${page?.conditions?.userName}"/>
+		  		</div>
+			</li>
+			<li>
+				<input value="搜 索" class="search_button" onclick="inviteIncomeDetailsSearch();" type="button">
+				<input type="submit" class="search_button" onclick="download();" value="下载数据">
+			</li>
+		</ul>
+	</div>
+	<!-- 搜索结果 -->
+	<div class="xf_ht_glylist_two">
+		<table border="0" cellpadding="0" cellspacing="0" width="auto" class="xf_con_mem_r_b_table">
+			<tbody>
+				<tr>
+					<th align="center" width="55">
+						序号
+					</th>
+					<th align="center" width="190">
+						用户名
+					</th>
+					<th align="center" width="190">
+						邀请码总数
+					</th>
+					<th align="center" width="190">
+						受邀理财金额
+					</th>
+					<th align="center" width="190">
+						返佣金额
+					</th>
+				</tr>
+				#{list items:page.page,as:'inviteIncome'} 
+				<tr>
+					<td align="center">
+						${inviteIncome_index}
+					</td>
+					<td align="center">
+						${inviteIncome?.user_name}
+					</td>
+					<td align="center">
+						${inviteIncome?.total_invite_code}
+					</td>
+					<td align="center">
+						${inviteIncome?.invited_user_invest_amount?.format("###,##0.00")}
+					</td>
+					<td align="center">
+						${inviteIncome?.invitation_income?.format("###,##0.00")}
+					</td>
+				</tr>
+				#{/list}
+			</tbody>
+		</table>
+	</div>
+	<!-- 清除浮动 -->
+	<div class="clear"></div>
+	<div class="xf_ht_shmx_button xf_ht_jobx_page">
+		<div class="page_warp">
+	        #{page funMethod:"inviteIncomeDetailsPage",currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4/}
+	    </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+/* 下载数据 */
+function download(){
+  var currPage = $("#currPageDetail").val();
+  var year = $("#yearDetail").val();
+  var month = $("#monthDetail").val();
+  var userName = encodeURIComponent($("#userName").val());
+  
+  window.location.href = "invitationStatisticDetails?userName=" + userName + "&isExport=1" + "&year=" + year+ "&month=" + month;
+
+}
+
+function inviteIncomeDetailsSearch() {
+	var currPage = $("#currPageDetail").val();
+	var year = $("#yearDetail").val();
+	var month = $("#monthDetail").val();
+	var userName = $("#userName").val();
+
+	$.ajax({
+	  url : "@{supervisor.networkMarketing.WealthCircleAction.invitationStatisticDetails()}",
+	  type : "GET",
+	  async : false,
+	  data : {
+	    "currPage" : currPage,
+	    "year" : year,
+	    "month" : month,
+	    "userName" : userName
+	  },
+	  success : function(data) {
+	    if (data.code < 0) {
+	      alert(data.msg);
+	      return;
+	    }
+	    $("#inviteIncomeDetails").html(data);
+	  },
+	  error : function() {
+	    alert(data.msg);
+	  }
+	});
+
+	 $.layer({
+	     type: 1,
+	     area: ['700', 'auto'],
+	     title: '返佣记录',
+	     page: {dom : '#inviteIncomeDetails'}
+      });
+}
+
+function inviteIncomeDetailsPage(currPage, currSize) {
+	$("#currPageDetail").val(currPage);
+	$("#currSizeDetail").val(currSize);
+	inviteIncomeDetailsSearch();
+}
+
+</script>

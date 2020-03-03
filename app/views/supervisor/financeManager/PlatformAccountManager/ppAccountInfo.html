@@ -1,0 +1,168 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'本金保障账户信息' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include 'supervisor/financeManager/common/financeManageLeft.control'/}
+    <div class="xn_c_content">
+    <div class="xf_content_add">
+      <div class="xfht_t_j_y_2">
+        <!--右上-->
+        <div class="xf_ht_obu_fklm">
+                                   本金保障账户概览
+        </div>
+        <div class="xfht_t_j_y_yx_k">
+        <table class="xfht_t_table_bjbz" width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+          <td width="300" align="right" style="padding-right:18px;">本金保障账户开启时间：</td>
+          <td><input type="text" class="xfht_zr_input" disabled="disabled" value="${systemOptions?.platformStartupTime?.format('yyyy-MM-dd HH:mm:ss')}"></td>
+          </tr>
+          <tr>
+          <td align="right" style="padding-right:18px;">本金保障账户已运行：</td>
+          <td>
+            <span class="xfht_zr_s_font" id="day"></span>天
+            <span class="xfht_zr_s_font" id="hours"></span>小时
+            <span class="xfht_zr_s_font" id="minutes"></span>分
+            <span class="xfht_zr_s_font" id="seconds"></span>秒</td>
+          </tr>
+          <tr>
+          <td align="right" style="padding-right:18px;">本金保障账户总收入：</td>
+          <td><input type="text" class="xfht_zr_input" disabled="disabled" value="${account?.income?.format('###,##0.00')}"> 元</td>
+          </tr>
+          <tr>
+          <td align="right" style="padding-right:18px;">本金保障账户总支出：</td>
+          <td><input type="text" class="xfht_zr_input" disabled="disabled" value="${account?.expense?.format('###,##0.00')}"> 元</td>
+          </tr>
+          <tr>
+          <td align="right" style="padding-right:18px;">本金保障账户共垫付投资账单：</td>
+          <td>
+            <span class="xfht_zr_s_font">${account?.advance}</span>笔，合计
+            <span class="xfht_zr_s_font xf_ht_red">${account?.payment?.format("###,##0.00")}</span>元
+          </td>
+          </tr>
+          <tr>
+          <td align="right" style="padding-right:18px;">本金保障账户余额：</td>
+          <td><input type="text" class="xfht_zr_input" disabled="disabled" value="${account?.balance?.format('###,##0.00')}"> 元</td>
+          </tr>
+         
+          <tr>
+          <td>&nbsp;</td>
+          <td>
+            <input class="xf_ht_tcc_button_ok" type="button" value="添加保障金" id="xf_ht_tjbzj" onClick="showPage()">
+          </td>
+          </tr>
+        </table>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+  
+
+
+<div class="xn_c_ban_jox xn_c_ban_jox_fktz" id="xf_ht_fkzh_ttc" style="display:none">
+  <div class="xf_ht_jr_obu_width">
+    #{form @addPrincipalProtection(), id:'submit'}
+    <div class="xf_fktz_tcc_table">
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form" width="100%">
+        <tr>
+          <td align="right"  width="140">操作金额：</td>
+          <td><input class="xf_ht_ptgl_dfk_i" type="text" name="amount" id="amount"> 元</td>
+        </tr>
+        <tr>
+          <td align="right" valign="top" width="140">备注：</td>
+          <td><textarea class="xf_ht_jr_obttd_textarea xf_ht_jr_obttd_fktz" name="summary" id="summary"></textarea></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="xf_ht_tcc_button">
+            <input class="jbox_ok" type="button" value="确  定" onclick="sure()">
+          </td>
+        </tr>
+      </table>
+    </div>
+    #{/form}
+  </div>
+</div>
+<script type="text/javascript">
+  $(function(){
+    /* 高亮显示 */
+	  showHighLight(4,4,22);
+  })
+  
+  $("#xf_ht_fkzh_ttc").hide();
+
+  showTime();
+
+  function showTime(){
+    var endTime = "${systemOptions?.platformStartupTime?.format('yyyy/MM/dd HH:mm:ss')}";
+    time_end = new Date(endTime);//结束的时间
+    var tt = time_end.getTime();
+    var now = new Date().getTime();
+    var cha = now - tt;
+    var SysSecond = parseInt(cha);
+   
+    if (SysSecond > 0) { 
+      int_day = Math.floor(SysSecond/86400000);
+      SysSecond -= int_day*86400000;
+      int_hour = Math.floor(SysSecond/3600000);
+      SysSecond -= int_hour*3600000;
+      int_minute = Math.floor(SysSecond/60000);
+      SysSecond -= int_minute*60000;
+      int_second = Math.floor(SysSecond/1000);
+        
+      if(int_hour < 10){
+        int_hour="0"+int_hour;
+      }
+
+      if(int_minute<10){
+         int_minute="0"+int_minute;
+      }
+
+      if (int_second<10){
+         int_second="0"+int_second;
+      }
+         
+      $("#day").html(int_day);
+      $("#hours").html(int_hour);
+      $("#minutes").html(int_minute);
+      $("#seconds").html(int_second);
+    }else{
+   
+      $("#day").html("00");
+      $("#hours").html("00");
+      $("#minutes").html("00");
+      $("#seconds").html("00");
+    }
+   
+    setTimeout('showTime()',1000); 
+  }
+   
+  function showPage(){
+    $.layer({
+      type: 1,
+      area: ['600', 'auto'],
+      title: '添加保障金',
+      page: {dom : "#xf_ht_fkzh_ttc"}
+    });
+  }
+
+  function sure(){
+    if($("#amount").val() == ''){
+      alert("操作金额不能为空");
+      return;
+    }
+   
+    if($("#summary").val() == ''){
+      alert("备注不能为空");
+      return;
+    }
+   
+    $("#submit").submit();
+    layer.closeAll();
+  }
+
+  function canclepage(){
+    $("#xf_ht_fkzh_ttc").hide();
+  }
+</script>

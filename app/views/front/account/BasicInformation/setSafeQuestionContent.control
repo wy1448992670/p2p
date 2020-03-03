@@ -1,0 +1,174 @@
+<div class="xf_mem_Account xf_mem_shzdjkb_box" id="divHide">
+        <div class="xf_mem_shzdjkb_box_tcc">遮盖层</div>
+		<h3 class="xf_mem_accout_title">安全问题设置</h3>
+		<!-- 安全问题设置 -->
+		<div class="xf_mem_aqwtsz_qa" id="control">
+		#{form @saveSafeQuestion(), id:'update'}
+		<input type="hidden" id="encryString" name="encryString">
+		<input type="hidden" id="fromPage" name="fromPage" value="${flash.fromPage}">
+			<ul>
+				<li>
+					<div class="xf_mem_aqwtsz_qaname"><span class="xf_mem_aqwtsz_xx">*</span>安全问题1：
+					<select id="q1" onchange="selectQ1(this);" name="secretQuestion1">
+						<option value="0">请选择安全问题</option>
+						#{list questions}
+							<option value="${_?.id}">${_?.name}</option>
+						#{/list}
+					</select>
+					</div>
+					<div class="xf_mem_aqwtsz_qainput">输入答案：<input class="xf_mem_aq_wtszinput" id="questionName1" name="answer1" onclick="showSafeQuestion();" maxlength="20"></div>
+				</li>
+				<li>
+					<div class="xf_mem_aqwtsz_qaname"><span class="xf_mem_aqwtsz_xx">*</span>安全问题2：
+					<select id="q2" onchange="selectQ2(this);" name="secretQuestion2">
+						<option value="0">请选择安全问题</option>
+						#{list questions}
+							<option value="${_?.id}">${_?.name}</option>
+						#{/list}
+					</select>
+					</div>
+					<div class="xf_mem_aqwtsz_qainput">输入答案：<input class="xf_mem_aq_wtszinput" id="questionName2" name="answer2" onclick="showSafeQuestion();" maxlength="20"></div>
+				</li>
+				<li>
+					<div class="xf_mem_aqwtsz_qaname"><span class="xf_mem_aqwtsz_xx">*</span>安全问题3：
+					<select id="q3" onchange="selectQ3(this);" name="secretQuestion3">
+						<option value="0">请选择安全问题</option>
+						#{list questions}
+							<option value="${_?.id}">${_?.name}</option>
+						#{/list}
+					</select>
+					</div>
+					<div class="xf_mem_aqwtsz_qainput">输入答案：<input class="xf_mem_aq_wtszinput" id="questionName3" name="answer3" onclick="showSafeQuestion();" maxlength="20"></div>
+				</li>
+				#{if user.isSecretSet == false}
+				<li class="xf_mem_aqwtsz_lalt" id="setQuestion">
+				    <a class="xf_con_inputfbjk" onClick="updatequest()">设置安全问题</a>
+				</li>
+				#{/if}
+				#{else}
+				<li class="xf_mem_aqwtsz_lalt" id="updateQuestion">
+				    <a class="xf_con_inputfbjk" onClick="updatequest()">修改安全问题</a>
+				</li>
+				#{/else}
+				<li class="xf_mem_aqwtsz_lalt" id="updateQuestion">
+				</li>
+			</ul>
+			#{/form}
+		</div>
+ </div>
+<script>
+   function selectQ1(po){
+   		var q2 = $("#q2");
+   		var q3 = $("#q3");
+   		var text1 = q2.find("option:selected").text();
+   		var text2 = q3.find("option:selected").text();
+   		var option1 = '<option value="'+q2.val()+'">'+text1+'</option>';
+   		var option2 = '<option value="'+q3.val()+'">'+text2+'</option>';
+   		#{list questions}
+		    if(po.value != '${_?.id}' && q3.val() != '${_?.id}') {
+		    	option1 += '<option value="${_?.id}">${_?.name}</option>';
+		    }
+		    
+		    if(po.value != '${_?.id}' && q2.val() != '${_?.id}') {
+		    	option2 += '<option value="${_?.id}">${_?.name}</option>';
+		    }
+		#{/list}
+		q2.empty();
+		q3.empty();
+		q2.append(option1);
+		q3.append(option2);
+		removeRepeat(q2);
+		removeRepeat(q3);
+   }
+   
+   function selectQ2(po){
+   		var q2 = $("#q1");
+   		var q3 = $("#q3");
+   		var text1 = q2.find("option:selected").text();
+   		var text2 = q3.find("option:selected").text();
+   		var option1 = '<option value="'+q2.val()+'">'+text1+'</option>';
+   		var option2 = '<option value="'+q3.val()+'">'+text2+'</option>';
+   		#{list questions}
+		   if(po.value != '${_?.id}' && q3.val() != '${_?.id}') {
+		    	option1 += '<option value="${_?.id}">${_?.name}</option>';
+		    }
+		    
+		    if(po.value != '${_?.id}' && q2.val() != '${_?.id}') {
+		    	option2 += '<option value="${_?.id}">${_?.name}</option>';
+		    }
+		#{/list}
+		q2.empty();
+		q3.empty();
+		q2.append(option1);
+		q3.append(option2);
+		removeRepeat(q2);
+		removeRepeat(q3);
+   }
+    	
+   function selectQ3(po){
+   		var q2 = $("#q1");
+   		var q3 = $("#q2");
+   		var text1 = q2.find("option:selected").text();
+   		var text2 = q3.find("option:selected").text();
+   		var option1 = '<option value="'+q2.val()+'">'+text1+'</option>';
+   		var option2 = '<option value="'+q3.val()+'">'+text2+'</option>';
+   		#{list questions}
+		   if(po.value != '${_?.id}' && q3.val() != '${_?.id}') {
+		    	option1 += '<option value="${_?.id}">${_?.name}</option>';
+		    }
+		    
+		    if(po.value != '${_?.id}' && q2.val() != '${_?.id}') {
+		    	option2 += '<option value="${_?.id}">${_?.name}</option>';
+		    }
+		#{/list}
+		q2.empty();
+		q3.empty();
+		q2.append(option1);
+		q3.append(option2);
+		removeRepeat(q2);
+		removeRepeat(q3);
+   }
+   
+   function removeRepeat(q){
+   		if(q.val() == 0)
+   			return;
+   		q.find('option[value="'+ q.val() +'"]').eq(1).remove();
+   }
+    	
+   function updatequest(){
+   	   if($("#q1").val() == 0){
+   	   		alert("请选择安全问题1");
+   	   		
+   	   		return;
+   	   }
+   	    
+   	   if($("#q2").val() == 0){
+   	   		alert("请选择安全问题2");
+   	   		
+   	   		return;
+   	   }
+   	   
+   	   if($("#q3").val() == 0){
+   	   		alert("请选择安全问题3");
+   	   		
+   	   		return;
+   	   }
+   	   
+       if($("#secretQuestionId1").val() == ''){
+          alert("安全问题不能为空");
+          return;
+       }
+       
+       if($("#secretQuestionId2").val() == ''){
+          alert("安全问题不能为空");
+          return;
+       }
+       
+       if($("#secretQuestionId3").val() == ''){
+          alert("安全问题不能为空");
+          return;
+       }
+       
+       $("#update").submit();
+   }
+</script>

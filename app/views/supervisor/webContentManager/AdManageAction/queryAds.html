@@ -1,0 +1,131 @@
+<div class="xf_ht_ttc" id="xf_ht_fkzh_ttc" style="display:none;">
+  <div class="xf_ht_jr_obu_width">
+    #{form @editBanner(), id:'adsEdit'}
+    <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form" width="100%">
+      <tr>
+        <td align="right" valign="middle" width="130">广告条编号：</td>
+        <td>
+          <input class="xfht_zr_input" type="hidden" name="adsId" value="${ads?.id}"/> 
+          <input class="xfht_zr_input" type="text" id="adNo" value="${ads?.no}"  name = "no" id="adsno"/> 
+          <span class="xf_ht_banner_s" id="imageResolution2">${ads?.resolution}</span>
+          <span class="xf_ht_banner_s" id="imageType2">${ads?.fileFormat}</span>
+        </td>
+      </tr>
+      <tr>
+        <td align="right" valign="middle" width="130">内容：</td>
+        <td>
+          <input class="xfht_zr_input" type="text" value="${ads?.txt}"  name = "txt" id="adstxt"/> 
+        </td>
+      </tr>
+      <tr>
+        <td align="right" valign="top">广告条效果图：</td>
+        <td>
+          <input type="hidden"  name="resolution" id="imageResolutiontTemp" value="${ads?.resolution}" />
+          <input type="hidden"  name="isLinkEnabled" id="isLinkEnabled"/>
+          <input type="hidden"  name="type" id="imageTypeTemp"  />
+          <input type="hidden" id="filename" name="filename" value="${ads?.imageFileName}"/>
+	      <span style="position: relative;top: -15px;">
+		    <input type='button' class='upload_btn' value='上传'/> 
+		    <input type="file" class="upload_file" name="imgFile" id="imgFile" onchange="uploadImage('imgFile','loanImage');"style="position: absolute;
+top: 15px;left: -70px;" />
+		  </span>
+        </td>
+      </tr>
+      <tr>
+          <td colspan="2" style="text-align: center;">
+            #{img src:"${ads?.imageFileName}",alt:"",id:"loanImage",class:"xf_ht_banner_simg"}#{/img}
+          </td>
+        </tr>
+        
+        <tr>
+          <td align="right" width="110">所在位置：</td>
+          
+          <td>
+            <input type="hidden" name="adsLocation" id="adsLocation" >
+            <input class="xf_ht_banner_input" type="text" id="location" value="${ads?.location}" disabled="disabled"/>
+          </td>
+        </tr>
+        #{if ads?.id != 117 && ads?.id != 118 && ads?.id != 119 && ads?.id != 120}
+        <tr>
+          <td colspan="2" style="text-align: center;">
+            <div class="xf_ht_sh_tddiv">
+              <input type="checkbox" value="1"
+              #{if ads.isLinkEnabled}
+              checked="checked"
+              #{/if}
+              > 启动超链接，链接地址：<input class="xf_ht_banner_input" name="url" type="text" id="url" value="${ads?.url}" >
+            </div>
+            <div class="xf_ht_sh_tddiv_r" style="padding-left: 155px;padding-top: 10px;">
+              <input type="radio" name="target" value="2"
+              #{if ads.target == 2}
+              checked="checked"
+              #{/if}
+              > 新页打开&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="target" value="1"
+              #{if ads.target == 1}
+              checked="checked"
+              #{/if}
+              > 本页打开
+            </div>
+          </td>
+        </tr>
+        #{/if}
+      <tr>
+        <td align="right">&nbsp;</td>
+        <td style="padding:20px 0 40px 0;">
+          <input class="xf_ht_tcc_button_ok" type="button" value="确  定" onclick="submit2();">
+          <input class="xf_ht_tcc_button_on" type="button" value="取  消"  onclick="concel();">
+        </td>
+      </tr>
+    </table>
+    #{/form}
+  </div>
+</div>
+<script>
+  function concel(){
+    layer.closeAll();
+  }
+    
+  function submit2(){
+    var patrn=/^([1-9]\d*|0)(\.\d*[1-9])?$/; 
+    var loanImage = $("#loanImage").attr("src");
+    $("#filename").val(loanImage);
+    var location = $("#location").val();
+    $("#adsLocation").val(location);
+    var temp = $("#imageType2").text();  
+    $("#imageTypeTemp").val(temp);
+    var imageResolution = $("#imageResolution2").text();  
+    $("#imageResolutiontTemp").val(imageResolution);
+    var openHref = $("input[type='checkbox']:checked").val();
+    var adstxt = $("#adstxt").val();
+	//alert(adstxt.length);
+    if(adstxt.length > 50){
+    	alert("内容不能超过50字！");
+    	return;
+    } 
+    
+    if(openHref > 0){
+      if($("#url").val().replace(/(^\s*)/, "") =="" || $("#url").val().replace(/(^\s*)/, "")==null){
+        alert("对不起！链接不能为空！");
+        
+        return;
+      }
+      var url=$("#url").val();
+      if(url.indexOf('http://') !== 0 && url.indexOf('https://') !== 0){
+    
+    	  alert("请填写完整的连接地址；如：http://、https://");
+        	
+        	return;
+      }
+      $("#isLinkEnabled").val(1);
+    }else{
+      $("#isLinkEnabled").val(0);
+    }
+    	
+    if(loanImage =="" || loanImage == null){
+      alert("对不起！请上传图片！");
+      return;
+    }
+    	
+    $("#adsEdit").submit();
+  }
+</script>

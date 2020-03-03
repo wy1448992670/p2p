@@ -1,0 +1,17 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'积分兑换记录管理' /}
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  #{include "supervisor/networkMarketing/CPSSpreadAction/networkMarketingLeft.control"/}
+  <!-- 内容区 --> 
+  #{include "supervisor/mall/ScroeRecordAction/scroeRecordContent.html"/}
+  </div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	//高亮显示
+	showHighLight(7,7,16);
+})
+</script>

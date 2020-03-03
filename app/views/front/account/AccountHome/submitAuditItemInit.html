@@ -1,0 +1,126 @@
+<div class="xf_wyjkfb_4_windowInner xf_memjkzlshrz_window">
+	<div class="xf_jkzshrz_4_windowClose" onclick="$('#submit_audit_item_window').hide(500);"></div>
+	<div class="xf_wyjkfb_4_windowColName">
+		提交资料
+	</div>
+	<div class="xf_wyjkfb_4_windowCot">
+		<div class="xf_wyjkfb_4_windowCol">
+			<div class="xf_memjkzlshrz_title">
+				资料类别：
+			</div>
+			<div class="xf_memjkzlshrz_4_windowText">
+				${auditItem?.name}
+			</div>
+			<div class="clear"></div>
+			<div class="xf_memjkzlshrz_title">
+				资料描述 ：
+			</div>
+			<div class="xf_memjkzlshrz_4_windowText">
+				${auditItem?.description}
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="xf_wyjkfb_4_windowCol">
+			<div class="xf_memjkzlshrz_title">
+				上传文件：
+			</div>
+			<div class="xf_memjkzlshrz_4_windowText">
+				<input type="file" id="ob_item_file"  name="file"/>
+				<input class="xf_memjkzlshrz_4_button" type="button" onclick="uploadOBItemFile();" value="上传">
+				<input type="hidden" id="ob_item_fileType" name="fileType" value="${auditItem?.type}"/>
+				<div class="xf_memjkzlshrz_table">
+					<table class="xf_membill_acc_viewcpms" width="450" id="itemList">
+						<tr id="ob_itemTr-1">
+							<th>序号</th>
+							<th>资料类别</th>
+							<th>上传时间</th>
+							<th>大小</th>
+							<th>状态</th>
+							<th>预览</th>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="xf_wyjkfb_4_windowCol">
+			<div class="xf_memjkzlshrz_4_windowText">
+				<a class="xf_con_inputfbjk" id="xf_con_inputfbjk" onclick="submitAuditItem();">提交</a>
+				<a class="xf_con_inputfbqux" id="xf_con_inputfbqux" onclick="$('#submit_audit_item_window').hide(500);">取消</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var itemIndex = 0;
+	var g_items = new Array();
+
+	/**
+	 * 上传文件
+	 */
+   	function uploadOBItemFile() {
+   		if($("#ob_item_file").val() == "") {
+   			alert("请选择上传的文件");
+   			return;
+   		}
+   		
+   		if(itemIndex > 4){
+   			alert("您上传累了,提交之后再上传吧!");
+   			return;
+   		}
+   			
+   		var type = $("#ob_item_fileType").val();
+   		
+   		$.ajaxFileUpload({
+   			url : "@{FileUpload.uploadFile()}",
+   			secureuri : false,
+   			fileElementId : 'ob_item_file',
+   			dataType : 'text',
+   			data: { 
+	            "type": type
+	        },
+   			success : function(data) {
+   				data = $.evalJSON(data);
+   				if (data.code < 0) {
+   					alert(data.msg);
+   	
+   					return;
+   				}
+   				
+   				var td = type==1 ? '<img src="'+data.fileName+'"' + ' width="35" height="35"/>':'---';
+   				var date = new Date().format("yyyy-MM-dd");
+   				var html = '<tr id="ob_itemTr'+itemIndex+'">'+
+   				   	'<td>'+(itemIndex+1)+'</td>'+
+   				   	'<td>'+data.fileType+'</td>'+
+   				   	'<td>'+date+'</td>'+
+   				   	'<td>'+data.size+'k'+'</td>'+
+   				   	'<td>成功</td>'+
+   				   	'<td>'+td+'</td>'+
+   				   	'</tr>';
+   				 	
+   				$("#ob_itemTr"+(itemIndex-1)).after(html);
+   				
+   				g_items.push(data.fileName);
+   				itemIndex++;
+   			},
+   			error : function(data, status, e) {
+   				alert("出错了");
+   			}
+   		});
+   	}
+   	
+	function submitAuditItem() {
+   		if(g_items.length < 1){
+   			alert('请先上传资料!');
+   			return;
+   		}
+		
+   		var id = "${auditItem?.id}";
+		var filename = g_items.join(",");
+		auditItemDidSubmit(id, filename);
+		$('#submit_audit_item_window').hide(500);
+	} 
+
+</script>

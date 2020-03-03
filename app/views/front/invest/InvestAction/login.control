@@ -1,0 +1,149 @@
+*{弹框登录层}*			
+
+<!-- 登录弹出层界面 -->
+<div class="xf_zqzrtb_4_window_login" id="xf_logintcc_box">
+	<div class="xf_logintcc_4_windowInner">
+		<div class="xf_zqzr_4_windowClose" onclick="closeLogin();"></div>
+		<div class="xf_login_title">
+			<span class="xf_login_title_yhdl">用户登录</span>
+			<a href="@{front.account.LoginAndRegisterAction.registerMobile}"
+				class="xf_login_title_zcxyh">注册新用户</a>
+		</div>
+		<div class="xf_login_inputsr">
+			#{form @front.account.loginAndRegisterAction.logining(), id:'submit'}
+			<ul class="xf_login_inputsrul y_dlul">
+			   
+				<li>
+					<div>
+						<div class="y_dl1">
+							<span><img src="@{'/public/images/zc1.png'}"></span>
+							<input type="text" id="nametc" class="y_dltxt1 pas1_test" name="name"/>
+							<i>已绑定手机号码/注册邮箱/用户名</i>
+						</div>
+					</div>
+					
+				</li>
+	
+				<li>
+					<div>
+						<div class="y_dl1">
+							<span><img src="@{'/public/images/dl3.png'}" class="img2"></span>
+							<input type="password" id="passwordtc" class="y_dltxt1 pas1_test" name="password" />
+							<i>密码</i>
+						</div>
+					</div>
+					
+				</li>
+				<li>
+					<div>
+						<span class="y_dl1 dl2">
+							<span><img src="@{'/public/images/dl2.png'}" class="img2"></span>
+							<input type="text" id="codetc" class="y_dltxt1 t2 pas1_test" name="code" />
+							<input type="hidden" name="randomID" id="randomIDtc" />
+							<i>验证码</i>
+						</span>
+						<a href="#" class="y_yzm"><img src="" class="" id="imgtc" onclick="changetc()" width="75px" height="32px"></a>
+						<a href="javascript:changetc()" class="y_dla1">换一张</a>
+					</div>
+				</li>
+				
+				<li class="xf_login_xxhelp">
+					
+					<div class="">
+						<b class="xf_login_text_cg"></b>
+						<span class="xf_login_text_cgsp">您的信息将通过128位SGC加密保护数据传输安全</span>
+					</div>
+				</li>
+				<li>
+					<div>
+					<a onClick="logintc()" class="y_dlbgbto">安全登录</a>
+					</div>
+				</li>
+			</ul>
+			#{/form}
+			<div class="xf_gxlogin_input">
+				<div class="xf_gxlogin_spandl">
+					合作账号登录：
+				</div>
+				<a class="xf_gxlogin_qq  xf_gxregister_qq" href="@{front.quicklogin.qzone.QZoneAPI.login}" ><img src="@{'/public/images/qq.png'}"/></a>
+				<a class="xf_gxlogin_wb  xf_gxregister_wb" href="@{front.quicklogin.weibo.WeiBoAPI.login}" ><img src="@{'/public/images/weibo.png'}"/></a>
+				<div class="clear"></div>
+				<span class="xf_gxregister_title">一键登录，无需注册，与朋友分享你的投资经验！</span>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+<!--
+	$(function(){
+		/* 获取验证码 */
+	    var setcode = #{jsAction @front.account.LoginAndRegisterAction.setcode()/}
+		$.post(setcode({}),function(data){
+			var arr=eval(data);
+			var img = arr.img;
+			$("#imgtc").attr("src","@{front.account.LoginAndRegisterAction.getImg()}?id="+img);	
+			$("#randomIDtc").val(img);
+		});
+		
+		
+	$(document).keydown(function(event){
+    if(event.keyCode == 13){
+    if(document.activeElement.id == 'nametc' || document.activeElement.id == 'codetc' || document.activeElement.id == 'passwordtc'){
+    	 logintc();
+      }
+    }
+  });
+	});
+	
+	/* 换验证码 */
+	function changetc(){
+		var setcode = #{jsAction @front.account.LoginAndRegisterAction.setcode()/}
+		$.post(setcode({}),function(data){
+			var arr=eval(data);
+			var img = arr.img;
+			$("#imgtc").attr("src","@{front.account.LoginAndRegisterAction.getImg()}?id="+img);
+			$("#randomIDtc").val(img);	
+		});
+	}
+
+	function logintc(){
+		var nametc = $.trim($("#nametc").val());
+       if(nametc == ''){
+             alert("请输入用户名或邮箱");
+             return;
+         }
+		var passwordtc = $.trim($("#passwordtc").val());
+       if(passwordtc == ''){
+           alert("请输入密码");
+           return;
+       }
+		var codetc = $.trim($("#codetc").val());
+       if(codetc == ''){
+           alert("请输入验证码");
+           return;
+       }
+		var logining = #{jsAction @front.bid.bidAction.logining(':name', ':password', ':code', ':randomID')/}
+		$.post(logining({name:encodeURI(nametc),password:encodeURI(passwordtc),code:$("#codetc").val(),randomID:$("#randomIDtc").val()}),function(data){
+			if("" != data){
+				alert(data);
+				return;
+			}
+			$("#xf_logintcc_box").hide();
+			window.location.reload();
+			
+		});
+   }
+   
+   function closeLogin(){
+   			$("#name").removeAttr("disabled");
+			$("#name").removeAttr("readonly");
+			$("#password").removeAttr("disabled");
+			$("#password").removeAttr("readonly");
+			$("#code").removeAttr("disabled");
+			$("#code").removeAttr("disabled");
+   		$("#xf_logintcc_box").hide();
+   }
+//-->
+</script>
+	

@@ -1,0 +1,233 @@
+#{extends 'wechat/common.html' /}
+#{set title:'注册' /}
+<div class="s_main s_center">
+	<header class="s_header"> 注册 </header>
+	<div class="s_fffbg">
+		<form id="form1" method="post"
+			action="@{wechat.service.RegistAndLogin.registering()}">
+			<div class="s_bindbody">
+				<div class="s_bindinput">
+					<label><i class="icobg ico01"></i></label> <input id="userName"
+						name="userName" type="text" value="${flash?.userName}" placeholder="请输入用户名" /> <a
+						class="arrow"></a>
+					<div class="s_usernames"></div>
+				</div>
+				<div class="s_error">
+					用户名由2-10个字符组成(不含特殊字符)
+				</div>
+				<div class="s_bindinput">
+					<label><i class="icobg ico02"></i></label> <input id="password"
+						name="password" type="password" value="${flash?.password}" placeholder="请输入密码" />
+				</div>
+				<div class="s_error" style="display: none;">用户名由2-10个字符组成(不含特殊字符)</div>
+				
+				
+				<div class="s_bindinput">
+					<label><i class="icobg ico03"></i></label>
+					<input id="code" name="code" type="text" class="shorttext" placeholder="请输入验证码" />
+					<img class="s_yzm" id="img" src="" />
+					
+					<!-- 验证码随机码 -->
+					<input type="hidden" name="randomID" id="randomID" />
+				</div>
+				
+				
+				<div class="s_bindinput">
+					<label><i class="icobg ico04"></i></label> <input id="telephone"
+						name="telephone" type="text" value="${flash?.telephone}" placeholder="请输入手机号" />
+				</div>
+				<div class="s_error" style="display: none;">用户名由3-10个字符组成(不含特殊字符)</div>
+				<div class="s_bindinput">
+					<input id="yanzhengma" name="yanzhengma" type="text"
+						class="mobilmsg" placeholder="验证码" #{if !constants.Constants.CHECK_MSG_CODE} value="1234" readonly="readonly" #{/if} #{else}value="${flash?.yanzhengma}" #{/else}/><span id="time"></span><a id="yzm" class="getmsg">获取手机验证码</a>
+				</div>
+				<div class="s_error"><span id="errorInfo" style="color: red">${flash?.error}</span></div>
+				<input id="submit" name="submit" type="submit" value="注册"
+					class="s_bindbtn" />
+			</div>
+		</form>
+	</div>
+	<div class="s_loginbtm">
+		<a href="/wechat/registAndLogin/login">立即登录</a>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+	var flag;
+	
+	//得到验证码
+	$(function(){
+	    var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+		$.post(setCode({}),function(data){
+			var arr=eval(data);
+			var img = arr.img;
+			$("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img);	
+			$("#randomID").val(img);
+		});
+	});
+	
+	//改变验证码
+	$("#img").click(function(){
+		var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+		$.post(setCode({}),function(data){
+		var arr=eval(data);
+		var img = arr.img;
+		$("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img)	
+		$("#randomID").val(img);
+		});
+	});
+	
+	$("#userName").blur(function(){
+	  	  
+		  var name = $(this).val();
+          var hasNameExist = #{jsAction @front.account.loginAndRegisterAction.hasNameExist(':name')/}
+		  $.post(hasNameExist({name:encodeURI(name)}),function(data){
+			
+		  var arr=eval(data);
+		  
+		  if(arr.error.code < 0){
+			  flag = false;
+			  $("#errorInfo").html(arr.error.msg);  
+		  } else {
+			  $("#errorInfo").empty();
+			  flag = true;
+		  }
+         });
+	});
+	
+// 	$("#password").blur(function(){
+// 		var password = $(this).val();
+// 		if(password == "") {
+// 			$("#errorInfo").html("密码不能为空");
+// 		} else if(password.length < 6 || password.length > 20){
+// 			$("#errorInfo").html("密码长度只能在6-20位");
+// 		} else {
+// 			$("#errorInfo").empty();
+// 		}
+// 	});
+	
+// 	$("#telephone").blur(function(){
+// 		var telephone = $(this).val();
+// 		var verifyMobile = #{jsAction @hasMobileExist(':telephone')/}
+// 		$.post(verifyMobile({telephone:telephone}),function(data){
+// 		    var arr = eval(data);
+	          
+// 		    if(arr.result.code < 0){
+// 		    	$("#errorInfo").html(arr.result.msg);
+// 		        return false;
+// 		    } else {
+// 		    	$("#errorInfo").empty();
+// 		    }
+		    
+// 		});
+// 	});
+	
+	$("#submit").click(function() {
+		$("#errorInfo").empty();
+		
+		var username = $("#userName").val();
+		if (username == '') {
+			$("#errorInfo").html("请填写用户名");
+			return false;
+		} else if (username.length < 2) {
+			$("#errorInfo").html("用户名长度为2-10个字符");
+			return false;
+		} else if (username.length > 10) {
+			$("#errorInfo").html("用户名长度为2-10个字符");
+			return false;
+		} else if (!/^[\u4E00-\u9FA5A-Za-z0-9_]+$/.test(username)) {
+			$("#errorInfo").html("用户名不能含有特殊字符");
+			return false;
+		}
+
+		var password = $("#password").val();
+		if (password == "") {
+			$("#errorInfo").html("请设置您的密码");
+			return false;
+		} else if (password.length < 6) {
+			$("#errorInfo").html("密码长度为6-20个字符");
+			return false;
+		} else if (password.length > 20) {
+			$("#errorInfo").html("密码长度为6-20个字符");
+			return false;
+		} else if (!/^([^\s'‘’]{6,20})$/.test(password)) {
+			$("#errorInfo").html("密码由6-20位字符组成（不含'）");
+			return false;
+		}
+		
+		
+		if($("#code").val() == ''){
+			$("#errorInfo").html("请输入图形验证码");
+			return false;
+		}  
+	
+		
+		if (!$("#telephone").val().isMobileNum()) {
+			$("#errorInfo").html("手机不合法");
+			return false;
+		}
+		
+		if($("#yanzhengma").val() == "") {
+			$("#errorInfo").html("手机验证码不能为空");
+			return false;
+		}
+		
+		if(flag == false) {
+			$("#errorInfo").html("该用户名已经被使用");  
+			return false;
+		}
+		
+		$("#form1").submit();
+
+	});
+	
+	$("#yzm").click(function(){
+			$("#time").empty();
+			var mobile = $("#telephone").val().trim();
+			if(mobile == '') {
+				$("#errorInfo").html("请输入手机号码");
+				return false;
+			}
+			
+			if(!mobile.isMobileNum()) {
+				$("#errorInfo").html("请输入正确的手机号码");
+				return false;
+			}
+			
+			$("#errorInfo").html("");
+			
+			var code = $("#code").val();
+			var randomID = $("#randomID").val();
+			var verifyMobile = #{jsAction @wechat.service.RegistAndLogin.verifyMobile(':mobile',':code',':randomID')/}
+			$.post(verifyMobile({mobile:mobile, code:code, randomID:randomID}),function(data){
+			    var arr = eval(data);
+		          
+			    if(arr.error.code < 0){
+			    	$("#errorInfo").html(arr.error.msg);
+			        return false;
+			    } 
+			    $("#yzm").empty();
+			    timer2();
+			});
+	});
+	
+	//手机验证码调用时间定时器(当点击按钮是input标签时使用)
+
+	var time = 120;
+	//手机验证码重新获取时间间隔
+	function timer2(){
+	    time = time - 1;
+	    $("#time").html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+time+"秒后获取");
+	    if(time == 0){
+	       time = 120;
+	       $("#time").empty();
+	       $("#yzm").html("获取手机验证码");
+	    }else{
+	       setTimeout("timer2()",1000);
+	    }
+	}
+</script>
+<style>
+.disabled{color:gray;cursor:default};
+</style>

@@ -1,0 +1,26 @@
+#{extends 'wechat/common.html' /}
+
+<body>
+	<div class="s_center">
+		<header class="s_header">
+			<span>银行卡管理</span>
+			<a href="@{wechat.account.WechatAccountHome.accountInfo()}" class="icobg"></a>
+		</header>
+		<ul class="s_addbank">
+			<li>
+				<div class="lil">
+					银行名称 ：<input type="text" value="中国银行深圳市宝安支行" /><br/>
+					账号 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ：<input type="text" value="6222023202030950272" /><br/>
+					收款人 &nbsp&nbsp&nbsp：<input type="text" value="熊二默" />
+				</div>
+				<span class="lir">
+					<a href="@{wechat.account.WechatAccountHome.editBank}">保存</a>
+				</span>
+			</li>
+		</ul>
+		<a href="javascript:void(0);" class="s_addbtnbtn"><i>+</i>添加银行卡</a>
+	</div>
+</body>
+
+
+

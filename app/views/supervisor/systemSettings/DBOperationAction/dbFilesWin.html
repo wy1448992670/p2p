@@ -1,0 +1,65 @@
+<!-- 数据库操作记录弹窗 -->
+<div class="xn_c_ban_jox xn_c_ban_jox_qxsz" id="xf_htxtsz_sjkbfwj" style="display:none">
+  <div class="xf_ht_jr_obu_width xf_ht_jr_aqsz_width">
+    <div class="xf_ht_xtsz_aqwt xf_ht_xtsz_aqwt2" style="height: 200px; overflow-y:auto;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0"
+        class="xf_con_mem_r_b_table">
+        <tr>
+          <th width="60">选择</th>
+          <th width="60">序号</th>
+          <th width="80">时间</th>
+          <th>文件</th>
+          <th>操作IP</th>
+          <th>操作人</th>
+          <th>安全云盾编号</th>
+        </tr>
+        #{list operations}
+        <tr>
+          <td><input type="radio" name="file_id" value=${_?.id} /></td>
+          <td>${_index}</td>
+          <td>${_?.time?.format("yyyy-MM-dd HH:mm:ss")}</td>
+          <td>${_?.filename}</td>
+          <td>${_?.ip}</td>
+          <td>${_?.supervisor_name}</td>
+          <td>${_?.supervisor_ukey}</td>
+        </tr>
+        #{/list}
+      </table>
+    </div>
+    <div class="jbox_tan_ondiv jbox_tan_width4">
+      <input class="xf_ht_tcc_button_ok" type="button" onclick="submitFile();"
+        value="确  定"> 
+      <input class="xf_ht_tcc_button_on" id="myClose"
+        type="button" value="取  消">
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    //关闭
+    $(".xf_ht_jr_obu_r").click(function() {
+      $("#xf_htxtsz_sjkczjl").hide();
+    });
+
+    //取消
+    $("#myClose").click(function() {
+      layer.close(p1);
+    });
+  });
+
+  //确定提交
+  function submitFile() {
+    var id = $("input:radio[name='file_id']:checked").val();
+    
+    if (typeof(id) == "undefined") {
+      alert("请选择文件");
+      
+      return;
+    }
+    
+    fileDidSelect(id);
+    layer.close(p1);
+    //$("#xf_htxtsz_sjkbfwj").hide();
+  }
+</script>

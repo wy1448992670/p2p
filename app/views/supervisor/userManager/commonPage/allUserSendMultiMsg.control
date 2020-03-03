@@ -1,0 +1,76 @@
+<div class="xn_c_ban_jox xn_c_ban_jox_fdx" id="xf_ht_memfdx_ttc_sms" style="display:none;">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xn_c_ban_fdxwarp">
+      <table class="xf_ht_jr_obu_form" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td valign="top" align="right">发给：</td>
+          <td>
+            <textarea id="msgUsers" class="xf_ht_baidu_wkttcc_text xf_ht_baidu_wkttcc_text6" style="max-width:300px;max-height:150px;" disabled>f</textarea>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top" align="right">内容：</td>
+          <td>
+            <textarea id="msgContent_" oninput="LimitContent_(this)" onkeyup="LimitContent_(this)" class="xf_ht_baidu_wkttcc_text xf_ht_baidu_wkttcc_text6" style="max-width:300px;max-height:150px;"></textarea>
+          </td>
+        </tr>
+        <tr><td></td><td>
+        				<span class="xf_ht_wa_font" id="limit">您还可以输入<span class="xf_con_zqzr_znxsz" id="limitnum_">300</span>字</span>
+        			</td></tr>
+        <tr>
+          <td></td>
+          <td>
+            <input type="button" value="发 送" onclick="mobileSend_()" class="jbox_ok">
+          </td>
+        </tr>
+      </table>  
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+function mobileSend_(){
+console.log(sendMobiles)
+
+	var msg = $("#msgContent_").val();
+  if(msg == ''){
+    alert("内容不能为空");
+    return;
+  }
+  if(msg.length > 300){
+   alert("内容过长");
+    return;
+  }
+   
+  // console.log(sendMobiles.length)
+ // for(var i = 0; i<sendMobiles.length; i++){
+  //	send_(sendMobiles[0], msg);
+ // }
+  
+  for(var k in sessionMobiles){
+	send_(sessionMobiles[k], msg);
+  }
+  sessionStorage.mobiles = "";
+   layer.closeAll();
+  alert("成功加入短信发送队列，等待发送");
+} 
+
+function send_(mobile, content){
+	console.log(mobile+";"+content)
+	var sendMsg = #{jsAction @supervisor.userManager.AllUser.sendMsg(':mobile', ':content')/};
+  $.post(sendMsg({mobile:mobile, content:encodeURI(content)}),function(data){
+    var arr=eval(data);
+          
+    if(arr.error.code < 0){
+      alert(arr.error.msg);
+      return;
+    }
+  });
+}
+function LimitContent_(obj){console.log(obj.value)
+	 if (obj.value.length > 300){
+    	obj.value = obj.value.substring(0, 300);
+     }
+     $("#limitnum_").html(300 - obj.value.length);
+}
+</script>

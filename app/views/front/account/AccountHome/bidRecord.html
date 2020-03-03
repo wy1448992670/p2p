@@ -1,0 +1,39 @@
+<div class="xf_ht_jr_obu_width"  style="width: 700px;" id="recordShow">
+	<table align="center" width="700">
+		<tbody>
+			<tr height="30">
+				<th>序号</th>
+				<th>投标人</th>
+				<th>投标金额</th>
+				<th>投标时间</th>
+				<th>投标状态</th>
+			</tr>
+			#{list pageBean?.page}
+			<tr height="30">
+				<td align="center">
+					${_index}
+				</td>
+				<td align="center">
+					${_?.name}
+				</td>
+				<td align="center">
+					${_?.invest_amount}元
+				</td>
+				<td align="center">
+					${_?.time?.format('yyyy-MM-dd')}
+				</td>
+				<td align="center">
+					#{if _?.transfer_status == 0} 正常 #{/if} 
+					#{elseif _?.transfer_status == -1} 已转让出 #{/elseif} 
+					#{else _?.transfer_status == 1} 转让中 #{/else}
+				</td>
+			</tr>
+			#{/list}
+		</tbody>
+	</table>
+
+	<!-- 分页器 -->
+	<div class="xf_wylc_page xf_zqzr_view_page1" style="width: 700px;">
+		#{page funMethod:"bidRecord",currPage:pageBean.currPage,totalCount:pageBean.totalCount,pageSize:pageBean.pageSize,theme:2,style:2/}
+	</div>
+</div>

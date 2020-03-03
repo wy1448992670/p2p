@@ -1,0 +1,113 @@
+@charset "utf-8";
+/*=============初始化样式
+===================================*/
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  
+}
+li,ol,ul {
+    list-style: none;
+}
+img{border：0}
+a{border: 0}
+img：hover{border：0}
+a：hover{border：0}
+
+
+/*.banner_big {
+    width: 100%;
+    height: 450px;
+ 	overflow: hidden;
+    position: relative;
+}*/
+
+.banner_big > ul {
+    display: none;
+    /*width: 999999999px;*/
+    height: 450px;
+    position: absolute;
+    top:0;
+    left: 0;
+    
+
+}
+
+.banner_big > ul > li  {
+    float: left;
+    height: 450px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.banner_big > ul > li > a {
+    display: block;
+    font-size: 200px;
+    text-align: center;
+    line-height: 450px;
+    font-weight: bold;
+}
+/*.ban_pic{
+	width: 1423px;
+	
+}*/
+.left-btn,.right-btn {
+    width: 61px;
+    height: 61px;
+    position: absolute;
+    top: 45%;
+    right: 30px;
+    z-index: 500;                         /*新增*/
+    background: url("../../images/newhome/right-1.png");
+    cursor: pointer;
+}
+
+.left-btn {
+    left: 30px;
+    background: url("../../images/newhome/left-1.png");
+}
+
+.img-btn-list {
+    width: 100%;
+    position: absolute;
+    bottom: 11px;
+    left: 0;
+    text-align: center;
+}
+
+.img-btn-list > span  {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 12px;
+    margin: 0 5px;
+    background: #fff;
+    cursor: pointer;
+}
+
+.img-btn-list > span.current {
+    
+    background: #fe4646;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

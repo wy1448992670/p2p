@@ -1,0 +1,288 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'审核资料库' /} 
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  <!--左-->
+  #{include "supervisor/webContentManager/common/leftBar.control"/}
+  <!--右-->
+  <div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    <div class="xf_ht_search_inon">
+       #{form @audtiItemList(), id:'audtiItemList'}
+       <input type="hidden" id="currPage" name="currPage"/>
+	   <input type="hidden" id="pageSize" name="pageSize"/>
+       <div class="xf_ht_search_r">
+         <div class="xf_ht_search_xl">
+           <input name="keyword" type="text" class="search_w" title="请输入有效名称" value="${pageBean?.conditions?.keyword}"/>
+         </div>
+         <div class="xf_ht_search_xl">
+           <input type="submit" value="搜 索" class="search_button"/>
+         </div>
+       </div>
+       #{/form}
+     </div>
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xn_c_content_list",tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}编号#{/th}
+          #{th}名称#{/th}
+          #{th}格式#{/th}
+          #{th}有效期/月#{/th}
+          #{th}审核期/日#{/th}
+          #{th}信用积分#{/th}
+          #{th}审核费用#{/th}
+          #{th}创建时间#{/th}
+          #{th}状态#{/th}
+		  #{th}操作#{/th}
+        #{/tr}
+		#{list pageBean?.page}
+        #{tr tr_index:_index}
+          #{td}${(pageBean?.currPage - 1)*pageBean?.pageSize + _index}#{/td}
+          #{td}${_?.no}#{/td}
+          #{td}${_?.name}#{/td}
+          #{td}
+            #{if _?.type == 1}
+			  图片文件	
+			#{/if}
+			#{elseif _?.type == 2}
+			  文本文件
+			#{/elseif}
+			#{elseif _?.type == 3}
+			  视频文件
+			#{/elseif}
+			#{elseif _?.type == 4}
+			  音频文件
+			#{/elseif}
+			#{elseif _?.type == 5}
+			  表格文件
+			#{/elseif}
+          #{/td}
+          #{td}${_?.period}#{/td}
+          #{td}${_?.auditCycle}#{/td}
+		  #{td}${_?.creditScore}#{/td}
+		  #{td}${_?.auditFee}#{/td}
+		  #{td}${_?.time?.format('yyyy-MM-dd')}#{/td}
+		  #{td}#{if _?.isUse}使用中#{/if}#{else}已暂停#{/else}#{/td}
+          #{td}
+            <a href="javascript:setEditValue('${_?.id}','${_?.name}','${_?.type}','${_?.description}','${_?.period}',
+			  '${_?.auditCycle}','${_?.creditScore}','${_?.auditFee}');" id="xf_dfk_fkzh_tcc1" class="xf_ta_onclick">编辑</a>
+            #{if _?.isUse}
+			  #{a @notEnableAuditItem(_?.id),class:"xf_ta_onclick"}暂停 #{/a}
+			#{/if}
+			#{else}
+			  #{a @enableAuditItem(_?.id),class:"xf_ta_onclick"}启用 #{/a}
+			#{/else}
+          #{/td}
+        #{/tr}
+		#{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      #{page currPage:pageBean.currPage,totalCount:pageBean.totalCount,pageSize:pageBean.pageSize,theme:2,style:4/}
+	  <div class="page_warp_l">
+          <input class="xf_ggnr_help_input" id="btnadd" type="button" value="添加审核科目">
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</div>
+<!-- 添加审核资料科目-弹出层 -->
+#{include '/supervisor/webContentManager/ProductAction/addAuditItem.control'/}
+<!-- 编辑审核资料科目-弹出层 -->
+#{include '/supervisor/webContentManager/ProductAction/editAuditItem.control'/}
+<script type="text/javascript">
+  $(function(){
+    //添加层居中显示
+    //$("#showAddPage").center();
+    //编辑层居中显示
+    //$("#showEditPage").center();
+
+    //添加科目按钮
+    $("#btnadd").click(function(){
+      $("#itemName").val('').css("color","black");
+      $("#description").val('');
+      $("#period").val('');
+      $("#auditCycle").val('');
+      $("#creditScore").val('');
+      $("#auditFee").val('');
+      $("#showReasonLength").html(200);
+      $.layer({
+        type: 1,
+        area: ['610', 'auto'],
+        title: '添加审核资料科目',
+        page: {dom : '#showAddPage'}
+      });
+    });
+
+    //限制审核名称长度
+    $("#itemName").maxLength(10);
+    $("#editItemName").maxLength(10);
+    
+    //取消添加
+    $("#addPage_no").click(function(){
+      layer.closeAll();
+    });
+
+    //取消编辑
+    $("#editon").click(function(){
+      layer.closeAll();
+    });
+
+    //添加框，X 图标关闭
+    $(".xf_ht_jr_obu_r").click(function(){
+      $(this).parents(".xf_ht_ttc").hide();
+    });
+  });
+
+
+  /* 条件搜素查询 */
+  function showPage(currPage, pageSize){
+    $("#currPage").val(currPage);
+    $("#pageSize").val(pageSize);
+    $("#audtiItemList").submit();
+  }
+
+  //编辑时，赋值
+  function setEditValue(itemId, name, type, description, period, auditCycle, creditScore, auditFee) {
+    $("#itemId").val(itemId);
+    //$("#editItemName").val(name);
+    $("#editItemName").val(name).css("color","black");
+    $("#edescription").val(description);
+    $("#eperiod").val(period);
+    $("#eauditCycle").val(auditCycle);
+    $("#ecreditScore").val(creditScore);
+    $("#eauditFee").val(auditFee);
+    $("#showReason").html(200 - $("#edescription").val().length);
+	$("#showTxt").html(name);
+    switch(type * 1){
+/*     case 1:$("#type1").attr("selected","selected");break;
+    case 2:$("#type2").attr("selected","selected");break;
+    case 3:$("#type3").attr("selected","selected");break;
+    case 4:$("#type4").attr("selected","selected");break;
+    case 5:$("#type5").attr("selected","selected");break; */
+    case 1:$("#showType").html("图片文件");$("#eselect").val("1");break;
+    case 2:$("#showType").html("文本文件");$("#eselect").val("2");break;
+    case 3:$("#showType").html("视频文件");$("#eselect").val("3");break;
+    case 4:$("#showType").html("音频文件");$("#eselect").val("4");break;
+    case 5:$("#showType").html("表格文件");$("#eselect").val("5");break;
+    }
+	$.layer({
+      type: 1,
+      area: ['610', 'auto'],
+      title: '编辑审核资料科目',
+      page: {dom : '#showEditPage'}
+    });	
+  }
+
+  /* 检查名称是否唯一 */
+  function checkName(po, id){
+    var action = #{jsAction @checkName(':name',':id',':flag') /};
+    $.post(action({name:encodeURI(po.value),id:id,flag:0}), function(data) {
+      if(data) {
+        $(po).css("color","red").val("资料名重复!");
+      }else {
+        $(po).css("color","green");
+      }
+    });
+  }
+	
+  $(function(){
+    /* 高亮显示 */
+    showHighLight(4,4,14);
+		
+    $('#bgTab').find('tr:even').find('td').css('background-color', '#f4f4f4');
+		
+    $("#addingAuditItem").submit(function(){
+      var itemName = $("#itemName").val(); 
+      if($.trim(itemName) == "" || itemName == "资料名重复!"){
+        alert("资料名称有误!");
+        
+        return false;
+      }
+      if($.trim($("#description").val()) == ""){
+        alert("资料提交描述有误!");
+        
+        return false;
+      }
+      var period = $.trim($("#period").val());
+      if(period == "" || period*1 < 1){
+    	  alert("有效期至少为1个月");
+      
+        return false;
+      }
+      var auditCycle = $.trim($("#auditCycle").val());
+      if(auditCycle == "" || auditCycle*1 < 1){
+    	 alert("审核周期至少为1个工作日!");
+        
+        return false;
+      }
+      var auditFee = $.trim($("#auditFee").val());
+      if(eauditFee == ""){
+    	  $("#auditFee").val("0");
+    	  eauditFee = 0;
+      }
+      if(eauditFee*1 < 0){
+        alert("审核费用至少为0元!");
+      
+        return false;
+      }
+      var creditScore = $.trim($("#creditScore").val());
+      if(creditScore == "" || creditScore * 1 > 15 || creditScore * 1 < 0){
+        alert("信用积分需在0~15分之间!");
+      
+        return false;
+      }
+      return true;
+    });
+
+    $("#editingAuditItem").submit(function(){
+      var itemName = $("#editItemName").val();
+      if($.trim(itemName) == "" || itemName == "资料名重复!"){
+        alert("资料名称有误!");
+        
+        return false;
+      }
+      if($.trim($("#edescription").val()) == ""){
+        alert("资料提交描述有误!");
+        
+        return false;
+      }
+      var eperiod = $.trim($("#eperiod").val());
+      if(eperiod == "" || eperiod*1 < 1){
+        alert("有效期至少为1个月");
+        
+        return false;
+      }
+      var eauditCycle = $.trim($("#eauditCycle").val());
+      if(eauditCycle == "" || eauditCycle*1 < 1){
+        alert("审核周期至少为1个工作日!");
+        
+        return false;
+      }
+      var eauditFee = $.trim($("#eauditFee").val());
+      
+      if(eauditFee == ""){
+    	  $("#auditFee").val("0");
+    	  eauditFee = 0;
+      }
+      if(eauditFee*1 < 0){
+        alert("审核费用至少为0元!");
+      
+        return false;
+      }
+      var creditScore = $.trim($("#ecreditScore").val());
+      if(creditScore == "" || creditScore * 1 > 15 || creditScore*1 < 0){
+        alert("信用积分需在0~15分之间!");
+        return false;
+      }
+      
+      return true;
+	});
+  });
+</script>

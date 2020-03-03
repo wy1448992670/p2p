@@ -1,0 +1,88 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'安全参数设置' /} 
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/systemSettings/common/leftBar.control"/}
+    <div class="xn_c_content">
+      <div class="xf_content_add">
+        #{form @saveSafeParam(), id:'paramSet'}
+        <div class="xfht_t_j_y_2">
+          <!--右上-->
+          <div class="xf_ht_obu_fklm">
+                                       系统安全参数设置
+          </div>
+          <div class="xf_htgl_jgone">
+          <h3 class="xf_htgl_jgtitle">用户名注册关键字安全设置</h3>
+          <div class="xf_htgl_xt_tableone">
+            
+            <table border="0" cellspacing="0" cellpadding="0" class="xf_htgl_jg_tableone_table">
+            <tr>
+              <td width="149" align="right" valign="top">请输入注册否定词：</td>
+              <td>
+              <textarea class="xf_ht_baidu_wkttcc_text xf_ht_baidu_aqcssz" id="keywords" name="keywords">${backstageSet?.keywords}</textarea>
+              </td>
+            </tr>
+            </table>
+          </div>
+          </div>
+          <div class="xf_htgl_jgone">
+          <h3 class="xf_htgl_jgtitle">密码错误安全锁定</h3>
+          <div class="xf_ht_xt_ssl">
+                                          是否启用密码错误次数超限锁定：
+            <input class="xf_ht_xtsz_iadie" type="radio" name="isOpenPasswordErrorLimit" #{if backstageSet.isOpenPasswordErrorLimit == 1}checked="checked" #{/if}value="1">启用
+            <input class="xf_ht_xtsz_iadie xf_ht_xtsz_iadie2" type="radio" name="isOpenPasswordErrorLimit" #{if backstageSet.isOpenPasswordErrorLimit == 0}checked="checked" #{/if} value="0" >不启用
+          </div>
+          <div class="xf_ht_xt_ssl2">
+                                      密码错误次数设置：<input class="xfht_zr_input" type="text" style="width:80px;" name="passwordErrorCounts" id="passwordErrorCounts" value="${backstageSet?.passwordErrorCounts}"> 次 <span class="xf_ht_xtsz_iadie3">&nbsp;</span>
+                                       密码输入锁定时长设置：<input class="xfht_zr_input" type="text" style="width:80px;" name="lockingTime" id="lockingTime" value="${backstageSet?.lockingTime}"> 分钟
+          </div>
+          </div>
+          <div class="xf_htgl_jgsix_hyg">
+          <input class="xf_ht_tcc_button_ok" type="button" onClick="save()" value="保存">
+          </div>
+        </div>
+        #{/form}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+ $(function() {
+    /* 高亮显示 */
+    showHighLight(1,1,2);
+  });
+  
+  function save(){
+    if($("#keywords").val() == ''){
+      alert("注册否定词不能为空");
+      
+      return;
+    }
+         
+    if($("#passwordErrorCounts").val() == ''){
+       alert("密码错误次数设置不能为空");
+       
+       return;
+    }
+         
+    if($("#lockingTime").val() == ''){
+       alert(" 密码输入锁定时长设置不能为空");
+       
+       return;
+    }
+         
+    if(isNaN($("#passwordErrorCounts").val())){
+      alert(" 输入的密码错误次数必须为数字");
+      return;
+    }
+         
+    if(isNaN($("#lockingTime").val())){
+      alert(" 输入的密码输入锁定时长必须为数字");
+      return;
+    }
+         
+    $("#paramSet").submit();
+  }
+ </script>
+ 

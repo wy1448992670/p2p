@@ -1,0 +1,97 @@
+<div class="xn_c_ban_jox xn_c_ban_jox_fdx" id="xf_ht_memfdx_ttc" style="display:none;">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xn_c_ban_fdxwarp">
+      <table class="xf_ht_jr_obu_form" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="60" align="right">发给：</td>
+          <td>
+            <span class="xf_ht_fk_span" id="msgForName"></span>
+          </td>
+        </tr>
+        <tr>
+          <td align="right">手机号：</td>
+          <td>
+            <input type="text" class="xfht_zr_input" id="telephone" name="telephone" readonly="readonly">
+          </td>
+        </tr>
+        <tr>
+          <td valign="top" align="right">内容：</td>
+          <td>
+            <textarea id="msgContent" oninput="LimitContent(this)" onkeyup="LimitContent(this)" class="xf_ht_baidu_wkttcc_text xf_ht_baidu_wkttcc_text6" style="max-width:300px;max-height:150px;"></textarea>
+          </td>
+        </tr>
+        <tr><td></td><td>
+        				<span class="xf_ht_wa_font" id="limit">您还可以输入<span class="xf_con_zqzr_znxsz" id="limitnum">300</span>字</span>
+        			</td></tr>
+        <tr>
+          <td></td>
+          <td>
+            <input type="button" value="发 送" onclick="mobileSend()" class="jbox_ok">
+          </td>
+        </tr>
+      </table>  
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+function mobileSend(){
+  if($("#msgContent").val() == ''){
+    alert("内容不能为空");
+    return;
+  }
+  if($("#msgContent").val().length > 300){
+   alert("内容过长");
+    return;
+  }
+  var telephone = $("#telephone").val();
+  if(telephone == '' || telephone == '用户未填写号码'){
+    alert("请选择正确的手机号码");
+    return;
+  }
+            
+  var sendMsg = "";
+          
+  switch (g_users_type) {
+  case "all_users":
+    sendMsg = #{jsAction @supervisor.userManager.AllUser.sendMsg(':mobile', ':content')/};
+    break;
+  case "complex_users":
+    sendMsg = #{jsAction @supervisor.userManager.ComplexUser.sendMsg(':mobile', ':content')/};
+    break;
+  case "cps_users":
+    sendMsg = #{jsAction @supervisor.userManager.CPSUser.sendMsg(':mobile', ':content')/};
+    break;
+  case "loan_users":
+    sendMsg = #{jsAction @supervisor.userManager.LoanUser.sendMsg(':mobile', ':content')/};
+    break;
+  case "reported_users":
+    sendMsg = #{jsAction @supervisor.userManager.ReportedUser.sendMsg(':mobile', ':content')/};
+    break;
+  case "vip_users":
+    sendMsg = #{jsAction @supervisor.userManager.VIPUser.sendMsg(':mobile', ':content')/};
+    break;
+  default:
+    break;
+  }
+          
+  $.post(sendMsg({mobile:$("#telephone").val(), content:encodeURI($("#msgContent").val())}),function(data){
+    var arr=eval(data);
+          
+    if(arr.error.code < 0){
+      alert(arr.error.msg);
+      $("#xf_ht_mememail_ttc").hide();
+      return;
+    }
+    alert(arr.error.msg);
+    layer.closeAll();
+  });
+} 
+
+function LimitContent(obj){
+	 if (obj.value.length > 300){
+    	obj.value = obj.value.substring(0, 300);
+     }
+     $("#limitnum").html(300 - obj.value.length);
+}
+</script>

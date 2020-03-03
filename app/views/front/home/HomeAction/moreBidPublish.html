@@ -1,0 +1,60 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle /}
+
+<!--内容区-->
+<div class="p_bgf1_box pb30 pt30">
+    <div class="p_main clr">
+        <div class="p_hp_rtbox">
+            <div class="p_fggtitle">
+                <h1>发标公告</h1>
+                <!-- <h2>发布时间：<span>2015-12-24 15:36:35</span></h2> -->
+            </div>
+            #{form @front.home.HomeAction.moreBidPublish(), id:'submit'}
+            <div class="p_fggword">
+                <table width="100%" class="p_fggtable">
+                    <tr>
+                        <td>项目名称</td>
+                        <td>金额(元) </td>
+                        <td>借款期限</td>
+                        <td>年化收益</td>
+                        <td>还款方式</td>
+                        <td>发标时间</td>
+                        <td>操作</td>
+                    </tr>
+                     #{list page?.page}
+	                    <tr>
+	                        <td>${_?.bid_title}</td>
+	                        <td>${_?.amount?.format("###,##0.00")}</td>
+	                        <td>
+	                           #{if _?.period_unit == -1}
+					              ${_?.period}年
+					            #{/if}
+					            #{elseif _?.period_unit == 0}
+					               ${_?.period}月
+					            #{/elseif}
+					            #{else}
+					               ${_?.period}日
+					            #{/else}
+	                        </td>
+	                        <td>${_?.apr.format("#0.00")}% </td>
+	                        <td>${_?.repayment_type_name} </td>
+	                        <td>${_?.publish_time?.format('yyyy-MM-dd')}</td>
+	                        <td><a href="@{front.home.HomeAction.bidPublishDetails(_?.create_time?.format('yyyy'),_?.create_time?.format('MM'),_?.create_time?.format('dd'))}">详情</a></td>
+	                    </tr>
+                    #{/list}
+                </table>
+                <div class="xf_wylc_page xf_cfzx_page">
+                   #{page pageTitle:"个发标公告",currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:1,style:2 }
+                   	keyword=${page?.conditions?.keyword}
+                   #{/page}
+                </div>
+                <p>（如有变动，请以亿亿理财实际发标情况为准，本公告最终解释权亿亿理财所有！）</p>
+                <p class="p_fggtr">${nowDate?.format('yyyy年MM月dd日')}</p>
+            </div>
+            #{/form}
+        </div>
+    </div>
+</div>

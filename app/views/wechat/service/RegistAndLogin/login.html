@@ -1,0 +1,99 @@
+#{extends 'wechat/common.html' /}
+#{set title:'登录' /}
+	<div class="s_main s_center">
+		<header class="s_header">
+			登录
+		</header>
+		<div class="s_fffbg">
+		<form id="form1" method="post" action="@{wechat.service.RegistAndLogin.logining()}">
+		<input type="hidden" name="url" value="${url}">
+			<div class="s_bindbody">
+				<div class="s_bindinput">
+					<label><i class="icobg ico01"></i></label>
+					<input id="name" name="name" type="text" value="${flash?.name}" placeholder="请输入用户名" />
+					<a class="arrow"></a>
+					<div class="s_usernames">
+
+					</div>
+				</div>
+				<div class="s_error">用户名由3-10个字符组成(不含特殊字符)</div>
+				<div class="s_bindinput">
+					<label><i class="icobg ico02"></i></label>
+					<input id="password" name="password" type="password" value="${flash?.password}" placeholder="请输入密码" />
+				</div>
+				<div class="s_error" style="display:none;">用户名由3-10个字符组成(不含特殊字符)</div>
+				<p class="s_forgetpw"><a href="/wechat/registAndLogin/forgetPassword">忘记密码？</a></p>
+				<div class="s_bindinput">
+					<label><i class="icobg ico03"></i></label>
+					<input id="code" name="code" type="text" class="shorttext"  placeholder="请输入验证码" />
+					<img class="s_yzm" id="img" src="" />
+					
+					<!-- 验证码随机码 /public/images/wechat/yzm.png-->
+					<input type="hidden" name="randomID" id="randomID" />
+				</div>
+				<div class="s_error"><span id="errorInfo" style="color: red;font-size: 12px;">${flash?.error}</span></div>
+				<!-- 
+				<div class="s_rembermsg">
+				<a><span class="s_checkbox" id="checkbox" name="checkbox"></span>记住密码</a>
+				</div>
+				 -->
+				<input id="submit" type="submit" value="立即登录" class="s_bindbtn" />
+			</div>
+		</form>
+		</div>
+		<div class="s_loginbtm">没有账户，<a href="@{wechat.service.registAndLogin.register}">马上注册</a></div>
+	</div>
+	
+<script type="text/javascript">
+	$(function() {
+		var checkbox = "${flash?.checkbox}";
+		if ("on" == checkbox) {
+			$("#checkbox").attr("checked", true);
+		} else {
+			$("#checkbox").attr("checked", false);
+		}
+	})
+
+	//得到验证码
+	$(function(){
+	    var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+		$.post(setCode({}),function(data){
+			var arr=eval(data);
+			var img = arr.img;
+			$("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img);	
+			$("#randomID").val(img);
+		});
+	});
+	
+	//改变验证码
+	$("#img").click(function(){
+		var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+		$.post(setCode({}),function(data){
+		var arr=eval(data);
+		var img = arr.img;
+		$("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img)	
+		$("#randomID").val(img);
+		});
+	});
+	
+	$("#submit").click(function(){
+		$("#errorInfo").empty();
+		if($("#name").val() == ''){
+			$("#errorInfo").html("请输入用户名");
+			return false;
+		 } 
+
+		if($("#password").val() == ''){
+			$("#errorInfo").html("请输入密码");
+			return false;
+		} 
+
+		if($("#code").val() == ''){
+			$("#errorInfo").html("请输入验证码");
+			return false;
+		}  
+
+		$("#form1").submit();
+	});
+
+</script>

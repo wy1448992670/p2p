@@ -1,0 +1,407 @@
+#{extends 'common/supervisor.html' /} #{set title:'优惠券管理' /}
+<div class="xn_c_contentwarp">
+	<div class="xn_c_contentlist">
+		#{include '/supervisor/activity/OperatingActivitiesLeft.control'/}
+
+		<!--右-->
+		<div class="xn_c_content">
+			<div class="xf_ht_tablelist">
+
+				<div style="float: left;">
+					<!-- tab1 -->
+					<div class="xf_content_add">
+
+
+						<div class="xfht_t_j_y_2">
+							<div class="xf_ht_news_content">
+								<div class="xf_ht_news_content_t">
+									<div style="padding: 50px 0px 20px 50px">
+										选择会员 ：
+										<a href="javascript:usersWillSelect();" class="xfht_lan" style="font-size: 12px; padding-left: 10px;">在会员列表中选择</a>
+
+									<!-- 	<a href="javascript:usersALLSelect();" class="xfht_lan" style="margin-left: 60px;">选择全部活跃用户</a> -->
+										<a href="javascript:accountBalance();" class="xfht_lan" style="margin-left: 60px;">按账户余额范围选择用户</a>
+										<a href="javascript:haveInvest();" class="xfht_lan" style="margin-left: 60px;">历史有投资过的用户</a>
+										<a href="javascript:halfYearInvest();" class="xfht_lan" style="margin-left: 60px;">半年内有投资过的用户</a>
+										<!--    <a href="javascript:usersAuthSelect();" class="xfht_lan" style="margin-left:60px;">未实名认证用户</a>
+                                             <a href="javascript:usersBankSelect();" class="xfht_lan" style="margin-left:60px;">未添加银行卡用户</a>
+                                             <a href="javascript:usersInvestSelect();" class="xfht_lan" style="margin-left:60px;">未投资用户</a> -->
+									</div>
+									<div style="padding-left: 50px" class="p_kx_stinbox">
+										<textarea id="tab2_receiver_names" class="p_pass" style="padding: 5px; width: 900px; height: 100px;"
+											readonly="readonly"></textarea>
+										<label for="">会员名称……</label>
+									</div>
+									<!-- <p style="padding-left:50px" class="send-user-num">234</p> -->
+									<div style="padding: 50px 0px 20px 50px">
+										<div style="padding-bottom: 20px; padding-left: 50px">
+											${couponName}名称：
+											<input class="xfht_zr_input" id="typeName" name="typeName" />
+										</div>
+
+										<div style="padding-bottom: 20px; padding-left: 50px ;display: none" class="balance" >
+											账户余额：
+											<input class="xfht_zr_input" id="balance_s" name="balance_s" placeholder="金额最小值"  onkeyup="value=value.replace(/[^\d]/g,'')"/>
+											-
+											<input class="xfht_zr_input" id="balance_b" name="balance_b" placeholder="金额最大值"  onkeyup="value=value.replace(/[^\d]/g,'')"/>
+										</div>
+
+										<h4>${couponName}使用条件设置</h4>
+										<table border="0" class="manualredpacket">
+											<tr>
+												<td style="padding-left: 50px">${couponName}#{if couponFlag==1}金额：#{/if}#{if couponFlag==2}年化利率：#{/if}
+													<input class="xfht_zr_input" id="awardamount" name="money" />#{if couponFlag==2}%#{/if}
+												</td>
+												<td>最低投资金额限制(元)： <input type="text" class="xfht_zr_input" id="validity_money" name="validity_money"
+														onkeyup="value=value.replace(/[^\d]/g,'')" />
+												</td>
+											</tr>
+											<tr>
+												<td>最低标的期限限制： <select class="xfht_zr_input" onchange="setPeriodUnit(this.value)">
+														<option value="0" selected>无限制</option>
+														<option value="15,1">15天</option>
+														<option value="1,0">1个月</option>
+														<option value="2,0">2个月</option>
+														<option value="3,0">3个月</option>
+														<option value="4,0">4个月</option>
+														<option value="5,0">5个月</option>
+														<option value="6,0">6个月</option>
+														<option value="1,-1">1年(12个月)</option>
+													</select> <input type="hidden" name="bid_period" id="bid_period" value="0"> <input type="hidden"
+														name="bid_period_unit" id="bid_period_unit">
+												</td>
+												<td align="right">${couponName}有效期: <input type="text" id="validity_time" name="validity_time"
+														class="xfht_zr_input" type="text" onkeyup="value=value.replace(/[^\d]/g,'')" /> <select
+														class="xf_membill_selectAge112" id="validate_unit" name="validate_unit"
+														style="height: 28px; border: 1px solid #ddd;">
+														<option value="1" selected>天</option>
+														<option value="0">小时</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td>新手标是否使用： <label style="padding-right: 40px">
+														<input type="radio" name="is_new_user" checked="checked" value="1">
+														是
+													</label> <label>
+														<input type="radio" name="is_new_user" value="0">
+														否
+													</label>
+												</td>
+												<td></td>
+											</tr>
+										</table>
+										<h4 style="padding-bottom: 20px; padding-top: 10px">通知方式</h4>
+										<div style="padding-left: 20px">
+											<input type="checkbox" class="notice_way" id="notice_message" name="notice_message" />
+											短信
+											<input type="checkbox" class="notice_way" id="notice_box" name="notice_box" />
+											站内信
+											<input type="checkbox" class="notice_way" id="notice_email" name="notice_email" />
+											邮件
+										</div>
+									</div>
+
+
+								</div>
+								<div class="xf_ht_news_content_button">
+									<input class="xf_ht_tcc_button_ok" type="button" id="checksubmit" value="发放${couponName}">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!--选择会员-弹出层 -->
+<div id="xf_ht_xzhy_ttc"></div>
+<!--增加红包-弹出层 -->
+<div id="xf_ht_xzhy_hot"></div>
+<!--红包详情-弹出层 -->
+<div id="xf_ht_xzhy_detail"></div>
+<!--红包编辑-弹出层 -->
+<div id="xf_ht_xzhy_edit"></div>
+
+<!-- 弹出层 -->
+<div class="xn_c_ban_jox xn_c_ban_jox_hyxq" id="xf_ht_fkzh_ttc" style="display: none;"></div>
+
+<script>
+ $(function(){
+	//高亮显示
+	
+		var couponFlag=${couponFlag};
+		if('2'==couponFlag){
+			showHighLight(1,10,102);
+		}else{
+			showHighLight(1,8,84);
+		}
+
+    g_index = 1;
+
+    if($("#tab2_receiver_names").val()!=null){
+    	$("#tab2_receiver_names").siblings("label").hide();
+      }
+ })
+ 
+	function usersALLSelect(){
+		 $("#tab2_receiver_names").val("#全部活跃用户#");
+		 $('.balance').hide();
+ 	}
+ function usersAuthSelect(){
+	 $("#tab2_receiver_names").val("#未实名认证用户#");
+	 $('.balance').hide();
+	}
+ function usersBankSelect(){
+	 $("#tab2_receiver_names").val("#未添加银行卡用户#");
+	 $('.balance').hide();
+	}
+ function usersInvestSelect(){
+	 $("#tab2_receiver_names").val("#未投资用户#");
+	 $('.balance').hide();
+	}
+ 
+	function accountBalance(){
+		 $("#tab2_receiver_names").val("#按账户余额范围选择用户#");
+		 $('.balance').show();
+	}
+	function haveInvest(){
+		 $("#tab2_receiver_names").val("#历史有投资过的用户#");
+		 $('.balance').hide();
+	}
+	function halfYearInvest(){
+		 $("#tab2_receiver_names").val("#半年内有投资过的用户#");
+		 $('.balance').hide();
+	}
+ 
+ function setPeriodUnit(val){
+		if(val == 0){
+			$("#bid_period").val(0);
+			return;
+		}
+		var period = val.split(',')[0];
+		var unit = val.split(',')[1];
+		$("#bid_period").val(period);
+		$("#bid_period_unit").val(unit);
+	}
+	//即将显示选择用户弹窗
+  function usersWillSelect() {
+    if (0 == g_index) {
+      var names = $("#tab1_receiver_names").val().trim();
+            
+      if ("" == names) {
+        g_receiverNames = new Array();
+        g_selectedNames = new Array();
+      } else {
+        g_receiverNames = names.split(",");
+        g_selectedNames = names.split(",");
+      }
+    } else {
+      var names = $("#tab2_receiver_names").val().trim();
+            
+      if ("" == names) {
+        g_receiverNames2 = new Array();
+        g_selectedNames = new Array();
+      } else {
+        g_receiverNames2 = names.split(",");
+        g_selectedNames = names.split(",");
+      }
+    }
+    g_selectedNames= unique(g_selectedNames);
+    usersDidSelect(g_selectedNames);
+    selectUsersInit(1, 30);
+  }
+  
+  //去重复
+  function unique(arr) {
+	    var result = [], hash = {};
+	    for (var i = 0, elem; (elem = arr[i]) != null; i++) {
+	        if (!hash[elem]) {
+	            result.push(elem);
+	            hash[elem] = true;
+	        }
+	    }
+	    return result;
+	
+	} 
+	
+//选择用户弹窗已提交
+  function usersDidSelect(userNames) {
+	  userNames= unique(userNames);
+    if (0 == g_index) {
+      g_receiverNames = clone(userNames);
+      var names = g_receiverNames.join(",");
+      $("#tab1_receiver_names").val(names);
+    } else {
+      g_receiverNames2 = clone(userNames);
+      var names = g_receiverNames2.join(",");
+      $("#tab2_receiver_names").val(names);
+    }
+  }
+  
+  function overSendUserNum(){
+	  if($("#tab2_receiver_names").val() != "" && $("#tab2_receiver_names").val().split(",").length> 200){
+		  alert("群发每次不得超过200人!");
+		  return true;
+	  }
+	  return false;
+  }
+  
+  //显示选择用户弹窗
+  function selectUsersInit(currPage, pageSize) {
+	  
+	 // if(overSendUserNum())return;
+	  
+    $.ajax({
+      url : "@{supervisor.webContentManager.Message.selectUsersInit()}",
+      type : "POST",
+      data : {
+        "currPage" : currPage,
+        "pageSize" : pageSize,
+        "keyword" : $("#keyword").val(),
+        "beginTime":$("#beginTime").val(),
+        "endTime":$("#endTime").val(),
+        "orderType":$("#orderType").val()
+      },
+      success : function(data) {
+        if (data.code < 0) {
+          alert(data.msg);
+
+          return;
+        }
+
+        var ttc = $("#xf_ht_xzhy_ttc");
+        ttc.html(data);
+        var index =$.layer({
+          type: 1,
+          area: ['1000px', '600px'],
+          title: '选择会员',
+          page: {dom : '#xf_ht_xzhy_ttc'}
+        });
+        if(index > 1){
+          index = index - 1;
+          $("#xubox_shade"+index).remove();
+        }
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+}
+    $("#checksubmit").click(function(){
+    	
+     if($("#tab2_receiver_names").val()=='#按账户余额范围选择用户#'&&($('#balance_s').val()==''||$('#balance_b').val()=='')){
+    	 alert("请填写账户余额的最小值和最大值");
+    	 $('#balance_s').focus();
+    	 return false;
+     }	
+    	
+	 if($("#tab2_receiver_names").val()==''){
+          alert("请在会员列表中选择会员"); 
+          return false;  
+     }
+     if($("#awardamount").val()==''){
+          alert("请输入${couponName}金额");
+          return false;
+     }
+     
+	
+   if($("#typeName").val()==''){
+       alert("请输入${couponName}名称");
+       return false;
+  }
+   if($("#redminAmount").val()==''){
+       alert("请输入投资金额最低限额");
+       return false;
+  }
+   if($("#validity_time").val()==''){
+       alert("请输入${couponName}有效期");
+       return;
+  }
+	if($("#notice_email").is(':checked') == false && $("#notice_box").is(':checked') == false && $("#notice_message").is(':checked')== false){
+		 alert("至少选中一种通知方式");
+		return false;
+	}
+	var notice_email = false;
+	if($("#notice_email").is(':checked')){
+		notice_email = true;
+	}
+	var notice_box = false;
+	if($("#notice_box").is(':checked')){
+		notice_box = true;
+	}
+	var notice_message = false;
+	if($("#notice_message").is(':checked')){
+		notice_message = true;
+		if(overSendUserNum())return;
+	}
+	
+	$.ajax( {
+		url : "@{supervisor.systemSettings.RedPackageHistoryAction.saveRedPacketsUsers()}",
+		type : "POST",
+		data : {	
+		"usernames":$("#tab2_receiver_names").val(),
+		"amount":$("#awardamount").val(),
+		"validity_time":$("#validity_time").val(),
+		"validate_unit":$("#validate_unit").val(),
+		"validity_money" : $("#validity_money").val(),
+		"notice_message":notice_message, 
+		"notice_email":notice_email, 
+		"notice_box":notice_box, 
+		"typeName":$("#typeName").val(),
+		"bid_period":$("#bid_period").val(),
+		"bid_period_unit":$("#bid_period_unit").val(),
+		"is_new_user":$('input:radio[name="is_new_user"]:checked').val(),
+		"balance_s": $("#balance_s").val(),
+		"balance_b": $("#balance_b").val()
+		},
+		success : function(data) {
+		        data=eval(data);
+		        if(data.error.code<0){
+		        alert(data.error.msg);
+		        return;
+		        }
+		        alert("操作已完成");
+				layer.closeAll();
+				window.location.reload();
+		},
+		error : function() {
+			alert("对不起，出现错误!");
+		}
+	});
+ });
+ 
+	if(${couponFlag==1}){
+		$("#awardamount").on(
+				'keyup',
+				function(event) {
+					var $amountInput = $(this);
+					//先把非数字的都替换掉，除了数字和.
+					$amountInput.val($amountInput.val()	.replace(/[^\d]/g,''));
+				});
+	}else{
+	/* 	$("#reamount").on(
+				'keyup',
+				function(event) {
+					var $amountInput = $(this);
+					//先把非数字的都替换掉，除了数字和.
+					$amountInput.val($amountInput.val().replace(/[^\d.]/g, "").
+					//只允许一个小数点              
+					replace(/^\./g, "").replace(/\.{2,}/g, ".").
+					//只能输入小数点后两位
+					replace(".", "$#$").replace(/\./g, "").replace("$#$", ".")
+							.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'));
+				}); */
+		$("#awardamount").on('blur', function() {
+			var $amountInput = $(this);
+			    var re = /^\d+(\.\d)?$/;
+                var bol = re.test($amountInput.val());
+				if(!bol){
+					alert('年化利率小数位最多保留一位');
+					$amountInput.val('');
+				}
+		});
+	}
+ </script>

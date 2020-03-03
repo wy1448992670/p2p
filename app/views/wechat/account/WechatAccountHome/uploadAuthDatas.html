@@ -1,0 +1,327 @@
+#{extends 'wechat/common.html' /}
+
+<body>
+  #{form @wechat.account.WechatAccountHome.uploadAuthDatas(), id:"uploadAuthDatas"}
+	<div class="s_main s_center">
+		<header class="s_header">
+			上传认证资料
+			<a href="@{wechat.account.WechatAccountHome.accountInfo()}" class="icobg"></a>
+		</header>
+		<div class="s_upsearch">
+			<label>关联借款标：</label>
+			<select name="productId" class="firstselect" id="productId" onchange="search()">   
+					<option value="0">全部</option>
+					#{list products}
+					<option value="${_?.id}"
+					#{if _?.id == pageBean?.conditions?.productId }
+					selected="selected"
+					#{/if}
+					>${_?.name}</option>
+					#{/list}   
+				</select>
+			<select name="productType" id="productType" onchange="search()">   
+					<option value="10" id="type010"
+						#{if productType == '10'}
+						  selected="selected"
+						#{/if}
+					>全部</option>
+					<option value="1" id="type01"
+					  #{if productType == '1'}
+					   selected="selected"
+					  #{/if}
+					>必须</option>
+					<option value="0" id="type00"
+					  #{if productType == '0'}
+					   selected="selected"
+					  #{/if}
+					>可选</option>
+				</select>
+			<div class="insearch">
+				<label>状态：</label>
+				<select name="status" id="selectStatus" class="xf_membill_selectAge xf_memjkzlshrz_selectAge" onchange="search()">   
+					<option value="10" id="type110"
+					  #{if status == '10'}
+					   selected="selected"
+					  #{/if}
+					>全部</option>   
+					<option value="0" id="type10"
+					  #{if status == '0'}
+					   selected="selected"
+					  #{/if}
+					>未提交</option>   
+					<option value="1" id="type11"
+					  #{if status == '1'}
+					   selected="selected"
+					  #{/if}
+					>审核中</option>
+					<option value="2" id="type12"
+					  #{if status == '2'}
+					   selected="selected"
+					  #{/if}
+					>通过审核</option>
+					<option value="3" id="type13"
+					  #{if status == '3'}
+					   selected="selected"
+					  #{/if}
+					>过期失效</option>   
+					<option value="4" id="type14"
+					  #{if status == '4'}
+					   selected="selected"
+					  #{/if}
+					>上传未付款</option>   
+					<option value="-1" id="type-11"
+					  #{if status == '-1'}
+					   selected="selected"
+					  #{/if}
+					>未通过</option> 
+				</select>
+				<!-- 
+				<span class="s_upsearchinput">
+					<input type="text" placeholder="请输入认证资料名称" />
+					<i class="icobg"></i>
+				</span>
+				 -->
+			</div>
+		</div>
+	#{/form}
+	<!-- 
+	<div id="wrapper">
+	  <div id="scroller">
+	   <div id="main"> -->
+		<ul class="s_upbox">
+		#{list pageBean?.page}
+			<li>
+				<h3><strong>${_?.name}</strong><span>${_?.strStatus}</span></h3>
+				<div class="s_upboxtype">
+					<span class="span1">关联借款标：</span>
+					<span class="span2">
+					  #{list items:_?.productNames, as : 'name'}
+							#{img src:"${name}",alt:"",width:"20",height:"20"}#{/img}
+						#{/list}
+					</span>
+					#{if _?.status == 1 || _?.status == 2}
+					#{/if}
+					#{else}
+					  <div class="s_uploadbox" style="position: relative;">
+						<input type='button' class='upbtn btnbg' value='上传' /> 
+						<input type="file" class="s_upload_file" name="file" id="file${_index}" onchange="submititem('${_?.sign}', '${_?.signItemId}', '${_?.name}', '${_?.description}', '${_?.type}', '${_index}');" />
+					 </div>
+					#{/else}
+				</div>
+			</li>
+		#{/list}
+		</ul>
+		<!--
+		</div>
+		<div id="pullUp">
+	      <div></div>
+	   	</div>
+		</div>-->
+		</div>
+	</div>
+	<div class="s_upfixed">
+		<input type="button" value="提交" class="subbtn" onclick="submitUploadedItems()" />
+		<input type="button" value="取消" class="subbtn" onclick="cancleSubmit()" />
+	</div>
+</body>
+
+<style type="text/css">
+.up_icon,.up_input 
+/*  {position: absolute;top: 10px;left: 10px;width: 64px;height: 64px;z-index: 2}  */
+{position: absolute;width: 30px;heigth:60px;max-width: 110px;z-index: 2;vertical-align: top;}
+.s_uploadbox{
+	display:inline-block; width:20%; height:2em; vertical-align:middle; overflow:hidden;
+}
+.s_upload_file{
+	opacity:0; position:absolute; z-index:2; width:100%; height:100%; left:0; top:0;
+}
+.s_upload_btn{
+	position:absolute; z-index:1; width:100%; height:100%; border:1px solid #ddd !important;
+}
+.s_boxcont textarea{width:100%; height:6em; padding:.5em;}
+select{height:2.5em;}
+.select01{width:70%;}
+.select02{width:35%;}
+.up_icon 
+{overflow: hidden;font-size: 0;line-height: 99em;background: url(http://sfault-image.b0.upaiyun.com/346/967/3469672357-54250d7235406_articlex) no-repeat 0 0;z-index: 1;}
+.s_upboxtype .upbtn{width:100%; height:2em;}
+</style>
+
+<script type="text/javascript">
+var itemIndex = 0;
+var items = null;
+var key1 = 0;
+var key2 = 0;
+var key3 = 0;
+var pictureIndex = 0;
+
+/* 此处上传图片id会有冲突，故用index做区分*/
+function submititem(sign, signItemId, itemName, description, fileType, index){
+	itemIndex = 0;
+	items = new Array();
+	key1 = sign;
+	key2 = signItemId;
+	
+	$.ajaxFileUpload({
+		url : "@{FileUpload.uploadFile()}",
+		secureuri : false,
+		fileElementId : 'file'+index,
+		dataType : 'text',
+		data: { 
+			"type": 1
+		},
+		success : function(data) {
+			data = $.evalJSON(data);
+			if (data.code < 0) {
+				alert(data.msg);
+   	
+				return;
+			}
+      
+			items[itemIndex] = data.fileName;
+			itemIndex++;
+
+			if(pictureIndex == index){
+
+				pictureIndex = index;
+				}else{
+					
+					createUserAuditItemSubmit();
+					}
+		},
+		error : function(data, status, e) {
+			alert("上传失败");
+			itemIndex++;
+		}
+	});
+}
+
+/* 上传资料 */
+function createUserAuditItemSubmit(){
+	var len = items.length;
+	if(len <=0){
+		alert('请先上传资料!');
+		return;
+	}
+   		
+	var action = #{jsAction @front.account.AccountHome.createUserAuditItemIPS(':sign',':signItemId',':items', ':size') /};
+	$.post(action({sign:key1, signItemId:key2, items:items, size:key3}), function(data) {
+		if("" != data.msg){
+			alert(data.msg);
+			return;
+		}
+		alert("上传成功");  
+		window.location.reload(); 			
+	});
+}
+
+function submitUploadedItems() {
+	var action = #{jsAction @front.account.AccountHome.queryUploadedItems() /};
+	$.post(action(), function(data) {
+		if(data.code < 0){
+			alert(data.msg);
+			return;
+		}
+		
+		var count = data.count;
+		var fees = data.fees;
+		
+		var str = '您上传了'+count+'项资料，需支付审核费'+fees+'元。确定提交?';
+	
+		if(!confirm(str)){
+			return;
+		}
+		
+		window.location.href = "@{wechat.account.WechatAccountHome.submitUploadedItems()}";
+	});
+}
+
+function cancleSubmit(){
+	
+	window.location.href = "@{wechat.account.WechatAccountHome.clearUploadedItems()}";
+}
+
+function search(){
+	
+  $("#uploadAuthDatas").submit();
+}
+</script>
+<!-- 
+<script type="text/javascript">
+var currPage = 1;
+var myScroll, pullUpEl, pullUpOffset;
+
+function loaded() {
+	pullUpEl = document.getElementById('pullUp');
+	pullUpOffset = pullUpEl.offsetHeight;
+
+	myScroll = new iScroll('wrapper', {
+		scrollbarClass: '',
+		/* 重要样式  myScrollbar*/
+		useTransition: false,
+		/* 此属性不知用意，本人从true改为false */
+		//topOffset: pullDownOffset,
+		onRefresh: function () {
+				if (pullUpEl.className.match('loading')) {
+					pullUpEl.className = '';
+					var $s = $(pullUpEl);
+					//$s.children("div").removeClass("s_onloading");
+				}
+			},
+			onScrollMove: function () {
+				if (this.y < (this.maxScrollY - 5) && !pullUpEl.className.match('flip')) {
+					pullUpEl.className = 'flip';
+					this.maxScrollY = this.maxScrollY;
+				} else if (this.y > (this.maxScrollY + 5) && pullUpEl.className.match('flip')) {
+					pullUpEl.className = '';
+					this.maxScrollY = pullUpOffset;
+					//this.maxScrollY = this.maxScrollY;
+				}
+			},
+			onScrollEnd: function () {
+				if (pullUpEl.className.match('flip')) {
+					pullUpEl.className = 'loading';
+					var $s = $(pullUpEl);
+					//$s.children("div").html("").addClass("s_onloading");
+					//pullUpAction(); // Execute custom function (ajax call?)
+				}
+			}
+	});
+
+	setTimeout(function () {
+		document.getElementById('wrapper').style.left = '0';
+	}, 800);
+}
+
+	//初始化绑定iScroll控件 
+
+	document.addEventListener('touchmove', function (e) {
+		e.preventDefault();
+	}, false);
+	document.addEventListener('DOMContentLoaded', loaded, false);
+
+</script>
+<style type="text/css" media="all">
+#wrapper {
+	position:absolute; z-index:1;
+	top:130px; bottom:10px; left:0;
+	width:100%;
+/* 	background:#555; */
+	overflow:auto;
+}
+
+#scroller {
+	position:relative;
+/*	-webkit-touch-callout:none;*/
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+
+	float:left;
+	width:100%;
+	padding:0;
+}
+
+#pullUp {
+	 height: 80px;
+}
+
+</style> -->

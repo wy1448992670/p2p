@@ -1,0 +1,58 @@
+				
+				
+					<h2 class="xf_con_wyjk_lefth2">借款产品列表</h2>
+					<ul class="xf_con_wyjk_leftul">
+						#{list products}
+							<li 
+							#{if _?.id == productId}
+								class="xf_con_wyjk_leftliisshow"
+							#{/if}
+							#{else}
+								class="xf_con_wyjk_bone"
+							#{/else}
+							>
+								<b><img src="${_?.smallImageFilename}" width="20" height="20" /></b>
+								<a href="@{front.bid.bidAction.detail(_?.id)}">${_?.name}
+								</a>
+							</li>
+							
+						#{/list}
+					</ul>
+					<!-- 财富工具箱 -->
+					<div class="xf_con_wyjk_cfgjx">
+						<div class="xf_con_wyjk_cfgjx_t">
+							<b>&nbsp;</b>
+							<span>财富工具箱</span>
+						</div>
+						<ul class="p_1225ul clr">
+							<!--<li><a href="@{front.home.homeAction.wealthToolkit(1)}" class="xf_con_wyjk_cfgjx_aone">信用计算器</a></li>
+							<li><a href="@{front.home.homeAction.wealthToolkit(2)}" class="xf_con_wyjk_cfgjx_atwo">还款计算器</a></li>
+							<li><a href="@{front.home.homeAction.wealthToolkit(3)}" class="xf_con_wyjk_cfgjx_athree">净值计算器</a></li>
+							<li><a href="@{front.home.homeAction.wealthToolkit(4)}" class="xf_con_wyjk_cfgjx_afour">利率计算器</a></li>-->
+							<li>
+		                        <a href="@{front.home.homeAction.wealthToolkit(1)}" title="" class="p_sy_cfacon p_sy_cfa01">
+		                            <span><i></i></span>
+		                            <em>信用计算器</em>
+		                        </a>
+		                    </li>
+		                    <li>
+		                        <a href="@{front.home.homeAction.wealthToolkit(2)}" title="" class="p_sy_cfacon p_sy_cfa02">
+		                            <span><i></i></span>
+		                            <em>还款计算器</em>
+		                        </a>
+		                    </li>
+		                    <li>
+		                        <a href="@{front.home.homeAction.wealthToolkit(3)}" title="" class="p_sy_cfacon p_sy_cfa03">
+		                            <span><i></i></span>
+		                            <em>净值计算器</em>
+		                        </a>
+		                    </li>
+		                    <li>
+		                        <a href="@{front.home.homeAction.wealthToolkit(4)}" title="" class="p_sy_cfacon p_sy_cfa04">
+		                            <span><i></i></span>
+		                            <em>利率计算器</em>
+		                        </a>
+		                    </li>
+						</ul>
+					</div>
+				

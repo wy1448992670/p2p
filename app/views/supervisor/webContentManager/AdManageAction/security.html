@@ -1,0 +1,17 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'4大安全保障' /}
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  #{include "supervisor/webContentManager/common/leftBar.control"/} 
+  <!-- 内容区 -->
+  #{include "supervisor/webContentManager/AdManageAction/securityContent.control"/}
+  </div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	//高亮显示
+	showHighLight(2,2,4);
+})
+</script>

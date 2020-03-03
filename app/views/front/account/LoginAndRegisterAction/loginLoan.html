@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+%{
+		business.User currUser = business.User.currUser();
+		business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+		String platUrl = constants.Constants.BASE_URL;
+		java.util.Map<String,java.util.List<business.BottomLinks>> bottomLinks = business.BottomLinks.currentBottomlinks();
+		java.lang.String type1Name = business.NewsType.queryName(1);
+		java.lang.String type2Name = business.NewsType.queryName(2);
+		java.lang.String type4Name = business.NewsType.queryName(4);
+		boolean ipsEnable = constants.Constants.IPS_ENABLE;
+		boolean debtUse = constants.Constants.DEBT_USE;
+	}%
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="/public/stylesheets/newlogin/media.css" />
+		<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/site.css'}" />
+	 <style>
+		body{
+			 background:white;
+		}
+	 .main{
+		background:url(/public/images/jk/index/registerbg.png);
+	 }
+	 html body .main{
+		width:1000px;
+		height:533px;
+		position:relative;
+	 }
+	 .top_skip{
+		width:1000px;
+	 }
+	 .top_skip ul li:nth-child(2){
+				border:0;
+			}
+	 .tel, .pw, .login{
+		width:320px;
+		margin-left:0;
+	 }
+	 .yzm_all{
+		width:330px;
+	 }
+	 .yzm{
+		width: 220px;
+		box-sizing: border-box;
+	 }
+	 .con{
+		float:left;
+		margin-left:7px;
+	 }
+	 .registerOuter{
+					text-align:center;
+					border-radius:4px;
+					float: right;
+				    width: 380px;
+					height: 395px;
+					background:white;
+					margin:64px 70px 74px 0;
+					padding:0;
+			}
+			.dp_all{
+				width: 320px;
+				height: 42px;
+				line-height: 42px;
+				margin-left: 28px;
+			}
+			.dp{
+				margin-right:0;
+			}
+			.login:hover{
+					background: #5653FE;
+			}
+			.login{
+				background:#5D5DFF;
+				border-radius:2px;
+				font-size: 17px;
+			}
+			input{
+				font-size:14px;
+			}
+			.logo{
+				margin-top: 15px;
+			}
+			
+	</style>
+	</head>
+	<body>
+		<div style="background:#EDEDED;">
+					<div class="p_top_left" style="float:inherit;width:1000px;margin:0 auto;">
+						<a href="http://weibo.com/u/5792077016" target="_blank" title="" class="p_top_abt">关注我们<i class="i1"></i></a>
+						<span class="p_top_tel">客服电话：021-6438-0510</span>
+					</div>
+				</div>
+		<div class="top">
+			<div class="top_skip">
+				*{<img class="logo" src="/public/images/jk/jk_logo.png" alt="" />}*
+				<div class="slogan">
+					<!-- 安心托付，智慧	出借，</br>您的财富管家！ -->
+				</div>
+				<ul>
+					<li><a href="@{front.home.HomeAction.LoanIndex()}">借款首页</a></li>
+					<li><a href="@{front.account.AccountHome.applyLoan()}?pageFinanceType=0">申请借款</a></li>
+					<li><a href="@{front.account.LoginAndRegisterAction.loginLoan()}">登录还款</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="main" id="main">
+			#{form @front.account.loginAndRegisterAction.logining(), id:'submit'}
+			<input type="hidden" name="financeType" value="0"/>
+			<div class=" registerOuter" id="register">
+				<div style="font-size:18px;text-align:center;margin:21px 0;color:#5D5DFF;font-weight:bold;">借款端登录</div>
+				<input style="margin-top:0" class="tel" id="tel" type="text" placeholder="请输入手机号码" name="name"/>
+				<input class="pw" id="pw" type="password" placeholder="请输入密码" name="password"/>
+				<p class="yzm_all">
+					<input type="hidden" name="randomID" id="randomID" />
+					<input class="yzm" type="text" placeholder="请输入验证码" name="code"/>
+					<img src="" id="img" alt="" onclick="change()" class="pic_yzm">
+				</p>
+				<p class="dp_all"><img class="dp" src="/public/images/newlogin/icon.png" alt="" /><span class="con">您的信息将通过128位SGC加密保护数据传输安全</span></p>
+				<input type="button" class="login" id="login" value="登 录"></button>
+
+			</div>
+			#{/form}
+				<div class="topIcon" style="text-align:center;color:#5D5DFF;position:absolute;top:218px;left:204px;font-weight:bold;">
+					<img src="/public/images/jk/index/ewm.png" width="152px" />
+					<div style="margin-top:19px;">
+						借款端APP下载
+					</div>
+					<div>借款进度实时查看</div>
+				</div>
+		</div>
+		<div style="text-align:center;color:#A0BBFF;background:#555AFF;height:60px;line-height:60px;position: absolute; bottom: 0;width: 100%;" class="p_footerbox">
+				版权所有 沪ICP备15054793号 网贷有风险，决策需谨慎
+				 <!--end:京东E卡-->
+				<div class="flow_box" style="display:none;" =>
+				
+				</div>
+			</div>
+	</body>
+	<script type="text/javascript" src="/public/javascripts/jquery-1.11.1.js" ></script>
+	<script type="text/javascript">
+ document.onkeydown=keyDownSearch;  
+	var yz=document.getElementById("login"); 
+    function keyDownSearch(e) {
+        // 兼容FF和IE和Opera    
+        var theEvent = e || window.event;    
+        var code = theEvent.keyCode || theEvent.which || theEvent.charCode;    
+        if (code == 13) {    
+			yz.click();
+            return false;    
+        }    
+        return true;    
+    }
+		$(function(){
+		
+		    var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+			$.post(setCode({}),function(data){
+				var arr=eval(data);
+				var img = arr.img;
+				$("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img);	
+				$("#randomID").val(img);
+			});
+			 if('${flash.error}' !='') {
+			      alert('${flash?.error}');
+		      if('${flash?.emailUrl}' !='') {
+		        window.open('${flash?.emailUrl}');
+		      }
+		    }
+		});
+</script>
+	<script>
+				
+				yz.onclick=function(){
+					var reg1=/^[0-9]{11}$/;
+					var reg2=/^[A-Za-z0-9]{6,20}$/;
+					if(!reg1.test($("#tel").val())){
+						alert("请输入11位的手机号码");
+						return false;
+					}
+				    if(!$.trim(pw.value)){
+						alert("请输入密码");
+						return false;
+					}
+					if(!$.trim($('.yzm').val())){
+						alert("请输入验证码");
+						return false;
+					}
+
+					
+				    $("#submit").submit();
+				}
+		        $(function(){
+		 //       	var he=$("#main").height();
+//		        	alert($("#main").height())
+//					alert((he-353)/2);
+	/*				var he=(he-430)/2;
+		        	$("#register").css("position","absolute").css("top",he);
+*/
+		        	 if('${currUser?.name}' == '' && '${loginOrRegister}' == '') {
+	        	      var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+	        	      $.post(setCode({}),function(data){
+	        	        var arr=eval(data);
+	        	        var img = arr.img;
+	        	        $("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img)	
+	        			$("#randomID").val(img);
+	        		  });
+	        		}
+		        })
+		        
+		function change(){
+		    var setCode = #{jsAction @front.account.LoginAndRegisterAction.setCode()/}
+			$.post(setCode({}),function(data){
+			  var arr=eval(data);
+			  var img = arr.img;
+			  $("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img);
+			  $("#randomID").val(img);	
+			});
+		  };
+		
+	</script>
+</html>

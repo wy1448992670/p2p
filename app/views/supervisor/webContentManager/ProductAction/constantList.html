@@ -1,0 +1,284 @@
+#{extends 'common/supervisor.html' /} 
+#{set title:'借款常量设置' /} 
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  <!--左-->
+  #{include "supervisor/webContentManager/common/leftBar.control"/}
+  <!--右-->
+  <div class="xn_c_content">
+    <div class="xf_content_add">
+      <div class="xfht_t_j_y_2">
+        <!--右上-->
+        <div class="xf_ht_obu_fklm">借款标常量设置</div>
+        <!-- 借款产品简介 -->
+        <div class="xf_htgl_jgone">
+          <div class="xf_htgl_pro_title clr">
+            <h3 class="xf_htgl_jgtitle xf_htgl_jgtitle_l">借款标审核机制设置</h3>
+          </div>
+          #{form @editAuditMechanism(), method:'POST', id:'editAuditMechanism' }
+          <div class="xf_ht_gl_jgone_map">
+            <table border="0" cellspacing="0" cellpadding="0" width="100%" class="xf_ht_pro_tjhe_table">
+              <tr>
+                <td class="td_padding_left" width="120" align="left" valign="middle"><input type="radio" value="0" name="auditMechanism" id="type00">先审后发 </td>
+                <td>当审核资料全部通过后，才能开始在线借款，满标后开始放款。</td>
+              </tr>
+              <tr>
+                <td class="td_padding_left" width="120" align="left" valign="middle"><input type="radio" value="1" name="auditMechanism" id="type01">先发后审 </td>
+                <td>借款标发布成功后，即可在线借款，资料审核通过后再放款。</td>
+              </tr>
+              <tr>
+                <td class="td_padding_left" width="120" align="left" valign="top"><input type="radio" value="2" name="auditMechanism" id="type02">边发边审 </td>
+                <td>当 
+                  <select id="select" class="xfht_t_j_td_1" name="auditItem">
+                    <option value="0" id="type20">全部资料</option>
+                    <option value="1" id="type21">必须资料</option>
+                    <option value="2" id="type22">可选资料</option>
+                  </select>
+                                                审核通过率达 <input class="xfht_zr_input" type="text" name="passRate" id="passing"
+                    	style="width: 80px;" onkeyup="value=value.replace(/[^\d\.]/g, '').replace(/(\.\d{2}).*/g, '$1')"> %后，允许在线借款，满标后，同时审核全部资料，通过后再放款
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="xf_ht_news_content_button xf_ht_news_bscl" colspan="4">
+          <input class="xf_ht_tcc_button_ok" type="submit" value="保存">
+        </div>
+        #{/form}
+        <!-- 借款用途设置 -->
+        <div class="xf_htgl_jgone">
+          <div class="xf_htgl_pro_title clr">
+            <h3 class="xf_htgl_jgtitle xf_htgl_jgtitle_l">借款用途设置</h3>
+            <div class="xf_htgl_jgtitle_r"><a href="javascript:void(0);" id="xf_dfk_fkzh_tcc">添加借款用途</a></div>
+          </div>
+          <div class="xf_ht_pro_table_clt">
+            #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xn_c_content_list",tr_class_odd:"xn_tr_bj",id:"purposetab"}
+              #{tr}
+              #{th}序号#{/th}
+              #{th}名称#{/th}
+              #{th}排序#{/th}
+              #{th}操作#{/th}
+              #{/tr}
+              #{list purposes}
+                #{tr}
+                  #{td}${_index}#{/td}
+				  #{td}${_?.name}#{/td}
+				  #{td}${_?.order}#{/td}
+				  #{td}
+				    <a class="xf_ta_onclick" onclick="showEditPurposePage('${_?.id}','${_?.name}','${_?.order}');" href="javascript:void(0)">编辑</a>
+				    #{if _?.isUse}
+					  #{a @notEnablePurpose(_?.id),class:"xf_ta_onclick"}隐藏 #{/a}
+					#{/if}
+					#{else}
+					  #{a @enablePurpose(_?.id),class:"xf_ta_onclick"}显示 #{/a}
+					#{/else}
+				  #{/td}
+                #{/tr}
+              #{/list}
+            #{/table}
+          </div>
+        </div>
+        <!-- 还款类型设置 -->
+        <div class="xf_htgl_jgone">
+          <div class="xf_htgl_pro_title clr">
+            <h3 class="xf_htgl_jgtitle xf_htgl_jgtitle_l">还款类型设置</h3>
+          </div>
+          <div class="xf_ht_pro_table_clt">
+            #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xn_c_content_list",tr_class_odd:"xn_tr_bj",id:"purposetab"}
+              #{tr}
+              #{th}序号#{/th}
+              #{th}名称#{/th}
+              #{th}状态#{/th}
+              #{th}操作#{/th}
+              #{/tr}
+              #{list types}
+                #{tr}
+                  #{td}${_index}#{/td}
+				  #{td}${_?.name}#{/td}
+				  #{td}#{if _?.isUse}开启#{/if}#{else}关闭#{/else}#{/td}
+				  #{td}
+				    #{if _?.isUse}
+						#{a @notEnableRepaymentType(_?.id),class:"xf_ta_onclick"}关闭#{/a}
+					#{/if}
+					#{else}
+						#{a @enableRepaymentType(_?.id),class:"xf_ta_onclick"}开启#{/a}
+					#{/else}
+				  #{/td}
+                #{/tr}
+              #{/list}
+            #{/table}
+          </div>
+        </div>
+        <!-- 编号字母设置 -->
+        <div class="xf_htgl_jgone xf_htgl_jgone_bottom">
+          <div class="xf_htgl_pro_title clr">
+            <h3 class="xf_htgl_jgtitle xf_htgl_jgtitle_l">编号字母设置</h3>
+          </div>
+          <div class="xf_ht_pro_table_clt">
+            #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xn_c_content_list",tr_class_odd:"xn_tr_bj",id:"purposetab"}
+              #{tr}
+              #{th}序号#{/th}
+              #{th}类型#{/th}
+              #{th}字母#{/th}
+              #{th}操作#{/th}
+              #{/tr}
+              #{list numbers}
+                #{tr}
+                  #{td}${_index}#{/td}
+				  #{td}${_?.description}#{/td}
+				  #{td}#${_?._value}#{/td}
+				  #{td}
+				    <a class="xf_ta_onclick" onclick="showEditNumberpage('${_?._key}','${_?.description}','${_?._value}');"href="javascript:void(0)">更改</a>
+				  #{/td}
+                #{/tr}
+              #{/list}
+            #{/table}
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    *{ 添加借款用途-弹出层  }*
+	#{include '/supervisor/webContentManager/ProductAction/addConstantPurpose.control'/}
+	*{ 编辑借款用途-弹出层 }*
+	#{include '/supervisor/webContentManager/ProductAction/editConstantPurpose.control'/}
+	*{编号字母设置 }*
+    #{include '/supervisor/webContentManager/ProductAction/editConstantNo.control'/}
+  </div>
+</div>
+<script type="text/javascript">
+  $(function(){
+
+    /* 审核机制填充 */
+    switch('${auditMechanism?.get(0)._value}' * 1){
+      case 0: $("#type00").attr("checked","checked"); break;
+      case 1: $("#type01").attr("checked","checked"); break;
+      case 2: $("#type02").attr("checked","checked"); break;
+    }
+		
+    $("#passing").val('${auditMechanism?.get(2)._value}');
+    switch('${auditMechanism?.get(1)._value}' * 1){
+      case 0: $("#type20").attr("selected","selected"); break;
+      case 1: $("#type21").attr("selected","selected"); break;
+      case 2: $("#type22").attr("selected","selected"); break;
+    }
+		  
+    $("#addpurposepage").center(); //添加用途页面  
+    $("#editpurposepage").center();  // 编辑用途页面 
+    $("#editnumberpage").center();  //更改编号字母页面  
+
+    /* 本页添加用途按钮  */
+    $("#xf_dfk_fkzh_tcc").click(function(){
+      $.layer({
+        type: 1,
+        area: ['500', 'auto'],
+        title: '添加借款用途',
+        page: {dom : '#addPurposePage'}
+      });
+    });
+
+    /* 弹出层添加用途取消按钮  */
+    $("#addpurpose_no").click(function(){ layer.closeAll();});
+
+    /* 弹出层编辑用途取消按钮  */
+    $("#editpurpose_no").click(function(){ layer.closeAll(); });
+
+    /* 弹出层更改编号字母取消按钮  */
+    $("#editnumber_no").click(function(){ layer.closeAll(); });
+   
+    /* x 图标隐藏  */
+    $(".xf_ht_jr_obu_r").click(function(){
+      $(this).parents(".xf_ht_ttc").hide();
+    });
+    
+    /* 用途/类型/字母设置表格偶数行设置背景色  */
+    $("#purposetab").find("tr:even").css("background-color", "#f4f4f4");
+    $("#typetab").find("tr:even").css("background-color", "#f4f4f4");
+    $("#notable").find("tr:even").css("background-color", "#f4f4f4");
+    
+    /* 编辑审核机制提交 */
+    $("#editAuditMechanism").submit(function(){
+      if($("#type02").is(":checked")){
+        var passing = $.trim($("#passing").val());
+        if(passing > 100 || passing == ""){
+          alert("通过率有误!");
+          
+          return false;
+        }
+      }
+      return true;
+    }); 
+
+    /* 添加借款用途提交 */
+    $("#addingPurpose").submit(function(){
+      if($.trim($("#apurposename").val()) == ""){
+        alert("借款用途名称有误!");
+        
+        return false;
+      } 
+      if($.trim($("#apurposeorder").val()) == ""){
+        alert("借款用途排序有误!");
+        
+        return false;
+      }
+      return true;
+    });
+        
+    /* 编辑借款用途提交 */
+    $("#editingPurpose").submit(function(){
+      if($.trim($("#epurposename").val()) == ""){
+        alert("借款用途名称有误!");
+        
+        return false;
+      } 
+      if($.trim($("#epurposeorder").val()) == ""){
+        alert("借款用途排序有误!");
+        return false;
+      }
+      return true;
+    });
+
+    /* 编辑常量字母提交 */
+    $("#editingNumber").submit(function(){
+      if($.trim($("#value").val()) == ""){
+        alert("常量字母有误!");
+        return false;
+      } 
+      return true;
+    });
+  });
+
+  /* 编辑借款用途  */
+  function showEditPurposePage(pid, name, order){
+    $("#epurposeId").val(pid);
+    $("#epurposename").val(name);
+    $("#epurposeorder").val(order);
+    $.layer({
+      type: 1,
+      area: ['500', 'auto'],
+      title: '编辑借款用途',
+      page: {dom : '#editPurposePage'}
+    });
+  }
+
+  /* 编辑常量字母 */
+  function showEditNumberpage(key, descriptio, value){
+    $("#key").val(key);
+    $("#descriptio").html(descriptio);
+    $("#value").val(value);
+    $.layer({
+      type: 1,
+      area: ['500', 'auto'],
+      title: '编辑常量字母',
+      page: {dom : '#editNumberPage'}
+    });
+  }
+</script>
+
+<script type="text/javascript">
+$(function() {
+    /* 高亮显示 */
+    showHighLight(4,4,18);
+  });
+</script>

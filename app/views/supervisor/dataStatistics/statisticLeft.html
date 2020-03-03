@@ -1,0 +1,58 @@
+%{
+	boolean debtUse = constants.Constants.DEBT_USE;
+}%
+<div class="xn_c_content_left">
+  <div class="xn_c_content_leftul">
+    <ul>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_1"></div>财务数据统计分析表
+        </div>
+        <div class="xn_c_li_head_two" id="hi_1">
+          <a id="mg_1" class="xn_c_li_head_twoli" href="@{supervisor.dataStatistics.FinancialStatisticsAction.rechargeStatistic()}">充值统计表</a>
+          <a id="mg_2" class="xn_c_li_head_twoli" href="@{supervisor.dataStatistics.FinancialStatisticsAction.withdrawalStatistic()}">提现统计表</a>
+          <a id="mg_3" class="xn_c_li_head_twoli" href="@{supervisor.dataStatistics.FinancialStatisticsAction.incomeStatistic()}">平台收入统计表</a>
+          <a id="mg_4" class="xn_c_li_head_twoli" href="@{supervisor.dataStatistics.FinancialStatisticsAction.floatAurum()}">平台浮存金统计表</a>
+          <a id="mg_5" class="xn_c_li_head_twoli" href="@{supervisor.dataStatistics.FinancialStatisticsAction.guaranteeStatistic()}">本金保障统计分析表</a>
+        </div>
+      </li>
+      <li>
+        <div class="xn_c_li_head_one">
+          <div class="xn_c_li_bg" id="lab_2"></div>运营数据统计分析表
+        </div>
+        <div class="xn_c_li_head_two" id="hi_2">
+          <a id="mg_6" class="xn_c_li_head_twoli" href="@{supervisor.dataStatistics.OperationStatisticsAction.userStatistic()}">会员数据统计分析表</a>
+          <a id="mg_7" class="xn_c_li_head_twoli" href="@{supervisor.dataStatistics.OperationStatisticsAction.loanStatistic()}">借款情况统计分析表</a>
+          <a id="mg_8" class="xn_c_li_head_twoli" href="@{supervisor.dataStatistics.OperationStatisticsAction.investorsStatistic()}">理财情况统计分析表</a>
+          <a id="mg_9" class="xn_c_li_head_twoli" href="@{supervisor.dataStatistics.OperationStatisticsAction.loanBidStatistic()}">借款标销售情况分析表</a>
+          #{if debtUse}
+          <a id="mg_10" class="xn_c_li_head_twoli" href="@{supervisor.dataStatistics.OperationStatisticsAction.debtStatistic()}">债权转让情况统计分析表</a>
+          #{/if}
+          <a id="mg_11" class="xn_c_li_head_twoli" href="@{supervisor.dataStatistics.OperationStatisticsAction.auditItemsStatistic()}">审核科目统计分析表</a>
+         
+        </div>
+      </li>
+        <li>
+            <div class="xn_c_li_head_one">
+                <div class="xn_c_li_bg" id="lab_3"></div>信披数据统计分析表
+            </div>
+            <div class="xn_c_li_head_two" id="hi_3">
+                <a id="mg_12" class="xn_c_li_head_twoli" href="@{supervisor.dataStatistics.OperationStatisticsAction.dataDisclosureStatistic()}">信披数据统计分析表</a>
+            </div>
+        </li>
+         <li>
+            <div class="xn_c_li_head_one">
+                <div class="xn_c_li_bg" id="lab_4"></div>迁移用户
+            </div>
+            <div class="xn_c_li_head_two" id="hi_4">
+                 <a id="mg_13" class="xn_c_li_head_twoli" href="@{supervisor.dataStatistics.MigrateStatisticsAction.migrateUser()}">用户迁移统计表</a>
+            </div>
+        </li>
+        
+    </ul>
+  </div>
+  <div class="xn_c_con_leftbutton">
+    <div class="xn_c_con_enimg">导航点击</div>
+  </div>
+</div>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_mg_datasta.js'}"></script>

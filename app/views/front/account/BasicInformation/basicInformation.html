@@ -1,0 +1,38 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle + ' | 我的账户   | 基本设置  | 基本资料'/}
+
+<!-- 内容区域 start -->
+	<div class="xf_con_box">
+		<div class="xf_con_mem_nav"></div>
+		<!-- 左边导航区域 -->
+		#{include "front/account/AccountHome/homeLeft.control"/}
+		<!-- 右侧内容区域 -->
+		<!-- 账户总览 -->
+		#{include "front/account/BasicInformation/basicInformationAccountSummary.control"/}
+		<!-- 基本资料 -->
+		#{include "front/account/BasicInformation/basicInformationContent.control"/}
+		<!-- 会员记录 -->
+		#{include "front/account/BasicInformation/basicInformationVIPrecords.control"/}
+		<!-- 清除浮动 -->
+		<div class="clear"></div>
+	</div>
+<!-- vip续费弹出层  -->
+#{include "front/account/AccountHome/homeVipApply.control"/}
+#{include "front/account/AccountHome/homeVipContent.control"/}
+#{include "front/account/BasicInformation/basicInformationVipDetail.control"/}
+#{include "front/account/BasicInformation/basicInformationVipApply.control"/}
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript">
+
+
+<!--
+	$(function(){
+		/* 高亮显示 */
+		showHighLightFront(30);
+		showHighLightFront2(7, 6);
+	});
+//-->
+</script>

@@ -1,0 +1,86 @@
+<!-- 后期补充债权转让-发送站内信 -->
+<div class="xf_zqzr_znx_window" id="xf_zqzr_znx_window">
+	<div class="xf_wyjkwszl_4_windowInner xf_zqzr_znxback_window">
+		<div class="xf_wyjkfb_4_windowClose" onClick="closeLetter()"></div>
+		<div class="xf_wyjkfb_4_windowColName">
+			发送站内信
+		</div>
+		<div class="xf_zqzr_znx_windowCot">
+			<table border="0" cellpadding="0" cellspacing="0" width="426" class="xf_zqzr_znx_teot">
+				<tr>
+					<td width="121" align="right">
+						<span class="xf_zqzr_znx_title">发&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;给： </span>
+					</td>
+					<td>
+						<span class="xf_zqzr_znx_r">${userName}</span>
+						<input type="hidden" value="${sign}" id="signValue">
+					</td>
+				</tr>
+				<tr>
+					<td align="right">
+						<span class="xf_zqzr_znx_title">标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题：</span>
+					</td>
+					<td>
+					<input class="xf_zqzr_wszl" type="text" id="title" name="title">
+					</td>
+				</tr>
+				<tr>
+					<td align="right" valign="top">
+						<span class="xf_zqzr_znx_title">内&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;容：</span>
+					</td>
+					<td>
+						<textarea class="xf_zqzr_wszl_text" name="xf_zqzr_wszl_text" id="content" name="content"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<span class="xf_zqzr_znx_title">&nbsp;</span>
+					</td>
+					<td class="xf_zqzr_znx_title_td">
+					<a onClick="send()" class="xf_con_inputfbjk xf_con_inputfbjk_show">发送 </a>
+						<span class="xf_con_zqzr_znx" id="limit">您还可以输入1000字</span>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    showDiv($("#xf_zqzr_znx_window"));
+
+    function send(){
+       if($("#title").val() == ''){
+           alert("标题不能为空");
+           return;
+       }
+       
+       if($("#content").val() == ''){
+           alert("内容不能为空");
+           return;
+       }
+    
+        var sendMessage = #{jsAction @sendMessage(':sign', ':title', ':content')/}
+		$.post(sendMessage({sign:$("#signValue").val(), title:encodeURI($("#title").val()), content:encodeURI($("#content").val())}),function(data){
+			var arr=eval(data);
+			
+			if(arr.error.code < 0){
+			    alert(arr.error.msg);
+			    return;
+			}
+			alert(arr.error.msg);
+			location.reload();
+	 });
+	}
+	
+	function closeLetter(){
+	    $("#xf_zqzr_znx_window").hide(); 
+	}
+	
+	 $("#content").keydown(function() {
+	        var text = $("#content").val();
+		    var len = text.length;
+		    var stillLen = 1000 -len;
+		    $("#limit").html();
+		    $("#limit").html("还可以输入"+stillLen+"字");
+        });
+</script>

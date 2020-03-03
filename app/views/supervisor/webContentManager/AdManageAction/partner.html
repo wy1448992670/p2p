@@ -1,0 +1,31 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'合作伙伴' /}
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  #{include "supervisor/webContentManager/common/leftBar.control"/} 
+  <!-- 内容区 -->
+  #{include "supervisor/webContentManager/AdManageAction/partnerContene.control"/}
+  </div>
+</div>
+ <!-- -弹出层 -->
+ #{include "supervisor/webContentManager/AdManageAction/partnerAdd.control"/}
+<div id="show"></div>
+  <script type="text/javascript">
+  $(function(){
+  	 /* 高亮显示 */
+ 	 showHighLight(2,2,5);
+
+    $("#xf_ht_fkzh_tt_add").hide();
+    //广告条
+    $("#xf_ht_fkzh_ttc").center();
+    $(".xf_ggnr_help_input,#xf_dfk_fkzh_tcc1").click(function(){
+      $("#xf_ht_fkzh_ttc").show();
+    });
+    $(".xf_ht_jr_obu_r").click(function(){
+      $(this).parents(".xf_ht_ttc").hide();
+    });
+
+  });
+</script>
+  

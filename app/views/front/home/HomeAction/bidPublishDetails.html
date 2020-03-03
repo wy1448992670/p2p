@@ -1,0 +1,66 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle /}
+
+<!--内容区-->
+<div class="p_bgf1_box pb30 pt30">
+    <div class="p_main clr">
+        <div class="p_hp_rtbox">
+            <div class="p_fggtitle">
+                <h1>${month}月${day}日发标公告</h1>
+                <h2>发布时间：<span>${publishTime?.format("yyyy-MM-dd HH:mm:ss")}</span></h2>
+            </div>
+            <div class="p_fggword">
+                <p>尊敬的会员：</p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您好！</p>
+                <p>现将亿亿理财${month}月${day}日发标公告如下：&nbsp;</p>
+                <table width="100%" class="p_fggtable">
+                    <tr>
+                        <td>项目名称</td>
+                        <td>金额(元) </td>
+                        <td>借款期限</td>
+                        <td>年化收益</td>
+                        <td>还款方式</td>
+                        <td>开标时间</td>
+                    </tr>
+                     #{list resultList}
+                    <tr>
+                        <td>${_?.bid_title}</td>
+                        <td>${_?.amount}</td>
+                        <td>
+	                         #{if _?.period_unit == -1}
+				              ${_?.period}年
+				            #{/if}
+				            #{elseif _?.period_unit == 0}
+				               ${_?.period}月
+				            #{/elseif}
+				            #{else}
+				               ${_?.period}日
+				            #{/else}
+                        </td>
+                        <td>${_?.apr}% </td>
+                        <td>${_?.repayment_type_name} </td>
+                        <td>${_?.publish_time?.format('MM月dd日  HH:mm')}</td>
+                    </tr>
+                    #{/list}
+                </table>
+                <p>（如有变动，请以亿亿理财实际发标情况为准，本公告最终解释权亿亿理财所有！）</p>
+                <p class="p_fggtr">${year}年${month}月${day}日</p>
+            </div>
+            <div class="xf_cfzx_view_bottom_paga">
+                #{if lastBidPublish != null}
+                <div class="xf_cfzx_view_bottom_paga_l">
+                    <a href="@{front.home.HomeAction.bidPublishDetails(lastBidPublish?.year,lastBidPublish?.month,lastBidPublish?.day)}">上一篇：${lastBidPublish.month}月${lastBidPublish.day}日发标公告</a>
+                </div>
+                #{/if}
+                #{if nextBidPublish != null}
+                <div class="xf_cfzx_view_bottom_paga_r">
+                    <a href="@{front.home.HomeAction.bidPublishDetails(nextBidPublish?.year,nextBidPublish?.month,nextBidPublish?.day)}">下一篇：${nextBidPublish.month}月${nextBidPublish.day}日发标公告</a>
+                </div>
+                #{/if}
+            </div>
+        </div>
+    </div>
+</div>

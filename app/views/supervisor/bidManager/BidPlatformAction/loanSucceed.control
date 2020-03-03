@@ -1,0 +1,32 @@
+<div class="xn_c_content">
+  <div class="xf_content_add">
+    <div class="xfht_t_j_y_2">
+      <!--右上-->
+      <div class="xf_ht_obu_fklm">
+        #{include '/supervisor/bidManager/BidPlatformAction/lastAndNext.control'/} 
+      </div>
+      <!-- 审核详情 -->
+      <div class="xfht_t_j_y_2">
+        #{include '/supervisor/bidManager/BidPlatformAction/detailTop.control'/} 
+        #{if bid?.status != 0 && bid?.status != 1}
+        <div class="xf_con_mem_r_bottomtwo">
+           #{table width:"100%", border:"0", cellspacing:"0", cellpadding:"0", class:"xf_ht_memcz_table"}
+             #{tr}
+               #{td align:"right", valign:"top"}<span class="xf_s_sz">CBO风控体系审核：</span>#{/td}
+               #{td}
+                 <textarea class="xf_ht_jr_obttd_textarea xf_ht_jr_shmx_textarea" style="max-width:760px;" disabled="disabled">${bid?.auditSuggest}</textarea>
+               #{/td}
+             #{/tr}
+           #{/table}
+         </div>
+         #{/if}
+         <div class="xf_jkb_btowarp">
+            <div class="xf_jkb_bto">
+              #{include '/supervisor/bidManager/BidPlatformAction/lastAndNext.control'/} 
+            </div>
+         </div>
+      </div>
+   </div>
+ </div>
+</div>
+

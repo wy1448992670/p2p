@@ -1,0 +1,141 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    #{form @benefitList(), id:'submit'}
+    <input type="hidden" id="currPage" name="currPage"/>
+    <input type="hidden" id="pageSize" name="pageSize"/>
+    <input type="hidden" id="orderType" name="orderType" value="${result.conditions?.orderType}"/>
+    <div class="xf_ht_search">
+      <div class="xf_ht_search_l sort_select">
+        <span id="div_0" onClick="conditonSearch(0)">默认排序</span>
+        <span id="div_1" onClick="conditonSearch(1)">计划捐款 <a id="div_a_1">↑</a></span>
+        <span id="div_3" onClick="conditonSearch(3)">实际捐款 <a id="div_a_3">↑</a></span>
+        <span id="div_5" onClick="conditonSearch(5)">捐款笔数 <a id="div_a_4">↑</a></span>
+      </div>
+    </div>
+    <div class="xf_ht_search_inon">
+      <div class="xf_ht_search_r">
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">公益名称：</span>
+          <input name="name" type="text" class="search_w" id="name" value="${result?.conditions?.name}" />
+        </div>
+        <div class="xf_ht_search_xl">
+          <span class="search_timesp">开始时间：</span>
+          <input name="beginTime" type="text" id="startDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${result?.conditions?.beginTime}" />
+          <span class="search_timesp">--</span>
+          <input name="endTime" type="text" id="endDate" class="search_time" onclick="laydate()" style="cursor: pointer" value="${result?.conditions?.endTime}" />
+        </div>
+        <div class="xf_ht_search_xl">
+          <input type="button" class="search_button" onclick="searchSubmit(0);" value="搜 索" />
+        </div>
+      </div>
+    </div>
+    #{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table class:"xn_c_content_list1 recommend",cellspacing:"0",cellpadding:"0",border:"1",tr_class_odd:"xn_tr_bj",width:"1000px"}
+        <tr class="head">
+          <td>序号</td>
+          <td>公益名称</td>
+          <td>时间</td>
+          <td>计划捐款</td>
+          <td>实际捐款</td>
+          <td>捐款笔数</td>
+          <td>操作</td>
+        </tr>
+        #{list result?.page,as:'map'}
+        #{tr}
+          #{td}${map_index}#{/td}
+          #{td}${map.name}#{/td}
+          #{td}${map.start_dt}#{/td}
+          #{td}${map.plan_donate}#{/td}
+          #{td}${map.actual_donate}#{/td}
+          #{td}${map.donate_users}#{/td} 
+          #{td}<a href="/supervisor/publicBenefit/UserDonate/benefitEdit?benefit.id=${map.id}">编辑</a>#{/td}
+        #{/tr}
+        #{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      <div class="page_warp">
+      #{page currPage:result.currPage,totalCount:result.totalCount,pageSize:result.pageSize,theme:2,style:4/}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+function conditonSearch(num){
+  var orderType= ${result.conditions?.orderType};
+  if(orderType == 0){
+    $("#orderType").val(num);
+    $("#submit").submit();
+    return;
+  }
+  var sum = orderType/2;
+  if(sum.toString().indexOf('.') == -1){
+    var sum2 = orderType - 1;
+    $("#orderType").val(num);
+    $("#submit").submit();
+  }else{
+    if(orderType == num){
+      $("#orderType").val(num + 1);
+      $("#submit").submit();
+      return;
+    }else{
+      $("#orderType").val(num);
+      $("#submit").submit();
+      return;
+    }
+  }
+}
+
+$(function(){  
+  /* 高亮显示 */
+  highLight(6);
+  
+  //条件查询控制样式
+  var num= ${result.conditions?.orderType};
+  
+  if(num == 0){
+    $("#div_0").addClass("xf_sea_isshow");
+    return;
+  }
+
+  var sum = num/2;
+  if(sum.toString().indexOf('.') == -1){
+    var sum2 = num -1;
+    $("#div_"+sum2).addClass("xf_sea_isshow");
+    $("#div_a_"+sum2).html("↓");
+    return;
+  }
+
+  $("#div_"+num).addClass("xf_sea_isshow");
+  $("#div_a_"+num).html("↑");
+});
+
+
+function searchSubmit(export_){
+  $("#submit").submit();
+}
+
+
+$(".sort_select > span").on("click", function(){
+	var obj = $(this);
+	var orderBy = "";
+	
+	if(obj.attr("sn") != ""){
+		orderBy = obj.attr("sn") +" "+ (_order_desc == "DESC" ? "ASC" : "DESC");
+	}
+	
+	$("#orderType").val(orderBy);
+	searchSubmit(0);
+});
+function showPage(currPage, pageSize){
+  $("#currPage").val(currPage);
+  $("#pageSize").val(pageSize);
+  $("#submit").submit();
+}
+</script>

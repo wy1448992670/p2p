@@ -1,0 +1,5116 @@
+ @media only screen and (min-width: 1020px), only screen and (min-device-width:1020px) {
+   		*{
+    	margin: 0;padding: 0;
+    	}
+    	body{
+    		/*background: #000;*/
+    	}
+    	a{
+    		text-decoration: none;
+    		
+    	}
+    	.big{
+    		font-size: 0;
+    		position: relative;
+    		/*text-align: center;*/
+    		
+    		width: 100%;
+    	}
+   		.big>img{
+   			width: 750px;
+   			margin-left: calc((100% - 750px) / 2);
+
+   			
+   		}
+   		.all{
+   			width: 600px;
+   			height: 550px;
+   			position: absolute;
+   			/*background: #ccc;*/
+   			top: 546px;
+   			left:calc((100% - 600px) / 2);
+   			text-align: center;
+   		
+   		}
+   		.all .tel,#pw{
+   			width: 480px;
+   			height: 80px;
+   			border: 1px solid #999;
+   			border-radius: 20px;
+   			box-sizing: border-box;
+   			margin-bottom: 30px;
+   			font-size: 32px;
+   			color: #666;
+   			padding-left: 30px;
+   			outline: none;
+   			
+   		}
+   		#pw{
+   			margin-bottom: 15px;
+   			
+   		}
+   		.stip{
+   			
+   			font-size: 24px;
+   			margin-bottom: 15px;
+   			margin-left: -77px;
+   			color: #333;
+   			
+   			
+   		}
+   		.yzm_01{
+   			width: 280px;
+   			height: 80px;
+   			border: 1px solid #999;
+   			border-radius: 20px;
+   			box-sizing: border-box;
+   			margin-bottom: 30px;
+   			margin-right: 20px;
+   			font-size: 32px;
+   			padding-left: 30px;
+   			outline: none;
+   			
+   		}
+   		.yzm_02{
+   			width: 180px;
+   			height: 80px;
+   			border-radius: 20px;
+   			box-sizing: border-box;
+   			margin-bottom: 30px;
+			outline: none;
+   			border: none;
+   			color: #fff;
+   			font-size: 28px;
+
+   			background: url(/public/images/img20171108/yzm_noclick.png);
+   		
+   			
+   		}
+   		.yes_no,.yes_no a{
+   			font-size: 24px;
+   			
+   			
+   		}
+   		.yes_no a{
+   			color: #ff4d5d;
+   			
+   			
+   		}
+   		.yes_no{
+			color: #333;
+   			text-align: left;
+   			
+   			
+   		}
+   		input[type="checkbox"]{
+		-webkit-appearance: none;
+	    background: #fff;
+	    height: 24px;
+	    vertical-align: middle;
+	    width: 24px;
+	    border-radius: 24px;
+	    outline: none;
+	    margin-left: 60px;
+	    margin-right: 10px;
+	    border: 1px solid #CCCCCC;
+	    margin-top: -6px;
+		
+		
+		
+	}
+   		
+   		input[type="checkbox"]:checked{
+				background: url(/public/images/img20171108/dui.png)no-repeat;
+				background-size: cover;
+				border: none;
+				
+			}
+			
+			
+		.zc{
+			width: 480px;
+			height: 80px;
+			line-height: 80px;
+			background: url(/public/images/img20171108/end_noclick.png);
+			font-size: 32px;
+			color: #fff;
+			margin-left: 60px;
+			margin-top: 40px;
+			margin-bottom: 30px;
+		}	
+			.had,.down_load{
+				font-size: 26px;
+				
+				
+			}
+			.had{
+				float: left;
+				margin-left: 60px;
+			}
+			
+			.down_load{
+				float: right;
+				margin-right: 60px;
+				color: #3b65ff;
+			}
+			
+			
+			
+				.lay {
+			    width: 100%;
+			    height: 100%;
+			    display: none;
+			    background-color: #000;
+			    position: absolute;
+			    z-index: 400;
+			    left: 0;
+			    top: 0;
+			    opacity: 0.6;
+				
+			}
+			.pop{
+				    width: 40%;
+				    height: 600px;
+				    
+				    border-radius: 20px;
+				    display: none;
+				    position: fixed;
+				    z-index: 450;
+				    /*left: 0;*/
+				    top: 10px!important;
+				    background: white;
+					padding-left: 50px;
+					padding-right: 50px;
+					padding-bottom: 60px;
+				
+				
+				
+			}
+			.con_tit{
+				width: 100%;
+			    height: 50px;
+			    line-height:50px;
+			    font-weight: bold;
+			    text-align: center;
+			    font-size: 32px;
+				padding-top: 60px;
+				padding-bottom: 50px;
+				
+				
+				
+				
+			}
+			.con_text{
+				width: 100%;
+				height: 440px;
+				overflow: auto;
+				
+			}
+			
+			
+			
+			.con_text p{
+				font-size: 28px;
+			}
+			.close_all{
+				position:fixed;
+				top: 10px;
+				right: 27%;
+				z-index: 999;
+				display: none;
+				cursor: pointer;
+				
+			}
+			
+			
+			
+     
+     
+   }
+   		
+   		
+   		
+   		
+   		
+   		
+   		
+  	}
+     @media only screen and (max-width: 1366px), only screen and (max-device-width:1366px) {
+   
+    
+     
+   }
+     @media only screen and (max-width: 1360px), only screen and (max-device-width:1360px) {
+   
+     
+     
+   }
+     @media only screen and (max-width: 1280px), only screen and (max-device-width:1280px) {
+    
+    
+     
+     
+   }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ /*移动端*/
+ 
+   @media only screen and (max-width: 1080px), only screen and (max-device-width:1080px) {
+     html,body {
+         font-size:168.75px;
+     }
+     
+     *{margin: 0;padding: 0;}
+body{
+	
+}
+a{
+	text-decoration: none;
+}
+.all{
+	width: 100%;
+	margin: 0 auto;
+	margin-top:11%;
+	
+}
+p{
+	
+}
+.footer p{
+	padding: 0 10%;
+	height: 35px;
+}
+.footer p a{
+	 text-decoration: none;
+	 color: #999;
+	 
+	
+}
+.footer h5{
+	font-size: 10px;
+	font-weight: normal;
+	margin: 0 auto;
+	text-align: center;
+	color: #fff;
+	margin-top:4%;
+}
+.all>input{
+	width: 64%;
+	height: 0.68rem;
+	margin-left: 18%;
+	border: 1px solid #CCCCCC;
+	background-color: #fff;
+	border-radius: 0.14rem;
+	box-sizing: border-box;
+	outline: none;
+	font-size: 0.26rem;
+	
+}
+
+
+
+.all>input::-webkit-input-placeholder{ 
+color: #666; 
+} 
+
+.but1{
+	width: 40%;
+	height: 35px;
+	float: left;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.but2{
+	width: 40%;
+	height: 35px;
+	float: right;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.codes{
+	width: 79.33%;
+	height: 0.8rem;
+	/*border: 1px solid #000;*/
+	font-size: 0.24rem;
+	
+	
+}
+.codes input{
+	font-size: 0.24rem;
+	outline: none;
+}
+
+.yzm_01{
+	width:37.33%!important;
+	display:inline-block;
+	margin-right: 2.667%;
+	outline: none;
+	
+}
+.yzm_02{
+	width:24%!important;
+	height:0.7rem!important;
+	outline: none;
+	display:inline-block;
+	margin-left: 0!important;
+	color: #fff;
+	font-size: 0.22rem;
+	text-align: center;
+	border-radius: 10px;
+	padding: 0;
+	background: url(/public/images/img20171108img/yzm_noclick.png)no-repeat;
+	background-size: cover;
+	border: none!important;
+	
+	
+}
+#tel{
+	/*margin-left: 18%;*/
+	
+	
+}
+.yes_no{
+	width:80%;
+	height:0.5rem;
+	line-height: 0.5rem;
+	margin-left: 18%;
+	border: 1px solid #000;
+	margin-top: 0.1rem;
+	font-size: 0.2rem;
+	margin-bottom: 0.2rem;
+}
+.yes_no .dui{
+	width: 5.2%;
+	height: 0.21rem;
+	background:url(/public/images/img20171108/no_dui.png)no-repeat;
+	background-size: cover;
+	display: inline-block;
+	margin-right: 2%;
+	display: inline-block;
+	
+}
+.yes_no .dui:after{
+	width: 5.2%;
+	height: 0.21rem;
+	background: url(/public/images/img20171108/dui.png)no-repeat;	
+	background-size: cover;
+	
+	
+}
+.zc{
+		width: 64%!important;
+		height: 0.68rem!important;
+		line-height: 0.68rem;
+		outline: none;
+		display: inline-block;
+		/*border: 1px solid #fff;*/
+		outline: none;
+		/*border: none;*/
+		margin-left: 18%;
+		color: #fff;
+		font-size: 0.1rem;
+		text-align: center;
+		border-radius: 10px;
+		font-size: 0.28rem;
+		background: url(/public/images/img20171108/end_noclick.png)no-repeat;
+		background-size: cover;
+		margin-bottom: 0.2rem;
+		
+	
+	
+}
+
+
+/*遮罩层*/
+.lightbox{
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            height: 100%;
+            width: 100%;
+            z-index: 7;
+            opacity: 1;
+            display: block;
+            background-color: rgba(0, 0, 0,0.2);
+            display: none;
+        }
+        .pop,iframe{
+            position: absolute;
+            /*left: 50%;*/
+            top:0;
+            width: 893px;
+            height: 100%;
+            /*margin-left: -446.5px;*/
+            z-index: 9999;
+        }
+        
+
+
+
+
+
+
+/*新增*/
+.big{
+	font-size: 0;
+}
+
+
+
+.big img{
+	width: 100%;
+	margin-top: -1px;
+	
+}
+.all input{
+	margin-top: 0.2rem;
+	
+}
+.tel, #pw, .yzm_01{
+	
+	padding: 6px 12px;
+	
+}
+.stip{
+	font-size: 0.2rem;
+    margin-left: 21.6%;
+    color: #333;
+    margin-top: 0.1rem;
+	
+	
+	
+}
+.had{
+	font-size: 0.2rem;
+    margin-left: 18%;
+    margin-right: 37.33%;
+	
+	
+}
+.down_load{
+	font-size: 0.2rem;
+    color: #3b65ff;
+	
+	
+	
+}
+.lay{
+	width: 100%;
+    height: 100%;
+    display: none;
+    background-color: #000;
+    position: absolute;
+    z-index: 400;
+    left: 0;
+    top: 0;
+    opacity: 0.6;
+	
+	
+	
+}
+.pop{
+	width: 89.33%;
+    height: 8rem;
+    border-radius: 0.14rem;
+    display: none;
+    position: fixed;
+    z-index: 450;
+    left: 0;
+    top: 1.7rem!important;
+    background: white;
+	
+	
+}
+.con_tit{
+	width: 100%;
+    height: 1rem;
+    line-height: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.28rem;
+	
+	
+}
+.con_text{
+	width: 80%;
+    height: 6.5rem;
+    overflow: auto;
+    margin: 0 auto;
+    font-size: 0.24rem;
+    line-height: 0.4rem;
+	
+	
+	
+}
+.close_all{
+	width: 100%;
+    height: 1rem;
+    text-align: center;
+    z-index: 9999;
+    position: fixed;
+    /* background: #000; */
+    /* opacity: 0.6; */
+    top: 9.7rem;
+    display: none;
+	
+	
+}
+.close_all img{
+	width: 9.33%;
+    margin-left: 45.33%;
+	
+	
+}
+input[type="checkbox"]{
+	-webkit-appearance: none;
+    background: #fff;
+    height: 0.22rem;
+    vertical-align: middle;
+    width: 0.22rem;
+    border-radius: 22px;
+    outline: none;
+    margin-right: 1.333%;
+    border: 1px solid #CCCCCC;
+    margin-top: -0.04rem;
+	
+	
+	
+}
+  .open2{
+  	color: #fc4d5e;
+    font-size: 0.2rem;
+  	
+  	
+  	
+  }
+  input[type="checkbox"]:checked{
+				background: url(/public/images/img20171108/dui.png)no-repeat;
+				background-size: cover;
+				border: none;
+				
+			}
+  
+  
+     
+     
+     
+   }
+     @media only screen and (max-width: 960px), only screen and (max-device-width:960px) {
+     html,body {
+         font-size:150px;
+     }
+     
+     *{margin: 0;padding: 0;}
+body{
+	
+}
+a{
+	text-decoration: none;
+}
+.all{
+	width: 100%;
+	margin: 0 auto;
+	margin-top:-611%;
+	
+}
+p{
+	
+}
+.footer p{
+	padding: 0 10%;
+	height: 35px;
+}
+.footer p a{
+	 text-decoration: none;
+	 color: #999;
+	 
+	
+}
+.footer h5{
+	font-size: 10px;
+	font-weight: normal;
+	margin: 0 auto;
+	text-align: center;
+	color: #fff;
+	margin-top:4%;
+}
+.all>input{
+	width: 64%;
+	height: 0.68rem;
+	margin-left: 18%;
+	border: 1px solid #CCCCCC;
+	background-color: #fff;
+	border-radius: 0.14rem;
+	box-sizing: border-box;
+	outline: none;
+	font-size: 0.26rem;
+	
+}
+
+
+
+.all>input::-webkit-input-placeholder{ 
+color: #666; 
+} 
+
+.but1{
+	width: 40%;
+	height: 35px;
+	float: left;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.but2{
+	width: 40%;
+	height: 35px;
+	float: right;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.codes{
+	width: 79.33%;
+	height: 0.8rem;
+	/*border: 1px solid #000;*/
+	font-size: 0.24rem;
+	
+	
+}
+.codes input{
+	font-size: 0.24rem;
+	outline: none;
+}
+
+.yzm_01{
+	width:37.33%!important;
+	display:inline-block;
+	margin-right: 2.667%;
+	outline: none;
+	
+}
+.yzm_02{
+	width:24%!important;
+	height:0.7rem!important;
+	outline: none;
+	display:inline-block;
+	margin-left: 0!important;
+	color: #fff;
+	font-size: 0.22rem;
+	text-align: center;
+	border-radius: 10px;
+	padding: 0;
+	background: url(/public/images/img20171108/yzm_noclick.png)no-repeat;
+	background-size: cover;
+	border: none!important;
+	
+	
+}
+#tel{
+	/*margin-left: 18%;*/
+	
+	
+}
+.yes_no{
+	width:80%;
+	height:0.5rem;
+	line-height: 0.5rem;
+	margin-left: 18%;
+	border: 1px solid #000;
+	margin-top: 0.1rem;
+	font-size: 0.2rem;
+	margin-bottom: 0.2rem;
+}
+.yes_no .dui{
+	width: 5.2%;
+	height: 0.21rem;
+	background:url(/public/images/img20171108/no_dui.png)no-repeat;
+	background-size: cover;
+	display: inline-block;
+	margin-right: 2%;
+	display: inline-block;
+	
+}
+.yes_no .dui:after{
+	width: 5.2%;
+	height: 0.21rem;
+	background: url(/public/images/img20171108/dui.png)no-repeat;	
+	background-size: cover;
+	
+	
+}
+.zc{
+		width: 64%!important;
+		height: 0.68rem!important;
+		line-height: 0.68rem;
+		outline: none;
+		display: inline-block;
+		/*border: 1px solid #fff;*/
+		outline: none;
+		/*border: none;*/
+		margin-left: 18%;
+		color: #fff;
+		font-size: 0.1rem;
+		text-align: center;
+		border-radius: 10px;
+		font-size: 0.28rem;
+		background: url(/public/images/img20171108/end_noclick.png)no-repeat;
+		background-size: cover;
+		margin-bottom: 0.2rem;
+		
+	
+	
+}
+
+
+/*遮罩层*/
+.lightbox{
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            height: 100%;
+            width: 100%;
+            z-index: 7;
+            opacity: 1;
+            display: block;
+            background-color: rgba(0, 0, 0,0.2);
+            display: none;
+        }
+        .pop,iframe{
+            position: absolute;
+            /*left: 50%;*/
+            top:0;
+            width: 893px;
+            height: 100%;
+            /*margin-left: -446.5px;*/
+            z-index: 9999;
+        }
+        
+
+
+
+
+
+
+/*新增*/
+.big{
+	font-size: 0;
+}
+
+
+
+.big img{
+	width: 100%;
+	margin-top: -1px;
+	
+}
+.all input{
+	margin-top: 0.2rem;
+	
+}
+.tel, #pw, .yzm_01{
+	
+	padding: 6px 12px;
+	
+}
+.stip{
+	font-size: 0.2rem;
+    margin-left: 21.6%;
+    color: #333;
+    margin-top: 0.1rem;
+	
+	
+	
+}
+.had{
+	font-size: 0.2rem;
+    margin-left: 18%;
+    margin-right: 37.33%;
+	
+	
+}
+.down_load{
+	font-size: 0.2rem;
+    color: #3b65ff;
+	
+	
+	
+}
+.lay{
+	width: 100%;
+    height: 100%;
+    display: none;
+    background-color: #000;
+    position: absolute;
+    z-index: 400;
+    left: 0;
+    top: 0;
+    opacity: 0.6;
+	
+	
+	
+}
+.pop{
+	width: 89.33%;
+    height: 8rem;
+    border-radius: 0.14rem;
+    display: none;
+    position: fixed;
+    z-index: 450;
+    left: 0;
+    top: 1.7rem!important;
+    background: white;
+	
+	
+}
+.con_tit{
+	width: 100%;
+    height: 1rem;
+    line-height: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.28rem;
+	
+	
+}
+.con_text{
+	width: 80%;
+    height: 6.5rem;
+    overflow: auto;
+    margin: 0 auto;
+    font-size: 0.24rem;
+    line-height: 0.4rem;
+	
+	
+	
+}
+.close_all{
+	width: 100%;
+    height: 1rem;
+    text-align: center;
+    z-index: 9999;
+    position: fixed;
+    /* background: #000; */
+    /* opacity: 0.6; */
+    top: 9.7rem;
+    display: none;
+	
+	
+}
+.close_all img{
+	width: 9.33%;
+    margin-left: 45.33%;
+	
+	
+}
+
+
+input[type="checkbox"]{
+	-webkit-appearance: none;
+    background: #fff;
+    height: 0.22rem;
+    vertical-align: middle;
+    width: 0.22rem;
+    border-radius: 22px;
+    outline: none;
+    margin-right: 1.333%;
+    border: 1px solid #CCCCCC;
+    margin-top: -0.04rem;
+	
+	
+	
+}
+  .open2{
+  	color: #fc4d5e;
+    font-size: 0.2rem;
+  	
+  	
+  	
+  }
+input[type="checkbox"]:checked{
+				background: url(/public/images/img20171108/dui.png)lno-repeat;
+				background-size: cover;
+				border: none;
+				
+			}
+
+     
+     
+     
+   }
+     @media only screen and (max-width: 800px), only screen and (max-device-width:800px) {
+     html,body {
+         font-size:125px;
+     }
+     
+     *{margin: 0;padding: 0;}
+body{
+	
+}
+a{
+	text-decoration: none;
+}
+.all{
+	width: 100%;
+	margin: 0 auto;
+	margin-top:-611%;
+	
+}
+p{
+	
+}
+.footer p{
+	padding: 0 10%;
+	height: 35px;
+}
+.footer p a{
+	 text-decoration: none;
+	 color: #999;
+	 
+	
+}
+.footer h5{
+	font-size: 10px;
+	font-weight: normal;
+	margin: 0 auto;
+	text-align: center;
+	color: #fff;
+	margin-top:4%;
+}
+.all>input{
+	width: 64%;
+	height: 0.68rem;
+	margin-left: 18%;
+	border: 1px solid #CCCCCC;
+	background-color: #fff;
+	border-radius: 0.14rem;
+	box-sizing: border-box;
+	outline: none;
+	font-size: 0.26rem;
+	
+}
+
+
+
+.all>input::-webkit-input-placeholder{ 
+color: #666; 
+} 
+
+.but1{
+	width: 40%;
+	height: 35px;
+	float: left;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.but2{
+	width: 40%;
+	height: 35px;
+	float: right;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.codes{
+	width: 79.33%;
+	height: 0.8rem;
+	/*border: 1px solid #000;*/
+	font-size: 0.24rem;
+	
+	
+}
+.codes input{
+	font-size: 0.24rem;
+	outline: none;
+}
+
+.yzm_01{
+	width:37.33%!important;
+	display:inline-block;
+	margin-right: 2.667%;
+	outline: none;
+	
+}
+.yzm_02{
+	width:24%!important;
+	height:0.7rem!important;
+	outline: none;
+	display:inline-block;
+	margin-left: 0!important;
+	color: #fff;
+	font-size: 0.22rem;
+	text-align: center;
+	border-radius: 10px;
+	padding: 0;
+	background: url(/public/images/img20171108/yzm_noclick.png)no-repeat;
+	background-size: cover;
+	border: none!important;
+	
+	
+}
+#tel{
+	/*margin-left: 18%;*/
+	
+	
+}
+.yes_no{
+	width:80%;
+	height:0.5rem;
+	line-height: 0.5rem;
+	margin-left: 18%;
+	border: 1px solid #000;
+	margin-top: 0.1rem;
+	font-size: 0.2rem;
+	margin-bottom: 0.2rem;
+}
+.yes_no .dui{
+	width: 5.2%;
+	height: 0.21rem;
+	background:url(/public/images/img20171108/no_dui.png)no-repeat;
+	background-size: cover;
+	display: inline-block;
+	margin-right: 2%;
+	display: inline-block;
+	
+}
+.yes_no .dui:after{
+	width: 5.2%;
+	height: 0.21rem;
+	background: url(/public/images/img20171108/dui.png)no-repeat;	
+	background-size: cover;
+	
+	
+}
+.zc{
+		width: 64%!important;
+		height: 0.68rem!important;
+		line-height: 0.68rem;
+		outline: none;
+		display: inline-block;
+		/*border: 1px solid #fff;*/
+		outline: none;
+		/*border: none;*/
+		margin-left: 18%;
+		color: #fff;
+		font-size: 0.1rem;
+		text-align: center;
+		border-radius: 10px;
+		font-size: 0.28rem;
+		background: url(/public/images/img20171108/end_noclick.png)no-repeat;
+		background-size: cover;
+		margin-bottom: 0.2rem;
+		
+	
+	
+}
+
+
+/*遮罩层*/
+.lightbox{
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            height: 100%;
+            width: 100%;
+            z-index: 7;
+            opacity: 1;
+            display: block;
+            background-color: rgba(0, 0, 0,0.2);
+            display: none;
+        }
+        .pop,iframe{
+            position: absolute;
+            left: 50%;
+            top:0;
+            width: 893px;
+            height: 100%;
+            /*margin-left: -446.5px;*/
+            z-index: 9999;
+        }
+        
+
+
+
+
+
+
+/*新增*/
+.big{
+	font-size: 0;
+}
+
+
+
+.big img{
+	width: 100%;
+	margin-top: -1px;
+	
+}
+.all input{
+	margin-top: 0.2rem;
+	
+}
+.tel, #pw, .yzm_01{
+	
+	padding: 6px 12px;
+	
+}
+.stip{
+	font-size: 0.2rem;
+    margin-left: 21.6%;
+    color: #333;
+    margin-top: 0.1rem;
+	
+	
+	
+}
+.had{
+	font-size: 0.2rem;
+    margin-left: 18%;
+    margin-right: 37.33%;
+	
+	
+}
+.down_load{
+	font-size: 0.2rem;
+    color: #3b65ff;
+	
+	
+	
+}
+.lay{
+	width: 100%;
+    height: 100%;
+    display: none;
+    background-color: #000;
+    position: absolute;
+    z-index: 400;
+    left: 0;
+    top: 0;
+    opacity: 0.6;
+	
+	
+	
+}
+.pop{
+	width: 89.33%;
+    height: 8rem;
+    border-radius: 0.14rem;
+    display: none;
+    position: fixed;
+    z-index: 450;
+    left: 0;
+    top: 1.7rem!important;
+    background: white;
+	
+	
+}
+.con_tit{
+	width: 100%;
+    height: 1rem;
+    line-height: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.28rem;
+	
+	
+}
+.con_text{
+	width: 80%;
+    height: 6.5rem;
+    overflow: auto;
+    margin: 0 auto;
+    font-size: 0.24rem;
+    line-height: 0.4rem;
+	
+	
+	
+}
+.close_all{
+	width: 100%;
+    height: 1rem;
+    text-align: center;
+    z-index: 9999;
+    position: fixed;
+    /* background: #000; */
+    /* opacity: 0.6; */
+    top: 9.7rem;
+    display: none;
+	
+	
+}
+.close_all img{
+	width: 9.33%;
+    margin-left: 45.33%;
+	
+	
+}
+
+
+
+
+input[type="checkbox"]{
+	-webkit-appearance: none;
+    background: #fff;
+    height: 0.22rem;
+    vertical-align: middle;
+    width: 0.22rem;
+    border-radius: 22px;
+    outline: none;
+    margin-right: 1.333%;
+    border: 1px solid #CCCCCC;
+    margin-top: -0.04rem;
+	
+	
+	
+}
+  .open2{
+  	color: #fc4d5e;
+    font-size: 0.2rem;
+  	
+  	
+  	
+  }
+
+     
+     input[type="checkbox"]:checked{
+				background: url(/public/images/img20171108/dui.png)no-repeat;
+				background-size: cover;
+				border: none;
+				
+			}
+     
+   }
+     @media only screen and (max-width: 720px), only screen and (max-device-width:720px) {
+     html,body {
+         font-size:112.5px;
+     }
+     
+     *{margin: 0;padding: 0;}
+body{
+	
+}
+a{
+	text-decoration: none;
+}
+.all{
+	width: 100%;
+	margin: 0 auto;
+	margin-top:-611%;
+	
+}
+p{
+	
+}
+.footer p{
+	padding: 0 10%;
+	height: 35px;
+}
+.footer p a{
+	 text-decoration: none;
+	 color: #999;
+	 
+	
+}
+.footer h5{
+	font-size: 10px;
+	font-weight: normal;
+	margin: 0 auto;
+	text-align: center;
+	color: #fff;
+	margin-top:4%;
+}
+.all>input{
+	width: 64%;
+	height: 0.68rem;
+	margin-left: 18%;
+	border: 1px solid #CCCCCC;
+	background-color: #fff;
+	border-radius: 0.14rem;
+	box-sizing: border-box;
+	outline: none;
+	font-size: 0.26rem;
+	
+}
+
+
+
+.all>input::-webkit-input-placeholder{ 
+color: #666; 
+} 
+
+.but1{
+	width: 40%;
+	height: 35px;
+	float: left;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.but2{
+	width: 40%;
+	height: 35px;
+	float: right;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.codes{
+	width: 79.33%;
+	height: 0.8rem;
+	/*border: 1px solid #000;*/
+	font-size: 0.24rem;
+	
+	
+}
+.codes input{
+	font-size: 0.24rem;
+	outline: none;
+}
+
+.yzm_01{
+	width:37.33%!important;
+	display:inline-block;
+	margin-right: 2.667%;
+	outline: none;
+	
+}
+.yzm_02{
+	width:24%!important;
+	height:0.7rem!important;
+	outline: none;
+	display:inline-block;
+	margin-left: 0!important;
+	color: #fff;
+	font-size: 0.22rem;
+	text-align: center;
+	border-radius: 10px;
+	padding: 0;
+	background: url(/public/images/img20171108/yzm_noclick.png)no-repeat;
+	background-size: cover;
+	border: none!important;
+	
+	
+}
+#tel{
+	/*margin-left: 18%;*/
+	
+	
+}
+.yes_no{
+	width:80%;
+	height:0.5rem;
+	line-height: 0.5rem;
+	margin-left: 18%;
+	border: 1px solid #000;
+	margin-top: 0.1rem;
+	font-size: 0.2rem;
+	margin-bottom: 0.2rem;
+}
+.yes_no .dui{
+	width: 5.2%;
+	height: 0.21rem;
+	background:url(/public/images/img20171108/no_dui.png)no-repeat;
+	background-size: cover;
+	display: inline-block;
+	margin-right: 2%;
+	display: inline-block;
+	
+}
+.yes_no .dui:after{
+	width: 5.2%;
+	height: 0.21rem;
+	background: url(/public/images/img20171108/dui.png)no-repeat;	
+	background-size: cover;
+	
+	
+}
+.zc{
+		width: 64%!important;
+		height: 0.68rem!important;
+		line-height: 0.68rem;
+		outline: none;
+		display: inline-block;
+		/*border: 1px solid #fff;*/
+		outline: none;
+		/*border: none;*/
+		margin-left: 18%;
+		color: #fff;
+		font-size: 0.1rem;
+		text-align: center;
+		border-radius: 10px;
+		font-size: 0.28rem;
+		background: url(/public/images/img20171108/end_noclick.png)no-repeat;
+		background-size: cover;
+		margin-bottom: 0.2rem;
+		
+	
+	
+}
+
+
+/*遮罩层*/
+.lightbox{
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            height: 100%;
+            width: 100%;
+            z-index: 7;
+            opacity: 1;
+            display: block;
+            background-color: rgba(0, 0, 0,0.2);
+            display: none;
+        }
+        .pop,iframe{
+            position: absolute;
+            left: 50%;
+            top:0;
+            width: 893px;
+            height: 100%;
+            /*margin-left: -446.5px;*/
+            z-index: 9999;
+        }
+        
+
+
+
+
+
+
+/*新增*/
+.big{
+	font-size: 0;
+}
+
+
+
+.big img{
+	width: 100%;
+	margin-top: -1px;
+	
+}
+.all input{
+	margin-top: 0.2rem;
+	
+}
+.tel, #pw, .yzm_01{
+	
+	padding: 6px 12px;
+	
+}
+.stip{
+	font-size: 0.2rem;
+    margin-left: 21.6%;
+    color: #333;
+    margin-top: 0.1rem;
+	
+	
+	
+}
+.had{
+	font-size: 0.2rem;
+    margin-left: 18%;
+    margin-right: 37.33%;
+	
+	
+}
+.down_load{
+	font-size: 0.2rem;
+    color: #3b65ff;
+	
+	
+	
+}
+.lay{
+	width: 100%;
+    height: 100%;
+    display: none;
+    background-color: #000;
+    position: absolute;
+    z-index: 400;
+    left: 0;
+    top: 0;
+    opacity: 0.6;
+	
+	
+	
+}
+.pop{
+	width: 89.33%;
+    height: 8rem;
+    border-radius: 0.14rem;
+    display: none;
+    position: fixed;
+    z-index: 450;
+    left: 0;
+    top: 1.7rem!important;
+    background: white;
+	
+	
+}
+.con_tit{
+	width: 100%;
+    height: 1rem;
+    line-height: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.28rem;
+	
+	
+}
+.con_text{
+	width: 80%;
+    height: 6.5rem;
+    overflow: auto;
+    margin: 0 auto;
+    font-size: 0.24rem;
+    line-height: 0.4rem;
+	
+	
+	
+}
+.close_all{
+	width: 100%;
+    height: 1rem;
+    text-align: center;
+    z-index: 9999;
+    position: fixed;
+    /* background: #000; */
+    /* opacity: 0.6; */
+    top: 9.7rem;
+    display: none;
+	
+	
+}
+.close_all img{
+	width: 9.33%;
+    margin-left: 45.33%;
+	
+	
+}
+
+
+input[type="checkbox"]{
+	-webkit-appearance: none;
+    background: #fff;
+    height: 0.22rem;
+    vertical-align: middle;
+    width: 0.22rem;
+    border-radius: 22px;
+    outline: none;
+    margin-right: 1.333%;
+    border: 1px solid #CCCCCC;
+    margin-top: -0.04rem;
+	
+	
+	
+}
+  .open2{
+  	color: #fc4d5e;
+    font-size: 0.2rem;
+  	
+  	
+  	
+  }
+     
+     
+     input[type="checkbox"]:checked{
+				background: url(/public/images/img20171108/dui.png)no-repeat;
+				background-size: cover;
+				border: none;
+				
+			}
+     
+     
+   }
+     @media only screen and (max-width: 640px), only screen and (max-device-width:640px) {
+     html,body {
+         font-size:100px;
+     }
+     
+     
+     
+     *{margin: 0;padding: 0;}
+body{
+	
+}
+a{
+	text-decoration: none;
+}
+.all{
+	width: 100%;
+	margin: 0 auto;
+	margin-top:-611%;
+	
+}
+p{
+	
+}
+.footer p{
+	padding: 0 10%;
+	height: 35px;
+}
+.footer p a{
+	 text-decoration: none;
+	 color: #999;
+	 
+	
+}
+.footer h5{
+	font-size: 10px;
+	font-weight: normal;
+	margin: 0 auto;
+	text-align: center;
+	color: #fff;
+	margin-top:4%;
+}
+.all>input{
+	width: 64%;
+	height: 0.68rem;
+	margin-left: 18%;
+	border: 1px solid #CCCCCC;
+	background-color: #fff;
+	border-radius: 0.14rem;
+	box-sizing: border-box;
+	outline: none;
+	font-size: 0.26rem;
+	
+}
+
+
+
+.all>input::-webkit-input-placeholder{ 
+color: #666; 
+} 
+
+.but1{
+	width: 40%;
+	height: 35px;
+	float: left;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.but2{
+	width: 40%;
+	height: 35px;
+	float: right;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.codes{
+	width: 79.33%;
+	height: 0.8rem;
+	/*border: 1px solid #000;*/
+	font-size: 0.24rem;
+	
+	
+}
+.codes input{
+	font-size: 0.24rem;
+	outline: none;
+}
+
+.yzm_01{
+	width:37.33%!important;
+	display:inline-block;
+	margin-right: 2.667%;
+	outline: none;
+	
+}
+.yzm_02{
+	width:24%!important;
+	height:0.7rem!important;
+	outline: none;
+	display:inline-block;
+	margin-left: 0!important;
+	color: #fff;
+	font-size: 0.22rem;
+	text-align: center;
+	border-radius: 10px;
+	padding: 0;
+	background: url(/public/images/img20171108/yzm_noclick.png)no-repeat;
+	background-size: cover;
+	border: none!important;
+	
+	
+}
+#tel{
+	/*margin-left: 18%;*/
+	
+	
+}
+.yes_no{
+	width:80%;
+	height:0.5rem;
+	line-height: 0.5rem;
+	margin-left: 18%;
+	border: 1px solid #000;
+	margin-top: 0.1rem;
+	font-size: 0.2rem;
+	margin-bottom: 0.2rem;
+}
+.yes_no .dui{
+	width: 5.2%;
+	height: 0.21rem;
+	background:url(/public/images/img20171108/no_dui.png)no-repeat;
+	background-size: cover;
+	display: inline-block;
+	margin-right: 2%;
+	display: inline-block;
+	
+}
+.yes_no .dui:after{
+	width: 5.2%;
+	height: 0.21rem;
+	background: url(/public/images/img20171108/dui.png)no-repeat;	
+	background-size: cover;
+	
+	
+}
+.zc{
+		width: 64%!important;
+		height: 0.68rem!important;
+		line-height: 0.68rem;
+		outline: none;
+		display: inline-block;
+		/*border: 1px solid #fff;*/
+		outline: none;
+		/*border: none;*/
+		margin-left: 18%;
+		color: #fff;
+		font-size: 0.1rem;
+		text-align: center;
+		border-radius: 10px;
+		font-size: 0.28rem;
+		background: url(/public/images/img20171108/end_noclick.png)no-repeat;
+		background-size: cover;
+		margin-bottom: 0.2rem;
+		
+	
+	
+}
+
+
+/*遮罩层*/
+.lightbox{
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            height: 100%;
+            width: 100%;
+            z-index: 7;
+            opacity: 1;
+            display: block;
+            background-color: rgba(0, 0, 0,0.2);
+            display: none;
+        }
+        .pop,iframe{
+            position: absolute;
+            left: 50%;
+            top:0;
+            width: 893px;
+            height: 100%;
+            /*margin-left: -446.5px;*/
+            z-index: 9999;
+        }
+        
+
+
+
+
+
+
+/*新增*/
+.big{
+	font-size: 0;
+}
+
+
+
+.big img{
+	width: 100%;
+	margin-top: -1px;
+	
+}
+.all input{
+	margin-top: 0.2rem;
+	
+}
+.tel, #pw, .yzm_01{
+	
+	padding: 6px 12px;
+	
+}
+.stip{
+	font-size: 0.2rem;
+    margin-left: 21.6%;
+    color: #333;
+    margin-top: 0.1rem;
+	
+	
+	
+}
+.had{
+	font-size: 0.2rem;
+    margin-left: 18%;
+    margin-right: 37.33%;
+	
+	
+}
+.down_load{
+	font-size: 0.2rem;
+    color: #3b65ff;
+	
+	
+	
+}
+.lay{
+	width: 100%;
+    height: 100%;
+    display: none;
+    background-color: #000;
+    position: absolute;
+    z-index: 400;
+    left: 0;
+    top: 0;
+    opacity: 0.6;
+	
+	
+	
+}
+.pop{
+	width: 89.33%;
+    height: 8rem;
+    border-radius: 0.14rem;
+    display: none;
+    position: fixed;
+    z-index: 450;
+    left: 0;
+    top: 1.7rem!important;
+    background: white;
+	
+	
+}
+.con_tit{
+	width: 100%;
+    height: 1rem;
+    line-height: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.28rem;
+	
+	
+}
+.con_text{
+	width: 80%;
+    height: 6.5rem;
+    overflow: auto;
+    margin: 0 auto;
+    font-size: 0.24rem;
+    line-height: 0.4rem;
+	
+	
+	
+}
+.close_all{
+	width: 100%;
+    height: 1rem;
+    text-align: center;
+    z-index: 9999;
+    position: fixed;
+    /* background: #000; */
+    /* opacity: 0.6; */
+    top: 9.7rem;
+    display: none;
+	
+	
+}
+.close_all img{
+	width: 9.33%;
+    margin-left: 45.33%;
+	
+	
+}
+
+
+input[type="checkbox"]{
+	-webkit-appearance: none;
+    background: #fff;
+    height: 0.22rem;
+    vertical-align: middle;
+    width: 0.22rem;
+    border-radius: 22px;
+    outline: none;
+    margin-right: 1.333%;
+    border: 1px solid #CCCCCC;
+    margin-top: -0.04rem;
+	
+	
+	
+}
+  .open2{
+  	color: #fc4d5e;
+    font-size: 0.2rem;
+  	
+  	
+  	
+  }
+  
+  
+  input[type="checkbox"]:checked{
+				background: url(/public/images/img20171108/dui.png)no-repeat;
+				background-size: cover;
+				border: none;
+				
+			}
+     
+     
+   }
+     @media only screen and (max-width: 600px), only screen and (max-device-width:600px) {
+     html,body {
+         font-size:93.75px;
+     }
+     
+     
+     *{margin: 0;padding: 0;}
+body{
+	
+}
+a{
+	text-decoration: none;
+}
+.all{
+	width: 100%;
+	margin: 0 auto;
+	margin-top:-611%;
+	
+}
+p{
+	
+}
+.footer p{
+	padding: 0 10%;
+	height: 35px;
+}
+.footer p a{
+	 text-decoration: none;
+	 color: #999;
+	 
+	
+}
+.footer h5{
+	font-size: 10px;
+	font-weight: normal;
+	margin: 0 auto;
+	text-align: center;
+	color: #fff;
+	margin-top:4%;
+}
+.all>input{
+	width: 64%;
+	height: 0.68rem;
+	margin-left: 18%;
+	border: 1px solid #CCCCCC;
+	background-color: #fff;
+	border-radius: 0.14rem;
+	box-sizing: border-box;
+	outline: none;
+	font-size: 0.26rem;
+	
+}
+
+
+
+.all>input::-webkit-input-placeholder{ 
+color: #666; 
+} 
+
+.but1{
+	width: 40%;
+	height: 35px;
+	float: left;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.but2{
+	width: 40%;
+	height: 35px;
+	float: right;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.codes{
+	width: 79.33%;
+	height: 0.8rem;
+	/*border: 1px solid #000;*/
+	font-size: 0.24rem;
+	
+	
+}
+.codes input{
+	font-size: 0.24rem;
+	outline: none;
+}
+
+.yzm_01{
+	width:37.33%!important;
+	display:inline-block;
+	margin-right: 2.667%;
+	outline: none;
+	
+}
+.yzm_02{
+	width:24%!important;
+	height:0.7rem!important;
+	outline: none;
+	display:inline-block;
+	margin-left: 0!important;
+	color: #fff;
+	font-size: 0.22rem;
+	text-align: center;
+	border-radius: 10px;
+	padding: 0;
+	background: url(/public/images/img20171108/yzm_noclick.png)no-repeat;
+	background-size: cover;
+	border: none!important;
+	
+	
+}
+#tel{
+	/*margin-left: 18%;*/
+	
+	
+}
+.yes_no{
+	width:80%;
+	height:0.5rem;
+	line-height: 0.5rem;
+	margin-left: 18%;
+	border: 1px solid #000;
+	margin-top: 0.1rem;
+	font-size: 0.2rem;
+	margin-bottom: 0.2rem;
+}
+.yes_no .dui{
+	width: 5.2%;
+	height: 0.21rem;
+	background:url(/public/images/img20171108/no_dui.png)no-repeat;
+	background-size: cover;
+	display: inline-block;
+	margin-right: 2%;
+	display: inline-block;
+	
+}
+.yes_no .dui:after{
+	width: 5.2%;
+	height: 0.21rem;
+	background: url(/public/images/img20171108/dui.png)no-repeat;	
+	background-size: cover;
+	
+	
+}
+.zc{
+		width: 64%!important;
+		height: 0.68rem!important;
+		line-height: 0.68rem;
+		outline: none;
+		display: inline-block;
+		/*border: 1px solid #fff;*/
+		outline: none;
+		/*border: none;*/
+		margin-left: 18%;
+		color: #fff;
+		font-size: 0.1rem;
+		text-align: center;
+		border-radius: 10px;
+		font-size: 0.28rem;
+		background: url(/public/images/img20171108/end_noclick.png)no-repeat;
+		background-size: cover;
+		margin-bottom: 0.2rem;
+		
+	
+	
+}
+
+
+/*遮罩层*/
+.lightbox{
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            height: 100%;
+            width: 100%;
+            z-index: 7;
+            opacity: 1;
+            display: block;
+            background-color: rgba(0, 0, 0,0.2);
+            display: none;
+        }
+        .pop,iframe{
+            position: absolute;
+            left: 50%;
+            top:0;
+            width: 893px;
+            height: 100%;
+            /*margin-left: -446.5px;*/
+            z-index: 9999;
+        }
+        
+
+
+
+
+
+
+/*新增*/
+.big{
+	font-size: 0;
+}
+
+
+
+.big img{
+	width: 100%;
+	margin-top: -1px;
+	
+}
+.all input{
+	margin-top: 0.2rem;
+	
+}
+.tel, #pw, .yzm_01{
+	
+	padding: 6px 12px;
+	
+}
+.stip{
+	font-size: 0.2rem;
+    margin-left: 21.6%;
+    color: #333;
+    margin-top: 0.1rem;
+	
+	
+	
+}
+.had{
+	font-size: 0.2rem;
+    margin-left: 18%;
+    margin-right: 37.33%;
+	
+	
+}
+.down_load{
+	font-size: 0.2rem;
+    color: #3b65ff;
+	
+	
+	
+}
+.lay{
+	width: 100%;
+    height: 100%;
+    display: none;
+    background-color: #000;
+    position: absolute;
+    z-index: 400;
+    left: 0;
+    top: 0;
+    opacity: 0.6;
+	
+	
+	
+}
+.pop{
+	width: 89.33%;
+    height: 8rem;
+    border-radius: 0.14rem;
+    display: none;
+    position: fixed;
+    z-index: 450;
+    left: 0;
+    top: 1.7rem!important;
+    background: white;
+	
+	
+}
+.con_tit{
+	width: 100%;
+    height: 1rem;
+    line-height: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.28rem;
+	
+	
+}
+.con_text{
+	width: 80%;
+    height: 6.5rem;
+    overflow: auto;
+    margin: 0 auto;
+    font-size: 0.24rem;
+    line-height: 0.4rem;
+	
+	
+	
+}
+.close_all{
+	width: 100%;
+    height: 1rem;
+    text-align: center;
+    z-index: 9999;
+    position: fixed;
+    /* background: #000; */
+    /* opacity: 0.6; */
+    top: 9.7rem;
+    display: none;
+	
+	
+}
+.close_all img{
+	width: 9.33%;
+    margin-left: 45.33%;
+	
+	
+}
+
+
+input[type="checkbox"]{
+	-webkit-appearance: none;
+    background: #fff;
+    height: 0.22rem;
+    vertical-align: middle;
+    width: 0.22rem;
+    border-radius: 22px;
+    outline: none;
+    margin-right: 1.333%;
+    border: 1px solid #CCCCCC;
+    margin-top: -0.04rem;
+	
+	
+	
+}
+  .open2{
+  	color: #fc4d5e;
+    font-size: 0.2rem;
+  	
+  	
+  	
+  }
+input[type="checkbox"]:checked{
+				background: url(/public/images/img20171108/dui.png)no-repeat;
+				background-size: cover;
+				border: none;
+				
+			}
+     
+     
+     
+   }
+     @media only screen and (max-width: 540px), only screen and (max-device-width:540px) {
+     html,body {
+         font-size:84.375px;
+     }
+     
+     
+     *{margin: 0;padding: 0;}
+body{
+	
+}
+a{
+	text-decoration: none;
+}
+.all{
+	width: 100%;
+	margin: 0 auto;
+	margin-top:-611%;
+	
+}
+p{
+	
+}
+.footer p{
+	padding: 0 10%;
+	height: 35px;
+}
+.footer p a{
+	 text-decoration: none;
+	 color: #999;
+	 
+	
+}
+.footer h5{
+	font-size: 10px;
+	font-weight: normal;
+	margin: 0 auto;
+	text-align: center;
+	color: #fff;
+	margin-top:4%;
+}
+.all>input{
+	width: 64%;
+	height: 0.68rem;
+	margin-left: 18%;
+	border: 1px solid #CCCCCC;
+	background-color: #fff;
+	border-radius: 0.14rem;
+	box-sizing: border-box;
+	outline: none;
+	font-size: 0.26rem;
+	
+}
+
+
+
+.all>input::-webkit-input-placeholder{ 
+color: #666; 
+} 
+
+.but1{
+	width: 40%;
+	height: 35px;
+	float: left;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.but2{
+	width: 40%;
+	height: 35px;
+	float: right;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.codes{
+	width: 79.33%;
+	height: 0.8rem;
+	/*border: 1px solid #000;*/
+	font-size: 0.24rem;
+	
+	
+}
+.codes input{
+	font-size: 0.24rem;
+	outline: none;
+}
+
+.yzm_01{
+	width:37.33%!important;
+	display:inline-block;
+	margin-right: 2.667%;
+	outline: none;
+	
+}
+.yzm_02{
+	width:24%!important;
+	height:0.7rem!important;
+	outline: none;
+	display:inline-block;
+	margin-left: 0!important;
+	color: #fff;
+	font-size: 0.22rem;
+	text-align: center;
+	border-radius: 10px;
+	padding: 0;
+	background: url(/public/images/img20171108/yzm_noclick.png)no-repeat;
+	background-size: cover;
+	border: none!important;
+	
+	
+}
+#tel{
+	/*margin-left: 18%;*/
+	
+	
+}
+.yes_no{
+	width:80%;
+	height:0.5rem;
+	line-height: 0.5rem;
+	margin-left: 18%;
+	border: 1px solid #000;
+	margin-top: 0.1rem;
+	font-size: 0.2rem;
+	margin-bottom: 0.2rem;
+}
+.yes_no .dui{
+	width: 5.2%;
+	height: 0.21rem;
+	background:url(/public/images/img20171108/no_dui.png)no-repeat;
+	background-size: cover;
+	display: inline-block;
+	margin-right: 2%;
+	display: inline-block;
+	
+}
+.yes_no .dui:after{
+	width: 5.2%;
+	height: 0.21rem;
+	background: url(/public/images/img20171108/dui.png)no-repeat;	
+	background-size: cover;
+	
+	
+}
+.zc{
+		width: 64%!important;
+		height: 0.68rem!important;
+		line-height: 0.68rem;
+		outline: none;
+		display: inline-block;
+		/*border: 1px solid #fff;*/
+		outline: none;
+		/*border: none;*/
+		margin-left: 18%;
+		color: #fff;
+		font-size: 0.1rem;
+		text-align: center;
+		border-radius: 10px;
+		font-size: 0.28rem;
+		background: url(/public/images/img20171108/end_noclick.png)no-repeat;
+		background-size: cover;
+		margin-bottom: 0.2rem;
+		
+	
+	
+}
+
+
+/*遮罩层*/
+.lightbox{
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            height: 100%;
+            width: 100%;
+            z-index: 7;
+            opacity: 1;
+            display: block;
+            background-color: rgba(0, 0, 0,0.2);
+            display: none;
+        }
+        .pop,iframe{
+            position: absolute;
+            left: 50%;
+            top:0;
+            width: 893px;
+            height: 100%;
+            /*margin-left: -446.5px;*/
+            z-index: 9999;
+        }
+        
+
+
+
+
+
+
+/*新增*/
+.big{
+	font-size: 0;
+}
+
+
+
+.big img{
+	width: 100%;
+	margin-top: -1px;
+	
+}
+.all input{
+	margin-top: 0.2rem;
+	
+}
+.tel, #pw, .yzm_01{
+	
+	padding: 6px 12px;
+	
+}
+.stip{
+	font-size: 0.2rem;
+    margin-left: 21.6%;
+    color: #333;
+    margin-top: 0.1rem;
+	
+	
+	
+}
+.had{
+	font-size: 0.2rem;
+    margin-left: 18%;
+    margin-right: 37.33%;
+	
+	
+}
+.down_load{
+	font-size: 0.2rem;
+    color: #3b65ff;
+	
+	
+	
+}
+.lay{
+	width: 100%;
+    height: 100%;
+    display: none;
+    background-color: #000;
+    position: absolute;
+    z-index: 400;
+    left: 0;
+    top: 0;
+    opacity: 0.6;
+	
+	
+	
+}
+.pop{
+	width: 89.33%;
+    height: 8rem;
+    border-radius: 0.14rem;
+    display: none;
+    position: fixed;
+    z-index: 450;
+    left: 0;
+    top: 1.7rem!important;
+    background: white;
+	
+	
+}
+.con_tit{
+	width: 100%;
+    height: 1rem;
+    line-height: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.28rem;
+	
+	
+}
+.con_text{
+	width: 80%;
+    height: 6.5rem;
+    overflow: auto;
+    margin: 0 auto;
+    font-size: 0.24rem;
+    line-height: 0.4rem;
+	
+	
+	
+}
+.close_all{
+	width: 100%;
+    height: 1rem;
+    text-align: center;
+    z-index: 9999;
+    position: fixed;
+    /* background: #000; */
+    /* opacity: 0.6; */
+    top: 9.7rem;
+    display: none;
+	
+	
+}
+.close_all img{
+	width: 9.33%;
+    margin-left: 45.33%;
+	
+	
+}
+
+input[type="checkbox"]{
+	-webkit-appearance: none;
+    background: #fff;
+    height: 0.22rem;
+    vertical-align: middle;
+    width: 0.22rem;
+    border-radius: 22px;
+    outline: none;
+    margin-right: 1.333%;
+    border: 1px solid #CCCCCC;
+    margin-top: -0.04rem;
+	
+	
+	
+}
+  .open2{
+  	color: #fc4d5e;
+    font-size: 0.2rem;
+  	
+  	
+  	
+  }
+     
+     input[type="checkbox"]:checked{
+				background: url(/public/images/img20171108/dui.png)no-repeat;
+				background-size: cover;
+				border: none;
+				
+			}
+     
+     
+     
+   }
+     @media only screen and (max-width: 480px), only screen and (max-device-width:480px) {
+     html,body {
+         font-size:75px;
+     }
+     
+     
+     *{margin: 0;padding: 0;}
+body{
+	
+}
+a{
+	text-decoration: none;
+}
+.all{
+	width: 100%;
+	margin: 0 auto;
+	margin-top:-611%;
+	
+}
+p{
+	
+}
+.footer p{
+	padding: 0 10%;
+	height: 35px;
+}
+.footer p a{
+	 text-decoration: none;
+	 color: #999;
+	 
+	
+}
+.footer h5{
+	font-size: 10px;
+	font-weight: normal;
+	margin: 0 auto;
+	text-align: center;
+	color: #fff;
+	margin-top:4%;
+}
+.all>input{
+	width: 64%;
+	height: 0.68rem;
+	margin-left: 18%;
+	border: 1px solid #CCCCCC;
+	background-color: #fff;
+	border-radius: 0.14rem;
+	box-sizing: border-box;
+	outline: none;
+	font-size: 0.26rem;
+	
+}
+
+
+
+.all>input::-webkit-input-placeholder{ 
+color: #666; 
+} 
+
+.but1{
+	width: 40%;
+	height: 35px;
+	float: left;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.but2{
+	width: 40%;
+	height: 35px;
+	float: right;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.codes{
+	width: 79.33%;
+	height: 0.8rem;
+	/*border: 1px solid #000;*/
+	font-size: 0.24rem;
+	
+	
+}
+.codes input{
+	font-size: 0.24rem;
+	outline: none;
+}
+
+.yzm_01{
+	width:37.33%!important;
+	display:inline-block;
+	margin-right: 2.667%;
+	outline: none;
+	
+}
+.yzm_02{
+	width:24%!important;
+	height:0.7rem!important;
+	outline: none;
+	display:inline-block;
+	margin-left: 0!important;
+	color: #fff;
+	font-size: 0.22rem;
+	text-align: center;
+	border-radius: 10px;
+	padding: 0;
+	background: url(/public/images/img20171108/yzm_noclick.png)no-repeat;
+	background-size: cover;
+	border: none!important;
+	
+	
+}
+#tel{
+	/*margin-left: 18%;*/
+	
+	
+}
+.yes_no{
+	width:80%;
+	height:0.5rem;
+	line-height: 0.5rem;
+	margin-left: 18%;
+	border: 1px solid #000;
+	margin-top: 0.1rem;
+	font-size: 0.2rem;
+	margin-bottom: 0.2rem;
+}
+.yes_no .dui{
+	width: 5.2%;
+	height: 0.21rem;
+	background:url(/public/images/img20171108/no_dui.png)no-repeat;
+	background-size: cover;
+	display: inline-block;
+	margin-right: 2%;
+	display: inline-block;
+	
+}
+.yes_no .dui:after{
+	width: 5.2%;
+	height: 0.21rem;
+	background: url(/public/images/img20171108/dui.png)no-repeat;	
+	background-size: cover;
+	
+	
+}
+.zc{
+		width: 64%!important;
+		height: 0.68rem!important;
+		line-height: 0.68rem;
+		outline: none;
+		display: inline-block;
+		/*border: 1px solid #fff;*/
+		outline: none;
+		/*border: none;*/
+		margin-left: 18%;
+		color: #fff;
+		font-size: 0.1rem;
+		text-align: center;
+		border-radius: 10px;
+		font-size: 0.28rem;
+		background: url(/public/images/img20171108/end_noclick.png)no-repeat;
+		background-size: cover;
+		margin-bottom: 0.2rem;
+		
+	
+	
+}
+
+
+/*遮罩层*/
+.lightbox{
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            height: 100%;
+            width: 100%;
+            z-index: 7;
+            opacity: 1;
+            display: block;
+            background-color: rgba(0, 0, 0,0.2);
+            display: none;
+        }
+        .pop,iframe{
+            position: absolute;
+            left: 50%;
+            top:0;
+            width: 893px;
+            height: 100%;
+            /*margin-left: -446.5px;*/
+            z-index: 9999;
+        }
+        
+
+
+
+
+
+
+/*新增*/
+.big{
+	font-size: 0;
+}
+
+
+
+.big img{
+	width: 100%;
+	margin-top: -1px;
+	
+}
+.all input{
+	margin-top: 0.2rem;
+	
+}
+.tel, #pw, .yzm_01{
+	
+	padding: 6px 12px;
+	
+}
+.stip{
+	font-size: 0.2rem;
+    margin-left: 21.6%;
+    color: #333;
+    margin-top: 0.1rem;
+	
+	
+	
+}
+.had{
+	font-size: 0.2rem;
+    margin-left: 18%;
+    margin-right: 37.33%;
+	
+	
+}
+.down_load{
+	font-size: 0.2rem;
+    color: #3b65ff;
+	
+	
+	
+}
+.lay{
+	width: 100%;
+    height: 100%;
+    display: none;
+    background-color: #000;
+    position: absolute;
+    z-index: 400;
+    left: 0;
+    top: 0;
+    opacity: 0.6;
+	
+	
+	
+}
+.pop{
+	width: 89.33%;
+    height: 8rem;
+    border-radius: 0.14rem;
+    display: none;
+    position: fixed;
+    z-index: 450;
+    left: 0;
+    top: 1.7rem!important;
+    background: white;
+	
+	
+}
+.con_tit{
+	width: 100%;
+    height: 1rem;
+    line-height: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.28rem;
+	
+	
+}
+.con_text{
+	width: 80%;
+    height: 6.5rem;
+    overflow: auto;
+    margin: 0 auto;
+    font-size: 0.24rem;
+    line-height: 0.4rem;
+	
+	
+	
+}
+.close_all{
+	width: 100%;
+    height: 1rem;
+    text-align: center;
+    z-index: 9999;
+    position: fixed;
+    /* background: #000; */
+    /* opacity: 0.6; */
+    top: 9.7rem;
+    display: none;
+	
+	
+}
+.close_all img{
+	width: 9.33%;
+    margin-left: 45.33%;
+	
+	
+}
+
+     input[type="checkbox"]{
+	-webkit-appearance: none;
+    background: #fff;
+    height: 0.22rem;
+    vertical-align: middle;
+    width: 0.22rem;
+    border-radius: 22px;
+    outline: none;
+    margin-right: 1.333%;
+    border: 1px solid #CCCCCC;
+    margin-top: -0.04rem;
+	
+	
+	
+}
+  .open2{
+  	color: #fc4d5e;
+    font-size: 0.2rem;
+  	
+  	
+  	
+  }
+     input[type="checkbox"]:checked{
+				background: url(/public/images/img20171108/dui.png)no-repeat;
+				background-size: cover;
+				border: none;
+				
+			}
+     
+     
+     
+   }
+     @media only screen and (max-width: 414px), only screen and (max-device-width:414px) {
+     html,body {
+         font-size:64.6875px;
+     }
+     
+     *{margin: 0;padding: 0;}
+body{
+	
+}
+a{
+	text-decoration: none;
+}
+.all{
+	width: 100%;
+	margin: 0 auto;
+	margin-top:-611%;
+	
+}
+p{
+	
+}
+.footer p{
+	padding: 0 10%;
+	height: 35px;
+}
+.footer p a{
+	 text-decoration: none;
+	 color: #999;
+	 
+	
+}
+.footer h5{
+	font-size: 10px;
+	font-weight: normal;
+	margin: 0 auto;
+	text-align: center;
+	color: #fff;
+	margin-top:4%;
+}
+.all>input{
+	width: 64%;
+	height: 0.68rem;
+	margin-left: 18%;
+	border: 1px solid #CCCCCC;
+	background-color: #fff;
+	border-radius: 0.14rem;
+	box-sizing: border-box;
+	outline: none;
+	font-size: 0.26rem;
+	
+}
+
+
+
+.all>input::-webkit-input-placeholder{ 
+color: #666; 
+} 
+
+.but1{
+	width: 40%;
+	height: 35px;
+	float: left;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.but2{
+	width: 40%;
+	height: 35px;
+	float: right;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.codes{
+	width: 79.33%;
+	height: 0.8rem;
+	/*border: 1px solid #000;*/
+	font-size: 0.24rem;
+	
+	
+}
+.codes input{
+	font-size: 0.24rem;
+	outline: none;
+}
+
+.yzm_01{
+	width:37.33%!important;
+	display:inline-block;
+	margin-right: 2.667%;
+	outline: none;
+	
+}
+.yzm_02{
+	width:24%!important;
+	height:0.7rem!important;
+	outline: none;
+	display:inline-block;
+	margin-left: 0!important;
+	color: #fff;
+	font-size: 0.22rem;
+	text-align: center;
+	border-radius: 10px;
+	padding: 0;
+	background: url(/public/images/img20171108/yzm_noclick.png)no-repeat;
+	background-size: cover;
+	border: none!important;
+	
+	
+}
+#tel{
+	/*margin-left: 18%;*/
+	
+	
+}
+.yes_no{
+	width:80%;
+	height:0.5rem;
+	line-height: 0.5rem;
+	margin-left: 18%;
+	border: 1px solid #000;
+	margin-top: 0.1rem;
+	font-size: 0.2rem;
+	margin-bottom: 0.2rem;
+}
+.yes_no .dui{
+	width: 5.2%;
+	height: 0.21rem;
+	background:url(/public/images/img20171108/no_dui.png)no-repeat;
+	background-size: cover;
+	display: inline-block;
+	margin-right: 2%;
+	display: inline-block;
+	
+}
+.yes_no .dui:after{
+	width: 5.2%;
+	height: 0.21rem;
+	background: url(/public/images/img20171108/dui.png)no-repeat;	
+	background-size: cover;
+	
+	
+}
+.zc{
+		width: 64%!important;
+		height: 0.68rem!important;
+		line-height: 0.68rem;
+		outline: none;
+		display: inline-block;
+		/*border: 1px solid #fff;*/
+		outline: none;
+		/*border: none;*/
+		margin-left: 18%;
+		color: #fff;
+		font-size: 0.1rem;
+		text-align: center;
+		border-radius: 10px;
+		font-size: 0.28rem;
+		background: url(/public/images/img20171108/end_noclick.png)no-repeat;
+		background-size: cover;
+		margin-bottom: 0.2rem;
+		
+	
+	
+}
+
+
+/*遮罩层*/
+.lightbox{
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            height: 100%;
+            width: 100%;
+            z-index: 7;
+            opacity: 1;
+            display: block;
+            background-color: rgba(0, 0, 0,0.2);
+            display: none;
+        }
+        .pop,iframe{
+            position: absolute;
+            left: 50%;
+            top:0;
+            width: 893px;
+            height: 100%;
+            /*margin-left: -446.5px;*/
+            z-index: 9999;
+        }
+        
+
+
+
+
+
+
+/*新增*/
+.big{
+	font-size: 0;
+}
+
+
+
+.big img{
+	width: 100%;
+	margin-top: -1px;
+	
+}
+.all input{
+	margin-top: 0.2rem;
+	
+}
+.tel, #pw, .yzm_01{
+	
+	padding: 6px 12px;
+	
+}
+.stip{
+	font-size: 0.2rem;
+    margin-left: 21.6%;
+    color: #333;
+    margin-top: 0.1rem;
+	
+	
+	
+}
+.had{
+	font-size: 0.2rem;
+    margin-left: 18%;
+    margin-right: 37.33%;
+	
+	
+}
+.down_load{
+	font-size: 0.2rem;
+    color: #3b65ff;
+	
+	
+	
+}
+.lay{
+	width: 100%;
+    height: 100%;
+    display: none;
+    background-color: #000;
+    position: absolute;
+    z-index: 400;
+    left: 0;
+    top: 0;
+    opacity: 0.6;
+	
+	
+	
+}
+.pop{
+	width: 89.33%;
+    height: 8rem;
+    border-radius: 0.14rem;
+    display: none;
+    position: fixed;
+    z-index: 450;
+    left: 0;
+    top: 1.7rem!important;
+    background: white;
+	
+	
+}
+.con_tit{
+	width: 100%;
+    height: 1rem;
+    line-height: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.28rem;
+	
+	
+}
+.con_text{
+	width: 80%;
+    height: 6.5rem;
+    overflow: auto;
+    margin: 0 auto;
+    font-size: 0.24rem;
+    line-height: 0.4rem;
+	
+	
+	
+}
+.close_all{
+	width: 100%;
+    height: 1rem;
+    text-align: center;
+    z-index: 9999;
+    position: fixed;
+    /* background: #000; */
+    /* opacity: 0.6; */
+    top: 9.7rem;
+    display: none;
+	
+	
+}
+.close_all img{
+	width: 9.33%;
+    margin-left: 45.33%;
+	
+	
+}
+
+input[type="checkbox"]{
+	-webkit-appearance: none;
+    background: #fff;
+    height: 0.22rem;
+    vertical-align: middle;
+    width: 0.22rem;
+    border-radius: 22px;
+    outline: none;
+    margin-right: 1.333%;
+    border: 1px solid #CCCCCC;
+    margin-top: -0.04rem;
+	
+	
+	
+}
+  .open2{
+  	color: #fc4d5e;
+    font-size: 0.2rem;
+  	
+  	
+  	
+  }
+     
+     input[type="checkbox"]:checked{
+				background: url(/public/images/img20171108/dui.png)no-repeat;
+				background-size: cover;
+				border: none;
+				
+			}
+     
+     
+     
+   }
+     @media only screen and (max-width: 400px), only screen and (max-device-width:400px) {
+     html,body {
+         font-size:62.5px;
+     }
+     *{margin: 0;padding: 0;}
+body{
+	
+}
+a{
+	text-decoration: none;
+}
+.all{
+	width: 100%;
+	margin: 0 auto;
+	margin-top:-611%;
+	
+}
+p{
+	
+}
+.footer p{
+	padding: 0 10%;
+	height: 35px;
+}
+.footer p a{
+	 text-decoration: none;
+	 color: #999;
+	 
+	
+}
+.footer h5{
+	font-size: 10px;
+	font-weight: normal;
+	margin: 0 auto;
+	text-align: center;
+	color: #fff;
+	margin-top:4%;
+}
+.all>input{
+	width: 64%;
+	height: 0.68rem;
+	margin-left: 18%;
+	border: 1px solid #CCCCCC;
+	background-color: #fff;
+	border-radius: 0.14rem;
+	box-sizing: border-box;
+	outline: none;
+	font-size: 0.26rem;
+	
+}
+
+
+
+.all>input::-webkit-input-placeholder{ 
+color: #666; 
+} 
+
+.but1{
+	width: 40%;
+	height: 35px;
+	float: left;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.but2{
+	width: 40%;
+	height: 35px;
+	float: right;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.codes{
+	width: 79.33%;
+	height: 0.8rem;
+	/*border: 1px solid #000;*/
+	font-size: 0.24rem;
+	
+	
+}
+.codes input{
+	font-size: 0.24rem;
+	outline: none;
+}
+
+.yzm_01{
+	width:37.33%!important;
+	display:inline-block;
+	margin-right: 2.667%;
+	outline: none;
+	
+}
+.yzm_02{
+	width:24%!important;
+	height:0.7rem!important;
+	outline: none;
+	display:inline-block;
+	margin-left: 0!important;
+	color: #fff;
+	font-size: 0.22rem;
+	text-align: center;
+	border-radius: 10px;
+	padding: 0;
+	background: url(/public/images/img20171108/yzm_noclick.png)no-repeat;
+	background-size: cover;
+	border: none!important;
+	
+	
+}
+#tel{
+	/*margin-left: 18%;*/
+	
+	
+}
+.yes_no{
+	width:80%;
+	height:0.5rem;
+	line-height: 0.5rem;
+	margin-left: 18%;
+	border: 1px solid #000;
+	margin-top: 0.1rem;
+	font-size: 0.2rem;
+	margin-bottom: 0.2rem;
+}
+.yes_no .dui{
+	width: 5.2%;
+	height: 0.21rem;
+	background:url(/public/images/img20171108/no_dui.png)no-repeat;
+	background-size: cover;
+	display: inline-block;
+	margin-right: 2%;
+	display: inline-block;
+	
+}
+.yes_no .dui:after{
+	width: 5.2%;
+	height: 0.21rem;
+	background: url(/public/images/img20171108/dui.png)no-repeat;	
+	background-size: cover;
+	
+	
+}
+.zc{
+		width: 64%!important;
+		height: 0.68rem!important;
+		line-height: 0.68rem;
+		outline: none;
+		display: inline-block;
+		/*border: 1px solid #fff;*/
+		outline: none;
+		/*border: none;*/
+		margin-left: 18%;
+		color: #fff;
+		font-size: 0.1rem;
+		text-align: center;
+		border-radius: 10px;
+		font-size: 0.28rem;
+		background: url(/public/images/img20171108/end_noclick.png)no-repeat;
+		background-size: cover;
+		margin-bottom: 0.2rem;
+		
+	
+	
+}
+
+
+/*遮罩层*/
+.lightbox{
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            height: 100%;
+            width: 100%;
+            z-index: 7;
+            opacity: 1;
+            display: block;
+            background-color: rgba(0, 0, 0,0.2);
+            display: none;
+        }
+        .pop,iframe{
+            position: absolute;
+            left: 50%;
+            top:0;
+            width: 893px;
+            height: 100%;
+            /*margin-left: -446.5px;*/
+            z-index: 9999;
+        }
+        
+
+
+
+
+
+
+/*新增*/
+.big{
+	font-size: 0;
+}
+
+
+
+.big img{
+	width: 100%;
+	margin-top: -1px;
+	
+}
+.all input{
+	margin-top: 0.2rem;
+	
+}
+.tel, #pw, .yzm_01{
+	
+	padding: 6px 12px;
+	
+}
+.stip{
+	font-size: 0.2rem;
+    margin-left: 21.6%;
+    color: #333;
+    margin-top: 0.1rem;
+	
+	
+	
+}
+.had{
+	font-size: 0.2rem;
+    margin-left: 18%;
+    margin-right: 37.33%;
+	
+	
+}
+.down_load{
+	font-size: 0.2rem;
+    color: #3b65ff;
+	
+	
+	
+}
+.lay{
+	width: 100%;
+    height: 100%;
+    display: none;
+    background-color: #000;
+    position: absolute;
+    z-index: 400;
+    left: 0;
+    top: 0;
+    opacity: 0.6;
+	
+	
+	
+}
+.pop{
+	width: 89.33%;
+    height: 8rem;
+    border-radius: 0.14rem;
+    display: none;
+    position: fixed;
+    z-index: 450;
+    left: 0;
+    top: 1.7rem!important;
+    background: white;
+	
+	
+}
+.con_tit{
+	width: 100%;
+    height: 1rem;
+    line-height: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.28rem;
+	
+	
+}
+.con_text{
+	width: 80%;
+    height: 6.5rem;
+    overflow: auto;
+    margin: 0 auto;
+    font-size: 0.24rem;
+    line-height: 0.4rem;
+	
+	
+	
+}
+.close_all{
+	width: 100%;
+    height: 1rem;
+    text-align: center;
+    z-index: 9999;
+    position: fixed;
+    /* background: #000; */
+    /* opacity: 0.6; */
+    top: 9.7rem;
+    display: none;
+	
+	
+}
+.close_all img{
+	width: 9.33%;
+    margin-left: 45.33%;
+	
+	
+}
+
+input[type="checkbox"]{
+	-webkit-appearance: none;
+    background: #fff;
+    height: 0.22rem;
+    vertical-align: middle;
+    width: 0.22rem;
+    border-radius: 22px;
+    outline: none;
+    margin-right: 1.333%;
+    border: 1px solid #CCCCCC;
+    margin-top: -0.04rem;
+	
+	
+	
+}
+  .open2{
+  	color: #fc4d5e;
+    font-size: 0.2rem;
+  	
+  	
+  	
+  }
+
+	input[type="checkbox"]:checked{
+				background: url(/public/images/img20171108/dui.png)no-repeat;
+				background-size: cover;
+				border: none;
+				
+			}
+     
+     
+   }
+     @media only screen and (max-width: 375px), only screen and (max-device-width:375px) {
+     html,body {
+         font-size:58.59375px;
+     }
+     
+     *{margin: 0;padding: 0;}
+body{
+	
+}
+a{
+	text-decoration: none;
+}
+.all{
+	width: 100%;
+	margin: 0 auto;
+	margin-top:-611%;
+	
+}
+p{
+	
+}
+.footer p{
+	padding: 0 10%;
+	height: 35px;
+}
+.footer p a{
+	 text-decoration: none;
+	 color: #999;
+	 
+	
+}
+.footer h5{
+	font-size: 10px;
+	font-weight: normal;
+	margin: 0 auto;
+	text-align: center;
+	color: #fff;
+	margin-top:4%;
+}
+.all>input{
+	width: 64%;
+	height: 0.68rem;
+	margin-left: 18%;
+	border: 1px solid #CCCCCC;
+	background-color: #fff;
+	border-radius: 0.14rem;
+	box-sizing: border-box;
+	outline: none;
+	font-size: 0.26rem;
+	
+}
+
+
+
+.all>input::-webkit-input-placeholder{ 
+color: #666; 
+} 
+
+.but1{
+	width: 40%;
+	height: 35px;
+	float: left;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.but2{
+	width: 40%;
+	height: 35px;
+	float: right;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.codes{
+	width: 79.33%;
+	height: 0.8rem;
+	/*border: 1px solid #000;*/
+	font-size: 0.24rem;
+	
+	
+}
+.codes input{
+	font-size: 0.24rem;
+	outline: none;
+}
+
+.yzm_01{
+	width:37.33%!important;
+	display:inline-block;
+	margin-right: 2.667%;
+	outline: none;
+	
+}
+.yzm_02{
+	width:24%!important;
+	height:0.7rem!important;
+	outline: none;
+	display:inline-block;
+	margin-left: 0!important;
+	color: #fff;
+	font-size: 0.22rem;
+	text-align: center;
+	border-radius: 10px;
+	padding: 0;
+	background: url(/public/images/img20171108/yzm_noclick.png)no-repeat;
+	background-size: cover;
+	border: none!important;
+	
+	
+}
+#tel{
+	/*margin-left: 18%;*/
+	
+	
+}
+.yes_no{
+	width:80%;
+	height:0.5rem;
+	line-height: 0.5rem;
+	margin-left: 18%;
+	border: 1px solid #000;
+	margin-top: 0.1rem;
+	font-size: 0.2rem;
+	margin-bottom: 0.2rem;
+}
+.yes_no .dui{
+	width: 5.2%;
+	height: 0.21rem;
+	background:url(/public/images/img20171108/no_dui.png)no-repeat;
+	background-size: cover;
+	display: inline-block;
+	margin-right: 2%;
+	display: inline-block;
+	
+}
+.yes_no .dui:after{
+	width: 5.2%;
+	height: 0.21rem;
+	background: url(/public/images/img20171108/dui.png)no-repeat;	
+	background-size: cover;
+	
+	
+}
+.zc{
+		width: 64%!important;
+		height: 0.68rem!important;
+		line-height: 0.68rem;
+		outline: none;
+		display: inline-block;
+		/*border: 1px solid #fff;*/
+		outline: none;
+		/*border: none;*/
+		margin-left: 18%;
+		color: #fff;
+		font-size: 0.1rem;
+		text-align: center;
+		border-radius: 10px;
+		font-size: 0.28rem;
+		background: url(/public/images/img20171108/end_noclick.png)no-repeat;
+		background-size: cover;
+		margin-bottom: 0.2rem;
+		
+	
+	
+}
+
+
+/*遮罩层*/
+.lightbox{
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            height: 100%;
+            width: 100%;
+            z-index: 7;
+            opacity: 1;
+            display: block;
+            background-color: rgba(0, 0, 0,0.2);
+            display: none;
+        }
+        .pop,iframe{
+            position: absolute;
+            left: 50%;
+            top:0;
+            width: 893px;
+            height: 100%;
+            /*margin-left: -446.5px;*/
+            z-index: 9999;
+        }
+        
+
+
+
+
+
+
+/*新增*/
+.big{
+	font-size: 0;
+}
+
+
+
+.big img{
+	width: 100%;
+	margin-top: -1px;
+	
+}
+.all input{
+	margin-top: 0.2rem;
+	
+}
+.tel, #pw, .yzm_01{
+	
+	padding: 6px 12px;
+	
+}
+.stip{
+	font-size: 0.2rem;
+    margin-left: 21.6%;
+    color: #333;
+    margin-top: 0.1rem;
+	
+	
+	
+}
+.had{
+	font-size: 0.2rem;
+    margin-left: 18%;
+    margin-right: 37.33%;
+	
+	
+}
+.down_load{
+	font-size: 0.2rem;
+    color: #3b65ff;
+	
+	
+	
+}
+.lay{
+	width: 100%;
+    height: 100%;
+    display: none;
+    background-color: #000;
+    position: absolute;
+    z-index: 400;
+    left: 0;
+    top: 0;
+    opacity: 0.6;
+	
+	
+	
+}
+.pop{
+	width: 89.33%;
+    height: 8rem;
+    border-radius: 0.14rem;
+    display: none;
+    position: fixed;
+    z-index: 450;
+    left: 0;
+    top: 1.7rem!important;
+    background: white;
+	
+	
+}
+.con_tit{
+	width: 100%;
+    height: 1rem;
+    line-height: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.28rem;
+	
+	
+}
+.con_text{
+	width: 80%;
+    height: 6.5rem;
+    overflow: auto;
+    margin: 0 auto;
+    font-size: 0.24rem;
+    line-height: 0.4rem;
+	
+	
+	
+}
+.close_all{
+	width: 100%;
+    height: 1rem;
+    text-align: center;
+    z-index: 9999;
+    position: fixed;
+    /* background: #000; */
+    /* opacity: 0.6; */
+    top: 9.7rem;
+    display: none;
+	
+	
+}
+.close_all img{
+	width: 9.33%;
+    margin-left: 45.33%;
+	
+	
+}
+
+
+
+input[type="checkbox"]{
+	-webkit-appearance: none;
+    background: #fff;
+    height: 0.22rem;
+    vertical-align: middle;
+    width: 0.22rem;
+    border-radius: 22px;
+    outline: none;
+    margin-right: 1.333%;
+    border: 1px solid #CCCCCC;
+    margin-top: -0.04rem;
+	
+	
+	
+}
+  .open2{
+  	color: #fc4d5e;
+    font-size: 0.2rem;
+  	
+  	
+  	
+  }
+     
+     input[type="checkbox"]:checked{
+				background: url(/public/images/img20171108/dui.png)no-repeat;
+				background-size: cover;
+				border: none;
+				
+			}
+     
+     
+     
+   }
+     @media only screen and (max-width: 360px), only screen and (max-device-width:360px) {
+     html,body {
+         font-size:56.25px;
+     }
+     
+     *{margin: 0;padding: 0;}
+body{
+	
+}
+a{
+	text-decoration: none;
+}
+.all{
+	width: 100%;
+	margin: 0 auto;
+	margin-top:-611%;
+	
+}
+p{
+	
+}
+.footer p{
+	padding: 0 10%;
+	height: 35px;
+}
+.footer p a{
+	 text-decoration: none;
+	 color: #999;
+	 
+	
+}
+.footer h5{
+	font-size: 10px;
+	font-weight: normal;
+	margin: 0 auto;
+	text-align: center;
+	color: #fff;
+	margin-top:4%;
+}
+.all>input{
+	width: 64%;
+	height: 0.68rem;
+	margin-left: 18%;
+	border: 1px solid #CCCCCC;
+	background-color: #fff;
+	border-radius: 0.14rem;
+	box-sizing: border-box;
+	outline: none;
+	font-size: 0.26rem;
+	
+}
+
+
+
+.all>input::-webkit-input-placeholder{ 
+color: #666; 
+} 
+
+.but1{
+	width: 40%;
+	height: 35px;
+	float: left;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.but2{
+	width: 40%;
+	height: 35px;
+	float: right;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.codes{
+	width: 79.33%;
+	height: 0.8rem;
+	/*border: 1px solid #000;*/
+	font-size: 0.24rem;
+	
+	
+}
+.codes input{
+	font-size: 0.24rem;
+	outline: none;
+}
+
+.yzm_01{
+	width:37.33%!important;
+	display:inline-block;
+	margin-right: 2.667%;
+	outline: none;
+	
+}
+.yzm_02{
+	width:24%!important;
+	height:0.7rem!important;
+	outline: none;
+	display:inline-block;
+	margin-left: 0!important;
+	color: #fff;
+	font-size: 0.22rem;
+	text-align: center;
+	border-radius: 10px;
+	padding: 0;
+	background: url(/public/images/img20171108/yzm_noclick.png)no-repeat;
+	background-size: cover;
+	border: none!important;
+	
+	
+}
+#tel{
+	/*margin-left: 18%;*/
+	
+	
+}
+.yes_no{
+	width:80%;
+	height:0.5rem;
+	line-height: 0.5rem;
+	margin-left: 18%;
+	border: 1px solid #000;
+	margin-top: 0.1rem;
+	font-size: 0.2rem;
+	margin-bottom: 0.2rem;
+}
+.yes_no .dui{
+	width: 5.2%;
+	height: 0.21rem;
+	background:url(/public/images/img20171108/no_dui.png)no-repeat;
+	background-size: cover;
+	display: inline-block;
+	margin-right: 2%;
+	display: inline-block;
+	
+}
+.yes_no .dui:after{
+	width: 5.2%;
+	height: 0.21rem;
+	background: url(/public/images/img20171108/dui.png)no-repeat;	
+	background-size: cover;
+	
+	
+}
+.zc{
+		width: 64%!important;
+		height: 0.68rem!important;
+		line-height: 0.68rem;
+		outline: none;
+		display: inline-block;
+		/*border: 1px solid #fff;*/
+		outline: none;
+		/*border: none;*/
+		margin-left: 18%;
+		color: #fff;
+		font-size: 0.1rem;
+		text-align: center;
+		border-radius: 10px;
+		font-size: 0.28rem;
+		background: url(/public/images/img20171108/end_noclick.png)no-repeat;
+		background-size: cover;
+		margin-bottom: 0.2rem;
+		
+	
+	
+}
+
+
+/*遮罩层*/
+.lightbox{
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            height: 100%;
+            width: 100%;
+            z-index: 7;
+            opacity: 1;
+            display: block;
+            background-color: rgba(0, 0, 0,0.2);
+            display: none;
+        }
+        .pop,iframe{
+            position: absolute;
+            left: 50%;
+            top:0;
+            width: 893px;
+            height: 100%;
+            /*margin-left: -446.5px;*/
+            z-index: 9999;
+        }
+        
+
+
+
+
+
+
+/*新增*/
+.big{
+	font-size: 0;
+}
+
+
+
+.big img{
+	width: 100%;
+	margin-top: -1px;
+	
+}
+.all input{
+	margin-top: 0.2rem;
+	
+}
+.tel, #pw, .yzm_01{
+	
+	padding: 6px 12px;
+	
+}
+.stip{
+	font-size: 0.2rem;
+    margin-left: 21.6%;
+    color: #333;
+    margin-top: 0.1rem;
+	
+	
+	
+}
+.had{
+	font-size: 0.2rem;
+    margin-left: 18%;
+    margin-right: 37.33%;
+	
+	
+}
+.down_load{
+	font-size: 0.2rem;
+    color: #3b65ff;
+	
+	
+	
+}
+.lay{
+	width: 100%;
+    height: 100%;
+    display: none;
+    background-color: #000;
+    position: absolute;
+    z-index: 400;
+    left: 0;
+    top: 0;
+    opacity: 0.6;
+	
+	
+	
+}
+.pop{
+	width: 89.33%;
+    height: 8rem;
+    border-radius: 0.14rem;
+    display: none;
+    position: fixed;
+    z-index: 450;
+    left: 0;
+    top: 1.7rem!important;
+    background: white;
+	
+	
+}
+.con_tit{
+	width: 100%;
+    height: 1rem;
+    line-height: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.28rem;
+	
+	
+}
+.con_text{
+	width: 80%;
+    height: 6.5rem;
+    overflow: auto;
+    margin: 0 auto;
+    font-size: 0.24rem;
+    line-height: 0.4rem;
+	
+	
+	
+}
+.close_all{
+	width: 100%;
+    height: 1rem;
+    text-align: center;
+    z-index: 9999;
+    position: fixed;
+    /* background: #000; */
+    /* opacity: 0.6; */
+    top: 9.7rem;
+    display: none;
+	
+	
+}
+.close_all img{
+	width: 9.33%;
+    margin-left: 45.33%;
+	
+	
+}
+
+input[type="checkbox"]{
+	-webkit-appearance: none;
+    background: #fff;
+    height: 0.22rem;
+    vertical-align: middle;
+    width: 0.22rem;
+    border-radius: 22px;
+    outline: none;
+    margin-right: 1.333%;
+    border: 1px solid #CCCCCC;
+    margin-top: -0.04rem;
+	
+	
+	
+}
+  .open2{
+  	color: #fc4d5e;
+    font-size: 0.2rem;
+  	
+  	
+  	
+  }
+     
+     
+     input[type="checkbox"]:checked{
+				background: url(/public/images/img20171108/dui.png)no-repeat;
+				background-size: cover;
+				border: none;
+				
+			}
+     
+     
+   }
+     @media only screen and (max-width: 320px), only screen and (max-device-width:320px) {
+     html,body {
+         font-size:50px;
+     }
+     
+     
+     *{margin: 0;padding: 0;}
+body{
+	
+}
+a{
+	text-decoration: none;
+}
+.all{
+	width: 100%;
+	margin: 0 auto;
+	margin-top:-611%;
+	
+}
+p{
+	
+}
+.footer p{
+	padding: 0 10%;
+	height: 35px;
+}
+.footer p a{
+	 text-decoration: none;
+	 color: #999;
+	 
+	
+}
+.footer h5{
+	font-size: 10px;
+	font-weight: normal;
+	margin: 0 auto;
+	text-align: center;
+	color: #fff;
+	margin-top:4%;
+}
+.all>input{
+	width: 64%;
+	height: 0.68rem;
+	margin-left: 18%;
+	border: 1px solid #CCCCCC;
+	background-color: #fff;
+	border-radius: 0.14rem;
+	box-sizing: border-box;
+	outline: none;
+	font-size: 0.26rem;
+	
+}
+
+
+
+.all>input::-webkit-input-placeholder{ 
+color: #666; 
+} 
+
+.but1{
+	width: 40%;
+	height: 35px;
+	float: left;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.but2{
+	width: 40%;
+	height: 35px;
+	float: right;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.codes{
+	width: 79.33%;
+	height: 0.8rem;
+	/*border: 1px solid #000;*/
+	font-size: 0.24rem;
+	
+	
+}
+.codes input{
+	font-size: 0.24rem;
+	outline: none;
+}
+
+.yzm_01{
+	width:37.33%!important;
+	display:inline-block;
+	margin-right: 2.667%;
+	outline: none;
+	
+}
+.yzm_02{
+	width:24%!important;
+	height:0.7rem!important;
+	outline: none;
+	display:inline-block;
+	margin-left: 0!important;
+	color: #fff;
+	font-size: 0.22rem;
+	text-align: center;
+	border-radius: 10px;
+	padding: 0;
+	background: url(/public/images/img20171108/yzm_noclick.png)no-repeat;
+	background-size: cover;
+	border: none!important;
+	
+	
+}
+#tel{
+	/*margin-left: 18%;*/
+	
+	
+}
+.yes_no{
+	width:80%;
+	height:0.5rem;
+	line-height: 0.5rem;
+	margin-left: 18%;
+	border: 1px solid #000;
+	margin-top: 0.1rem;
+	font-size: 0.2rem;
+	margin-bottom: 0.2rem;
+}
+.yes_no .dui{
+	width: 5.2%;
+	height: 0.21rem;
+	background:url(/public/images/img20171108/no_dui.png)no-repeat;
+	background-size: cover;
+	display: inline-block;
+	margin-right: 2%;
+	display: inline-block;
+	
+}
+.yes_no .dui:after{
+	width: 5.2%;
+	height: 0.21rem;
+	background: url(/public/images/img20171108/dui.png)no-repeat;	
+	background-size: cover;
+	
+	
+}
+.zc{
+		width: 64%!important;
+		height: 0.68rem!important;
+		line-height: 0.68rem;
+		outline: none;
+		display: inline-block;
+		/*border: 1px solid #fff;*/
+		outline: none;
+		/*border: none;*/
+		margin-left: 18%;
+		color: #fff;
+		font-size: 0.1rem;
+		text-align: center;
+		border-radius: 10px;
+		font-size: 0.28rem;
+		background: url(/public/images/img20171108/end_noclick.png)no-repeat;
+		background-size: cover;
+		margin-bottom: 0.2rem;
+		
+	
+	
+}
+
+
+/*遮罩层*/
+.lightbox{
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            height: 100%;
+            width: 100%;
+            z-index: 7;
+            opacity: 1;
+            display: block;
+            background-color: rgba(0, 0, 0,0.2);
+            display: none;
+        }
+        .pop,iframe{
+            position: absolute;
+            left: 50%;
+            top:0;
+            width: 893px;
+            height: 100%;
+            /*margin-left: -446.5px;*/
+            z-index: 9999;
+        }
+        
+
+
+
+
+
+
+/*新增*/
+.big{
+	font-size: 0;
+}
+
+
+
+.big img{
+	width: 100%;
+	margin-top: -1px;
+	
+}
+.all input{
+	margin-top: 0.2rem;
+	
+}
+.tel, #pw, .yzm_01{
+	
+	padding: 6px 12px;
+	
+}
+.stip{
+	font-size: 0.2rem;
+    margin-left: 21.6%;
+    color: #333;
+    margin-top: 0.1rem;
+	
+	
+	
+}
+.had{
+	font-size: 0.2rem;
+    margin-left: 18%;
+    margin-right: 37.33%;
+	
+	
+}
+.down_load{
+	font-size: 0.2rem;
+    color: #3b65ff;
+	
+	
+	
+}
+.lay{
+	width: 100%;
+    height: 100%;
+    display: none;
+    background-color: #000;
+    position: absolute;
+    z-index: 400;
+    left: 0;
+    top: 0;
+    opacity: 0.6;
+	
+	
+	
+}
+.pop{
+	width: 89.33%;
+    height: 8rem;
+    border-radius: 0.14rem;
+    display: none;
+    position: fixed;
+    z-index: 450;
+    left: 0;
+    top: 1.7rem!important;
+    background: white;
+	
+	
+}
+.con_tit{
+	width: 100%;
+    height: 1rem;
+    line-height: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.28rem;
+	
+	
+}
+.con_text{
+	width: 80%;
+    height: 6.5rem;
+    overflow: auto;
+    margin: 0 auto;
+    font-size: 0.24rem;
+    line-height: 0.4rem;
+	
+	
+	
+}
+.close_all{
+	width: 100%;
+    height: 1rem;
+    text-align: center;
+    z-index: 9999;
+    position: fixed;
+    /* background: #000; */
+    /* opacity: 0.6; */
+    top: 9.7rem;
+    display: none;
+	
+	
+}
+.close_all img{
+	width: 9.33%;
+    margin-left: 45.33%;
+	
+	
+}
+
+
+input[type="checkbox"]{
+	-webkit-appearance: none;
+    background: #fff;
+    height: 0.22rem;
+    vertical-align: middle;
+    width: 0.22rem;
+    border-radius: 22px;
+    outline: none;
+    margin-right: 1.333%;
+    border: 1px solid #CCCCCC;
+    margin-top: -0.04rem;
+	
+	
+	
+}
+  .open2{
+  	color: #fc4d5e;
+    font-size: 0.2rem;
+  	
+  	
+  	
+  }
+  
+  
+  input[type="checkbox"]:checked{
+				background: url(/public/images/img20171108/dui.png)no-repeat;
+				background-size: cover;
+				border: none;
+				
+			}
+     
+     
+   }
+     @media only screen and (max-width: 240px), only screen and (max-device-width:240px) {
+     html,body {
+         font-size:37.5px;
+     }
+     
+     *{margin: 0;padding: 0;}
+body{
+	
+}
+a{
+	text-decoration: none;
+}
+.all{
+	width: 100%;
+	margin: 0 auto;
+	margin-top:-611%;
+	
+}
+p{
+	
+}
+.footer p{
+	padding: 0 10%;
+	height: 35px;
+}
+.footer p a{
+	 text-decoration: none;
+	 color: #999;
+	 
+	
+}
+.footer h5{
+	font-size: 10px;
+	font-weight: normal;
+	margin: 0 auto;
+	text-align: center;
+	color: #fff;
+	margin-top:4%;
+}
+.all>input{
+	width: 64%;
+	height: 0.68rem;
+	margin-left: 18%;
+	border: 1px solid #CCCCCC;
+	background-color: #fff;
+	border-radius: 0.14rem;
+	box-sizing: border-box;
+	outline: none;
+	font-size: 0.26rem;
+	
+}
+
+
+
+.all>input::-webkit-input-placeholder{ 
+color: #666; 
+} 
+
+.but1{
+	width: 40%;
+	height: 35px;
+	float: left;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.but2{
+	width: 40%;
+	height: 35px;
+	float: right;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.codes{
+	width: 79.33%;
+	height: 0.8rem;
+	/*border: 1px solid #000;*/
+	font-size: 0.24rem;
+	
+	
+}
+.codes input{
+	font-size: 0.24rem;
+	outline: none;
+}
+
+.yzm_01{
+	width:37.33%!important;
+	display:inline-block;
+	margin-right: 2.667%;
+	outline: none;
+	
+}
+.yzm_02{
+	width:24%!important;
+	height:0.7rem!important;
+	outline: none;
+	display:inline-block;
+	margin-left: 0!important;
+	color: #fff;
+	font-size: 0.22rem;
+	text-align: center;
+	border-radius: 10px;
+	padding: 0;
+	background: url(/public/images/img20171108/yzm_noclick.png)no-repeat;
+	background-size: cover;
+	border: none!important;
+	
+	
+}
+#tel{
+	/*margin-left: 18%;*/
+	
+	
+}
+.yes_no{
+	width:80%;
+	height:0.5rem;
+	line-height: 0.5rem;
+	margin-left: 18%;
+	border: 1px solid #000;
+	margin-top: 0.1rem;
+	font-size: 0.2rem;
+	margin-bottom: 0.2rem;
+}
+.yes_no .dui{
+	width: 5.2%;
+	height: 0.21rem;
+	background:url(/public/images/img20171108/no_dui.png)no-repeat;
+	background-size: cover;
+	display: inline-block;
+	margin-right: 2%;
+	display: inline-block;
+	
+}
+.yes_no .dui:after{
+	width: 5.2%;
+	height: 0.21rem;
+	background: url(/public/images/img20171108/dui.png)no-repeat;	
+	background-size: cover;
+	
+	
+}
+.zc{
+		width: 64%!important;
+		height: 0.68rem!important;
+		line-height: 0.68rem;
+		outline: none;
+		display: inline-block;
+		/*border: 1px solid #fff;*/
+		outline: none;
+		/*border: none;*/
+		margin-left: 18%;
+		color: #fff;
+		font-size: 0.1rem;
+		text-align: center;
+		border-radius: 10px;
+		font-size: 0.28rem;
+		background: url(/public/images/img20171108/end_noclick.png)no-repeat;
+		background-size: cover;
+		margin-bottom: 0.2rem;
+		
+	
+	
+}
+
+
+/*遮罩层*/
+.lightbox{
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            height: 100%;
+            width: 100%;
+            z-index: 7;
+            opacity: 1;
+            display: block;
+            background-color: rgba(0, 0, 0,0.2);
+            display: none;
+        }
+        .pop,iframe{
+            position: absolute;
+            left: 50%;
+            top:0;
+            width: 893px;
+            height: 100%;
+            /*margin-left: -446.5px;*/
+            z-index: 9999;
+        }
+        
+
+
+
+
+
+
+/*新增*/
+.big{
+	font-size: 0;
+}
+
+
+
+.big img{
+	width: 100%;
+	margin-top: -1px;
+	
+}
+.all input{
+	margin-top: 0.2rem;
+	
+}
+.tel, #pw, .yzm_01{
+	
+	padding: 6px 12px;
+	
+}
+.stip{
+	font-size: 0.2rem;
+    margin-left: 21.6%;
+    color: #333;
+    margin-top: 0.1rem;
+	
+	
+	
+}
+.had{
+	font-size: 0.2rem;
+    margin-left: 18%;
+    margin-right: 37.33%;
+	
+	
+}
+.down_load{
+	font-size: 0.2rem;
+    color: #3b65ff;
+	
+	
+	
+}
+.lay{
+	width: 100%;
+    height: 100%;
+    display: none;
+    background-color: #000;
+    position: absolute;
+    z-index: 400;
+    left: 0;
+    top: 0;
+    opacity: 0.6;
+	
+	
+	
+}
+.pop{
+	width: 89.33%;
+    height: 8rem;
+    border-radius: 0.14rem;
+    display: none;
+    position: fixed;
+    z-index: 450;
+    left: 0;
+    top: 1.7rem!important;
+    background: white;
+	
+	
+}
+.con_tit{
+	width: 100%;
+    height: 1rem;
+    line-height: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.28rem;
+	
+	
+}
+.con_text{
+	width: 80%;
+    height: 6.5rem;
+    overflow: auto;
+    margin: 0 auto;
+    font-size: 0.24rem;
+    line-height: 0.4rem;
+	
+	
+	
+}
+.close_all{
+	width: 100%;
+    height: 1rem;
+    text-align: center;
+    z-index: 9999;
+    position: fixed;
+    /* background: #000; */
+    /* opacity: 0.6; */
+    top: 9.7rem;
+    display: none;
+	
+	
+}
+.close_all img{
+	width: 9.33%;
+    margin-left: 45.33%;
+	
+	
+}
+
+
+input[type="checkbox"]{
+	-webkit-appearance: none;
+    background: #fff;
+    height: 0.22rem;
+    vertical-align: middle;
+    width: 0.22rem;
+    border-radius: 22px;
+    outline: none;
+    margin-right: 1.333%;
+    border: 1px solid #CCCCCC;
+    margin-top: -0.04rem;
+	
+	
+	
+}
+  .open2{
+  	color: #fc4d5e;
+    font-size: 0.2rem;
+  	
+  	
+  	
+  }
+input[type="checkbox"]:checked{
+				background: url(/public/images/img20171108/dui.png)no-repeat;
+				background-size: cover;
+				border: none;
+				
+			}
+     
+     
+   }

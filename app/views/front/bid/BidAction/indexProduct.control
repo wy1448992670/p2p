@@ -1,0 +1,83 @@
+
+#{list products}
+<div class="xf_c_wyjk_2_jkcpItems2">
+
+	<div class="xf_c_wyjk_2_jkcpColName xf_c_wyjk_2_jkcpJzjkb">
+		#{img src:"${_?.nameImageFilename}",alt:"",width:"300",height:"60"}#{/img}
+	</div>
+	<div class="xf_c_wyjk_2_jkcpCont">
+		<div class="xf_c_wyjk_2_jkcpShrq">
+			<div class="xf_c_wyjk_2_shrqTitle">
+				适合人群：
+			</div>
+			<div class="xf_c_wyjk_2_shrqText">
+				<p>
+					${_?.fitCrowd}
+				</p>
+			</div>
+		</div>
+		<div class="xf_c_wyjk_2_jkcpSqtj">
+			<div class="xf_c_wyjk_2_sqtjTitle">
+				申请条件：
+			</div>
+			<div class="xf_c_wyjk_2_sqtjText">
+				<p>
+					${_?.applicantCondition}
+				</p>
+			</div>
+		</div>
+		<div class="xf_c_wyjk_2_jkcpJked">
+			<div class="xf_c_wyjk_2_jkedTitle">
+				借款额度：
+					#{format money:_?.minAmount}#{/format}
+				-
+					#{format money:_?.maxAmount}#{/format}
+					元
+				<br />
+
+				<a href="@{front.bid.bidAction.detail(_?.id)}" target="_self">查看产品详细资料</a>
+			</div>
+		</div>
+		<div class="xf_c_wyjk_2_jkcpLjsq">
+			<div class="xf_c_wyjk_2_ljsqTitle">
+				<a href="@{applyNow(_?.id, 0, 1)}" target="_self">立即申请</a>
+			</div>
+		</div>
+	</div>
+
+</div>
+#{/list}
+
+<!-- 借款须知 -->
+<div class="xf_c_wyjk_2_jkcpItems2">
+	<div class="xf_c_wyjk_2_jkxzWrap">
+		<div class="xf_c_wyjk_2_jkxzColName">
+			借款须知
+		</div>
+		<div class="xf_c_wyjk_2_jkxzCont">
+		    #{list pageBean?.page}
+			<div class="xf_c_wyjk_2_jkxzQues">
+				<a href="@{front.help.HelpCenterAction.detail(_?.id,'')}" class="xf_c_wyjk_2_jkxzRhhk" target="_blank">${_?.title}</a>
+				<div class="clear"></div>
+			</div>
+			#{/list}
+		</div>
+	</div>
+	<div class="xf_c_wyjk_2_jkcpAds">
+	    #{if ads.status}
+		<a 
+			#{if ads?.isLinkEnabled}
+				href="${ads?.url}"
+				#{if ads?.target == 1}
+					target="_self"
+				#{/if}
+				#{else}
+					target="_blank"
+				#{/else}
+			#{/if}>
+		#{img src:"${ads?.imageFileName}", width:"300", height:"128"}#{/img}
+		</a>
+		#{/if}
+	</div>
+</div>
+

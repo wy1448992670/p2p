@@ -1,0 +1,115 @@
+<div class="xn_c_ban_jox xn_c_ban_jox_fdx" id="xf_ht_memznx_ttc">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xn_c_ban_fdxwarp">
+      <table class="xf_ht_jr_obu_form" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="auto" align="right">真实姓名：</td>
+          <td>
+            <input type="text" name="realityName" id="realityName" value="${user?.reality_name}"/>
+          </td>
+        </tr>
+        <tr>
+          <td width="auto" align="right">身份证号码：</td>
+          <td>
+            <input type="text" name="idNumber" id="idNumber" value="${user?.id_number}"/>
+          </td>
+        </tr>
+        <tr>
+          <td width="auto" align="right">邮箱：</td>
+          <td>
+            <input type="text" name="ips_email" id="ips_email" value="${user?.email}"/>
+          </td>
+        </tr>
+        <tr>
+          <td width="auto" align="right">手机号码：</td>
+          <td>
+            <input type="text" name="mobile" id="mobile" value="${user?.mobile}"/>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="jbox_tan_ondiv jbox_tan_width4">
+      <input class="jbox_ok" type="button" value="确 定" onclick="editUserInfo('${sign}');">
+      <input class="jbox_on" type="button" value="取 消 " onclick="cancel();">
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+	function cancel() {
+		layer.closeAll();
+	}
+	
+	function editUserInfo(sign) {
+	  var realityName = $("#realityName").val()
+	  var idNumber = $("#idNumber").val();
+	  var email = $("#ips_email").val();
+	  var mobile = $("#mobile").val();
+	  
+	  if(realityName.isBlank()){
+		  alert("真实姓名不能为空!");
+		  
+		  return;
+	  }
+	  
+	  if(!realityName.isChinese()){
+		  alert("真实姓名只能为汉字！");
+		  
+		  return;
+	  }
+	  
+	  if(idNumber.isBlank()){
+		  alert("身份证号码不能为空！");
+		  
+		  return;
+	  }
+	  
+	  if(email.isBlank()){
+		  alert("邮箱不能为空！");
+		  
+		  return;
+	  }
+	  
+	  if(!email.isEmail()){
+		  alert("邮箱格式有误！");
+		  
+		  return;
+	  }
+	  
+	  if(mobile.isBlank()){
+		  alert("手机号码不能为空");
+		  
+		  return;
+	  }
+	  
+	  if(!mobile.isMobileNum()){
+		  alert("手机号码格式有误！");
+		  
+		  return;
+	  }
+	  
+	  $.ajax({
+	    url : "@{supervisor.userManager.AllUser.editUserInfo()}",
+	    type : "POST",
+	    data : {
+	      "sign" : sign,
+	      "realityName" : realityName,
+	      "idNumber" : idNumber,
+	      "email" : email,
+	      "mobile" : mobile
+	    },
+	    success : function(data) {
+	      if (data.code < 0) {
+	        alert(data.msg);
+	
+	        return;
+	      }
+	        
+	      layer.closeAll();
+	    },
+	    error : function() {
+	      alert("对不起，出现错误!");
+	    }
+	  });
+	}
+</script>

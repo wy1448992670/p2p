@@ -1,0 +1,65 @@
+%{
+  java.lang.String merchantNo = payment.hf.util.HfConstants.MERCUSTID;
+}%
+<div class="xn_c_content">
+  <div class="xf_content_add">
+    <div class="xfht_t_j_y_2">
+      <!--右上-->
+      <div class="xf_ht_obu_fklm">
+		商户提现
+      </div>
+      <form action="@{supervisor.financeManager.MerchantAccountManager.submitWithdrawal()}" id="merchantRecharge" method="post" target="_blank">
+      <div class="xfht_t_j_y_yx_k">
+      <table class="xfht_t_table_bjbz" width="100%" border="0" cellspacing="0" cellpadding="0">
+     	<tr>
+        	<td align="right" style="padding-right:18px;">商户号：</td>
+       		<td>${merchantNo}</td>
+        </tr>
+     	<tr>
+        	<td align="right" style="padding-right:18px;">商户余额：</td>
+       		<td>${merBalance.format("###,##0.00")}元</td>
+        </tr>
+        <tr>
+        	<td width="300" align="right" style="padding-right:18px;">请输入提现金额：</td>
+        	<td><input type="text" class="xfht_zr_input" id="amount" name="amount" onkeyup="value=value.replace(/[^\d\.]/g,'')" onpaste="return false"> 元，提现金额加手续费不能大于商户余额</td>
+        </tr>
+        <tr>
+	        <td>&nbsp;</td>
+	        <td>
+	          <input class="xf_ht_tcc_button_ok" type="button" value="确 定"  onclick="rechargeByHand();" id="xf_ht_tjbzj">
+	        </td>
+        </tr>
+      </table>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  /**
+   *  充值
+   */
+  function rechargeByHand() {
+	  var amount = $('#amount').val().trim();
+	
+	  if ("" == amount) {
+		   layer.msg("请输入提现金额", 2, 2);
+		
+		  return;
+	  }
+    
+      if(isNaN(amount)){
+	      layer.msg("请输入数字", 2, 2);
+	
+	      return;
+      }    
+    
+      if(confirm("确定提现？")){
+     	 $("#merchantRecharge").submit();
+      }
+
+  }
+
+</script>

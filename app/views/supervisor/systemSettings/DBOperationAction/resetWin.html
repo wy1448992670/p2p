@@ -1,0 +1,48 @@
+<!-- 还原出厂初始数据-弹出层 -->
+<div class="xf_ht_ttc" id="xf_ht_fkzh_ttc2" style="display:none">
+  <div class="xf_ht_jr_obu_width xf_ht_jr_aqsz_width">
+    <div id="reset_hint" class="xf_ht_aqsz_csh_tcc1">
+      	重要提醒：此操作将平台的数据全部还原为出厂状态，清空整站所有的数据，并且包含软件相关设置。现在的运营数据将丢失，并无法找回。
+    </div>
+    <div class="xf_ht_aqsz_csh_input">
+      <input id="btn_reset" class="xf_ht_tcc_button_ok" type="button" onclick="reset();" value="确  定">
+      <input class="xf_ht_tcc_button_on" type="button" value="取  消" id="clear_reset">
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $("#clear_reset").click(function() {
+      layer.closeAll();
+    });
+  function reset() {
+    $("#reset_hint").html("正在还原出厂初始数据，请勿关闭此页面");
+    $("#btn_reset").css("cursor", "default");
+    $("#btn_reset").attr("disabled", "disabled");
+    
+    $.ajax({
+      url : "@{reset()}",
+      type : "POST",
+      data : {
+      },
+      success : function(data) {
+        $("#reset_hint").html(data.msg);
+        $("#btn_reset").css("cursor", "pointer");
+        $("#btn_reset").removeAttr("disabled");
+        alert(data.msg);
+        
+        if (data.code == 0) {
+          layer.closeAll();
+          location.reload();
+        }
+      },
+      error : function() {
+        $("#reset_hint").html("还原出厂初始数据失败");
+        $("#btn_reset").css("cursor", "pointer");
+        $("#btn_reset").removeAttr("disabled");
+        alert("清空数据失败");
+        layer.closeAll();
+      }
+    });
+  }
+</script>

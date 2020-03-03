@@ -1,0 +1,16 @@
+<div class="xf_ht_ttc" id="xf_ht_fkzh_ttc" style="display:none;">
+  <div class="xf_ht_jr_obu_width">
+    #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xf_ht_jr_obu_form"}
+      #{tr}
+        #{td align:"right", width:"106"}标签名称：#{/td}
+        #{td}<input type="text" class="xf_ht_pro_in_bq" id="labelName">#{/td}
+      #{/tr}
+      #{tr}
+        #{td colspan:"2", class:"xf_ht_pro_tcc_button"}
+          <input class="xf_ht_tcc_button_ok" type="button" value="确  定" onclick="createLabel();"/>
+          <input class="xf_ht_tcc_button_on" type="button" value="取  消" onclick="closeLabel();"/>
+        #{/td}
+      #{/tr}
+    #{/table}
+  </div>
+</div>

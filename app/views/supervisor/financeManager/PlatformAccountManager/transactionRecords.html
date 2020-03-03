@@ -1,0 +1,16 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'交易记录' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include 'supervisor/financeManager/common/financeManageLeft.control'/}
+    #{include 'supervisor/financeManager/PlatformAccountManager/transactionRecordsContent.control'/}
+    *{#{include 'supervisor/financeManager/PlatformAccountManager/principalDetails.control'/}}*
+  </div>
+</div> 
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_mg_bill.js'}"></script>
+<script>
+$(function(){
+	//高亮显示
+	showHighLight(4,4,20);
+})
+</script>

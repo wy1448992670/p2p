@@ -1,0 +1,53 @@
+#{extends 'wechat/common.html' /}
+
+<body>
+	<div class="s_main s_center">
+		<header class="s_header">
+			信用计算器
+			<a href="@{wechat.account.WechatAccountHome.accountInfo()}" class="icobg"></a>
+		</header>
+		<ul class="s_countertype">
+		  <li><a class="clicked" href="@{wechat.others.InterestCalculator.wealthToolkitCreditCalculator()}">信用计算器</a></li>
+			<li><a href="@{wechat.others.InterestCalculator.wealthToolkitRepaymentCalculator()}">还款计算器</a></li>
+			<li><a href="@{wechat.others.InterestCalculator.wealthToolkitNetValueCalculator()}">净值计算器</a></li>
+			<li><a href="@{wechat.others.InterestCalculator.wealthToolkitAPRCalculator()}">利率计算器</a></li>
+		</ul>
+		<div class="s_countertop">
+			亲，以下有哪些材料，您可以提供？<br/>提供的材料越多，借款额度越高哦！
+		</div>
+		<div class="s_centerbox s_centerbox1">
+			<table width="100%" cellpadding="0" cellspacing="0" class="s_countertab">
+			#{list auditItems}
+				<tr>
+					<td width="50%">
+					<input type="checkbox" class="s_checkbox" name="creditScore" value="${_?.creditScore}">
+						${_?.name}
+					</td>
+				</tr>
+			#{/list}
+			</table>
+		</div>
+		<div class="s_counterbtn">
+			<input type="button" value="提交" onclick="showCreditScore()"/>
+		</div>
+		<p class="s_counternum">
+			您可以获得 <strong id="score">0</strong> 的信用积分。<br/>您一共可以借 <strong id="amount">0</strong> 元的借款。
+		</p>
+	</div>
+</body>
+
+<script type="text/javascript">
+function showCreditScore(){
+	var creditScore = 0;
+	
+	$('input[name="creditScore"]:checked').each(function(){ 
+		creditScore += $(this).val() * 1;
+ 	}); 
+
+	/* 计算积分 */
+	$("#score").html(creditScore); 
+	/* 计算额度 */
+	$("#amount").html(creditScore * ${amountKey});
+}
+</script>
+

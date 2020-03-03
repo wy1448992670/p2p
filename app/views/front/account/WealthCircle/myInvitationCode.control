@@ -1,0 +1,131 @@
+<script type="text/javascript" src="@{'/public/javascripts/ZeroClipboard.js'}"></script>
+<div class="invitation_code">
+	<h3 class="xf_mem_accout_title">我的邀请码</h3><!-- 搜索区域 -->
+	<ul class="xf_membill_search clr">
+		<li>
+			<select id="status" name="xf_wylc_selectAge" class="xf_membill_selectAge">
+				<option value="0" #{if page?.conditions?.status == 0} selected="selected" #{/if}>状态</option>
+				<option value="1" #{if page?.conditions?.status == 1} selected="selected" #{/if}>未使用</option>
+				<option value="2" #{if page?.conditions?.status == 2} selected="selected" #{/if}>已使用</option>
+				<option value="3" #{if page?.conditions?.status == 3} selected="selected" #{/if}>失效</option>
+			</select>
+			<select id="type" name="xf_wylc_selectAge" class="xf_membill_selectAge">
+				<option value="0" #{if page?.conditions?.type == 0} selected="selected" #{/if}>来源</option>
+				<option value="1" #{if page?.conditions?.type == 1} selected="selected" #{/if}>投资</option>
+				<option value="2" #{if page?.conditions?.type == 2} selected="selected" #{/if}>赠送</option>
+			</select>
+		</li>
+		<li>
+			<input type="button" onclick="search();" value="搜 索" class="xf_membill_button_yhm">
+			<input type="hidden" name="currPage" id="currPage" value="${page?.currPage}"/>
+			<input type="hidden" name="currSize" id="currSize" value="${page?.pageSize}"/>
+		</li>
+	</ul><!-- 搜索结果 -->
+	
+	<div class="xf_membill_search_jg">
+		<table border="0" cellpadding="0" id ="mytable" cellspacing="0" width="auto" class="xf_membill_acc_viewcpms">
+			<tbody>
+				<tr>
+					<th align="center" width="46">
+						序号
+					</th>
+					<th width="120">
+						邀请码
+					</th>
+					<th align="center" width="86">
+						状态
+					</th>
+					
+					<th width="64">
+						来源
+					</th>
+					<th width="96">
+						获得时间
+					</th>
+					<th width="96">
+						使用时间
+					</th>
+					<th width="96">
+						到期时间
+					</th>
+					<th width="70">
+						操作
+					</th>
+				</tr>
+				#{list items:page.page,as:'spreadUser'} 
+				<tr>
+					<td align="center">
+						${spreadUser_index}
+					</td>
+					<td align="center">
+						${spreadUser.invite_code}
+					</td>
+					<td align="center">
+						#{if spreadUser.status == 1} 未使用 #{/if}
+						#{if spreadUser.status == 2} 已使用 #{/if} 
+						#{if spreadUser.status == 3} 已过期 #{/if}
+					</td>
+					<td align="center">
+						#{if spreadUser.type == 1} 投资 #{/if}
+						#{if spreadUser.type == 2} 赠送 #{/if}
+					</td>
+					<td align="center">
+						${spreadUser.time?.format('yyyy-MM-dd')}
+					</td>
+					<td align="center">
+						${spreadUser.invited_register_time?.format('yyyy-MM-dd')}
+					</td>
+					<td align="center">
+						${spreadUser.activeDate?.format('yyyy-MM-dd')}
+					</td>
+					<td align="center">
+						<a class="copyinput" id = "${spreadUser_index}copy">复制</a>
+						<input type="hidden" value="${spreadUser.invite_code}" id = "${spreadUser_index}code" />
+					</td>
+				</tr>
+				#{/list}
+			</tbody>
+		</table>
+	</div>
+	
+	<!-- 清除浮动 -->
+	<div class="clear"></div>
+	<div class="xf_wylc_page xf_membill_view_page1">
+		<!-- 分页器 -->
+		#{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:2}
+		#{/page}
+	</div>
+	
+	<div class="xf_mem_cps_tgtj">
+		共${page.totalCount}个邀请码
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function(){
+		var trNum = $("#mytable tr").length;
+		if (trNum > 1){
+			for (var index = 1; index < trNum; index++){
+				ZeroClipboard.setMoviePath("@{'/public/javascripts/ZeroClipboard.swf'}");
+				var clip = new ZeroClipboard.Client();
+				clip.setHandCursor(true);
+				clip.addEventListener("mouseUp", function(client) {
+				alert("复制邀请码成功！");
+			});
+			clip.setText($("#" + index + "code").val());
+			clip.glue( index + "copy");
+			}
+		}
+	});
+	
+	//搜索
+	function search() {
+		window.location.href = "wealthHome?status=" + $("#status").val() + "&type=" + $("#type").val() + "&currPage=" + $("#currPage").val() + "&currSize=" + $("#currSize").val();
+	}
+	
+	function showPage(currPage,pageSize){
+		$("#currPage").val(currPage);
+		$("#currSize").val(pageSize);
+		search();
+}
+</script>

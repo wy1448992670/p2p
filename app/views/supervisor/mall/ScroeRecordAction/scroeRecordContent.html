@@ -1,0 +1,117 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    #{form @supervisor.mall.ScroeRecordAction.scroeRecordList(), id:'submit'}
+    <!-- 搜索 -->
+    <div class="xf_ht_search">
+      <div class="xf_ht_search_l">
+        <input type="hidden" id="orderType" name="orderType">
+        <input type="hidden" id="orderStatus" name="orderStatus"/>
+        <input type="hidden" id="currPage" name="currPage"/>
+        <input type="hidden" id="pageSize" name="pageSize"/>
+		<span id="div_0"><a id="tab_0" onClick="conditonSearch(0)">默认排序</a></span>
+		<span id="div_1"><a id="tab_1" onClick="conditonSearch(1)">兑换积分<a id="sp1">↑</a></a></span>
+		<span id="div_2"><a id="tab_3" onClick="conditonSearch(2)">添加时间<a id="sp2">↑</a></a></span>
+      </div>
+     </div>
+     <div class="xf_ht_search_inon">
+       <div class="xf_ht_search_r">
+       	 <div class="xf_ht_search_xl">
+          	会员名：<input name="user_name" type="text" class="search_w"  value="${page.conditions?.user_name}" />
+         </div>
+         <div class="xf_ht_search_xl">
+           	类型：<select name="type" class="xf_membill_selectAge">
+           	<option value="0" selected="selected">请选择</option>
+           	<option value="5" #{if page.conditions?.type == 5} selected="selected" #{/if}>兑换</option>
+           	<option value="1" #{if page.conditions?.type == 1} selected="selected" #{/if}>注册</option>
+           	<option value="2" #{if page.conditions?.type == 2} selected="selected" #{/if}>签到</option>
+           	<option value="3" #{if page.conditions?.type == 3} selected="selected" #{/if}>投资</option>
+           	<option value="4" #{if page.conditions?.type == 4} selected="selected" #{/if}>抽奖</option>
+           </select>
+         </div>
+         <div class="xf_ht_search_xl">
+           <input type="submit" class="search_button" value="搜索">
+           <input type="hidden" name="isExport" id="isExport"/>	
+           <input type="button" class="search_button" onclick="search(1);" onmouseout="$('#isExport').val(0);" value="下载数据" />
+         </div>
+       </div>
+     </div>
+	#{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table border:"0", cellspacing:"0", cellpadding:"0", class:"xn_c_content_list",tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}序号#{/th}
+          #{th}时间#{/th}
+          #{th}会员名#{/th}
+          #{th}积分#{/th}
+          #{th}兑换数量/投资金额#{/th}
+          #{th}事件#{/th}
+          #{th}状态#{/th}
+          #{th}备注#{/th}
+        #{/tr}
+		#{list items:page.page, as:'content'}
+        #{tr tr_index:content_index}
+          #{td}${(page?.currPage-1)*page?.pageSize + content_index}#{/td}
+          #{td}${content?.time?.format('yyyy-MM-dd HH:mm:ss')}#{/td}
+          #{td}${content?.user_name}#{/td}
+          #{td}#{if content?.scroe > 0}+#{/if}${content?.scroe}#{/td}
+          #{td}${content?.quantity}#{if content?.type == 3}元#{/if}#{if content?.type == 5}个#{/if}#{/td}
+          #{td}${content?.description}#{/td}
+          #{td}#{if content?.type == 5}消费#{/if}#{else}赠送#{/else}#{if content?.status == 1}成功#{/if}#{else}中#{/else}#{/td}
+          <td width="30%">${content?.remark}</td>
+        #{/tr}
+		#{/list}
+      #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4}#{/page}
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function() {
+	  var orderType = "${page?.conditions?.orderType}";
+	    $("#orderType").val(orderType);
+	    var orderStatus = "${page?.conditions?.orderStatus}";
+	    $("#orderStatus").val(orderStatus);
+	    var order = $("#div_" + orderType);
+		
+	    /* 初始为默认搜索 */
+		if(orderType == ''){
+			$("#div_0").attr("class", "xf_sea_isshow");
+		}else {
+		  order.attr("class", "xf_sea_isshow");
+		  if(orderStatus == 1){
+		     $("#sp"+orderType).html("↑");
+		  }else{
+		    $("#sp"+orderType).html("↓");
+		  }
+		}
+  })
+  
+  function search(type){
+    $("#isExport").val(type);	
+    $("#submit").submit();
+  }
+  
+  function showPage(currPage, pageSize){
+    $("#currPage").val(currPage);
+    $("#pageSize").val(pageSize);
+    $("#submit").submit();
+  }
+  
+   function conditonSearch(order){
+	   var orderStatus = "${page?.conditions?.orderStatus}";
+	   var orderType = "${page?.conditions?.orderType}";
+		
+		if(orderStatus == 1 && orderType == order){
+			$("#orderStatus").val(0);
+		}else{
+			$("#orderStatus").val(1);
+		}
+		
+		$("#orderType").val(order);
+		$("#submit").submit();
+   }
+</script>

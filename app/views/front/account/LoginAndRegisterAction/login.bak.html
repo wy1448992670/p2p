@@ -1,0 +1,393 @@
+  <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+	%{
+		business.User currUser = business.User.currUser();
+		business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+		String platUrl = constants.Constants.BASE_URL;
+		java.util.Map<String,java.util.List<business.BottomLinks>> bottomLinks = business.BottomLinks.currentBottomlinks();
+		java.lang.String type1Name = business.NewsType.queryName(1);
+		java.lang.String type2Name = business.NewsType.queryName(2);
+		java.lang.String type4Name = business.NewsType.queryName(4);
+		boolean ipsEnable = constants.Constants.IPS_ENABLE;
+		boolean debtUse = constants.Constants.DEBT_USE;
+	}%
+		<title>#{get 'title' /}</title>
+		<meta name="keywords" content="${currBackstageSet?.seoKeywords}" />
+		<meta name="description" content="${currBackstageSet?.seoDescription}" />
+		<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+		<meta property="qc:admins" content="133011667666155146375" />
+		<meta property="wb:webmaster" content="6582954f8f7d9e1d" />
+		<link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon2.ico'}">
+				
+		<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/reset.css'}" />
+		<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/temp.css'}" />
+		<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/site.css'}" />
+		<script type="text/javascript" src="@{'/public/javascripts/jquery-1.11.2.min.js'}"></script>
+		
+		<script type="text/javascript" src="@{'/public/javascripts/koala.min.1.5.js'}"></script>
+		<script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
+		<script type="text/javascript" src="@{'/public/javascripts/jquery.json-2.4.min.js'}"></script>
+		<script type="text/javascript" src="@{'/public/javascripts/xf_front.js'}"></script>
+		<script charset="utf-8" src="@{'public/javascripts/ajaxfileupload.js'}"></script>
+		<script type="text/javascript" src="@{'/public/javascripts/common.js'}"></script>
+		<script type="text/javascript" src="@{'/public/javascripts/jquery.lazyload.min.js'}"></script>
+		<script type="text/javascript" src="@{'/public/javascripts/ppcommon.js'}"></script>
+		
+		<script>
+				var _hmt = _hmt || [];
+				(function() {
+				  var hm = document.createElement("script");
+				  hm.src = "//hm.baidu.com/hm.js?4ce1beb6632c52346e1035e69add148c";
+				  var s = document.getElementsByTagName("script")[0]; 
+				  s.parentNode.insertBefore(hm, s);
+				})();
+		</script>
+																  
+	</head>
+	<body>
+	<!-- 右边悬浮框 -->
+	<div class="p_rt_xfbox">
+	    <ul class="p_rt_xful">
+	        <li><a href="@{front.home.HomeAction.wealthToolkit(4)}" class="p_rt_a01" title="收益计算器" target="_blank"></a></li>
+
+	        <li class="p_go_top none"><a class="p_rt_a04" title="回到顶部"></a></li>
+	    </ul>
+	</div>
+	
+	<!-- header头部 -->
+	<div class="p_header">
+	    <div class="p_topbox">
+	        <div class="p_top clr">
+	            <div class="p_top_left">
+	                <a href="http://weibo.com/u/2219448503" target="_blank" title="" class="p_top_abt">关注我们<i></i></a>
+	            </div>
+	            <div class="p_top_right">
+	                <span class="p_top_helo"><i></i>
+	                #{if currUser == null}
+	                  	您好，欢迎来到${currBackstageSet?.platformName}！
+	                #{/if}
+	                #{else}
+	                  	您好，【<a href="@{front.account.AccountHome.home()}">${currUser?.name}</a>】
+	                #{/else}
+	                <!--<a href="#">用户名</a>，您好，欢迎来到晓风网贷！--></span>
+	                <a id="helpIndex" href="@{front.help.HelpCenterAction.index(13)}" target="_self"  title="" class="p_top_rta">帮助中心</a>
+	                #{if currUser == null}
+	                	<a id="loginIndex" href="@{front.account.loginAndRegisterAction.login()}" title="" class="p_top_rta">立即登录</a>
+	                #{/if}
+                	#{else}
+	                  	<a id="registerIndex" href="@{front.account.loginAndRegisterAction.logout()}" title="" class="p_top_rta">安全退出</a>
+	                #{/else}
+	            </div>
+	        </div>
+	    </div>
+	    					
+	    
+	    <div class="p_headbox">
+	        <div class="p_head clr">
+	            <div class="p_logobox">
+	                <a href="/" class="p_logo"><img src="${currBackstageSet?.platformLogoFilename}" alt="" /></a>
+	            </div>
+	            <div class="p_navbox">
+	                <ul class="p_navul clr">
+	                    <li ><a id="index" href="/" title="" >首页<i></i></a></li>
+	                    <li ><a id="bid" href="@{front.bid.bidAction.index()}" title="">我要借款<i></i></a></li>
+	                    <li><a id="invests" href="@{front.invest.InvestAction.investHome()}" title="">我要理财<i></i></a></li>
+	                    #{if debtUse}
+	                    <li><a id="claim" href="@{front.debt.debtAction.debtHome()}" title="">债权转让<i></i></a></li>
+	                    #{/if}
+	                    <li><a id="usr" href="@{front.account.accountHome.home()}" title="">我的账户<i></i></a></li>
+	                    <li>
+	                        <a id="aboutUs" href="@{front.home.HomeAction.restAboutUs(16)}" title="">关于我们<i></i></a>
+	                        <span class="p_navmore"></span>
+	                        <dl class="p_navhidl">
+	                        	<dd><a id="aboutUs1" href="@{front.home.HomeAction.restAboutUs(16)}">公司简介</a></dd>
+	                            <dd><a id="principal" href="@{front.wealthinfomation.WealthInfomationAction.restHome(7)}">${type1Name}</a></dd>
+	                            <dd><a id="wealth" href="@{front.principal.PrincipalGuaranteeAction.principalGuaranteeHome()}">${type4Name}</a></dd>
+	                            <dd><a id="aboutUs2" href="@{front.home.HomeAction.restAboutUs(34)}">媒体报道</a></dd>
+	                            <dd><a id="aboutUs3" href="@{front.home.HomeAction.restAboutUs(20)}">联系我们</a></dd>
+	                        </dl>
+	                    </li>
+	                </ul>
+	            </div>
+	        </div>
+    	</div>
+	    
+	</div>
+	
+	<!--内容区-->
+<div class="p_zc_mainbox" style="background: url(@{'/public/images/p_zc_banner.jpg'}) no-repeat center center;">
+    <div class="p_main p_dl_main clr">
+        <div class="p_dl_wordbox">
+            <h4>用户登录</h4>
+            #{form @front.account.loginAndRegisterAction.logining(), id:'submit'}
+            <table class="">
+                <tr height="57">
+                    <td>
+                        <div class="p_zc_inbox01">
+                            <i class="p_zc_icon01"></i>
+                            <input name="name" id="name" type="text" class="p_zc_inp01 p_pass">
+                            <label class="p_zc_tips">请输入用户名/手机号码/邮箱</label>
+                        </div>
+                       <!--  <a href="#" title="" class="p_zc_ychange p_un">忘记用户名？</a> -->
+                    </td>
+                </tr>
+                <tr height="57">
+                    <td>
+                        <div class="p_zc_inbox01">
+                            <i class="p_zc_icon03"></i>
+                            <input name="password" id="password" type="password" class="p_zc_inp01 p_pass">
+                            <label class="p_zc_tips">请输入密码</label>
+                        </div>
+                        <a tabIndex="3000" href="@{front.account.loginAndRegisterAction.resetPasswordByEmail()}" title="" class="p_zc_ychange p_un">忘记密码？</a>
+                    </td>
+                </tr>
+                <tr height="57">
+                    <td>
+                        <div class="p_zc_inbox03">
+                            <i class="p_zc_icon05"></i>
+                            <input type="hidden" name="randomID" id="randomID" />
+                            <input id="code" name="code" type="text" class="p_zc_inp03 p_pass" #{if !constants.Constants.CHECK_CODE}value="" #{/if} >
+                            <label class="p_zc_tips">请输入验证码</label>
+                        </div>
+                        <a href="#" title="" class="p_zc_yanzm"><img src="" id="img" alt="" onclick="change()" width="78" height="36"></a>
+                        <a href="#" title="" onclick="change()" class="p_zc_ychange p_un">换一张</a>
+                    </td>
+                </tr>
+                <tr height="48">
+                    <td>
+                        <p class="p_dl_safe"><i></i>您的信息将通过128位SGC加密保护数据传输安全</p>
+                    </td>
+                </tr>
+                <tr height="58">
+                    <td>
+                        <a onClick="login()" class="p_dl_btn p_op">立即登录</a>
+                    </td>
+                </tr>
+                <tr height="48">
+                    <td>
+                        <div class="p_pl212">
+                            <span class="f12">没有账号？</span><a href="@{front.account.LoginAndRegisterAction.register()}" title="" class="p_zc_dla p_un">立即注册</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            #{/form}
+        </div>
+    </div> 
+</div>
+		#{include "front/account/AccountHome/overBorrowIps.control"/}
+		#{include "common/homeVipApply2.control"/}
+		
+	<div class="p_footer_box02">
+    <div class="p_main clr">
+        <div class="p_ft_2left">
+            <div class="p_ft_word2">
+                <p>${currBackstageSet?.companyName}</p>
+                <p>总部地址：${currBackstageSet?.companyAddress}</p>
+                <p>${currBackstageSet?.siteIcpNumber}</p>
+            </div>
+        </div>
+        <div class="p_ft_2right clr">
+            <div class="p_ft_icon clr">
+                <a href="http://cn.norton.com" class="p_ft_a01"></a>
+            </div>
+        </div>
+    </div>
+</div>
+ </body>
+
+
+</html>
+
+<script type="text/javascript">
+		$(function(){
+		    var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+			$.post(setCode({}),function(data){
+				var arr=eval(data);
+				var img = arr.img;
+				$("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img);	
+				$("#randomID").val(img);
+			});
+			
+		});
+		// 登录密码框
+		$(function(){
+			$(".p_pass").bind({
+		        focus:function(){ 
+					$(this).siblings("label").hide()
+				},
+				blur:function(){
+					if (this.value == ""){ 
+						$(this).siblings("label").show()        		
+		            } 
+		        } 
+				
+			})
+		});
+		
+</script>
+<script type="text/javascript">
+  $(document).keydown(function(event){
+    if(event.keyCode == 13){
+      if(document.activeElement.id == 'name' || document.activeElement.id == 'code' || document.activeElement.id == 'password'){
+    	  login();
+      }
+    }
+  });
+  
+  $(function(){
+	$('img.lazy').lazyload({ 
+	  //effect:'fadeIn' 
+	});
+    $("#xf_h_idx_1_hydjfdgdf").limit();
+	   
+    /* 所有继承页面flash.error的值弹框,被继承页面则无需再写 */
+    if('${flash.error}' !='') {
+	      alert('${flash?.error}');
+      if('${flash?.emailUrl}' !='') {
+        window.open('${flash?.emailUrl}');
+      }
+    }
+	/*与重复提交冲突，注释，如功能发生冲突，请更改其他处
+    if('${flash.success}' != ''){
+      alert('${flash?.success}');
+    }
+	*/  	
+    //获取图片验证码
+    if('${currUser?.name}' == '' && '${loginOrRegister}' == '') {
+      var setCode = #{jsAction @front.account.LoginAndRegisterAction.setCode()/}
+      $.post(setCode({}),function(data){
+        var arr=eval(data);
+        var img = arr.img;
+        $("#img").attr("src","@{front.account.LoginAndRegisterAction.getImg()}?id="+img)	
+		$("#randomID").val(img);
+	  });
+	}
+  });
+  
+  function vipApply(){
+	  
+	  /** 检查用户是否激活*/
+	  var result = frontJSIntercepter();
+	  
+	  if(!result){
+      	 showDiv($("#xf_mem_acc_sjvip_tcc")); 
+	  }
+  };
+
+  function login(){
+    var name = $("#name").val();
+           
+    if(name == ''){
+      alert("请输入用户名或邮箱");
+      return;
+    }
+
+    if($("#password").val() == ''){
+      alert("请输入密码");
+      return;
+    }
+
+    if($("#code").val() == ''){
+      alert("请输入验证码");
+      return;
+    }
+    $("#submit").submit();
+  };
+
+  function change(){
+    var setCode = #{jsAction @front.account.LoginAndRegisterAction.setCode()/}
+	$.post(setCode({}),function(data){
+	  var arr=eval(data);
+	  var img = arr.img;
+	  $("#img").attr("src","@{front.account.LoginAndRegisterAction.getImg()}?id="+img);
+	  $("#randomID").val(img);	
+	});
+  };
+  
+  function AddFavorite(url,title) {
+    var ua = navigator.userAgent.toLowerCase();
+    if(ua.indexOf("msie 8")>-1){
+      external.AddToFavoritesBar(url,title,'');//IE8
+    }else{
+      try {
+        window.external.addFavorite(url, title);
+      } catch(e) {
+        try {
+          window.sidebar.addPanel(title, url, "");//firefox
+        } catch(e) {
+          alert("加入收藏失败，请使用Ctrl+D进行添加");
+        }
+      }
+    }
+  }
+  
+  /** 前台，拦截器 ，拦截内容：登陆拦截，资金托管开户拦截，已被拦截返回true */
+  function frontJSIntercepter(){
+	  //未登录 
+	  if('${currUser?.name}' == ''){  
+		  
+		  window.location.href=http_path+"/login";
+	  	  return true;
+	  }
+	  
+	  //托管未开户 
+	  if('${ipsEnable}'=='true' && '${currUser?.ipsAcctNo}'==''){
+		  
+		  window.location.href=http_path+"/front/account/trustAccount";
+	  	  return true;
+	  }
+
+	  //用户未激活
+	  if('${ipsEnable}'=='false' && '${currUser?.isEmailVerified}'=='false' && '${currUser?.isMobileVerified}'=='false'){  //邮箱和手机都未激活，则用户未激活
+		 
+		  window.location.href=http_path+"/front/account/inactiveUser";
+		  return true;
+	  }
+	  
+	  if('${currUser?.realityName}' == ''){
+	  		
+	  		window.location.href=http_path+"/front/account/certification";
+	  		return true;
+	  }
+	  
+	  return false;
+	  
+  }
+  
+  /**
+   * 拦截器拦截后，跳转到相应的页面（AJAX）
+   */
+  function checkIntercepterResult(data){
+  	
+  	
+  	if('UnLogin' == data){
+  		
+  		window.location.href=http_path+"/login";
+  		return true;
+  	}
+  	
+  	if('NullIpsAccount' == data){
+  		
+  		window.location.href=http_path+"/front/account/trustAccount";
+  		return true;
+  	}
+  	
+  	if('InactiveUser' == data){
+  		
+  		window.location.href=http_path+"/front/account/inactiveUser";
+  		return true;
+  	}
+  	
+  	if('NullRealName' == data){
+  		
+  		window.location.href=http_path+"/front/account/certification";
+  		return true;
+  	}
+  	
+  	return false;
+  	
+ }
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>

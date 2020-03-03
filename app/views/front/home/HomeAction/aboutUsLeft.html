@@ -1,0 +1,30 @@
+
+ <div class="p_left_navbox">
+    <h1><i class="p_left_abtus"></i><span>${parent?.name}</span></h1>
+    <ul class="p_left_navul">
+       	#{list types}
+			#{if _?.name == '合作伙伴'}
+				<li id="aboutUs${_?.id}">
+					<a   href="@{front.help.HelpCenterAction.partner(-1008,_?.id)}">${_?.name}</a>
+				</li>
+			#{/if}
+			#{else}
+				<li id="aboutUs${_?.id}">
+					<a  href="@{front.home.HomeAction.restAboutUs(_?.id)}">${_?.name}</a>
+				</li>
+			#{/else}
+		#{/list}
+		*{ 
+		<li id="aboutUs0">
+			<a  href="@{front.home.HomeAction.senior(_?.id)}">公司高管</a>
+		</li> 
+		}*
+    </ul>
+</div>
+
+<script type="text/javascript">
+	$(function(){
+		$("#aboutUs" + ${id}+" a").addClass("cozhuse");
+	});
+
+</script>

@@ -1,0 +1,236 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'转让中债权转让标' /}
+ <!-- 头部end -->
+ <!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+     <div class="xn_c_contentlist">
+     	#{include 'supervisor/bidManager/bidManagerLeft.control' /}
+     <div class="xn_c_content">
+     <div class="xf_ht_tablelist">
+       #{form @debtIsTransfer(),id :'debtIsTransfer'}
+         <input type="hidden" id="currPage" name="currPage"/>
+         <input type="hidden" id="pageSize" name="pageSize"/>
+          <!-- 搜索 -->
+         <div class="xf_ht_search">
+         <div class="xf_ht_search_l">
+                <input type="hidden" id="orderType" name="orderType" value="${page?.conditions?.orderType}"/>
+                 <span id="div_0" onClick="conditonSearch(0)">默认排序</span>
+                 <span id="div_1" onClick="conditonSearch(1)">申请时间<a id="tab_1" >↑</a></span>
+                 <span id="div_3" onClick="conditonSearch(3)">借款额度<a id="tab_3" >↑</a></span>
+                 <span id="div_5" onClick="conditonSearch(5)">信用等级<a id="tab_5" >↑</a></span>
+                 <span id="div_7" onClick="conditonSearch(7)">逾期账单<a id="tab_7" >↑</a></span>
+                 <span id="div_9" onClick="conditonSearch(9)">剩余时间<a id="tab_9" >↑</a></span>
+         </div>
+         </div>
+         <div class="xf_ht_search_inon">
+         <div class="xf_ht_search_r">
+         <div class="xf_ht_search_xl">
+         <select class="xf_membill_selectAge" name="typeStr" id="type" >
+                 <option value="0" #{if page?.conditions?.type == 0} selected="selected"  #{/if}>全部  </option>
+                 <option value="1" #{elseif page?.conditions?.type == 1} selected="selected" #{/elseif}  >编号</option>
+                 <option value="2"  #{elseif page?.conditions?.type == 2} selected="selected"  #{/elseif}  >债权人</option>
+         </select>        
+     	 </div>
+         
+          <div class="xf_ht_search_xl">
+              <input name="keyWords" type="text" class="xfht_t_jk_zt_rj3" id="textfield" value="${page.conditions?.keyWords}" />
+          </div>
+          <div class="xf_ht_search_xl">
+              <input type="submit" class="search_button" value="搜索">
+          </div>
+          </div>
+          </div>
+        #{/form}  
+	 <!-- 列表内容 -->
+     <div class="xn_c_content_top">
+           #{table class:"xn_c_content_list",cellspacing:"0",cellpadding:"0",border:"0",tr_class_odd:"xn_tr_bj"}
+              #{tr}
+                   #{th}序号#{/th}
+                   #{th}编号#{/th}
+                   #{th}债权转让标题#{/th}
+                   #{th}债权人#{/th}
+                   #{th}信用等级#{/th}
+                   #{th}转让标借款金额#{/th}
+                   #{th}年利率#{/th}
+                   #{th}借款期限#{/th}
+                   #{th}已还期数#{/th}
+                   #{th}剩余期数#{/th}
+                   #{th}剩余金额#{/th}
+                   #{th}逾期账单#{/th}
+                   #{th}待收本金#{/th}
+                   #{th}转让底价#{/th}
+                   #{th}转让方式#{/th}
+                   #{th}竞拍人数#{/th}
+                   #{th}申请时间#{/th}
+                   #{th}剩余时间#{/th}
+                   #{th}操作#{/th}
+               #{/tr}
+               #{if page?.page?.size>0}
+               #{list items:page?.page,as : 'debt'}
+                  #{tr  class:"xn_tr_bj"}
+                  		<input id="hiddenTime${debt_index}" type="hidden" value="${debt?.end_time?.format('yyyy/MM/dd HH:mm:ss')}"></input>
+                        #{td}${(page?.currPage - 1)*page?.pageSize + debt_index}#{/td}
+                        #{td}${debt?.no}#{/td}
+                        #{td}
+                        <div id="title${(page?.currPage - 1)*page?.pageSize + debt_index}" onmouseover="showTitle('title${(page?.currPage - 1)*page?.pageSize + debt_index}','${debt?.title}');">
+                        #{if debt?.title?.length() <=6}
+                        	${debt?.title}
+                        #{/if}
+                        #{else}
+                        	${debt?.title?.substring(0,6) + "..."}
+                        #{/else}
+                        </div>
+                        #{/td}
+                        #{td}${debt?.name}#{/td}
+                        #{td}#{img src:"${debt?.credit_level_image_filename}",alt:"",width:"25px",height:"25px"}#{/img}#{/td}
+                        #{td}${debt?.bid_amount?.format("###,##0.00")}#{/td}
+                        #{td}${debt?.apr}%#{/td}
+                        #{td} 
+                        	#{if debt?.period_unit ==-1} ${debt?.period}年       #{/if}
+                            #{if debt?.period_unit ==0}  ${debt?.period}个月  #{/if}
+			                #{if debt?.period_unit ==1} ${debt?.period}天          #{/if}
+			            #{/td}    	
+                        #{td}${debt?.has_payback_period}#{/td}
+                        #{td} 
+                        	#{if debt?.period_unit ==-1} ${debt?.period*12 - debt?.has_payback_period} #{/if}
+                            #{if debt?.period_unit ==0} ${debt?.period - debt?.has_payback_period}     #{/if}
+			                #{if debt?.period_unit ==1} ${1 - debt?.has_payback_period}  				 #{/if}
+			            #{/td}   
+			            #{if debt?.receiving_amount != null}     
+			            #{td}${debt?.receiving_amount?.format("###,##0.00") }#{/td}    	 
+			            #{/if}  
+              			#{else}		
+              			#{td}0#{/td}
+              			#{/else}
+                        #{td}${debt?.overdue_payback_period}#{/td}
+                        #{td}
+                        #{if debt?.remain_received_corpus != null}
+                        ${debt?.remain_received_corpus?.format("###,##0.00")}
+                        #{/if}
+                        #{else}0#{/else}
+                        #{/td}
+                        #{td}${debt?.transfer_price?.format("###,##0.00")}#{/td}
+						#{td} #{if debt?.type ==1} 定向转让   #{/if}   #{if debt?.type ==2}   竞价转让   #{/if}   #{/td}
+						#{td}${debt?.join_person_num}#{/td}
+						#{td}${debt?.time.format('yyyy-MM-dd HH:mm:ss')}#{/td}
+						#{td} <span id="time${debt_index}"> </span>#{/td}
+                        #{td} <span ><a href="@{transferDetails(debt?.sign,debt?.status, 12)}" class="xf_ta_onclick">详情</a></span>#{/td}
+                      #{/tr}              
+                   #{/list}
+              	   #{/if}             
+               #{/table}
+     </div>
+     <!-- 列表底部 -->
+     <div class="xn_c_content_bottom">
+     <div class="page_warp">
+     <!-- 无上一页样式：page_prev_no -->
+     #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4} 	#{/page}
+     <!-- 无下一页样式：page_next_no -->
+     </div>
+     </div>
+     </div>
+     </div>
+     </div>
+</div>
+ <script type="text/javascript">
+showTime();
+
+function showTime(){
+ 	var listsize = ${page?.page?.size};
+	for(var i = 1; i <= listsize; i++){
+ 		var time = $("#hiddenTime"+i).val();
+ 		var date = new Date(time);
+		var tt = date.getTime();
+		var now = new Date().getTime();
+		var cha = tt-now;
+		var SysSecond=parseInt(cha);
+		
+	    if (SysSecond > 0) { 
+   	        int_day=Math.floor(SysSecond/86400000);
+            SysSecond-=int_day*86400000;
+            int_hour=Math.floor(SysSecond/3600000);
+            SysSecond-=int_hour*3600000;
+            int_minute=Math.floor(SysSecond/60000);
+            SysSecond-=int_minute*60000;
+            int_second=Math.floor(SysSecond/1000);
+            
+        if(int_hour<10){
+          	 int_hour="0"+int_hour;
+ 	    }
+			 
+        if(int_minute<10){
+           	int_minute="0"+int_minute;
+	    }
+		    
+       	if (int_second<10){
+            int_second="0"+int_second;
+        }
+             
+       	var str = int_day + '天'+int_hour+'小时'+int_minute+'分'+int_second+'秒';
+		$("#time"+i).html(str);
+	    }else{
+       	  var str =  '00天00小时00分00秒';
+       	  $("#time"+i).html(str);
+	   }
+    }
+     setTimeout('showTime()',1000); 
+ }
+
+function conditonSearch(num){
+	  var orderType= ${page.conditions?.orderType};
+	  if(orderType == 0){
+	    $("#orderType").val(num);
+	    $("#debtIsTransfer").submit();
+	    return;
+	  }
+	  var sum = orderType/2;
+	  if(sum.toString().indexOf('.') == -1){
+	    var sum2 = orderType - 1;
+	    $("#orderType").val(num);
+	    $("#debtIsTransfer").submit();
+	    return;
+	  }else{
+	    if(orderType == num){
+	      $("#orderType").val(num + 1);
+	      $("#debtIsTransfer").submit();
+	      return;
+	    }else{
+	      $("#orderType").val(num);
+	      $("#debtIsTransfer").submit();
+	      return;
+	    }
+	  }
+	}
+
+$(function(){	
+ 	/* 高亮显示 */
+	showHighLight(3, 3, 12);
+	
+	//条件查询控制样式
+	 var num= ${page?.conditions?.orderType};
+     if(num == 0){
+         $("#div_0").addClass("xf_sea_isshow");
+         return;
+        }
+     var sum = num/2;
+     if(sum.toString().indexOf('.') == -1){
+         var sum2 = num -1;
+         $("#div_"+sum2).addClass("xf_sea_isshow");
+         $("#tab_"+sum2).html("↓");
+         return;
+     }
+     $("#div_"+num).addClass("xf_sea_isshow");
+     $("#tab_"+num).html("↑"); 
+});
+
+function showPage(currPage, pageSize){
+    $("#currPage").val(currPage);
+    $("#pageSize").val(pageSize);
+    $("#debtIsTransfer").submit();
+}
+
+/* 控制标题显示 */
+function showTitle(id,title){
+	layer.tips(title,'#'+id, {time: 1, guide: 2});
+}
+</script>

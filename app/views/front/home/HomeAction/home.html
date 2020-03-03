@@ -1,0 +1,621 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle /}
+
+<!-- 大广告 -->
+#{include "front/home/HomeAction/banner.html"/}
+
+<div class="p_bgef_box">
+    <div class="p_sy_shuju clr">
+        <span class="p_sy_jine"><i></i>累计交易金额（元）</span>
+        <em>
+        	#{format money:(jobs.IndexStatisticsJob.sumInvest+35900000)}#{/format}
+        </em>
+        <span class="p_sy_shouy"><i></i>为投资人赚取的收益（元）</span>
+        <em>
+        	#{format money:(jobs.IndexStatisticsJob.sumIncome+1150000)}#{/format}
+        </em>
+        <span class="p_sy_rens"><i></i>平台总投资人数（人）</span>
+        <em class="p_sy_wauto">
+       ${jobs.IndexStatisticsJob.regCount+2000}
+        </em>
+    </div>
+    
+    
+    
+    <div class="p_sy_whitebg">
+        <div class="p_sy_sfmain">
+            <ul class="p_sy_ul01 clr">
+                 #{list items:adsEnsure,as:'ensure'}
+                 <li >
+                   #{if ensure?.isLinkEnabled}
+	   	              <a href="${ensure?.url}" #{if ensure?.target == 2} target="_blank" #{/if}>
+	   	              #{img src:"${ensure?.imageFileName}",alt:"",width:"184",height:"99"}#{/img}
+	   	              </a>
+	    	       #{/if}
+	    	       #{else}
+	    	         #{img src:"${ensure?.imageFileName}",alt:"",width:"184",height:"99"}#{/img}
+	    	       #{/else}
+	    	       </li>
+                 #{/list}
+            </ul>
+        </div>
+    </div>
+   
+    <div class="p_sy_jigoub none">
+        <h3>机构合作标</h3>
+        <p class="p_sy_jgword">100%灵活便捷，优享智慧投资新生活</p>
+        <div class="p_sy_tuijb">
+            <a href="javascript:void(0);" class="s_protjprev p_ico"></a>
+            <a href="javascript:void(0);" class="s_protjnext p_ico"></a>
+            <ul class="s_protjlist">
+               	#{list items:agencyBids , as:'agencybid'}
+                
+                <li>
+                    <div class="s_protab">
+                        <h4 class="clr">
+                            <img src="public/images/xfht_t_xx_aniu_20.png" alt="" width="23" height="22" class="p_sy_biaoz" />
+                            <strong><a href="@{front.invest.InvestAction.invest(agencybid?.id)}" >${agencybid?.title}</a></strong>
+                            <img src="public/images/p_jking.png" alt="" width="72" height="28" class="p_sy_zhuangt" />
+                        </h4>
+                        <div class="p_sy_tabox">
+                            <table>
+                                <tr height="38">
+                                    <td width="295"><span>借款金额：</span><em class="p_sy_impnumb">￥${agencybid?.amount?.format('###,##0.00')}</em></td>
+                                    <td width="222"><span>年利率：</span><em class="p_sy_impnumb">${agencybid?.apr}%</em></td>
+                                    <td>
+                                        <span>信用等级：#{img src:"${agencybid?.creditLevel?.image_filename}",alt:""}#{/img}</span>
+                                    </td>
+                                </tr>
+                                <tr height="30">
+                                    <td>还需金额：#{format money:(agencybid?.amount-agencybid?.has_invested_amount)}#{/format}</td>
+                                    <td>还款方式：${agencybid?.repay_name}</td>
+                                    <td>还款期限：
+										#{if agencybid?.period_unit ==-1}
+												${agencybid?.period}年
+												#{/if}
+												#{if agencybid?.period_unit ==0}
+												${agencybid?.period}个月
+												#{/if}
+												#{if agencybid?.period_unit ==1}
+												${agencybid?.period}天
+										#{/if}
+									</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="p_sy_probot clr">
+                            <span class="fl">进度：</span>
+                            <div class="p_sy_jdt"><div style="width:${agencybid?.loan_schedule}%"></div></div>
+                            <span class="fl" id="agencyloanSchedule${agencybid_index}">${agencybid?.loan_schedule}%</span>
+                            <a onclick="javascript:window.open('@{front.invest.InvestAction.invest(agencybid?.id)}', '_self')" title="" class="p_sy_ckxiangx p_op">查看详细</a>
+                        </div>
+                    </div>
+                </li>
+                #{/list}
+            </ul>
+        </div>
+        <p class="p_sy_jgmore"><a href="@{front.invest.InvestAction.investHome()}">更多机构合作标</a></p>
+    </div>
+</div>
+
+<script type="text/javascript" src="@{'/public/javascripts/jquery.roundabout2.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/jquery.easing.1.3.js'}"></script> 
+<script type="text/javascript">     
+    $(document).ready(function() { 
+        $('.s_protjlist').roundabout({
+            easing: 'easeOutInCirc',
+            duration: 600
+        });
+
+        $(".s_protjlist>li").click(function(){
+            if(!$(this).hasClass("roundabout-in-focus")){
+                $(this).addClass("scaleUp").siblings().removeClass("scaleUp");
+            }
+        });
+        $(".s_protjprev").click(function(){
+            var lis = $(".s_protjlist>li");
+            var index =lis.index($(".roundabout-in-focus"));
+            if(index > 0){
+                lis.eq(index-1).trigger("click");
+            }else{
+                lis.eq(lis.length-1).trigger("click");
+            }
+        });
+        $(".s_protjnext").click(function(){
+            var lis = $(".s_protjlist>li");
+            var index =lis.index($(".roundabout-in-focus"));
+            if(index < lis.length-1){
+                lis.eq(index+1).trigger("click");
+            }else{
+                lis.eq(0).trigger("click");
+            }
+        });
+    });
+</script>
+<div class="p_sy_csebg">
+    <div class="p_sy_main clr">
+        <div class="p_sy_leftbox">
+             <h6 class="p_sy_title mb15"><span>会员贷</span></h6>
+            <div class="p_sy_prolist">
+                <table class="p_sy_table" width="100%">
+                    <tr height="44">
+                    <td width="150"><span class="fl pl30">项目名称</span></td>
+                        <td width="80">年利率</td>
+                        <td width="134">金额（元）</td>
+                        <td width="99">期限</td>
+                        <td width="110">进度</td>
+                        <td>状态</td>
+                    </tr>
+                    #{list items:memberBids , as:'bid'}
+                    <tr height="76">
+                        <td><span class="fl"><a href="@{front.invest.InvestAction.invest(bid?.id)}" >${bid?.title}</a></span></td>
+                        <td><span class="cozhuse">${bid?.apr}%</span></td>
+                        <td><span class="co333">￥${bid?.amount?.format('###,##0.00')}</span></td>
+                        <td><span class="co333">
+                        		#{if bid?.period_unit ==-1}
+												${bid?.period}年
+												#{/if}
+												#{if bid?.period_unit ==0}
+												${bid?.period}个月
+												#{/if}
+												#{if bid?.period_unit ==1}
+												${bid?.period}天
+								#{/if}
+                        </span></td>
+                        <td><span class="probar50" probar="${bid?.loan_schedule}">${bid?.loan_schedule}%</span></td>
+                         #{if bid?.has_invested_amount == bid?.amount}
+                          <td><a href="@{front.invest.InvestAction.invest(bid?.id)}" class="p_sy_tbtn curr">已售罄</a></td>
+                        #{/if}
+                        #{else}
+                        <td><a onclick="javascript:window.window.open('@{front.invest.InvestAction.invest(bid?.id)}', '_self')" class="p_sy_tbtn">立即投标</a></td>
+                        #{/else}
+                    </tr>
+                    #{/list}
+                </table>
+            </div>
+            <h6 class="p_sy_title mb15 mt25"><span>信易贷</span></h6>
+            <div class="p_sy_prolist">        		
+                <table class="p_sy_table" width="100%">
+                    <tr height="44">
+                    <td width="150"><span class="fl pl30">项目名称</span></td>
+                        <td width="80">年利率</td>
+                        <td width="134">金额（元）</td>
+                        <td width="99">期限</td>
+                        <td width="110">进度</td>                      
+                        <td>状态</td>
+                    </tr>
+                    #{list items:bidLEList , as:'bid'}
+                    #{if bid?.product_id == 2}
+                    <tr height="76">
+                        <td><span class="fl"><a href="@{front.invest.InvestAction.invest(bid?.id)}" >${bid?.title}</a></span></td>
+                        <td><span class="cozhuse">${bid?.apr}%</span></td>
+                        <td><span class="co333">￥${bid?.amount?.format('###,##0.00')}</span></td>
+                        <td><span class="co333">
+                        	#{if bid?.period_unit ==-1}
+												${bid?.period}年
+												#{/if}
+												#{if bid?.period_unit ==0}
+												${bid?.period}个月
+												#{/if}
+												#{if bid?.period_unit ==1}
+												${bid?.period}天
+							#{/if}
+                        	</span></td>
+                        <td><span class="probar50" id="loanSchedule${bid_index}" probar="${bid?.loan_schedule}">${bid?.loan_schedule}%</span></td>
+                        #{if bid?.has_invested_amount == bid?.amount}
+                          <td><a href="@{front.invest.InvestAction.invest(bid?.id)}" class="p_sy_tbtn curr">已售罄</a></td>
+                        #{/if}
+                        #{else}
+                        <td><a onclick="javascript:window.window.open('@{front.invest.InvestAction.invest(bid?.id)}', '_self')" class="p_sy_tbtn">立即投标</a></td>
+                        #{/else}
+                    </tr>
+                    #{/if}
+                    #{/list}
+                </table>
+           		  
+            </div>
+            <h6 class="p_sy_title mb15 mt25"><span>房易贷</span></h6>
+            <div class="p_sy_prolist">
+                <table class="p_sy_table" width="100%">
+                    <tr height="44">
+                    <td width="150"><span class="fl pl30">项目名称</span></td>
+                        <td width="80">年利率</td>
+                        <td width="134">金额（元）</td>
+                        <td width="99">期限</td>
+                        <td width="110">进度</td>
+                        <td>状态</td>
+                    </tr>
+                    #{list items:bidCHList , as:'bid'}
+                    #{if bid?.product_id == 1}
+                    <tr height="76">
+                        <td><span class="fl"><a href="@{front.invest.InvestAction.invest(bid?.id)}" >${bid?.title}</a></span></td>
+                        <td><span class="cozhuse">${bid?.apr}%</span></td>
+                        <td><span class="co333">￥${bid?.amount?.format('###,##0.00')}</span></td>
+                        <td><span class="co333">
+                        		#{if bid?.period_unit ==-1}
+												${bid?.period}年
+												#{/if}
+												#{if bid?.period_unit ==0}
+												${bid?.period}个月
+												#{/if}
+												#{if bid?.period_unit ==1}
+												${bid?.period}天
+								#{/if}
+                        </span></td>
+                        <td><span class="probar50" probar="${bid?.loan_schedule}">${bid?.loan_schedule}%</span></td>
+                         #{if bid?.has_invested_amount == bid?.amount}
+                          <td><a href="@{front.invest.InvestAction.invest(bid?.id)}" class="p_sy_tbtn curr">已售罄</a></td>
+                        #{/if}
+                        #{else}
+                        <td><a onclick="javascript:window.window.open('@{front.invest.InvestAction.invest(bid?.id)}', '_self')" class="p_sy_tbtn">立即投标</a></td>
+                        #{/else}
+                    </tr>
+                    #{/if}
+                    #{/list}
+                </table>
+            </div>
+            <h6 class="p_sy_title mb15 mt25"><span>变现宝</span></h6>
+            <div class="p_sy_prolist">
+                <table class="p_sy_table" width="100%">
+                    <tr height="44">
+                    <td width="150"><span class="fl pl30">项目名称</span></td>
+                        <td width="80">年利率</td>
+                        <td width="134">金额（元）</td>
+                        <td width="99">期限</td>
+                        <td width="110">进度</td>
+                        <td>状态</td>
+                    </tr> 
+                    
+                    #{list items:bidCashList , as:'bid'}
+                    #{if bid?.product_id == 3}
+                    <tr height="76">
+                        <td><span class="fl"><a href="@{front.invest.InvestAction.invest(bid?.id)}" >${bid?.title}</a></span></td>
+                        <td><span class="cozhuse">${bid?.apr}%</span></td>
+                        <td><span class="co333">￥${bid?.amount?.format('###,##0.00')}</span></td>
+                        <td><span class="co333">
+                        		#{if bid?.period_unit ==-1}
+												${bid?.period}年
+												#{/if}
+												#{if bid?.period_unit ==0}
+												${bid?.period}个月
+												#{/if}
+												#{if bid?.period_unit ==1}
+												${bid?.period}天
+								#{/if}
+                        </span></td>
+                        <td><span class="probar50" probar="${bid?.loan_schedule}">${bid?.loan_schedule}%</span></td>
+                         #{if bid?.has_invested_amount == bid?.amount}
+                          <td><a href="@{front.invest.InvestAction.invest(bid?.id)}" class="p_sy_tbtn curr">已售罄</a></td>
+                        #{/if}
+                        #{else}
+                        <td><a onclick="javascript:window.window.open('@{front.invest.InvestAction.invest(bid?.id)}', '_self')" class="p_sy_tbtn">立即投标</a></td>
+                        #{/else}
+                    </tr>
+                    #{/if}
+                    #{/list}
+                  	
+                </table>
+            </div>
+           
+            <div class="p_sy_ckmbox"><a href="@{front.invest.InvestAction.investHome()}" target="_self" class="p_sy_ckmore" title="">查看更多投资项目&gt;&gt;</a></div>
+        </div>
+        <div class="p_sy_rightbox">
+           
+         <h6 class="p_sy_title mb15"><span>发标公告</span>
+           #{if bidPublishs.size()>0}
+           <a href="@{front.home.HomeAction.moreBidPublish()}" target="_blank" title="">+更多</a>
+           #{/if}
+         </h6>
+            <div class="p_sy_ggword">
+            <div></div>
+            #{list bidPublishs}
+            
+                <ul class="p_sy_ggul">
+                	
+                    <li class="clr"><a href="@{front.home.HomeAction.bidPublishDetails(_?.year,_?.month,_?.day)}" target="_blank"><p><i></i>${_?.month}月${_?.day}日发标公告</a><span></span></li>
+                    
+                </ul>
+            #{/list}
+            </div>      	
+            <h6 class="p_sy_title mb10 mt10"><span>投资风云榜</span><a href="@{front.home.HomeAction.moreInvest()}" title="">+更多</a></h6>
+            <div class="p_sy_fengybox">
+                <table>
+                    <thead>
+                        <tr height="35">
+                            <th>排名</th>
+                            <th>用户名</th>
+                            *{<th>投资金额</th>}*
+                            *{<th>收益率</th>}*
+                        </tr>
+                    </thead>
+                    <tbody>
+                    #{list items:investBillboard,as:'investBillboard'}
+                        <tr height="37">
+                            <th><i class="p_sy_i01">${investBillboard_index}</i></th>
+                            <th>${investBillboard?.name?.asterisk()}</th>
+                            *{<th>￥#{format money:investBillboard?.corpus}#{/format}</th>}*
+                            *{<th>${(investBillboard?.interest*100/investBillboard?.corpus).format('0.00')}%</th>}*
+                        </tr>
+                    #{/list}
+                    </tbody>
+                </table>
+            </div>
+		
+			<h6 class="p_sy_title mb10 mt10"><span>网站公告</span><a href="@{front.wealthinfomation.WealthInfomationAction.restHome(7)}" title="">+更多</a></h6>
+            <div class="p_sy_cgbox">  
+            #{list items:news,as:'news'}         
+                <ul class="p_sy_cgul">  
+                    <li><i></i><a href="front/wealthinfomation/newDetails?id=${news?.id}" target="_blank">${news?.title.truncate(0,17)}</a></li>
+                </ul>
+            #{/list}     
+            </div>
+            
+            <h6 class="p_sy_title mb10 mt10"><span>财富工具箱</span><a href="#" title=""></a></h6>
+            <div class="p_sy_cfbox">
+                <ul class="p_sy_cful clr">
+                    <li>
+                        <a href="@{wealthToolkit(1)}" title="" class="p_sy_cfacon p_sy_cfa01">
+                            <span><i></i></span>
+                            <em>信用计算器</em>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@{wealthToolkit(2)}" title="" class="p_sy_cfacon p_sy_cfa02">
+                            <span><i></i></span>
+                            <em>还款计算器</em>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@{wealthToolkit(3)}" title="" class="p_sy_cfacon p_sy_cfa03">
+                            <span><i></i></span>
+                            <em>净值计算器</em>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@{wealthToolkit(4)}" title="" class="p_sy_cfacon p_sy_cfa04">
+                            <span><i></i></span>
+                            <em>利率计算器</em>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@{wealthToolkit(5)}" title="" class="p_sy_cfacon p_sy_cfa05">
+                            <span><i></i></span>
+                            <em>服务手续费</em>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@{wealthToolkit(6)}" title="" class="p_sy_cfacon p_sy_cfa06">
+                            <span><i></i></span>
+                            <em>超额借款</em>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="p_main">
+        <h6 class="p_sy_title mb18 mt20"><span>合作伙伴</span><a onclick="partner_more()" id="xf_c_idx_12_partner_more" data-type="0">+更多</a></h6>
+        <div class="xf_c_idx_12_partnerContent" id="xf_c_idx_12_partnerContent_banner">
+       		<div style="float: left;">
+	        	<img src="/public/images/bg17.png" style="width:18px;opacity:0.3;cursor: pointer;" id="xf_c_idx_12_partnerContent_prev">
+        	</div>
+        	<div id="xf_c_idx_12_partnerBanner" style="float: left;position: absolute;margin-left: 10px;">
+        		<input type="hidden" value="${partnerList?.size()}" id="partnerContent_total_count">
+			    <input type="hidden" value="1" id="partnerContent_page_curr">
+        		#{set batch:1 /}
+        		#{set index:0 /}
+				#{list partnerList}
+					<a class="xf_c_idx_12_partnerCSI page_batch_${batch}" href="${_?.url}" target="_blank" 
+					#{if batch > 1}
+						style = "display:none;">
+					#{/if}
+					#{else}
+						>
+					#{/else}
+						#{img src:"${_?.image_filename}"}#{/img}
+					</a>
+					#{if index>= 5 && (index+1)%6 ==0}
+						#{set batch:batch+1/}
+					#{/if}
+					#{set index:index+1 /}
+				#{/list}
+			</div>
+			<div style="float: right">
+				<img src="/public/images/bg18.png" style="width:18px;opacity:0.3;cursor: pointer;" id="xf_c_idx_12_partnerContent_next">
+			</div>
+			<div style="clear: both;"></div>
+		</div>
+		<div class="xf_c_idx_12_partnerContent" id="xf_c_idx_12_partnerContent_more" style="display: none">
+			#{set index:0 /}
+			#{list partnerList}
+				#{if index==0}
+					<ul style="margin:10px 0px 0px 10px">
+				#{/if}
+				<li style="display:inline;">
+					<a class="xf_c_idx_12_partnerCSI" href="${_?.url}" target="_blank">
+						#{img src:"${_?.image_filename}"}#{/img}
+					</a>
+				</li>
+				#{if index>= 5 && (index+1)%6 ==0}
+					</ul>
+					#{if index+1 < partnerList?.size()}
+						<ul style="margin:10px 0px 0px 10px">
+					#{/if}
+				#{/if}
+			#{set index:index+1 /}
+			#{/list}
+		</div>
+    </div>
+    
+</div>
+<script type="text/javascript" src="js/superslide.2.1.js"></script>
+
+<script type="text/javascript">
+var page_size = 6;
+var parter_time = 5000;
+$(function(){
+	$('#xf_c_idx_12_partnerContent_next').click(function(){
+		next();
+	});
+	
+	$('#xf_c_idx_12_partnerContent_prev').click(function(){
+		prev();
+	});
+});
+var partner_Inter = setInterval(next,parter_time);
+function prev(){
+	var currPage = parseInt($('#partnerContent_page_curr').val());
+	$('.page_batch_' +currPage).hide(100);
+	var totalCount = parseInt($('#partnerContent_total_count').val());
+	currPage = currPage == 1 ? parseInt((totalCount - 1) / page_size + 1) : currPage - 1
+	$('.page_batch_' +currPage).show(100);
+	$('#partnerContent_page_curr').val(currPage);
+}
+function next(){
+	var currPage = parseInt($('#partnerContent_page_curr').val());
+	$('.page_batch_' +currPage).hide(100);
+	var totalCount = parseInt($('#partnerContent_total_count').val());
+	var totalPage = parseInt((totalCount - 1) / page_size + 1);
+	currPage = currPage == totalPage ? 1 : currPage + 1
+	$('.page_batch_' +currPage).show(100);
+	$('#partnerContent_page_curr').val(currPage);
+}
+function partner_more(){
+	var data_type = $("#xf_c_idx_12_partner_more").attr('data-type');
+	if(data_type == '0'){
+		clearInterval(partner_Inter);
+		$("#xf_c_idx_12_partner_more").attr('data-type',1);
+		$("#xf_c_idx_12_partner_more").html('收起');
+		$("#xf_c_idx_12_partnerContent_banner").hide(100);
+		$("#xf_c_idx_12_partnerContent_more").show(100);
+	}else{
+		var currPage = parseInt($('#partnerContent_page_curr').val());
+		$("#xf_c_idx_12_partner_more").html('+更多');
+		$("#xf_c_idx_12_partner_more").attr('data-type',0);
+		$("#xf_c_idx_12_partnerContent_more").hide(100);
+		$("#xf_c_idx_12_partnerContent_banner").show(100);
+		partner_Inter = setInterval(next,parter_time);
+	}
+}
+</script>
+<script type="text/javascript">
+jQuery(".fullSlide").slide({
+    titCell: ".hd ul",
+    mainCell: ".bd ul",
+    effect: "fold",
+    autoPlay: true,
+    autoPage: true,
+    trigger: "click",
+    startFun: function(i) {
+    var curLi = jQuery(".fullSlide .bd li").eq(i);
+        if ( !! curLi.attr("_src")) {
+            curLi.css("background-image", curLi.attr("_src")).removeAttr("_src")
+        }
+	}
+});
+</script>
+
+<script type="text/javascript">
+	$(function() {
+		showbids();
+		/**tab切换 start */
+		$("#xf_c_idx_8_tabsColName li a").first().addClass(
+				"xf_c_idx_8_tabsColNameActive");
+		$("#xf_c_idx_8_tabsColName li").click(
+				function() {
+					$(this).children().addClass("xf_c_idx_8_tabsColNameActive")
+							.parent().siblings().children().removeClass(
+									"xf_c_idx_8_tabsColNameActive");
+					$("#xf_c_idx_8_content").children().eq(
+							$(".xf_c_idx_8_tabsColName li").index($(this)))
+							.show().siblings().hide();
+
+				});
+		/**tab切换 ends */
+
+		/***截取字数 append 链接 start***/
+		$(".xf_c_idx_5_gfggIntroduce p").limit();
+		$(".xf_c_idx_5_gfggIntroduce p").append(
+				"<a  class='xf_c_idx_5_gfggIntroduceMore'>[全文]</a>");
+		/***截取字数 append 链接 end***/
+		
+	});
+</script>
+<script>
+function showbids(){
+	$("#bids").show();
+	$("#agencybids").hide();
+}
+function showagencybids(){
+	$("#bids").hide();
+	$("#agencybids").show();
+}
+
+(function($){
+	    $.fn.FontScroll = function(options){
+	        var d = {time: 3000,s: 'fontColor',num: 1}
+	        var o = $.extend(d,options);
+	        
+
+	        this.children('ul').addClass('line');
+	        this.children('ul').attr("style",'margin-top:0');
+	        var _con = $('.line').eq(0);
+	        var _conH = _con.height(); //滚动总高度
+	        var _conChildH = _con.children().eq(0).height();//一次滚动高度
+	        var _temp = _conChildH;  //临时变量
+	        var _time = d.time;  //滚动间隔
+	        var _s = d.s;  //滚动间隔
+
+
+	        _con.clone().insertAfter(_con);//初始化克隆
+
+	        //样式控制
+	        var num = d.num;
+	        var _p = this.find('li');
+	        var allNum = _p.length;
+
+	        _p.eq(num).addClass(_s);
+
+
+	        var timeID = setInterval(Up,_time);
+			this.hover(function(){clearInterval(timeID)},function(){timeID = setInterval(Up,_time);});
+
+	        function Up(){
+	        
+	            _con.animate({marginTop: '-'+_conChildH});
+	            //样式控制
+	            _p.removeClass(_s);
+	            num += 1;
+	            _p.eq(num).addClass(_s);
+	            
+	            if(_conH == _conChildH){
+	                _con.animate({marginTop: '-'+_conChildH},"normal",over);
+	            } else {
+	                _conChildH += _temp;
+	            }
+	        }
+	        function over(){
+	       
+	            _con.attr("style",'margin-top:0');
+	            _conChildH = _temp;
+	            num = 1;
+	            _p.removeClass(_s);
+	            _p.eq(num).addClass(_s);
+	        }
+	        
+	        
+	    }
+	})(jQuery);
+	
+	$('#FontScroll2').FontScroll({time: 2000,num: 1});
+	$('#FontScroll3').FontScroll({time: 2000,num: 1});
+	$('#FontScroll').FontScroll({time: 2000,num: 1});
+	
+	
+</script>
+
+
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_index.js'}"></script>

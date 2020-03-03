@@ -1,0 +1,226 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'失败的债权转让标' /}
+ <!-- 头部end -->
+ <!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+     <div class="xn_c_contentlist">
+     	#{include 'supervisor/bidManager/bidManagerLeft.control' /}
+     <div class="xn_c_content">
+     <div class="xf_ht_tablelist">
+      #{form @failedDebtTransfer(),id :'failedDebtTransfer'}
+         <input type="hidden" id="currPage" name="currPage"/>
+         <input type="hidden" id="pageSize" name="pageSize"/>
+          <!-- 搜索 -->
+         <div class="xf_ht_search">
+         <div class="xf_ht_search_l">
+                <input type="hidden" id="orderType" name="orderType" value="${page?.conditions?.orderType}"/>
+                 <span id="div_0" onClick="conditonSearch(0)">默认排序</span>
+                 <span id="div_1" onClick="conditonSearch(1)">申请时间<a id="tab_1" >↑</a></span>
+                 <span id="div_3" onClick="conditonSearch(3)">借款额度<a id="tab_3" >↑</a></span>
+                 <span id="div_5" onClick="conditonSearch(5)">信用等级<a id="tab_5" >↑</a></span>
+                 <span id="div_7" onClick="conditonSearch(7)">逾期账单<a id="tab_7" >↑</a></span>
+         </div>
+         </div>
+         <div class="xf_ht_search_inon">
+         <div class="xf_ht_search_r">
+         <div class="xf_ht_search_xl">
+         <select class="xf_membill_selectAge" name="typeStr" id="type" >
+                 <option value="0" #{if page?.conditions?.type == 0} selected="selected"  #{/if}>全部  </option>
+                 <option value="1" #{elseif page?.conditions?.type == 1} selected="selected" #{/elseif}  >编号</option>
+                 <option value="2"  #{elseif page?.conditions?.type == 2} selected="selected"  #{/elseif}  >债权人</option>
+         </select>        
+     	 </div>
+          <div class="xf_ht_search_xl">
+              <span class="search_timesp">失败时间：</span>
+              <input type="text" name="startDateStr" id="startDate"  onclick="laydate()" class="search_time"    style="cursor:pointer" value="${page?.conditions?.startDateStr}"/>  
+              <span class="search_timesp">--</span> 
+              <input  type="text" name="endDateStr" id="endDate"  onclick="laydate()" class="search_time" style="cursor:pointer" value="${page?.conditions?.endDateStr}"/>
+          </div>
+          <div class="xf_ht_search_xl">
+              <input name="keyWords" type="text" class="xfht_t_jk_zt_rj3" id="textfield" value="${page.conditions?.keyWords}" />
+          </div>
+          <div class="xf_ht_search_xl">
+               <input type="hidden" name="isExport" value="0" id="isExport">
+			   <input type="submit" class="search_button" onclick="search();" value="搜索">
+			   <input type="submit" class="search_button" onmouseout="clearIsExport();" onclick="download();" value="下载数据">
+          </div>
+          </div>
+          </div>
+        #{/form}  
+	 <!-- 列表内容 -->
+     <div class="xn_c_content_top">
+           #{table class:"xn_c_content_list",cellspacing:"0",cellpadding:"0",border:"0",tr_class_odd:"xn_tr_bj"}
+              #{tr}
+                   #{th}序号#{/th}
+                   #{th}编号#{/th}
+                   #{th}债权转让标题#{/th}
+                   #{th}债权人#{/th}
+                   #{th}信用等级#{/th}
+                   #{th}转让标借款金额#{/th}
+                   #{th}年利率#{/th}
+                   #{th}借款期限#{/th}
+                   #{th}已还期数#{/th}
+                   #{th}剩余期数#{/th}
+                   #{th}剩余金额#{/th}
+                   #{th}逾期账单#{/th}
+                   #{th}待收本金#{/th}
+                   #{th}转让底价#{/th}
+                   #{th}转让方式#{/th}
+                   #{th}竞拍人数#{/th}
+                   #{th}申请时间#{/th}
+                   #{th}失败时间#{/th}
+                   #{th}操作#{/th}
+               #{/tr}
+               #{if page?.page?.size>0}
+               #{list items:page?.page,as : 'debt'}
+                  #{tr  class:"xn_tr_bj"}
+                        #{td}${(page?.currPage - 1)*page?.pageSize + debt_index}#{/td}
+                        #{td}${debt?.no}#{/td}
+                         #{td}
+                        <div id="title${(page?.currPage - 1)*page?.pageSize + debt_index}" onmouseover="showTitle('title${(page?.currPage - 1)*page?.pageSize + debt_index}','${debt?.title}');">
+                        #{if debt?.title?.length() <=6}
+                        	${debt?.title}
+                        #{/if}
+                        #{else}
+                        	${debt?.title?.substring(0,6) + "..."}
+                        #{/else}
+                        </div>
+                        #{/td}
+                        #{td}${debt?.name}#{/td}
+                        #{td}#{img src:"${debt?.credit_level_image_filename}",alt:"",width:"25px",height:"25px"}#{/img}#{/td}
+                        #{td}${debt?.bid_amount?.format("###,##0.00")}#{/td}
+                        #{td}${debt?.apr}%#{/td}
+                        #{td} 
+                        	#{if debt?.period_unit ==-1} ${debt?.period}年       #{/if}
+                            #{if debt?.period_unit ==0}  ${debt?.period}个月  #{/if}
+			                #{if debt?.period_unit ==1} ${debt?.period}天          #{/if}
+			            #{/td}    	
+                        #{td}${debt?.has_payback_period}#{/td}
+                        #{td} 
+                           #{if debt?.period_unit ==-1} ${debt?.period*12 - debt?.has_payback_period} #{/if}
+                           #{if debt?.period_unit ==0} ${debt?.period - debt?.has_payback_period}     #{/if}
+			               #{if debt?.period_unit ==1} ${1 - debt?.has_payback_period}  				 #{/if}
+			            #{/td}  
+			                
+			            #{td}
+			             #{if debt?.receiving_amount !=null && debt?.receiving_amount != 0} 
+			            ${debt?.receiving_amount?.format("###,##0.00") }
+			            #{/if}  
+              			#{else}		
+              			0
+              			#{/else}
+              			
+			            #{/td}    	 
+			            
+                        #{td}${debt?.overdue_payback_period}#{/td}
+                        #{td}
+                        #{if debt?.remain_received_corpus !=null && debt?.remain_received_corpus !=0}
+                        ${debt?.remain_received_corpus?.format("###,##0.00")}
+                        #{/if}
+                        #{else}0#{/else}
+                        #{/td}
+                        #{td}${debt?.transfer_price?.format("###,##0.00")}#{/td}
+						#{td} #{if debt?.type ==1} 定向转让   #{/if}   #{if debt?.type ==2}   竞价转让   #{/if}   #{/td}
+						#{td}${debt?.join_person_num}#{/td}
+						#{td}${debt?.time?.format('yyyy-MM-dd HH:mm:ss')}#{/td}
+						#{td}${debt?.failure_time?.format('yyyy-MM-dd HH:mm:ss')}#{/td}
+                        #{td} 
+                        	<span > 
+                   				 <a href="@{transferDetails(debt?.sign,debt?.status, 15)}" class="xf_ta_onclick">详情</a>
+                   			</span>
+                   		#{/td}
+                      #{/tr}              
+                   #{/list}
+              	   #{/if}             
+               #{/table}
+     </div>
+     <!-- 列表底部 -->
+     <div class="xn_c_content_bottom">
+     <div class="page_warp">
+     <!-- 无上一页样式：page_prev_no -->
+     #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4} 	#{/page}
+     <!-- 无下一页样式：page_next_no -->
+     </div>
+     </div>
+     </div>
+     </div>
+     </div>
+</div>
+<script type="text/javascript">
+
+/* 搜索 */
+function search(){
+  $("#isExport").val(0);
+  $("#failedDebtTransfer").submit();
+}
+
+/* 下载数据 */
+function download(){
+  $("#isExport").val(1);
+  $("#failedDebtTransfer").submit();
+}
+
+/* 清除下载数据 */
+function clearIsExport(){
+  $('#isExport').val(0);
+}
+
+
+function conditonSearch(num){
+	  var orderType= ${page.conditions?.orderType};
+	  if(orderType == 0){
+	    $("#orderType").val(num);
+	    $("#failedDebtTransfer").submit();
+	    return;
+	  }
+	  var sum = orderType/2;
+	  if(sum.toString().indexOf('.') == -1){
+	    var sum2 = orderType - 1;
+	    $("#orderType").val(num);
+	    $("#failedDebtTransfer").submit();
+	    return;
+	  }else{
+	    if(orderType == num){
+	      $("#orderType").val(num + 1);
+	      $("#failedDebtTransfer").submit();
+	      return;
+	    }else{
+	      $("#orderType").val(num);
+	      $("#failedDebtTransfer").submit();
+	      return;
+	    }
+	  }
+	}
+
+$(function(){	
+	/* 高亮显示 */
+	showHighLight(3, 3, 15);
+	
+	//条件查询控制样式
+ 	var num= ${page?.conditions?.orderType};
+    if(num == 0){
+        $("#div_0").addClass("xf_sea_isshow");
+        return;
+    }
+    var sum = num/2;
+    if(sum.toString().indexOf('.') == -1){
+        var sum2 = num -1;
+        $("#div_"+sum2).addClass("xf_sea_isshow");
+        $("#tab_"+sum2).html("↓");
+        return;
+     }
+     $("#div_"+num).addClass("xf_sea_isshow");
+     $("#tab_"+num).html("↑"); 
+});
+
+function showPage(currPage, pageSize){
+    $("#currPage").val(currPage);
+    $("#pageSize").val(pageSize);
+    $("#failedDebtTransfer").submit();
+}
+
+/* 控制标题显示 */
+function showTitle(id,title){
+	layer.tips(title,'#'+id, {time: 1, guide: 2});
+}
+</script>

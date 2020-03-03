@@ -1,0 +1,47 @@
+<!-- 会员详情弹窗 -->
+<div class="xf_ht_jr_obu_width">
+  <div class="xf_ht_damem_hy_box">
+    <div class="xf_ht_damem_hy_bott xf_ht_damem_hy_bott6">
+      <div class="xf_ht_damem_hy_bott_t clr">
+        <div class="xf_ht_damem_hy_bott_l">注册信息</div>
+      </div>
+      <div class="xf_ht_damem_hy_bott_ta3">
+        <table width="100%" cellspacing="0" cellpadding="0" border="0" class="xf_member_jbox">
+          <tr>
+            <td valign="middle" align="center"><span class="xf_td_title">用户名：</span>${user?.name}</td>
+            <td valign="middle" align="center"><span class="xf_td_title">注册邮箱：</span>${user?.email}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="xf_ht_damem_hy_bott xf_ht_damem_hy_bott6">
+      <div class="xf_ht_damem_hy_bott_t clr">
+        <div class="xf_ht_damem_hy_bott_l">基本信息</div>
+      </div>
+      <div class="xf_ht_damem_hy_bott_ta3">
+        <table width="100%" cellspacing="0" cellpadding="0" border="0" class="xf_member_jbox">
+          <tr>
+            <td valign="middle" align="center"><span class="xf_td_title">真实姓名：</span>${user?.realityName}</td>
+            <td valign="middle" align="center"><span class="xf_td_title">性别：</span>${user?.sex}</td>
+          </tr>
+          <tr>
+            <td valign="middle" align="center"><span class="xf_td_title">身份证号：</span>${user?.idNumber}</td>
+            <td valign="middle" align="center"><span class="xf_td_title">户口所在地：</span>${user?.provinceName}</td>
+          </tr>
+          <tr>
+            <td valign="middle" align="center"><span class="xf_td_title">文化程度：</span>${user?.educationName}</td>
+            <td valign="middle" align="center"><span class="xf_td_title">婚姻状况：</span>${user?.maritalName}</td>
+          </tr>
+          <tr>
+            <td valign="middle" align="center"><span class="xf_td_title">购车情况：</span>${user?.carName}</td>
+            <td valign="middle" align="center"><span class="xf_td_title">购房情况：</span>${user?.houseName}</td>
+          </tr>
+          <tr>
+            <td valign="middle" align="center"><span class="xf_td_title">手机：</span>${user?.mobile1}</td>
+            <td valign="middle" align="center"><span class="xf_td_title">邮箱：</span>${user?.email}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

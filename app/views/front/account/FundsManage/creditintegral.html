@@ -1,0 +1,65 @@
+<div class="xf_zqzr_znx_window" id="xf_mem_xyjfgz_windowsss">
+	<div class="xf_wyjkwszl_4_windowInner xf_hmd_wdxydj_window">
+		<div class="xf_wyjkfb_4_windowClose" id="close"></div>
+		<div class="xf_wyjkfb_4_windowColName">
+			查看积分规则
+		</div>
+		<div class="xf_zqzr_znx_windowCot">
+			<ul class="xf_zqzr_xydj_windowUl">
+				<li class="xf_xydj_windowUl_th">审核资料积分</li>
+				<li>审核科目库共有${auditItemCount}个审核资料科目： <a class="xf_xddj_lia" onclick="showItem();">查看科目积分</a></li>
+				<li class="xf_xydj_windowUl_th2">正常还款积分</li>
+				<li>每正常还款一期账单积：<span class="xf_xddj_lia">${backstageSet?.normalPayPoints}</span>分</li>
+				<li class="xf_xydj_windowUl_th2">成功借款积分</li>
+				<li>每成功满标一个借款标积：<span class="xf_xddj_lia">${backstageSet?.fullBidPoints}</span>分</li>
+				<li class="xf_xydj_windowUl_th2">成功投标积分</li>
+				<li>每成功投标一次积：<span class="xf_xddj_lia">${backstageSet?.investpoints}</span>分</li>
+				<li class="xf_xydj_windowUl_th2">账单逾期扣分</li>
+				<li>每逾期账单一次扣：<span class="xf_xddj_lia">${backstageSet?.overDuePoints}</span>分</li>
+			</ul>
+			<div class="xf_xydj_a_bq">
+				<a href="#" class="xf_con_inputfbjk" id="close1">关 闭</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="creditItem"></div>
+
+<script type="text/javascript">
+	$(function(){
+		$(".xf_ht_jr_obu_r").click(function(){
+		   $(this).parents(".xf_ht_ttc").hide();
+		 });
+
+		 showDiv($("#xf_mem_xyjfgz_windowsss"));
+	});
+     
+     $("#close").click(function(){
+         $("#xf_mem_xyjfgz_windowsss").hide();
+     })
+     
+     $("#close1").click(function(){
+         $("#xf_mem_xyjfgz_windowsss").hide();
+     })
+     
+     function showItem() {
+        var key = "";
+		$.ajax({
+			url : "@{creditItem(key)}",
+			type : "POST",
+			data : {},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+					
+					return;
+				}
+			    $("#creditItem").html(data);
+			},
+			error : function() {
+				alert(data.msg);
+			}
+		});
+	}
+     
+</script>

@@ -1,0 +1,313 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/yystyle.css'}" />	
+<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/shzt.css'}" />	
+<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/news.css'}" />	
+<script type="text/javascript" src="@{'/public/javascripts/jquery-2.1.0.min.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/yyjs.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/shzt.js'}?v=20160407"></script>
+<script type="text/javascript" src="@{'/public/javascripts/jquery.roundabout2.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/jquery.easing.1.3.js'}"></script>
+<title>兑换</title>
+</head>
+
+<body>
+	*{<div class="p-hdpicon"><img src="${t_mall_goods?.pic_path}" alt="" width="400" height="500"></div>
+	<div class="p-hdbotbox">
+	    <div class="p-hdbtnbox flex">
+	        <a href="javascript:void(0)" class="flex-1" onclick="subMallGoods()">我要兑换</a>
+	    </div>
+	</div>}*
+	<div class="p-hkgongg s-allbg">
+	    <img class="s-topimg" style="width: 100%" src="${t_mall_goods?.pic_path}"/>
+	    <p class="s-title">${t_mall_goods?.name}</p>
+	    <div class="s-topdiv">
+	    	<i class="s-tubiao"></i>
+	    	${t_mall_goods?.exchange_scroe}
+	    	<a class="s-change" href="javascript:void(0)" onclick="subMallGoods()">立即兑换</a>
+	    </div>
+	</div>
+	<div class="p-hkgongg s-div2">
+		<div class="s-topdivin">
+			商品介绍
+		</div>
+		<span class="s-spimg">${t_mall_goods?.introduction}</span>
+		
+	</div>
+	<div class="p-hkgongg s-div2">
+		<div class="s-topdivin">
+			兑换流程
+		</div>
+		<div class="clear"></div>
+		<p class="s-centerp">兑换流程文字说明兑换流程文字说明兑换流程文字说明兑换流程文字说明兑换流程文字说明兑换流程文字说明兑换流程文字说明兑换流程文字说明换流程文字说明兑换流程文字说明换流程文字说明兑换流程文字说明</p>
+	</div>
+	<div class="p-hkgongg s-div2 s-div3">
+		<div class="s-topdivin">
+			重要流程
+		</div>
+		<div class="clear"></div>
+		<p class="s-centerp">1、兑换成功后10个工作日内送达，请耐心等待。</p>
+		<p class="s-centerp">2、如有问题请联系商家客服：400-033-0707。</p>
+	</div>
+	<div class="s-back">
+		<img src="/public/images/bacl.png"/>
+		<span>返回顶部</span>
+	</div>
+	
+	<script src="js/jquery-2.1.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function(){
+			  $(".s-back").click(function() {
+			      $("html,body").animate({scrollTop:0}, 500);
+			  }); 
+			 })
+		</script>
+	<!-- 弹窗1 -->
+	<div class="p-dialog p-hdguize" id="igo">
+	    <div class="p-dialogbg"></div>
+	    <div class="p-dialogcont">
+	        <h2 class="p-dialoghead">
+	            <span class="">收货地址填写</span>
+	            <a href="javascript:void(0)" class="p-dialogclose"><i class="bgico"></i></a>
+	        </h2>
+	        <ul class="p-goword">
+	            <li class="flex">
+	                <div class="p-goleft">收货人：</div>
+	                <div class="flex-1"><input type="text" id="receiver" class="p-goinput" style="font-size:1.2rem;"></div>
+	            </li>
+	            <li class="flex">
+	                <div class="p-goleft">联系方式：</div>
+	                <div class="flex-1"><input type="text" id="tel" class="p-goinput" style="font-size:1.2rem;"></div>
+	            </li>
+	            <li class="flex">
+	                <div class="p-goleft">所在省：</div>
+	                <div class="flex-1">
+	                #{select 'province', items:provinces, valueProperty:'id', labelProperty:'name', value:flash?.province, class:'xf_jbzl_selectAge', id:'province' /}
+	                </div>
+	                <div class="p-myrtword"><i class="bgico"></i></div>
+	            </li>
+	            <li class="flex">
+		            <div class="p-goleft">所在市：</div>
+			            <div class="flex-1">
+			            	#{select 'city', items:cityList, valueProperty:'id', labelProperty:'name', value:flash?.city, class:'xf_jbzl_selectAge', id:'city' /}
+			            </div>
+		            <div class="p-myrtword"><i class="bgico"></i></div>
+	            </li>
+	            <li class="flex">
+	                <div class="p-goleft">详细地址：</div>
+	                <div class="flex-1"><input type="text" id="address" class="p-goinput" style="font-size:1.2rem;"></div>
+	            </li>
+	            <li class="flex">
+	                <div class="p-goleft minh flex-1">设置默认地址<p>注：每次下单都会使用该地址</p></div>
+	                <div class="p-gomoradd" id="is_default"><i class="bgico"></i></div>
+	            </li>
+	        </ul>
+	        <a href="javascript:void(0)" class="p-godete p-dialogclose" onclick="subMallAddress('0')">确 定</a>
+	    </div>
+	</div>
+	<!-- 弹窗2 -->
+	<div class="p-dialog p-hdguize" id="succduih">
+	    <div class="p-dialogbg"></div>
+	    <div class="p-dialogcont">
+	        <div class="p-dhtips">
+	            <div class="p-dhtopred">恭喜！您的兑换申请已受理</div>
+	            <div class="p-dhcengray">请您耐心等待...</div>
+	        </div>
+	        <a href="/app/mallGoodsInfo?user_id=${user_id}" class="p-godete p-dialogclose" onclick="">确 定</a>
+	    </div>
+	</div>
+	
+	<!-- 弹窗1 -->
+	<div class="p-dialog p-hdguize" id="igoInit">
+	    <div class="p-dialogbg"></div>
+	    <div class="p-dialogcont" style="margin-left:669px!inportant;">
+	        <h2 class="p-dialoghead">
+	            <span class="">确认收货地址</span>
+	            <!-- <a href="javascript:void(0)" class="p-dialogclose"><i class="bgico"></i></a> -->
+	        </h2>
+	        <div class="p-morenadd">
+	            <div class="p-morename">${address?.receiver}&nbsp;&nbsp;&nbsp;&nbsp;${address?.tel}</div>
+	            <div class="p-morendiz"><span class="p-morico">默认</span>${address?.address}</div>
+	            <i class="bgico p-morengg"></i>
+	        </div>
+	        <div class="p-maddother">
+	            <a href="javascript:void(0)" onclick="changeAddress()">使用其它地址</a>
+	        </div>
+	        <a href="javascript:void(0)" class="p-godete p-dialogclose" onclick="subMallAddress('${address?.id}')">确 定</a>
+	    </div>
+	</div>
+	<!-- 弹窗2 -->
+	<div class="p-dialog p-hdguize" id="duih">
+	    <div class="p-dialogbg"></div>
+	    <div class="p-dialogcont">
+	        <div class="p-dhtips">
+	            <div class="p-dhtopicon"><i class="bgico"></i></div>
+	            <div class="p-dhcengray">对不起，您的积分不足</div>
+	        </div>
+	        <a href="/app/mallGoodsInfo?user_id=${user_id}" class="p-godete p-dialogclose" onclick="">确 定</a>
+	    </div>
+	</div>
+</body>
+</html>
+
+<script type="text/javascript">
+$(function(){
+	$("#province").append("<option value='0' selected>--请选择--</option>");
+	$("#city").append("<option value='0' selected>--请选择--</option>");
+	
+})
+
+$("#province").change(function(){
+	var selectVal = $(this).children('option:selected').val();
+	var jsAction = #{jsAction @Application.getCity(":provinceId")/}
+	$.post(jsAction({provinceId:selectVal}),function(data) {
+		var cityList = [];
+		for(var i = 0; i < data.length; i ++){
+			cityList.push("<option value='"+data[i].id+"'>"+data[i].name+"</option>");
+		}
+		$("#city").html(cityList);
+	});
+});
+
+function subMallGoods(id)
+{
+	
+	var totalScroe = ${totalScroe};
+	var exchange_scroe = ${t_mall_goods.exchange_scroe};
+	if(totalScroe-exchange_scroe < 0)
+	{
+		dialogCenter('#duih');
+		return;
+	}
+	#{if address != null && address?.id > 0}
+		dialogCenter('#igoInit');
+		return;
+	#{/if}
+	#{else}
+		dialogCenter('#igo');
+		return;
+	#{/else}
+	
+}
+function changeAddress()
+{
+	$("#igoInit").hide();
+	dialogCenter('#igo');
+}
+function subMallAddress(id)
+{
+	address_id = id;
+	//默认地址
+	if(address_id > 0)
+	{
+		$.ajax({
+     		url : "@{front.mall.MallAction.addAddress()}",
+		    type : "POST",
+		    data : {
+		 		"address_id":address_id,
+		     	"receiver" : 0,
+		     	"tel":0, 
+		     	"address":0,
+		     	"province":0,
+		     	"city":0,
+		     	"is_default":0,
+		     	"user_id":"${user_id}",
+		     	"mall_goods_id":${t_mall_goods?.id}
+	     	},
+	     	success : function(data) {
+	     		var arr = eval(data);
+				var result = arr.error.msg;
+				if(arr.error.code >= 0)
+				{
+					dialogCenter('#succduih');
+				}
+				else
+				{
+					alert(result);
+				}
+	     	},
+	     	error : function() {
+	     		alert("对不起，出现错误!");
+	     	}
+		});
+		return;
+	}
+	
+	 var receiver = $("#receiver").val();
+	 var tel = $("#tel").val();
+	 var address = $("#address").val();
+	 var province = $("#province").val();
+	 var city = $("#city").val();
+	 var is_default = $("#is_default").attr("class");
+	 if(is_default == "p-gomoradd"){
+		 is_default = "false";
+	 }else if(is_default == "p-gomoradd cur"){
+		 is_default = "true";
+	 }
+	 
+	 if(receiver == "")
+	 {
+		 alert("收货人不能为空！");
+		 return;
+	 }
+	 if(tel == "")
+	 {
+		 alert("联系方式不能为空！");
+		 return;
+	 }
+	 if(address == "")
+	 {
+		 alert("详细地址不能为空！");
+		 return;
+	 }
+	 if(province == "")
+	 {
+		 alert("所在地区的省份不能为空！");
+		 return;
+	 }
+	 if(city == "")
+	 {
+		 alert("所在地区的城市不能为空！");
+		 return;
+	 }
+	 
+	 $.ajax({
+     		url : "@{front.mall.MallAction.addAddress()}",
+		    type : "POST",
+		    data : {
+		 		"address_id":address_id,
+		     	"receiver" : receiver,
+		     	"tel":tel, 
+		     	"address":address,
+		     	"province":province,
+		     	"city":city,
+		     	"is_default":is_default,
+		     	"user_id":"${user_id}",
+		     	"mall_goods_id":${t_mall_goods?.id}
+	     	},
+	     	success : function(data) {
+	     		var arr = eval(data);
+				var result = arr.error.msg;
+				if(arr.error.code >= 0)
+				{
+					dialogCenter('#succduih');
+				}
+				else
+				{
+					alert(result);
+				}
+	     	},
+	     	error : function() {
+	     		alert("对不起，出现错误!");
+	     	}
+	 });
+	 
+}
+</script>

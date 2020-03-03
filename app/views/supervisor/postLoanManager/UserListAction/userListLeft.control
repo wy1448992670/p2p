@@ -1,0 +1,18 @@
+<div class="xn_c_content_left">
+	<div class="xn_c_content_leftul">
+		<ul>
+			<li>
+				<div class="xn_c_li_head_one">
+					<div class="xn_c_li_bg" id="lab_1"></div>
+					用户通讯录
+				</div>
+				<div class="xn_c_li_head_two" id="hi_1">
+					<a id="mg_1" href="@{supervisor.postLoanManager.UserListAction.userList()}" class="xn_c_li_head_twoli">用户列表</a>
+				</div>
+		</ul>
+	</div>
+	<div class="xn_c_con_leftbutton">
+		<div class="xn_c_con_enimg">导航点击</div>
+	</div>
+</div>
+<script type="text/javascript" src="/public/javascripts/tab/tab_mg_post.js"></script>

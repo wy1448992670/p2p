@@ -1,0 +1,15 @@
+#{extends 'common/frontMain.html' /}
+#{set title:'环迅充值返回页面' /}
+<div class="xf_login_centent xf_login_fh"  style="margin-top:50px;">
+			<h3 class="xf_login_hh">${info}</h3>
+			<a href="@{front.home.HomeAction.home()}">返回首页</a>
+		</div>
+<script>
+//页面加载后自动刷新一次，解决充值已完成后页面金额不更新问题。
+$(function(){
+	var code = '${code}';
+	if(code == '-11' && location.href.indexOf("?xyz=")<0) {
+		location.href = location.href + "?xyz=" + Math.random();
+  }
+})</script>
+		

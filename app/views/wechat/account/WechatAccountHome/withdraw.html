@@ -1,0 +1,126 @@
+#{extends 'wechat/common.html' /}
+
+<body>
+#{form @wechat.account.WechatAccountHome.submitWithdrawal(), id:'withdrawSubmit'}
+  <input type="hidden" name="bankId" id="bankId" />
+  <input type="hidden" name="type" value="1" />
+  <input type="hidden" name="ipsSelect" value="1" />
+	<div class="s_center">
+		<header class="s_header">
+			<span>提现</span>
+			<a href="@{wechat.account.WechatAccountHome.accountInfo()}" class="icobg"></a>
+		</header>
+		<ul class="s_getmoney">
+			<li>
+				账户余额：${(user?.balanceDetail?.user_amount+user?.balanceDetail?.freeze)?.format('###,##0.00')}元
+			</li>
+			<li>
+				其中可提现余额为：${withdrawalAmount?.format('###,##0.00')}元
+			</li>
+			<li>
+				<span class="lil">提现金额：</span>
+				<span class="lir">
+					<input type="text" class="text textw1" name="amount" id="amount" autocomplete="off" /> 元
+					<p class="smallfont">单次最高提现金额为：${maxWithDrawalAmount?.format("###,##0.00")}元</p>
+				</span>
+			</li>
+			<li>
+				<span class="lil">选择提现银行卡：</span>
+				<span class="lir">
+					<select class="text textw1" name="bankList" id="bankList" onChange="bankInfo()">
+						 <option value="no">请选择银行卡</option>
+							 #{list items:banks, as:'bank'}  
+						     <option value="${bank?.id}">${bank?.bankName}</option> 
+						   #{/list}  
+							</select>
+							<p class="smallfont" ><a href="@{wechat.account.WechatAccountHome.bankManage}">银行卡管理</a></p>
+				</span>
+			</li>
+			<li>
+				银行卡信息：<br/>
+				<div class="bankdetail">
+					开户银行：<span id="bank"></span><br/>
+					账号：<span id="account"></span><br/>
+					收款人：<span id="banker"></span><br/>
+				</div>
+			</li>
+			<li>
+				交易密码：<input type="password" class="text textw2" id="dealPwd" name="payPassword"/>
+			</li>
+			<li>
+				<div class="notice">
+					注：<br/>
+					1.用户直接充值到账户的金额须${constants?.Constants?.WITHDRAWAL_DAY}个工作日后，方可申请提现。<br/>
+					2.申请提现后，我们的客服人员将会在24小时内向
+					您反馈信息，请注意查收私信，并保持手机畅通。
+				</div>
+			</li>
+			<li>
+				<input type="button" class="s_czsubbtn" value="确认" onclick="withdrawSubmit()"/>
+			</li>
+		</ul>
+	</div>
+#{/form}
+</body>
+
+<script type="text/javascript">
+if('${flash?.error}' != ''){
+	alert('${flash?.error}');
+}
+
+function bankInfo(){
+	 var selecrValue = $("#bankList").val();
+   if(selecrValue == 'no'){
+	    $("#bank").html("");
+		  $("#account").html("");
+		  $("#banker").html("");
+		  
+	   }else{
+		   var QueryBankInfo = #{jsAction @front.account.FundsManage.QueryBankInfo(':id')/}
+		   $.post(QueryBankInfo({id:$("#bankList").val()}),function(data){
+			  var arr = eval(data);
+			  
+			  if(arr.bank.account == ''){
+			      return;
+			  }
+
+			  $("#bank").html(arr.bank.bankName);
+			  $("#account").html(arr.bank.account);
+			  $("#banker").html(arr.bank.accountName);
+		   });
+		 }
+}
+
+function withdrawSubmit(){
+	if($("#bankList").val() == "no"){
+     alert("请选择要提现的银行！");
+     return;
+    }
+	
+  if($("#amount").val() == ''){
+	  alert("请输入提现金额");
+	  return;
+	}
+	
+	var pwd = '${user?.payPassword}';
+
+	if(pwd.length == 0){
+	   alert("为了您的安全，请先设置交易密码");
+	   window.location.href = "@{wechat.account.WechatAccountHome.securitySet()}";
+	   return;
+    }
+
+	var pwdLength = $("#dealPwd").val().length;
+
+	if(pwdLength == 0){
+        alert("交易密码不能为空");
+		return;
+	}
+	
+	$("#bankId").val($("#bankList").val())
+	$("#withdrawSubmit").submit();
+}
+</script>
+
+
+

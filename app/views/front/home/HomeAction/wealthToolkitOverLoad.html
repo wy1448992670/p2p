@@ -1,0 +1,21 @@
+<h3 class="xf_mem_accout_title">信用额度</h3>
+<div class="xf_jsq_cejk">
+	<div class="xf_jsq_cejk_t">
+		如您的借款额度不足以满足您所需的借款要求，可通过上传您可以上传的认证来申请超额借款，下列表单中记录了各个认证可申请的借款额度：
+	</div>
+	<table border="0" cellpadding="0" cellspacing="0" width="739" class="xf_mem_jsq_table">
+		<tr>
+			<th>审核科目名称</th>
+			<th>信用额度(元)</th>
+			<th>有效期(月)</th>
+		</tr>
+		#{list auditItems}
+		<tr>
+			<td>${_?.name}</td>
+			<td><span class="xf_mem_jsq_red">${_?.creditScore * amountKey}</span></td>
+			<td><span class="xf_mem_jsq_lv">${_?.period}</span></td>
+		</tr>
+		#{/list}
+	</table>
+</div>
+

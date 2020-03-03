@@ -1,0 +1,163 @@
+<div class="xf_mem_Account xf_mem_passage">
+		<h3 class="xf_mem_accout_title xf_mem_accout_tijbzl xf_mem_xydj">
+			<span class="xf_mem_accout_jbzl">信用积分明细</span> <a
+				class="xf_mem_accout_jbzl2" onClick="creditintegral()">查看积分规则</a> <a
+				class="xf_mem_accout_jbzl2" onClick="viewCreditRule()">查看等级规则</a>
+		</h3>
+		<ul class="xf_mem_wdxydjUL clr">
+			<li>审核资料积分 <span class="xf_mem_l_memhyA xf_mem_l_memhyred">${creditScore?.audit_score}</span>
+				分<br/ > <a class="xf_membill_cza" onClick="creditDetailAuditItem()">明细</a> <span
+				class="xf_memshzdjkb_czspan">|</span> <a class="xf_membill_cza" 
+				href="@{front.account.AccountHome.auditMaterialsIPS()}">
+				提高积分</a></li>
+			<li>正常还款积分 <span class="xf_mem_l_memhyA xf_mem_l_memhyred">${creditScore?.repayment_score}</span>
+				分<br/ > <a class="xf_membill_cza" onClick="creditDetailRepayment()">明细</a></li>
+			<li class="xf_mem_passageli">成功借款积分 <span
+				class="xf_mem_l_memhyA xf_mem_l_memhyred">${creditScore?.loan_score}</span> 分<br/ > <a
+				class="xf_membill_cza" onClick="creditDetailLoan()">明细</a></li>
+			<li class="xf_mem_passageli2">成功出借积分 <span
+				class="xf_mem_l_memhyA xf_mem_l_memhyred">${creditScore?.invest_score}</span> 分<br/ > <a
+				class="xf_membill_cza" onClick="creditDetailInvest()">明细</a></li>
+			<li>账单逾期扣分 <span class="xf_mem_l_memhyA xf_mem_l_memhyred">${creditScore?.overdue_score}</span>
+				分<br/ > <a class="xf_membill_cza" onClick="creditDetailOverdue()">明细</a></li>
+		</ul>
+	</div>
+<script type="text/javascript">
+      function creditDetailLoan() {
+        var key = "";
+		$.ajax({
+			url : "@{creditDetailLoan(key)}",
+			type : "POST",
+			data : {},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+					
+					return;
+				}
+			    $("#very").html(data);
+			},
+			error : function() {
+				alert(data.msg);
+			}
+		});
+	}
+	
+	function creditDetailAuditItem() {
+        var key = "";
+		$.ajax({
+			url : "@{creditDetailAuditItem(key)}",
+			type : "POST",
+			data : {},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+					
+					return;
+				}
+			    $("#very").html(data);
+			},
+			error : function() {
+				alert(data.msg);
+			}
+		});
+	}
+	
+	function creditDetailInvest() {
+        var key = "";
+		$.ajax({
+			url : "@{creditDetailInvest(key)}",
+			type : "POST",
+			data : {},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+					
+					return;
+				}
+			    $("#very").html(data);
+			},
+			error : function() {
+				alert(data.msg);
+			}
+		});
+	}
+	
+	function creditDetailRepayment() {
+        var key = "";
+		$.ajax({
+			url : "@{creditDetailRepayment(key)}",
+			type : "POST",
+			data : {},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+					
+					return;
+				}
+			    $("#very").html(data);
+			},
+			error : function() {
+				alert(data.msg);
+			}
+		});
+	}
+	
+	function creditDetailOverdue() {
+        var key = "";
+		$.ajax({
+			url : "@{creditDetailOverdue(key)}",
+			type : "POST",
+			data : {},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+					
+					return;
+				}
+			    $("#very").html(data);
+			},
+			error : function() {
+				alert(data.msg);
+			}
+		});
+	}
+
+   function creditintegral() {
+		$.ajax({
+			url : "@{creditintegral()}",
+			type : "POST",
+			data : {},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+					
+					return;
+				}
+			    $("#very").html(data);
+			},
+			error : function() {
+				alert(data.msg);
+			}
+		});
+	}
+	
+   function viewCreditRule() {
+		$.ajax({
+			url : "@{viewCreditRule()}",
+			type : "POST",
+			data : {},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+					
+					return;
+				}
+			    $("#very").html(data);
+			},
+			error : function() {
+				alert(data.msg);
+			}
+		});
+	}	
+</script>

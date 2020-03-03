@@ -1,0 +1,17 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'安全参数设置' /} 
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/systemSettings/common/leftBar.control"/}
+    #{include "supervisor/systemSettings/SecuritySettingAction/safeQuestionContent.html"/}
+    #{include "supervisor/systemSettings/SecuritySettingAction/safeQuestionAdd.control"/}
+  </div>
+</div>
+
+<script>
+$(function(){
+	 /* 高亮显示 */
+    showHighLight(1,1,3);
+})
+
+</script>

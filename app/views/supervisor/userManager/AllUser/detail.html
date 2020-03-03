@@ -1,0 +1,713 @@
+<style>
+  .xf_ht_damem_hy_box,.xf_ht_damem_hy_bott_ta3{
+    padding: 0;
+  }
+  .xf_ht_damem_hy_bott6{
+    margin-bottom: 8px;
+  }
+  .xf_ht_jr_obu_width{
+    height: 700px;
+    overflow: auto;
+  }
+  table.context tr td{
+	padding-top:10px;
+  }
+  table.context{
+    margin-bottom:30px;
+  }
+</style>
+<!-- 会员详情弹窗 -->
+<div class="xf_ht_jr_obu_width">
+  <div class="xf_ht_damem_hy_box">
+    <div class="xf_ht_damem_hy_bott xf_ht_damem_hy_bott6">
+      <div class="xf_ht_damem_hy_bott_t clr">
+        <div class="xf_ht_damem_hy_bott_l">注册信息</div>
+      </div>
+      <div class="xf_ht_damem_hy_bott_ta3">
+        <table width="100%" cellspacing="0" cellpadding="0" border="0" class="xf_member_jbox">
+          <tr>
+            <td valign="middle" align="center"><span class="xf_td_title">用户名：</span>${user?.name}</td>
+            <td valign="middle" align="center"><span class="xf_td_title">注册邮箱：</span>${user?.email}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="xf_ht_damem_hy_bott xf_ht_damem_hy_bott6">
+      <div class="xf_ht_damem_hy_bott_t clr">
+        <div class="xf_ht_damem_hy_bott_l">基本信息</div>
+        <div class="xf_ht_search_xl" style="float: right;">
+          #{if user?.user_type != 0 && supervisor?.level ==1 && !(user?.hasBids)}
+        	<input id="reload" type="button" class="search_button" onclick="resetUser(${user?.id});" value="重置" />
+          #{/if}
+          <input type="button" class="search_button" onclick="changeUserinfoStatus();" value="编辑" />
+          <input id="submitBtn" type="button" class="search_button" onclick="updateUserBaseinfo('${user?.id}');" value="提交" disabled/>
+        </div>
+      </div>
+      <div class="xf_ht_damem_hy_bott_ta3">
+        <table width="100%" cellspacing="0" cellpadding="0" border="0" class="xf_member_jbox">
+          <tr>
+            <td valign="middle" align="center">
+		       <span class="xf_td_title">主体性质：</span>
+		       <select id="userType" style="width:157px;" #{if user?.user_type == 0}class="f_field" onchange="changeUserType(${user?.id});"#{/if} disabled>   
+			     <option value="0" #{if user?.user_type == 0 && userViewType == 0}selected#{/if}>请选择</option> 	
+			     <option value="1" #{if user?.user_type == 1 || (user?.user_type == 0 && userViewType == 1 ) }selected#{/if}>个人</option> 
+			     <option value="2" #{if user?.user_type == 2 || (user?.user_type == 0 && userViewType == 2 ) }selected#{/if}>企业</option>
+			     <option value="3" #{if user?.user_type == 3 || (user?.user_type == 0 && userViewType == 3 ) }selected#{/if}>个体工商户</option>
+			   </select>
+		  	</td>
+		  	<td valign="middle" align="center">
+              <span class="xf_td_title">#{if userViewType == 1}借款人居住地：#{/if}#{if userViewType == 2}企业经营地址：#{/if}#{if userViewType == 3}经营地址：#{/if}</span>
+              <select id="adProvince" class="f_field" style="width:157px;" disabled>
+                <option value=''>请选择</option>
+                #{list items:provinces, as:'item'}
+                <option value="${item?.id}" #{if adCity?.province_id == item?.id}selected#{/if}>${item?.name}</option>
+                #{/list}
+              </select>
+              <select id="adCity" class="f_field" style="width:157px;" disabled>
+                <option value=''>请选择</option>
+                #{list items:citys, as:'item'}
+                <option value="${item?.id}" #{if adCity?.id == item?.id}selected#{/if}>${item?.name}</option>
+                #{/list}
+              </select>
+            </td>
+            
+          </tr>
+          <tr>
+		#{if userViewType == 1}
+		    <td valign="middle" align="center">
+		      <span class="xf_td_title">身份证号：</span>
+				${user?.idNumber}
+		    </td>
+		#{/if}
+		#{else}
+		    <td valign="middle" align="center">
+		      <span class="xf_td_title">#{if userViewType == 2}企业成立日期#{/if}#{if userViewType == 3}注册日期#{/if}</span>
+				<input type="text" name="birthday" id="birthday" class="search_time f_field" onclick="laydate()" style="cursor: pointer" value="#{if user?.birthday}${user?.birthday.format('yyyy-MM-dd')}#{/if}" disabled>
+		    </td>
+		#{/else}
+           <td valign="middle" align="center">
+              <span class="xf_td_title">#{if userViewType == 1}户籍所在地：#{/if}#{if userViewType == 2}企业注册地：#{/if}#{if userViewType == 3}注册地：#{/if}</span>
+              <select id="province" class="f_field" style="width:157px;" disabled>
+                <option value=''>请选择</option>
+                #{list items:newProvinces, as:'item'}
+                <option value="${item?.province_id}" #{if userCity?.province_id == item?.province_id}selected#{/if}>${item?.province}</option>
+                #{/list}
+              </select>
+
+              <select id="city" class="f_field" style="width:157px;" disabled>
+                <option value=''>请选择</option>
+                #{list items:newCitys, as:'item'}
+                <option value="${item?.city_id}" #{if userCity?.city_id == item?.city_id}selected#{/if}>${item?.city}</option>
+                #{/list}
+              </select>
+            </td>
+		</tr>
+		<tr>
+		#{if userViewType == 1}
+		    <td valign="middle" align="center">
+		      <span class="xf_td_title">性别：</span>
+		      <select id="sex" class="f_field" style="width:157px;" disabled>   
+			    <option value="0">请选择</option> 	
+			    <option value="1" #{if user?.sex == '男'}selected#{/if}>男</option> 
+			    <option value="2" #{if user?.sex == '女'}selected#{/if}>女</option>
+			  </select>
+		    </td>
+		#{/if}
+		#{else}
+		    <td valign="middle" align="center">
+		      <span class="xf_td_title">#{if userViewType == 2}法定代表人：#{/if}#{if userViewType == 3}经营人：#{/if}</span>
+		      <input type="text" id="legal_person" class="f_field" value="${user?.getUserInfo()?.legal_person}" disabled style="width:90px;"/>
+		    </td>
+		#{/else}
+		#{if userViewType == 1}
+		    <td valign="middle" align="center">
+		      <span class="xf_td_title">婚姻状况：</span>
+		       <select id="marital" class="f_field" style="width:157px;" disabled>
+		       	  	<option value=''>请选择</option>
+		            #{list items:maritals,as:'item'}
+		            <option value="${item?.id}" #{if user?.maritalId == item?.id}selected#{/if}>${item?.name}</option>
+		            #{/list}
+		       </select>
+		    </td>
+		#{/if}
+		#{else}
+		    <td valign="middle" align="center">
+		      <span class="xf_td_title">所属行业：</span>
+		      <select id="industry" class="f_field" style="width:157px;" disabled>
+		       	  	<option value="">请选择</option>
+		            #{list items:new models.t_industries().fetchEnumList(),as:'item'}
+		            <option value="${item?.id}" #{if user?.getUserInfo()?.industry_id == item?.id}selected#{/if}>${item?.name}</option>
+		            #{/list}
+		      </select>
+		    </td>
+		#{/else}
+		</tr>
+		
+		#{if userViewType == 1}
+		<tr>
+		    <td valign="middle" align="center">
+			  <span class="xf_td_title">年龄：</span>
+			  <input type="text" id="age" min="0" value="${user?.age}" disabled style="width:90px;"/>岁
+			</td>
+		    <td valign="middle" align="center">
+		      <span class="xf_td_title">文化水平：</span>
+		      <select id="education" class="f_field" style="width:157px;" disabled>
+		       	  	<option value=''>请选择</option>
+		            #{list items:educations,as:'item'}
+		            <option value="${item?.id}" #{if user?.educationId == item?.id}selected#{/if}>${item?.name}</option>
+		            #{/list}
+		       </select>
+		    </td>
+		</tr>
+		#{/if}
+		
+		<tr>
+			<td valign="middle" align="center">
+		      <span class="xf_td_title">#{if userViewType == 1}工作性质：#{/if}#{else}经营范围：#{/else}</span>
+		      <input type="text" id="business_scope" class="f_field" value="${user?.getUserInfo()?.business_scope}" disabled/>
+		    </td>
+		#{if userViewType == 1}
+		    <td valign="middle" align="center">
+		      <span class="xf_td_title">购房状况：</span>
+		       <select id="house" class="f_field" style="width:157px;" disabled>
+		       	  	<option value=''>请选择</option>
+		            #{list items:houses,as:'item'}
+		            <option value="${item?.id}" #{if user?.houseId == item?.id}selected#{/if}>${item?.name}</option>
+		            #{/list}
+		       </select>
+		    </td>
+		#{/if}
+		#{else}
+		#{if userViewType == 2}
+			<td valign="middle" align="center">
+		      <span class="xf_td_title">企业注册资本金：</span>
+		      <input type="number" id="reg_capital" min="0"  class="f_field" value="${user?.getUserInfo()?.reg_capital}" disabled style="width:90px;"/>
+		    </td>
+		#{/if}
+		#{/else}
+		</tr>
+		<tr>
+		    <td valign="middle" align="center">
+              <span class="xf_td_title">授信金额：</span>
+              <input type="number" id="creditAmount" min="0" class="f_field" value="${user?.creditAmount? user?.creditAmount: 0.00}" disabled/>元
+            </td>
+		#{if userViewType == 1}
+		    <td valign="middle" align="center">
+		     <span class="xf_td_title">购车情况：</span>
+		     <select id="car" class="f_field" style="width:157px;" disabled>
+		       	  	<option value=''>请选择</option>
+		            #{list items:cars,as:'item'}
+		            <option value="${item?.id}" #{if user?.carId == item?.id}selected#{/if}>${item?.name}</option>
+		            #{/list}
+		       </select>
+		    </td>
+		#{/if}
+		 </tr>
+
+          <tr>
+          	<td valign="middle" align="center" colspan="2">
+          	  <span class="xf_td_title">累计收益：</span>
+              <span>0.00元</span>
+          	</td>
+          </tr>
+          <tr>
+          	<td valign="middle" align="center" colspan="2">
+          	  <div style="display: inline-block;">
+          	    <span class="xf_td_title" style="width: 130px;">平台历史逾期次数：</span>
+                <span>${user?.overdueCnt}次</span>
+          	  </div>
+          	  <div style="display: inline-block;margin-left: 5px;">
+				 <span class="xf_td_title" style="width: 130px;">平台历史逾期金额：</span>
+				 <span>${user?.overdueAmount}元</span>
+			  </div>
+			  <div style="display: inline-block;margin-left: 5px;">
+				<span class="xf_td_title" style="width: 130px;">平台当前逾期金额：</span> 
+				<span>${user?.currentOverdueAmount}元</span>
+			  </div>
+          	</td>
+          </tr>
+		  </table>
+		  <table width="100%" class="context">
+          <tr>
+          	<td width="18%" valign="middle" align="right" >
+          	  涉诉情况：
+             </td>
+			<td>
+			 <textarea id="lawSuit" class="f_field" rows="3" cols="60"  style="resize: none;"  disabled>${user?.lawSuit}</textarea>
+			</td>
+          </tr>
+          <tr>
+			<td width="18%" valign="middle" align="right" >
+          	  近半年征信报告状况：
+            </td>
+          	<td valign="top" >
+              <textarea id="creditReport" class="f_field" rows="3" cols="60" style="resize: none;" disabled>${user?.creditReport}</textarea>
+          	</td>
+          </tr>
+          <tr>
+			<td width="18%" valign="middle" align="right" >
+          	   收入及负债情况：
+            </td>
+          	<td valign="top">
+              <textarea id="income_debt_info" class="f_field" rows="3" cols="60" style="resize: none;" disabled>${user?.getUserInfo()?.income_debt_info}</textarea>
+          	</td>
+          </tr>
+          <tr>
+			<td width="18%" valign="middle" align="right" >
+          	   资产情况：
+            </td>
+          	<td valign="top">
+              <textarea id="asset_info" class="f_field" rows="3" cols="60" style="resize: none;" disabled>${user?.getUserInfo()?.asset_info}</textarea>
+          	</td>
+          </tr>
+          <tr>
+			<td width="18%" valign="middle" align="right" >
+          	   其他金融平台融资情况：
+            </td>
+          	<td valign="top">
+              <textarea id="other_finance_info" class="f_field" rows="3" cols="60" style="resize: none;" disabled>${user?.getUserInfo()?.other_finance_info}</textarea>
+          	</td>
+          </tr>
+          <tr>
+			<td width="18%" valign="middle" align="right" >
+          	   其他信息：
+            </td>
+          	<td valign="top">
+              <textarea id="other_info" class="f_field" rows="3" cols="60" style="resize: none;" disabled>${user?.getUserInfo()?.other_info}</textarea>
+          	</td>
+          </tr>
+          
+          <tr>
+			<td width="18%" valign="middle" align="right" >
+          	   手机：
+            </td>
+            <td valign="top">
+              <input type="text" id="umobile" name="umobile" value="${user?.mobile}"/> 
+              #{if supervisor?.level ==1}
+              <a href="javascript:modifyMobile('${user?.id}')" style="color:green;padding-left:20px">修改</a>
+              #{/if}
+            </td>
+          </tr>
+           <tr>
+		    <td width="18%" valign="middle" align="right" >
+          	   实名信息：
+            </td>
+            <td valign="top" >
+              #{if user?.user_type == 0}
+              <select id="uuserType" style="width:90px;height: 21px;">   
+			     <option value="0" #{if user?.user_type == 0}selected#{/if}>请选择</option> 	
+			     <option value="1" #{if user?.user_type == 1}selected#{/if}>个人</option> 
+			     <option value="2" #{if user?.user_type == 2}selected#{/if}>企业</option>
+			     <option value="3" #{if user?.user_type == 3}selected#{/if}>个体工商户</option>
+			  </select>
+			  #{/if}
+              <input type="text" id="urealityName"  value="${user?.realityName}" placeholder="姓名"/> 
+              <input type="text" id="uidNumber" value="${user?.idNumber}" placeholder="身份证号"/> 
+              #{if supervisor?.level ==1 && !(user?.hasBids)}
+              <a href="##" onclick="javascript:modifyRealityName('${user?.id}')" style="color:green;padding-left:20px">修改</a>
+              #{/if}
+            </td>
+          </tr>
+          #{if banks_!=null && banks_.size() > 0}
+          <tr>
+		    <td width="18%" valign="middle" align="right" >
+          	   银行卡：
+            </td>
+            <td valign="top">
+            <select id="bank_">
+				#{list items:banks_,as:'b'}
+				<option value="${b?.id}">${b?.account}</option>
+				#{/list}
+			</select>
+            #{if supervisor?.level ==1 }
+            <a href="javascript:deletebankCard('${user?.id}')"  style="color:green;padding-left:30px">解绑</a>
+            #{/if}
+            </td>
+            <td valign="middle" align="center"><span class="xf_td_title"></td>
+          </tr>
+          #{/if}
+          #{if banks?.account==null && user?.realityName != null}
+           <tr>
+		    <td width="18%" valign="middle" align="right" >
+          	   银行卡：
+            </td>
+           	<td valign="top">
+              <select id="bankCode" style="width:100px;height: 21px;">
+	            #{list bankCodeNameTable,as:'peo'}
+				<option value="${peo.key}">${peo.value}</option>
+				#{/list}
+	          </select>
+              <input type="text" id="bankNo" value="" placeholder="卡号"/>
+              <span id="bindBankBlock">
+                #{if user?.user_type == 1}
+                <input type="text" id="bankMobile" value="" placeholder="手机号"/>
+                #{/if}
+                #{if user?.user_type == 3}
+                <input type="text" id="bankRealName" value="" placeholder="银行卡预留姓名"/>
+                #{/if}
+              </span>
+              <a href="javascript:bindBank('${user?.id}')" style="color:green;">绑定</a>
+            </td>
+          </tr>
+          #{/if}
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+$(function(){
+  //所在地
+  $("#province").change(function(){
+    var province_id = $("#province").find("option:selected").val();
+	loadNewCity(province_id); 
+  });
+  //居住地
+  $("#adProvince").change(function(){
+    var province_id = $("#adProvince").find("option:selected").val();
+	loadAdCity(province_id); 
+  });
+});
+
+function deletebankCard(id){
+  accId = $("#bank_").val();
+  if(confirm("确定解绑？")){
+    var deleteUserBank = #{jsAction @deleteUserBank(':userId',':accountId')/}
+	$.post(deleteUserBank({userId:id,accountId:accId}),function(data){
+	  var arr=eval(data);
+	          
+	  if(arr.error.code < 0){
+	    alert(arr.error.msg);
+	  }else{
+	   	alert(arr.error.msg);
+	   	location.reload();
+	  }
+	});
+  }
+}
+function modifyMobile(userId){
+  var mobile = $("#umobile").val();
+  if(confirm("确定修改？")){
+    var modifyMobile = #{jsAction @modifyMobile(':userId',':mobile')/}
+	$.post(modifyMobile({userId:userId,mobile:mobile}),function(data){
+	  var arr=eval(data);
+	          
+	  if(arr.error.code < 0){
+	    alert(arr.error.msg);
+	  }else{
+	  	alert(arr.error.msg);
+	   	location.reload();
+	  }
+	});
+  }
+}
+function modifyRealityName(userId){
+  if(${user?.user_type == 0} && $("#uuserType").val() == '0'){
+  	alert("请选择实名类型!");
+    return false;
+  }
+  var userType = ${user?.user_type == 0}? $("#uuserType").val(): 0;
+  var realityName = $("#urealityName").val();
+  var idNumber = $("#uidNumber").val();
+  if(confirm("确定修改？")){
+    var modifyRealityName = #{jsAction @modifyRealityName(':userId',':reality_name',':id_number',':userType')/}
+	$.post(modifyRealityName({userId:userId,reality_name:realityName, id_number:idNumber,userType:userType}),function(data){
+	  var arr=eval(data);
+	          
+	  if(arr.error.code < 0){
+	    alert(arr.error.msg);
+	  }else{
+	  	alert(arr.error.msg);
+	   	location.reload();
+	  }
+	});
+  }
+}
+
+function bindBank(userId){
+  if($.trim($("#bankNo").val()) == ''){
+  	alert("请输入卡号!");
+    return false;
+  }
+  var dbUserType = ${user?.user_type}
+  if(dbUserType == 1 && $.trim($("#bankMobile").val()) == ''){
+  	alert("请输入手机号!");
+    return false;
+  }
+  if(dbUserType == 3 && $.trim($("#bankRealName").val()) == ''){
+  	alert("请输入银行卡预留姓名!");
+    return false;
+  }
+  
+  if(confirm("确定修改？")){
+    var bankCode = $("#bankCode").val();
+    var bankNo = $("#bankNo").val();
+    var bankMobile = $("#bankMobile").val();
+    var bankRealName = $("#bankRealName").val();
+       	   
+    var bindBank = #{jsAction @bindBank(':userId',':bankCode',':bankNo',':bankMobile',':bankRealName')/}
+	  $.post(bindBank({userId:userId,bankCode:bankCode, bankNo:bankNo,bankMobile:bankMobile,bankRealName:bankRealName}),function(data){
+	  if(data.code < 0){
+	    alert(data.msg);
+	  }else{
+	   	alert(data.msg);
+	   	location.reload();
+	  }
+	});
+  }
+}
+   
+function updateUserBaseinfo(userId){
+  if(validate() && confirm("确定修改？")){
+  	var selUserType = $('#userType').val();
+  	var reqData = {
+  		userId: userId,
+  		email: $.trim($('#email').val()),
+		adCityId: $('#adCity').val(),
+		cityId: $('#city').val(),
+		
+		sex: selUserType=='1'? $('#sex').val(): '',
+		marital: selUserType == '1'? $('#marital').val(): '',
+  		education: selUserType == '1'? $('#education').val(): '',
+		house: selUserType == '1'? $('#house').val(): '',
+		car: selUserType == '1'? $('#car').val(): '',
+				
+		birthday: selUserType!='1'? $.trim($('#birthday').val()): '',
+		legal_person: selUserType!='1'? $.trim($('#legal_person').val()): '',
+		industry: selUserType != '1'? $('#industry').val(): '',
+		reg_capital: selUserType != '1'? $('#reg_capital').val(): '',
+				
+		business_scope:$.trim($('#business_scope').val()),
+		creditAmount: $('#creditAmount').val(),	
+		
+		lawSuit: $.trim($('#lawSuit').val()),
+		creditReport: $.trim($('#creditReport').val()),
+		income_debt_info: $.trim($('#income_debt_info').val()),
+		asset_info: $.trim($('#asset_info').val()),
+		other_finance_info: $.trim($('#other_finance_info').val()),
+		other_info: $.trim($('#other_info').val())
+  	};
+    var action = "@{supervisor.userManager.AllUser.editUserBaseinfo()}";
+    if(${user?.user_type == 0}){
+  	 var action = "@{supervisor.userManager.AllUser.addUserBaseinfo()}";
+  	  reqData.userType = selUserType;
+  	  
+  	}
+    
+    $.post(action, reqData,function(data){
+  	  if(data.code < 0){
+  	    alert(data.msg);
+  	  }else{
+  	   	alert(data.msg);
+  	   	location.reload();
+  	  }
+  	});
+   /*  $.ajax({
+        url : action,
+    	type : "POST",  
+    	data : reqData,
+    	success : function(data) {
+			if(data.code < 0){
+				alert(data.msg);
+			}else{
+				alert(data.msg);
+				location.reload();
+			}
+    	}
+    }); */
+	/* $.post(action, reqData,function(data){
+	  if(data.code < 0){
+	    alert(data.msg);
+	  }else{
+	   	alert(data.msg);
+	   	location.reload();
+	  }
+	}); */
+  }
+}
+function resetUser(userId){
+	  if(confirm("确定重置？")){
+	    $.ajax({
+	      url : "@{supervisor.userManager.AllUser.resetUserBaseinfo()}",
+	      type : "POST",
+	      data : {
+	        "userId" : userId
+	      },
+	      success : function(data) {
+	        if (data.code < 0) {
+	          alert(data.msg);
+	          return;
+	        }
+	        alert("重置成功！");
+	        details('${user?.sign}');
+	      },
+	      error : function() {
+	        alert("对不起，出现错误!");
+	      }
+	    });
+	  }
+	}
+function validate(){
+  var itemValue = $('#userType').val();
+  if(itemValue == '0'){
+  	alert("请选择主体性质!");
+    return false;
+  }
+  if(itemValue == '1'){
+    itemValue = $('#sex').val();
+    if(itemValue == '0'){
+  	  alert("请选择性别!");
+      return false;
+    }
+    itemValue = $('#education').val();
+    if($.trim(itemValue) == ''){
+  	  alert("文化水平不能为空!");
+      return false;
+    }
+    itemValue = $('#car').val();
+    if($.trim(itemValue) == ''){
+      alert("购车情况不能为空!");
+      return false;
+    }
+    itemValue = $('#house').val();
+    if($.trim(itemValue) == ''){
+      alert("购房状况不能为空!");
+      return false;
+    }
+    itemValue = $('#marital').val();
+    if($.trim(itemValue) == ''){
+      alert("婚姻状况不能为空!");
+      return false;
+    }
+  }
+  itemValue = $('#city').val();
+  if(itemValue == ''){
+    alert("借款人所在地不能为空!");
+    return false;
+  }
+  itemValue = $('#adCity').val();
+  if(itemValue == ''){
+    alert("借款人居住地不能为空!");
+    return false;
+  }
+  itemValue = $('#creditAmount').val();
+  if(itemValue < 0){
+    alert("授信金额不能为负数!");
+    return false;
+  }
+  /*
+  itemValue = $('#email').val();
+  if($.trim(itemValue) == ''){
+    alert("邮箱不能为空!");
+    return false;
+  }*/
+  itemValue = $('#lawSuit').val();
+  if($.trim(itemValue) == ''){
+    alert("涉诉情况不能为空!");
+    return false;
+  }
+  itemValue = $('#creditReport').val();
+  if($.trim(itemValue) == ''){
+    alert("近半年征信报告状况不能为空!");
+    return false;
+  }
+  
+  return true;
+}
+//加载市
+function loadNewCity(provinceId){
+  $.ajax({
+    url : "@{supervisor.SupervisorController.getNewCity()}",
+	type : "POST", 
+	dataType: "JSON",
+	data : {"provinceId": provinceId},
+	success : function(data) {
+	  if (data.code < 0) {
+	    alert(data.msg);
+	    return;
+	  }
+	  $("#city").empty();//先清空
+	  $("#city").prepend("<option value=''>请选择</option>");
+	  $.each(data, function(n,value) {
+	    if('${userCity?.city_id}' == value.city_id ){
+		  $("#city").append("<option value = "+value.city_id  + " selected='selected' > "+value.city+"</option>");
+		} else {
+	      $("#city").append("<option value = "+value.city_id  + " > "+value.city+"</option>");
+		} 
+	  });  	 
+	},
+	error : function() {
+	  alert("对不起，出现错误!");
+	}
+  });
+}
+//加载市
+function loadAdCity(provinceId){
+  $.ajax({
+    url : "@{supervisor.SupervisorController.getAdCity()}",
+	type : "POST", 
+	dataType: "JSON",
+	data : {"provinceId": provinceId},
+	success : function(data) {
+	  $("#adCity").empty();//先清空
+	  $("#adCity").prepend("<option value=''>请选择</option>");
+	  $.each(data, function(n,value) {
+	    if('${adCity?.id}' == value.id ){
+		  $("#adCity").append("<option value = "+value.id  + " selected='selected' > "+value.name+"</option>");
+		} else {
+	      $("#adCity").append("<option value = "+value.id  + " > "+value.name+"</option>");
+		} 
+	  });  	 
+	},
+	error : function() {
+	  alert("对不起，出现错误!");
+	}
+  });
+}
+//更改用户基本信息状态
+function changeUserinfoStatus(){
+  $(".f_field").removeAttr("disabled");
+  $("#submitBtn").removeAttr("disabled");
+}
+//更改用户主体性质
+function changeUserType(userId){
+  var userType = $('#userType').val();
+  var sign='${user?.sign}';
+  $.ajax({
+    url : "@{supervisor.userManager.AllUser.detail()}",
+    type : "POST",
+    data : {
+      "sign" : sign,
+      "userType" : userType
+    },
+    success : function(data) {
+      if (data.code < 0) {
+        alert(data.msg);
+        return;
+      }
+      //$("#userExclusiveContent").html(data);
+      $("#xf_ht_fkzh_ttc").html(data);
+      $.layer({
+        type: 1,
+        area: ['700px', '800px'],
+        title: '会员详情',
+        page: {dom : '#xf_ht_fkzh_ttc'}
+      });
+      changeUserinfoStatus();
+      
+      /*
+      var bindBankHtml = '';
+      if(userType == '1'){
+        bindBankHtml = '<input type="text" id="bankMobile" value="" placeholder="手机号"/>';
+      }else if(userType == '3'){
+        bindBankHtml = '<input type="text" id="bankRealName" value="" placeholder="银行卡预留姓名"/>';
+      }
+      $("#bindBankBlock").html(bindBankHtml);
+      */
+    },
+    error : function() {
+      alert("对不起，出现错误!");
+    }
+  });
+}
+</script>

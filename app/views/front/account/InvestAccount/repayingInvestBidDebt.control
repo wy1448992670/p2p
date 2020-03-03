@@ -1,0 +1,227 @@
+<div class="xf_mem_Account xf_mem_skzdlcb_zqzr">
+						<h3 class="xf_mem_skzdlcb_title">
+							<span class="xf_mem_skzdlcb_h2">${invest?.bid?.no}号借款标 债权转让</span>
+							<a class="xf_mem_skzdlcb_h3" href="@{front.invest.investAction.invest(invest?.bid?.id)}">借款标详情</a>
+						</h3>
+						<div class="xf_mem_skzdlcb_table1">
+							<table border="0" cellpadding="0" cellspacing="0" width="605" class="xf_mem_skzdlcb_vipasw">
+								<tr>
+									<td width="247">借款标编号：<span class="xf_mem_skzdlcb_red">${invest?.bid?.no}</span></td>
+									<td>借 款 人 ： <span class="xf_mem_skzdlcb_red">${invest?.bid?.user?.name}</span></td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										借款标标题：<span class="xf_mem_skzdlcb_red">${invest?.bid?.title}</span>
+									</td>
+								</tr>
+								<tr>
+									<td>投 标 本 金：<span class="xf_mem_skzdlcb_red">${invest?.amount}</span>元</td>
+									<td>年  利 率 ：<span class="xf_mem_skzdlcb_red">${invest?.bid?.apr}</span> %</td>
+								</tr>
+								<tr>
+									<td>本息合计应收金额：<span class="xf_mem_skzdlcb_red">${map?.receivingAmount}</span>元</td>
+									<td>已收金额：<span class="xf_mem_skzdlcb_red">${map?.hasReceivedAmount}</span> 元</td>
+								</tr>
+								<tr>
+									<td>剩余应收金额：<span class="xf_mem_skzdlcb_red" name="debtAmount">${map?.remainReceivedAmount } </span>元</td>
+									<td>还款日期：<span class="xf_mem_skzdlcb_red">${invest?.bid?.recentRepayTime?.format('yyyy-MM-dd')}</span> </td>
+								</tr>
+								<tr>
+									<td>待收本金： <span class="xf_mem_skzdlcb_red">${map?.remainReceivedCorpus}</span>元</td>
+									<td>逾期情况：<span class="xf_mem_skzdlcb_red">
+									#{if invest?.bid?.hasOverdue }
+									有逾期
+									#{/if}
+									#{else}
+									无逾期
+									#{/else}
+									</span></td>
+								</tr>
+							</table>
+						</div>
+						<div class="xf_mem_skzdlcb_table2">
+					#{form @front.debt.debtAction.confirmTransfer(invest?.id), method:'POST', id:'transfer'}
+							<table  border="0" cellpadding="0" cellspacing="0" width="739" class="xf_mem_skzdlcb_vipasw2" id="table">
+								<tr>
+									<td width="225" align="right">转让标题：</td>
+									<td><input class="xf_mem_skzdlcb_tdinput" type="text" name="transferTitle" id="transferTitle"></td>
+								</tr>
+								<tr>
+									<td align="right">待收本金转让底价：  </td>
+									<td><input class="xf_mem_skzdlcb_tdinput xf_mem_skzdlcb_tdinput2" type="text" name="transferPrice" id="transferPrice"></td>
+								</tr>
+								<tr>
+									<td align="right">转让方式：</td>
+									<td>
+										<select name="type" class="xf_mem_skzdlcb_selectAge2" id="type" onchange="showTr();">   
+										   <option value="0">请选择</option>
+										   <option value="1">定向转让</option>   
+									       <option value="2">竞价转让</option>   
+									       
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td width="225" align="right">定向受让人：</td>
+									<td><input class="" type="text" name="specifiedUserName" id="specifiedUserName" onblur="checkUserName();" style="width:50" title="请输入指定用户名"/></td>
+								</tr>
+								<tr>
+									<td align="right">转让期限：</td>
+									<td>
+										<select name="period" class="xf_mem_skzdlcb_selectAge2" id="period"> 
+										  <option value="0">请选择</option>  
+									       <option value="1">1天</option>   
+									       <option value="2">2天</option>   
+									       <option value="3">3天</option>   
+									       <option value="4">4天</option>   
+									       <option value="5">5天</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td align="right" valign="top">转让原因：</td>
+									<td>
+										<textarea class="xf_mem_skzdlcb_textarea2" name="transferReason" id="transferReason" title="请输入转让原因"></textarea>
+									</td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td class="xf_mem_skzdlcb_textarea3">
+										<a class="xf_con_inputfbjk" id="confirmTransfer" >确 定</a>
+										<a class="xf_con_inputfbqux" href="@{front.account.InvestAccount.repayingInvestBid}">取 消</a>
+										<span class="xf_con_zqzr_znx">您还可以输入
+										<span class="xf_con_zqzr_znxsz" id="nums">250</span>字</span>
+									</td>
+								</tr>
+							</table>
+					#{/form}
+						</div>
+					</div>
+					
+		
+					
+           <script type="text/javascript">	
+           
+           	$(function(){
+							$("#transferReason").bind("input propertychange", function() {
+								var maxLimit = 250;
+					
+								if ($(this).val().length > maxLimit) {
+									$(this).val($(this).val().substring(0, maxLimit));
+								}
+						
+								$("#nums").html(maxLimit - $(this).val().length);
+							});
+							
+           		$("#table  tr:eq(3)").hide(); 
+           		
+           		$("#transferTitle").keyup(function(){
+   					var len = $(this).val().length;
+   					if(len > 30){
+   						 $(this).val($(this).val().substring(0,30));
+   					}
+  					var num = 4 - len;
+  					$("#word").text(num);
+  				});
+           		
+           		$("#confirmTransfer").click(function(){
+           			
+           			var debtAmount = ${map?.remainReceivedAmount };
+           			var transferPrice = $("#transferPrice").val();
+           			var transferTitle = $("#transferTitle").val();
+           			var transferReason = $("#transferReason").val();
+           			
+           			if($.trim(transferTitle) == ""){
+           				
+           				alert("转让标题不能为空！");
+           				return ;
+           			}
+           			if($.trim(transferPrice) == ""){
+           			    alert("转让底价不能为空！");
+           				return  ; 
+           			}          			
+           			if($("#type").val() == 0 ){
+           			    alert("请您选择转让方式！");
+           				return  ;
+           			}
+           			
+           			if($("#type").val() == 1 && $("#specifiedUserName").val() == "" ){
+           			   alert("对不起！请输入指定用户名！");
+           			   return ;
+           			}
+           			
+           			if($("#period").val() == 0){
+           			    alert("请您选择转让期限！");
+           				return  ;
+           			}
+           			
+           			if($.trim(transferReason) == ""){
+           			    alert("转让原因不能为空！");
+           				return ;
+           			}
+           			
+           			if(debtAmount < transferPrice){
+           			    alert("竞拍底价不能高于债权总额！");
+           				return ;
+           			}
+           			
+           			var receivedCorpus = ${map?.remainReceivedCorpus};
+           			var debtScale = ${constants.Constants.DEBT_SCALE};
+           		    var ds = receivedCorpus * debtScale / 100;
+           		   
+           			if(transferPrice > (receivedCorpus + ds) || transferPrice < (receivedCorpus - ds)){
+           			    alert("竞拍底价需在待收本金上下的" + debtScale + "%以内");
+           			    
+           				return ;
+           			}
+           			
+           			if(isNaN($.trim(transferPrice))){
+           				alert("待收本金转让底价只能输入数字！");
+           				return;
+           			}
+           			
+           			var pat = new RegExp("^[1-9][0-9]*$");
+           			if(!pat.test(transferPrice)){
+           				alert("转让底价只能输入正整数!");
+           				return;
+           			}
+           			
+           			$("#transfer").submit();
+           		})
+           	
+           	})	
+           	
+          function showTr(){
+          	var type = $("#type").val();
+          	if(type == 1){
+          		$("#table  tr:eq(3)").show(); 
+          	}else{
+          		$("#table  tr:eq(3)").hide();
+          	}
+          }
+           
+           
+           function checkUserName(){
+         		var userName = encodeURI($.trim($("#specifiedUserName").val()));
+         		if(userName == "" || userName == null){
+         			alert("对不起！请输入指定用户名！");
+         			return;
+         		}
+         		var judgeUserNameExist = #{jsAction @front.debt.DebtAction.judgeUserNameExist(':userName')/}
+         		$.post(judgeUserNameExist({userName : userName}), function(data) {
+         				if(data.result == 0){
+         					alert("对不起！用户名不存在！");
+         					$("#specifiedUserName").val("");
+         					$("#specifiedUserName").focus();
+         				}
+         				if (data.isBlackOrUnActiveUser == 1){
+         					alert("对不起！输入的定向人只能是非黑名单、非未激活用户  ");
+         					$("#specifiedUserName").val("");
+         					$("#specifiedUserName").focus();
+         				}
+                });
+         		
+           }
+           
+           </script>
+					

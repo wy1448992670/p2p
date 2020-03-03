@@ -1,0 +1,93 @@
+<!-- 未逾期弹窗 -->
+<div class="xn_c_ban_jox xn_c_ban_jox_yqzt" style="height: 400px; overflow: auto;">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_ht_jr_obu_l">
+      ${collection?.bill_no}号借款账单 逾期处理（<span class="xf_ht_red">${collection?.overdue_mark == 0 ? "未逾期" : "逾期"}</span>）
+    </div>
+    <div class="xf_ht_damem_hy_box">
+      <div class="xf_ht_damem_hy">
+        <table class="xf_ht_damem_hy_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td colspan="3">借款人： ${collection?.name}</td>
+          </tr>
+          <tr>
+            <td>本期应还金额：${collection?.principal_interest_amount?.format("###,##0.00")} 元</td>
+            <td>历史逾期账单数： ${collection?.overdue_count}</td>
+            <td>逾期应还金额： ${collection?.ovdedue_fine} 元</td>
+          </tr>
+          <tr>
+            <td colspan="3">合计本期应还：<span class="xfht_red">${collection?.total_pay_amount?.format("###,##0.00")}</span> 元</td>
+          </tr>
+        </table>
+      </div>
+      <div class="xf_ht_damem_hy">
+        <table class="xf_ht_damem_hy_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td colspan="2"><span class="xf_ht_hs">借款人联系方式：</span></td>
+          </tr>
+          <tr class="xf_ht_tryq_bj" >
+            <td width="50%" align="left">手机： ${collection?.mobile}</td>
+            <td width="50%" align="left">邮箱： ${collection?.email}</td>
+          </tr>
+        </table>
+      </div>
+      <div class="xf_ht_damem_hy_bott">
+        <div class="xf_ht_damem_hy_bott_t clr">
+          <div class="xf_ht_damem_hy_bott_l">催收情况</div>
+          <div class="xf_ht_damem_hy_bott_r"><a href="@{supervisor.billCollectionManager.UserLoanBills.detail(collection?.bid_id)}" class="xf_ht_hs">借款标详情</a></div>
+        </div>
+        <div class="xf_ht_damem_hy_bott_ul clr">
+          <a href="javascript:void(0)" class="xf_ht_damem_hy_bott_ulin" onClick="sendStation('${collection?.name}','${collection?.user_id}','${collection?.sign}')">发站内信（${collection?.notice_count_message}）</a>
+          <a href="javascript:void(0)" class="xf_ht_damem_hy_bott_ulin" onClick="sendMail('${collection?.name}','${collection?.email}','${collection?.sign}')">发邮件（${collection?.notice_count_mail}）</a>
+          <a href="javascript:void(0)" class="xf_ht_damem_hy_bott_ulin" onClick="Mobile('${collection?.sign}')">电话通知收款（${collection?.notice_count_telephone}）</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+function sendStation(name,userId,billId){
+  $("#stationName").html(name);
+  $("#sendToStationId").val(userId);
+  $("#billId").val(billId);
+  
+  $.layer({
+    type: 1,
+    area: ['40%', 'auto'],
+    title: '发站内信',
+    page: {dom : '#xf_ht_mememail_station'}
+  });
+}
+     
+function sendMail(name,email,billId){
+  $("#mailName").html(name);
+  $("#sendToMailId").val(email);
+  $("#mailBillId").val(billId);
+  $.layer({
+    type: 1,
+    area: ['40%', 'auto'],
+    title: '发邮件',
+    page: {dom : '#xf_ht_mememail_mail'}
+  });
+}
+     
+function Mobile(billId){
+  var updateBillCollectionByMobile = #{jsAction @updateBillCollectionByMobile(':typeStr',':billIdStr')/}
+  $.post(updateBillCollectionByMobile({typeStr:'3',billIdStr:billId}),function(data){
+    var arr=eval(data);
+      
+    if(arr.error.code < 0){
+      alert(arr.error.msg);
+      return;
+    }
+      
+    alert("电话催收已标记");
+    location.reload();
+  });
+}
+     
+function cancle(){
+  $("#xf_ht_mememail_ttc").hide();
+}
+</script>

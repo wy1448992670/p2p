@@ -1,0 +1,3 @@
+$(function(){
+	$('#claim').toggleClass("click");
+});

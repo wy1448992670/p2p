@@ -1,0 +1,30 @@
+<html>
+    <header>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="@{'/public/javascripts/jquery-2.1.0.min.js'}"></script>
+    </header>
+
+    <body>
+        <br/>
+        <br/>
+        <button type="button" onclick="secondClick()">进入登陆页面</button>
+
+    </body>
+</html>
+
+<script type="text/javascript">
+
+
+	$(function(){
+		setTimeout("secondClick",1000);
+	})
+	 
+    function secondClick() {
+        share();
+    }
+
+    function showAlert(message){
+        alert(message);
+    }
+
+</script>

@@ -1,0 +1,101 @@
+#{extends 'common/frontMain.html' /} 
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+	java.lang.String type2Name = business.NewsType.queryName(2);
+}%
+#{set title:currBackstageSet.seoTitle+'|帮助中心' /}
+
+
+<div class="p_bgf1_box pb30 pt30">
+    <div class="p_main clr">
+        <div class="p_left_navbox">
+            <h1><i></i><span>${type2Name}</span></h1>
+            <ul class="p_left_navul">
+               <!--  <li><a href="帮助中心.html" title="" class="click">常见问题</a></li>
+                <li><a href="借款须知.html" title="">借款须知</a></li>
+                <li><a href="理财须知.html" title="">理财须知</a></li> -->
+                #{list types}
+				<li id="bzzx${_?.id}">
+				<a href="javascript:list('${_?.id}');">${_?.name}</a></li>
+				#{/list}
+            </ul>
+        </div>
+        <div class="p_right_wordbox">
+            <div class="p_hp_rtbox">
+                <div class="p_hp_ssbox">
+                    <input type="text" id="keyword" placeholder="请输入关键词"  value="${pageBean.conditions.keyword}"  />
+                    <a href="javascript:search()" class="p_lc_ssbtn p_op" title="搜索"></a>
+                </div>
+                <h4 class="p_hp_title clr"><strong>${type?.name}</strong></h4>
+                <ul class="p_hp_listul">
+                    #{list pageBean?.page}
+                    <li>
+                        <h4><a href="javascript:detail(${_?.id});">${_?.title}</a></h4>
+                       <!--   <p class="p_hp_word" >-->
+                              <div class="help_details_content" limit="135">
+                              <!--  <p>
+									<span style="font-size:14px;">手机非实名?<br />
+								如果不确认自己的手机是不是实名的，那么您可以先提交认证，待认证结果为非实名时，再前往手机服务商进行实名。用户只需携带“身份证”“手机密码卡”“手机卡（SIM卡）”到当地的手机卡服务供应商（例如：移动、联通、电信）指定的营业厅即可办理实名。待实名后，重新提交手机实名认证即可。</span><br />
+								<br />
+								<span style="font-size:14px;">不知道自己的密码?<br />
+								</span><span style="font-size:14px;">查询密码：您可以登录网上营业厅或拨打服务供应商的客服电话查询手机服务密码。手机确实是自己使用，通话也正常，但不是实名的，还能贷款吗？手机认证的时候，若核实至少最近3个月的通话记录是正常的，即使手机并没有实名认证，但审核的时候会酌情考虑，不会影响最终的审核结果。只是此项资料无法通过而无法获得对应的10分的信用分。</span><br />
+								<br />
+								<span style="font-size:14px;">为什么没有通过手机认证？<br />
+								1、手机非正常使用三个月以上 2、手机正常使用不足三个月，请满足三个月之后再提交 3、非用户常用手机号码</span> 
+								</p>
+								<p>
+									<span style="font-size:14px;">&nbsp;</span> 
+								</p>-->
+							  ${_?.content?.raw()}
+							</div>
+                       <!--  </p> -->
+                        <p class="p_hp_abox"><a href="javascript:detail(${_?.id});" class="p_un">查看详细&gt;</a></p>
+                    </li>
+                    #{/list}
+                </ul>
+                <div class="xf_wylc_page xf_cfzx_page">
+                    <!-- <span class="xf_wylc_page_prev" onclick="javascript:showPage(1,10);">&nbsp;</span>&nbsp;
+                    <span class="xf_wylc_page_rele" onclick="javascript:showPage(1,10)">1</span>&nbsp;
+                    <span class="xf_wylc_page_ishot" onclick="javascript:showPage(2,10)">2</span>&nbsp;
+                    <span class="xf_wylc_page_rele" onclick="javascript:showPage(3,10)">3</span>&nbsp;
+                    <span class="xf_wylc_page_rele" onclick="javascript:showPage(4,10)">4</span>&nbsp;
+                    <span class="xf_wylc_page_rele" onclick="javascript:showPage(5,10)">5</span>&nbsp;
+                    <span class="xf_wylc_page_rele" onclick="javascript:showPage(6,10)">6</span>&nbsp;
+                    <span class="xf_wylc_page_rele">...</span>&nbsp;
+                    <span class="xf_wylc_page_rele" onclick="javascript:showPage(10,10)">10</span>&nbsp;
+                    <span class="xf_wylc_page_next" onclick="javascript:showPage(3,10)"><a href="3">下一页</a></span>
+                    <span class="xf_wylc_page_text">到第</span> 
+                    <span class="xf_wylc_page_input"><input type="text" id="goPage" value="2"></span>
+                    <span class="xf_wylc_page_text">页</span>
+                    <span class="xf_wylc_page_last" id="jumpPage" onclick="javascript:jumpPage(10)">确定</span> -->
+                    #{page pageTitle:"条",currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:1,style:2}
+					typeId=${pageBean?.conditions?.typeId}&keyword=${pageBean?.conditions?.keyword}
+					#{/page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+	$(function() {
+	    $(".help_details_content").limit();
+	    $("#bzzx" + ${typeId}+" a").addClass("cozhuse");
+	})
+	
+	function list(typeId) {
+		window.location=("index?typeId=" + typeId);
+	}
+	
+	function detail(newsId) {
+		var keyword = encodeURIComponent($("#keyword").val());
+		window.open("detail?newsId=" + newsId + "&keyword=" + keyword, "_self");
+	}
+	
+	function search() {
+		var keyword = encodeURIComponent($("#keyword").val());
+		window.open("index?typeId=" + ${pageBean?.conditions?.typeId} + "&keyword=" + keyword);
+	}
+	
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_help.js'}"></script>

@@ -1,0 +1,210 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Language" content="zh-cn" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<title></title>
+</head>
+<script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/jquery.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/jquery.json-2.4.min.js'}"></script>
+<script type="text/javascript" src="http://o2o.gtimg.com/module/jquery.js"></script>
+<style>
+body {
+	font-family: "Microsoft Yahei", Arial, sans-serif;
+	font-size: 14px;
+	background: #fff;
+	overflow-x: hidden;
+}
+
+.title {
+	font-size: 15px;
+	margin-bottom: 5px;
+}
+
+.content {
+	e margin-bottom: 10px;
+}
+
+.textarea {
+	background-color: #FFFCEC;
+}
+
+.module {
+	border: 1px solid #DDDDDD;
+	padding: 5px;
+	margin-bottom: 10px;
+}
+
+.button {
+	display: inline-block;
+	position: relative;
+	margin: 0px;
+	padding: 0 20px;
+	text-align: center;
+	text-decoration: none;
+	font: bold 12px/25px Arial, sans-serif;
+	text-shadow: 1px 1px 1px rgba(255, 255, 255, .22);
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+	-webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, .29), inset 1px 1px 1px
+		rgba(255, 255, 255, .44);
+	-moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, .29), inset 1px 1px 1px
+		rgba(255, 255, 255, .44);
+	box-shadow: 1px 1px 1px rgba(0, 0, 0, .29), inset 1px 1px 1px
+		rgba(255, 255, 255, .44);
+	-webkit-transition: all 0.15s ease;
+	-moz-transition: all 0.15s ease;
+	-o-transition: all 0.15s ease;
+	-ms-transition: all 0.15s ease;
+	transition: all 0.15s ease;
+}
+
+.green {
+	color: #3e5706;
+	background: #a5cd4e;
+}
+
+#userInfo {
+	color:red;
+}
+</style>
+<body style="">
+	<div>
+		<div class="module">
+			<div>
+				<span style="">客服账号：</span><span type="text" id="workeraccount"></span>
+			</div>
+			<div>
+				<span style="">当前访客：</span><span type="text" id="toUin"></span>
+			</div>
+		</div>
+		<div id="userInfo">
+			<div><h2>用户在平台上的资料</h2></div>
+		</div>
+		
+	</div>
+</body>
+</html>
+<script>
+	var ticket = getUrlParam('ticket');
+	var workerAccouont = '';
+
+	$.getScript('http://crm1.dkf.qq.com/php/index.php/thirdapp/appdemo/get_workeraccount_by_sessionkey?callback=wokeraccountCallback&ticket='
+					+ ticket);
+
+	function wokeraccountCallback(data) {
+		document.getElementById('workeraccount').innerHTML = $xss(
+				data.workeraccount, "html") + '\n';
+	}
+
+	function MCS_ClientNotify(EventData) {
+		EventData = strToJson(EventData);
+		switch (EventData['event']) {
+		case 'OnUserChange': {
+			OnUserChange(EventData);
+			break;
+		}
+		case 'OnMapMsgClick': {
+			OnMapMsgClick(EventData);
+			break;
+		}
+		}
+	}
+	
+	function OnUserChange(data) {
+		
+		$("#userInfo").empty();
+		
+		document.getElementById('toUin').innerHTML = data['userid'];
+	
+		$.ajax({
+			url:"@{wechat.others.WeChatFrontGateway.userInformation()}",
+			type:"post",
+			data:{"openId" : data['userid']},
+			dataType:"json",
+			success:function(data) {
+				//var json = JSON.parse(data);
+				//var json = eval('(' + data + ')');
+				if(data.code < 0) {
+					$("#userInfo").append("<font color='red'>"+ data.msg +"</font>");
+				} 
+				else {
+					$("#userInfo").append("<table border=0><tr><td><img src='" + data.user.photo + "' id='img' style='width:60px;height:60px'></td>"+"<td>用户名：" + data.user.name + "</td></tr><tr><td>真实姓名："+data.user.realityName+"</td><td>姓别："+data.user.sex+"</td></tr><tr><td>年龄:"+data.user.age+"</td><td>户口所在地："+data.user.familyAddress+"</td></tr><tr><td>身份证号："+data.user.idNumber+"</td><td>文化程度："+data.user.educationName+"</td></tr><tr><td>婚姻状态:"+data.user.maritalName+"</td><td>购房情况:"+data.user.houseName+"</td></tr><tr><td>购车情况:"+data.user.carName+"</td></tr><table>");
+// 					 "<td>用户名：" + data.user.name + "</td></tr><tr><td>真实姓名："+data.user.realityName+"</td><td>姓别："+data.user.sex+"</td></tr>"+"
+// 					 "<tr><td>年龄:"+data.user.age+"</td><td>户口所在地："+data.user.familyAddress+"</td></tr><tr><td>身份证号："+data.user.idNumber+"</td><td>文化程度："+data.user.educationName+"</td></tr>"+
+// 					 "<tr><td>婚姻状态:"+data.user.maritalName+"</td><td>购房情况:"+data.user.houseName+"</td></tr><tr><td>购车情况:"+data.user.carName+"</td></tr></table>");
+			
+				}
+			},
+			error:function() {
+				alert("对不起，出现错误");
+			}
+		});
+	}
+	
+	function strToJson(str) {
+		var json = (new Function("return " + str))();
+		return json;
+	}
+
+	function getUrlParam(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+		var r = window.location.search.substr(1).match(reg); //匹配目标参数
+		if (r != null)
+			return unescape(r[2]);
+		return null; //返回参数值
+	}
+
+	function $xss(str, type) {
+		//空过滤
+		if (!str) {
+			return str === 0 ? "0" : "";
+		}
+
+		switch (type) {
+		case "none": //过度方案
+			return str + "";
+			break;
+		case "html": //过滤html字符串中的XSS
+			return str.replace(/[&'"<>\/\\\-\x00-\x09\x0b-\x0c\x1f\x80-\xff]/g,
+					function(r) {
+						return "&#" + r.charCodeAt(0) + ";"
+					}).replace(/ /g, " ").replace(/\r\n/g, "<br />").replace(
+					/\n/g, "<br />").replace(/\r/g, "<br />");
+			break;
+		case "htmlEp": //过滤DOM节点属性中的XSS
+			return str.replace(/[&'"<>\/\\\-\x00-\x1f\x80-\xff]/g, function(r) {
+				return "&#" + r.charCodeAt(0) + ";"
+			});
+			break;
+		case "url": //过滤url
+			return escape(str).replace(/\+/g, "%2B");
+			break;
+		case "miniUrl":
+			return str.replace(/%/g, "%25");
+			break;
+		case "script":
+			return str.replace(/[\\"']/g, function(r) {
+				return "\\" + r;
+			}).replace(/%/g, "\\x25").replace(/\n/g, "\\n").replace(/\r/g,
+					"\\r").replace(/\x01/g, "\\x01");
+			break;
+		case "reg":
+			return str.replace(/[\\\^\$\*\+\?\{\}\.\(\)\[\]]/g, function(a) {
+				return "\\" + a;
+			});
+			break;
+		default:
+			return escape(str).replace(
+					/[&'"<>\/\\\-\x00-\x09\x0b-\x0c\x1f\x80-\xff]/g,
+					function(r) {
+						return "&#" + r.charCodeAt(0) + ";"
+					}).replace(/ /g, " ").replace(/\r\n/g, "<br />").replace(
+					/\n/g, "<br />").replace(/\r/g, "<br />");
+			break;
+		}
+	}
+</script>
+<!--[if !IE]>|xGv00|539017d66e4e60b1c82cbc86aa9a5d50<![endif]-->

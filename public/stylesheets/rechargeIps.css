@@ -1,0 +1,117 @@
+@CHARSET "UTF-8";
+/*公共样式*/
+/*公共样式*/
+body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div,dl,dt,dd,input{margin: 0;padding: 0;}
+body{font-size: 14px;font-family: "微软雅黑";}
+img{border: none;vertical-align: middle;}
+li{list-style: none;}
+input,select,textarea{outline: none;}
+textarea{resize: none;}
+a{text-decoration:none; color:#666;}
+/*end_公共样式*/
+
+.xf_mem_Account{width:738px;font-size:12px;color:#666; margin:0px auto 100px;padding:9px 20px 19px; border:1px solid #e7eaec;border-top:2px solid #ed6e1d;background:#FFFl;}
+
+.recharge_title{width:100%;height:38px;line-height:38px;border-bottom:1px solid #E7EAEC;}
+.recharge_title h3{float:left;line-height:38px;color:#ed6e1d;font-size:18px;}
+.recharge_title .tg{float:right;height:38px;font-size:13px;}
+.recharge_title .tg a{float:left;height:38px;line-height:38px;color:#ed6e1d;}
+.recharge_title .tg img{width:19px;height:11px;margin:13px 11px 0 0;}
+.recharge_title .tg span{float:left;line-height:38px;color:#aaaaaa;margin:0 3px;}
+.recharge_title .user_name{margin-right:5px;}
+
+.recharge_content{width:736px;border:1px solid #E7EAEC;margin-top:19px;}
+.recharge_explain{width:697px;margin:0 auto;}
+.recharge_explain .p1{width:100%;height:23px;line-height:23px;font-size:13px;color:#333333;margin-top:15px;}
+.recharge_explain .p2{width:100%;height:33px;line-height:33px;font-size:13px;color:#333333;}
+.recharge_explain .p2 a{color:#195a9b;}
+.recharge_explain .p3{width:100%;height:28px;line-height:28px;font-size:13px;color:#e7420a; background:url(../images/hint_logo.png) no-repeat left center; padding-left:24px;}
+.recharge_explain .p4{height:32px;line-height:32px;font-size:13px;color:#333333;font-weight:bold;margin:15px 0 30px;width:250px;position:relative;}
+.recharge_explain .p4 input{width:143px;height:30px;border:1px solid #1F3062;line-height:30px;padding-left:10px;}
+.recharge_explain .p4 .recharge_rule{height:90px;padding:10px 0 0 20px;position:absolute;left:254px;top:-35px;display:block;background-color:#fff9c9;display:none;}
+.recharge_rule p{word-break:keep-all;white-space:nowrap;height:16px;line-height:16px;font-size:12px;font-family:宋体;color:#000;font-weight:normal; background:url(../images/recharge_rulebg1.png) no-repeat left center;padding-left:18px;padding-right:18px;}
+
+.charge_style{width:100%;margin-top:20px;}
+.charge_bankbtn{padding-left:68px;overflow:hidden;}
+.charge_bankbtn li{width:100px;height:32px;margin-right:10px;border:3px solid #BCBCBC; line-height:32px;float:left;font-size:13px;color:#333333;cursor:pointer;text-align:center;}
+.charge_bankbtn .active{border:3px solid #FF6D00;background:url(../images/lights_active.png) no-repeat right bottom;}
+
+.charge_banktab{width:100%;background:#FEF8F3;font-size:13px;color:#333333; border-bottom:1px solid #E7E4E1;}
+.charge_banktabm{padding-top:20px;display:none;margin-top:20px;}
+.charge_banktabm .p5{width:664px;margin-left:20px;height:28px;line-height:28px;font-size:13px;color:#e7420a; /* background:url(../images/hint_logo.png) no-repeat left center; */ padding-left:24px;position:relative;}
+.charge_banktabm .p5 span{height:28px;display:block;position:absolute;top:0px;right:0px; text-decoration:underline;line-height:28px;font-size:13px;color:#00a0e9;cursor:pointer;}
+.charge_banktabm .p6{width:664px;margin-left:20px;height:28px;line-height:28px;font-size:13px;color:#333;position:relative;}
+.charge_banktabm .p6 span{height:28px;display:block;position:absolute;top:0px;right:0px; text-decoration:underline;line-height:28px;font-size:13px;color:#00a0e9;cursor:pointer;}
+.identification{width:600px;margin:20px auto;border:1px solid #D5DADD;background:#FCFCFC;}
+.identification li{padding:20px;}
+.identification li p{height:25px;line-height:25px;}
+.identification li .p1{border-bottom:1px solid #D5DADD;height:40px;}
+.identification li .p2{margin-top:10px;}
+.identification li p input{height:24px;border:1px solid #D5DADD;padding-left:10px;}
+
+.charge_banktab h4{width:100%;height:23px;line-height:23px;text-indent:20px;}
+.account_type{height:38px;margin-bottom:9px;}
+.account_type li{width:110px;height:38px;float:left;cursor:pointer;}
+.account_type li .spanradio{float:left;width:14px;height:14px;display:block; background:url(../images/tradio.png) no-repeat; margin:12px 16px 0 20px; text-indent:-9999px;}
+.account_type li .spanradio_true{float:left;width:14px;height:14px;display:block; background:url(../images/radioture.png) no-repeat; margin:12px 16px 0 20px; text-indent:-9999px;}
+.account_type li .spanaccont{float:left;height:38px;line-height:38px;}
+.account_type li img{display:none;}
+.bank_img{width:100%;overflow:hidden;padding:11px 0 5px; display:none;}
+.bank_img li{width:156px;height:36px;float:left;margin:0 0 0px 21px;padding-bottom:14px; cursor:pointer;}
+.bank_img li .spanradio{float:left;width:14px;height:14px;display:block; background:url(../images/tradio.png) no-repeat;margin:11px 17px 0 0px; text-indent:-9999px;}
+.bank_img li .spanradio_true{float:left;width:14px;height:14px;display:block; background:url(../images/radioture.png) no-repeat;margin:11px 17px 0 0px;text-indent:-9999px;}
+
+.bank_img li img{width:123px;height:34px;border:1px solid #DDDDDD;float:left;}
+
+.charge_confirm{width:100%;height:111px;}
+.charge_confirm p{width:600px;height:23px;line-height:23px;padding:17px 0 0 20px;font-size:13px;color:#333;}
+.charge_confirm p input{margin-right:17px;}
+.charge_confirm p a{color:#195a9b;}
+.charge_confirm .charge_submit{width:115px;height:31px;line-height:31px;text-align:center;display:block;font-size:14px;color:#ffffff;background:#F8731E;margin:17px 0 0 20px;cursor:pointer;border:none;}
+
+.prompt_recharge{padding:15px 0 10px;}
+.prompt_recharge h3{height:23px;line-height:23px;font-size:13px;color:#333333;padding-left:20px;}
+.prompt_recharge p{padding-left:20px;line-height:23px;font-size:13px;color:#666;}
+.prompt_recharge p a{color:#195a9b;}
+
+.pop_box_mask{position:fixed;top:0px;left:0px;width:100%;height:100%;background:#000;opacity:0.2;filter:alpha(opacity:20);text-indent:-9999px;}
+.limit_description{width:766px;height:531px;position:fixed;top:50%;left:50%;margin-top:-265px;margin-left:-383px;background:#FFF;-moz-border-radius:4px;-webkit-border-radius:4px; border-radius:4px;overflow:hidden;}
+.limit_description .ptitle{border-bottom: 1px solid #dadada;color:#333;font-size:16px;font-weight:bold;height:44px;line-height:44px;text-indent:22px;}
+.limit_description .ptitle span{background:url(../images/checkclose2.png) no-repeat center;border-left:1px solid #dadada;cursor: pointer;position:absolute;top:0px;right:0px; height: 44px;width: 44px;display:block;text-indent:-9999px;}
+.limit_description .limit_desm{height: 420px;overflow-y: scroll;padding-left: 30px; padding-top: 30px;}
+.limit_desm ul{width:688px;}
+.limit_desm ul li{height:40px;line-height:40px;text-aligin:center;}
+.limit_desm ul li span{color: #333;display: inline-block;font-size: 14px;text-indent: 22px;width: 25%;color:#333;}
+.limit_desm ul li span+span{color:#00a0e9;}
+.limit_desm ul li.titleline{background:#ebebeb; font-weight:bold;}
+.limit_desm ul li.titleline span{color:#333;}
+#pop_box_mask{display:none;}
+
+/*添加闪电快充*/
+.charge_lightning{}
+.charge_lightning{width:100%;height:38px;border-bottom:1px solid #D5DADD;}
+.charge_lightning li{width:157px;height:39px;line-height:39px;float:left;font-size:13px;color:#333333;cursor:pointer;text-align:center;}
+.charge_lightning .active{background:url(../images/charge_bankbtnli1.png) no-repeat;}
+#charge_lightning2.active{background:url(../images/charge_bankbtnli2.png) no-repeat;}
+
+/*锁住屏幕*/
+.yinker_mx{position:fixed;z-index:27160847;top:0px;left:0px;width:100%;height:100%;background:#000;opacity:0.2;filter:alpha(opacity:20);text-indent:-9999px;}
+.yinker_mxcontent{background:#f8f8f8;height: 170px;width: 500px;left: 0;padding-bottom: 10px;position:fixed;top:50%;left:50%;margin-top:-86px;margin-left:-250px;z-index: 99999999;}
+.yinker_mxcontent .ptitle{border-bottom: 1px solid #dadada;color:#333;font-size:16px;font-weight:bold;height:44px;line-height:44px;text-indent:22px;}
+.yinker_mxcontent .ptitle a{color:#333;margin-left:7px;}
+.yinker_mxcontent .ptitle a:hover{color:#ff6600;}
+.yinker_mxcontent .ptitle span{background:url(../images/checkclose2.png) no-repeat center;border-left:1px solid #dadada;cursor: pointer;position:absolute;top:0px;right:0px; height: 44px;width: 44px;display:block;text-indent:-9999px;}
+.yinker_mx_desm{width:100%;height:88px;margin-top:20px;}
+.yinker_mx_desm p{ color: #353535;font-size: 14px;height: 26px;line-height: 26px;padding-left: 20px;}
+.yinker_mx_desm .p1{margin-bottom:10px;}
+.yinker_mx_desm .p2{background:url(../images/checkmark.png) no-repeat 20px center;padding-left:40px;}
+.yinker_mx_desm .p2 a{background:#e54708;color: #fff;float: left;font-size: 13px;height: 26px;line-height: 26px;text-align: center;width: 77px;}
+.yinker_mx_desm .p2 span{float:left;}
+.yinker_mx_desm .p3{background:url(../images/checkerror.png) no-repeat 20px center;padding-left:40px;}
+.yinker_mx_desm .p3 a{color:#2fa3d6;}
+#yinker_mx_mask{display: none;}
+
+
+
+
+

@@ -1,0 +1,198 @@
+<div class="xf_zqzr_znx_window" id="xf_mem_acc_sjvip_tcc">
+	<div class="xf_wyjkwszl_4_windowInner xf_vip_tcc_window xf_vip_tcc_withree">
+		<div class="xf_wyjkfb_4_windowClose"></div>
+		<div class="xf_wyjkfb_4_windowColName">
+			申请VIP
+		</div>
+		
+		<div class="xf_mem_tgxytc xf_mem_vipbox">
+			<table border="0" cellpadding="0" cellspacing="0" width="322" class="xf_mem_vip_tcc">
+				<tr>
+					<td>
+						开通对象：
+					</td>
+					<td id="vipObject">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						开通时间：
+					</td>
+					<td>
+						<input type="text" class="xf_memvip_input" onkeyup="this.value=this.value.replace(/\D/g,'');clickDownF();" onafterpaste="this.value=this.value.replace(/\D/g,'')" 
+						 id="time" name="time" style="ime-mode:Disabled">
+						<span class="xf_memvip_span" id="times">
+						</span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						应付金额：
+					</td>
+					<td>
+						<span class="xf_memvip_qian" id="repaymentF" name="amount"></span>
+						<span class="xf_memvip_span">元</span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						&nbsp;
+					</td>
+					<td>
+						<input type="checkbox" id="vipAgreementF" checked="checked" class="xf_register_fxk" onClick="oncheckF()">
+						<span class="xf_register_intext xf_register_intext2">接受并同意</span>
+						<span class="xf_register_inxieyi" onclick="showProtocolF()">会员服务条款</span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						&nbsp;
+					</td>
+					<td>
+					<a onClick="applyVip()" class="xf_con_inputfbjk">确定</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+
+#{include "front/account/AccountHome/homeVipContent.control"/}
+
+
+<script type="text/javascript">
+     
+     $("#vipObject").html($("#currUserName").val());
+
+	 var vipMinTypeF = '';
+	 if($("#vipMinTimeType").val() == 0) {
+         vipMinTypeF="年";
+     }else{
+        vipMinTypeF="个月";
+     }
+     
+     var vipTypeF = "";
+     if($("#vipTimeType").val() == 0) {
+         vipTypeF="年";
+     }else{
+        vipTypeF="月";
+     }
+     
+     $("#times").html(vipTypeF);
+     
+	var minTimeF = "至少开通"+$("#vipMinTimeLength").val()+vipMinTypeF;
+	
+    $("#time").val(minTimeF);
+	
+	$(function(){
+		
+		$(".xf_wyjkfb_4_windowClose").click(function(){
+			$(this).parents(".xf_zqzr_znx_window").hide(300);
+		});
+        
+		$("#time").focus(function(){	 
+			if($(this).val() == minTimeF){  
+              	$(this).val("");           
+		    } 
+		}).blur(function(){
+			if ($(this).val() == '') {
+               $(this).val(minTimeF);
+            }
+		});	
+		
+		$(".xf_wyjkfb_4_windowClose").click(function(){
+			$(this).parents(".xf_zqzr_znx_window").hide(300);
+		});
+		
+	});
+	
+		
+
+   function clickDownF() {
+		var vipFee = $("#vipAmount").val();
+		var vipDiscount = $("#vipDiscount").val();
+		var time = $("#time").val();
+		if(time == '' || time== minTimeF) {
+	 		$("#repaymentF").html("");
+	 		return;
+	 	}
+	 	
+	   if(isNaN(time)) {
+	   		$("#time").val("")
+	   		$("#repaymentF").html("");
+	 		return;
+	 	}
+		
+		$("#repaymentF").html(vipFee*time*vipDiscount/10);
+	}
+		 
+	 function applyVip(){
+	 	var timeF = $("#time").val();
+	 	if(timeF == '' || timeF== minTimeF) {
+	 		alert("请输入申请时长");
+	 		return;
+	 	}
+	 	
+	 	if(isNaN(timeF)) {
+	 		alert("请输入正确的申请时间");
+	 		return;
+	 	}
+	 	
+	 	var vipMinTimeF = $("#vipMinTimeLength").val();
+	 	if( $("#vipMinTimeType").val() == 0) {
+         	 vipMinTimeF = vipMinTimeF * 12;
+     	}
+     	
+     	if($("#vipTimeType").val() == 0) {
+     		timeF = timeF * 12;
+     	}
+	 	
+	 	if(timeF*1 < vipMinTimeF*1) {
+	 		alert("不能小于最短申请时间");
+	 		return;
+	 	}
+	 	
+	 	if($("#vipTimeType").val() == 0) {
+	 		var tempTime = timeF / 12;
+	 		if(tempTime>100){
+		 		alert("数值不能超过100");
+		 		return;
+	 		}
+	 	}
+	 	
+	 	if(!$("#vipAgreementF").attr("checked")){
+	        alert("请认真阅读并同意会员服务条款");
+	        return;
+	    }
+	    
+	 	var vipApply = #{jsAction @front.account.AccountHome.vipApply(':time', ':type')/}
+		$.post(vipApply({time:timeF, type:1}),function(data){
+			
+			//拦截器，拦截判断。frontMain.html
+			if(checkIntercepterResult(data)){
+				return;
+			}
+			
+			var arr=eval(data);
+			if (arr.error.code == -999) {
+				showRechargeWin();
+				return;					
+			}
+			if(arr.error.code < 0){
+			    alert(arr.error.msg);
+			    return;
+			}
+		
+		alert(arr.error.msg);
+		location.reload();
+	  });
+	 }
+	 
+	 function oncheckF(){
+		 if($("#vipAgreementF").attr("checked")){
+	         $("#vipAgreementF").attr("checked",false);
+	    }else{
+	         $("#vipAgreementF").attr("checked",true);
+	    }
+	  }
+</script>

@@ -1,0 +1,14 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'手工充值' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include 'supervisor/financeManager/common/financeManageLeft.control'/}
+    #{include 'supervisor/financeManager/PlatformAccountManager/manualRechargeContent.control'/}
+  </div>
+</div>
+<script>
+$(function(){
+	//高亮显示
+	showHighLight(4,4,19);
+})
+</script>

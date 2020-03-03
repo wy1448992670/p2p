@@ -1,0 +1,19 @@
+#{extends 'payment/PaymentBaseAction/checkMain.html' /}
+#{set title:'开通资金托管账户' /}
+  
+<div class="p_zctancbg" style="display: block"></div>
+<div class="p_zctanc5" style="display: block">
+  <div class="p_zctcbox">
+    <div class="p_zctctextimg"><img src="@{'public/images/p_zc004.png'}"></div>
+    <div class="p_zctctextword">
+      
+      <p>&nbsp;</p>
+      <p><a href="@{front.account.CheckAction.createAcct()}"  target="_blank" class="p_zctcnext5">开通资金托管账户</a></p>
+    </div>
+    <div class="p_zctcbottom">
+      <p>请注意以下事项</p>
+      <p>1、开通资金托管账户，页面将会跳转到资金托管第三方进行账户开通。</p>
+      <p>2、如果您的验证过程中，出现任何问题，请致电${phone}，或咨询客服QQ：${qq1} &nbsp;| &nbsp;${qq2}。</p>
+    </div>
+  </div>
+</div>

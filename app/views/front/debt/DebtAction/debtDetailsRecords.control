@@ -1,0 +1,176 @@
+				<!-- 借款标详情 -->
+				<div class="xf_wylc_jkbxq_Tab" id="xf_wyjkview_xxk">
+					<ul class="xf_wylc_jkbxq_Tabul clr">
+						<li class="xf_con_wyjk_r_liishot" id="debtAuctionRecords" onclick="showDebtAuctionRecords(1,10);">竞拍记录</li>
+						<li class="xf_con_wyjk_r_liNoborder">转让标详情</li>
+					</ul>
+					<div class="xf_con_wyjk_tentultbody" id="debtAuctionsRecords">
+                    </div>
+                    
+                    <input type="hidden" id="debtId" value="${debt?.id}" />
+					<div class="xf_con_wyjk_tentultbody">
+                    	<table border="0" cellpadding="0" cellspacing="0" width="957" class="xf_wylc_viewcpms font_onetwo">
+							<tbody>
+								<tr>
+									<td width="64" align="center" valign="middle" class="xf_wyjk_taletitle">借款人基本资料</td>
+								  	<td width="852">
+								  		<table border="0" cellpadding="0" cellspacing="0" width="100%" class="xf_wylc_viewcpms_Tab">
+											<tbody>
+												<tr>
+													<td valign="middle" width="83">真实姓名：</td>
+												  	<td width="188" >${debt?.invest?.bid?.user?.realityName?.asterisk()}</td>
+												  	<td width="86">性别：</td>
+												  	<td width="129">${debt?.invest?.bid?.user?.sex}</td>
+												  	<td width="77">年龄：</td>
+												  	<td>${debt?.invest?.bid?.user?.age}岁</td>
+												</tr>
+												<tr>
+													<td valign="middle" >身份证号：</td>
+												  	<td >${debt?.invest.bid?.user?.idNumber?.asterisk()}</td>
+												  	<td>户口所在地：</td>
+												  	<td>${debt?.invest?.bid?.user?.provinceName}${debt?.invest?.bid?.user?.cityName}</td>
+												  	<td>文化程度：</td>
+												  	<td>${debt?.invest?.bid?.user?.educationName}</td>
+												</tr>
+												<tr>
+													<td valign="middle">婚姻情况：</td>
+												  	<td>${debt?.invest?.bid?.user?.maritalName}</td>
+												  	<td>购房情况：</td>
+												  	<td>${debt?.invest?.bid?.user?.houseName}</td>
+												  	<td>购车情况：</td>
+												  	<td>${debt?.invest?.bid?.user?.carName}</td>
+												</tr>
+												<tr>
+													<td valign="middle">借款目的：</td>
+										            <td colspan="5">${debt?.invest?.bid?.purpose?.name}</td>
+												</tr>
+											</tbody>
+										</table>
+								  	</td>
+								</tr>
+                                <tr>
+									<td align="center" valign="middle" class="xf_wyjk_taletitle">借款详情对借款用途还款能力的详细说明</td>
+								  	<td>${debt?.invest?.bid?.description}</td>
+								</tr>
+                                <tr>
+									<td align="center" valign="middle" class="xf_wyjk_taletitle">必须资料审核科目</td>
+								  	<td>
+								  		<table border="0" cellpadding="0" cellspacing="0" width="100%" class="xf_wylc_viewcpms_Tab xf_wylc_viewcpms_Tab2">
+											<tbody>
+												<tr>
+													<th valign="middle">序号</th>
+												  	<th>审核科目</th>
+												  	<th>状态</th>
+												  	<th>操作</th>
+												  	<th><b>CBO风控体系审核</b></th>
+												</tr>
+												
+									#{list uItems}	
+									#{if _?.status == 2}
+									<tr>
+										<td align="center">
+											${_index}
+										</td>
+										<td align="center">
+											${_?.auditItem?.name}
+										</td>
+										<td align="center">
+											${_?.strStatus}
+										</td>
+										<td align="center" width="90">
+											#{if _?.isVisible}
+												<a onclick="showitemNow('${_?.mark}','${debt?.invest?.bid?.signUserId}');">查看</a>
+											#{/if}
+											#{else}
+												不可见
+											#{/else}
+										</td>
+										#{if _index == 1}
+										<td valign="top" rowspan="${uItems?.size}" class="xf_wylc_l_memhyA_zh">
+											${debt?.invest?.bid?.auditSuggest}
+										</td>
+										#{/if}
+									</tr>
+									#{/if}
+									#{/list}
+									
+												
+												
+											</tbody>
+										</table>
+								  	</td>
+								</tr>
+                                <tr>
+									<td align="center" valign="middle" class="xf_wyjk_taletitle">历史情况</td>
+								  	<td>
+								  		<table border="0" cellpadding="0" cellspacing="0" width="100%" class="xf_wylc_viewcpms_Tab">
+											<tbody>
+												<tr>
+													<td valign="middle">注册时间：${debt?.invest?.bid?.user?.time?.format('yyyy-MM-dd HH:mm:ss')}</td>
+												  	<td>成功借款次数：${historySituationMap?.successBidCount} 次</td>
+												  	<td>正常还款次数：${historySituationMap?.normalRepaymentCount} 次</td>
+												  	<td>逾期还清次数：${historySituationMap?.overdueRepaymentCount}  次</td>
+												</tr>
+												<tr>
+												  	<td>待付款金额：${historySituationMap?.pendingRepaymentAmount} 元</td>
+												  	<td>共计借入金额：${historySituationMap?.loanAmount} 元</td>
+												  	<td>投资投标笔数：${historySituationMap?.financialCount}  笔</td>
+												  	<td>待收款金额：${historySituationMap?.receivingAmount}  元</td>
+												</tr>
+											</tbody>
+										</table>
+								  	</td>
+								</tr>
+                                <tr>
+									<td align="center" valign="middle" class="xf_wyjk_taletitle">投标奖励</td>
+								  	<td>
+					#{if debt?.invest.bid?.bonusType == 0}
+							不设置奖励
+							#{/if}
+							#{if debt?.invest.bid?.bonusType == 1}
+							按固定奖金${debt?.invest.bid?.bonus}元进行奖励
+							#{/if}
+							#{if debt?.invest.bid?.bonusType == 2}
+							按借款总额${debt?.invest.bid?.awardScale}%进行奖励
+					#{/if}
+								  	
+                                    </td>
+								</tr>
+							</tbody>
+						</table>
+                    </div>
+				</div>			
+			
+			
+			<!-- 资料图片显示层-->
+			<div id="itemImage" class="xf_ht_ttc"></div>
+			
+			
+			<script>
+			$(function(){
+				 showDebtAuctionRecords(1,10);
+			})
+			
+			
+			function showDebtAuctionRecords(pageNum,pageSize){
+				var debtId = ${debt?.id};
+				$.ajax({
+					url:"@{viewDebtAllAuctionRecords()}",
+					type:"POST",
+					data: {"pageNum" : pageNum, "pageSize" : pageSize , "debtId":debtId},
+			    	success:function(data){$("#debtAuctionsRecords").html(data);},
+			    	error:function(){alert("对不起，出现错误!");}
+				})
+			}
+			
+			
+			
+	
+			     /* 查看弹出层 */
+	function showitem(mark,signUserId){
+		var listAction = #{jsAction @front.invest.InvestAction.showitem(':mark',':signUserId') /};
+		$.post(listAction({mark:mark,signUserId:signUserId}), function(data) {
+			showDiv($("#itemImage").html(data));
+		});		
+	}
+			</script>

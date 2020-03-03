@@ -1,0 +1,135 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMenu.html' /} 
+#{set title:currBackstageSet.seoTitle +' | '+bid?.title +'借款标详情'/}
+
+<!-- 发标用户个人信息 -->
+
+
+#{include 'front/invest/InvestAction/investBidUserInfo.control' /}
+<!-- 确认投标 -->
+#{if flag}
+<div class="xf_wyjkfb_4_window" id="xf_wyjkfb_4_window" >
+	<div class="xf_wyjkfb_4_windowInner xf_wylcfb_4_windowInner">
+		<div class="xf_wyjkfb_4_windowClose"></div>
+		<div class="xf_wyjkfb_4_windowColName">投标成功 !</div>
+		<div class="xf_wyjkfb_4_windowCot">
+			<div class="xf_wyjkfb_4_windowCol">
+				借款标编号： <span class="xf_wyjkfb_4_windowNo">${bid?.no} </span>
+			</div>
+			<div class="xf_wyjkfb_4_windowCol">
+				<div class="xf_wyjkfb_4_windowTitle">借款标标题：</div>
+				<div class="xf_wyjkfb_4_windowText" id="xf_wyjkfb_4_windowText">
+					<p>${bid?.title}</p>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="xf_wyjkfb_4_windowCol">
+				投标金额：<span class="xf_wyjkfb_4_windowNum">
+				${flash?.amount}
+				</span> 元
+			</div>
+			<div class="xf_wyjkfb_4_windowCol">借款金额：${bid?.amount?.format('###,##0.00')}
+				元&nbsp;&nbsp;年利率：${bid?.apr}%</div>
+			<div class="xf_wyjkfb_4_windowCol">还款方式：${bid?.repayment?.name}&nbsp;&nbsp;&nbsp;&nbsp;
+			
+			借款期限：${bid?.period}
+				${bid?.strPeriodUnit}			
+			</div>
+			<div class="xf_wyjkfb_4_windowCol">
+				当前进度：<span class="xf_c_idx_4_proWrap"><span
+					class="xf_c_idx_4_proPer" id="loanSchedulexx" >${bid?.loanSchedule}%</span> </span>
+			</div>
+			<div class="xf_wyjkfb_4_windowCol xf_wyjkfb_4_windowont">温馨提示：满标后审核借款人资料，审核通过后开始放款。</div>
+		</div>
+	</div>
+</div>
+
+#{/if}
+
+<script type="text/javascript">
+
+
+		$(function(){	
+			$("a").limit();
+			//$("#xf_wyjkfb_4_window").hide();
+			//hide隐藏，center展示	
+			$(".xf_wyjkfb_4_windowClose,#xf_wyjkfb_4_windowCancle,#xf_con_inputfbqux").click(function(){				
+				$("#xf_wyjkfb_4_window").center();
+				$("#xf_wyjkfb_4_window").hide(500);
+			});
+
+			
+			
+			//竞拍成功
+			$("#xf_zqzrtb_4_window").center();
+
+			$("#xf_con_inputfbjk").click(function(){				
+				$("#xf_wyjkfb_4_window").hide("fast",function(){
+					$("#xf_wyjkfb_4_window").show();
+					
+				});
+			});
+			$(".xf_zqzr_4_windowClose").click(function(){
+				$("#xf_zqzrtb_4_window").hide();
+			});
+		});
+		
+		
+	</script>
+	
+	<script>
+		
+		$(function(){
+			$('#invests').find('i').css('visibility','inherit');
+			$("#addBottom").click(function(){	
+				var investAmount = $("#investAmountBottom").val();
+				var patrn=/^([1-9]\d*)$/; 
+				var patrn1=/^([0-9]\d*)$/;
+			    var flag = patrn1.exec(investAmount);
+			    var copys = ${bid?.amount - bid?.hasInvestedAmount}/${bid?.averageInvestAmount};
+				if(!flag){
+					alert("请您输入正整数！");
+				 	return;
+		        }
+					
+			    $("#investAmountBottom").val(parseInt($("#investAmountBottom").val())+1);//加	
+			    if($("#investAmountBottom").val() > copys){
+			    	$("#investAmountBottom").val(copys);
+			    }
+			});
+			
+			$("#plusBottom").click(function(){
+				var investAmount = $("#investAmountBottom").val();
+				var patrn=/^([1-9]\d*)$/;
+			    var flag = patrn.exec(investAmount);
+				if(!flag){
+					alert("对不起！请您输入正整数！");
+				 	return;
+		         }		
+			    $("#investAmountBottom").val(parseInt($("#investAmountBottom").val())-1);//减
+			    if($("#investAmountBottom").val() <= 1){
+			    	$("#investAmountBottom").val(1);
+			    }	
+			});
+			 
+			$("#confirmInvestBottom").keydown(function(e){
+			  if(e.keyCode == 13){
+				  investNow();
+				  
+				  return false;
+			  }
+			});
+
+		})
+	</script>
+
+<!-- *{登录弹框层}* -->	
+#{include 'front/invest/InvestAction/login.control'/}		
+	
+ *{激活弹框层}* 
+#{include 'front/invest/InvestAction/activeEmail.control'/}	
+	
+
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_invest.js'}"></script>

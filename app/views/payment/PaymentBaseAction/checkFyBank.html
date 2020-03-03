@@ -1,0 +1,90 @@
+#{extends 'payment/PaymentBaseAction/checkMain.html' /}
+#{set title:'绑定银行卡' /}
+  
+<div class="p_zctancbg" style="display: block"></div>
+<div class="p_zctanc3" style="display: block">
+  <div class="p_zctcbox">
+    <div class="p_zctctextimg"><img src="@{'public/images/p_zc004.png'}"></div>
+    #{form @payment.fy.FyPaymentAction.addBank(), id:'form' }
+    <div class="p_zctctextword">
+      <table>
+        <tr height="50"><th width="292">开户行：</th>
+       	 <td>
+       	 	<select onchange="findCity();" name="prov_num" id ="prov">
+       	 		<option value ="">请选择...</option>	
+       	 		#{list list}
+       	 			<option value ="${_?.prov_num}">${_?.prov_name}</option>	
+       	 		#{/list}
+       	 		
+       	 	</select>
+       	 	省
+       	 	<select name="city_num" id="city">
+       	 		<option value ="">请选择...</option>	
+       	 	</select>
+       	 	市
+       	 </td>
+        </tr>
+        <tr height="50"><th>开户行类别：</th>
+        	<td>
+        		<select name="bank_type">
+		       	 	<option value ="">请选择...</option>	
+		       	 	<option value ="0102">中国工商银行</option>
+		       	 	<option value ="0103">中国农业银行</option>
+		       	 	<option value ="0105">中国建设银行</option>
+		       	 	<option value ="0308">招商银行</option>
+		       	 	<option value ="0302">中信实业银行</option>
+		       	 	<option value ="0303">中国光大银行</option>
+		       	 	<option value ="0306">广东发展银行</option>
+		       	 	<option value ="0309">兴业银行</option>
+		       	 	<option value ="0403">国家邮政局邮政储汇局</option>
+		       	 	<option value ="0307">平安银行股份有限公司</option>
+		       	 	<option value ="0104">中国银行</option>		       	 	
+		       	</select>
+       	 	</td>
+       	 </tr>
+       	 <tr height="50"><th>支行名称：</th>
+        	<td>
+        		<input name="bank_name" type="text" value="${flash?.idNumber}"/>
+		       	 	#{if flash.idNoError}
+			        <span class="p_zctctishi" style="color:red">${flash?.idNoError}</span>
+			      #{/if}
+       	 	</td>
+       	 </tr> 
+       	 <tr height="50"><th>银行卡号：</th>
+        	<td>
+        		<input name="bank_num" type="text" value="${flash?.idNumber}"/>
+		       	 	#{if flash.idNoError}
+			        <span class="p_zctctishi" style="color:red">${flash?.idNoError}</span>
+			      #{/if}
+       	 	</td>
+       	 </tr>      	 
+      </table>
+      <p><span class="p_zctctishi">您必须填写您的开户行代码及开户行名称，虚假的银行卡信息是不能通过验证的。</span></p>
+      
+      <p><a href="#" onclick="submit();" class="p_zctcnext3">开通托管账户</a></p>
+    </div>
+    #{/form}
+  </div>
+</div>
+
+<script type="text/javascript">
+function submit() {
+
+  $("#form").attr("target", "_blank");
+  $("#form").submit();
+}
+function findCity(){
+
+	var prov_num = $("#prov").val();
+	$.post("/payment/fy/findByCity", {'prov_num':prov_num}, function(data){
+
+			var option = '<option value ="">请选择...</option>';
+			for(var i =0; i < data.length; i++){
+
+				option = option + '<option value ="'+data[i].city_num+'">'+data[i].city_name+'</option>';
+				
+			}
+			$("#city").html(option);
+	})
+}
+</script>

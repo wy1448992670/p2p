@@ -1,0 +1,22 @@
+<div class="invitation_infor">
+	<ul>
+		<li class="li1">
+	    	<div class="top_img"><img src="/public/images/ljlc_img.png" alt="累计投资" /></div>
+	        <p class="p1">已累计投资</p>
+	        <p class="p2">${investmentTotal.format('###,##0.00')}元</p> 
+	    </li>
+	    <li class="li2">
+	    	<div class="top_img"><img src="/public/images/yqmsl_img.png" alt="累计投资" /></div>
+	        <p class="p1">当前可用邀请码</p>
+	        <p class="p2">${CodeNum}个</p> 
+	    </li>
+	    <li class="li3">
+	    	<div class="top_img"><img src="/public/images/hxlc_img.png" alt="累计投资" /></div>
+	        <p class="p1">距离下个邀请码还需投资</p>
+	        <p class="p2">${PoorMoney.format('###,##0.00')}元</p> 
+	    </li>
+	</ul>
+	
+	<p class="pljlc">投资<span>${amount.format('###,##0')}元</span>送邀请码</p>
+	<a href="@{front.invest.investAction.investHome}" class="qulicai_btn">去投资</a>
+</div>

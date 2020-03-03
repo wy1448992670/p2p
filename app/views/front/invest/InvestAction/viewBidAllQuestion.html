@@ -1,0 +1,121 @@
+		
+		<ul class="xf_wylc_tabletwo_twul" >
+						#{list items:page.page, as:'question'}
+							<li>
+								<div class="xf_wylc_tabletwo_title" style="word-break:break-all;">
+									<span class="xf_wylc_tabletwo_tspan"><span class="xf_wylc_view_tblist">${question?.name?.asterisk()}：</span>${question?.content}</span>
+									<span class="xf_wylc_tabletwo_tdatetiem">提问时间：${question?.time?.format('yyyy-MM-dd HH:mm:ss')}</span>
+								</div>
+								
+								#{list items:question.bidAnswerList, as:'answer'}
+									
+								<div class="xf_wylc_tabletwo_content">
+									<div class="xf_wylc_tabletwo_bihot"></div>
+									<div class="xf_wylc_tabletwo_tstwo"><span class="xf_wylc_view_tblist">借款人</span>回复：</div>
+									<div class="xf_wylc_tabletwo_three" style="word-break:break-all;">
+										${answer?.content}
+									</div>
+									
+									<!-- 清除浮动 -->
+									<div class="clear"></div>
+									<span class="xf_wylc_tabletwo_tdatetiem">回复时间：	${answer?.time?.format('yyyy-MM-dd HH:mm:ss')}</span><span class="xf_wylc_tabletwo_tdatetiem">浏览次数：${answer?.readCount}</span>
+								</div>
+								#{/list}
+								
+							</li>
+					#{/list}
+				</ul>
+                <div class="xf_wylc_zxzx">
+                    <div class="xf_wylc_zxzx_title"><span class="xf_wylc_view_tblist">我要提问：</span> (字数在1-200之间)</div>
+                    <div class="xf_wylc_zxzx_input">
+                        <textarea type="text" class="xf_wylc_zxzx_inputx" id="questContent" >${flash?.error}</textarea>
+                    </div>
+                    <div class="xf_wylc_zxzx_yzm">
+                       	 请输入验证码：<input type="text" class="xf_wylc_zxzx_inputext" id="inputCode">
+                        <img class="xf_login_yzmimg" id="question" width="70px" height="35px" onclick="changeCode();"src="">
+                        <input type="hidden" id="randmCode">
+                        <a class="xf_accout_cont_imginput" onclick="questionNow();">提交</a>
+                    </div>
+                </div>
+			
+                <!-- 分页器 -->
+                <div class="xf_wylc_page xf_zqzr_view_page1">
+                   
+                    #{page funMethod:"showBidAllQuestion",currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:2,style:2 /}
+                    
+                </div>
+                
+		
+	<script>
+	      	$(function(){
+	      		    var setCode = #{jsAction @front.account.LoginAndRegisterAction.setCode()/}
+					$.post(setCode({}),function(data){
+					var arr=eval(data);
+					var imgs = arr.img;
+					$("#question").attr("src","@{front.account.LoginAndRegisterAction.getImg()}?id="+imgs);
+					$("#randmCode").val(imgs);
+	      	    });
+	        })
+	      
+	       function changeCode(){
+			    var setCode = #{jsAction @front.account.LoginAndRegisterAction.setCode()/}
+				$.post(setCode({}),function(data){
+				var arr=eval(data);
+				var imgs = arr.img;
+				$("#question").attr("src","@{front.account.LoginAndRegisterAction.getImg()}?id="+imgs);	
+				$("#randmCode").val(imgs);
+			  });
+	    	}
+	  </script>
+	  <script>
+	      
+	      /*	function questionxx(){
+	      		var code = $("#randmCode").val();
+	      		var bidId = $("#hiddenbidvalue").val();
+	      		var toUserId = $("#hiddenUserId").val();
+	      		var content = $("#questContent").val();
+	      		var inputCode = $("#inputCode").val();
+	      		var randmCode = $("#inputCode").val();
+	      		
+	      		if($.trim(content) == ""){
+	      			alert("对不起！提问内容不能为空！");
+	      			return;
+	      		}
+
+				if(content.length >=200){
+					alert("对不起！提问内容字数不可超过200字！");
+	      			return;
+				}
+	      		
+	      		content = encodeURI(content);
+	      		var questionToBorrower = #{jsAction @questionToBorrower(':toUserIdSign',':bidIdSign',':content',':code',':inputCode')/}
+	      		$.post(questionToBorrower({toUserIdSign:toUserId,bidIdSign:bidId,content:content,code:code,inputCode:inputCode}),function(data){
+    	
+	      				
+	    				if(checkIntercepterResult(data)){
+	    					return;
+	    				}
+	      			
+			    		var arr = eval(data);
+						var result = arr.error.msg;
+						$("#content").val(arr.content);
+						alert(result);
+						if(arr.error.code >= 0){
+							showBidAllQuestion(1, 10);
+						}
+    	          })
+    	        
+    	          changeCode();
+	      	}
+
+
+
+	        function questionNow(){
+	        	
+	      	  	var result = frontJSIntercepter();
+	      	  
+	      	  	if(!result){
+	            	 showitem(mark,signUserId); 
+	      	 	 }		
+	    	}*/
+	      </script>

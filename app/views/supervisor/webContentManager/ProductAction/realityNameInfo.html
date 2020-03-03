@@ -1,0 +1,319 @@
+
+<style>
+	.z_msg,.z_title{
+		padding :10px;
+	}
+	.tableOuter tr td{
+		padding:5px;
+	}
+</style>
+<!-- 编辑部分开始 -->
+#{if user?.realityName == null && (authority == 2 || authority == 3) && authReview?.user_type == 1}
+<table width="100%">
+  <tbody>
+    <tr>
+      <td align="right" class="label_w">姓名：</td>
+      <td class="26%">
+      	<input type="text" id="realityName" name="realityName" value="${authReview?.realityName}" class="col_width">
+      </td>
+      <td align="right" class="label_w">身份证号：</td>
+      <td>
+        <input type="text" id="idNumber" name="idNumber" value="${authReview?.idNumber}" class="col_width">
+      </td>
+    </tr>
+    <tr>
+      <td align="right" class="label_w">开户行： </td>
+      <td>
+        <select id="bankName" name="bankName" class="sel_col">
+          <option value=''>请选择</option>
+          #{list bankNames, as:'item'}
+		  <option value="${item.value}" #{if authReview?.bankName == item.value}selected#{/if}>${item.value}</option>
+		  #{/list}
+        </select>
+      </td>
+      <td align="right" class="label_w">银行卡号： </td>
+      <td>
+      	<input type="text" id="bankNo" name="bankNo" value="${authReview?.bankNo}" class="col_width">
+      </td>
+    </tr>
+    <tr>
+      <td align="right" class="label_w">银行预留手机号 ： </td>
+      <td>
+      	<input type="text" id="bankMobile" name="bankMobile" value="${authReview?.bankMobile}" class="col_width">
+      </td>
+      <td align="right" class="label_w">所在地： </td>
+      <td>
+        <select id="newProvince" name="newProvince" class="sel_col">
+          <option value=''>请选择</option>
+          #{list items:newProvinces, as:'item'}
+          <option value="${item?.province_id}" #{if userCity?.province_id == item?.province_id}selected#{/if}>${item?.province}</option>
+          #{/list}
+        </select>
+        <select id="newCity" name="newCity" class="sel_col">
+          <option value=''>请选择</option>
+          #{list items:newCitys, as:'item'}
+          <option value="${item?.city_id}" #{if userCity?.city_id == item?.city_id}selected#{/if}>${item?.city}</option>
+          #{/list}
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td align="right" class="label_w">授信金额 :</td>
+      <td>
+        <input type="number" id="creditAmount" name="creditAmount" value="${authReview?.creditAmount}" class="col_width">
+      </td>
+    </tr>
+  </tbody>
+</table>
+#{/if}
+#{if user?.realityName == null && (authority == 2 || authority == 3) && authReview?.user_type == 2}
+<table width="100%">
+  <tbody>
+    <tr>
+      <td align="right" class="label_w">企业名称：</td>
+      <td width="26%">
+      	<input type="text" id="realityName" name="realityName" value="${authReview?.realityName}" class="col_width">
+      </td>
+      <td align="right" class="label_w">统一社会信用代码： </td>
+      <td>
+        <input type="text" id="idNumber" name="idNumber" value="${authReview?.idNumber}" class="col_width">
+      </td>
+    </tr>
+    <tr>
+      <td align="right" class="label_w">开户行 ： </td>
+      <td>
+        <input type="text" id="bankName" name="bankName" value="${authReview?.bankName}" class="col_width">
+      </td>
+      <td align="right" class="label_w">对公账户： </td>
+      <td>
+        <input type="text" id="bankNo" name="bankNo" value="${authReview?.bankNo}" class="col_width">
+      </td>
+    </tr>
+    <tr>
+      <td align="right" class="label_w">所在地： </td>
+      <td>
+        <select id="newProvince" name="newProvince" class="sel_col">
+          <option value=''>请选择</option>
+          #{list items:newProvinces, as:'item'}
+          <option value="${item?.province_id}" #{if userCity?.province_id == item?.province_id}selected#{/if}>${item?.province}</option>
+          #{/list}
+        </select>
+        <select id="newCity" name="newCity" class="sel_col">
+          <option value=''>请选择</option>
+          #{list items:newCitys, as:'item'}
+          <option value="${item?.city_id}" #{if userCity?.city_id == item?.city_id}selected#{/if}>${item?.city}</option>
+          #{/list}
+        </select>
+      </td>
+      <td align="right" class="label_w">授信金额 :</td>
+      <td>
+        <input type="number" id="creditAmount" name="creditAmount" value="${authReview?.creditAmount}" class="col_width">
+      </td>
+    </tr>
+  </tbody>
+</table>
+#{/if}
+#{if user?.realityName == null && (authority == 2 || authority == 3) && authReview?.user_type == 3}
+<table width="100%">
+  <tbody>
+    <tr>
+      <td align="right" class="label_w">企业名称：</td>
+      <td width="26%">
+      	<input type="text" id="realityName" name="realityName" value="${authReview?.realityName}" class="col_width">
+      </td>
+      <td align="right" class="label_w">统一社会信用代码： </td>
+      <td>
+      	<input type="text" id="idNumber" name="idNumber" value="${authReview?.idNumber}" class="col_width">
+      </td>
+    </tr>
+    <tr>
+      <td align="right" class="label_w">开户行 ： </td>
+      <td>
+        <input type="text" id="bankName" name="bankName" value="${authReview?.bankName}" class="col_width">
+      </td>
+      <td align="right" class="label_w">银行卡号： </td>
+      <td>
+        <input type="text" id="bankNo" name="bankNo" value="${authReview?.bankNo}" class="col_width">
+      </td>
+    </tr>
+    <tr>
+      <td align="right" class="label_w">持卡人姓名：</td>
+      <td>
+        <input type="text" id="bankAccount" name="bankAccount" value="${authReview?.bankAccount}" class="col_width">
+      </td>
+      <td align="right" class="label_w">所在地： </td>
+      <td>
+        <select id="newProvince" name="newProvince" class="sel_col">
+          <option value=''>请选择</option>
+          #{list items:newProvinces, as:'item'}
+          <option value="${item?.province_id}" #{if userCity?.province_id == item?.province_id}selected#{/if}>${item?.province}</option>
+          #{/list}
+        </select>
+        <select id="newCity" name="newCity" class="sel_col">
+          <option value=''>请选择</option>
+          #{list items:newCitys, as:'item'}
+          <option value="${item?.city_id}" #{if userCity?.city_id == item?.city_id}selected#{/if}>${item?.city}</option>
+          #{/list}
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td align="right" class="label_w">授信金额 :</td>
+      <td>
+        <input type="number" id="creditAmount" name="creditAmount" value="${authReview?.creditAmount}" class="col_width">
+      </td>
+    </tr>
+  </tbody>
+</table>
+#{/if}
+<!-- 编辑部分结束 -->
+<!-- 展现部分开始 -->
+#{if (user?.realityName != null || authority == 1) && user?.user_type == 1}
+<table width="100%">
+  <tbody>
+    <tr>
+      <td align="right" class="label_w">姓名：</td>
+      <td width="26%">${user?.realityName}</td>
+      <td align="right" class="label_w">身份证号：</td>
+      <td>${user?.idNumber}</td>
+    </tr>
+    <tr>
+      <td align="right" class="label_w">开户行： </td>
+      <td class="bank_name">${firstBank?.bank_name}</td>
+      <td align="right" class="label_w">银行卡号： </td>
+      <td>
+        #{if userBanks?.size() > 0}
+        <select id="userBanks" class="sel_col" onchange="userBanksChange();">
+          #{list userBanks, as:'item'}
+		  <option value="${item.id}" bankName="${item.bank_name}" mobile="${item.mobile}" accountName="${item.account_name}" #{if firstBank?.id == item.id}selected#{/if}>${item.account}</option>
+		  #{/list}
+        </select>
+        #{/if}
+      </td>
+    </tr>
+    <tr>
+      <td align="right" class="label_w">银行预留手机号 ： </td>
+      <td class="bank_mobile">${firstBank?.mobile}</td>
+      <td align="right" class="label_w">所在地： </td>
+      <td>${userCity?.province == null? '': userCity?.province}${userCity?.city == null? '': userCity?.city}</td>
+    </tr>
+    <tr>
+      <td align="right" class="label_w">授信金额 :</td>
+      <td>${user?.creditAmount == null? '0.00': user?.creditAmount}元</td>
+    </tr>
+  </tbody>
+</table>
+#{/if}
+#{if (user?.realityName != null || authority == 1) && user?.user_type == 2}
+<table width="100%">
+  <tbody>
+    <tr>
+      <td align="right" class="label_w">企业名称：</td>
+      <td width="26%">${user?.realityName}</td>
+      <td align="right" class="label_w">统一社会信用代码： </td>
+      <td>${user?.idNumber}</td>
+    </tr>
+    <tr>
+      <td align="right" class="label_w">开户行 ： </td>
+      <td class="bank_name">${firstBank?.bank_name}</td>
+      <td align="right" class="label_w">对公账户： </td>
+      <td>
+        #{if userBanks?.size() > 0}
+        <select id="userBanks" class="sel_col" onchange="userBanksChange();">
+          #{list userBanks, as:'item'}
+		  <option value="${item.id}" bankName="${item.bank_name}" mobile="${item.mobile}" accountName="${item.account_name}" #{if firstBank?.id == item.id}selected#{/if}>${item.account}</option>
+		  #{/list}
+        </select>
+        #{/if}
+      </td>
+    </tr>
+    <tr>
+      <td align="right" class="label_w">所在地： </td>
+      <td>${userCity?.province == null? '': userCity?.province}${userCity?.city == null? '': userCity?.city}</td>
+      <td align="right" class="label_w">授信金额 :</td>
+      <td>${user?.creditAmount == null? '0.00': user?.creditAmount}元</td>
+    </tr>
+  </tbody>
+</table>
+#{/if}
+#{if (user?.realityName != null || authority == 1) && user?.user_type == 3}
+<table width="100%">
+  <tbody>
+    <tr>
+      <td align="right" class="label_w">企业名称：</td>
+      <td width="26%">${user?.realityName}</td>
+      <td align="right" class="label_w">统一社会信用代码： </td>
+      <td>${user?.idNumber}</td>
+    </tr>
+    <tr>
+      <td align="right" class="label_w">开户行 ： </td>
+      <td class="bank_name">${firstBank?.bank_name}</td>
+      <td align="right" class="label_w">银行卡号： </td>
+      <td>
+        #{if userBanks?.size() > 0}
+        <select id="userBanks" class="sel_col" onchange="userBanksChange();">
+          #{list userBanks, as:'item'}
+		  <option value="${item.id}" bankName="${item.bank_name}" mobile="${item.mobile}" accountName="${item.account_name}" #{if firstBank?.id == item.id}selected#{/if}>${item.account}</option>
+		  #{/list}
+        </select>
+        #{/if}
+      </td>
+    </tr>
+    <tr>
+      <td align="right" class="label_w">持卡人姓名：</td>
+      <td class="bank_accont_name">${firstBank?.account_name}</td>
+      <td align="right" class="label_w">所在地： </td>
+      <td>${userCity?.province == null? '': userCity?.province}${userCity?.city == null? '': userCity?.city}</td>
+    </tr>
+    <tr>
+      <td align="right" class="label_w">授信金额 :</td>
+      <td>${user?.creditAmount == null? '0.00': user?.creditAmount}元</td>
+    </tr>
+  </tbody>
+</table>
+#{/if}
+<!-- 展现部分结束 -->
+<div class="z_msg">*信息内容只可添加一次，请填写后核对再提交，如有疑问请联系公司总部</div>
+<script type="text/javascript">
+$(function(){
+  //所在地
+  $("#newProvince").change(function(){
+    var provinceId = $("#newProvince").find("option:selected").val();
+	loadNewCity(provinceId); 
+  });
+});
+//加载市
+function loadNewCity(provinceId){
+  $.ajax({
+    url : "@{supervisor.SupervisorController.getNewCity()}",
+	type : "POST", 
+	dataType: "JSON",
+	data : {"provinceId": provinceId},
+	success : function(data) {
+	  if (data.code < 0) {
+	    alert(data.msg);
+	    return;
+	  }
+	  $("#newCity").empty();//先清空
+	  $("#newCity").prepend("<option value=''>请选择</option>");
+	  $.each(data, function(n,value) {
+	    if('${userCity?.city_id}' == value.city_id ){
+		  $("#newCity").append("<option value = "+value.city_id  + " selected='selected' > "+value.city+"</option>");
+		} else {
+	      $("#newCity").append("<option value = "+value.city_id  + " > "+value.city+"</option>");
+		} 
+	  });  	 
+	},
+	error : function() {
+	  alert("对不起，出现错误!");
+	}
+  });
+}
+
+function userBanksChange(){
+  var option = $("#userBanks").find("option:selected");
+  $("td.bank_name").html(option.attr("bankName"));
+  $("td.bank_mobile").html(option.attr("mobile"));
+  $("td.bank_accont_name").html(option.attr("accountName"));
+}
+</script>

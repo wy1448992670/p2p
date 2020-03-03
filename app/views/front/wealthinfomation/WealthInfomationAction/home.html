@@ -1,0 +1,180 @@
+
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMenu.html' /} 
+#{set title:'短期理财种类,正规理财投资,短期理财技巧'/}
+#{set keywords:'什么是理财公司,投资理财小项目,最好的投资理财,理财投资可靠'/}
+#{set description:'中亿云是一家提供短期理财种类,短期理财技巧的正规理财投资的平台'/}
+<div class="p_bgf1_box pb30 pt30">
+    <div class="p_main clr">
+        <div class="p_left_navbox">
+            <h1><i class="p_cf_icon"></i><span>财富资讯</span></h1>
+            <ul class="p_left_navul">
+               <!--   <li><a href="财富资讯.html" title="" class="click">官方公告</a></li>
+                <li><a href="互联网金融.html" title="">互联网金融</a></li>
+                <li><a href="网贷大富翁.html" title="">网贷大富翁</a></li>
+                <li><a href="理财风云榜.html" title="">理财风云榜</a></li>
+                <li><a href="借款技巧.html" title="">借款技巧</a></li>
+                <li><a href="理财技巧.html" title="">理财技巧</a></li>
+                <li><a href="成功故事.html" title="">成功故事</a></li>-->
+                 #{list types}
+				<li id="bzzx${_?.id}">
+				<a href="@{front.wealthinfomation.WealthInfomationAction.restHome(_?.id)}">${_?.name}</a></li>
+				#{/list}
+            </ul>
+        </div>
+        <div class="p_right_wordbox">
+            <div class="p_hp_rtbox">
+                <h4 class="p_hp_title clr"><strong>${type?.name}</strong></h4>
+                <ul class="p_cf_listul">
+                 #{list pageBean?.page}
+                    <li>
+                        <dl class="p_cf_dlcon clr">
+                            <dt>${_?.time?.format("yyyy-MM-dd")}<i></i></dt>
+                            <dd>
+                                <h6><a  href="@{front.wealthinfomation.WealthInfomationAction.restNewDetails(_?.id)}">${_?.title}</a></h6>
+                                <div class="p_cf_word" limit="135">
+                                   ${_?.content?.raw()}
+                                </div>
+                                <p class="p_hp_abox"><a href="@{front.wealthinfomation.WealthInfomationAction.restNewDetails(_?.id)}" class="wealth_details">查看详细&gt;</a></p>
+                            </dd>
+                        </dl>
+                    </li>
+                    #{/list}
+                    <!--  <li>
+                        <dl class="p_cf_dlcon clr">
+                            <dt>2015-05-18<i></i></dt>
+                            <dd>
+                                <h6><a href="#">【深度】 韩建宇总经理:银行涉足P2P网贷 杀不死草根平台</a></h6>
+                                <div class="p_cf_word">摘要：面对P2P网贷行业这块大蛋糕，很多机构单位企业都虎视眈眈，原本当初辛苦默默耕耘的传统平台在面对这帮如狼似虎的“入侵者”又是否抵挡得住。晓风安全网贷系统总经理韩建宇先生表示：原本P2P还未表现出现在这股强大的经济潜力的时候，很多企业都对它嗤之以鼻不屑一顾……<a href="#">[ 详细 ]</a>
+                                </div>
+                            </dd>
+                        </dl>
+                    </li>
+                    -->
+                </ul>
+                <div class="xf_wylc_page xf_cfzx_page">
+                    #{page action:"/front/wealthinfomation/restHome/${pageBean?.conditions?.typeId}.html",pageTitle:"条",currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:1,style:2}
+					#{/page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+	$(function() {
+	    $(".p_cf_word").limit();
+	    $("#bzzx" + ${typeId}+" a").addClass("cozhuse");
+	});
+	
+	//function list(typeId) {
+	//	window.location=("home?typeId=" + typeId);
+	//}
+	
+	//function detail(newsId) {
+	//	window.open("newDetails?id=" + newsId, "_self");
+	//}
+	
+	$(function() {
+		showbids();
+		/**tab切换 start */
+		$("#xf_c_idx_8_tabsColName li a").first().addClass(
+				"xf_c_idx_8_tabsColNameActive");
+		$("#xf_c_idx_8_tabsColName li").click(
+				function() {
+					$(this).children().addClass("xf_c_idx_8_tabsColNameActive")
+							.parent().siblings().children().removeClass(
+									"xf_c_idx_8_tabsColNameActive");
+					$("#xf_c_idx_8_content").children().eq(
+							$(".xf_c_idx_8_tabsColName li").index($(this)))
+							.show().siblings().hide();
+
+				});
+		/**tab切换 ends */
+
+		/***截取字数 append 链接 start***/
+		$(".xf_c_idx_5_gfggIntroduce p").limit();
+		$(".xf_c_idx_5_gfggIntroduce p").append(
+				"<a  class='xf_c_idx_5_gfggIntroduceMore'>[全文]</a>");
+		/***截取字数 append 链接 end***/
+		
+	});
+</script>
+<script>
+function showbids(){
+	$("#bids").show();
+	$("#agencybids").hide();
+}
+function showagencybids(){
+	$("#bids").hide();
+	$("#agencybids").show();
+}
+
+(function($){
+	    $.fn.FontScroll = function(options){
+	        var d = {time: 3000,s: 'fontColor',num: 1}
+	        var o = $.extend(d,options);
+	        
+
+	        this.children('ul').addClass('line');
+	        this.children('ul').attr("style",'margin-top:0');
+	        var _con = $('.line').eq(0);
+	        var _conH = _con.height(); //滚动总高度
+	        var _conChildH = _con.children().eq(0).height();//一次滚动高度
+	        var _temp = _conChildH;  //临时变量
+	        var _time = d.time;  //滚动间隔
+	        var _s = d.s;  //滚动间隔
+
+
+	        _con.clone().insertAfter(_con);//初始化克隆
+
+	        //样式控制
+	        var num = d.num;
+	        var _p = this.find('li');
+	        var allNum = _p.length;
+
+	        _p.eq(num).addClass(_s);
+
+
+	        var timeID = setInterval(Up,_time);
+			this.hover(function(){clearInterval(timeID)},function(){timeID = setInterval(Up,_time);});
+
+	        function Up(){
+	        
+	            _con.animate({marginTop: '-'+_conChildH});
+	            //样式控制
+	            _p.removeClass(_s);
+	            num += 1;
+	            _p.eq(num).addClass(_s);
+	            
+	            if(_conH == _conChildH){
+	                _con.animate({marginTop: '-'+_conChildH},"normal",over);
+	            } else {
+	                _conChildH += _temp;
+	            }
+	        }
+	        function over(){
+	       
+	            _con.attr("style",'margin-top:0');
+	            _conChildH = _temp;
+	            num = 1;
+	            _p.removeClass(_s);
+	            _p.eq(num).addClass(_s);
+	        }
+	        
+	        
+	    }
+	})(jQuery);
+	
+	$('#FontScroll2').FontScroll({time: 2000,num: 1});
+	$('#FontScroll3').FontScroll({time: 2000,num: 1});
+	$('#FontScroll').FontScroll({time: 2000,num: 1});
+	
+	
+</script>
+
+
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_about_us.js'}"></script>

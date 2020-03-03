@@ -1,0 +1,67 @@
+<div class="s_cleardata" id="xf_ht_fkzh_ttc" style="display:none">
+	<div class="s_datacont">
+		<p class="notice">
+			<b>重要提醒：</b>此操作将清空本平台的所有运营数据，但不包含软件系统的设置参数。
+		</p>
+		<div class="cont">
+			<b>清空数据包括：</b>
+			<ul>
+				<li>合作机构信息</li>
+				<li>标的问题</li>
+				<li>标的问答</li>
+				<li>标的信息</li>
+				<li>标的投资账单</li>
+				<li>标的账单</li>
+				<li>信息等级</li>
+				<li>用户银行信息</li>
+				<li>债权转让信息</li>
+				<li>投资信息</li>
+				<li>系统消息</li>
+				<li>交易记录</li>
+				<li>数据统计</li>
+				<li>用户关注的标的</li>
+				<li>用户关注的会员</li>
+				<li>用户关注的债权</li>
+				<li>用户提交资料</li>
+				<li>用户自动投标设置</li>
+				<li>会员信息</li>
+			</ul>
+		</div>
+		<input type="button" class="btn-sure" onclick="clearData();" value="确定清除" /> 
+		<input type="button" class="btn-cancel" id="clear_db" value="取消" />
+	</div>
+</div>
+
+<script type="text/javascript">
+  function clearData() {
+    $("#clear_hint").html("正在清空数据，请勿关闭此页面");
+    $("#btn_clear").css("cursor", "default");
+    $("#btn_clear").attr("disabled", "disabled");
+    
+    $.ajax({
+      url : "@{clearData()}",
+      type : "POST",
+      data : {
+      },
+      success : function(data) {
+        $("#clear_hint").html(data.msg);
+        $("#btn_clear").css("cursor", "pointer");
+        $("#btn_clear").removeAttr("disabled");
+        alert(data.msg);
+        
+        if (data.code == 0) {
+          layer.closeAll();
+          location.reload();
+        }
+        
+      },
+      error : function() {
+        $("#clear_hint").html("清空数据失败");
+        $("#btn_clear").css("cursor", "pointer");
+        $("#btn_clear").removeAttr("disabled");
+        alert("清空数据失败");
+        layer.closeAll();
+      }
+    });
+  }
+</script>

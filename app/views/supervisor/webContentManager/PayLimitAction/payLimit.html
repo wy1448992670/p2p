@@ -1,0 +1,90 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'活动中心管理' /}
+<!-- 内容区域 -->
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+  #{include "supervisor/webContentManager/common/leftBar.control"/}
+  <!-- 内容区 --> 
+  <div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+      #{table border:"0",cellspacing:"0",cellpadding:"0",class:"xn_c_content_list",tr_class_odd:"xn_tr_bj"}
+        #{tr}
+          #{th}编码#{/th}
+          #{th}名称#{/th}
+          #{th}单笔限额#{/th}
+          #{th}单日限额#{/th}
+		  #{th}操作#{/th}
+        #{/tr}
+		#{list items:banklimit, as:'content'}
+		        #{tr tr_index:content_index}
+		          #{td}${content?.bank_code}#{/td}
+		          #{td}${content?.bank_name}#{/td}
+		          #{td}${content?.pay_limit}#{/td}
+		          #{td}${content?.day_limit}#{/td}
+		          #{td}
+		          
+		            <span><a class="xf_ta_onclick" onclick="edit(${content?.bank_code}, '${content?.bank_name}', '${content?.pay_limit}', '${content?.day_limit}')">编辑</a></span>
+		          #{/td}
+		        #{/tr}
+			#{/list}
+      #{/table}
+    </div>
+  </div>
+</div>
+<style>
+#show{height: 120px;}
+#show div{margin:12px;}
+#show button{padding:3px 6px;margin: 0 6px;}
+</style>
+<div id="show" style="text-align: center;display: none;">
+	<div>
+		单笔限额: <input class="pay_limit"> 元
+	</div>
+	<div>
+		单日限额: <input class="day_limit"> 元
+	</div>
+	<div>
+		<button type="button" class="sb_yes">确定</button>
+		<button type="button" class="sb_no">取消</button>
+	</div>
+</div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+$(function(){
+	//高亮显示
+	showHighLight(8,8,31);
+})
+
+
+function edit(bank_code, bank_name, pay_limit, day_limit){
+	var that = $("#show");
+	that.find(".pay_limit").val(pay_limit);
+	that.find(".day_limit").val(day_limit);
+     $.layer({
+       type: 1,
+       area: ['300', 'auto'],
+       title: bank_name,
+       page: {dom : '#show'}
+     });
+     $(".sb_no").on("click", function(){
+    	 	layer.closeAll();
+     });
+     $(".sb_yes").on("click", function(){
+    	 	pay_limit = that.find(".pay_limit").val();
+    	 	day_limit = that.find(".day_limit").val();
+    	 	$.post("payLimit-set", {"bank_code": bank_code, "pay_limit": pay_limit, "day_limit": day_limit}, function(res){
+    	 		if(res == "1"){
+    	 			alert("保存成功")
+    	 			location.reload();
+    	 		}else{
+    	 			alert("系统错误,请稍候再试")
+    	 		}
+    	 	});
+     });
+}
+</script>

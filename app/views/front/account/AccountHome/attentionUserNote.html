@@ -1,0 +1,57 @@
+<div class="xf_zqzr_znx_window" id="xf_mem_sqtx_window">
+	<div class="xf_wyjkwszl_4_windowInner xf_hmd_sqtx_window">
+		<div class="xf_wyjkfb_4_windowClose" onClick="closePage()"></div>
+		<div class="xf_wyjkfb_4_windowColName">
+			设置备注
+		</div>
+		<div class="xf_zqzr_znx_windowCot">
+			<table border="0" cellpadding="0" cellspacing="0" width="465" class="xf_zqzr_znx_teot xf_zqzr_sqtx_teot">
+				
+				<tr>
+					<td align="right">
+						<span class="xf_zqzr_znx_title">备注名： </span>
+					</td>
+					<td>
+						<input class="xf_memvip_input" type="text" id="remark" name="remark"> 
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<span class="xf_zqzr_znx_title">&nbsp;</span>
+						<input type="hidden" value="${id}" id="signValue"/>
+					</td>
+					<td class="xf_zqzr_znx_title_td xf_zqzr_znx_title_tdtcc">
+					    <a onClick="submits()" class="xf_con_inputfbjk" >确定</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+   showDiv($("#xf_mem_sqtx_window"));
+   $('#remark').maxLength(10);
+   
+   function submits(){
+        if($("#remark").val() == ''){
+           alert("备注名不能为空");
+           return;
+        }
+      
+		var setNoteName = #{jsAction @setNoteName(':id', ':noteName')/}
+		$.post(setNoteName({id:$("#signValue").val(), noteName:encodeURI($("#remark").val())}),function(data){
+		var arr=eval(data);
+		
+		if(arr.error.code < 0){
+		    alert(arr.error.msg);
+		    return;
+		}
+		
+		location.reload();
+	 });
+	}
+	 
+   function closePage(){
+      $("#xf_mem_sqtx_window").hide();
+   }
+</script>

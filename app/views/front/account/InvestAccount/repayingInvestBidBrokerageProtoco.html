@@ -1,0 +1,385 @@
+%{ business.BackstageSet currBackstageSet =
+business.BackstageSet.getCurrentBackstageSet(); }% #{extends
+'common/frontMain.html' /} #{set title:currBackstageSet.seoTitle +'|
+收款中的投资标 | 居间服务协议 '/}
+
+<div class="xf_con_box">
+	<div class="xf_con_wyjk_nav">
+		<span class="sf_con_wyjk_dq">我要出借</span><span
+			class="sf_con_wyjk_gtnav">&gt;</span><span class="sf_con_wyjk_dq">出借子账户</span>
+			<span class="sf_con_wyjk_gtnav">&gt;</span><span class="sf_con_wyjk_dq">收款中的出借标</span>
+			<span class="sf_con_wyjk_gtnav">&gt;</span><span class="sf_con_wyjk_dq">居间服务协议</span>
+	</div>
+	<div class="xf_membill_view_xq" style="background:url(@{'public/images/htsy_bg.jpg'});">
+		<h1 class="xf_membill_view_title">
+			居间服务协议
+		</h1>
+		<div class="Section0" style="layout-grid: 15.6000pt;">
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; text-align: center; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';"> <o:p></o:p> </span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">甲方（委托方）:</span>
+				<span style="mso-spacerun: 'yes'; color: rgb(0, 0, 255);">${useri?.realityName}</span>
+				<span style="mso-spacerun: 'yes';"> <o:p></o:p> </span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">身份证号码<font
+					>/</font><font >营业执照号码：</font>
+				</span>
+				<span style="mso-spacerun: 'yes'; color: rgb(0, 0, 255);">${useri?.idNumber}</span>
+				<span style="mso-spacerun: 'yes'; color: rgb(0, 0, 255);"> <o:p></o:p>
+				</span>
+			</p>
+			</br>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">乙方（受托方）：${currBackstageSet?.companyName}</span>
+				<span style="mso-spacerun: 'yes';"> <o:p></o:p> </span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">营业执照号码：&nbsp;<font
+					>440301111011495</font>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">鉴于：&nbsp;</span>
+				<span style="mso-spacerun: 'yes';"> <o:p></o:p> </span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">1<font >、</font>
+				</span>
+				<span
+					style="mso-spacerun: 'yes';">${currBackstageSet?.platformName}</span>
+				<span style="mso-spacerun: 'yes';">网站（<font
+					>${currBackstageSet?.companyDomain}</font>
+				</span>
+				<span style="mso-spacerun: 'yes';"><font >）是由乙方</font>
+				</span>
+				<span
+					style="mso-spacerun: 'yes';">${currBackstageSet?.companyName}</span>
+				<span style="mso-spacerun: 'yes';">投资并运营的为民间融资提供居间服务的电子平台，乙方是一家在${currBackstageSet?.companyCity}</span>
+				<span style="mso-spacerun: 'yes';">成立并有限存续的有限公司，其拥有</span>
+				<span
+					style="mso-spacerun: 'yes';">${currBackstageSet?.platformName}</span>
+				<span style="mso-spacerun: 'yes';">网站（简称<font
+					>&#8220;</font><font >该网站</font><font
+					>&#8221;</font><font >）的经营权。&nbsp;</font>
+				</span>
+				<span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">2<font >、甲方是该网站的注册用户，自愿通过该网站委托乙方提供财务及投融资、咨询居间服务；乙方接受甲方的委托，愿意为其提供居间服务。&nbsp;</font>
+				</span>
+				<span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">各方经协商一致，于</span>
+				<span style="mso-spacerun: 'yes'; color: rgb(0, 0, 255); text-decoration: underline; font-size: 12.0000pt; font-family: 'Times New Roman';">${dategs}</span>
+				<span style="mso-spacerun: 'yes';">&nbsp;达成如下协议条款，以资共同遵守：&nbsp;</span>
+				<span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">第一条<font
+					>&#160;&#160;</font><font >声明与承诺&nbsp;</font>
+				</span>
+				<span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">一、甲方认可</span>
+				<span
+					style="mso-spacerun: 'yes';">${currBackstageSet?.platformName}</span>
+				<span style="mso-spacerun: 'yes';">网站平台的服务及操作模式，并确认在甲方注册成为该网站用户并接受该网站提供的相关服务之前，已充分阅读、理解并接受乙方制定的《</span><span
+					style="mso-spacerun: 'yes';">${currBackstageSet?.platformName}</span><span
+					style="mso-spacerun: 'yes';">网站服务条款》、《</span>
+				<span
+					style="mso-spacerun: 'yes';">${currBackstageSet?.platformName}</span>
+				<span style="mso-spacerun: 'yes';">网站隐私规则》、《</span>
+				<span
+					style="mso-spacerun: 'yes';">${currBackstageSet?.platformName}</span>
+				<span style="mso-spacerun: 'yes';">网站借贷交易规则》以及该网站公布的所有条款和其他规则声明等。&nbsp;</span>
+				<span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">二、甲方向乙方提供委托事项所需要的相关资料信息、文件、凭证等，并保证其真实性、完整性、合法的。&nbsp;</span>
+				<span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt face="宋体; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">第二条<font
+					>&#160;</font><font>各方的权利和义务&nbsp;</font>
+				</span>
+				<span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">一、甲方的权利和义务&nbsp;</span>
+				<span style="mso-spacerun: 'yes';"><o:p></o:p> </span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">1<font>、甲方申请注册成为该网站用户后，有权拥有自己在</font>
+				</span>
+				<span
+					style="mso-spacerun: 'yes';">${currBackstageSet?.platformName}</span>
+				<span style="mso-spacerun: 'yes';">网站的用户名及交易密码并使用自己的用户名及交易密码随时登录</span>
+				<span
+					style="mso-spacerun: 'yes';">${currBackstageSet?.platformName}</span>
+				<span style="mso-spacerun: 'yes';">网站，有权根据该网站及本协议的相关规定，享有该网站提供的相应交易服务。&nbsp;</span>
+				<span style="mso-spacerun: 'yes';"><o:p></o:p> </span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">2<font>、甲方可以根据该网站及本协议的各项规定进行充值、提现、查询、在线投资、选择借款担保，并委托乙方将资金划付至借款人在该网站开立的电子账户中，同时生成相应的电子借款合同、担保函</font>
+				</span>
+				<span
+					style="mso-spacerun: 'yes';">或保障函</span><span
+					style="mso-spacerun: 'yes';">以明确甲方与借款人之间、以及甲方与合作机构之间的关系。&nbsp;</span>
+				<span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">3<font>、甲方有权按该网站及本协议的各项规定享有其所出借资金产生的利息收益，并主动缴纳因获取利息收益所产生的相关税费。&nbsp;</font>
+				</span><span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">4<font>、甲方委托乙方通过该网站平台提供居间服务，应按照《</font>
+				</span><span
+					style="mso-spacerun: 'yes';">${currBackstageSet?.platformName}网站借贷交易规则》规定向乙方支付相关费用，并授权乙方从甲方在该网站开立的电子账户中扣划相应金额，而无需另行征得甲方的同意。</span><span
+					style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">5<font>、如出现乙方违约的情形，甲方有权要求乙方提供其已获得的借款人的相关信息。&nbsp;</font>
+				</span><span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">二、乙方的权利和义务&nbsp;</span><span
+					style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">1<font>、乙方有权按照该网站及本协议的各项规定对甲方提供的注册资料进行审核；并接受甲方的委托，对甲方的充值资金代为保管，对所发放借款的适用情况进行监督，或代为甲方回收本息，并及时准确地执行甲方的交易指令。&nbsp;</font>
+				</span><span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">2<font>、按照该网站及本协议的各项规定向甲方收取相关费用，并有权按照该网站所发布的收费规则直接从甲方在该网站开立的电子账户中扣划相应金额，而无需另行征得甲方的同意。&nbsp;</font>
+				</span><span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">3<font>、乙方对甲方与借款人根据该网站平台上的借款信息所形成的借款关系，以及甲方与该网站合作的机构之间所形成的关系本身所产生的任何风险不承担责任。&nbsp;</font>
+				</span><span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">第三条<font
+					>&#160;</font><font>其他约定&nbsp;</font>
+				</span><span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">一、非因乙方原因解除委托或不能履行本协议时，甲方仍应按上述约定向乙方支付相关费用。&nbsp;</span><span
+					style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">二、本协议的任何条款及本协议涉及的客户任何资料，均属于应保密的信息，任何一方均负有保密的义务。&nbsp;</span><span
+					style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">第四条<font
+					>&#160;</font><font>违约责任&nbsp;</font>
+				</span><span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">1<font>、协议各方均应严格遵守各方的义务，非经各方协商一致或依照本协议约定，任何一方不得解除本协议。&nbsp;</font>
+				</span><span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">2<font>、任何一方违反本协议约定，违约方应承担其他各方因此产生的损失（包括直接损失和间接损失）及相关费用（包括但不限于调查费、诉讼费、差旅费、律师费等）。&nbsp;</font>
+				</span><span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">第五条<font
+					>&#160;</font><font>责任范围与责任限制&nbsp;</font>
+				</span><span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">1<font>、乙方仅对该网站及本协议列明的责任负责。&nbsp;</font>
+				</span><span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">2<font>、因借款、担保交易本身所产生的任何风险由交易各方自行承担。&nbsp;</font>
+				</span><span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">3<font>、乙方的合作机构（如第三方支付机构、担保机构、监管机构等）所提供服务的品质及内容，由该合作机构自行负责，乙方不承担相关责任。&nbsp;</font>
+				</span><span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">4<font>、乙方不参与其他各方之间或其他各方与第三方之间的交易纠纷，但可协助甲方查明交易情况。&nbsp;</font>
+				</span><span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">第六条<font
+					>&#160;</font><font>附则&nbsp;</font>
+				</span><span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">1<font>、甲方是通过该网站自主申请成为该网站用户，并接受乙方提供的居间服务的，本协议自甲方通过该网站向借款人出借借款时在该网站系统中生成并产生效力，并永久保存在乙方为此设立的专用服务器上备查，各方均认可该形式的协议效力。&nbsp;</font>
+				</span><span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">2<font>、该网站公示的相关规则、甲方与借款人之间的电子借款合同、</font>
+				</span><span
+					style="mso-spacerun: 'yes';">合作</span><span
+					style="mso-spacerun: 'yes';">机构出具的《</span><span
+					style="mso-spacerun: 'yes';">担保函</span><span
+					style="mso-spacerun: 'yes';">》</span><span
+					style="mso-spacerun: 'yes';">或</span><span
+					style="mso-spacerun: 'yes';">《</span><span
+					style="mso-spacerun: 'yes';">保障函</span><span
+					style="mso-spacerun: 'yes';">》是本协议的组成部分，与本协议不可分割。&nbsp;</span><span
+					style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">3<font>、本协议部分条款无效，不影响其他条款的效力。&nbsp;</font>
+				</span><span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">4<font>、本协议的订立、生效与解释均适用中华人民共和国法律。&nbsp;</font>
+				</span><span style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">5<font>、凡因本协议发生的及与本协议有关的任何争议，双方应友好协商；协商不成的，可向${currBackstageSet?.companyCity}</font>
+				</span><span
+					style="mso-spacerun: 'yes';">人民法院通过诉讼方式解决。&nbsp;</span><span
+					style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';"><o:p>&nbsp;</o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">甲方（出借方）：</span><span
+					style="mso-spacerun: 'yes'; color: rgb(0, 0, 255);">${useri?.realityName}</span><span
+					style="mso-spacerun: 'yes'; color: rgb(0, 0, 255);"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">&#160;</span><span
+					style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">乙方：</span><span
+					style="mso-spacerun: 'yes';">${currBackstageSet?.companyName}</span><span
+					style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 12.0000pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">&#160;&#160;&#160;(<font
+					>盖章</font><font >)</font><font
+					>：</font><font >&#160;&nbsp;</font>
+				</span>
+				<img width="158" height="157"
+					src="@{'/public/images/xieyi.png'}">
+				<span style="mso-spacerun: 'yes';"><br>
+				</span><span style="mso-spacerun: 'yes';"><br>
+				</span><span style="mso-spacerun: 'yes';"><br>
+				</span><span style="mso-spacerun: 'yes';"><br>
+				</span><span
+					style="mso-spacerun: 'yes';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span
+					style="mso-spacerun: 'yes';">签订时间：</span><span
+					style="mso-spacerun: 'yes'; color: rgb(0, 0, 255); text-decoration: underline; font-size: 12.0000pt; font-family: 'Times New Roman';">${dategs}</span><span
+					style="mso-spacerun: 'yes'; color: rgb(0, 0, 255);"><font>&#160;</font>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">&#160;</span><span
+					style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';">&#160;</span><span
+					style="mso-spacerun: 'yes';"><o:p></o:p>
+				</span>
+			</p>
+			<p class=p23
+				style="text-indent: 21.0000pt; margin-bottom: 0pt; margin-top: 0pt; line-height: 18.0000pt;">
+				<span style="mso-spacerun: 'yes';"><o:p>&nbsp;</o:p>
+				</span>
+			</p>
+		</div>
+	</div>
+</div>
+<script type="text/javascript"
+	src="@{'/public/javascripts/tab/tab_usr.js'}"></script>

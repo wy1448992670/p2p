@@ -1,0 +1,120 @@
+<div class="xf_mem_zhannx_tab">
+	<div class="xf_mem_znx_view_t  xf_mem_znx_view_t_sj">
+		借款标标题：<a href="@{front.invest.InvestAction.invest(bid?.id)}">${bid?.title}</a>
+		<div class="xf_mem_znx_view_t_r xf_mem_znx_view_t_r2">
+			<a onclick="back();">&lt;&lt;返回</a>
+			<input class="xf_ht_znx_button" type="button" onclick="showDiv($('#xf_zqzr_tgxyed_window'));" value="回复">
+		</div>
+	</div>
+	<div class="xf_mem_znx_view_t" style="font-size: 12px; font-weight: normal; color: #666;">
+		编号：${bid?.no} &nbsp;&nbsp;&nbsp;
+		金额：${bid?.amount} &nbsp;&nbsp;&nbsp;
+		利率：${bid?.apr}% &nbsp;&nbsp;&nbsp;
+		借款期限：${bid?.period}
+		[
+			${bid?.strPeriodUnit}
+		] &nbsp;&nbsp;&nbsp;
+		还款方式：${bid?.repayment?.name}
+	</div>
+	<ul class="xf_wylc_tabletwo_twul">
+		<li>
+			<div class="xf_wylc_tabletwo_title" style="word-break:break-all;">
+				<span class="xf_wylc_tabletwo_tspan">
+				<span class="xf_wylc_view_tblist">${bidQuestion?.name}：</span>${bidQuestion?.content}
+				</span>
+				<span class="xf_wylc_tabletwo_tdatetiem">提问时间：${bidQuestion?.time?.format('yyyy-MM-dd')}</span>
+			</div>
+	
+			#{list bidQuestion?.bidAnswerList}
+
+			<div class="xf_wylc_tabletwo_content" style="width: 98%;">
+				<div class="xf_wylc_tabletwo_bihot"></div>
+				<div class="xf_wylc_tabletwo_tstwo">
+					<span class="xf_wylc_view_tblist">您：</span>回复：
+				</div>
+				<div class="xf_wylc_tabletwo_three" style="word-break:break-all;">
+					${_?.content}
+				</div>
+
+				<!-- 清除浮动 -->
+				<div class="clear"></div>
+				<span class="xf_wylc_tabletwo_tdatetiem">回复时间：
+					${_?.time?.format('yyyy-MM-dd')}</span><span
+					class="xf_wylc_tabletwo_tdatetiem">浏览次数：${_?.readCount}</span>
+			</div>
+
+			#{/list}
+
+		</li>
+	</ul>
+</div>
+
+<!-- 后期补充-回复 -->
+<div class="xf_zqzr_znx_window" id="xf_zqzr_tgxyed_window">
+	<div class="xf_wyjkwszl_4_windowInner xf_zqzr_znxback_window">
+		<div class="xf_wyjkfb_4_windowClose" onclick="$('#xf_zqzr_tgxyed_window').hide();"></div>
+		<div class="xf_wyjkfb_4_windowColName">
+			回复
+		</div>
+		<div class="xf_zqzr_znx_windowCot">
+			<table border="0" cellpadding="0" cellspacing="0" width="426" class="xf_zqzr_znx_teot">
+				<tr>
+					<td align="right" width=50>
+						回复：
+					</td>
+					<td>
+						${bidQuestion?.name}
+					</td>
+				</tr>
+				<tr>
+					<td align="right" valign="top">
+						<span class="xf_zqzr_znx_title">内容：</span>
+					</td>
+					<td>
+						<div class="xf_zqzr_znx_text_hfbox" style="word-break:break-all;">
+							<textarea id="content" class="xf_zqzr_znx_text_hf" name="xf_zqzr_znx_text_hf" rows="5"></textarea>
+							<div class="xf_zqzr_znx_text_hfbox_t">
+								提问人：${bidQuestion?.name}
+								<br />
+								提问时间：${bidQuestion?.time?.format('yyyy-MM-dd')}
+								<br />
+								提问内容：${bidQuestion?.content}
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+				<td colspan="2" class="xf_con_znx_hf_span_two">
+					<a class="xf_con_inputfbjk" onclick="createAnswers();">发送</a> <span/>
+				</td>
+			</tr>
+			</table>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+<!--
+	/* 回复 */
+	function createAnswers(){
+		var content = $.trim($("#content").val());
+		if(content == "" || content.length > 200){
+			alert("回复内容需在1~200字符之间!");
+			return;
+		}
+		
+		var listAction = #{jsAction @createAnswers(':questionId',':content') /};
+		$.post(listAction({questionId:${bidQuestion?.id},content:encodeURI(content)}), function(data) {
+			if(data != "") alert(data);
+			bidQuestionDetail(${bidQuestion?.id});
+			$("#xf_zqzr_tgxyed_window").hide();
+		});	
+	}
+	
+	function back() {
+		$("#detail").hide();
+		$("#msglist").show();
+		location.reload();
+	}
+//-->
+</script>

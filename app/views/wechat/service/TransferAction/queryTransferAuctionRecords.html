@@ -1,0 +1,164 @@
+<div class="s_biaodetail">
+	<h3>
+			竞拍记录<i class="arrow"></i>
+	</h3>
+	<div id="wrapper">
+		#{if pageBean?.page?.size == 0}
+		<table width="100%" cellpadding="0" cellspacing="0" class="s_shtab">
+			<tr><td align="center"><span style="color:red">没有竞拍记录</span></td></tr>
+		</table>
+		#{/if}
+		#{else}
+		<div id="scroller">
+			<div id="main">
+				<table width="100%" cellpadding="0" cellspacing="0" class="s_shtab">
+						<tr>
+							<td width="25%" align="center">竞拍人</td>
+							<td width="30%" align="center">竞拍出价</td>
+							<td align="center" width="45%">竞拍时间</a></td>
+						</tr>
+						#{list items:pageBean?.page, as:'records'}
+						<tr>
+							<td width="25%" align="center">${records?.name?.asterisk()}</td>
+							<td width="30%" align="center">${records?.offer_price.format('###,##0.00')}</td>
+							<td width="45%" align="center">${records?.time?.format('yyyy-MM-dd HH:mm:ss')}</td>
+						</tr>
+						#{/list}
+				</table>
+			</div>
+			<div id="pullUp">
+	    		<div></div>
+	   		</div>
+		</div>
+	</div>
+	#{/else}
+</div>
+
+<script type="text/javascript">
+	$(function() {
+		var size = '${pageBean?.page?.size}';
+		var len = 65 * size + 60;
+		$("#wrapper").height($("#scroller").height() + len);
+	})
+	
+	var currPage = 1;
+	var myScroll,
+		pullUpEl, pullUpOffset;
+	
+	function pullUpAction() {
+		setTimeout(function () {
+			currPage = currPage + 1;
+			$.ajax({
+				url: "@{wechat.service.TransferAction.queryTransferAuctionRecordsAjax()}",
+				type: "POST",
+				data: {
+					"currPage": currPage,
+					"debtId": "${debt?.id}"
+				},
+				success: function (data) {
+						var arr = eval(data);
+						if (arr.error.code < 0) {
+							alert(arr.error.msg);
+						} else {
+							var list = arr.pageBean.page;
+							if (list.length == 0) {
+								$("#pullUp").children("div").removeClass("s_onloading").addClass("s_nodata").html("没有更多了").animate({opacity:'0'},3000);
+							} else {
+								//$("#pullUp").children("div").css({opacity:"1"});
+								for (var i = 0; i < list.length; i++) {
+									$("#main").append("<table width='100%' cellpadding='0' cellspacing='0' class='s_shtab'><tr><td width='25%' align='center'>"+asterisk(list[i].name)+"</td><td width='30%' align='center'>"+amountFormat(list[i].offer_price)+"</td><td width='45%' align='center'>"+new Date(list[i].time.time).format("yyyy-MM-dd HH:mm:ss")+"</td></tr></table>");
+								}
+								myScroll.refresh();
+							}
+						}
+					},
+					error: function () {
+						// alert("对不起，出现错误!");
+					}
+			});
+			//============================================
+			//myScroll.refresh(); // 数据加载完成后，调用界面更新方法 Remember to refresh when contents are loaded (ie: on ajax completion)
+		}, 1000); // <-- Simulate network congestion, remove setTimeout from production!
+	}
+	
+	function loaded() {
+		pullUpEl = document.getElementById('pullUp');
+		pullUpOffset = pullUpEl.offsetHeight;
+	
+		myScroll = new iScroll('wrapper', {
+			scrollbarClass: '',
+			/* 重要样式  myScrollbar*/
+			useTransition: false,
+			/* 此属性不知用意，本人从true改为false */
+			//topOffset: pullDownOffset,
+			onRefresh: function () {
+					if (pullUpEl.className.match('loading')) {
+						pullUpEl.className = '';
+						var $s = $(pullUpEl);
+						$s.children("div").removeClass("s_onloading");
+					}
+				},
+				onScrollMove: function () {
+					if (this.y < (this.maxScrollY - 5) && !pullUpEl.className.match('flip')) {
+						pullUpEl.className = 'flip';
+						this.maxScrollY = this.maxScrollY;
+					} else if (this.y > (this.maxScrollY + 5) && pullUpEl.className.match('flip')) {
+						pullUpEl.className = '';
+						this.maxScrollY = pullUpOffset;
+						//this.maxScrollY = this.maxScrollY;
+					}
+				},
+				onScrollEnd: function () {
+					if (pullUpEl.className.match('flip')) {
+						pullUpEl.className = 'loading';
+						var $s = $(pullUpEl);
+						$s.children("div").html("").addClass("s_onloading");
+			
+						pullUpAction(); // Execute custom function (ajax call?)
+					}
+				}
+		});
+	
+		setTimeout(function () {
+			document.getElementById('wrapper').style.left = '0';
+		}, 800);
+	}
+	
+	//初始化绑定iScroll控件 
+// 	document.addEventListener('touchmove', function (e) {
+// 		e.preventDefault();
+// 	}, false);
+	document.addEventListener('DOMContentLoaded', loaded, false);
+</script>
+
+<style type="text/css">
+	.show {
+		display: block;
+	}
+ 	.s_biaodetail{position:relative;} 
+ 	#wrapper { 
+ 		position:absolute; z-index:1; 
+ 		top:2em; left:0; 
+ 		width:100%; 
+ 		overflow:auto; 
+ 		background:#fff; 
+/* height:50em; */
+		display:none;
+ 	} 
+	
+ 	#scroller { 
+/* 		-webkit-touch-callout:none;*/ 
+ 		-webkit-tap-highlight-color:rgba(0,0,0,0); 
+ 		position:absolute; 
+ 		float: left; 
+ 		width:100%; 
+ 		padding:0; 
+ 	}
+	
+	#pullUp {
+		 height: 80px;
+	}
+
+	.s_overflowscroll{max-height:30em; overflow-y:scroll;}
+
+</style>

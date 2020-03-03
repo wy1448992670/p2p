@@ -1,0 +1,200 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/shzt.css'}" />	
+<script type="text/javascript" src="@{'/public/javascripts/jquery-2.1.0.min.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/yyjs.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/shzt.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/jquery.roundabout2.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/jquery.easing.1.3.js'}"></script>
+<title>积分商城</title>
+</head>
+
+<body>
+	<div class="p-sctop">
+		<div class="p-scwhy">
+		    <a href="/app/scroeInfo" class="bgico"></a>
+		</div>
+		<ul class="p-jifenul flex" id="showScoreDetail">
+		</ul>
+		<dl class="p-myjifen">
+		    <dt>${totalScroe}</dt>
+		    <dd><a href="/app/mallScroeEarnings?user_id=${user_id}">我的积分</a></dd>
+		</dl>
+	</div>
+	
+	#{if redlist.size > 0}
+		<ul class="m-hb">
+			#{list redlist}
+				
+					<li class="flex">
+						#{if _index==1}
+							<div class="p-gdbig">${_?.money}</div>
+						#{/if}
+						#{else}
+							<div class="p-gdbig2 p-gdbig">${_?.money}</div>
+						#{/else}
+						<div class="flex-1">
+							<div class="p-gdhtitle">${_?.typeName}</div>
+				        	<div class="p-gdhword"><em><i class="bgico"></i>${_?.obtain_money}</em></div>
+				        	<div><a href="javascript:subRedPackageOfScroe(${_?.id},${_?.obtain_money})"><em style="color:red;">兑换</em></a></div>
+						</div>
+					</li>
+		    #{/list}
+		</ul>
+	#{/if}
+	
+	#{if mallList.size > 0}
+	<ul class="clr p-physical">
+		#{list mallList}	
+			<li onclick="showMallDetail(${_?.id})">
+			    <div class="p-scpicon">&nbsp;<img src="${_?.pic_path}" alt="">&nbsp;</div>
+			    <h6>${_?.name}</h6>
+			    <div class="p-gdjifnum"><i class="bgico"></i>${_?.exchange_scroe}</div>
+			    <div class="p-gdremaining">剩余：${_?.surplus}件</div>
+			</li>
+		#{/list}
+	</ul>
+	#{/if}
+	
+	#{else}
+	<div class="clr p-physical" style="text-align: center;">
+	<img src="/public/images/appWap/sign-bg.png">
+	</div>
+	#{/else}
+
+	<!-- 弹窗2 -->
+	<div class="p-dialog p-hdguize" id="succduih">
+	    <div class="p-dialogbg"></div>
+	    <div class="p-dialogcont">
+	        <div class="p-dhtips">
+	            <div class="p-dhtopred">恭喜！您的兑换申请已受理</div>
+	            <div class="p-dhcengray">请您耐心等待...</div>
+	        </div>
+	        <a href="/app/mallGoodsInfo?user_id=${user_id}" class="p-godete p-dialogclose" onclick="">确 定</a>
+	    </div>
+	</div>
+	<!-- 弹窗2 -->
+	<div class="p-dialog p-hdguize" id="duih">
+	    <div class="p-dialogbg"></div>
+	    <div class="p-dialogcont">
+	        <div class="p-dhtips">
+	            <div class="p-dhtopicon"><i class="bgico"></i></div>
+	            <div class="p-dhcengray">对不起，您的积分不足</div>
+	        </div>
+	        <a href="/app/mallGoodsInfo?user_id=${user_id}" class="p-godete p-dialogclose" onclick="">确 定</a>
+	    </div>
+	</div>
+	
+	<!-- 签到成功 -->
+	<div class="m-mask" style="display:none;" id="scoreSucc">
+		<div class="m-box">
+			<img src="@{'public/images/m-success.png'}"/>
+			<p>积分总数为${totalScroe}个</p>
+			<span>+${nscore}</span>
+		</div>
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+
+
+	$(function(){
+		var score = ${score};
+		if(score > 0)
+		{
+			$("#scoreSucc").show();
+			setTimeout("hideScoreSucc()",3000); 
+		}
+		var totalSign = ${totalSign};
+		showScoreDetail(totalSign);
+	})
+	
+	function showScoreDetail(ts)
+	{
+		var addHtml = "";
+		var init_sign_scroe = ${backstageSet?.init_sign_scroe};
+		var mul_sign_scroe = ${backstageSet?.mul_sign_scroe};
+		var html1 = "<li><h4><em>1</em>天</h4><div>+"+init_sign_scroe+"</div></li>";
+		var html2 = "<li><h4><em>2</em>天</h4><div>+"+(init_sign_scroe+mul_sign_scroe*1)+"</div></li>";
+		var html3 = "<li><h4><em>3</em>天</h4><div>+"+(init_sign_scroe+mul_sign_scroe*2)+"</div></li>";
+		var html4 = "<li><h4><em>4</em>天</h4><div>+"+(init_sign_scroe+mul_sign_scroe*3)+"</div></li>";
+		var html5 = "<li><h4><em>5</em>天</h4><div>+"+(init_sign_scroe+mul_sign_scroe*4)+"</div></li>";
+		
+		if(ts == 1)
+		{
+			html1 = html1.replace("<li>","<li class=\"flex-1\">");
+			addHtml = html4+html5+html1+html2+html3;
+		}
+		else if(ts == 2)
+		{
+			html2 = html2.replace("<li>","<li class=\"flex-1\">");
+			addHtml = html5+html1+html2+html3+html4;
+		}
+		else if(ts == 3)
+		{
+			html3 = html3.replace("<li>","<li class=\"flex-1\">");
+			addHtml = html1+html2+html3+html4+html5;
+		}
+		else if(ts == 4)
+		{
+			html4 = html4.replace("<li>","<li class=\"flex-1\">");
+			addHtml = html2+html3+html4+html5+html1;
+		}
+		else if(ts == 5)
+		{
+			html5 = html5.replace("<li>","<li class=\"flex-1\">");
+			addHtml = html3+html4+html5+html1+html2;
+		}
+		
+		$("#showScoreDetail").append(addHtml);
+	}
+	function hideScoreSucc()
+	{
+		$("#scoreSucc").hide();
+	}
+
+	function showMallDetail(id)
+	{
+		window.location.href="/app/mallGoodsDetail?id="+id+"&user_id=${user_id}";
+	}
+	
+	function subRedPackageOfScroe(id,score)
+	{
+		var totalScroe = ${totalScroe};
+		if(totalScroe-score < 0)
+		{
+			dialogCenter('#duih');
+			return;
+		}
+		$.ajax({
+     		url : "@{front.mall.MallAction.scroeConvertRedPackages()}",
+		    type : "POST",
+		    data : {
+		 		"id":id,
+		     	"user_id":"${user_id}"
+	     	},
+	     	success : function(data) {
+	     		var arr = eval(data);
+				var result = arr.error.msg;
+				if(arr.error.code >= 0)
+				{
+					dialogCenter('#succduih');
+				}
+				else
+				{
+					alert(result);
+				}
+	     	},
+	     	error : function() {
+	     		alert("对不起，出现错误!");
+	     	}
+		});
+	}
+</script>

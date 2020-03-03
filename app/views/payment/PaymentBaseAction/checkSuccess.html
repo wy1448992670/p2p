@@ -1,0 +1,34 @@
+#{extends 'payment/PaymentBaseAction/checkMain.html' /}
+#{set title:'认证开户成功' /}
+  
+<div class="p_zctancbg" style="display: block"></div>
+<div class="p_zctanc6" style="display: block">
+  <div class="p_zctcbox">
+    <div class="p_zctctextimg"><img src="@{'public/images/p_zc005.png'}"></div>
+    <div class="p_zctctextword">
+      <p>&nbsp;</p><br>
+      <p class="p_zcyougg">恭喜您！认证开户成功</p>
+      <p>&nbsp;</p>
+      <p><span style="color:red" id="reamin">2秒后将自动跳转至我的账户！</span></p>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+var remain = 2;
+
+$(function(){
+  countdown();
+})
+
+function countdown() {
+  if (remain == 0) {
+    parent.layer.close(parent.layer.getFrameIndex(window.name));
+
+    return;
+  }
+
+  $("#reamin").html("" + remain-- + "秒后将自动跳转至我的账户！");
+  setTimeout("countdown()",1000);
+}
+</script>

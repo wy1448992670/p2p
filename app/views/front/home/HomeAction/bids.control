@@ -1,0 +1,135 @@
+<div class="xf_c_idx_4_loaningWrap" id="bids" >
+				<div class="xf_c_idx_4_header">
+					<span class="xf_c_idx_4_title xf_c_idx_4_title_ishow" onclick="showbids();">借款中的标</span>
+					<span class="xf_c_idx_4_title" onclick="showagencybids();" >机构合作标</span>
+					
+					<div class="xf_c_idx_4_news ll_xiugai" id="FontScroll">
+						<ul>
+							#{list bids}
+							<li>
+								<a href="@{front.invest.investAction.invest(_?.id)}" target="_blank">
+									<span class="xf_c_idx_4_mebersNews">最新投资资讯：</span>
+									<span style="padding-bottom:8px; display: inline-block;">会员  ${_?.userName?.asterisk()},${_?.time?.format('yyyy-MM-dd HH:mm:ss')}发布了借款金额￥${_?.amount?.format('###,##0.00')},年息${_?.apr}%借款中...</span>
+								</a>
+							</li>
+							#{/list}
+						</ul>
+					</div>
+					
+				</div>
+				
+				
+				<ul class="xf_c_idx_4_items">
+					<!--foreach start：-->
+					
+					#{list items:bidList , as:'bid'}
+					<li>
+						<div class="xf_c_idx_4_itemsWrap">
+							<div class="xf_c_idx_4_imgWrap">
+								<div class="xf_c_idx_4_userImg">
+									#{img class:"lazy", data_original:"${bid?.bid_image_filename}", src:"/public/images/loading.gif",alt:"",align:"absmiddle",width:"111px",height:"110px"}#{/img}
+								</div>
+								<div class="xf_c_idx_4_zrzhongImg">
+								#{if bid?.status == 1 || bid?.status == 2 || bid?.status == 3}
+									借款中
+									#{/if}
+									#{if bid?.status == 4 }
+									还款中
+									#{/if}
+									#{if bid?.status == 5 }
+									已还款
+									#{/if}
+									#{if bid?.status < 0 }
+									流标
+									#{/if}
+								
+								</div>
+							</div>
+							<div class="xf_c_idx_4_tableWrap">
+								<div class="xf_c_idx_4_colTitle">
+									<span >
+									#{img class:"lazy", data_original:"${bid?.small_image_filename}", src:"/public/images/loading.gif",alt:"",style:"width: 20px; height: 20px;  display: inline-block; float: left; margin: 5px 6px 0 0;"}#{/img}
+									</span> <span
+										class="xf_c_idx_4_loanTitle"><a href="@{front.invest.InvestAction.invest(bid?.id)}" target="_self">${bid?.title}</a>
+									</span> <span class="xf_c_idx_4_loanProgres"> <span
+										class="xf_c_idx_4_progText">进度：</span> <span
+										class="xf_c_idx_4_proWrap"><span id="loanSchedule${bid_index}" class="xf_c_idx_4_proPer">${bid?.loan_schedule}%</span>
+									</span> </span>
+								</div>
+								<div class="xf_c_idx_4_data">
+									<ul class="xf_c_idx_4_dataul">
+										<li><div>年利率</div>
+											<div class="xf_c_idx_4_nhsy">${bid?.apr}%</div>
+										</li>
+										<li><div>借款金额</div>
+											<div class="xf_c_idx_4_jkje">￥${bid?.amount?.format('###,##0.00')}</div>
+										</li>
+										<li><div>还款期限</div>
+											<div class="xf_c_idx_4_hkqx">
+											#{if bid?.period_unit ==-1}
+												${bid?.period}年
+												#{/if}
+												#{if bid?.period_unit ==0}
+												${bid?.period}个月
+												#{/if}
+												#{if bid?.period_unit ==1}
+												${bid?.period}天
+												#{/if}
+											</div>
+										</li>
+										<li style=" border-right:1px solid #ddd;"><div>信用等级</div>
+											<div class="xf_c_idx_4_xydj">
+												#{img class:"lazy", data_original:"${bid?.creditLevel?.image_filename}", src:"/public/images/loading.gif", alt:""}#{/img}
+											</div>
+										</li>
+										<div class="clear"></div>
+									</ul>
+								</div>
+								<div class="xf_c_idx_4_tableBttom">
+									<span class="xf_c_idx_4_hxjeWrap">还需金额：<span
+										class="xf_c_idx_4_hxje">￥
+										#{format money:(bid?.amount-bid?.has_invested_amount)}#{/format}
+										元</span>
+									</span> <span class="xf_c_idx_4_hkfsWrap">还款方式：${bid?.repay_name}</span> <span
+										class="xf_c_idx_4_ckxxWrap"><input type="button" style="cursor:pointer;"
+										value="查看详情" onclick="javascript:window.window.open('@{front.invest.InvestAction.invest(bid?.id)}', '_self')" />
+									</span>
+								</div>
+							</div>
+						</div></li>
+						
+						#{/list}
+					<!--foreach ends-->
+					
+				</ul>
+				<div class="xf_c_idx_4_more">
+					<a href="@{front.invest.InvestAction.investHome()}" target="_self">查看更多投资投资项目</a>
+				</div>
+			</div>
+			
+			
+			
+			
+			
+		<script>
+			$(function(){
+			
+				#{list items:bidList , as:'bid'}
+				
+				 $('#loanSchedule'+${bid_index}).css({"width":${bid?.loan_schedule}})
+				 
+				#{/list}
+			
+		   })	
+		   
+		   // 借款中的标切换
+			$(".xf_c_idx_4_items").eq(0).show();
+			$("#xf_wyjkview_xxkti").find(".xf_c_idx_4_title").click(function(){
+				var xxkli = $(this).index();
+				$(this).addClass("xf_c_idx_4_title_ishow").siblings().removeClass("xf_c_idx_4_title_ishow");
+				$(".xf_c_idx_4_items").eq(xxkli).show().siblings(".xf_c_idx_4_items").hide();
+
+			});
+			
+			
+		</script>

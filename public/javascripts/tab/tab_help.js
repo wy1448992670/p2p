@@ -1,0 +1,3 @@
+$(function(){
+    $('#helpIndex').addClass("cozhuse");
+});

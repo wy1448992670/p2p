@@ -1,0 +1,135 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'数据初始化管理' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/systemSettings/common/leftBar.control"/}
+    <div class="xn_c_content">
+      <div class="xf_content_add">
+        <div class="xfht_t_j_y_2">
+          <div class="xfht_t__aqsz_sjcsh">
+            <div class="xfht_cshgl_top">
+              <span class="xf_ht_top_h1">欢迎您，${supervisor?.realityName}</span><br />
+                                                    你的安全云盾编号为：<span class="xf_ht_hs">${supervisor?.ukey}</span>，与软件注册码授权一致，可以进行数据库操作。<br />
+              <span class="xf_ht_red">提醒：数据库操作具有一定专业性，数据不可逆性，请谨慎操作！</span>
+            </div>
+            <div class="xfht_cahgl_cengter">
+              <a class="xf_ht_damem_hy_bott_ulin" href="javascript:void(0)" id="xf_dfk_fkzh_tcc1">清空数据</a>
+              <a class="xf_ht_damem_hy_bott_ulin" href="javascript:void(0)" id="xf_dfk_fkzh_tcc2">还原出厂初始数据</a>
+              <a class="xf_ht_damem_hy_bott_ulin" href="javascript:void(0)" id="xf_dfk_fkzh_tcc3">还原运营数据</a>
+              <a class="xf_ht_damem_hy_bott_ulin" href="javascript:void(0)" id="xf_dfk_fkzh_tcc4">备份数据</a>
+            </div>
+            <div class="xf_htgl_jgone xf_ht_aqsz_cshsj_box">
+              <h3 class="xf_htgl_jgtitle">数据库操作记录</h3>
+              <div class="xf_ht_aqsz_cshsj">
+                #{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+                  #{tr}
+                    #{th}序号#{/th}
+                    #{th}时间#{/th}
+                    #{th}数据库操作#{/th}
+                    #{th}操作IP#{/th}
+                    #{th}操作人#{/th}
+                    #{th}安全云盾编号#{/th}
+                  #{/tr}
+                  #{list page.page}      
+                  #{tr tr_index:_index}
+                    #{td}${(page?.currPage - 1)*page?.pageSize + _index}#{/td}
+                    #{td}${_?.time?.format("yyyy-MM-dd HH:mm:ss")}#{/td}
+                    #{td}
+                    #{if _?.type == 0}清空数据#{/if}
+                    #{elseif _?.type == 1}还原出厂初始数据#{/elseif}
+                    #{elseif _?.type == 2}还原运营数据#{/elseif}
+                    #{elseif _?.type == 3}备份数据#{/elseif}
+                    #{/td}
+                    #{td}${_?.ip}#{/td}
+                    #{td}${_?.supervisor_name}#{/td}
+                    #{td}${_?.supervisor_ukey}#{/td}
+                  #{/tr}
+                  #{/list}
+                #{/table}
+              </div>
+            </div>
+            <div class="xf_ht_shmx_button xf_ht_ssjt">
+              #{page currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:1,style:4}#{/page}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--清空数据弹窗-->
+#{include "supervisor/systemSettings/DBOperationAction/clearDataWin.html"/}
+<!--还原出厂初始数据弹窗-->
+#{include "supervisor/systemSettings/DBOperationAction/resetWin.html"/}
+<!--还原运营数据弹窗-->
+#{include "supervisor/systemSettings/DBOperationAction/recoverWin.html"/}
+<!--数据库操作文件弹窗-->
+#{include "supervisor/systemSettings/DBOperationAction/dbFilesWin.html"/}
+<!--数据库操作记录弹窗-->
+#{include "supervisor/systemSettings/DBOperationAction/dbOperationsWin.html"/}
+<!--备份数据弹窗-->
+#{include "supervisor/systemSettings/DBOperationAction/backupWin.html"/}
+
+<script type="text/javascript">
+  /*供关闭窗口使用*/
+  var p1,p2;
+  $(function() {
+    /* 高亮显示 */
+    showHighLight(1,1,4);
+    
+    //清空数据
+    $("#xf_dfk_fkzh_tcc1").click(function() {
+       $.layer({
+        type: 1,
+        area: ['600', 'auto'],
+        title: '清空数据',
+        page: {dom : "#xf_ht_fkzh_ttc"}
+      });
+      //showDiv($("#xf_ht_fkzh_ttc"));
+    });
+    
+    $(".xf_ht_jr_obu_r").click(function() {
+      layer.closeAll();
+      //$(this).parents(".xf_ht_ttc").hide();
+    });
+    
+    $("#clear_db").click(function() {
+      layer.closeAll();
+      //$(this).parents(".xf_ht_ttc").hide();
+    });
+
+    //还原出厂初始数据
+    $("#xf_dfk_fkzh_tcc2").click(function() {
+      $.layer({
+        type: 1,
+        area: ['600', 'auto'],
+        title: '还原出厂初始数据',
+        page: {dom : "#xf_ht_fkzh_ttc2"}
+      });
+      //showDiv($("#xf_ht_fkzh_ttc2"));
+    });
+
+    //还原运营数据
+    $("#xf_dfk_fkzh_tcc3").click(function() {
+      $.layer({
+        type: 1,
+        area: ['600', 'auto'],
+        title: '还原运营数据',
+        page: {dom : "#xf_ht_fkzh_ttc3"}
+      });
+      //showDiv($("#xf_ht_fkzh_ttc3"));
+    });
+
+    //备份数据
+    $("#xf_dfk_fkzh_tcc4").click(function() {
+      $.layer({
+        type: 1,
+        area: ['600', 'auto'],
+        title: '备份数据',
+        page: {dom : "#xf_ht_fkzh_ttc4"}
+      });
+      //showDiv($("#xf_ht_fkzh_ttc4"));
+    });
+  });
+</script>

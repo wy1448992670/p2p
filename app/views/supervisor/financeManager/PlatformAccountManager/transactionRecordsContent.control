@@ -1,0 +1,187 @@
+<div class="xn_c_content">
+  <div class="xf_ht_tablelist">
+    <!-- 搜索 -->
+    #{form @transactionRecords(), id:'submit'}
+    <input type="hidden" id="currPage" name="currPage"/>
+      <input type="hidden" id="pageSize" name="pageSize"/>
+    <div class="xf_ht_search_inon">
+    <div class="xf_ht_search_r">
+    <div class="xf_ht_search_xl">
+      <select name="type" id="type" class="xf_membill_selectAge" onchange="test()">
+            <option value="0" #{if page?.conditions?.type == 0} selected="selected" #{/if}>全部</option>
+            <option value="1" #{if page?.conditions?.type == 1} selected="selected" #{/if}>收入</option>
+            <option value="2" #{if page?.conditions?.type == 2} selected="selected" #{/if} >支出</option>
+          </select>
+    </div>
+    <div class="xf_ht_search_xl">
+     <select name="operation" id="operation" class="xfht_t_j_td_1">
+          <option value="0" #{if page?.conditions?.operation == 0} selected="selected" #{/if}>全部科目</option>
+          #{list allType}
+          	<option value="${_?.id}" #{if page?.conditions?.operation == _?.id} selected="selected" #{/if}>${_?.name}</option>
+          #{/list}
+     </select>
+    </div>
+    <div class="xf_ht_search_xl">
+      <select name="side" class="xfht_t_j_td_1">
+            <option value="0" #{if page?.conditions?.side == 0} selected="selected" #{/if}>全部</option>
+            <option value="1" #{if page?.conditions?.side == 1} selected="selected" #{/if}>收款方</option>
+            <option value="2" #{if page?.conditions?.side == 2} selected="selected" #{/if}>付款方</option>
+          </select>
+    </div>
+    <div class="xf_ht_search_xl">
+      <span class="search_timesp">时间范围：</span>
+      <input type="text" class="search_time" name="beginTime" id="startDate" onclick="laydate()" class="laydate-icon" style="cursor:pointer" value="${page?.conditions?.beginTime}"> 
+      <span class="search_timesp">--</span>
+      <input type="text" class="search_time" name="endTime" id="endDate" onclick="laydate()" class="laydate-icon" style="cursor:pointer" value="${page?.conditions?.endTime}">
+    </div>
+    <div class="xf_ht_search_xl">
+      <input type="text" class="search_w" name="name" value="${page?.conditions?.name}">
+    </div>
+    <div class="xf_ht_search_xl">
+      <input type="submit" class="search_button" value="搜索">
+    </div>
+    </div>
+    </div>
+    #{/form}
+    <!-- 列表内容 -->
+    <div class="xn_c_content_top">
+    #{table class:"xn_c_content_list", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+    #{tr}
+      #{th}序号#{/th}
+      #{th}时间#{/th}
+      #{th}收入#{/th}
+      #{th}支出#{/th}
+      #{th}科目#{/th}
+      #{th}支付方式#{/th}
+      #{th}付款方#{/th}
+      #{th}收款方#{/th}
+      #{th}操作#{/th}
+    #{/tr}
+    #{list page.page}
+    #{tr tr_index:_index}
+      #{td}${(page?.currPage - 1)*page?.pageSize + _index}#{/td}
+      #{td}${_?.time?.format('yyyy-MM-dd HH:mm:ss')}#{/td}
+      #{td}
+        #{if _?.type == 1}
+          ${_?.amount?.format("###,##0.00")}
+        #{/if}
+        #{else}
+          0.00
+        #{/else}
+      #{/td}
+      #{td}
+        #{if _?.type == 2}
+          ${_?.amount?.format("###,##0.00")}
+        #{/if}
+        #{else}
+          0.00
+        #{/else}
+      #{/td}
+      #{td}${_?.name}#{/td}
+      #{td}${_?.payment}#{/td}
+      #{td}${_?.from_pay}#{/td}
+      #{td}${_?.to_receive}#{/td}
+      #{td}
+        <span>
+          <a href="javascript:void(0)" onClick="detail('${_?.amount}', '${_?.balance}', '${_?.type}',
+            '${_?.name}', '${_?.time?.format('yyyy-MM-dd')}', '${_?.summary}')" class="xf_ta_onclick">详情</a>
+        </span>
+      #{/td}
+    #{/tr}
+    #{/list}
+    #{/table}
+    </div>
+    <!-- 列表底部 -->
+    <div class="xn_c_content_bottom">
+      <div class="xn_c_content_btn">
+                            合计：收入${income?.format("###,##0.00")}元,  支出${expense?.format("###,##0.00")}元
+      </div>
+      #{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:4}#{/page}
+    </div>
+  </div>
+</div>
+
+<!-- 详情-弹出层 -->
+<div class="xn_c_ban_jox xn_c_ban_jox_fktz" id="xf_ht_fkzh_ttc" style="display:none;margin:0 auto">
+  <div class="xf_ht_jr_obu_width">
+    <div class="xf_fktz_tcc_table">
+      <table border="0" cellspacing="0" cellpadding="0" class="xf_ht_jr_obu_form" width="100%">
+        <tr>
+          <td align="right" width="140">操作金额：</td>
+          <td><span class="xf_ht_fk_span" id="amount"></span></td>
+        </tr>
+        <tr>
+          <td align="right" width="140">类型：</td>
+          <td><span class="xf_ht_fk_span" id="type1"></span></td>
+        </tr>
+        <tr>
+          <td align="right" width="140">操作时间：</td>
+          <td><span class="xf_ht_fk_span" id="times"></span></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top" class="xf_ht_jr_obttd_l">备注：</td>
+          <td>
+            <textarea class="xf_ht_jr_obttd_textarea xf_ht_jr_obttd_fktz" id="summary" readonly="readonly"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="xf_ht_tcc_button">
+            <input class="jbox_ok" type="button" onClick="layer.closeAll()" value="确  定">
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+
+   $("#xf_ht_fkzh_ttc").hide();
+   
+   function test(){
+   	  var type = $("#type");
+   	  var operation = $("#operation");
+   	  var typeVal = type.val();
+   	  
+   	  operation.empty();
+   	  operation.append("<option value='0'>全部科目</option>");
+   	  var queryDetailTypeNames = #{jsAction @queryDetailTypeNames(':type') /}
+   	  $.post(queryDetailTypeNames({type:typeVal}),function(data){
+   	  	 var len = data.length;
+   	  	 for(var i = 0 ; i < len ; i++){
+   	  	 	operation.append("<option value=" + data[i].id + ">" + data[i].name + "</option>");
+   	  	 }
+   	  });
+   }
+   
+   function detail(amount, balance, type, name, time, summary){
+     if(type == 1){
+        $("#type1").html("收入");
+     }else{
+        $("#type1").html("支出");
+     }
+   
+     $("#amount").html(amount);
+     $("#balance").html(balance);
+     $("#times").html(time);
+     $("#summary").val(summary);
+     
+      $.layer({
+        type: 1,
+        area: ['600', 'auto'],
+        title: '交易记录详情',
+        page: {dom : '#xf_ht_fkzh_ttc'}
+      });
+     //showDiv($("#xf_ht_fkzh_ttc"));
+   }
+   
+  function showPage(currPage, pageSize){
+     $("#currPage").val(currPage);
+     $("#pageSize").val(pageSize);
+     $("#submit").submit();
+   }
+   
+  function searchs(){
+     $("#submit").submit();
+  }
+</script>

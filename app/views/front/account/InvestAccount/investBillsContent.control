@@ -1,0 +1,136 @@
+<div class="xf_mem_Account">
+	<h3 class="xf_mem_accout_title">我的出借账单</h3>
+	<!-- 搜索区域 -->
+	#{form @investBills(), id:'submit'}
+	<input type="hidden" id="currPage" name="currPage"/>
+	<input type="hidden" id="pageSize" name="pageSize"/>
+	<ul class="xf_membill_search clr">
+		<li>
+			<select name="payType" id="payTypeStr" class="xf_membill_selectAge">   
+		       <option value="0"
+		       #{if page?.conditions?.payType == 0}
+                selected="selected"
+               #{/if}
+		       >全部</option>   
+		       <option value="1"
+		       #{elseif page?.conditions?.payType == 1}
+                selected="selected"
+               #{/elseif}
+		       >未收款</option>   
+		       <option value="2"
+		       #{elseif page?.conditions?.payType == 2}
+                selected="selected"
+               #{/elseif}
+		       >已收款</option>   
+			</select>
+		</li>
+		<li>
+			<select name="isOverType" class="xf_membill_selectAge">   
+		       <option value="0"
+		       #{if page?.conditions?.isOverType == 0}
+                selected="selected"
+               #{/if}
+		       >全部</option>   
+		       <option value="1"
+		       #{elseif page?.conditions?.isOverType == 1}
+                selected="selected"
+               #{/elseif}
+		       >未逾期</option>   
+		       <option value="2"
+		       #{elseif page?.conditions?.isOverType == 2}
+                selected="selected"
+               #{/elseif}
+		       >已逾期</option>   
+			</select>
+		</li>
+		<li>
+			<select name="keyType" class="xf_membill_selectAge">   
+		       <option value="0"
+		        #{if page?.conditions?.keyType == 0}
+                selected="selected"
+               #{/if}
+		       >全部</option>   
+		       <option value="1"
+		       #{elseif page?.conditions?.keyType == 1}
+                selected="selected"
+               #{/elseif}
+		       >标题</option>   
+			</select>
+		</li>
+		<li class="xf_membill_searchLi">
+			<input type="text" name="key" value="${page?.conditions?.key}" class="xf_membill_shurk_yhm">
+			<input type="submit"  value="搜 索" class="xf_membill_button_yhm">
+		</li>
+	</ul>
+	#{/form}
+	<!-- 搜索结果 -->
+	<div class="xf_membill_search_jg">
+		<table border="0" cellpadding="0" cellspacing="0" width="auto" class="xf_membill_acc_viewcpms">
+			<tbody>
+				<tr>
+					<th align="center" width="46">序号</th>
+				  	<th width="182">借款标题</th>
+				  	<th align="left" width="86">本期应收款金额</th>
+				  	<th width="63">是否逾期</th>
+				  	<th width="64">状态</th>
+				  	<th width="96">到期还款时间</th>
+				  	<th width="104">实际还款时间</th>
+				  	<th width="91">操作</th>
+				</tr>
+
+            #{if page?.page?.size()!=0}
+		        #{list items:page?.page,as:'invest'}
+				<tr>
+					<td align="center">${(page?.currPage - 1) * page?.pageSize + invest_index}</td>
+					<td align="left">${invest?.title}</td>
+					<td align="center">${invest?.income_amounts?.format("###,##0.00")}元</td>
+					<td align="center">
+					#{if invest.status == 0 || invest.status == -1 || invest.status == -5}
+					未逾期
+					#{/if}
+					#{elseif invest.status == -7}
+					#{/elseif}
+					#{else}
+					逾期
+					#{/else}
+					</td>
+					<td align="center"><span class="membill_list_whk">
+					#{if invest.status == -1 || invest.status == -2 || invest.status == -5 || invest.status == -6}
+					未收款
+					#{/if}
+					#{elseif invest.status == -7}
+					已转让
+					#{/elseif}
+					#{else}
+					已收款
+					#{/else}
+					</span></td>
+					<td align="center">${invest?.repayment_time?.format('yyyy-MM-dd')}</td>
+					<td align="center">#{if invest.status != -7}${invest?.real_repayment_time?.format('yyyy-MM-dd')} #{/if}</td>
+					
+					<td align="center"> #{if invest.status != -7} <a href="@{front.account.InvestAccount.investBillDetails(invest?.sign)}" class="xf_membill_cza" target="_self">详情</a>
+					 #{/if}
+					</td>
+				 
+				</tr>
+				#{/list}
+				#{/if}
+			</tbody>
+		</table>
+		<!-- 分页器 -->
+		<div class="xf_wylc_page xf_membill_view_page1">
+			#{page currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:2/}
+		</div>
+		<!-- 下载数据 -->
+		<a href="@{front.account.InvestAccount.exportInvestBills}" class="xf_membill_xzzy">下载数据</a>
+		</div>
+		<!-- 清除浮动 -->
+		<div class="clear"></div>
+</div>
+<script>
+    function showPage(currPage, pageSize){
+         $("#currPage").val(currPage);
+         $("#pageSize").val(pageSize);
+         $("#submit").submit();
+    }
+</script>
